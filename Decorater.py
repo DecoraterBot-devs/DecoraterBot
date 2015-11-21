@@ -10,7 +10,7 @@ from requests.certs import where
 PATH='.\login.ini'
 where()
 os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(sys.executable), "cacert.pem")
-version = 'v1.0.0.10'
+version = 'v1.0.0.9'
 sourcelink = ' https://github.com/AraHaan/DecoraterBot/'
 botcommands = 'Available commands:\n\n**--kill <lamp or cliff> <optionally mention someone>**\n**--changelog**\n**--raid <optionally mention where>**\n**--pyversion**\n**--source**'
 changelog = "Created DecoraterBot.\n" + version + "\n\nChanges:\n+ Added **--source** command"
@@ -24,12 +24,10 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     config.readfp(open(PATH))
     discord_user_email = config.get("login", "email")
     discord_user_password = config.get("login", "password")
-    discord_user_id = config.get("login", "userid")
     client.login(discord_user_email, discord_user_password)
 else:
-    discord_user_email = 'seandhunt_5@yahoo.com'
-    discord_user_password = 'sean12378'
-    discord_user_id = '94203228043874304'
+    discord_user_email = 'email'
+    discord_user_password = 'password'
     client.login(discord_user_email, discord_user_password)
 
 @client.event
@@ -64,11 +62,6 @@ def on_message(message):
 #        p = subprocess.Popen(cmdargs)
     elif(message.content.startswith('--source')):
         client.send_message(message.channel, message.author.mention() + sourcelink)
-    elif message.author.id == discord_user_id:
-        if(message.content.startswith('--close')):
-            client.send_message(message.channel, "**DecoraterBot Status: Offline**")
-            os.startfile(".\Decorater.exe")
-            client.logout()
 
 @client.event
 def on_ready():

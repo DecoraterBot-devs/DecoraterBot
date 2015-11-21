@@ -3,4 +3,3 @@ requests==2.7.0
 virtualenv==13.1.2
 wheel==0.26.0
 ws4py==0.3.4
-py2exe==0.6.9

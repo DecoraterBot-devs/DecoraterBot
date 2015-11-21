@@ -11,6 +11,7 @@ PATH='.\login.ini'
 where()
 os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(sys.executable), "cacert.pem")
 version = 'v1.0.0.7'
+sourcelink = 'https://github.com/AraHaan/DecoraterBot/'
 botcommands = 'Available commands:\n\n**--kill <optionally mention someone>**\n**--changelog**\n**--raid <optionally mention where>**\n**--pyversion**'
 changelog = "Created DecoraterBot.\n" + version + "\n\nChanges:\n+ Added **--pyversion** command"
 
@@ -45,7 +46,6 @@ def on_message(message):
                 client.send_message(message.channel, message.author.mention() + " took a lamp out and hit them in the head and kills them.")
             if "cliff" in message.content.split():
                 client.send_message(message.channel, message.author.mention() + " Binds and gags and throws them off a cliff to their death.")
-
     elif(message.content.startswith('--commands')):
          client.send_message(message.channel, botcommands)
     elif(message.content.startswith('--changelog')):
@@ -60,6 +60,8 @@ def on_message(message):
 #        cmd = 'node bot.js'
 #        cmdargs = cmd.split()
 #        p = subprocess.Popen(cmdargs)
+    elif(message.content.startswith('--source')):
+        client.send_message(message.channel, message.author.mention() + sourcelink)
 
 @client.event
 def on_ready():

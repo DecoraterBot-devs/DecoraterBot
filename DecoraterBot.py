@@ -1,11 +1,9 @@
 import os
-import discord
-import requests
+import DecoraterBotCore
+from requests.certs import where
 import sys
 import os.path
-import ctypes
-from requests.certs import where
-
+import discord
 
 PATH='.\login.ini'
 where()
@@ -16,8 +14,8 @@ botcommands = 'Available commands:\n\n**--kill <lamp or cliff> <optionally menti
 changelog = "Created DecoraterBot.\n" + version + "\n\nChanges:\n+ Added **--source** command"
 
 client = discord.Client()
+DecoraterBotCore.Core.changeWindowTitle()
 
-ctypes.windll.kernel32.SetConsoleTitleA("DecoraterBot " + version)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     import ConfigParser
     config = ConfigParser.ConfigParser()
@@ -31,44 +29,9 @@ else:
     discord_user_password = 'password'
     discord_user_id = 'user_id'
     client.login(discord_user_email, discord_user_password)
-
 @client.event
 def on_message(message):
-    if(message.content.startswith('--kill')):
-        for disuser in message.mentions:
-            user = discord.utils.find(lambda member: member.name == disuser.name, message.channel.server.members)
-            if "lamp" in message.content.split():
-                client.send_message(message.channel, message.author.mention() + " took a lamp out and hit " + user.mention() + " in the head and kills them.") 
-                break
-            if "cliff" in message.content.split():
-                client.send_message(message.channel, message.author.mention() + " Binds and gags and throws " + user.mention() + " off a cliff to their death.")
-                break
-        else:
-            if "lamp" in message.content.split():
-                client.send_message(message.channel, message.author.mention() + " took a lamp out and hit them in the head and kills them.")
-            if "cliff" in message.content.split():
-                client.send_message(message.channel, message.author.mention() + " Binds and gags and throws them off a cliff to their death.")
-    elif(message.content.startswith('--commands')):
-         client.send_message(message.channel, botcommands)
-    elif(message.content.startswith('--changelog')):
-         client.send_message(message.channel, changelog)
-    elif(message.content.startswith('--raid')):
-        result = message.content[len("--raid "):].strip()
-        print(result)
-        client.send_message(message.channel, '@everyone RAID Boss ' + result)
-    elif(message.content.startswith('--pyversion')):
-        client.send_message(message.channel, message.author.mention() + " I was made with ``Python v2.7.10 (x86).``\n\nCompiled to exe by py2exe.")
-#    elif (message.content.startswith('--playfile')):
-#        cmd = 'node bot.js'
-#        cmdargs = cmd.split()
-#        p = subprocess.Popen(cmdargs)
-    elif(message.content.startswith('--source')):
-        client.send_message(message.channel, message.author.mention() + sourcelink)
-    elif message.author.id == discord_user_id:
-        if(message.content.startswith('--close')):
-            client.send_message(message.channel, "**DecoraterBot Status: Offline**")
-            os.startfile(".\Decorater.exe")
-            client.logout()
+    DecoraterBotCore.Core.commands(client, message)
 
 @client.event
 def on_ready():
@@ -76,5 +39,14 @@ def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-
+#    client.send_message('110373943822540800', "**DecoraterBot Status: Online**")
+    client.send_message('93740277918871552', "**DecoraterBot Status: Online**")
+    client.send_message('110374132432011264', "**DecoraterBot Status: Online**")
+    client.send_message('118098998744580098', "**DecoraterBot Status: Online**")
+    client.send_message('81392063312044032', "**DecoraterBot Status: Online**")
+#    For Discord.py v0.9.0
+#    client.send_message(discord.Object(id='93740277918871552'), "**DecoraterBot Status: Online**")
+#    client.send_message(discord.Object(id='110374132432011264'), "**DecoraterBot Status: Online**")
+#    client.send_message(discord.Object(id='118098998744580098'), "**DecoraterBot Status: Online**")
+#    client.send_message(discord.Object(id='81392063312044032'), "**DecoraterBot Status: Online**")
 client.run()

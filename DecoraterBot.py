@@ -35,14 +35,13 @@ def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-#    client.send_message('110373943822540800', "**DecoraterBot Status: Online**")
-    client.send_message('93740277918871552', "**DecoraterBot Status: Online**")
-    client.send_message('110374132432011264', "**DecoraterBot Status: Online**")
-    client.send_message('118098998744580098', "**DecoraterBot Status: Online**")
-    client.send_message('81392063312044032', "**DecoraterBot Status: Online**")
-#    For Discord.py v0.9.0
-#    client.send_message(discord.Object(id='93740277918871552'), "**DecoraterBot Status: Online**")
+    client.send_message(discord.Object(id='93740277918871552'), "**DecoraterBot Status: Online**")
 #    client.send_message(discord.Object(id='110374132432011264'), "**DecoraterBot Status: Online**")
-#    client.send_message(discord.Object(id='118098998744580098'), "**DecoraterBot Status: Online**")
-#    client.send_message(discord.Object(id='81392063312044032'), "**DecoraterBot Status: Online**")
+    client.send_message(discord.Object(id='118098998744580098'), "**DecoraterBot Status: Online**")
+    client.send_message(discord.Object(id='81392063312044032'), "**DecoraterBot Status: Online**")
+
 client.run()
+
+@client.event
+def on_error(event, *args, **kwargs):
+    DecoraterBotCore.Core.on_error(event, *args, **kwargs)

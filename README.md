@@ -2,8 +2,7 @@
 ### 2 Python Bots 1 Repository
 
 To get them to work:
-- DecoraterBotCore(https://github.com/AraHaan/DecoraterBotCore/tree/Pre-Beta)
-- DecoraterCore(https://github.com/AraHaan/DecoraterCore/)
-- `Discord.py`
+DecoraterBotCore(https://github.com/AraHaan/DecoraterBotCore/tree/Pre-Beta) and DecoraterCore(https://github.com/AraHaan/DecoraterCore/)
 
 ### Be sure you have all the requirements for these 2 cores.
+### The requirements in the the README file in those repositories.

@@ -8,10 +8,6 @@ import discord
 PATH='.\login.ini'
 where()
 os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(sys.executable), "cacert.pem")
-version = 'v1.0.0.10'
-sourcelink = ' https://github.com/AraHaan/DecoraterBot/'
-botcommands = 'Available commands:\n\n**--kill <lamp or cliff> <optionally mention someone>**\n**--changelog**\n**--raid <optionally mention where>**\n**--pyversion**\n**--source**'
-changelog = "Created DecoraterBot.\n" + version + "\n\nChanges:\n+ Added **--source** command"
 
 client = discord.Client()
 DecoraterBotCore.Core.changeWindowTitle()

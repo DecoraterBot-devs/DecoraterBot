@@ -19,17 +19,17 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     config.readfp(open(PATH))
     discord_user_email = config.get("login", "email")
     discord_user_password = config.get("login", "password")
-    discord_user_id = config.get("login", "userid")
     client.login(discord_user_email, discord_user_password)
 else:
     discord_user_email = 'email'
     discord_user_password = 'password'
-    discord_user_id = 'user_id'
     client.login(discord_user_email, discord_user_password)
 
 @client.event
 def on_message(message):
     DecoraterBotCore.Core.commands(client, message)
+
+DecoraterBotCore.Core.on_error(on_message)
 
 @client.event
 def on_ready():
@@ -43,8 +43,3 @@ def on_ready():
     client.send_message(discord.Object(id='81392063312044032'), "**DecoraterBot Status: Online**")
 
 client.run()
-
-@client.event
-def on_error(event, *args, **kwargs):
-    pass
-    DecoraterBotCore.Core.on_error(error)

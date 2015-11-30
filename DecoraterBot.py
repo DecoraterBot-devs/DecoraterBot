@@ -1,3 +1,4 @@
+#coding=utf-8
 import os
 import DecoraterBotCore
 from requests.certs import where
@@ -25,6 +26,7 @@ else:
     discord_user_password = 'password'
     discord_user_id = 'user_id'
     client.login(discord_user_email, discord_user_password)
+
 @client.event
 def on_message(message):
     DecoraterBotCore.Core.commands(client, message)
@@ -41,3 +43,8 @@ def on_ready():
     client.send_message(discord.Object(id='81392063312044032'), "**DecoraterBot Status: Online**")
 
 client.run()
+
+@client.event
+def on_error(event, *args, **kwargs):
+    pass
+    DecoraterBotCore.Core.on_error(error)

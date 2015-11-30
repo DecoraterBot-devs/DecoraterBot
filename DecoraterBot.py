@@ -41,7 +41,3 @@ def on_ready():
     client.send_message(discord.Object(id='81392063312044032'), "**DecoraterBot Status: Online**")
 
 client.run()
-
-@client.event
-def on_error(event, *args, **kwargs):
-    DecoraterBotCore.Core.on_error(event, *args, **kwargs)

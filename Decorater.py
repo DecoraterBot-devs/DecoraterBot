@@ -1,6 +1,6 @@
 import os
 import discord
-import requests
+import DecoraterCore
 import sys
 import os.path
 import ctypes
@@ -10,12 +10,10 @@ from requests.certs import where
 PATH='.\login.ini'
 where()
 os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(sys.executable), "cacert.pem")
-version = 'v1.0.0.1'
 
 client = discord.Client()
-bot = discord.Client()
+DecoraterCore.Core.changeWindowTitle()
 
-ctypes.windll.kernel32.SetConsoleTitleA("Decorater " + version)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     import ConfigParser
     config = ConfigParser.ConfigParser()
@@ -32,9 +30,7 @@ else:
 
 @client.event
 def on_message(message):
-    if(message.content.startswith('::open')):
-        os.startfile(".\DecoraterBot.exe")
-        client.logout()
+    DecoraterCore.Core.commands(client, message)
 
 @client.event
 def on_ready():

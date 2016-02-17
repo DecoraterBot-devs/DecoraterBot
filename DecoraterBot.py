@@ -23,9 +23,9 @@ async def on_message_delete(message):
 async def on_message_edit(before, after):
     DecoraterBotCore.Core.editmessage(before, after)
 
-@client.event
-async def on_channel_create(channel):
-    await DecoraterBotCore.Channels.data(client, channel)
+#@client.event
+#async def on_channel_create(channel):
+#    await DecoraterBotCore.Channels.data(client, channel)
 
 @client.event
 async def on_ready():

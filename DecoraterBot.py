@@ -5,10 +5,6 @@ import sys
 import os.path
 import discord
 import asyncio
-#import subprocess
-
-#cmd = ".\\Music\\DecoraterBot.exe"
-#subprocess.Popen(cmd, shell=False)
 
 client = discord.Client()
 DecoraterBotCore.Core.changeWindowTitle()
@@ -26,10 +22,6 @@ async def on_message_delete(message):
 @client.event
 async def on_message_edit(before, after):
     await DecoraterBotCore.Core.editmessage(client, before, after)
-
-#@client.event
-#async def on_channel_create(channel):
-#    await DecoraterBotCore.Channels.data(client, channel)
 
 @client.event
 async def on_member_ban(member):

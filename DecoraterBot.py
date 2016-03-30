@@ -9,7 +9,7 @@ import asyncio
 client = discord.Client()
 DecoraterBotCore.Core.changeWindowTitle()
 DecoraterBotCore.Core.changeWindowSize()
-DecoraterBotCore.OnLogin.variable()
+DecoraterBotCore.Login.variable()
 
 @client.event
 async def on_message(message):
@@ -25,14 +25,14 @@ async def on_message_edit(before, after):
 
 @client.event
 async def on_member_ban(member):
-    await DecoraterBotCore.Ban.onban(client, member)
+    await DecoraterBotCore.BotLogs.onban(client, member)
 
 @client.event
 async def on_member_unban(server, user):
-    await DecoraterBotCore.Ban.onunban(server, user)
+    await DecoraterBotCore.BotLogs.onunban(server, user)
 
 @client.event
 async def on_ready():
-    await DecoraterBotCore.OnLogin.on_login(client)
+    await DecoraterBotCore.Login.on_login(client)
 
-DecoraterBotCore.Logininfo.login_info(client)
+DecoraterBotCore.Login.login_info(client)

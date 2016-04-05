@@ -25,11 +25,11 @@ async def on_message_edit(before, after):
 
 @client.event
 async def on_member_ban(member):
-    await DecoraterBotCore.Ignore._resolve_onban(client, member)
+    await DecoraterBotCore.Core.memberban(client, member)
 
 @client.event
 async def on_member_unban(server, user):
-    await DecoraterBotCore.Ignore._resolve_onunban(server, user)
+    await DecoraterBotCore.Core.memberunban(server, user)
 
 @client.event
 async def on_ready():

@@ -32,6 +32,9 @@ async def on_member_unban(server, user):
     await DecoraterBotCore.Core.memberunban(server, user)
 
 @client.event
+async def on_member_remove(member):
+    await DecoraterBotCore.Core.memberremove(client, member)
+@client.event
 async def on_ready():
     await DecoraterBotCore.Login.on_login(client)
 

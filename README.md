@@ -6,7 +6,7 @@ To get them to work:
 
 The 2 things you can install simply to get it to work. (If you do not want to manually download them from the repositories.)
 
-    pip install git+https://github.com/AraHaan/DecoraterBotCore@Async
+    pip install git+https://github.com/AraHaan/DecoraterBotCore@pip
     pip install git+https://github.com/AraHaan/DecoraterCore@Async
 
 ##I do Update the bot pretty much but I happen to rarely push unless I know it is stable somewhat.

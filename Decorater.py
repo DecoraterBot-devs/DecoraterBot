@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import discord
 import DecoraterCore
@@ -6,14 +7,16 @@ import os.path
 import ctypes
 import asyncio
 
-PATH='.\login.ini'
+PATH = '.\login.ini'
 
 client = discord.Client()
-DecoraterCore.Core.changeWindowTitle()
+DecoraterCore.Core.changewindowtitle()
+
 
 @client.event
 async def on_message(message):
     await DecoraterCore.Core.commands(client, message)
+
 
 @client.event
 async def on_ready():

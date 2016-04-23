@@ -28,39 +28,39 @@ if _discord_logger is not False:
     logger.addHandler(handler)
 
 client = discord.Client()
-DecoraterBotCore.Core.changeWindowTitle()
-DecoraterBotCore.Core.changeWindowSize()
+DecoraterBotCore.Core.Bot_Core.changeWindowTitle()
+DecoraterBotCore.Core.Bot_Core.changeWindowSize()
 DecoraterBotCore.Login.variable()
 
 
 @client.event
 async def on_message(message):
-    await DecoraterBotCore.Core.commands(client, message)
+    await DecoraterBotCore.Core.Bot_Core.commands(client, message)
 
 
 @client.event
 async def on_message_delete(message):
-    await DecoraterBotCore.Core.deletemessage(client, message)
+    await DecoraterBotCore.Core.Bot_Core.deletemessage(client, message)
 
 
 @client.event
 async def on_message_edit(before, after):
-    await DecoraterBotCore.Core.editmessage(client, before, after)
+    await DecoraterBotCore.Core.Bot_Core.editmessage(client, before, after)
 
 
 @client.event
 async def on_member_ban(member):
-    await DecoraterBotCore.Core.memberban(client, member)
+    await DecoraterBotCore.Core.Bot_Core.memberban(client, member)
 
 
 @client.event
 async def on_member_unban(server, user):
-    await DecoraterBotCore.Core.memberunban(server, user)
+    await DecoraterBotCore.Core.Bot_Core.memberunban(server, user)
 
 
 @client.event
 async def on_member_remove(member):
-    await DecoraterBotCore.Core.memberremove(client, member)
+    await DecoraterBotCore.Core.Bot_Core.memberremove(client, member)
 
 
 @client.event

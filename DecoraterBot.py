@@ -1,9 +1,14 @@
 # coding=utf-8
 import os
-import DecoraterBotCore
 import sys
+try:
+    import discord
+except ImportError:
+    appendpath = sys.path[0] + "\\Dependencies"
+    sys.path.append(appendpath)
+    import discord
+import DecoraterBotCore
 import os.path
-import discord
 import asyncio
 import logging
 import json
@@ -28,43 +33,55 @@ if _discord_logger is not False:
     logger.addHandler(handler)
 
 client = discord.Client()
-DecoraterBotCore.Core.Bot_Core.changeWindowTitle()
-DecoraterBotCore.Core.Bot_Core.changeWindowSize()
-DecoraterBotCore.Login.variable()
+DecoraterBotCore.Core.BotCore.changewindowtitle()
+DecoraterBotCore.Core.BotCore.changewindowsize()
 
 
 @client.event
 async def on_message(message):
-    await DecoraterBotCore.Core.Bot_Core.commands(client, message)
+    # noinspection PyTypeChecker,PyCallByClass
+    await DecoraterBotCore.Core.BotCore.commands(client, message)
 
 
 @client.event
 async def on_message_delete(message):
-    await DecoraterBotCore.Core.Bot_Core.deletemessage(client, message)
+    # noinspection PyTypeChecker,PyCallByClass
+    await DecoraterBotCore.Core.BotCore.deletemessage(client, message)
 
 
 @client.event
 async def on_message_edit(before, after):
-    await DecoraterBotCore.Core.Bot_Core.editmessage(client, before, after)
+    # noinspection PyTypeChecker,PyCallByClass
+    await DecoraterBotCore.Core.BotCore.editmessage(client, before, after)
 
 
 @client.event
 async def on_member_ban(member):
-    await DecoraterBotCore.Core.Bot_Core.memberban(client, member)
+    # noinspection PyTypeChecker,PyCallByClass
+    await DecoraterBotCore.Core.BotCore.memberban(client, member)
 
 
 @client.event
 async def on_member_unban(server, user):
-    await DecoraterBotCore.Core.Bot_Core.memberunban(server, user)
+    await DecoraterBotCore.Core.BotCore.memberunban(server, user)
 
 
 @client.event
 async def on_member_remove(member):
-    await DecoraterBotCore.Core.Bot_Core.memberremove(client, member)
+    # noinspection PyTypeChecker,PyCallByClass
+    await DecoraterBotCore.Core.BotCore.memberremove(client, member)
+
+
+@client.event
+async def on_member_join(member):
+    # noinspection PyTypeChecker,PyCallByClass
+    await DecoraterBotCore.Core.BotCore.memberjoin(client, member)
 
 
 @client.event
 async def on_ready():
-    await DecoraterBotCore.Login.on_login(client)
+    # noinspection PyTypeChecker,PyCallByClass
+    await DecoraterBotCore.Core.BotCore._bot_ready(client)
 
-DecoraterBotCore.Login.login_info(client)
+# noinspection PyTypeChecker,PyCallByClass
+DecoraterBotCore.BotCore._login_helper(client)

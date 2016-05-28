@@ -18,7 +18,7 @@
         "Incorrect email and/or password."
     ],
     "Invalid_Token": [
-        "Invalid token specified (Must be 27 characters in length)."
+        "Invalid token specified."
     ],
     "Credentials_Not_Found": [
         "Credentials.json does not exist. It must be present in order for this bot to work."

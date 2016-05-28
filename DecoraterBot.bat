@@ -1,4 +1,9 @@
 @echo off
-%SystemDrive%\Python35\python "%~dp0\DecoraterBot.py"
-REM "%SystemDrive%\Users\Elsword\Desktop\Python 3.5.2 Beta\python" "%~dp0\DecoraterBot.py"
+REM Title DecoraterBot Starter and Auto restarter
+REM cls
+
+REM :bot
+REM cls
+"%~dp0\resources\python35\python.exe" "%~dp0DecoraterBot.py"
+REM goto bot
 pause

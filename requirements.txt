@@ -1,2 +1,0 @@
-git+https://github.com/AraHaan/DecoraterBotCore@pip
-git+https://github.com/AraHaan/DecoraterCore@Async

@@ -31,12 +31,14 @@
         " set the game on bot to "
     ],
     "Ban_Logs": [
+        " with a discriminator of ",
         " has been banned from "
     ],
     "Unban_Logs": [
         " was unbanned from "
     ],
     "Kick_Logs": [
+        " with a discriminator of ",
         " was kicked from "
     ]
 }

@@ -28,18 +28,18 @@ if bits == 4:
 elif bits == 8:
     os.chdir(sys.path[0] + "\\resources\\ffmpeg\\x64")
 
-jsonfile = io.open(sys.path[0] + '\ConfigData\BotBanned.json', 'r')
+jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
 somedict = json.load(jsonfile)
-consoledatafile = io.open(sys.path[0] + '\ConfigData\ConsoleWindow.json', 'r')
+consoledatafile = io.open(sys.path[0] + '\\resources\ConfigData\\ConsoleWindow.json', 'r')
 consoletext = json.load(consoledatafile)
-botmessagesdata = io.open(sys.path[0] + '\ConfigData\BotMessages.json', 'r')
+botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
 botmessages = json.load(botmessagesdata)
 
 version = str(consoletext['WindowVersion'][0])
 start = time.time()
 Login.BotLogin.variable()
 
-PATH = sys.path[0] + '\ConfigData\Credentials.json'
+PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')

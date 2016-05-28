@@ -16,7 +16,7 @@ newlyjoinedlist = []
 # noinspection PyRedeclaration
 _somebool = False
 
-PATH = sys.path[0] + '\ConfigData\Credentials.json'
+PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
     credentials = json.load(credsfile)
@@ -41,19 +41,19 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 if _logging == 'True' or _logbans == 'True' or _logunbans == 'True' or _logkicks == 'True':
     import BotLogs
 try:
-    consoledatafile = io.open(sys.path[0] + '\ConfigData\ConsoleWindow.json', 'r')
+    consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
     consoletext = json.load(consoledatafile)
 except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
 try:
-    jsonfile = io.open(sys.path[0] + '\ConfigData\IgnoreList.json', 'r')
+    jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\IgnoreList.json', 'r')
     somedict = json.load(jsonfile)
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][0]))
     sys.exit(2)
 try:
-    botmessagesdata = io.open(sys.path[0] + '\ConfigData\BotMessages.json', 'r')
+    botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
     botmessages = json.load(botmessagesdata)
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][1]))
@@ -71,7 +71,7 @@ class BotCommandData:
                 # noinspection PyUnusedLocal
                 try:
                     somedict["channels"].append(message.channel.id)
-                    json.dump(somedict, open(".\ConfigData\IgnoreList.json", "w"))
+                    json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
                     try:
                         await client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][0]))
                     except discord.errors.Forbidden:
@@ -87,7 +87,7 @@ class BotCommandData:
                 try:
                     ignored = somedict["channels"]
                     ignored.remove(message.channel.id)
-                    json.dump(somedict, open(".\ConfigData\IgnoreList.json", "w"))
+                    json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
                     try:
                         await client.send_message(message.channel, str(botmessages['Unignore_Channel_Data'][0]))
                     except discord.errors.Forbidden:

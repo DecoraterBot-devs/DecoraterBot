@@ -15,10 +15,10 @@ from colorama import Fore, Back, Style
 
 init()
 
-consoledatafile = io.open(sys.path[0] + '\ConfigData\ConsoleWindow.json', 'r')
+consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
 consoletext = json.load(consoledatafile)
 
-PATH = sys.path[0] + '\ConfigData\Credentials.json'
+PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 
 global reconnects
 # noinspection PyRedeclaration
@@ -85,7 +85,7 @@ class BotLogin:
         global logged_in
         if logged_in is True:
             logged_in = False
-            botmessagesdata = io.open(sys.path[0] + '\ConfigData\BotMessages.json', 'r')
+            botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
             botmessages = json.load(botmessagesdata)
             print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(consoletext['Window_Login_Text'][0]) + client.user.name)
             print(str(consoletext['Window_Login_Text'][1]) + client.user.id)

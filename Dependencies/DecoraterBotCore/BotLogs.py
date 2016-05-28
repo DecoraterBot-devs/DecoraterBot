@@ -7,13 +7,13 @@ import os.path
 import asyncio
 import json
 try:
-    consoledatafile = io.open(sys.path[0] + '\ConfigData\ConsoleWindow.json', 'r')
+    consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
     consoletext = json.load(consoledatafile)
 except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
 try:
-    LogDataFile = io.open(sys.path[0] + '\ConfigData\LogData.json', 'r')
+    LogDataFile = io.open(sys.path[0] + '\\resources\\ConfigData\\LogData.json', 'r')
     LogData = json.load(LogDataFile)
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][2]))

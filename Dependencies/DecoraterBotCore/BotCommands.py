@@ -24,6 +24,12 @@ import BotPMError
 import BotVoiceCommands
 
 try:
+    consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
+    consoletext = json.load(consoledatafile)
+except FileNotFoundError:
+    print('ConsoleWindow.json is not Found. Cannot Continue.')
+    sys.exit(2)
+try:
     # noinspection PyPackageRequirements
     import TinyURL
     disabletinyurl = False
@@ -33,22 +39,16 @@ except ImportError:
     print_data_003 = 'Disabled the tinyurl command for now.'
     print(print_data_001 + print_data_002 + print_data_003)
     disabletinyurl = True
-try:
-    consoledatafile = io.open(sys.path[0] + '\ConfigData\ConsoleWindow.json', 'r')
-    consoletext = json.load(consoledatafile)
-except FileNotFoundError:
-    print('ConsoleWindow.json is not Found. Cannot Continue.')
-    sys.exit(2)
-botbanslist = io.open(sys.path[0] + '\ConfigData\BotBanned.json', 'r')
+botbanslist = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
 banlist = json.load(botbanslist)
 try:
-    commandslist = io.open(sys.path[0] + '\ConfigData\BotCommands.json', 'r')
+    commandslist = io.open(sys.path[0] + '\\resources\\ConfigData\\BotCommands.json', 'r')
     commandlist = json.load(commandslist)
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][3]))
     sys.exit(2)
 try:
-    botmessagesdata = io.open(sys.path[0] + '\ConfigData\BotMessages.json', 'r')
+    botmessagesdata = io.open(sys.path[0] + '\\resources\ConfigData\\BotMessages.json', 'r')
     botmessages = json.load(botmessagesdata)
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][1]))
@@ -71,7 +71,7 @@ info = "``" + str(consoletext['WindowName'][0]) + version + rev + "``"
 botcommandsPM = str(botmessages['commands_command_data'][2])
 commandturlfix = str(botmessages['commands_command_data'][5])
 botcommandsPMwithtinyurl = botcommandsPM + str(botmessages['commands_command_data'][3]) + commandturlfix
-PATH = '.\ConfigData\Credentials.json'
+PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
@@ -162,7 +162,7 @@ class BotCommands:
             else:
                 msg = random.randint(0, 1)
                 if msg == 0:
-                    heads_coin = sys.path[0] + "\\coins\\Heads.png"
+                    heads_coin = sys.path[0] + "\\resources\\images\\coins\\Heads.png"
                     try:
                         await self.bot.send_file(message.channel, heads_coin)
                     except discord.errors.Forbidden:
@@ -172,7 +172,7 @@ class BotCommands:
                         except discord.errors.Forbidden:
                             await BotPMError._resolve_send_message_error(client, message)
                 if msg == 1:
-                    tails_coin = sys.path[0] + "\\coins\\Tails.png"
+                    tails_coin = sys.path[0] + "\\resources\\images\\coins\\Tails.png"
                     try:
                         await self.bot.send_file(message.channel, tails_coin)
                     except discord.errors.Forbidden:

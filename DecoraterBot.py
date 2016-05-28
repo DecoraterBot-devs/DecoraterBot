@@ -14,7 +14,7 @@ import logging
 import json
 import io
 
-PATH = sys.path[0] + '\ConfigData\Credentials.json'
+PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
     credentials = json.load(credsfile)
@@ -28,7 +28,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 if _discord_logger is not False:
     logger = logging.getLogger('discord')
     logger.setLevel(logging.DEBUG)
-    handler = logging.FileHandler(filename=sys.path[0] + '\Logs\discordpy.log', encoding='utf-8', mode='w')
+    handler = logging.FileHandler(filename=sys.path[0] + '\resources\Logs\discordpy.log', encoding='utf-8', mode='w')
     handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
     logger.addHandler(handler)
 

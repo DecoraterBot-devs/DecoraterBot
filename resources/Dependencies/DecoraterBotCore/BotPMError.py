@@ -6,6 +6,7 @@ import sys
 import subprocess
 import os
 import traceback
+from discord.ext import commands
 
 async def _resolve_send_message_error(client, message):
     unabletosendmessageerror_01 = 'Missing the Send Message Permssions in the '
@@ -22,7 +23,7 @@ async def _resolve_send_message_error(client, message):
 async def _resolve_unloaded_commands_error(client, message):
     try:
         msgdata = 'Sorry, Commands was unloaded by owner for now '
-        message_data = msgdata + '(He might be updatign them).'
+        message_data = msgdata + '(He might be updating them).'
         await client.send_message(message.channel, message_data)
     except discord.errors.Forbidden:
         _resolve_send_message_error(client, message)

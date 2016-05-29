@@ -9,6 +9,9 @@ import importlib
 import traceback
 import BotCommands
 import BotPMError
+import BotVoiceCommands
+from discord.ext import commands
+
 global _somebool
 global newlyjoinedlist
 # noinspection PyRedeclaration
@@ -105,11 +108,12 @@ class BotCommandData:
         if message.content.startswith(_bot_prefix + 'reload'):
             if message.author.id == discord_user_id:
                 desmod_new = message.content.lower()[len(_bot_prefix + 'reload '):].strip()
+                rejoin_after_reload = False
                 if len(desmod_new) < 1:
                     desmod = None
                 if desmod_new.rfind('botlogs') is not -1:
                     desmod = 'BotLogs'
-                    rsn = desmod_new.strip('botlogs')
+                    rsn = desmod_new.replace('botlogs', "")
                     if rsn.rfind(' | ') is not -1:
                         reason = rsn.strip(' | ')
                         reload_reason = reason
@@ -120,7 +124,7 @@ class BotCommandData:
                         _somebool = True
                 elif desmod_new.rfind('botcommands') is not -1:
                     desmod = 'BotCommands'
-                    rsn = desmod_new.strip('botcommands')
+                    rsn = desmod_new.replace('botcommands', "")
                     if rsn.rfind(' | ') is not -1:
                         reason = rsn.strip(' | ')
                         reload_reason = reason
@@ -129,20 +133,42 @@ class BotCommandData:
                         reason = None
                         reload_reason = reason
                         _somebool = True
+                elif desmod_new.rfind("botvoicecommands") is not -1:
+                    desmod = "BotVoiceCommands"
+                    rsn = desmod_new.replace('botvoicecommands', "")
+                    if rsn.rfind(' | ') is not -1:
+                        reason = rsn.replace(' | ', "")
+                        reload_reason = reason
+                        _somebool = True
+                    else:
+                        reason = None
+                        reload_reason = reason
+                        _somebool = True
+                else:
+                    _somebool = False
                 if _somebool is True:
                     if desmod_new is not None:
                         # noinspection PyUnboundLocalVariable
-                        if desmod == 'BotCommands' or desmod == 'BotLogs':
-                            if desmod == 'BotCommands':
+                        if desmod == 'BotCommands' or desmod == 'BotLogs' or desmod == 'BotVoiceCommands':
+                            if desmod == 'BotVoiceCommands':
                                 # to prevent leaving voice Channel when the commands are not reloaded.
                                 # noinspection PyUnboundLocalVariable
                                 rsn = reload_reason
-                                await BotCommands.BotCommands._reload_commands_bypass1(client, message, rsn)
+                                # removed from BotCommands and moved to BotVoiceCommands.
+                                # await BotCommands.BotCommands._reload_commands_bypass1(client, message, rsn)
+                                # newly added.
+                                rejoin_after_reload = True
+                                await BotVoiceCommands.VoiceBotCommands._reload_commands_bypass1_new(client, message,
+                                                                                                     rsn)
                             try:
                                 module = sys.modules.get(desmod)
                                 importlib.reload(module)
-                                if desmod == 'BotCommands':
-                                    await BotCommands.BotCommands._reload_commands_bypass2(client, message)
+                                if rejoin_after_reload:
+                                    # removed from BotCommands and moved to BotVoiceCommands.
+                                    # await BotCommands.BotCommands._reload_commands_bypass2(client, message)
+                                    # newly added.
+                                    await BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(client,
+                                                                                                         message)
                                 try:
                                     msgdata = str(botmessages['reload_command_data'][0])
                                     message_data = msgdata + ' Reloaded ' + desmod + '.'
@@ -196,7 +222,9 @@ class BotCommandData:
         await BotCommands.BotCommands.bot_roles(client, message)
         await BotCommands.BotCommands.more_commands(client, message)
         await BotCommands.BotCommands.convert_url(client, message)
-        await BotCommands.BotCommands.voice_stuff(client, message)
+        # removed from BotCommands and moved to BotVoiceCommands.
+        # await BotCommands.BotCommands.voice_stuff(client, message)
+        await BotVoiceCommands.VoiceBotCommands.voice_stuff_new(client, message)
         await self.ignored_channel_commands(client, message)
 
     @classmethod
@@ -358,4 +386,7 @@ class BotEvents:
             newlyjoinedlist.append(member.id)
 
     async def _resolve_on_login_voice_channel_join(client):
-        await BotCommands.BotCommands._reload_commands_bypass3(client)
+        # removed.
+        # await BotCommands.BotCommands._reload_commands_bypass3(client)
+        # added.
+        await BotVoiceCommands.VoiceBotCommands._reload_commands_bypass3_new(client)

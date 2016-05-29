@@ -46,7 +46,6 @@ RawRequestMessage = collections.namedtuple(
     ['method', 'path', 'version', 'headers', 'raw_headers',
      'should_close', 'compression'])
 
-
 RawResponseMessage = collections.namedtuple(
     'RawResponseMessage',
     ['version', 'code', 'reason', 'headers', 'raw_headers',
@@ -54,7 +53,6 @@ RawResponseMessage = collections.namedtuple(
 
 
 class HttpParser:
-
     def __init__(self, max_line_size=8190, max_headers=32768,
                  max_field_size=8190):
         self.max_line_size = max_line_size
@@ -272,7 +270,6 @@ class HttpResponseParser(HttpParser):
 
 
 class HttpPayloadParser:
-
     def __init__(self, message, length=None, compression=True,
                  readall=False, response_with_body=True):
         self.message = message
@@ -433,6 +430,7 @@ def wrap_payload_filter(func):
       2. If Filter received EOF_MARKER, it should yield remaining
          data (buffered) and then yield EOF_MARKER.
     """
+
     @functools.wraps(func)
     def wrapper(self, *args, **kw):
         new_filter = func(self, *args, **kw)
@@ -776,7 +774,7 @@ class HttpMessage(metaclass=ABCMeta):
                 if length >= l:
                     self.transport.write(chunk)
                     self.output_length += l
-                    length = length-l
+                    length = length - l
                 else:
                     self.transport.write(chunk[:length])
                     self.output_length += length
@@ -794,7 +792,7 @@ class HttpMessage(metaclass=ABCMeta):
 
     # noinspection PyIncorrectDocstring,PyPep8Naming
     @wrap_payload_filter
-    def add_chunking_filter(self, chunk_size=16*1024, *,
+    def add_chunking_filter(self, chunk_size=16 * 1024, *,
                             EOF_MARKER=EOF_MARKER, EOL_MARKER=EOL_MARKER):
         """Split incoming stream into chunks."""
         buf = bytearray()
@@ -895,7 +893,6 @@ class Response(HttpMessage):
 
 
 class Request(HttpMessage):
-
     HOP_HEADERS = ()
 
     def __init__(self, transport, method, path,

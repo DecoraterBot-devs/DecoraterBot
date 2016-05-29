@@ -336,7 +336,7 @@ class Client:
 
         body = yield from resp.json(encoding='utf-8')
         self.token = body['token']
-        print('Token: ' + str(self.token))
+        # print('Token: ' + str(self.token))
         self.headers['authorization'] = self.token
         self._is_logged_in.set()
 

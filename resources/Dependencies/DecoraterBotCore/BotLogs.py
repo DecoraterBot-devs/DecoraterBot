@@ -6,6 +6,8 @@ import sys
 import os.path
 import asyncio
 import json
+from discord.ext import commands
+
 try:
     consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
     consoletext = json.load(consoledatafile)

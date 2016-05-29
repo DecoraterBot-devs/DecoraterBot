@@ -24,19 +24,16 @@ from .web_exceptions import (HTTPMethodNotAllowed, HTTPNotFound,
 from .web_reqrep import StreamResponse
 from .multidict import upstr
 
-
 __all__ = ('UrlDispatcher', 'UrlMappingMatchInfo',
            'AbstractResource', 'Resource', 'PlainResource', 'DynamicResource',
            'ResourceAdapter',
            'AbstractRoute', 'ResourceRoute',
            'Route', 'PlainRoute', 'DynamicRoute', 'StaticRoute', 'View')
 
-
 PY_35 = sys.version_info >= (3, 5)
 
 
 class AbstractResource(Sized, Iterable):
-
     def __init__(self, *, name=None):
         self._name = name
 
@@ -135,7 +132,6 @@ class AbstractRoute(metaclass=abc.ABCMeta):
 
 
 class UrlMappingMatchInfo(dict, AbstractMatchInfo):
-
     def __init__(self, match_dict, route):
         super().__init__(match_dict)
         self._route = route
@@ -167,7 +163,6 @@ class UrlMappingMatchInfo(dict, AbstractMatchInfo):
 
 # noinspection PyAbstractClass
 class MatchInfoError(UrlMappingMatchInfo):
-
     def __init__(self, http_exception):
         self._exception = http_exception
         super().__init__({}, SystemRoute(self._exception))
@@ -198,7 +193,6 @@ def _defaultExpectHandler(request):
 
 
 class ResourceAdapter(AbstractResource):
-
     def __init__(self, route):
         assert isinstance(route, Route), \
             'Instance of Route class is required, got {!r}'.format(route)
@@ -233,7 +227,6 @@ class ResourceAdapter(AbstractResource):
 
 # noinspection PyAbstractClass
 class Resource(AbstractResource):
-
     def __init__(self, *, name=None):
         super().__init__(name=name)
         self._routes = []
@@ -283,7 +276,6 @@ class Resource(AbstractResource):
 
 # noinspection PyAbstractClass
 class PlainResource(Resource):
-
     def __init__(self, path, *, name=None):
         super().__init__(name=name)
         self._path = path
@@ -309,7 +301,6 @@ class PlainResource(Resource):
 
 # noinspection PyAbstractClass
 class DynamicResource(Resource):
-
     def __init__(self, pattern, formatter, *, name=None):
         super().__init__(name=name)
         self._pattern = pattern
@@ -387,7 +378,6 @@ class Route(AbstractRoute):
 
 # noinspection PyAbstractClass
 class PlainRoute(Route):
-
     def __init__(self, method, handler, name, path, *, expect_handler=None):
         super().__init__(method, handler, name, expect_handler=expect_handler)
         self._path = path
@@ -414,7 +404,6 @@ class PlainRoute(Route):
 
 # noinspection PyAbstractClass
 class DynamicRoute(Route):
-
     def __init__(self, method, handler, name, pattern, formatter, *,
                  expect_handler=None):
         super().__init__(method, handler, name, expect_handler=expect_handler)
@@ -445,9 +434,8 @@ class DynamicRoute(Route):
 
 # noinspection PyAbstractClass
 class StaticRoute(Route):
-
     def __init__(self, name, prefix, directory, *,
-                 expect_handler=None, chunk_size=256*1024,
+                 expect_handler=None, chunk_size=256 * 1024,
                  response_factory=StreamResponse):
         assert prefix.startswith('/'), prefix
         assert prefix.endswith('/'), prefix
@@ -626,7 +614,6 @@ class StaticRoute(Route):
 
 # noinspection PyAbstractClass
 class SystemRoute(Route):
-
     def __init__(self, http_exception):
         super().__init__(hdrs.METH_ANY, self._handler, None)
         self._http_exception = http_exception
@@ -656,8 +643,8 @@ class SystemRoute(Route):
         return "<SystemRoute {self.status}: {self.reason}>".format(self=self)
 
 
+# noinspection PyAbstractClass
 class View(AbstractView):
-
     @asyncio.coroutine
     def __iter__(self):
         if self.request.method not in hdrs.METH_ALL:
@@ -678,7 +665,6 @@ class View(AbstractView):
 
 
 class ResourcesView(Sized, Iterable, Container):
-
     def __init__(self, resources):
         self._resources = resources
 
@@ -693,7 +679,6 @@ class ResourcesView(Sized, Iterable, Container):
 
 
 class RoutesView(Sized, Iterable, Container):
-
     def __init__(self, resources):
         self._routes = []
         for resource in resources:
@@ -711,7 +696,6 @@ class RoutesView(Sized, Iterable, Container):
 
 
 class UrlDispatcher(AbstractRouter, collections.abc.Mapping):
-
     DYN = re.compile(r'^\{(?P<var>[a-zA-Z][_a-zA-Z0-9]*)\}$')
     DYN_WITH_RE = re.compile(
         r'^\{(?P<var>[a-zA-Z][_a-zA-Z0-9]*):(?P<re>.+)\}$')
@@ -842,7 +826,7 @@ class UrlDispatcher(AbstractRouter, collections.abc.Mapping):
 
     # noinspection PyDeprecation,PyIncorrectDocstring
     def add_static(self, prefix, path, *, name=None, expect_handler=None,
-                   chunk_size=256*1024, response_factory=StreamResponse):
+                   chunk_size=256 * 1024, response_factory=StreamResponse):
         """
         Adds static files view
         :param prefix - url prefix

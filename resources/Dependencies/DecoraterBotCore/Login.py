@@ -5,13 +5,13 @@ import os
 import os.path
 import sys
 import json
-import time
 import io
 from discord.__init__ import __version__
 # noinspection PyPackageRequirements
 from colorama import init
 # noinspection PyPackageRequirements
 from colorama import Fore, Back, Style
+from discord.ext import commands
 
 init()
 
@@ -32,6 +32,7 @@ class BotLogin:
     def __init__(self, client):
         self.bot = client
 
+    # noinspection PyUnboundLocalVariable,PyUnusedLocal
     @classmethod
     def login_info(self, client):
         global reconnects
@@ -63,6 +64,12 @@ class BotLogin:
                 return
             except KeyboardInterrupt:
                 return
+            except asyncio.futures.InvalidStateError:
+                reconnects = reconnects + 1
+                if reconnects != 0:
+                    print('Bot is currently reconnecting for ' + str(reconnects) + ' times.')
+                    sleeptime = reconnects * 5
+                    self.login_info(client)
             if is_bot_logged_in is True:
                 if client.is_logged_in is not False:
                     # This means the bot is currently logged in.
@@ -74,8 +81,8 @@ class BotLogin:
                     if reconnects != 0:
                         print('Bot is currently reconnecting for ' + str(reconnects) + ' times.')
                         sleeptime = reconnects * 5
-                        time.sleep(sleeptime)
-                        login_info(client)
+                        asyncio.sleep(sleeptime)
+                        self.login_info(client)
         else:
             print(str(consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)

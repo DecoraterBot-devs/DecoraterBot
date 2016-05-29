@@ -13,20 +13,17 @@ import traceback
 import importlib
 import io
 try:
+    # noinspection PyPackageRequirements
     import Ignore
 except ImportError:
-    sys.path.append(sys.path[0] + "\\Dependencies\\DecoraterBotCore")
+    sys.path.append(sys.path[0] + "\\resources\\Dependencies\\DecoraterBotCore")
+    # noinspection PyPackageRequirements
     import Ignore
 import Login
 import BotCommands
 import BotPMError
-
-# for finding ffmpeg
-bits = ctypes.sizeof(ctypes.c_voidp)
-if bits == 4:
-    os.chdir(sys.path[0] + "\\resources\\ffmpeg\\x86")
-elif bits == 8:
-    os.chdir(sys.path[0] + "\\resources\\ffmpeg\\x64")
+import BotVoiceCommands
+from discord.ext import commands
 
 jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
 somedict = json.load(jsonfile)
@@ -87,13 +84,9 @@ class BotCore:
                 seconds = str(int(seconds % 60))
                 days = str(days)
                 # noinspection PyPep8
-                time_001 = str(botmessages['Uptime_command_data'][0]) + days + str(
-                    botmessages['Uptime_command_data'][1])
-                time_002 = hours + str(botmessages['Uptime_command_data'][2]) + minutes
+                time_001 =  str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
                 # noinspection PyPep8
-                time_003 = str(botmessages['Uptime_command_data'][3]) + seconds + str(
-                    botmessages['Uptime_command_data'][4])
-                time_parse = time_001 + time_002 + time_003
+                time_parse = time_001
                 try:
                     await client.send_message(message.channel, time_parse)
                 except discord.errors.Forbidden:
@@ -101,6 +94,7 @@ class BotCore:
         if message.content.startswith(_bot_prefix + "hlreload"):
             if message.author.id == discord_user_id:
                 desmod_new = message.content.lower()[len(_bot_prefix + 'hlreload '):].strip()
+                _somebool = False
                 if desmod_new.rfind('ignore') is not -1:
                     desmod = 'Ignore'
                     rsn = desmod_new.strip('ignore')
@@ -118,10 +112,16 @@ class BotCore:
                         if desmod == 'Ignore':
                             try:
                                 rsn = reload_reason
-                                await BotCommands.BotCommands._reload_commands_bypass1(client, message, rsn)
+                                # removed.
+                                # await BotCommands.BotCommands._reload_commands_bypass1(client, message, rsn)
+                                # new and now is a custom function for this high level reload command.
+                                await BotVoiceCommands.VoiceBotCommands._reload_commands_bypass4_new(client, message,
+                                                                                                     rsn)
                                 module = sys.modules.get(desmod)
                                 importlib.reload(module)
-                                await BotCommands.BotCommands._reload_commands_bypass2(client, message)
+                                # removed.
+                                # await BotCommands.BotCommands._reload_commands_bypass2(client, message)
+                                await BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(client, message)
                                 try:
                                     msgdata = str(botmessages['reload_command_data'][0])
                                     message_data = msgdata + ' Reloaded ' + desmod + '.'

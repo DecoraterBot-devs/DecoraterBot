@@ -26,18 +26,15 @@ from .multidict import (CIMultiDictProxy,
 from .protocol import Response as ResponseImpl, HttpVersion10, HttpVersion11
 from .streams import EOF_MARKER
 
-
 __all__ = (
     'ContentCoding', 'Request', 'StreamResponse', 'Response',
     'json_response'
 )
 
-
 sentinel = object()
 
 
 class HeadersMixin:
-
     _content_type = None
     _content_dict = None
     _stored_content_type = sentinel
@@ -79,6 +76,7 @@ class HeadersMixin:
         else:
             return int(l)
 
+
 FileField = collections.namedtuple('Field', 'name filename file content_type')
 
 
@@ -98,7 +96,6 @@ class ContentCoding(enum.Enum):
 
 
 class Request(dict, HeadersMixin):
-
     POST_METHODS = {hdrs.METH_PATCH, hdrs.METH_POST, hdrs.METH_PUT,
                     hdrs.METH_TRACE, hdrs.METH_DELETE}
 
@@ -388,7 +385,7 @@ class Request(dict, HeadersMixin):
                                field.type)
                 if self._post_files_cache is None:
                     self._post_files_cache = {}
-                self._post_files_cache[field.name+str(_count)] = field
+                self._post_files_cache[field.name + str(_count)] = field
                 _count += 1
                 out.add(field.name, ff)
             else:
@@ -417,7 +414,6 @@ class Request(dict, HeadersMixin):
 
 
 class StreamResponse(HeadersMixin):
-
     def __init__(self, *, status=200, reason=None, headers=None):
         self._body = None
         self._keep_alive = None
@@ -736,8 +732,7 @@ class StreamResponse(HeadersMixin):
         if self._chunked:
             if request.version != HttpVersion11:
                 raise RuntimeError("Using chunked encoding is forbidden "
-                                   "for HTTP/{0.major}.{0.minor}".format(
-                                       request.version))
+                                   "for HTTP/{0.major}.{0.minor}".format(request.version))
             resp_impl.enable_chunked_encoding()
             if self._chunk_size:
                 resp_impl.add_chunking_filter(self._chunk_size)
@@ -792,7 +787,6 @@ class StreamResponse(HeadersMixin):
 
 
 class Response(StreamResponse):
-
     def __init__(self, *, body=None, status=200,
                  reason=None, text=None, headers=None, content_type=None,
                  charset=None):

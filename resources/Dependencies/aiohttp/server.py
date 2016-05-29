@@ -19,7 +19,6 @@ from aiohttp.helpers import ensure_future
 
 __all__ = ('ServerHttpProtocol',)
 
-
 RESPONSES = http.server.BaseHTTPRequestHandler.responses
 DEFAULT_ERROR_MESSAGE = """
 <html>
@@ -31,7 +30,6 @@ DEFAULT_ERROR_MESSAGE = """
     {message}
   </body>
 </html>"""
-
 
 if hasattr(socket, 'SO_KEEPALIVE'):
     # noinspection PyUnusedLocal
@@ -146,7 +144,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
             # connection_lost cleans timeout handler
             now = self._loop.time()
             self._timeout_handle = self._loop.call_at(
-                ceil(now+timeout), self.cancel_slow_request)
+                ceil(now + timeout), self.cancel_slow_request)
 
     def connection_made(self, transport):
         super().connection_made(transport)
@@ -157,7 +155,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
         if self._timeout:
             now = self._loop.time()
             self._timeout_handle = self._loop.call_at(
-                ceil(now+self._timeout), self.cancel_slow_request)
+                ceil(now + self._timeout), self.cancel_slow_request)
 
         if self._keep_alive_on:
             tcp_keepalive(self, transport)
@@ -247,7 +245,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                 if self._timeout and self._timeout_handle is None:
                     now = self._loop.time()
                     self._timeout_handle = self._loop.call_at(
-                        ceil(now+self._timeout), self.cancel_slow_request)
+                        ceil(now + self._timeout), self.cancel_slow_request)
 
                 # read request headers
                 httpstream = reader.set_parser(self._request_parser)
@@ -260,9 +258,9 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
 
                 # request may not have payload
                 if (message.headers.get(hdrs.CONTENT_LENGTH, 0) or
-                    hdrs.SEC_WEBSOCKET_KEY1 in message.headers or
-                    'chunked' in message.headers.get(
-                        hdrs.TRANSFER_ENCODING, '')):
+                        (hdrs.SEC_WEBSOCKET_KEY1 in message.headers) or
+                        ('chunked' in message.headers.get(
+                            hdrs.TRANSFER_ENCODING, ''))):
                     payload = streams.FlowControlStreamReader(
                         reader, loop=self._loop)
                     reader.set_parser(
@@ -308,7 +306,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                             self._keep_alive_period)
                         now = self._loop.time()
                         self._keep_alive_handle = self._loop.call_at(
-                            ceil(now+self._keep_alive_period),
+                            ceil(now + self._keep_alive_period),
                             self.transport.close)
                     elif self._keep_alive and self._keep_alive_on:
                         # do nothing, rely on kernel or upstream server

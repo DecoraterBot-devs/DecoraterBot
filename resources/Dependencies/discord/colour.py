@@ -66,7 +66,7 @@ class Colour:
         return not self.__eq__(other)
 
     def __str__(self):
-        return '#' + format(self.value, 'x')
+        return '#{:0>6x}'.format(self.value)
 
     def __hash__(self):
         return hash(self.value)

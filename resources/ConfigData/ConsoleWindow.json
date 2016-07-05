@@ -3,7 +3,7 @@
         "DecoraterBot "
     ],
     "WindowVersion": [
-        "v1.0.0.12 Pre-Beta"
+        "v1.0.0.12 Beta"
     ],
     "Revision": [
         " 20160204 Rev. 2022"
@@ -12,13 +12,16 @@
         "Logged in as ",
         "Bot id=",
         "Discord.py v",
-        " Async\n-------------------------------"
+        " Async\n-------------------------"
     ],
     "Login_Failure": [
         "Incorrect email and/or password."
     ],
     "Invalid_Token": [
         "Invalid token specified."
+    ],
+    "Unknown_Connection_Error": [
+        "This bot can not connect to the Discord API.\nPlease check your Internet Connection."
     ],
     "Credentials_Not_Found": [
         "Credentials.json does not exist. It must be present in order for this bot to work."

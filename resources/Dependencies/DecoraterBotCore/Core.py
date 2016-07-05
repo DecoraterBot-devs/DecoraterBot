@@ -1,7 +1,6 @@
 # coding=utf-8
 import os
 import discord
-# noinspection PyPackageRequirements
 import requests
 import ctypes
 import sys
@@ -13,11 +12,9 @@ import traceback
 import importlib
 import io
 try:
-    # noinspection PyPackageRequirements
     import Ignore
 except ImportError:
     sys.path.append(sys.path[0] + "\\resources\\Dependencies\\DecoraterBotCore")
-    # noinspection PyPackageRequirements
     import Ignore
 import Login
 import BotCommands
@@ -60,126 +57,182 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 
 
 class BotCore:
-    def changewindowtitle():
-        ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
+    def __init__(self, client):
+        nothing = None  # prevent error here.
 
-    def changewindowsize():
-        # noinspection PyUnusedLocal
-        cmd = "mode con: cols=80 lines=23"
-    #    subprocess.Popen(cmd, shell=True)
+    class bot:
+        """
+            This Class is for Internal Use only!!!
+        """
 
-    # noinspection PyUnboundLocalVariable,PyUnusedLocal
-    async def commands(client, message):
-        # noinspection PyTypeChecker,PyCallByClass
-        await Ignore.BotIgnores.ignore(client, message)
-        if message.content.startswith(_bot_prefix + "uptime"):
-            if message.author.id in somedict['Users']:
-                return
-            else:
-                stop = time.time()
-                seconds = stop - start
-                days = int(((seconds / 60) / 60) / 24)
-                hours = str(int((seconds / 60) / 60 - (days * 24)))
-                minutes = str(int((seconds / 60) % 60))
-                seconds = str(int(seconds % 60))
-                days = str(days)
-                # noinspection PyPep8
-                time_001 =  str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
-                # noinspection PyPep8
-                time_parse = time_001
-                try:
-                    await client.send_message(message.channel, time_parse)
-                except discord.errors.Forbidden:
+        @classmethod
+        def changewindowtitle_code(self):
+            ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
+
+        @classmethod
+        def changewindowsize_code(self):
+            cmd = "mode con: cols=80 lines=23"
+            subprocess.Popen(cmd, shell=True)
+
+        @asyncio.coroutine
+        def commands_code(client, message):
+            yield from Ignore.BotIgnores.ignore(client, message)
+            if message.content.startswith(_bot_prefix + "uptime"):
+                if message.author.id in somedict['Users']:
                     return
-        if message.content.startswith(_bot_prefix + "hlreload"):
-            if message.author.id == discord_user_id:
-                desmod_new = message.content.lower()[len(_bot_prefix + 'hlreload '):].strip()
-                _somebool = False
-                if desmod_new.rfind('ignore') is not -1:
-                    desmod = 'Ignore'
-                    rsn = desmod_new.strip('ignore')
-                    if rsn.rfind(' | ') is not -1:
-                        reason = rsn.strip(' | ')
-                        reload_reason = reason
-                        _somebool = True
-                    else:
-                        reason = None
-                        reload_reason = reason
-                        _somebool = True
-                if _somebool is True:
-                    if desmod_new is not None:
-                        # noinspection PyUnboundLocalVariable
-                        if desmod == 'Ignore':
-                            try:
-                                rsn = reload_reason
-                                # removed.
-                                # await BotCommands.BotCommands._reload_commands_bypass1(client, message, rsn)
-                                # new and now is a custom function for this high level reload command.
-                                await BotVoiceCommands.VoiceBotCommands._reload_commands_bypass4_new(client, message,
-                                                                                                     rsn)
-                                module = sys.modules.get(desmod)
-                                importlib.reload(module)
-                                # removed.
-                                # await BotCommands.BotCommands._reload_commands_bypass2(client, message)
-                                await BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(client, message)
+                else:
+                    stop = time.time()
+                    seconds = stop - start
+                    days = int(((seconds / 60) / 60) / 24)
+                    hours = str(int((seconds / 60) / 60 - (days * 24)))
+                    minutes = str(int((seconds / 60) % 60))
+                    seconds = str(int(seconds % 60))
+                    days = str(days)
+                    time_001 =  str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
+                    time_parse = time_001
+                    try:
+                        yield from client.send_message(message.channel, time_parse)
+                    except discord.errors.Forbidden:
+                        return
+            if message.content.startswith(_bot_prefix + "hlreload"):
+                if message.author.id == discord_user_id:
+                    desmod_new = message.content.lower()[len(_bot_prefix + 'hlreload '):].strip()
+                    _somebool = False
+                    if desmod_new.rfind('ignore') is not -1:
+                        desmod = 'Ignore'
+                        rsn = desmod_new.strip('ignore')
+                        if rsn.rfind(' | ') is not -1:
+                            reason = rsn.strip(' | ')
+                            reload_reason = reason
+                            _somebool = True
+                        else:
+                            reason = None
+                            reload_reason = reason
+                            _somebool = True
+                    if _somebool is True:
+                        if desmod_new is not None:
+                            if desmod == 'Ignore':
                                 try:
-                                    msgdata = str(botmessages['reload_command_data'][0])
-                                    message_data = msgdata + ' Reloaded ' + desmod + '.'
-                                    if desmod == 'BotLogs':
-                                        if rsn is not None:
-                                            message_data = message_data + ' Reason: ' + rsn
-                                            await client.send_message(message.channel, message_data)
+                                    rsn = reload_reason
+                                    yield from Ignore.BotEvents.high_level_reload_helper(client, message, rsn)
+                                    module = sys.modules.get(desmod)
+                                    importlib.reload(module)
+                                    yield from Ignore.BotEvents.high_level_reload_helper2(client, message)
+                                    try:
+                                        msgdata = str(botmessages['reload_command_data'][0])
+                                        message_data = msgdata + ' Reloaded ' + desmod + '.'
+                                        if desmod == 'BotLogs':
+                                            if rsn is not None:
+                                                message_data = message_data + ' Reason: ' + rsn
+                                                yield from client.send_message(message.channel, message_data)
+                                            else:
+                                                yield from client.send_message(message.channel, message_data)
                                         else:
-                                            await client.send_message(message.channel, message_data)
-                                    else:
-                                        await client.send_message(message.channel, message_data)
-                                except discord.errors.Forbidden:
-                                    await BotPMError._resolve_send_message_error(client, message)
-                            except Exception as e:
-                                reloadexception = str(traceback.format_exc())
-                                try:
-                                    reload_data = str(botmessages['reload_command_data'][1]) + '\n```py\n'
-                                    await client.send_message(message.channel, reload_data + reloadexception + '```')
-                                except discord.errors.Forbidden:
-                                    await BotPMError._resolve_send_message_error(client, message)
+                                            yield from client.send_message(message.channel, message_data)
+                                    except discord.errors.Forbidden:
+                                        yield from BotPMError._resolve_send_message_error(client, message)
+                                except Exception as e:
+                                    reloadexception = str(traceback.format_exc())
+                                    try:
+                                        reload_data = str(botmessages['reload_command_data'][1]) + '\n```py\n'
+                                        yield from client.send_message(message.channel, reload_data + reloadexception + '```')
+                                    except discord.errors.Forbidden:
+                                        yield from BotPMError._resolve_send_message_error(client, message)
+                    else:
+                        try:
+                            yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
+                        except discord.errors.Forbidden:
+                            yield from BotPMError._resolve_send_message_error(client, message)
                 else:
                     try:
-                        await client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
+                        yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
                     except discord.errors.Forbidden:
-                        await BotPMError._resolve_send_message_error(client, message)
-            else:
-                try:
-                    await client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
-                except discord.errors.Forbidden:
-                    await BotPMError._resolve_send_message_error(client, message)
+                        yield from BotPMError._resolve_send_message_error(client, message)
 
-    async def deletemessage(client, message):
-        # noinspection PyTypeChecker,PyCallByClass
-        await Ignore.BotEvents._resolve_delete_method(client, message)
+        @classmethod
+        @asyncio.coroutine
+        def deletemessage_code(self, client, message):
+            yield from Ignore.BotEvents._resolve_delete_method(client, message)
 
-    async def editmessage(client, before, after):
-        # noinspection PyTypeChecker,PyCallByClass
-        await Ignore.BotEvents._resolve_edit_method(client, before, after)
+        @classmethod
+        @asyncio.coroutine
+        def editmessage_code(self, client, before, after):
+            yield from Ignore.BotEvents._resolve_edit_method(client, before, after)
 
-    async def memberban(client, member):
-        # noinspection PyTypeChecker,PyCallByClass
-        await Ignore.BotEvents._resolve_onban(client, member)
+        @classmethod
+        def memberban_code(self, client, member):
+            Ignore.BotEvents._resolve_onban(client, member)
 
-    async def memberunban(client, member):
-        # noinspection PyTypeChecker,PyCallByClass
-        await Ignore.BotEvents._resolve_onunban(client, member)
+        @classmethod
+        def memberunban_code(self, client, member):
+            Ignore.BotEvents._resolve_onunban(client, member)
 
-    async def memberremove(client, member):
-        # noinspection PyTypeChecker,PyCallByClass
-        await Ignore.BotEvents._resolve_onremove(client, member)
+        @classmethod
+        def memberremove_code(self, client, member):
+            # depreciated
+            Ignore.BotEvents._resolve_onremove(client, member)
 
-    async def memberjoin(client, member):
-        # noinspection PyTypeChecker,PyCallByClass
-        await Ignore.BotEvents._resolve_onjoin(client, member)
+        @classmethod
+        @asyncio.coroutine
+        def memberjoin_code(self, client, member):
+            yield from Ignore.BotEvents._resolve_onjoin(client, member)
 
-    def _login_helper(client):
-        Login.BotLogin.login_info(client)
+        @classmethod
+        def _login_helper_code(self, client):
+            Login.BotLogin.login_info(client)
 
-    async def _bot_ready(client):
-        await Login.BotLogin.on_login(client)
-        await Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
+        @classmethod
+        @asyncio.coroutine
+        def _bot_ready_code(self, client):
+            yield from Login.BotLogin.on_login(client)
+            yield from Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
+
+    @classmethod
+    def changewindowtitle(self):
+        self.bot.changewindowtitle_code()
+
+    @classmethod
+    def changewindowsize(self):
+        self.bot.changewindowsize_code()
+
+
+    @classmethod
+    @asyncio.coroutine
+    def commands(self, client, message):
+        yield from self.bot.commands_code(client, message)
+
+    @classmethod
+    @asyncio.coroutine
+    def deletemessage(self, client, message):
+        yield from self.bot.deletemessage_code(client, message)
+
+    @classmethod
+    @asyncio.coroutine
+    def editmessage(self, client, before, after):
+        yield from self.bot.editmessage_code(client, before, after)
+
+    @classmethod
+    def memberban(self, client, member):
+        self.bot.memberban_code(client, member)
+
+    @classmethod
+    def memberunban(self, client, member):
+        self.bot.memberunban_code(client, member)
+
+    @classmethod
+    def memberremove(self, client, member):
+        self.bot.memberremove_code(client, member)
+
+    @classmethod
+    @asyncio.coroutine
+    def memberjoin(self, client, member):
+        yield from self.bot.memberjoin_code(client, member)
+
+    @classmethod
+    def _login_helper(self, client):
+        self.bot._login_helper_code(client)
+
+    @classmethod
+    @asyncio.coroutine
+    def _bot_ready(self, client):
+        yield from self.bot._bot_ready_code(client)

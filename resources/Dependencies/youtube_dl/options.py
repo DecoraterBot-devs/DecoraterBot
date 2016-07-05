@@ -26,9 +26,7 @@ def parseOpts(overrideArguments=None):
         except IOError:
             return default  # silently skip if file is not present
         try:
-            res = []
-            for l in optionf:
-                res += compat_shlex_split(l, comments=True)
+            res = compat_shlex_split(optionf.read(), comments=True)
         finally:
             optionf.close()
         return res
@@ -188,7 +186,10 @@ def parseOpts(overrideArguments=None):
     network.add_option(
         '--proxy', dest='proxy',
         default=None, metavar='URL',
-        help='Use the specified HTTP/HTTPS proxy. Pass in an empty string (--proxy "") for direct connection')
+        help='Use the specified HTTP/HTTPS/SOCKS proxy. To enable experimental '
+             'SOCKS proxy, specify a proper scheme. For example '
+             'socks5://127.0.0.1:1080/. Pass in an empty string (--proxy "") '
+             'for direct connection')
     network.add_option(
         '--socket-timeout',
         dest='socket_timeout', type=float, default=None, metavar='SECONDS',
@@ -392,8 +393,8 @@ def parseOpts(overrideArguments=None):
 
     downloader = optparse.OptionGroup(parser, 'Download Options')
     downloader.add_option(
-        '-r', '--rate-limit',
-        dest='ratelimit', metavar='LIMIT',
+        '-r', '--limit-rate', '--rate-limit',
+        dest='ratelimit', metavar='RATE',
         help='Maximum download rate in bytes per second (e.g. 50K or 4.2M)')
     downloader.add_option(
         '-R', '--retries',
@@ -665,7 +666,7 @@ def parseOpts(overrideArguments=None):
         action='store_true', dest='writeannotations', default=False,
         help='Write video annotations to a .annotations.xml file')
     filesystem.add_option(
-        '--load-info',
+        '--load-info-json', '--load-info',
         dest='load_info_filename', metavar='FILE',
         help='JSON file containing the video information (created with the "--write-info-json" option)')
     filesystem.add_option(

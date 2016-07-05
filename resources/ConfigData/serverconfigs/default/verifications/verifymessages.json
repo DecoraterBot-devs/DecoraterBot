@@ -1,0 +1,1 @@
+{    "verify_messages": [        "<@{0}> has joined {1}. Please Read the rules in [mention channel here] and when you agree send the verifification command in here.",        "{0} You are now verified."    ],    "verify_messages_channel": [        "[channel id to send join/verification stuff here]"    ]}

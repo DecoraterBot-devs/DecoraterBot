@@ -84,12 +84,20 @@ class Server(Hashable):
         all be None. It is best to not do anything with the server if it is unavailable.
 
         Check the :func:`on_server_unavailable` and :func:`on_server_available` events.
+    large : bool
+        Indicates if the server is a 'large' server. A large server is defined as having
+        more than ``large_threshold`` count members, which for this library is set to
+        the maximum of 250.
+    mfa_level: int
+        Indicates the server's two factor authorisation level. If this value is 0 then
+        the server does not require 2FA for their administrative members. If the value is
+        1 then they do.
     """
 
     __slots__ = ['afk_timeout', 'afk_channel', '_members', '_channels', 'icon',
                  'name', 'id', 'owner', 'unavailable', 'name', 'region',
                  '_default_role', '_default_channel', 'roles', '_member_count',
-                 'large', 'owner_id']
+                 'large', 'owner_id', 'mfa_level' ]
 
     def __init__(self, **kwargs):
         self._channels = {}
@@ -138,6 +146,27 @@ class Server(Hashable):
             member._update_voice_state(voice_channel=channel, **data)
         return before, member
 
+    def _add_role(self, role):
+        # roles get added to the bottom (position 1, pos 0 is @everyone)
+        # so since self.roles has the @everyone role, we can't increment
+        # its position because it's stuck at position 0. Luckily x += False
+        # is equivalent to adding 0. So we cast the position to a bool and
+        # increment it.
+        for r in self.roles:
+            r.position += bool(r.position)
+
+        self.roles.append(role)
+
+    def _remove_role(self, role):
+        # this raises ValueError if it fails..
+        self.roles.remove(role)
+
+        # since it didn't, we can change the positions now
+        # basically the same as above except we only decrement
+        # the position if we're above the role we deleted.
+        for r in self.roles:
+            r.position -= r.position > role.position
+
     def _from_data(self, guild):
         # according to Stan, this is always available even if the guild is unavailable
         # I don't have this guarantee when someone updates the server.
@@ -146,7 +175,6 @@ class Server(Hashable):
             self._member_count = member_count
 
         self.name = guild.get('name')
-        self.large = guild.get('large', None if member_count is None else self._member_count > 250)
         self.region = guild.get('region')
         try:
             self.region = ServerRegion(self.region)
@@ -157,25 +185,39 @@ class Server(Hashable):
         self.icon = guild.get('icon')
         self.unavailable = guild.get('unavailable', False)
         self.id = guild['id']
-        self.roles = [Role(everyone=(self.id == r['id']), **r) for r in guild.get('roles', [])]
+        self.roles = [Role(server=self, **r) for r in guild.get('roles', [])]
+        self.mfa_level = guild.get('mfa_level')
 
-        for data in guild.get('members', []):
+        for mdata in guild.get('members', []):
             roles = [self.default_role]
-            for role_id in data['roles']:
+            for role_id in mdata['roles']:
                 role = utils.find(lambda r: r.id == role_id, self.roles)
                 if role is not None:
                     roles.append(role)
 
-            data['roles'] = roles
-            member = Member(**data)
+            mdata['roles'] = roles
+            member = Member(**mdata)
             member.server = self
             self._add_member(member)
+
+        self._sync(guild)
+        self.large = None if member_count is None else self._member_count > 250
 
         if 'owner_id' in guild:
             self.owner_id = guild['owner_id']
             self.owner = self.get_member(self.owner_id)
 
-        for presence in guild.get('presences', []):
+        afk_id = guild.get('afk_channel_id')
+        self.afk_channel = self.get_channel(afk_id)
+
+        for obj in guild.get('voice_states', []):
+            self._update_voice_state(obj)
+
+    def _sync(self, data):
+        if 'large' in data:
+            self.large = data['large']
+
+        for presence in data.get('presences', []):
             user_id = presence['user']['id']
             member = self.get_member(user_id)
             if member is not None:
@@ -187,17 +229,12 @@ class Server(Hashable):
                 game = presence.get('game', {})
                 member.game = Game(**game) if game else None
 
-        if 'channels' in guild:
-            channels = guild['channels']
+        if 'channels' in data:
+            channels = data['channels']
             for c in channels:
                 channel = Channel(server=self, **c)
                 self._add_channel(channel)
 
-        afk_id = guild.get('afk_channel_id')
-        self.afk_channel = self.get_channel(afk_id)
-
-        for obj in guild.get('voice_states', []):
-            self._update_voice_state(obj)
 
     @utils.cached_slot_property('_default_role')
     def default_role(self):

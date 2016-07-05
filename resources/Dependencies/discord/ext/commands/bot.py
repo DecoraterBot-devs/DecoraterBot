@@ -29,26 +29,29 @@ import discord
 import inspect
 import importlib
 import sys
+import traceback
+import re
 
 from .core import GroupMixin, Command, command
 from .view import StringView
 from .context import Context
-from .errors import CommandNotFound
+from .errors import CommandNotFound, CommandError
 from .formatter import HelpFormatter
-
 
 def _get_variable(name):
     stack = inspect.stack()
     try:
         for frames in stack:
-            current_locals = frames[0].f_locals
-            if name in current_locals:
-                return current_locals[name]
+            try:
+                frame = frames[0]
+                current_locals = frame.f_locals
+                if name in current_locals:
+                    return current_locals[name]
+            finally:
+                del frame
     finally:
         del stack
 
-
-# noinspection PyIncorrectDocstring
 def when_mentioned(bot, msg):
     """A callable that implements a command prefix equivalent
     to being mentioned, e.g. ``@bot ``."""
@@ -56,7 +59,6 @@ def when_mentioned(bot, msg):
     if server is not None:
         return '{0.me.mention} '.format(server)
     return '{0.user.mention} '.format(bot)
-
 
 def when_mentioned_or(*prefixes):
     """A callable that implements when mentioned or other prefixes provided.
@@ -79,20 +81,28 @@ def when_mentioned_or(*prefixes):
 
     return inner
 
+_mentions_transforms = {
+    '@everyone': '@\u200beveryone',
+    '@here': '@\u200bhere'
+}
 
-# noinspection PyUnusedLocal
+_mention_pattern = re.compile('|'.join(_mentions_transforms.keys()))
+
 @asyncio.coroutine
-def _default_help_command(ctx, *commands: str):
+def _default_help_command(ctx, *commands : str):
     """Shows this message."""
     bot = ctx.bot
     destination = ctx.message.author if bot.pm_help else ctx.message.channel
+
+    def repl(obj):
+        return _mentions_transforms.get(obj.group(0), '')
 
     # help by itself just lists our own commands.
     if len(commands) == 0:
         pages = bot.formatter.format_help_for(ctx, bot)
     elif len(commands) == 1:
         # try to see if it is a cog name
-        name = commands[0]
+        name = _mention_pattern.sub(repl, commands[0])
         command = None
         if name in bot.cogs:
             command = bot.cogs[name]
@@ -104,7 +114,7 @@ def _default_help_command(ctx, *commands: str):
 
         pages = bot.formatter.format_help_for(ctx, command)
     else:
-        name = commands[0]
+        name = _mention_pattern.sub(repl, commands[0])
         command = bot.commands.get(name)
         if command is None:
             yield from bot.send_message(destination, bot.command_not_found.format(name))
@@ -112,6 +122,7 @@ def _default_help_command(ctx, *commands: str):
 
         for key in commands[1:]:
             try:
+                key = _mention_pattern.sub(repl, key)
                 command = command.commands.get(key)
                 if command is None:
                     yield from bot.send_message(destination, bot.command_not_found.format(key))
@@ -132,7 +143,6 @@ def _default_help_command(ctx, *commands: str):
         yield from bot.send_message(destination, page)
 
 
-# noinspection PyIncorrectDocstring,PyUnusedLocal
 class Bot(GroupMixin, discord.Client):
     """Represents a discord bot.
 
@@ -159,6 +169,10 @@ class Bot(GroupMixin, discord.Client):
         :attr:`Context.prefix`.
     description : str
         The content prefixed into the default help message.
+    self_bot : bool
+        If ``True``, the bot will only listen to commands invoked by itself rather
+        than ignoring itself. If ``False`` (the default) then the bot will ignore
+        itself. This cannot be changed once initialised.
     formatter : :class:`HelpFormatter`
         The formatter used to format the help message. By default, it uses a
         the :class:`HelpFormatter`. Check it for more info on how to override it.
@@ -194,11 +208,13 @@ class Bot(GroupMixin, discord.Client):
         self.extra_events = {}
         self.cogs = {}
         self.extensions = {}
+        self._checks = []
         self.description = inspect.cleandoc(description) if description else ''
         self.pm_help = pm_help
         self.command_not_found = options.pop('command_not_found', 'No command called "{}" found.')
-        self.command_has_no_subcommands = options.pop('command_has_no_subcommands',
-                                                      'Command {0.name} has no subcommands.')
+        self.command_has_no_subcommands = options.pop('command_has_no_subcommands', 'Command {0.name} has no subcommands.')
+
+        self._skip_check = discord.User.__ne__ if options.pop('self_bot', False) else discord.User.__eq__
 
         self.help_attrs = options.pop('help_attrs', {})
         self.help_attrs['pass_context'] = True
@@ -245,7 +261,41 @@ class Bot(GroupMixin, discord.Client):
                 coro = self._run_extra(event, event_name, *args, **kwargs)
                 discord.compat.create_task(coro, loop=self.loop)
 
+    @asyncio.coroutine
+    def on_command_error(self, exception, context):
+        """|coro|
+
+        The default command error handler provided by the bot.
+
+        By default this prints to ``sys.stderr`` however it could be
+        overridden to have a different implementation.
+
+        This only fires if you do not specify any listeners for command error.
+        """
+        if self.extra_events.get('on_command_error', None):
+            return
+
+        if hasattr(context.command, "on_error"):
+            return
+
+        print('Ignoring exception in command {}'.format(context.command), file=sys.stderr)
+        traceback.print_exception(type(exception), exception, exception.__traceback__, file=sys.stderr)
+
     # utility "send_*" functions
+
+    @asyncio.coroutine
+    def _augmented_msg(self, coro, **kwargs):
+        msg = yield from coro
+        delete_after = kwargs.get('delete_after')
+        if delete_after is not None:
+            @asyncio.coroutine
+            def delete():
+                yield from asyncio.sleep(delete_after)
+                yield from self.delete_message(msg)
+
+            discord.compat.create_task(delete(), loop=self.loop)
+
+        return msg
 
     def say(self, *args, **kwargs):
         """|coro|
@@ -256,12 +306,28 @@ class Bot(GroupMixin, discord.Client):
 
             self.send_message(message.channel, *args, **kwargs)
 
+        The following keyword arguments are "extensions" that augment the
+        behaviour of the standard wrapped call.
+
+        Parameters
+        ------------
+        delete_after: float
+            Number of seconds to wait before automatically deleting the
+            message.
+
         See Also
         ---------
         :meth:`Client.send_message`
         """
         destination = _get_variable('_internal_channel')
-        return self.send_message(destination, *args, **kwargs)
+
+        extensions = ('delete_after',)
+        params = {
+            k: kwargs.pop(k, None) for k in extensions
+        }
+
+        coro = self.send_message(destination, *args, **kwargs)
+        return self._augmented_msg(coro, **params)
 
     def whisper(self, *args, **kwargs):
         """|coro|
@@ -272,12 +338,28 @@ class Bot(GroupMixin, discord.Client):
 
             self.send_message(message.author, *args, **kwargs)
 
+        The following keyword arguments are "extensions" that augment the
+        behaviour of the standard wrapped call.
+
+        Parameters
+        ------------
+        delete_after: float
+            Number of seconds to wait before automatically deleting the
+            message.
+
         See Also
         ---------
         :meth:`Client.send_message`
         """
         destination = _get_variable('_internal_author')
-        return self.send_message(destination, *args, **kwargs)
+
+        extensions = ('delete_after',)
+        params = {
+            k: kwargs.pop(k, None) for k in extensions
+        }
+
+        coro = self.send_message(destination, *args, **kwargs)
+        return self._augmented_msg(coro, **params)
 
     def reply(self, content, *args, **kwargs):
         """|coro|
@@ -289,6 +371,15 @@ class Bot(GroupMixin, discord.Client):
             msg = '{0.mention}, {1}'.format(message.author, content)
             self.send_message(message.channel, msg, *args, **kwargs)
 
+        The following keyword arguments are "extensions" that augment the
+        behaviour of the standard wrapped call.
+
+        Parameters
+        ------------
+        delete_after: float
+            Number of seconds to wait before automatically deleting the
+            message.
+
         See Also
         ---------
         :meth:`Client.send_message`
@@ -296,7 +387,14 @@ class Bot(GroupMixin, discord.Client):
         author = _get_variable('_internal_author')
         destination = _get_variable('_internal_channel')
         fmt = '{0.mention}, {1}'.format(author, str(content))
-        return self.send_message(destination, fmt, *args, **kwargs)
+
+        extensions = ('delete_after',)
+        params = {
+            k: kwargs.pop(k, None) for k in extensions
+        }
+
+        coro = self.send_message(destination, fmt, *args, **kwargs)
+        return self._augmented_msg(coro, **params)
 
     def upload(self, *args, **kwargs):
         """|coro|
@@ -307,12 +405,28 @@ class Bot(GroupMixin, discord.Client):
 
             self.send_file(message.channel, *args, **kwargs)
 
+        The following keyword arguments are "extensions" that augment the
+        behaviour of the standard wrapped call.
+
+        Parameters
+        ------------
+        delete_after: float
+            Number of seconds to wait before automatically deleting the
+            message.
+
         See Also
         ---------
         :meth:`Client.send_file`
         """
         destination = _get_variable('_internal_channel')
-        return self.send_file(destination, *args, **kwargs)
+
+        extensions = ('delete_after',)
+        params = {
+            k: kwargs.pop(k, None) for k in extensions
+        }
+
+        coro = self.send_file(destination, *args, **kwargs)
+        return self._augmented_msg(coro, **params)
 
     def type(self):
         """|coro|
@@ -329,6 +443,70 @@ class Bot(GroupMixin, discord.Client):
         """
         destination = _get_variable('_internal_channel')
         return self.send_typing(destination)
+
+    # global check registration
+
+    def check(self):
+        """A decorator that adds a global check to the bot.
+
+        A global check is similar to a :func:`check` that is applied
+        on a per command basis except it is run before any command checks
+        have been verified and applies to every command the bot has.
+
+        .. warning::
+
+            This function must be a *regular* function and not a coroutine.
+
+        Similar to a command :func:`check`\, this takes a single parameter
+        of type :class:`Context` and can only raise exceptions derived from
+        :exc:`CommandError`.
+
+        Example
+        ---------
+
+        .. code-block:: python
+
+            @bot.check
+            def whitelist(ctx):
+                return ctx.message.author.id in my_whitelist
+
+        """
+        def decorator(func):
+            self.add_check(func)
+            return func
+        return decorator
+
+    def add_check(self, func):
+        """Adds a global check to the bot.
+
+        This is the non-decorator interface to :meth:`check`.
+
+        Parameters
+        -----------
+        func
+            The function that was used as a global check.
+        """
+        self._checks.append(func)
+
+    def remove_check(self, func):
+        """Removes a global check from the bot.
+
+        This function is idempotent and will not raise an exception
+        if the function is not in the global checks.
+
+        Parameters
+        -----------
+        func
+            The function to remove from the global checks.
+        """
+
+        try:
+            self._checks.remove(func)
+        except ValueError:
+            pass
+
+    def can_run(self, ctx):
+        return all(f(ctx) for f in self._checks)
 
     # listener registration
 
@@ -430,6 +608,9 @@ class Bot(GroupMixin, discord.Client):
         They are meant as a way to organize multiple relevant commands
         into a singular class that shares some state or no state at all.
 
+        The cog can also have a ``__check`` member function that allows
+        you to define a global check. See :meth:`check` for more info.
+
         More information will be documented soon.
 
         Parameters
@@ -439,6 +620,14 @@ class Bot(GroupMixin, discord.Client):
         """
 
         self.cogs[type(cog).__name__] = cog
+
+        try:
+            check = getattr(cog, '_{.__class__.__name__}__check'.format(cog))
+        except AttributeError:
+            pass
+        else:
+            self.add_check(check)
+
         members = inspect.getmembers(cog)
         for name, member in members:
             # register commands the cog has
@@ -465,7 +654,7 @@ class Bot(GroupMixin, discord.Client):
         return self.cogs.get(name)
 
     def remove_cog(self, name):
-        """Removes a cog the bot.
+        """Removes a cog from the bot.
 
         All registered commands and event listeners that the
         cog has registered will be removed as well.
@@ -500,11 +689,20 @@ class Bot(GroupMixin, discord.Client):
             if name.startswith('on_'):
                 self.remove_listener(member)
 
-        unloader_name = '_{0.__class__.__name__}__unload'.format(cog)
         try:
-            getattr(cog, unloader_name)()
+            check = getattr(cog, '_{0.__class__.__name__}__check'.format(cog))
         except AttributeError:
             pass
+        else:
+            self.remove_check(check)
+
+        unloader_name = '_{0.__class__.__name__}__unload'.format(cog)
+        try:
+            unloader = getattr(cog, unloader_name)
+        except AttributeError:
+            pass
+        else:
+            unloader()
 
         del cog
 
@@ -586,7 +784,7 @@ class Bot(GroupMixin, discord.Client):
         _internal_author = message.author
 
         view = StringView(message.content)
-        if message.author == self.user:
+        if self._skip_check(message.author, self.user):
             return
 
         prefix = self._get_prefix(message)
@@ -599,6 +797,7 @@ class Bot(GroupMixin, discord.Client):
             invoked_prefix = discord.utils.find(view.skip_string, prefix)
             if invoked_prefix is None:
                 return
+
 
         invoker = view.get_word()
         tmp = {
@@ -614,10 +813,13 @@ class Bot(GroupMixin, discord.Client):
         if invoker in self.commands:
             command = self.commands[invoker]
             self.dispatch('command', command, ctx)
-            ctx.command = command
-            yield from command.invoke(ctx)
-            self.dispatch('command_completion', command, ctx)
-        else:
+            try:
+                yield from command.invoke(ctx)
+            except CommandError as e:
+                ctx.command.dispatch_error(e, ctx)
+            else:
+                self.dispatch('command_completion', command, ctx)
+        elif invoker:
             exc = CommandNotFound('Command "{}" is not found'.format(invoker))
             self.dispatch('command_error', exc, ctx)
 

@@ -55,12 +55,15 @@ class Role(Hashable):
         The name of the role.
     permissions : :class:`Permissions`
         Represents the role's permissions.
+    server : :class:`Server`
+        The server the role belongs to.
     colour : :class:`Colour`
         Represents the role colour. An alias exists under ``color``.
     hoist : bool
          Indicates if the role will be displayed separately from other members.
     position : int
-        The position of the role. This number is usually positive.
+        The position of the role. This number is usually positive. The bottom
+        role has a position of 0.
     managed : bool
         Indicates if the role is managed by the server through some form of
         integrations such as Twitch.
@@ -69,10 +72,10 @@ class Role(Hashable):
     """
 
     __slots__ = ['id', 'name', 'permissions', 'color', 'colour', 'position',
-                 'managed', 'mentionable', '_is_everyone', 'hoist']
+                 'managed', 'mentionable', 'hoist', 'server' ]
 
     def __init__(self, **kwargs):
-        self._is_everyone = kwargs.get('everyone', False)
+        self.server = kwargs.pop('server')
         self._update(**kwargs)
 
     def __str__(self):
@@ -88,13 +91,11 @@ class Role(Hashable):
         self.managed = kwargs.get('managed', False)
         self.mentionable = kwargs.get('mentionable', False)
         self.color = self.colour
-        if 'everyone' in kwargs:
-            self._is_everyone = kwargs['everyone']
 
     @property
     def is_everyone(self):
         """Checks if the role is the @everyone role."""
-        return self._is_everyone
+        return self.server.id == self.id
 
     @property
     def created_at(self):

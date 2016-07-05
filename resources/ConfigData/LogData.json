@@ -1,15 +1,11 @@
 {
     "On_Message_Logs": [
-        "Name=",
-        " ID=",
-        " Time=",
-        " Message=",
-        " Server=",
-        " Channel="
+        "Name={0} ID={1} Time={2} Message={3}\n",
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Message={5}\n"
     ],
     "On_Message_Edit_Logs": [
-        " Old Message=",
-        " New Message="
+        "Name={0} ID={1} Time={2} Old Message={3} New Message={4}\n",
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Old Message={5} New Message={6}\n"
     ],
     "On_Edit_Logs_Error": [
         "Not a PM, so there must me a error in the Server edit message logs code."
@@ -19,26 +15,25 @@
         "Data is the same. Will not log this info at this time. (Embeds)"
     ],
     "Send_On_Message_Logs": [
-        " (sent)"
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Message={5} (sent)\n"
     ],
     "Send_On_Message_Edit_Logs": [
-        " (edited)"
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Old Message={5} New Message={6} (edited)\n"
     ],
     "Send_On_Message_Delete_Logs": [
-        " (deleted)"
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Message={5} (deleted)"
     ],
     "Game_Logs": [
-        " set the game on bot to "
+        "Name={0} has set the game on bot to {1}. ({2})(PM)\n",
+        "Name={0} has set the game on bot to {1}. ({2})(Servers)\n"
     ],
     "Ban_Logs": [
-        " with a discriminator of ",
-        " has been banned from "
+        "{0} with a discriminator of {1} has been banned from the {2} server.\n"
     ],
     "Unban_Logs": [
-        " was unbanned from "
+        "{0} with a discriminator of {1} has been unbanned from the {2} server.\n"
     ],
     "Kick_Logs": [
-        " with a discriminator of ",
-        " was kicked from "
+        "{0} with a discriminator of {1} has been kicked from the {2} server.\n"
     ]
 }

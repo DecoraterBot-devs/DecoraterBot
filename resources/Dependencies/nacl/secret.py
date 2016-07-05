@@ -14,11 +14,8 @@
 # limitations under the License.
 
 from __future__ import absolute_import, division, print_function
-# noinspection PyPackageRequirements
 from nacl import encoding
-# noinspection PyPackageRequirements
 import nacl.bindings
-# noinspection PyPackageRequirements
 from nacl.utils import EncryptedMessage, StringFixer
 
 

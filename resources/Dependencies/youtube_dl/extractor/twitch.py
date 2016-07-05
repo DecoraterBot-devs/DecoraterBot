@@ -16,6 +16,7 @@ from ..compat import (
 from ..utils import (
     ExtractorError,
     int_or_none,
+    js_to_json,
     orderedSet,
     parse_duration,
     parse_iso8601,
@@ -171,6 +172,7 @@ class TwitchVideoIE(TwitchItemBaseIE):
             'title': 'Worlds Semifinals - Star Horn Royal Club vs. OMG',
         },
         'playlist_mincount': 12,
+        'skip': 'HTTP Error 404: Not Found',
     }
 
 
@@ -187,6 +189,7 @@ class TwitchChapterIE(TwitchItemBaseIE):
             'title': 'ACRL Off Season - Sports Cars @ Nordschleife',
         },
         'playlist_mincount': 3,
+        'skip': 'HTTP Error 404: Not Found',
     }, {
         'url': 'http://www.twitch.tv/tsm_theoddone/c/2349361',
         'only_matching': True,
@@ -258,7 +261,7 @@ class TwitchVodIE(TwitchItemBaseIE):
                     'nauth': access_token['token'],
                     'nauthsig': access_token['sig'],
                 })),
-            item_id, 'mp4')
+            item_id, 'mp4', entry_protocol='m3u8_native')
 
         self._prefer_source(formats)
         info['formats'] = formats
@@ -353,31 +356,6 @@ class TwitchPastBroadcastsIE(TwitchPlaylistBaseIE):
         },
         'playlist_mincount': 54,
     }
-
-
-class TwitchBookmarksIE(TwitchPlaylistBaseIE):
-    IE_NAME = 'twitch:bookmarks'
-    _VALID_URL = r'%s/(?P<id>[^/]+)/profile/bookmarks/?(?:\#.*)?$' % TwitchBaseIE._VALID_URL_BASE
-    _PLAYLIST_URL = '%s/api/bookmark/?user=%%s&offset=%%d&limit=%%d' % TwitchBaseIE._API_BASE
-    _PLAYLIST_TYPE = 'bookmarks'
-
-    _TEST = {
-        'url': 'http://www.twitch.tv/ognos/profile/bookmarks',
-        'info_dict': {
-            'id': 'ognos',
-            'title': 'Ognos',
-        },
-        'playlist_mincount': 3,
-    }
-
-    def _extract_playlist_page(self, response):
-        entries = []
-        for bookmark in response.get('bookmarks', []):
-            video = bookmark.get('video')
-            if not video:
-                continue
-            entries.append(video['url'])
-        return entries
 
 
 class TwitchStreamIE(TwitchBaseIE):
@@ -476,4 +454,46 @@ class TwitchStreamIE(TwitchBaseIE):
             'view_count': view_count,
             'formats': formats,
             'is_live': True,
+        }
+
+
+class TwitchClipsIE(InfoExtractor):
+    IE_NAME = 'twitch:clips'
+    _VALID_URL = r'https?://clips\.twitch\.tv/(?:[^/]+/)*(?P<id>[^/?#&]+)'
+
+    _TEST = {
+        'url': 'https://clips.twitch.tv/ea/AggressiveCobraPoooound',
+        'md5': '761769e1eafce0ffebfb4089cb3847cd',
+        'info_dict': {
+            'id': 'AggressiveCobraPoooound',
+            'ext': 'mp4',
+            'title': 'EA Play 2016 Live from the Novo Theatre',
+            'thumbnail': 're:^https?://.*\.jpg',
+            'creator': 'EA',
+            'uploader': 'stereotype_',
+            'uploader_id': 'stereotype_',
+        },
+    }
+
+    def _real_extract(self, url):
+        video_id = self._match_id(url)
+
+        webpage = self._download_webpage(url, video_id)
+
+        clip = self._parse_json(
+            self._search_regex(
+                r'(?s)clipInfo\s*=\s*({.+?});', webpage, 'clip info'),
+            video_id, transform_source=js_to_json)
+
+        video_url = clip['clip_video_url']
+        title = clip['channel_title']
+
+        return {
+            'id': video_id,
+            'url': video_url,
+            'title': title,
+            'thumbnail': self._og_search_thumbnail(webpage),
+            'creator': clip.get('broadcaster_display_name') or clip.get('broadcaster_login'),
+            'uploader': clip.get('curator_login'),
+            'uploader_id': clip.get('curator_display_name'),
         }

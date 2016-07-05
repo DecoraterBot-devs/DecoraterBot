@@ -53,11 +53,13 @@ ReadyState = namedtuple('ReadyState', ('launch', 'servers'))
 
 # noinspection PyAttributeOutsideInit,PyUnusedLocal,PyShadowingBuiltins
 class ConnectionState:
-    def __init__(self, dispatch, chunker, max_messages, *, loop):
+    def __init__(self, dispatch, chunker, syncer, max_messages, *, loop):
         self.loop = loop
         self.max_messages = max_messages
         self.dispatch = dispatch
         self.chunker = chunker
+        self.syncer = syncer
+        self.is_bot = None
         self._listeners = []
         self.clear()
 
@@ -110,6 +112,10 @@ class ConnectionState:
 
     def _remove_voice_client(self, guild_id):
         self._voice_clients.pop(guild_id, None)
+
+    def _update_references(self, ws):
+        for vc in self.voice_clients:
+            vc.main_ws = ws
 
     @property
     def servers(self):
@@ -165,8 +171,9 @@ class ConnectionState:
             launch.set()
             yield from asyncio.sleep(2)
 
-        # get all the chunks
         servers = self._ready_state.servers
+
+        # get all the chunks
         chunks = []
         for server in servers:
             chunks.extend(self.chunks_needed(server))
@@ -183,6 +190,10 @@ class ConnectionState:
         # remove the state
         del self._ready_state
 
+        # call GUILD_SYNC after we're done chunking
+        if not self.is_bot:
+            compat.create_task(self.syncer([s.id for s in self.servers]), loop=self.loop)
+
         # dispatch the event
         self.dispatch('ready')
 
@@ -194,7 +205,7 @@ class ConnectionState:
         servers = self._ready_state.servers
         for guild in guilds:
             server = self._add_server_from_data(guild)
-            if server.large:
+            if server.large or not self.is_bot:
                 servers.append(server)
 
         for pm in data.get('private_channels'):
@@ -202,6 +213,9 @@ class ConnectionState:
                                                      user=User(**pm['recipient'])))
 
         compat.create_task(self._delay_ready(), loop=self.loop)
+
+    def parse_resumed(self, data):
+        self.dispatch('resumed')
 
     def parse_message_create(self, data):
         channel = self.get_channel(data.get('channel_id'))
@@ -215,6 +229,13 @@ class ConnectionState:
         if found is not None:
             self.dispatch('message_delete', found)
             self.messages.remove(found)
+
+    def parse_message_delete_bulk(self, data):
+        message_ids = set(data.get('ids', []))
+        to_be_deleted = list(filter(lambda m: m.id in message_ids, self.messages))
+        for msg in to_be_deleted:
+            self.dispatch('message_delete', msg)
+            self.messages.remove(msg)
 
     def parse_message_update(self, data):
         message = self._get_message(data.get('id'))
@@ -424,6 +445,10 @@ class ConnectionState:
         else:
             self.dispatch('server_join', server)
 
+    def parse_guild_sync(self, data):
+        server = self._get_server(data.get('id'))
+        server._sync(data)
+
     def parse_guild_update(self, data):
         server = self._get_server(data.get('id'))
         if server is not None:
@@ -472,10 +497,9 @@ class ConnectionState:
     def parse_guild_role_create(self, data):
         server = self._get_server(data.get('guild_id'))
         role_data = data.get('role', {})
-        everyone = server.id == role_data.get('id')
-        role = Role(everyone=everyone, **role_data)
-        server.roles.append(role)
-        self.dispatch('server_role_create', server, role)
+        role = Role(server=server, **role_data)
+        server._add_role(role)
+        self.dispatch('server_role_create', role)
 
     def parse_guild_role_delete(self, data):
         server = self._get_server(data.get('guild_id'))
@@ -483,11 +507,11 @@ class ConnectionState:
             role_id = data.get('role_id')
             role = utils.find(lambda r: r.id == role_id, server.roles)
             try:
-                server.roles.remove(role)
+                server._remove_role(role)
             except ValueError:
                 return
             else:
-                self.dispatch('server_role_delete', server, role)
+                self.dispatch('server_role_delete', role)
 
     def parse_guild_role_update(self, data):
         server = self._get_server(data.get('guild_id'))

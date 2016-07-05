@@ -36,13 +36,13 @@ from .object import Object
 from .role import Role
 from .errors import *
 from .state import ConnectionState
-from .permissions import Permissions
-from . import utils
-from . import compat
+from .permissions import Permissions, PermissionOverwrite
+from . import utils, compat
 from .enums import ChannelType, ServerRegion
 from .voice_client import VoiceClient
 from .iterators import LogsFromIterator
 from .gateway import *
+from .http import HTTPClient
 
 import asyncio
 # noinspection PyPackageRequirements
@@ -50,22 +50,30 @@ import aiohttp
 # noinspection PyPackageRequirements
 import websockets
 
-import logging
-import traceback
-import sys
-import re
-import tempfile
-import os
-import hashlib
+import logging, traceback
+import sys, re, io
+import tempfile, os, hashlib
 import itertools
 import datetime
-from random import randint as random_integer
+from collections import namedtuple
+from os.path import split as path_split
 
 PY35 = sys.version_info >= (3, 5)
 log = logging.getLogger(__name__)
 request_logging_format = '{method} {response.url} has returned {response.status}'
 request_success_log = '{response.url} with {json} received {data}'
 
+AppInfo = namedtuple('AppInfo', 'id name description icon')
+def app_info_icon_url(self):
+    """Retrieves the application's icon_url if it exists. Empty string otherwise."""
+    if not self.icon:
+        return ''
+
+    return 'https://cdn.discordapp.com/app-icons/{0.id}/{0.icon}.jpg'.format(self)
+
+AppInfo.icon_url = property(app_info_icon_url)
+ChannelPermissions = namedtuple('ChannelPermissions', 'target overwrite')
+ChannelPermissions.__new__.__defaults__ = (PermissionOverwrite(),)
 
 # noinspection PyIncorrectDocstring,PyAttributeOutsideInit,PyUnusedLocal,PyShadowingBuiltins,PyPep8
 class Client:
@@ -95,6 +103,10 @@ class Client:
     connector : aiohttp.BaseConnector
         The `connector`_ to use for connection pooling. Useful for proxies, e.g.
         with a `ProxyConnector`_.
+    shard_id : Optional[int]
+        Integer starting at 0 and less than shard_count.
+    shard_count : Optional[int]
+        The total number of shards.
 
     Attributes
     -----------
@@ -123,55 +135,57 @@ class Client:
     """
     def __init__(self, *, loop=None, **options):
         self.ws = None
-        self.token = None
+        self.email = None
         self.loop = asyncio.get_event_loop() if loop is None else loop
         self._listeners = []
         self.cache_auth = options.get('cache_auth', True)
+        self.shard_id = options.get('shard_id')
+        self.shard_count = options.get('shard_count')
 
         max_messages = options.get('max_messages')
         if max_messages is None or max_messages < 100:
             max_messages = 5000
 
-        self.connection = ConnectionState(self.dispatch, self.request_offline_members, max_messages, loop=self.loop)
-
-        # Blame Jake for this
-        user_agent = 'DiscordBot (https://github.com/AraHaan/discord.py {0}) Python/{1[0]}.{1[1]} aiohttp/{2}'
-
-        self.headers = {
-            'content-type': 'application/json',
-            'user-agent': user_agent.format(library_version, sys.version_info, aiohttp.__version__)
-        }
+        self.connection = ConnectionState(self.dispatch, self.request_offline_members,
+                                          self._syncer, max_messages, loop=self.loop)
 
         connector = options.pop('connector', None)
-        self.session = aiohttp.ClientSession(loop=self.loop, connector=connector)
+        self.http = HTTPClient(connector, loop=self.loop)
 
         self._closed = asyncio.Event(loop=self.loop)
         self._is_logged_in = asyncio.Event(loop=self.loop)
         self._is_ready = asyncio.Event(loop=self.loop)
+        if VoiceClient.warn_nacl:
+            VoiceClient.warn_nacl = False
+            log.warning("PyNaCl is not installed, voice will NOT be supported")
+
 
     # internals
+
+    @asyncio.coroutine
+    def _syncer(self, guilds):
+        yield from self.ws.request_sync(guilds)
 
     def _get_cache_filename(self, email):
         filename = hashlib.md5(email.encode('utf-8')).hexdigest()
         return os.path.join(tempfile.gettempdir(), 'discord_py', filename)
 
     @asyncio.coroutine
-    def _login_via_cache(self, email, password):
+    def _get_cache_token(self, email, password):
         try:
             log.info('attempting to login via cache')
             cache_file = self._get_cache_filename(email)
             self.email = email
             with open(cache_file, 'r') as f:
                 log.info('login cache file found')
-                self.token = f.read()
-                self.headers['authorization'] = self.token
+                return f.read()
 
             # at this point our check failed
             # so we have to login and get the proper token and then
             # redo the cache
         except OSError:
             log.info('a problem occurred while opening login cache')
-            pass  # file not found et al
+            return None  # file not found et al
 
     def _update_cache(self, email, password):
         try:
@@ -179,7 +193,7 @@ class Client:
             os.makedirs(os.path.dirname(cache_file), exist_ok=True)
             with os.fdopen(os.open(cache_file, os.O_WRONLY | os.O_CREAT, 0o0600), 'w') as f:
                 log.info('updating login cache')
-                f.write(self.token)
+                f.write(self.http.token)
         except OSError:
             log.info('a problem occurred while updating the login cache')
             pass
@@ -219,20 +233,30 @@ class Client:
 
     @asyncio.coroutine
     def _resolve_destination(self, destination):
-        if isinstance(destination, (Channel, PrivateChannel, Server)):
-            return destination.id
+        if isinstance(destination, Channel):
+            return destination.id, destination.server.id
+        elif isinstance(destination, PrivateChannel):
+            return destination.id, None
+        elif isinstance(destination, Server):
+            return destination.id, destination.id
         elif isinstance(destination, User):
             found = self.connection._get_private_channel_by_user(destination.id)
             if found is None:
                 # Couldn't find the user, so start a PM with them first.
                 channel = yield from self.start_private_message(destination)
-                return channel.id
+                return channel.id, None
             else:
-                return found.id
+                return found.id, None
         elif isinstance(destination, Object):
-            return destination.id
+            found = self.get_channel(destination.id)
+            if found is not None:
+                return (yield from self._resolve_destination(found))
+
+            # couldn't find it in cache so YOLO
+            return destination.id, destination.id
         else:
-            raise InvalidArgument('Destination must be Channel, PrivateChannel, User, or Object')
+            fmt = 'Destination must be Channel, PrivateChannel, User, or Object. Received {0.__class__.__name__}'
+            raise InvalidArgument(fmt.format(destination))
 
     def __getattr__(self, name):
         if name in ('user', 'servers', 'private_channels', 'messages', 'voice_clients'):
@@ -309,9 +333,15 @@ class Client:
         """
 
         # attempt to read the token from cache
+        self.connection.is_bot = False
         if self.cache_auth:
-            yield from self._login_via_cache(email, password)
-            if self.is_logged_in:
+            token = self._get_cache_token(email, password)
+            try:
+                yield from self.http.static_login(token, bot=False)
+            except:
+                log.info('cache auth token is out of date')
+            else:
+                self._is_logged_in.set()
                 return
 
         payload = {
@@ -319,25 +349,9 @@ class Client:
             'password': password
         }
 
-        data = utils.to_json(payload)
-        resp = yield from self.session.post(endpoints.LOGIN, data=data, headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=resp))
-        if resp.status != 200:
-            yield from resp.release()
-            if resp.status == 400:
-                self.session.close()
-                raise LoginFailure('Improper credentials have been passed.')
-            else:
-                self.session.close()
-                raise HTTPException(resp, None)
 
-        log.info('logging in returned status code {}'.format(resp.status))
+        yield from self.http.email_login(email, password)
         self.email = email
-
-        body = yield from resp.json(encoding='utf-8')
-        self.token = body['token']
-        # print('Token: ' + str(self.token))
-        self.headers['authorization'] = self.token
         self._is_logged_in.set()
 
         # since we went through all this trouble
@@ -349,12 +363,10 @@ class Client:
     def logout(self):
         """|coro|
 
-        Logs out of Discord and closes all connections."""
-        response = yield from self.session.post(endpoints.LOGOUT, headers=self.headers)
-        yield from response.release()
+        Logs out of Discord and closes all connections.
+        """
         yield from self.close()
         self._is_logged_in.clear()
-        log.debug(request_logging_format.format(method='POST', response=response))
 
     @asyncio.coroutine
     def connect(self):
@@ -376,12 +388,17 @@ class Client:
         while not self.is_closed:
             try:
                 yield from self.ws.poll_event()
-            except ReconnectWebSocket:
-                log.info('Reconnecting the websocket.')
-                self.ws = yield from DiscordWebSocket.from_client(self)
+            except (ReconnectWebSocket, ResumeWebSocket) as e:
+                resume = type(e) is ResumeWebSocket
+                log.info('Got ' + type(e).__name__)
+                self.ws = yield from DiscordWebSocket.from_client(self, resume=resume)
             except ConnectionClosed as e:
                 yield from self.close()
-                if e.code != 1000:
+                if e.code == 1001:
+                    print("Voice Websocket might have tried to clos main Websocket.")
+                    # lets try to recurse.
+                    yield from self.connect()
+                elif e.code != 1000:
                     raise
 
     @asyncio.coroutine
@@ -405,25 +422,16 @@ class Client:
         if self.ws is not None and self.ws.open:
             yield from self.ws.close()
 
-        yield from self.session.close()
+        yield from self.http.close()
         self._closed.set()
         self._is_ready.clear()
 
     @asyncio.coroutine
     def login_bot(self, token):
-        self.token = token
-        self.headers['authorization'] = 'Bot {}'.format(self.token)
-        resp = yield from self.session.get(endpoints.ME, headers=self.headers)
-        yield from resp.release()
-        log.debug(request_logging_format.format(method='GET', response=resp))
-
-        if resp.status != 200:
-            if resp.status == 401:
-                raise InvalidToken('Invalid token has been passed.')
-            else:
-                raise HTTPException(resp, None)
-
-        log.info('token auth returned status code {}'.format(resp.status))
+        token = token
+        is_bot = True
+        yield from self.http.static_login(token, bot=is_bot)
+        self.connection.is_bot = is_bot
         self._is_logged_in.set()
 
     @asyncio.coroutine
@@ -622,7 +630,7 @@ class Client:
 
             @client.async_event
             def on_message(message):
-                if message.content.startswith('$greet')
+                if message.content.startswith('$greet'):
                     yield from client.send_message(message.channel, 'Say hello')
                     msg = yield from client.wait_for_message(author=message.author, content='hello')
                     yield from client.send_message(message.channel, 'Hello.')
@@ -634,7 +642,7 @@ class Client:
 
             @client.async_event
             def on_message(message):
-                if message.content.startswith('$start')
+                if message.content.startswith('$start'):
                     yield from client.send_message(message.channel, 'Type $stop 4 times.')
                     for i in range(4):
                         msg = yield from client.wait_for_message(author=message.author, content='$stop')
@@ -777,42 +785,10 @@ class Client:
         if not isinstance(user, User):
             raise InvalidArgument('user argument must be a User')
 
-        payload = {
-            'recipient_id': user.id
-        }
-
-        url = '{}/channels'.format(endpoints.ME)
-        r = yield from self.session.post(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=r))
-        yield from utils._verify_successful_response(r)
-        data = yield from r.json(encoding='utf-8')
-        log.debug(request_success_log.format(response=r, json=payload, data=data))
+        data = yield from self.http.start_private_message(user.id)
         channel = PrivateChannel(id=data['id'], user=user)
         self.connection._add_private_channel(channel)
         return channel
-
-    @asyncio.coroutine
-    def _retry_helper(self, name, *args, retries=0, **kwargs):
-        req_kwargs = {'headers': self.headers}
-        req_kwargs.update(kwargs)
-        resp = yield from self.session.request(*args, **req_kwargs)
-        tmp = request_logging_format.format(method=resp.method, response=resp)
-        log_fmt = 'In {}, {}'.format(name, tmp)
-        log.debug(log_fmt)
-
-        if resp.status == 502 and retries < 5:
-            # retry the 502 request unconditionally
-            log.info('Retrying the 502 request to ' + name)
-            yield from asyncio.sleep(retries + 1)
-            return (yield from self._retry_helper(name, *args, retries=retries + 1, **kwargs))
-
-        if resp.status == 429:
-            retry = float(resp.headers['Retry-After']) / 1000.0
-            yield from resp.release()
-            yield from asyncio.sleep(retry)
-            return (yield from self._retry_helper(name, *args, retries=retries, **kwargs))
-
-        return resp
 
     @asyncio.coroutine
     def send_message(self, destination, content, *, tts=False):
@@ -861,23 +837,11 @@ class Client:
             The message that was sent.
         """
 
-        channel_id = yield from self._resolve_destination(destination)
+        channel_id, guild_id = yield from self._resolve_destination(destination)
 
         content = str(content)
 
-        url = '{base}/{id}/messages'.format(base=endpoints.CHANNELS, id=channel_id)
-        payload = {
-            'content': content,
-            'nonce': random_integer(-2**63, 2**63 - 1)
-        }
-
-        if tts:
-            payload['tts'] = True
-
-        resp = yield from self._retry_helper('send_message', 'POST', url, data=utils.to_json(payload))
-        yield from utils._verify_successful_response(resp)
-        data = yield from resp.json(encoding='utf-8')
-        log.debug(request_success_log.format(response=resp, json=payload, data=data))
+        data = yield from self.http.send_message(channel_id, content, guild_id=guild_id, tts=tts)
         channel = self.get_channel(data.get('channel_id'))
         message = Message(channel=channel, **data)
         return message
@@ -898,14 +862,8 @@ class Client:
             The location to send the typing update.
         """
 
-        channel_id = yield from self._resolve_destination(destination)
-
-        url = '{base}/{id}/typing'.format(base=endpoints.CHANNELS, id=channel_id)
-
-        response = yield from self.session.post(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        channel_id, guild_id = yield from self._resolve_destination(destination)
+        yield from self.http.send_typing(channel_id)
 
     @asyncio.coroutine
     def send_file(self, destination, fp, *, filename=None, content=None, tts=False):
@@ -954,34 +912,19 @@ class Client:
             The message sent.
         """
 
-        channel_id = yield from self._resolve_destination(destination)
-
-        url = '{base}/{id}/messages'.format(base=endpoints.CHANNELS, id=channel_id)
-        form = aiohttp.FormData()
-
-        if content is not None:
-            form.add_field('content', str(content))
-
-        form.add_field('tts', 'true' if tts else 'false')
-
-        # we don't want the content-type json in this request
-        headers = self.headers.copy()
-        headers.pop('content-type', None)
+        channel_id, guild_id = yield from self._resolve_destination(destination)
 
         try:
-            # attempt to open the file and send the request
-            with open(fp, 'rb') as f:
-                form.add_field('file', f, filename=filename, content_type='application/octet-stream')
-                response = yield from self._retry_helper("send_file", "POST", url, data=form, headers=headers)
-        except TypeError:
-            form.add_field('file', fp, filename=filename, content_type='application/octet-stream')
-            response = yield from self._retry_helper("send_file", "POST", url, data=form, headers=headers)
 
-        log.debug(request_logging_format.format(method='POST', response=response))
-        yield from utils._verify_successful_response(response)
-        data = yield from response.json(encoding='utf-8')
-        msg = 'POST {0.url} returned {0.status} with {1} response'
-        log.debug(msg.format(response, data))
+            with open(fp, 'rb') as f:
+                buffer = io.BytesIO(f.read())
+                if filename is None:
+                    _, filename = path_split(fp)
+        except TypeError:
+            buffer = fp
+
+        data = yield from self.http.send_file(channel_id, buffer, guild_id=guild_id,
+                                              filename=filename, content=content, tts=tts)
         channel = self.get_channel(data.get('channel_id'))
         message = Message(channel=channel, **data)
         return message
@@ -1008,15 +951,9 @@ class Client:
             Deleting the message failed.
         """
 
-        url = '{}/{}/messages/{}'.format(endpoints.CHANNELS, message.channel.id, message.id)
-        resp = yield from self._retry_helper('delete_message', 'DELETE', url, data=None)
-        # response = yield from self.session.delete(url, headers=self.headers)
-        # log.debug(request_logging_format.format(method='DELETE', response=response))
-        log.debug(request_logging_format.format(method='DELETE', response=resp))
-        # yield from utils._verify_successful_response(response)
-        yield from utils._verify_successful_response(resp)
-        # yield from response.release()
-        yield from resp.release()
+        channel = message.channel
+        guild_id = channel.server.id if not getattr(channel, 'is_private', True) else None
+        yield from self.http.delete_message(channel.id, message.id, guild_id)
 
     @asyncio.coroutine
     def delete_messages(self, messages):
@@ -1047,21 +984,14 @@ class Client:
         HTTPException
             Deleting the messages failed.
         """
-
         messages = list(messages)
         if len(messages) > 100 or len(messages) < 2:
             raise ClientException('Can only delete messages in the range of [2, 100]')
 
-        channel_id = messages[0].channel.id
-        url = '{0}/{1}/messages/bulk_delete'.format(endpoints.CHANNELS, channel_id)
-        payload = {
-            'messages': [m.id for m in messages]
-        }
-
-        response = yield from self.session.post(url, headers=self.headers, data=utils.to_json(payload))
-        log.debug(request_logging_format.format(method='POST', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        channel = messages[0].channel
+        message_ids = [m.id for m in messages]
+        guild_id = channel.server.id if not getattr(channel, 'is_private', True) else None
+        yield from self.http.delete_messages(channel.id, message_ids, guild_id)
 
     @asyncio.coroutine
     def purge_from(self, channel, *, limit=100, check=None, before=None, after=None):
@@ -1138,16 +1068,16 @@ class Client:
                     yield from self.delete_message(ret[-1])
 
                 return ret
-            else:
-                if count == 100:
-                    # we've reached a full 'queue'
-                    to_delete = ret[-100:]
-                    yield from self.delete_messages(to_delete)
-                    count = 0
-                    yield from asyncio.sleep(1)
-                if check(msg):
-                    count += 1
-                    ret.append(msg)
+        else:
+            if count == 100:
+                # we've reached a full 'queue'
+                to_delete = ret[-100:]
+                yield from self.delete_messages(to_delete)
+                count = 0
+                yield from asyncio.sleep(1)
+            if check(msg):
+                count += 1
+                ret.append(msg)
 
     @asyncio.coroutine
     def edit_message(self, message, new_content):
@@ -1177,20 +1107,113 @@ class Client:
 
         channel = message.channel
         content = str(new_content)
-
-        url = '{}/{}/messages/{}'.format(endpoints.CHANNELS, channel.id, message.id)
-        payload = {
-            'content': content
-        }
-
-        response = yield from self._retry_helper('edit_message', 'PATCH', url, data=utils.to_json(payload))
-        log.debug(request_logging_format.format(method='PATCH', response=response))
-        yield from utils._verify_successful_response(response)
-        data = yield from response.json(encoding='utf-8')
-        log.debug(request_success_log.format(response=response, json=payload, data=data))
+        guild_id = channel.server.id if not getattr(channel, 'is_private', True) else None
+        data = yield from self.http.edit_message(message.id, channel.id, content, guild_id=guild_id)
         return Message(channel=channel, **data)
 
     @asyncio.coroutine
+    def get_message(self, channel, id):
+        """|coro|
+
+        Retrieves a single :class:`Message` from a :class:`Channel`.
+
+        This can only be used by bot accounts.
+
+        Parameters
+        ------------
+        channel: :class:`Channel`
+            The text channel to retrieve the message from.
+        id: str
+            The message ID to look for.
+
+        Returns
+        --------
+        :class:`Message`
+            The message asked for.
+
+        Raises
+        --------
+        NotFound
+            The specified channel or message was not found.
+        Forbidden
+            You do not have the permissions required to get a message.
+        HTTPException
+            Retrieving the message failed.
+        """
+
+        data = yield from self.http.get_message(channel.id, id)
+        return Message(channel=channel, **data)
+
+    @asyncio.coroutine
+    def pin_message(self, message):
+        """|coro|
+
+        Pins a message. You must have Manage Messages permissions
+        to do this in a non-private channel context.
+
+        Parameters
+        -----------
+        message: :class:`Message`
+            The message to pin.
+
+        Raises
+        -------
+        Forbidden
+            You do not have permissions to pin the message.
+        NotFound
+            The message or channel was not found.
+        HTTPException
+            Pinning the message failed, probably due to the channel
+            having more than 50 pinned messages.
+        """
+        yield from self.http.pin_message(message.channel.id, message.id)
+
+    @asyncio.coroutine
+    def unpin_message(self, message):
+        """|coro|
+
+        Unpins a message. You must have Manage Messages permissions
+        to do this in a non-private channel context.
+
+        Parameters
+        -----------
+        message: :class:`Message`
+            The message to unpin.
+
+        Raises
+        -------
+        Forbidden
+            You do not have permissions to unpin the message.
+        NotFound
+            The message or channel was not found.
+        HTTPException
+            Unpinning the message failed.
+        """
+        yield from self.http.unpin_message(message.channel.id, message.id)
+
+    @asyncio.coroutine
+    def pins_from(self, channel):
+        """|coro|
+
+        Returns a list of :class:`Message` that are currently pinned for
+        the specified :class:`Channel` or :class:`PrivateChannel`.
+
+        Parameters
+        -----------
+        channel: :class:`Channel` or :class:`PrivateChannel`
+            The channel to look through pins for.
+
+        Raises
+        -------
+        NotFound
+            The channel was not found.
+        HTTPException
+            Retrieving the pinned messages failed.
+        """
+
+        data = yield from self.http.pins_from(channel.id)
+        return [Message(channel=channel, **m) for m in data]
+
     def _logs_from(self, channel, limit=100, before=None, after=None):
         """|coro|
 
@@ -1198,7 +1221,7 @@ class Client:
 
         Parameters
         -----------
-        channel : :class:`Channel`
+        channel : :class:`Channel` or :class:`PrivateChannel`
             The channel to obtain the logs from.
         limit : int
             The number of messages to retrieve.
@@ -1241,21 +1264,10 @@ class Client:
                 if message.author == client.user:
                     counter += 1
         """
-        url = '{}/{}/messages'.format(endpoints.CHANNELS, channel.id)
-        params = {
-            'limit': limit
-        }
+        before = getattr(before, 'id', None)
+        after  = getattr(after, 'id', None)
 
-        if before:
-            params['before'] = before.id
-        if after:
-            params['after'] = after.id
-
-        response = yield from self.session.get(url, params=params, headers=self.headers)
-        log.debug(request_logging_format.format(method='GET', response=response))
-        yield from utils._verify_successful_response(response)
-        messages = yield from response.json(encoding='utf-8')
-        return messages
+        return self.http.logs_from(channel.id, limit, before=before, after=after)
 
     if PY35:
         def logs_from(self, channel, limit=100, *, before=None, after=None, reverse=False):
@@ -1355,12 +1367,7 @@ class Client:
         HTTPException
             Kicking failed.
         """
-
-        url = '{0}/{1.server.id}/members/{1.id}'.format(endpoints.SERVERS, member)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.kick(member.id, member.server.id)
 
     @asyncio.coroutine
     def ban(self, member, delete_message_days=1):
@@ -1389,16 +1396,7 @@ class Client:
         HTTPException
             Banning failed.
         """
-
-        params = {
-            'delete-message-days': delete_message_days
-        }
-
-        url = '{0}/{1.server.id}/bans/{1.id}'.format(endpoints.SERVERS, member)
-        response = yield from self.session.put(url, params=params, headers=self.headers)
-        log.debug(request_logging_format.format(method='PUT', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.ban(member.id, member.server.id, delete_message_days)
 
     @asyncio.coroutine
     def unban(self, server, user):
@@ -1420,15 +1418,10 @@ class Client:
         HTTPException
             Unbanning failed.
         """
-
-        url = '{0}/{1.id}/bans/{2.id}'.format(endpoints.SERVERS, server, user)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.unban(user.id, server.id)
 
     @asyncio.coroutine
-    def server_voice_state(self, member, *, mute=False, deafen=False):
+    def server_voice_state(self, member, *, mute=None, deafen=None):
         """|coro|
 
         Server mutes or deafens a specific :class:`Member`.
@@ -1443,9 +1436,9 @@ class Client:
         -----------
         member : :class:`Member`
             The member to unban from their server.
-        mute : bool
+        mute: Optional[bool]
             Indicates if the member should be server muted or un-muted.
-        deafen : bool
+        deafen: Optional[bool]
             Indicates if the member should be server deafened or un-deafened.
 
         Raises
@@ -1455,17 +1448,7 @@ class Client:
         HTTPException
             The operation failed.
         """
-
-        url = '{0}/{1.server.id}/members/{1.id}'.format(endpoints.SERVERS, member)
-        payload = {
-            'mute': mute,
-            'deaf': deafen
-        }
-
-        response = yield from self.session.patch(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.server_voice_state(member.id, member.server.id, mute=mute, deafen=deafen)
 
     @asyncio.coroutine
     def edit_profile(self, password=None, **fields):
@@ -1526,29 +1509,24 @@ class Client:
         if not_bot_account and password is None:
             raise ClientException('Password is required for non-bot accounts.')
 
-        payload = {
+        args = {
             'password': password,
             'username': fields.get('username', self.user.name),
             'avatar': avatar
         }
 
         if not_bot_account:
-            payload['email'] = fields.get('email', self.email)
+            args['email'] = fields.get('email', self.email)
 
             if 'new_password' in fields:
-                payload['new_password'] = fields['new_password']
+                args['new_password'] = fields['new_password']
 
-        r = yield from self.session.patch(endpoints.ME, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=r))
-        yield from utils._verify_successful_response(r)
 
-        data = yield from r.json(encoding='utf-8')
-        log.debug(request_success_log.format(response=r, json=payload, data=data))
-
+        data = yield from self.http.edit_profile(**args)
         if not_bot_account:
-            self.token = data['token']
             self.email = data['email']
-            self.headers['authorization'] = self.token
+            if 'token' in data:
+                self.http._token(data['token'], bot=False)
 
             if self.cache_auth:
                 self._update_cache(self.email, password)
@@ -1606,24 +1584,12 @@ class Client:
             Changing the nickname failed.
         """
 
+        nickname = nickname if nickname else ''
+
         if member == self.user:
-            fmt = '{0}/{1.server.id}/members/@me/nick'
+            yield from self.http.change_my_nickname(member.server.id, nickname)
         else:
-            fmt = '{0}/{1.server.id}/members/{1.id}'
-
-        url = fmt.format(endpoints.SERVERS, member)
-
-        payload = {
-            # oddly enough, this endpoint requires '' to clear the nickname
-            # instead of the more consistent 'null', this might change in the
-            # future, or not.
-            'nick': nickname if nickname else ''
-        }
-
-        r = yield from self.session.patch(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=r))
-        yield from utils._verify_successful_response(r)
-        yield from r.release()
+            yield from self.http.change_nickname(member.server.id, member.id, nickname)
 
     # Channel management
 
@@ -1635,6 +1601,8 @@ class Client:
 
         You must have the proper permissions to edit the channel.
 
+        To move the channel's position use :meth:`move_channel` instead.
+
         The channel is **not** edited in-place.
 
         Parameters
@@ -1643,8 +1611,6 @@ class Client:
             The channel to update.
         name : str
             The new channel name.
-        position : int
-            The new channel's position in the GUI.
         topic : str
             The new channel's topic.
         bitrate : int
@@ -1660,35 +1626,108 @@ class Client:
             Editing the channel failed.
         """
 
-        url = '{0}/{1.id}'.format(endpoints.CHANNELS, channel)
-        payload = {
-            'name': options.get('name', channel.name),
-            'topic': options.get('topic', channel.topic),
-            'position': options.get('position', channel.position),
-        }
+        keys = ('name', 'topic', 'position')
+        for key in keys:
+            if key not in options:
+                options[key] = getattr(channel, key)
 
-        user_limit = options.get('user_limit')
-        if user_limit is not None:
-            payload['user_limit'] = user_limit
-
-        bitrate = options.get('bitrate')
-        if bitrate is not None:
-            payload['bitrate'] = bitrate
-
-        r = yield from self.session.patch(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=r))
-        yield from utils._verify_successful_response(r)
-
-        data = yield from r.json(encoding='utf-8')
-        log.debug(request_success_log.format(response=r, json=payload, data=data))
+        yield from self.http.edit_channel(channel.id, **options)
 
     @asyncio.coroutine
-    def create_channel(self, server, name, type=None):
+    def move_channel(self, channel, position):
+        """|coro|
+
+        Moves the specified :class:`Channel` to the given position in the GUI.
+        Note that voice channels and text channels have different position values.
+
+        This does **not** edit the channel ordering in place.
+
+        .. warning::
+
+            :class:`Object` instances do not work with this function.
+
+        Parameters
+        -----------
+        channel : :class:`Channel`
+            The channel to change positions of.
+        position : int
+            The position to insert the channel to.
+
+        Raises
+        -------
+        InvalidArgument
+            If position is less than 0 or greater than the number of channels.
+        Forbidden
+            You do not have permissions to change channel order.
+        HTTPException
+            If moving the channel failed, or you are of too low rank to move the channel.
+        """
+
+        if position < 0:
+            raise InvalidArgument('Channel position cannot be less than 0.')
+
+        url = '{0}/{1.server.id}/channels'.format(endpoints.SERVERS, channel)
+        channels = [c for c in channel.server.channels if c.type is channel.type]
+
+        if position >= len(channels):
+            raise InvalidArgument('Channel position cannot be greater than {}'.format(len(channels) - 1))
+
+        channels.sort(key=lambda c: c.position)
+
+        try:
+            # remove ourselves from the channel list
+            channels.remove(channel)
+        except ValueError:
+            # not there somehow lol
+            return
+        else:
+            # add ourselves at our designated position
+            channels.insert(position, channel)
+
+        payload = [{'id': c.id, 'position': index } for index, c in enumerate(channels)]
+        yield from self.http.patch(url, json=payload, bucket='move_channel')
+
+    @asyncio.coroutine
+    def create_channel(self, server, name, *overwrites, type=None):
         """|coro|
 
         Creates a :class:`Channel` in the specified :class:`Server`.
 
         Note that you need the proper permissions to create the channel.
+
+        The ``overwrites`` argument list can be used to create a 'secret'
+        channel upon creation. A namedtuple of :class:`ChannelPermissions`
+        is exposed to create a channel-specific permission overwrite in a more
+        self-documenting matter. You can also use a regular tuple of ``(target, overwrite)``
+        where the ``overwrite`` expected has to be of type :class:`PermissionOverwrite`.
+
+        Examples
+        ----------
+
+        Creating a voice channel:
+
+        .. code-block:: python
+
+            await client.create_channel(server, 'Voice', type=discord.ChannelType.voice)
+
+        Creating a 'secret' text channel:
+
+        .. code-block:: python
+
+            everyone_perms = discord.PermissionOverwrite(read_messages=False)
+            my_perms = discord.PermissionOverwrite(read_messages=True)
+
+            everyone = discord.ChannelPermissions(target=server.default_role, overwrite=everyone_perms)
+            mine = discord.ChannelPermissions(target=server.me, overwrite=my_perms)
+            await client.create_channel(server, 'secret', everyone, mine)
+
+        Or in a more 'compact' way:
+
+        .. code-block:: python
+
+            everyone = discord.PermissionOverwrite(read_messages=False)
+            mine = discord.PermissionOverwrite(read_messages=True)
+            await client.create_channel(server, 'secret', (server.default_role, everyone), (server.me, mine))
 
         Parameters
         -----------
@@ -1698,6 +1737,9 @@ class Client:
             The channel's name.
         type : :class:`ChannelType`
             The type of channel to create. Defaults to :attr:`ChannelType.text`.
+        overwrites:
+            An argument list of channel specific overwrites to apply on the channel on
+            creation. Useful for creating 'secret' channels.
 
         Raises
         -------
@@ -1707,6 +1749,8 @@ class Client:
             The server specified was not found.
         HTTPException
             Creating the channel failed.
+        InvalidArgument
+            The permission overwrite array is not in proper form.
 
         Returns
         -------
@@ -1718,18 +1762,30 @@ class Client:
         if type is None:
             type = ChannelType.text
 
-        payload = {
-            'name': name,
-            'type': str(type)
-        }
+        perms = []
+        for overwrite in overwrites:
+            target = overwrite[0]
+            perm = overwrite[1]
+            if not isinstance(perm, PermissionOverwrite):
+                raise InvalidArgument('Expected PermissionOverwrite received {0.__name__}'.format(type(perm)))
 
-        url = '{0}/{1.id}/channels'.format(endpoints.SERVERS, server)
-        response = yield from self.session.post(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=response))
-        yield from utils._verify_successful_response(response)
+            allow, deny = perm.pair()
+            payload = {
+                'allow': allow.value,
+                'deny': deny.value,
+                'id': target.id
+            }
 
-        data = yield from response.json(encoding='utf-8')
-        log.debug(request_success_log.format(response=response, data=data, json=payload))
+            if isinstance(target, User):
+                payload['type'] = 'member'
+            elif isinstance(target, Role):
+                payload['type'] = 'role'
+            else:
+                raise InvalidArgument('Expected Role, User, or Member target, received {0.__name__}'.format(type(target)))
+
+            perms.append(payload)
+
+        data = yield from self.http.create_channel(server.id, name, str(type), permission_overwrites=perms)
         channel = Channel(server=server, **data)
         return channel
 
@@ -1756,12 +1812,7 @@ class Client:
         HTTPException
             Deleting the channel failed.
         """
-
-        url = '{}/{}'.format(endpoints.CHANNELS, channel.id)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.delete_channel(channel.id)
 
     # Server management
 
@@ -1786,12 +1837,7 @@ class Client:
         HTTPException
             If leaving the server failed.
         """
-
-        url = '{}/@me/guilds/{.id}'.format(endpoints.USERS, server)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.leave_server(server.id)
 
     @asyncio.coroutine
     def delete_server(self, server):
@@ -1813,11 +1859,7 @@ class Client:
             You do not have permissions to delete the server.
         """
 
-        url = '{0}/{1.id}'.format(endpoints.SERVERS, server)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.delete_server(server.id)
 
     @asyncio.coroutine
     def create_server(self, name, region=None, icon=None):
@@ -1857,17 +1899,7 @@ class Client:
         else:
             region = region.name
 
-        payload = {
-            'icon': icon,
-            'name': name,
-            'region': region
-        }
-
-        r = yield from self.session.post(endpoints.SERVERS, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=r))
-        yield from utils._verify_successful_response(r)
-        data = yield from r.json(encoding='utf-8')
-        log.debug(request_success_log.format(response=r, json=payload, data=data))
+        data = yield from self.http.create_server(name, region, icon)
         return Server(**data)
 
     @asyncio.coroutine
@@ -1923,30 +1955,18 @@ class Client:
             else:
                 icon = None
 
-        payload = {
-            'region': str(fields.get('region', server.region)),
-            'afk_timeout': fields.get('afk_timeout', server.afk_timeout),
-            'icon': icon,
-            'name': fields.get('name', server.name),
-        }
-
-        afk_channel = fields.get('afk_channel')
-        if afk_channel is None:
-            afk_channel = server.afk_channel
-
-        payload['afk_channel'] = getattr(afk_channel, 'id', None)
+        fields['icon'] = icon
+        if 'afk_channel' in fields:
+            fields['afk_channel_id'] = fields['afk_channel'].id
 
         if 'owner' in fields:
             if server.owner != server.me:
                 raise InvalidArgument('To transfer ownership you must be the owner of the server.')
 
-            payload['owner_id'] = fields['owner'].id
+            fields['owner_id'] = fields['owner'].id
 
-        url = '{0}/{1.id}'.format(endpoints.SERVERS, server)
-        r = yield from self.session.patch(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=r))
-        yield from utils._verify_successful_response(r)
-        yield from r.release()
+        yield from self.http.edit_server(server.id, **fields)
+
 
     @asyncio.coroutine
     def get_bans(self, server):
@@ -1975,11 +1995,7 @@ class Client:
             A list of :class:`User` that have been banned.
         """
 
-        url = '{0}/{1.id}/bans'.format(endpoints.SERVERS, server)
-        resp = yield from self.session.get(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='GET', response=resp))
-        yield from utils._verify_successful_response(resp)
-        data = yield from resp.json(encoding='utf-8')
+        data = yield from self.http.get_bans(server.id)
         return [User(**user['user']) for user in data]
 
     # Invite management
@@ -2031,20 +2047,7 @@ class Client:
             The invite that was created.
         """
 
-        payload = {
-            'max_age': options.get('max_age', 0),
-            'max_uses': options.get('max_uses', 0),
-            'temporary': options.get('temporary', False),
-            'xkcdpass': options.get('xkcd', False)
-        }
-
-        url = '{0}/{1.id}/invites'.format(endpoints.CHANNELS, destination)
-        response = yield from self.session.post(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=response))
-
-        yield from utils._verify_successful_response(response)
-        data = yield from response.json(encoding='utf-8')
-        log.debug(request_success_log.format(json=payload, response=response, data=data))
+        data = yield from self.http.create_invite(destination.id, **options)
         self._fill_invite_data(data)
         return Invite(**data)
 
@@ -2078,12 +2081,8 @@ class Client:
             The invite from the URL/ID.
         """
 
-        destination = self._resolve_invite(url)
-        rurl = '{0}/invite/{1}'.format(endpoints.API_BASE, destination)
-        response = yield from self.session.get(rurl, headers=self.headers)
-        log.debug(request_logging_format.format(method='GET', response=response))
-        yield from utils._verify_successful_response(response)
-        data = yield from response.json(encoding='utf-8')
+        invite_id = self._resolve_invite(url)
+        data = yield from self.http.get_invite(invite_id)
         self._fill_invite_data(data)
         return Invite(**data)
 
@@ -2113,11 +2112,7 @@ class Client:
             The list of invites that are currently active.
         """
 
-        url = '{0}/{1.id}/invites'.format(endpoints.SERVERS, server)
-        resp = yield from self.session.get(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='GET', response=resp))
-        yield from utils._verify_successful_response(resp)
-        data = yield from resp.json(encoding='utf-8')
+        data = yield from self.http.invites_from(server.id)
         result = []
         for invite in data:
             channel = server.get_channel(invite['channel']['id'])
@@ -2147,14 +2142,12 @@ class Client:
             Accepting the invite failed.
         NotFound
             The invite is invalid or expired.
+        Forbidden
+            You are a bot user and cannot use this endpoint.
         """
 
-        destination = self._resolve_invite(invite)
-        url = '{0}/invite/{1}'.format(endpoints.API_BASE, destination)
-        response = yield from self.session.post(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        invite_id = self._resolve_invite(invite)
+        yield from self.http.accept_invite(invite_id)
 
     @asyncio.coroutine
     def delete_invite(self, invite):
@@ -2180,12 +2173,8 @@ class Client:
             Revoking the invite failed.
         """
 
-        destination = self._resolve_invite(invite)
-        url = '{0}/invite/{1}'.format(endpoints.API_BASE, destination)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        invite_id = self._resolve_invite(invite)
+        yield from self.http.delete_invite(invite_id)
 
     # Role management
 
@@ -2237,13 +2226,7 @@ class Client:
             roles.append(role.id)
 
         payload = [{"id": z[0], "position": z[1]} for z in zip(roles, change_range)]
-
-        r = yield from self.session.patch(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=r))
-        yield from utils._verify_successful_response(r)
-
-        data = yield from r.json()
-        log.debug(request_success_log.format(json=payload, response=r, data=data))
+        yield from self.http.patch(url, json=payload, bucket='move_role')
 
     @asyncio.coroutine
     def edit_role(self, server, role, **fields):
@@ -2284,25 +2267,19 @@ class Client:
             Editing the role failed.
         """
 
-        url = '{0}/{1.id}/roles/{2.id}'.format(endpoints.SERVERS, server, role)
-        color = fields.get('color')
-        if color is None:
-            color = fields.get('colour', role.colour)
+        colour = fields.get('colour')
+        if colour is None:
+            colour = fields.get('color', role.colour)
 
         payload = {
             'name': fields.get('name', role.name),
             'permissions': fields.get('permissions', role.permissions).value,
-            'color': color.value,
+            'color': colour.value,
             'hoist': fields.get('hoist', role.hoist),
             'mentionable': fields.get('mentionable', role.mentionable)
         }
 
-        r = yield from self.session.patch(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=r))
-        yield from utils._verify_successful_response(r)
-
-        data = yield from r.json(encoding='utf-8')
-        log.debug(request_success_log.format(json=payload, response=r, data=data))
+        yield from self.http.edit_role(server.id, role.id, **payload)
 
     @asyncio.coroutine
     def delete_role(self, server, role):
@@ -2325,24 +2302,11 @@ class Client:
             Deleting the role failed.
         """
 
-        url = '{0}/{1.id}/roles/{2.id}'.format(endpoints.SERVERS, server, role)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.delete_role(server.id, role.id)
 
     @asyncio.coroutine
     def _replace_roles(self, member, roles):
-        url = '{0}/{1.server.id}/members/{1.id}'.format(endpoints.SERVERS, member)
-
-        payload = {
-            'roles': roles
-        }
-
-        r = yield from self.session.patch(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=r))
-        yield from utils._verify_successful_response(r)
-        yield from r.release()
+        yield from self.http.replace_roles(member.id, member.server.id, roles)
 
     @asyncio.coroutine
     def add_roles(self, member, *roles):
@@ -2460,14 +2424,8 @@ class Client:
             is stored in cache.
         """
 
-        url = '{0}/{1.id}/roles'.format(endpoints.SERVERS, server)
-        r = yield from self.session.post(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='POST', response=r))
-        yield from utils._verify_successful_response(r)
-
-        data = yield from r.json(encoding='utf-8')
-        everyone = server.id == data.get('id')
-        role = Role(everyone=everyone, **data)
+        data = yield from self.http.create_role(server.id)
+        role = Role(server=server, **data)
 
         # we have to call edit because you can't pass a payload to the
         # http request currently.
@@ -2475,7 +2433,7 @@ class Client:
         return role
 
     @asyncio.coroutine
-    def edit_channel_permissions(self, channel, target, *, allow=None, deny=None):
+    def edit_channel_permissions(self, channel, target, overwrite=None):
         """|coro|
 
         Sets the channel specific permission overwrites for a target in the
@@ -2491,11 +2449,10 @@ class Client:
 
         Setting allow and deny: ::
 
-            allow = discord.Permissions.none()
-            deny = discord.Permissions.none()
-            allow.mention_everyone = True
-            deny.manage_messages = True
-            yield from client.edit_channel_permissions(message.channel, message.author, allow=allow, deny=deny)
+            overwrite = discord.PermissionOverwrite()
+            overwrite.read_messages = True
+            overwrite.ban_members = False
+            yield from client.edit_channel_permissions(message.channel, message.author, overwrite)
 
         Parameters
         -----------
@@ -2503,10 +2460,8 @@ class Client:
             The channel to give the specific permissions for.
         target
             The :class:`Member` or :class:`Role` to overwrite permissions for.
-        allow : :class:`Permissions`
-            The permissions to explicitly allow. (optional)
-        deny : :class:`Permissions`
-            The permissions to explicitly deny. (optional)
+        overwrite: :class:`PermissionOverwrite`
+            The permissions to allow and deny to the target.
 
         Raises
         -------
@@ -2517,38 +2472,26 @@ class Client:
         HTTPException
             Editing channel specific permissions failed.
         InvalidArgument
-            The allow or deny arguments were not of type :class:`Permissions`
+            The overwrite parameter was not of type :class:`PermissionOverwrite`
             or the target type was not :class:`Role` or :class:`Member`.
         """
 
-        url = '{0}/{1.id}/permissions/{2.id}'.format(endpoints.CHANNELS, channel, target)
+        overwrite = PermissionOverwrite() if overwrite is None else overwrite
 
-        allow = Permissions.none() if allow is None else allow
-        deny = Permissions.none() if deny is None else deny
 
-        if not (isinstance(allow, Permissions) and isinstance(deny, Permissions)):
-            raise InvalidArgument('allow and deny parameters must be discord.Permissions')
+        if not isinstance(overwrite, PermissionOverwrite):
+            raise InvalidArgument('allow and deny parameters must be PermissionOverwrite')
 
-        deny = deny.value
-        allow = allow.value
-
-        payload = {
-            'id': target.id,
-            'allow': allow,
-            'deny': deny
-        }
+        allow, deny = overwrite.pair()
 
         if isinstance(target, Member):
-            payload['type'] = 'member'
+            perm_type = 'member'
         elif isinstance(target, Role):
-            payload['type'] = 'role'
+            perm_type = 'role'
         else:
-            raise InvalidArgument('target parameter must be either discord.Member or discord.Role')
+            raise InvalidArgument('target parameter must be either Member or Role')
 
-        r = yield from self.session.put(url, data=utils.to_json(payload), headers=self.headers)
-        log.debug(request_logging_format.format(method='PUT', response=r))
-        yield from utils._verify_successful_response(r)
-        yield from r.release()
+        yield from self.http.edit_channel_permissions(channel.id, target.id, allow.value, deny.value, perm_type)
 
     @asyncio.coroutine
     def delete_channel_permissions(self, channel, target):
@@ -2577,12 +2520,7 @@ class Client:
         HTTPException
             Deleting channel specific permissions failed.
         """
-
-        url = '{0}/{1.id}/permissions/{2.id}'.format(endpoints.CHANNELS, channel, target)
-        response = yield from self.session.delete(url, headers=self.headers)
-        log.debug(request_logging_format.format(method='DELETE', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.delete_channel_permissions(channel.id, target.id)
 
     # Voice management
 
@@ -2616,18 +2554,10 @@ class Client:
             You do not have permissions to move the member.
         """
 
-        url = '{0}/{1.server.id}/members/{1.id}'.format(endpoints.SERVERS, member)
-
         if getattr(channel, 'type', ChannelType.text) != ChannelType.voice:
             raise InvalidArgument('The channel provided must be a voice channel.')
 
-        payload = utils.to_json({
-            'channel_id': channel.id
-        })
-        response = yield from self.session.patch(url, data=payload, headers=self.headers)
-        log.debug(request_logging_format.format(method='PATCH', response=response))
-        yield from utils._verify_successful_response(response)
-        yield from response.release()
+        yield from self.http.move_member(member.id, member.server.id, channel.id)
 
     @asyncio.coroutine
     def join_voice_channel(self, channel):
@@ -2675,11 +2605,12 @@ class Client:
 
         def session_id_found(data):
             user_id = data.get('user_id')
-            return user_id == self.user.id
+            guild_id = data.get('guild_id')
+            return user_id == self.user.id and guild_id == server.id
 
         # register the futures for waiting
         session_id_future = self.ws.wait_for('VOICE_STATE_UPDATE', session_id_found)
-        voice_data_future = self.ws.wait_for('VOICE_SERVER_UPDATE', lambda d: True)
+        voice_data_future = self.ws.wait_for('VOICE_SERVER_UPDATE', lambda d: d.get('guild_id') == server.id)
 
         # request joining
         yield from self.ws.voice_state(server.id, channel.id)
@@ -2737,3 +2668,26 @@ class Client:
             The voice client associated with the server.
         """
         return self.connection._get_voice_client(server.id)
+
+
+    # Miscellaneous stuff
+
+    @asyncio.coroutine
+    def application_info(self):
+        """|coro|
+
+        Retrieve's the bot's application information.
+
+        Returns
+        --------
+        :class:`AppInfo`
+            A namedtuple representing the application info.
+
+        Raises
+        -------
+        HTTPException
+            Retrieving the information failed somehow.
+        """
+        data = yield from self.http.application_info()
+        return AppInfo(id=data['id'], name=data['name'],
+                       description=data['description'], icon=data['icon'])

@@ -52,7 +52,6 @@ from .errors import CommandError
 # You can also type <prefix>help category for more info on a category.
 
 
-# noinspection PyAttributeOutsideInit,PyShadowingBuiltins
 class HelpFormatter:
     """The default base implementation that handles formatting of the help
     command.
@@ -90,7 +89,6 @@ class HelpFormatter:
         """bool : Specifies if the command being formatted is actually a cog."""
         return not self.is_bot() and not isinstance(self.command, Command)
 
-    # noinspection PyIncorrectDocstring
     def shorten(self, text):
         """Shortens text to fit into the :attr:`width`."""
         if len(text) > self.width:
@@ -119,32 +117,20 @@ class HelpFormatter:
         # odd one.
         return self.context.prefix.replace(user.mention, '@' + user.name)
 
-    def get_qualified_command_name(self):
-        """Retrieves the fully qualified command name, i.e. the base command name
-        required to execute it. This does not contain the command name itself.
-        """
-        entries = []
-        command = self.command
-        while command.parent is not None:
-            command = command.parent
-            entries.append(command.name)
-
-        return ' '.join(reversed(entries))
-
     def get_command_signature(self):
         """Retrieves the signature portion of the help page."""
         result = []
         prefix = self.clean_prefix
-        qualified = self.get_qualified_command_name()
         cmd = self.command
+        parent = cmd.full_parent_name
         if len(cmd.aliases) > 0:
             aliases = '|'.join(cmd.aliases)
             fmt = '{0}[{1.name}|{2}]'
-            if qualified:
+            if parent:
                 fmt = '{0}{3} [{1.name}|{2}]'
-            result.append(fmt.format(prefix, cmd, aliases, qualified))
+            result.append(fmt.format(prefix, cmd, aliases, parent))
         else:
-            name = prefix + cmd.name if not qualified else prefix + qualified + ' ' + cmd.name
+            name = prefix + cmd.name if not parent else prefix + parent + ' ' + cmd.name
             result.append(name)
 
         params = cmd.clean_params
@@ -261,7 +247,7 @@ class HelpFormatter:
             A paginated output of the help command.
         """
         self._pages = []
-        self._count = 4  # ``` + '\n'
+        self._count = 4 # ``` + '\n'
         self._current_page = ['```']
 
         # we need a padding of ~80 or so
@@ -277,7 +263,7 @@ class HelpFormatter:
         if isinstance(self.command, Command):
             # <signature portion>
             signature = self.get_command_signature()
-            self._count += 2 + len(signature)  # '\n' sig '\n'
+            self._count += 2 + len(signature) # '\n' sig '\n'
             self._current_page.append(signature)
             self._current_page.append('')
 
@@ -293,6 +279,7 @@ class HelpFormatter:
                 self._current_page.append('```')
                 self._pages.append('\n'.join(self._current_page))
                 return self._pages
+
 
         max_width = self.max_name_size
 

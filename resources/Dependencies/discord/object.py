@@ -31,7 +31,7 @@ class Object:
     """Represents a generic Discord object.
 
     The purpose of this class is to allow you to create 'miniature'
-    versions of data classes if you want to pass in just an ID. All functions
+    versions of data classes if you want to pass in just an ID. Most functions
     that take in a specific data class with an ID can also take in this class
     as a substitute instead. Note that even though this is the case, not all
     objects (if any) actually inherit from this class.
@@ -52,5 +52,5 @@ class Object:
 
     @property
     def created_at(self):
-        """Returns the private channel's creation time in UTC."""
+        """Returns the snowflake's creation time in UTC."""
         return utils.snowflake_time(self.id)

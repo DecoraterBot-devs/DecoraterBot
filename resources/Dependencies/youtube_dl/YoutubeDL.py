@@ -64,6 +64,7 @@ from .utils import (
     PostProcessingError,
     preferredencoding,
     prepend_extension,
+    register_socks_protocols,
     render_table,
     replace_extension,
     SameFileError,
@@ -325,7 +326,7 @@ class YoutubeDL(object):
                         ['fribidi', '-c', 'UTF-8'] + width_args, **sp_kwargs)
                 self._output_channel = os.fdopen(master, 'rb')
             except OSError as ose:
-                if ose.errno == 2:
+                if ose.errno == errno.ENOENT:
                     self.report_warning('Could not find fribidi executable, ignoring --bidi-workaround . Make sure that  fribidi  is an executable file in one of the directories in your $PATH.')
                 else:
                     raise
@@ -360,6 +361,8 @@ class YoutubeDL(object):
 
         for ph in self.params.get('progress_hooks', []):
             self.add_progress_hook(ph)
+
+        register_socks_protocols()
 
     def warn_if_short_id(self, argv):
         # short YouTube ID starting with dash?
@@ -580,7 +583,7 @@ class YoutubeDL(object):
                 is_id=(k == 'id'))
             template_dict = dict((k, sanitize(k, v))
                                  for k, v in template_dict.items()
-                                 if v is not None)
+                                 if v is not None and not isinstance(v, (list, tuple, dict)))
             template_dict = collections.defaultdict(lambda: 'NA', template_dict)
 
             outtmpl = self.params.get('outtmpl', DEFAULT_OUTTMPL)
@@ -717,6 +720,7 @@ class YoutubeDL(object):
         result_type = ie_result.get('_type', 'video')
 
         if result_type in ('url', 'url_transparent'):
+            ie_result['url'] = sanitize_url(ie_result['url'])
             extract_flat = self.params.get('extract_flat', False)
             if ((extract_flat == 'in_playlist' and 'playlist' in extra_info) or
                     extract_flat is True):
@@ -1219,6 +1223,10 @@ class YoutubeDL(object):
         if 'title' not in info_dict:
             raise ExtractorError('Missing "title" field in extractor result')
 
+        if not isinstance(info_dict['id'], compat_str):
+            self.report_warning('"id" field is not a string - forcing string conversion')
+            info_dict['id'] = compat_str(info_dict['id'])
+
         if 'playlist' not in info_dict:
             # It isn't part of a playlist
             info_dict['playlist'] = None
@@ -1639,7 +1647,7 @@ class YoutubeDL(object):
                     # Just a single file
                     success = dl(filename, info_dict)
             except (compat_urllib_error.URLError, compat_http_client.HTTPException, socket.error) as err:
-                self.report_error('unable to download video data: %s' % str(err))
+                self.report_error('unable to download video data: %s' % error_to_compat_str(err))
                 return
             except (OSError, IOError) as err:
                 raise UnavailableVideoError(err)
@@ -2018,6 +2026,7 @@ class YoutubeDL(object):
         if opts_cookiefile is None:
             self.cookiejar = compat_cookiejar.CookieJar()
         else:
+            opts_cookiefile = compat_expanduser(opts_cookiefile)
             self.cookiejar = compat_cookiejar.MozillaCookieJar(
                 opts_cookiefile)
             if os.access(opts_cookiefile, os.R_OK):

@@ -23,26 +23,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
-import asyncio
-import audioop
-import datetime
-import functools
-import logging
-import shlex
-import socket
-import struct
-import subprocess
-import threading
-import time
-
-# noinspection PyPackageRequirements
-import websockets
-# noinspection PyPackageRequirements
-import nacl.secret
-
-from . import opus
-from .errors import ClientException, InvalidArgument
-from .gateway import *
 
 """Some documentation to refer to:
 
@@ -59,7 +39,31 @@ from .gateway import *
 - Finally we can transmit data to endpoint:port.
 """
 
+import asyncio
+# noinspection PyPackageRequirements
+import websockets
+import socket
+import json, time
+import logging
+import struct
+import threading
+import subprocess
+import shlex
+import functools
+import datetime
+import audioop
+
 log = logging.getLogger(__name__)
+
+try:
+    import nacl.secret
+    has_nacl = True
+except ImportError:
+    has_nacl = False
+
+from . import utils, opus
+from .gateway import *
+from .errors import ClientException, InvalidArgument, ConnectionClosed
 
 
 # noinspection PyAttributeOutsideInit
@@ -77,6 +81,10 @@ class StreamPlayer(threading.Thread):
         self.after = after
         self.delay = encoder.frame_length / 1000.0
         self._volume = 1.0
+
+        if after is not None and not callable(after):
+            raise TypeError('Expected a callable for the "after" parameter.')
+
 
     def run(self):
         self.loops = 0
@@ -108,7 +116,7 @@ class StreamPlayer(threading.Thread):
 
     def stop(self):
         self._end.set()
-        if callable(self.after):
+        if self.after is not None:
             try:
                 self.after()
             except:
@@ -185,6 +193,9 @@ class VoiceClient:
         The event loop that the voice client is running on.
     """
     def __init__(self, user, main_ws, session_id, channel, data, loop):
+        if not has_nacl:
+            raise RuntimeError("PyNaCl library needed in order to use voice")
+
         self.user = user
         self.main_ws = main_ws
         self.channel = channel
@@ -198,6 +209,8 @@ class VoiceClient:
         self.timestamp = 0
         self.encoder = opus.Encoder(48000, 2)
         log.info('created opus encoder with {0.__dict__}'.format(self.encoder))
+
+    warn_nacl = not has_nacl
 
     @property
     def server(self):
@@ -230,6 +243,23 @@ class VoiceClient:
                 # websocket events anymore
                 self._connected.set()
                 break
+        self.loop.create_task(self.poll_voice_ws())
+
+    @asyncio.coroutine
+    def poll_voice_ws(self):
+        """|coro|
+        Reads from the voice websocket while connected.
+        """
+        while self._connected.is_set():
+            try:
+                yield from self.ws.poll_event()
+            except ConnectionClosed as e:
+                if e.code == 1000:
+                    break
+                elif e.code == 1006:
+                    pass
+                else:
+                    raise
 
     @asyncio.coroutine
     def disconnect(self):
@@ -243,10 +273,12 @@ class VoiceClient:
         if not self._connected.is_set():
             return
 
-        self.socket.close()
         self._connected.clear()
-        yield from self.ws.close()
-        yield from self.main_ws.voice_state(self.guild_id, None, self_mute=True)
+        try:
+            yield from self.ws.close()
+            yield from self.main_ws.voice_state(self.guild_id, None, self_mute=True)
+        finally:
+            self.socket.close()
 
     @asyncio.coroutine
     def move_to(self, channel):
@@ -298,8 +330,7 @@ class VoiceClient:
         # Encrypt and return the data
         return header + box.encrypt(bytes(data), bytes(nonce)).ciphertext
 
-    def create_ffmpeg_player(self, filename, *, use_avconv=False, pipe=False, options=None, before_options=None,
-                             headers=None, after=None, output=None):
+    def create_ffmpeg_player(self, filename, *, use_avconv=False, pipe=False, options=None, before_options=None, headers=None, after=None, output=None):
         """Creates a stream player for ffmpeg that launches in a separate thread to play
         audio.
 
@@ -387,7 +418,6 @@ class VoiceClient:
         except subprocess.SubprocessError as e:
             raise ClientException('Popen failed: {0.__name__} {1}'.format(type(e), str(e))) from e
 
-    # noinspection PyArgumentList,PyPackageRequirements
     @asyncio.coroutine
     def create_ytdl_player(self, url, *, ytdl_options=None, **kwargs):
         """|coro|

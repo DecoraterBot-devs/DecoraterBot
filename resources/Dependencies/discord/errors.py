@@ -61,15 +61,15 @@ class HTTPException(DiscordException):
 
     .. attribute:: text
 
-        The text of the response if it wasn't JSON. Could be None.
+        The text of the error. Could be an empty string.
     """
 
-    def __init__(self, response, message=None, text=None):
+    def __init__(self, response, message):
         self.response = response
-        self.text = text
+        self.text = message
 
         fmt = '{0.reason} (status code: {0.status})'
-        if message:
+        if len(message) < 100:
             fmt = fmt + ': {1}'
 
         super().__init__(fmt.format(self.response, message))
@@ -136,6 +136,14 @@ class InvalidToken(ClientException):
     pass
 
 
+class VoiceWSTimeoutError(ClientException):
+    """Exception that is thown when a concurrent.futures._base.TimeoutError is Thrown.
+
+    This essentially makes it easier to track Timeout Error on the Voice Websocket
+    instead of the main one."""
+    pass
+
+
 class RateLimitError(ClientException):
     """Exception that's thrown when you send more requests to a discord
     endpoint than that you can do per second.
@@ -144,4 +152,17 @@ class RateLimitError(ClientException):
     
     Will be replaced with a rate limit helper that would allow it to be
     retried when Danny gets to making it."""
+    pass
+
+
+class InvalidServerError(ClientException):
+    """Exception that is closed when a server is invalid for some reason."""
+    pass
+
+class UnknownConnectionError(ClientException):
+    """Exception that is thrown when some sort of Internet connection Error that prevents connection to the Discord API.
+    Can be fore the following cases:
+        Invalid NDS Cache
+        Invalid IP configuration (fixable by restarting computer)
+        Other thigns related to ISP issues"""
     pass

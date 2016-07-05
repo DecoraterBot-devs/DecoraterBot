@@ -6,13 +6,15 @@ import re
 from .common import InfoExtractor
 from ..compat import compat_chr
 from ..utils import (
+    determine_ext,
     encode_base_n,
     ExtractorError,
+    mimetype2ext,
 )
 
 
 class OpenloadIE(InfoExtractor):
-    _VALID_URL = r'https://openload.(?:co|io)/(?:f|embed)/(?P<id>[a-zA-Z0-9-]+)'
+    _VALID_URL = r'https://openload.(?:co|io)/(?:f|embed)/(?P<id>[a-zA-Z0-9-_]+)'
 
     _TESTS = [{
         'url': 'https://openload.co/f/kUEfGclsU9o',
@@ -28,6 +30,14 @@ class OpenloadIE(InfoExtractor):
         'only_matching': True,
     }, {
         'url': 'https://openload.io/f/ZAn6oz-VZGE/',
+        'only_matching': True,
+    }, {
+        'url': 'https://openload.co/f/_-ztPaZtMhM/',
+        'only_matching': True,
+    }, {
+        # unavailable via https://openload.co/f/Sxz5sADo82g/, different layout
+        # for title and ext
+        'url': 'https://openload.co/embed/Sxz5sADo82g/',
         'only_matching': True,
     }]
 
@@ -93,15 +103,28 @@ class OpenloadIE(InfoExtractor):
             raise ExtractorError('File not found', expected=True)
 
         code = self._search_regex(
-            r'<video[^>]+>\s*<script[^>]+>([^<]+)</script>',
+            r'</video>\s*</div>\s*<script[^>]+>[^>]+</script>\s*<script[^>]+>([^<]+)</script>',
             webpage, 'JS code')
 
+        decoded = self.openload_decode(code)
+
         video_url = self._search_regex(
-            r'return\s+"(https?://[^"]+)"', self.openload_decode(code), 'video URL')
+            r'return\s+"(https?://[^"]+)"', decoded, 'video URL')
+
+        title = self._og_search_title(webpage, default=None) or self._search_regex(
+            r'<span[^>]+class=["\']title["\'][^>]*>([^<]+)', webpage,
+            'title', default=None) or self._html_search_meta(
+            'description', webpage, 'title', fatal=True)
+
+        ext = mimetype2ext(self._search_regex(
+            r'window\.vt\s*=\s*(["\'])(?P<mimetype>.+?)\1', decoded,
+            'mimetype', default=None, group='mimetype')) or determine_ext(
+            video_url, 'mp4')
 
         return {
             'id': video_id,
-            'title': self._og_search_title(webpage),
-            'thumbnail': self._og_search_thumbnail(webpage),
+            'title': title,
+            'ext': ext,
+            'thumbnail': self._og_search_thumbnail(webpage, default=None),
             'url': video_url,
         }

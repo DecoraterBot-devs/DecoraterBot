@@ -49,7 +49,10 @@ from .pornhub import PornHubIE
 from .xhamster import XHamsterEmbedIE
 from .tnaflix import TNAFlixNetworkEmbedIE
 from .vimeo import VimeoIE
-from .dailymotion import DailymotionCloudIE
+from .dailymotion import (
+    DailymotionIE,
+    DailymotionCloudIE,
+)
 from .onionstudios import OnionStudiosIE
 from .viewlift import ViewLiftEmbedIE
 from .screenwavemedia import ScreenwaveMediaIE
@@ -66,6 +69,7 @@ from .theplatform import ThePlatformIE
 from .vessel import VesselIE
 from .kaltura import KalturaIE
 from .eagleplatform import EaglePlatformIE
+from .facebook import FacebookIE
 
 
 class GenericIE(InfoExtractor):
@@ -1260,7 +1264,55 @@ class GenericIE(InfoExtractor):
                 'uploader': 'TheAtlantic',
             },
             'add_ie': ['BrightcoveLegacy'],
-        }
+        },
+        # Facebook <iframe> embed
+        {
+            'url': 'https://www.hostblogger.de/blog/archives/6181-Auto-jagt-Betonmischer.html',
+            'md5': 'fbcde74f534176ecb015849146dd3aee',
+            'info_dict': {
+                'id': '599637780109885',
+                'ext': 'mp4',
+                'title': 'Facebook video #599637780109885',
+            },
+        },
+        # Facebook API embed
+        {
+            'url': 'http://www.lothype.com/blue-stars-2016-preview-standstill-full-show/',
+            'md5': 'a47372ee61b39a7b90287094d447d94e',
+            'info_dict': {
+                'id': '10153467542406923',
+                'ext': 'mp4',
+                'title': 'Facebook video #10153467542406923',
+            },
+        },
+        # Wordpress "YouTube Video Importer" plugin
+        {
+            'url': 'http://www.lothype.com/blue-devils-drumline-stanford-lot-2016/',
+            'md5': 'd16797741b560b485194eddda8121b48',
+            'info_dict': {
+                'id': 'HNTXWDXV9Is',
+                'ext': 'mp4',
+                'title': 'Blue Devils Drumline Stanford lot 2016',
+                'upload_date': '20160627',
+                'uploader_id': 'GENOCIDE8GENERAL10',
+                'uploader': 'cylus cyrus',
+            },
+        },
+        {
+            # video stored on custom kaltura server
+            'url': 'http://www.expansion.com/multimedia/videos.html?media=EQcM30NHIPv',
+            'md5': '537617d06e64dfed891fa1593c4b30cc',
+            'info_dict': {
+                'id': '0_1iotm5bh',
+                'ext': 'mp4',
+                'title': 'Elecciones británicas: 5 lecciones para Rajoy',
+                'description': 'md5:435a89d68b9760b92ce67ed227055f16',
+                'uploader_id': 'videos.expansion@el-mundo.net',
+                'upload_date': '20150429',
+                'timestamp': 1430303472,
+            },
+            'add_ie': ['Kaltura'],
+        },
     ]
 
     def report_following_redirect(self, new_url):
@@ -1617,12 +1669,16 @@ class GenericIE(InfoExtractor):
         if matches:
             return _playlist_from_matches(matches, lambda m: unescapeHTML(m))
 
-        # Look for embedded Dailymotion player
-        matches = re.findall(
-            r'<(?:(?:embed|iframe)[^>]+?src=|input[^>]+id=[\'"]dmcloudUrlEmissionSelect[\'"][^>]+value=)(["\'])(?P<url>(?:https?:)?//(?:www\.)?dailymotion\.com/(?:embed|swf)/video/.+?)\1', webpage)
+        # Look for Wordpress "YouTube Video Importer" plugin
+        matches = re.findall(r'''(?x)<div[^>]+
+            class=(?P<q1>[\'"])[^\'"]*\byvii_single_video_player\b[^\'"]*(?P=q1)[^>]+
+            data-video_id=(?P<q2>[\'"])([^\'"]+)(?P=q2)''', webpage)
         if matches:
-            return _playlist_from_matches(
-                matches, lambda m: unescapeHTML(m[1]))
+            return _playlist_from_matches(matches, lambda m: m[-1])
+
+        matches = DailymotionIE._extract_urls(webpage)
+        if matches:
+            return _playlist_from_matches(matches)
 
         # Look for embedded Dailymotion playlist player (#3822)
         m = re.search(
@@ -1759,10 +1815,9 @@ class GenericIE(InfoExtractor):
             return self.url_result(mobj.group('url'))
 
         # Look for embedded Facebook player
-        mobj = re.search(
-            r'<iframe[^>]+?src=(["\'])(?P<url>https://www\.facebook\.com/video/embed.+?)\1', webpage)
-        if mobj is not None:
-            return self.url_result(mobj.group('url'), 'Facebook')
+        facebook_url = FacebookIE._extract_url(webpage)
+        if facebook_url is not None:
+            return self.url_result(facebook_url, 'Facebook')
 
         # Look for embedded VK player
         mobj = re.search(r'<iframe[^>]+?src=(["\'])(?P<url>https?://vk\.com/video_ext\.php.+?)\1', webpage)

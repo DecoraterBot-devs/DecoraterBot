@@ -431,6 +431,7 @@ class Client:
         token = token
         is_bot = True
         yield from self.http.static_login(token, bot=is_bot)
+        yield from self.http.static_login(token, bot=is_bot)
         self.connection.is_bot = is_bot
         self._is_logged_in.set()
 
@@ -447,11 +448,8 @@ class Client:
         try:
             yield from self.connect()
         except aiohttp.errors.ClientOSError:
-            # needed for a reconnecting loop.
             yield from self.connection_helper()
         except ConnectionResetError:
-            print('Testing a fix to ConnectionResetError.')
-            # needed for a reconnecting loop.
             yield from self.connection_helper()
 
     @asyncio.coroutine
@@ -467,7 +465,7 @@ class Client:
             if email is not None:
                 if password is not None:
                     yield from self.login(email, password)
-                    yield from self.connect()
+                    yield from self.connection_helper()
 
     def run(self, email, password, token):
         """A blocking call that abstracts away the `event loop`_
@@ -510,15 +508,6 @@ class Client:
                 pass
         finally:
             self.loop.close()
-
-    def run2(self, email, password, token):
-        """Alternative to Run that has reconnecting."""
-        try:
-            self.run(email, password, token)
-        except ConnectionResetError:
-            # now we must clear is logged in and reset it with another call to run.
-            self._is_logged_in.clear()
-            self.run(email, password, token)
 
         # properties
 
@@ -2362,16 +2351,11 @@ class Client:
             Removing roles failed.
         """
         new_roles = [x.id for x in member.roles]
-        remove = []
         for role in roles:
             try:
-                index = new_roles.index(role.id)
-                remove.append(index)
+                new_roles.remove(role.id)
             except ValueError:
-                continue
-
-        for index in reversed(remove):
-            del new_roles[index]
+                pass
 
         yield from self._replace_roles(member, new_roles)
 

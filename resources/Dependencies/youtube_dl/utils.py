@@ -310,8 +310,16 @@ def get_element_by_id(id, html):
     return get_element_by_attribute('id', id, html)
 
 
-def get_element_by_attribute(attribute, value, html):
+def get_element_by_class(class_name, html):
+    return get_element_by_attribute(
+        'class', r'[^\'"]*\b%s\b[^\'"]*' % re.escape(class_name),
+        html, escape_value=False)
+
+
+def get_element_by_attribute(attribute, value, html, escape_value=True):
     """Return the content of the tag with the specified attribute in the passed HTML document"""
+
+    value = re.escape(value) if escape_value else value
 
     m = re.search(r'''(?xs)
         <([a-zA-Z0-9:._-]+)
@@ -321,7 +329,7 @@ def get_element_by_attribute(attribute, value, html):
         \s*>
         (?P<content>.*?)
         </\1>
-    ''' % (re.escape(attribute), re.escape(value)), html)
+    ''' % (re.escape(attribute), value), html)
 
     if not m:
         return None
@@ -1444,6 +1452,8 @@ def shell_quote(args):
 def smuggle_url(url, data):
     """ Pass additional data in a URL for internal use. """
 
+    url, idata = unsmuggle_url(url, {})
+    data.update(idata)
     sdata = compat_urllib_parse_urlencode(
         {'__youtubedl_smuggle': json.dumps(data)})
     return url + '#' + sdata
@@ -1623,6 +1633,11 @@ def url_basename(url):
 class HEADRequest(compat_urllib_request.Request):
     def get_method(self):
         return 'HEAD'
+
+
+class PUTRequest(compat_urllib_request.Request):
+    def get_method(self):
+        return 'PUT'
 
 
 def int_or_none(v, scale=1, default=None, get_attr=None, invscale=1):
@@ -1920,7 +1935,13 @@ def update_Request(req, url=None, data=None, headers={}, query={}):
     req_headers.update(headers)
     req_data = data or req.data
     req_url = update_url_query(url or req.get_full_url(), query)
-    req_type = HEADRequest if req.get_method() == 'HEAD' else compat_urllib_request.Request
+    req_get_method = req.get_method()
+    if req_get_method == 'HEAD':
+        req_type = HEADRequest
+    elif req_get_method == 'PUT':
+        req_type = PUTRequest
+    else:
+        req_type = compat_urllib_request.Request
     new_req = req_type(
         req_url, data=req_data, headers=req_headers,
         origin_req_host=req.origin_req_host, unverifiable=req.unverifiable)
@@ -2084,6 +2105,7 @@ def mimetype2ext(mt):
         return ext
 
     _, _, res = mt.rpartition('/')
+    res = res.lower()
 
     return {
         '3gpp': '3gp',
@@ -2095,6 +2117,12 @@ def mimetype2ext(mt):
         'x-flv': 'flv',
         'x-mp4-fragmented': 'mp4',
         'x-ms-wmv': 'wmv',
+        'mpegurl': 'm3u8',
+        'x-mpegurl': 'm3u8',
+        'vnd.apple.mpegurl': 'm3u8',
+        'dash+xml': 'mpd',
+        'f4m': 'f4m',
+        'f4m+xml': 'f4m',
     }.get(res, res)
 
 

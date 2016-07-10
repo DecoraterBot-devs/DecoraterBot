@@ -158,14 +158,6 @@ class Command:
         finally:
             ctx.bot.dispatch('command_error', error, ctx)
 
-    def _get_from_servers(self, bot, getter, argument):
-        result = None
-        for server in bot.servers:
-            result = getattr(server, getter)(argument)
-            if result:
-                return result
-        return result
-
     @asyncio.coroutine
     def do_conversion(self, ctx, converter, argument):
         if converter is bool:
@@ -486,6 +478,11 @@ class GroupMixin:
             `None` is returned instead.
         """
         command = self.commands.pop(name, None)
+
+        # does not exist
+        if command is None:
+            return None
+
         if name in command.aliases:
             # we're removing an alias so we don't want to remove the rest
             return command
@@ -611,7 +608,7 @@ def command(name=None, cls=None, **attrs):
     -----------
     name : str
         The name to create the command with. By default this uses the
-        function named unchanged.
+        function name unchanged.
     cls
         The class to construct with. By default this is :class:`Command`.
         You usually do not change this.
@@ -649,7 +646,7 @@ def command(name=None, cls=None, **attrs):
                 help_doc = help_doc.decode('utf-8')
 
         attrs['help'] = help_doc
-        fname = name or func.__name__.lower()
+        fname = name or func.__name__
         return cls(name=fname, callback=func, checks=checks, **attrs)
 
     return decorator

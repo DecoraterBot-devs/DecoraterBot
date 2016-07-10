@@ -139,9 +139,9 @@ from .chirbit import (
     ChirbitProfileIE,
 )
 from .cinchcast import CinchcastIE
-from .cliprs import ClipRsIE
 from .clipfish import ClipfishIE
 from .cliphunter import CliphunterIE
+from .cliprs import ClipRsIE
 from .clipsyndicate import ClipsyndicateIE
 from .closertotruth import CloserToTruthIE
 from .cloudy import CloudyIE
@@ -281,6 +281,7 @@ from .freespeech import FreespeechIE
 from .freevideo import FreeVideoIE
 from .funimation import FunimationIE
 from .funnyordie import FunnyOrDieIE
+from .fusion import FusionIE
 from .gameinformer import GameInformerIE
 from .gamekings import GamekingsIE
 from .gameone import (
@@ -325,6 +326,10 @@ from .hotnewhiphop import HotNewHipHopIE
 from .hotstar import HotStarIE
 from .howcast import HowcastIE
 from .howstuffworks import HowStuffWorksIE
+from .hrti import (
+    HRTiIE,
+    HRTiPlaylistIE,
+)
 from .huffpost import HuffPostIE
 from .hypem import HypemIE
 from .iconosquare import IconosquareIE
@@ -363,6 +368,7 @@ from .jove import JoveIE
 from .jwplatform import JWPlatformIE
 from .jpopsukitv import JpopsukiIE
 from .kaltura import KalturaIE
+from .kamcord import KamcordIE
 from .kanalplay import KanalPlayIE
 from .kankan import KankanIE
 from .karaoketv import KaraoketvIE
@@ -576,6 +582,10 @@ from .nytimes import (
 from .nuvid import NuvidIE
 from .odnoklassniki import OdnoklassnikiIE
 from .oktoberfesttv import OktoberfestTVIE
+from .onet import (
+    OnetIE,
+    OnetChannelIE,
+)
 from .onionstudios import OnionStudiosIE
 from .ooyala import (
     OoyalaIE,
@@ -1061,6 +1071,7 @@ from .youtube import (
     YoutubeSearchDateIE,
     YoutubeSearchIE,
     YoutubeSearchURLIE,
+    YoutubeSharedVideoIE,
     YoutubeShowIE,
     YoutubeSubscriptionsIE,
     YoutubeTruncatedIDIE,

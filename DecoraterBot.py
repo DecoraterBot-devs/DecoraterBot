@@ -61,7 +61,6 @@ def on_member_unban(server, user):
     DecoraterBotCore.Core.BotCore.memberunban(server, user)
 
 
-# depreciated to favor on_member_kick or on_member_kicked events that nneeds added too discord.py.
 @client.async_event
 def on_member_remove(member):
     DecoraterBotCore.Core.BotCore.memberremove(client, member)

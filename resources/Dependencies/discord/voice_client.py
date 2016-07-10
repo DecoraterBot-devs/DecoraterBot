@@ -40,7 +40,6 @@ DEALINGS IN THE SOFTWARE.
 """
 
 import asyncio
-# noinspection PyPackageRequirements
 import websockets
 import socket
 import json, time
@@ -66,7 +65,6 @@ from .gateway import *
 from .errors import ClientException, InvalidArgument, ConnectionClosed
 
 
-# noinspection PyAttributeOutsideInit
 class StreamPlayer(threading.Thread):
     def __init__(self, stream, encoder, connected, player, after, **kwargs):
         threading.Thread.__init__(self, **kwargs)
@@ -159,7 +157,6 @@ class ProcessPlayer(StreamPlayer):
             self.process.communicate()
 
 
-# noinspection PyAttributeOutsideInit,PyUnusedLocal
 class VoiceClient:
     """Represents a Discord voice connection.
 
@@ -330,7 +327,7 @@ class VoiceClient:
         # Encrypt and return the data
         return header + box.encrypt(bytes(data), bytes(nonce)).ciphertext
 
-    def create_ffmpeg_player(self, filename, *, use_avconv=False, pipe=False, options=None, before_options=None, headers=None, after=None, output=None):
+    def create_ffmpeg_player(self, filename, *, use_avconv=False, pipe=False, stderr=None, options=None, before_options=None, headers=None, after=None, output=None):
         """Creates a stream player for ffmpeg that launches in a separate thread to play
         audio.
 
@@ -363,6 +360,9 @@ class VoiceClient:
         pipe : bool
             If true, denotes that ``filename`` parameter will be passed
             to the stdin of ffmpeg.
+        stderr
+            A file-like object or ``subprocess.PIPE`` to pass to the Popen
+            constructor.
         options : str
             Extra command line flags to pass to ``ffmpeg`` after the ``-i`` flag.
         before_options : str
@@ -411,7 +411,7 @@ class VoiceClient:
         args = shlex.split(cmd)
         stdout = None if not output else subprocess.PIPE
         try:
-            p = subprocess.Popen(args, stdin=stdin, stdout=stdout)
+            p = subprocess.Popen(args, stdin=stdin, stdout=stdout, stderr=stderr)
             return ProcessPlayer(p, self, after)
         except FileNotFoundError as e:
             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e

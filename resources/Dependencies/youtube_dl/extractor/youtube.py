@@ -1730,6 +1730,39 @@ class YoutubeIE(YoutubeBaseInfoExtractor):
         }
 
 
+class YoutubeSharedVideoIE(InfoExtractor):
+    _VALID_URL = r'(?:https?:)?//(?:www\.)?youtube\.com/shared\?ci=(?P<id>[0-9A-Za-z_-]{11})'
+    IE_NAME = 'youtube:shared'
+
+    _TEST = {
+        'url': 'https://www.youtube.com/shared?ci=1nEzmT-M4fU',
+        'info_dict': {
+            'id': 'uPDB5I9wfp8',
+            'ext': 'webm',
+            'title': 'Pocoyo: 90 minutos de episódios completos Português para crianças - PARTE 3',
+            'description': 'md5:d9e4d9346a2dfff4c7dc4c8cec0f546d',
+            'upload_date': '20160219',
+            'uploader': 'Pocoyo - Português (BR)',
+            'uploader_id': 'PocoyoBrazil',
+        },
+        'add_ie': ['Youtube'],
+        'params': {
+            # There are already too many Youtube downloads
+            'skip_download': True,
+        },
+    }
+
+    def _real_extract(self, url):
+        video_id = self._match_id(url)
+
+        webpage = self._download_webpage(url, video_id)
+
+        real_video_id = self._html_search_meta(
+            'videoId', webpage, 'YouTube video id', fatal=True)
+
+        return self.url_result(real_video_id, YoutubeIE.ie_key())
+
+
 class YoutubePlaylistIE(YoutubePlaylistBaseInfoExtractor):
     IE_DESC = 'YouTube.com playlists'
     _VALID_URL = r"""(?x)(?:
@@ -1962,9 +1995,13 @@ class YoutubeChannelIE(YoutubePlaylistBaseInfoExtractor):
             channel_playlist_id = self._html_search_meta(
                 'channelId', channel_page, 'channel id', default=None)
             if not channel_playlist_id:
-                channel_playlist_id = self._search_regex(
-                    r'data-(?:channel-external-|yt)id="([^"]+)"',
-                    channel_page, 'channel id', default=None)
+                channel_url = self._html_search_meta(
+                    ('al:ios:url', 'twitter:app:url:iphone', 'twitter:app:url:ipad'),
+                    channel_page, 'channel url', default=None)
+                if channel_url:
+                    channel_playlist_id = self._search_regex(
+                        r'vnd\.youtube://user/([0-9A-Za-z_-]+)',
+                        channel_url, 'channel id', default=None)
         if channel_playlist_id and channel_playlist_id.startswith('UC'):
             playlist_id = 'UU' + channel_playlist_id[2:]
             return self.url_result(
@@ -1987,6 +2024,15 @@ class YoutubeChannelIE(YoutubePlaylistBaseInfoExtractor):
                 for video_id, video_title in self.extract_videos_from_page(channel_page)]
             return self.playlist_result(entries, channel_id)
 
+        try:
+            next(self._entries(channel_page, channel_id))
+        except StopIteration:
+            alert_message = self._html_search_regex(
+                r'(?s)<div[^>]+class=(["\']).*?\byt-alert-message\b.*?\1[^>]*>(?P<alert>[^<]+)</div>',
+                channel_page, 'alert', default=None, group='alert')
+            if alert_message:
+                raise ExtractorError('Youtube said: %s' % alert_message, expected=True)
+
         return self.playlist_result(self._entries(channel_page, channel_id), channel_id)
 
 
@@ -2000,13 +2046,18 @@ class YoutubeUserIE(YoutubeChannelIE):
         'url': 'https://www.youtube.com/user/TheLinuxFoundation',
         'playlist_mincount': 320,
         'info_dict': {
-            'title': 'TheLinuxFoundation',
+            'id': 'UUfX55Sx5hEFjoC3cNs6mCUQ',
+            'title': 'Uploads from The Linux Foundation',
         }
     }, {
         'url': 'ytuser:phihag',
         'only_matching': True,
     }, {
         'url': 'https://www.youtube.com/c/gametrailers',
+        'only_matching': True,
+    }, {
+        # This channel is not available.
+        'url': 'https://www.youtube.com/user/kananishinoSMEJ/videos',
         'only_matching': True,
     }]
 

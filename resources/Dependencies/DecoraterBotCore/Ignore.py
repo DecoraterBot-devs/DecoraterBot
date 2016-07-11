@@ -593,6 +593,10 @@ class BotEvents:
                 except discord.errors.Forbidden:
                     if _logkicks == 'True':
                         BotLogs.BotLogs.onkick(client, member)
+                if member.server and member.server.id == "71324306319093760":
+                    newlyjoinedlist['users_to_be_verified'].remove(member.id)
+                    filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json"
+                    json.dump(newlyjoinedlist, open(filename, "w"))
             except Exception as e:
                 exception_data = 'Ignoring exception caused at _resolve_onremove_code:\n' + str(traceback.format_exc())
                 logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
@@ -624,7 +628,7 @@ class BotEvents:
                     newlyjoinedlist = json.load(joinedlistfile)
                     joinedlistfile.close()
                     yield from client.send_message(discord.Object(id=des_channel), message_data)
-                    newlyjoinedlist['users_to_be_verified'].append(str(member.id))
+                    newlyjoinedlist['users_to_be_verified'].append(member.id)
                     json.dump(newlyjoinedlist, open(sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json", "w"))
             except Exception as e:
                 exception_data = 'Ignoring exception caused at _resolve_onjoin_code:\n' + str(traceback.format_exc())

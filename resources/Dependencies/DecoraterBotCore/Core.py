@@ -182,6 +182,20 @@ class BotCore:
             Login.BotLogin.login_info(client)
 
         @classmethod
+        def _discord_logger_code(self):
+            Ignore.BotEvents._resolve_discord_logger()
+
+        @classmethod
+        @asyncio.coroutine
+        def _server_available_code(self, server):
+            yield from Ignore.BotEvents.server_available(server)
+
+        @classmethod
+        @asyncio.coroutine
+        def _server_unavailable_code(self, server):
+            yield from Ignore.BotEvents.server_unavailable(server)
+
+        @classmethod
         @asyncio.coroutine
         def _bot_ready_code(self, client):
             yield from Login.BotLogin.on_login(client)
@@ -194,7 +208,6 @@ class BotCore:
     @classmethod
     def changewindowsize(self):
         self.bot.changewindowsize_code()
-
 
     @classmethod
     @asyncio.coroutine
@@ -231,6 +244,20 @@ class BotCore:
     @classmethod
     def _login_helper(self, client):
         self.bot._login_helper_code(client)
+
+    @classmethod
+    def _discord_logger(self):
+        self.bot._discord_logger_code()
+
+    @classmethod
+    @asyncio.coroutine
+    def _server_available(self, server):
+        yield from self.bot._server_available_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def _server_unavailable(self, server):
+        yield from self.bot._server_unavailable_code(server)
 
     @classmethod
     @asyncio.coroutine

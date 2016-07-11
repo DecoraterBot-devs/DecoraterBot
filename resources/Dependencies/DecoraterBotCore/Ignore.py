@@ -43,6 +43,37 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     _bot_prefix = str(credentials['bot_prefix'][0])
     _disable_voice_commands = str(credentials['disable_voice'][0])
     _pm_command_errors = str(credentials['pm_command_errors'][0])
+    _discord_logger = str(credentials['discord_py_logger'][0])
+    _log_available = str(credentials['LogServerAvailable'][0])
+    _log_unavailable = str(credentials['LogServerUnavailable'][0])
+    if _logging == 'True':
+        _logging = True
+    elif _logging == 'False':
+        _logging = False
+    if _logbans == 'True':
+        _logbans = True
+    elif _logbans == 'False':
+        _logbans = False
+    if _logunbans == 'True':
+        _logunbans = True
+    elif _logunbans == 'False':
+        _logunbans = False
+    if _logkicks == 'True':
+        _logkicks = True
+    elif _logkicks == 'False':
+        _logkicks = False
+    if _log_available == 'True':
+        _log_available = True
+    elif _log_available == 'False':
+        _log_available = False
+    if _log_unavailable == 'True':
+        _log_unavailable = True
+    elif _log_unavailable == 'False':
+        _log_unavailable = False
+    if _discord_logger == 'True':
+        _discord_logger = True
+    elif _discord_logger == 'False':
+        _discord_logger = False
     if _disable_voice_commands == 'True':
         _disable_voice_commands = True
     elif _disable_voice_commands == 'False':
@@ -61,7 +92,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     if discord_user_id == 'None':
         discord_user_id = None
 
-if _logging == 'True' or _logbans == 'True' or _logunbans == 'True' or _logkicks == 'True':
+if _logging == True or _logbans == True or _logunbans == True or _logkicks == True or _discord_logger == True or _log_available == True or _log_unavailable == True:
     import BotLogs
 try:
     consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
@@ -85,218 +116,264 @@ except FileNotFoundError:
 
 class BotCommandData:
     def __init__(self, client):
-        self.bot = client
+        nothing = None  # prevent error here.
+
+    class bot:
+        """
+            This Class is for Internal Use only!!!
+        """
+
+        @classmethod
+        @asyncio.coroutine
+        def _ignore_channel_code(self, client, message):
+            if message.content.startswith(_bot_prefix + 'ignorechannel'):
+                if message.channel.id not in somedict["channels"]:
+                    try:
+                        somedict["channels"].append(message.channel.id)
+                        json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
+                        try:
+                            yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][0]))
+                        except discord.errors.Forbidden:
+                            yield from BotPMError._resolve_send_message_error(client, message)
+                    except Exception as e:
+                        try:
+                            yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][1]))
+                        except discord.errors.Forbidden:
+                            yield from BotPMError._resolve_send_message_error(client, message)
+            if message.content.startswith(_bot_prefix + 'unignorechannel'):
+                if message.channel.id in somedict["channels"]:
+                    try:
+                        ignored = somedict["channels"]
+                        ignored.remove(message.channel.id)
+                        json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
+                        try:
+                            yield from client.send_message(message.channel, str(botmessages['Unignore_Channel_Data'][0]))
+                        except discord.errors.Forbidden:
+                            yield from BotPMError._resolve_send_message_error(client, message)
+                    except Exception as e:
+                        try:
+                            yield from client.send_message(message.channel, str(botmessages['Unignore_Channel_Data'][1]))
+                        except discord.errors.Forbidden:
+                            yield from BotPMError._resolve_send_message_error(client, message)
+
+        @classmethod
+        @asyncio.coroutine
+        def _reload_command_code(self, client, message):
+            global _somebool
+            if message.content.startswith(_bot_prefix + 'reload'):
+                if message.author.id == discord_user_id:
+                    desmod_new = message.content.lower()[len(_bot_prefix + 'reload '):].strip()
+                    rejoin_after_reload = False
+                    _somebool = False
+                    if len(desmod_new) < 1:
+                        desmod = None
+                    if desmod_new.rfind('botlogs') is not -1:
+                        desmod = 'BotLogs'
+                        rsn = desmod_new.replace('botlogs', "")
+                        if rsn.rfind(' | ') is not -1:
+                            reason = rsn.strip(' | ')
+                            reload_reason = reason
+                            _somebool = True
+                        else:
+                            reason = None
+                            reload_reason = reason
+                            _somebool = True
+                    elif desmod_new.rfind('botcommands') is not -1:
+                        desmod = 'BotCommands'
+                        rsn = desmod_new.replace('botcommands', "")
+                        if rsn.rfind(' | ') is not -1:
+                            reason = rsn.strip(' | ')
+                            reload_reason = reason
+                            _somebool = True
+                        else:
+                            reason = None
+                            reload_reason = reason
+                            _somebool = True
+                    elif desmod_new.rfind("botvoicecommands") is not -1:
+                        desmod = "BotVoiceCommands"
+                        rsn = desmod_new.replace('botvoicecommands', "")
+                        if rsn.rfind(' | ') is not -1:
+                            reason = rsn.replace(' | ', "")
+                            reload_reason = reason
+                            _somebool = True
+                        else:
+                            reason = None
+                            reload_reason = reason
+                            _somebool = True
+                    else:
+                        _somebool = False
+                    if _somebool is True:
+                        if desmod_new is not None:
+                            if desmod == 'BotCommands' or desmod == 'BotLogs' or desmod == 'BotVoiceCommands':
+                                if desmod == 'BotVoiceCommands':
+                                    rsn = reload_reason
+                                    rejoin_after_reload = True
+                                    yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass1_new(client, message, rsn)
+                                try:
+                                    module = sys.modules.get(desmod)
+                                    importlib.reload(module)
+                                    if rejoin_after_reload == True:
+                                        yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(client, message)
+                                    try:
+                                        msgdata = str(botmessages['reload_command_data'][0])
+                                        message_data = msgdata + ' Reloaded ' + desmod + '.'
+                                        if desmod == 'BotLogs':
+                                            if reload_reason is not None:
+                                                message_data = message_data + ' Reason: ' + reload_reason
+                                                yield from client.send_message(message.channel, message_data)
+                                            else:
+                                                yield from client.send_message(message.channel, message_data)
+                                        else:
+                                            yield from client.send_message(message.channel, message_data)
+                                    except discord.errors.Forbidden:
+                                        yield from BotPMError._resolve_send_message_error(client, message)
+                                except Exception as e:
+                                    reloadexception = str(traceback.format_exc())
+                                    try:
+                                        reload_data = str(botmessages['reload_command_data'][1]) + '\n```py\n'
+                                        yield from client.send_message(message.channel, reload_data + reloadexception + '```')
+                                    except discord.errors.Forbidden:
+                                        yield from BotPMError._resolve_send_message_error(client, message)
+                    else:
+                        try:
+                            yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
+                        except discord.errors.Forbidden:
+                            yield from BotPMError._resolve_send_message_error(client, message)
+                else:
+                    try:
+                        yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
+                    except discord.errors.Forbidden:
+                        yield from BotPMError._resolve_send_message_error(client, message)
+
+        @classmethod
+        @asyncio.coroutine
+        def ignored_channel_commands_code(self, client, message):
+            yield from self._ignore_channel_code(client, message)
+            yield from self._reload_command_code(client, message)
+
+        @classmethod
+        @asyncio.coroutine
+        def enable_all_commands_code(self, client, message):
+            yield from BotCommands.BotCommands.prune(client, message)
+            yield from BotCommands.BotCommands.invite(client, message)
+            yield from BotCommands.BotCommands.kills(client, message)
+            yield from BotCommands.BotCommands.colors(client, message)
+            yield from BotCommands.BotCommands.games(client, message)
+            yield from BotCommands.BotCommands.attack(client, message)
+            yield from BotCommands.BotCommands.debug(client, message)
+            yield from BotCommands.BotCommands.other_commands(client, message)
+            yield from BotCommands.BotCommands.userdata(client, message)
+            yield from BotCommands.BotCommands.bot_say(client, message)
+            yield from BotCommands.BotCommands.randomcoin(client, message)
+            yield from BotCommands.BotCommands.mod_commands(client, message)
+            yield from BotCommands.BotCommands.bot_roles(client, message)
+            yield from BotCommands.BotCommands.more_commands(client, message)
+            yield from BotCommands.BotCommands.convert_url(client, message)
+            if _disable_voice_commands is not True:
+                yield from BotVoiceCommands.VoiceBotCommands.voice_stuff_new(client, message)
+            else:
+                yield from BotVoiceCommands.VoiceBotCommands.voice_stuff_new_disabled(client, message)
+            yield from self.ignored_channel_commands_code(client, message)
+
+        @classmethod
+        @asyncio.coroutine
+        def enable_all_commands_with_send_logs_code(self, client, message):
+            yield from self.enable_all_commands_code(client, message)
+            if _logging == True:
+                yield from BotLogs.BotLogs.send_logs(client, message)
+
+        @classmethod
+        @asyncio.coroutine
+        def enable_all_commands_with_logs_code(self, client, message):
+            yield from self.enable_all_commands_code(client, message)
+            if _logging == True:
+                BotLogs.BotLogs.logs(client, message)
+
+        @classmethod
+        @asyncio.coroutine
+        def pm_commands_code(self, client, message):
+            yield from BotCommands.BotCommands.scan_for_invite_url_only_pm(client, message)
+            yield from BotCommands.BotCommands.invite(client, message)
+            yield from BotCommands.BotCommands.kills(client, message)
+            yield from BotCommands.BotCommands.games(client, message)
+            yield from BotCommands.BotCommands.other_commands(client, message)
+            yield from BotCommands.BotCommands.bot_say(client, message)
+            yield from BotCommands.BotCommands.randomcoin(client, message)
+            yield from BotCommands.BotCommands.convert_url(client, message)
+            if _logging == True:
+                BotLogs.BotLogs.logs(client, message)
+
+        @classmethod
+        @asyncio.coroutine
+        def cheesy_commands_code(self, client, message):
+            yield from self.enable_all_commands_with_logs_code(client, message)
+            serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
+            serveridslist = json.load(serveridslistfile)
+            serveridslistfile.close()
+            joinedlistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json', 'r')
+            newlyjoinedlist = json.load(joinedlistfile)
+            joinedlistfile.close()
+            serverid = str(serveridslist['config_server_ids'][0])
+            memberjoinverifymessagefile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifycommand.json', 'r')
+            memberjoinverifymessagedata = json.load(memberjoinverifymessagefile)
+            memberjoinverifymessagefile.close()
+            if message.content == str(memberjoinverifymessagedata['verify_command'][0]):
+                yield from client.delete_message(message)
+                memberjoinverifyrolefile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifyrole.json', 'r')
+                memberjoinverifyroledata = json.load(memberjoinverifyrolefile)
+                memberjoinverifyrolefile.close()
+                memberjoinverifymessagefile2 = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifymessages.json', 'r')
+                memberjoinverifymessagedata2 = json.load(memberjoinverifymessagefile2)
+                memberjoinverifymessagefile2.close()
+                role = discord.utils.find(lambda role: role.id == str(memberjoinverifyroledata['verify_role_id'][0]), message.channel.server.roles)
+                msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
+                # if message.author.id not in newlyjoinedlist:
+                #    yield from client.send_message(message.channel, "You are not on the list of people to verify.")
+                # else:
+                yield from client.send_message(message.author, msg_data)
+                yield from client.add_roles(message.author, role)
+                newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
+                json.dump(newlyjoinedlist, open(sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json", "w"))
 
     @classmethod
     @asyncio.coroutine
     def _ignore_channel(self, client, message):
-        if message.content.startswith(_bot_prefix + 'ignorechannel'):
-            if message.channel.id not in somedict["channels"]:
-                try:
-                    somedict["channels"].append(message.channel.id)
-                    json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
-                    try:
-                        yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][0]))
-                    except discord.errors.Forbidden:
-                        yield from BotPMError._resolve_send_message_error(client, message)
-                except Exception as e:
-                    try:
-                        yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][1]))
-                    except discord.errors.Forbidden:
-                        yield from BotPMError._resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'unignorechannel'):
-            if message.channel.id in somedict["channels"]:
-                try:
-                    ignored = somedict["channels"]
-                    ignored.remove(message.channel.id)
-                    json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
-                    try:
-                        yield from client.send_message(message.channel, str(botmessages['Unignore_Channel_Data'][0]))
-                    except discord.errors.Forbidden:
-                        yield from BotPMError._resolve_send_message_error(client, message)
-                except Exception as e:
-                    try:
-                        yield from client.send_message(message.channel, str(botmessages['Unignore_Channel_Data'][1]))
-                    except discord.errors.Forbidden:
-                        yield from BotPMError._resolve_send_message_error(client, message)
+        yield from self.bot._ignore_channel_code(client, message)
 
     @classmethod
     @asyncio.coroutine
     def _reload_command(self, client, message):
-        global _somebool
-        if message.content.startswith(_bot_prefix + 'reload'):
-            if message.author.id == discord_user_id:
-                desmod_new = message.content.lower()[len(_bot_prefix + 'reload '):].strip()
-                rejoin_after_reload = False
-                _somebool = False
-                if len(desmod_new) < 1:
-                    desmod = None
-                if desmod_new.rfind('botlogs') is not -1:
-                    desmod = 'BotLogs'
-                    rsn = desmod_new.replace('botlogs', "")
-                    if rsn.rfind(' | ') is not -1:
-                        reason = rsn.strip(' | ')
-                        reload_reason = reason
-                        _somebool = True
-                    else:
-                        reason = None
-                        reload_reason = reason
-                        _somebool = True
-                elif desmod_new.rfind('botcommands') is not -1:
-                    desmod = 'BotCommands'
-                    rsn = desmod_new.replace('botcommands', "")
-                    if rsn.rfind(' | ') is not -1:
-                        reason = rsn.strip(' | ')
-                        reload_reason = reason
-                        _somebool = True
-                    else:
-                        reason = None
-                        reload_reason = reason
-                        _somebool = True
-                elif desmod_new.rfind("botvoicecommands") is not -1:
-                    desmod = "BotVoiceCommands"
-                    rsn = desmod_new.replace('botvoicecommands', "")
-                    if rsn.rfind(' | ') is not -1:
-                        reason = rsn.replace(' | ', "")
-                        reload_reason = reason
-                        _somebool = True
-                    else:
-                        reason = None
-                        reload_reason = reason
-                        _somebool = True
-                else:
-                    _somebool = False
-                if _somebool is True:
-                    if desmod_new is not None:
-                        if desmod == 'BotCommands' or desmod == 'BotLogs' or desmod == 'BotVoiceCommands':
-                            if desmod == 'BotVoiceCommands':
-                                rsn = reload_reason
-                                rejoin_after_reload = True
-                                yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass1_new(client, message, rsn)
-                            try:
-                                module = sys.modules.get(desmod)
-                                importlib.reload(module)
-                                if rejoin_after_reload == True:
-                                    yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(client, message)
-                                try:
-                                    msgdata = str(botmessages['reload_command_data'][0])
-                                    message_data = msgdata + ' Reloaded ' + desmod + '.'
-                                    if desmod == 'BotLogs':
-                                        if reload_reason is not None:
-                                            message_data = message_data + ' Reason: ' + reload_reason
-                                            yield from client.send_message(message.channel, message_data)
-                                        else:
-                                            yield from client.send_message(message.channel, message_data)
-                                    else:
-                                        yield from client.send_message(message.channel, message_data)
-                                except discord.errors.Forbidden:
-                                    yield from BotPMError._resolve_send_message_error(client, message)
-                            except Exception as e:
-                                reloadexception = str(traceback.format_exc())
-                                try:
-                                    reload_data = str(botmessages['reload_command_data'][1]) + '\n```py\n'
-                                    yield from client.send_message(message.channel, reload_data + reloadexception + '```')
-                                except discord.errors.Forbidden:
-                                    yield from BotPMError._resolve_send_message_error(client, message)
-                else:
-                    try:
-                        yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
-                    except discord.errors.Forbidden:
-                        yield from BotPMError._resolve_send_message_error(client, message)
-            else:
-                try:
-                    yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
-                except discord.errors.Forbidden:
-                    yield from BotPMError._resolve_send_message_error(client, message)
+        yield from self.bot._reload_command_code(client, message)
 
     @classmethod
     @asyncio.coroutine
     def ignored_channel_commands(self, client, message):
-        yield from self._ignore_channel(client, message)
-        yield from self._reload_command(client, message)
+        yield from self.bot.ignored_channel_commands_code(client, message)
 
     @classmethod
     @asyncio.coroutine
     def enable_all_commands(self, client, message):
-        yield from BotCommands.BotCommands.prune(client, message)
-        yield from BotCommands.BotCommands.invite(client, message)
-        yield from BotCommands.BotCommands.kills(client, message)
-        yield from BotCommands.BotCommands.colors(client, message)
-        yield from BotCommands.BotCommands.games(client, message)
-        yield from BotCommands.BotCommands.attack(client, message)
-        yield from BotCommands.BotCommands.debug(client, message)
-        yield from BotCommands.BotCommands.other_commands(client, message)
-        yield from BotCommands.BotCommands.userdata(client, message)
-        yield from BotCommands.BotCommands.bot_say(client, message)
-        yield from BotCommands.BotCommands.randomcoin(client, message)
-        yield from BotCommands.BotCommands.mod_commands(client, message)
-        yield from BotCommands.BotCommands.bot_roles(client, message)
-        yield from BotCommands.BotCommands.more_commands(client, message)
-        yield from BotCommands.BotCommands.convert_url(client, message)
-        if _disable_voice_commands is not True:
-            yield from BotVoiceCommands.VoiceBotCommands.voice_stuff_new(client, message)
-        else:
-            yield from BotVoiceCommands.VoiceBotCommands.voice_stuff_new_disabled(client, message)
-        yield from self.ignored_channel_commands(client, message)
+        yield from self.bot.enable_all_commands_code(client, message)
 
     @classmethod
     @asyncio.coroutine
     def enable_all_commands_with_send_logs(self, client, message):
-        yield from self.enable_all_commands(client, message)
-        yield from BotLogs.BotLogs.send_logs(client, message)
+        yield from self.bot.enable_all_commands_with_send_logs_code(client, message)
 
     @classmethod
     @asyncio.coroutine
     def enable_all_commands_with_logs(self, client, message):
-        yield from self.enable_all_commands(client, message)
-        if _logging == 'True':
-            BotLogs.BotLogs.logs(client, message)
+        yield from self.bot.enable_all_commands_with_logs_code(client, message)
 
     @classmethod
     @asyncio.coroutine
     def pm_commands(self, client, message):
-        yield from BotCommands.BotCommands.scan_for_invite_url_only_pm(client, message)
-        yield from BotCommands.BotCommands.invite(client, message)
-        yield from BotCommands.BotCommands.kills(client, message)
-        yield from BotCommands.BotCommands.games(client, message)
-        yield from BotCommands.BotCommands.other_commands(client, message)
-        yield from BotCommands.BotCommands.bot_say(client, message)
-        yield from BotCommands.BotCommands.randomcoin(client, message)
-        yield from BotCommands.BotCommands.convert_url(client, message)
-        if _logging == 'True':
-            BotLogs.BotLogs.logs(client, message)
+        yield from self.bot.pm_commands_code(client, message)
 
     @classmethod
     @asyncio.coroutine
     def cheesy_commands(self, client, message):
-        yield from self.enable_all_commands_with_logs(client, message)
-        serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
-        serveridslist = json.load(serveridslistfile)
-        serveridslistfile.close()
-        joinedlistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json', 'r')
-        newlyjoinedlist = json.load(joinedlistfile)
-        joinedlistfile.close()
-        serverid = str(serveridslist['config_server_ids'][0])
-        memberjoinverifymessagefile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifycommand.json', 'r')
-        memberjoinverifymessagedata = json.load(memberjoinverifymessagefile)
-        memberjoinverifymessagefile.close()
-        if message.content == str(memberjoinverifymessagedata['verify_command'][0]):
-            yield from client.delete_message(message)
-            memberjoinverifyrolefile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifyrole.json', 'r')
-            memberjoinverifyroledata = json.load(memberjoinverifyrolefile)
-            memberjoinverifyrolefile.close()
-            memberjoinverifymessagefile2 = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifymessages.json', 'r')
-            memberjoinverifymessagedata2 = json.load(memberjoinverifymessagefile2)
-            memberjoinverifymessagefile2.close()
-            role = discord.utils.find(lambda role: role.id == str(memberjoinverifyroledata['verify_role_id'][0]), message.channel.server.roles)
-            msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
-            # if message.author.id not in newlyjoinedlist:
-            #    yield from client.send_message(message.channel, "You are not on the list of people to verify.")
-            # else:
-            yield from client.send_message(message.author, msg_data)
-            yield from client.add_roles(message.author, role)
-            newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
-            json.dump(newlyjoinedlist, open(sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json", "w"))
+        yield from self.bot.cheesy_commands_code(client, message)
 
 
 class BotIgnores:
@@ -605,6 +682,23 @@ class BotEvents:
                     return
 
         @classmethod
+        def _resolve_discord_logger_code(self):
+            if _discord_logger == True:
+                BotLogs.BotLogs.set_up_discord_logger()
+
+        @classmethod
+        @asyncio.coroutine
+        def server_available_code(self, server):
+            if _log_available == True:
+                yield from BotLogs.BotLogs.onavailable(server)
+
+        @classmethod
+        @asyncio.coroutine
+        def server_unavailable_code(self, server):
+            if _log_unavailable == True:
+                yield from BotLogs.BotLogs.onunavailable(server)
+
+        @classmethod
         @asyncio.coroutine
         def high_level_reload_helper2_code(self, client, message):
             try:
@@ -661,6 +755,20 @@ class BotEvents:
     @asyncio.coroutine
     def high_level_reload_helper(self, client, message, reload_reason):
         yield from self.bot.high_level_reload_helper_code(client, message, reload_reason)
+
+    @classmethod
+    def _resolve_discord_logger(self):
+        self.bot._resolve_discord_logger_code()
+
+    @classmethod
+    @asyncio.coroutine
+    def server_available(self, server):
+        yield from self.bot.server_available_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def server_unavailable(self, server):
+        yield from self.bot.server_unavailable_code(server)
 
     @classmethod
     @asyncio.coroutine

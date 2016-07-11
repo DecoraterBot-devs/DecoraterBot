@@ -5,6 +5,7 @@ import traceback
 import sys
 import os.path
 import asyncio
+import logging
 import json
 from discord.ext import commands
 
@@ -30,6 +31,14 @@ class BotLogs:
         """
             This class is for Internal use only!!!
         """
+
+        @classmethod
+        def set_up_discord_logger_code(self):
+            logger = logging.getLogger('discord')
+            logger.setLevel(logging.DEBUG)
+            handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\discordpy.log', encoding='utf-8', mode='w')
+            handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+            logger.addHandler(handler)
 
         @classmethod
         def logs_code(self, client, message):
@@ -192,6 +201,28 @@ class BotLogs:
             file.write(ban_log_data)
 
         @classmethod
+        @asyncio.coroutine
+        def onavailable_code(self, server):
+            available_log_data = str(LogData['On_Server_Available'][0]).format(server)
+            logfile = sys.path[0] + '\\resources\\Logs\\available_servers.txt'
+            file = io.open(logfile, 'a', encoding='utf-8')
+            size = os.path.getsize(logfile)
+            if size >= 32102400:
+                file.truncate()
+            file.write(available_log_data)
+
+        @classmethod
+        @asyncio.coroutine
+        def onunavailable_code(self, server):
+            unavailable_log_data = str(LogData['On_Server_Unavailable'][0]).format(server)
+            logfile = sys.path[0] + '\\resources\\Logs\\unavailable_servers.txt'
+            file = io.open(logfile, 'a', encoding='utf-8')
+            size = os.path.getsize(logfile)
+            if size >= 32102400:
+                file.truncate()
+            file.write(unavailable_log_data)
+
+        @classmethod
         def onunban_code(self, server, user):
             unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.discriminator, server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\unbans.txt'
@@ -210,6 +241,10 @@ class BotLogs:
             if size >= 32102400:
                 file.truncate()
             file.write(kick_log_data)
+
+    @classmethod
+    def set_up_discord_logger(self):
+        self.bot.set_up_discord_logger_code()
 
     @classmethod
     def logs(self, client, message):
@@ -249,6 +284,16 @@ class BotLogs:
     @classmethod
     def onban(self, client, member):
         self.bot.onban_code(client, member)
+
+    @classmethod
+    @asyncio.coroutine
+    def onavailable(self, server):
+        yield from self.bot.onavailable_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def onunavailable(self, server):
+        yield from self.bot.onunavailable_code(server)
 
     @classmethod
     def onunban(self, server, user):

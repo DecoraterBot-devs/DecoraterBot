@@ -35,5 +35,11 @@
     ],
     "Kick_Logs": [
         "{0} with a discriminator of {1} has been kicked from the {2} server.\n"
+    ],
+    "On_Server_Available": [
+        "The {0.name} server with the ID of {0.id} has become Available.\n"
+    ],
+    "On_Server_Unavailable": [
+        "The {0.name} server with the ID of {0.id} has become Unavailable.\n"
     ]
 }

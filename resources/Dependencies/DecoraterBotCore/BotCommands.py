@@ -26,7 +26,6 @@ global sent_prune_error_message
 sent_prune_error_message = False
 
 bits = ctypes.sizeof(ctypes.c_voidp)
-
 PY35 = sys.version_info >= (3, 5)
 
 try:
@@ -720,7 +719,9 @@ class BotCommands:
                     if message.channel.is_private is not False:
                         return
                     else:
-                        result = message.content.replace("::raid ", "")
+                        result = message.content.replace("::raid", "")
+                        if result.startswith(" "):
+                            result = result[len(" "):].strip()
                         try:
                             message_data = str(botmessages['raid_command_data'][0]).format(result)
                             yield from client.send_message(message.channel, message_data)

@@ -41,6 +41,13 @@ class BotLogs:
             logger.addHandler(handler)
 
         @classmethod
+        def set_up_asyncio_logger_code(self):
+            asynciologger = logging.getLogger('asyncio')
+            handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\asyncio.log', encoding='utf-8', mode='w')
+            handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+            asynciologger.addHandler(handler)
+
+        @classmethod
         def logs_code(self, client, message):
             Logs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id, str(message.timestamp), message.content)
             LogsPM = Logs001
@@ -245,6 +252,10 @@ class BotLogs:
     @classmethod
     def set_up_discord_logger(self):
         self.bot.set_up_discord_logger_code()
+
+    @classmethod
+    def set_up_asyncio_logger(self):
+        self.bot.set_up_asyncio_logger_code()
 
     @classmethod
     def logs(self, client, message):

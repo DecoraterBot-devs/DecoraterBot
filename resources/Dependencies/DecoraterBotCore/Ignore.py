@@ -44,6 +44,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     _disable_voice_commands = str(credentials['disable_voice'][0])
     _pm_command_errors = str(credentials['pm_command_errors'][0])
     _discord_logger = str(credentials['discord_py_logger'][0])
+    _asyncio_logger = str(credentials['asyncio_logger'][0])
     _log_available = str(credentials['LogServerAvailable'][0])
     _log_unavailable = str(credentials['LogServerUnavailable'][0])
     if _logging == 'True':
@@ -74,6 +75,10 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         _discord_logger = True
     elif _discord_logger == 'False':
         _discord_logger = False
+    if _asyncio_logger == 'True':
+        _asyncio_logger = True
+    elif _asyncio_logger == 'False':
+        _asyncio_logger = False
     if _disable_voice_commands == 'True':
         _disable_voice_commands = True
     elif _disable_voice_commands == 'False':
@@ -92,7 +97,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     if discord_user_id == 'None':
         discord_user_id = None
 
-if _logging == True or _logbans == True or _logunbans == True or _logkicks == True or _discord_logger == True or _log_available == True or _log_unavailable == True:
+if _logging == True or _logbans == True or _logunbans == True or _logkicks == True or _discord_logger == True or _asyncio_logger == True or _log_available == True or _log_unavailable == True:
     import BotLogs
 try:
     consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
@@ -691,6 +696,11 @@ class BotEvents:
                 BotLogs.BotLogs.set_up_discord_logger()
 
         @classmethod
+        def _resolve_asyncio_logger_code(self):
+            if _asyncio_logger == True:
+                BotLogs.BotLogs.set_up_asyncio_logger()
+
+        @classmethod
         @asyncio.coroutine
         def server_available_code(self, server):
             if _log_available == True:
@@ -763,6 +773,10 @@ class BotEvents:
     @classmethod
     def _resolve_discord_logger(self):
         self.bot._resolve_discord_logger_code()
+
+    @classmethod
+    def _resolve_asyncio_logger(self):
+        self.bot._resolve_asyncio_logger_code()
 
     @classmethod
     @asyncio.coroutine

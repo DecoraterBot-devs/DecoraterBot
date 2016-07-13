@@ -1,6 +1,7 @@
 # coding=utf-8
 import os
 import sys
+sys.dont_write_bytecode = True
 try:
     import discord
 except ImportError:
@@ -10,6 +11,7 @@ except ImportError:
 import DecoraterBotCore
 import asyncio
 
+DecoraterBotCore.Core.BotCore._asyncio_logger()
 DecoraterBotCore.Core.BotCore._discord_logger()
 client = discord.Client()
 DecoraterBotCore.Core.BotCore.changewindowtitle()

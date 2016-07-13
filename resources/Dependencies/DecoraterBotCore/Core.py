@@ -186,6 +186,10 @@ class BotCore:
             Ignore.BotEvents._resolve_discord_logger()
 
         @classmethod
+        def _asyncio_logger_code(self):
+            Ignore.BotEvents._resolve_asyncio_logger()
+
+        @classmethod
         @asyncio.coroutine
         def _server_available_code(self, server):
             yield from Ignore.BotEvents.server_available(server)
@@ -248,6 +252,10 @@ class BotCore:
     @classmethod
     def _discord_logger(self):
         self.bot._discord_logger_code()
+
+    @classmethod
+    def _asyncio_logger(self):
+        self.bot._asyncio_logger_code()
 
     @classmethod
     @asyncio.coroutine

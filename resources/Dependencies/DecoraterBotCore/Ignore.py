@@ -97,7 +97,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     if discord_user_id == 'None':
         discord_user_id = None
 
-if _logging == True or _logbans == True or _logunbans == True or _logkicks == True or _discord_logger == True or _asyncio_logger == True or _log_available == True or _log_unavailable == True:
+if _logging or _logbans or _logunbans or _logkicks or _discord_logger or _asyncio_logger or _log_available or _log_unavailable:
     import BotLogs
 try:
     consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
@@ -217,7 +217,7 @@ class BotCommandData:
                                 try:
                                     module = sys.modules.get(desmod)
                                     importlib.reload(module)
-                                    if rejoin_after_reload == True:
+                                    if rejoin_after_reload:
                                         yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(client, message)
                                     try:
                                         msgdata = str(botmessages['reload_command_data'][0])
@@ -284,14 +284,14 @@ class BotCommandData:
         @asyncio.coroutine
         def enable_all_commands_with_send_logs_code(self, client, message):
             yield from self.enable_all_commands_code(client, message)
-            if _logging == True:
+            if _logging:
                 yield from BotLogs.BotLogs.send_logs(client, message)
 
         @classmethod
         @asyncio.coroutine
         def enable_all_commands_with_logs_code(self, client, message):
             yield from self.enable_all_commands_code(client, message)
-            if _logging == True:
+            if _logging:
                 BotLogs.BotLogs.logs(client, message)
 
         @classmethod
@@ -305,7 +305,7 @@ class BotCommandData:
             yield from BotCommands.BotCommands.bot_say(client, message)
             yield from BotCommands.BotCommands.randomcoin(client, message)
             yield from BotCommands.BotCommands.convert_url(client, message)
-            if _logging == True:
+            if _logging:
                 BotLogs.BotLogs.logs(client, message)
 
         @classmethod
@@ -692,24 +692,24 @@ class BotEvents:
 
         @classmethod
         def _resolve_discord_logger_code(self):
-            if _discord_logger == True:
+            if _discord_logger:
                 BotLogs.BotLogs.set_up_discord_logger()
 
         @classmethod
         def _resolve_asyncio_logger_code(self):
-            if _asyncio_logger == True:
+            if _asyncio_logger:
                 BotLogs.BotLogs.set_up_asyncio_logger()
 
         @classmethod
         @asyncio.coroutine
         def server_available_code(self, server):
-            if _log_available == True:
+            if _log_available:
                 yield from BotLogs.BotLogs.onavailable(server)
 
         @classmethod
         @asyncio.coroutine
         def server_unavailable_code(self, server):
-            if _log_unavailable == True:
+            if _log_unavailable:
                 yield from BotLogs.BotLogs.onunavailable(server)
 
         @classmethod

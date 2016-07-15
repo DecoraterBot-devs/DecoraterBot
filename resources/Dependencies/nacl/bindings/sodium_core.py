@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2013 Donald Stufft and individual contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, division, print_function
-# noinspection PyPackageRequirements
+
 from nacl._sodium import lib
-# noinspection PyPackageRequirements
 from nacl.exceptions import CryptoError
 
 

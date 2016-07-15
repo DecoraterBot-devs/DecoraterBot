@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2013 Donald Stufft and individual contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,15 +13,14 @@
 # limitations under the License.
 
 from __future__ import absolute_import, division, print_function
-# noinspection PyPackageRequirements
+
 import six
-# noinspection PyPackageRequirements
+
 from nacl import encoding
-# noinspection PyPackageRequirements
+
 import nacl.bindings
-# noinspection PyPackageRequirements
-from nacl.public import (PrivateKey as _Curve25519_PrivateKey, PublicKey as _Curve25519_PublicKey)
-# noinspection PyPackageRequirements
+from nacl.public import (PrivateKey as _Curve25519_PrivateKey,
+                         PublicKey as _Curve25519_PublicKey)
 from nacl.utils import StringFixer, random
 
 
@@ -168,7 +166,6 @@ class SigningKey(encoding.Encodable, StringFixer, object):
             encoder=encoding.RawEncoder,
         )
 
-    # noinspection PyPep8Naming
     def sign(self, message, encoder=encoding.RawEncoder):
         """
         Sign a message using this key.

@@ -1,28 +1,25 @@
-# coding=utf-8
 import sys
 from . import api, model
+
 
 COMMON_TYPES = {}
 
 try:
     # fetch "bool" and all simple Windows types
     from _cffi_backend import _get_common_types
-
     _get_common_types(COMMON_TYPES)
 except ImportError:
     pass
 
 COMMON_TYPES['FILE'] = model.unknown_type('FILE', '_IO_FILE')
-COMMON_TYPES['bool'] = '_Bool'  # in case we got ImportError above
+COMMON_TYPES['bool'] = '_Bool'    # in case we got ImportError above
 
 for _type in model.PrimitiveType.ALL_PRIMITIVE_TYPES:
     if _type.endswith('_t'):
         COMMON_TYPES[_type] = _type
-# noinspection PyUnboundLocalVariable
 del _type
 
 _CACHE = {}
-
 
 def resolve_common_type(parser, commontype):
     try:
@@ -30,7 +27,7 @@ def resolve_common_type(parser, commontype):
     except KeyError:
         cdecl = COMMON_TYPES.get(commontype, commontype)
         if not isinstance(cdecl, str):
-            result, quals = cdecl, 0  # cdecl is already a BaseType
+            result, quals = cdecl, 0    # cdecl is already a BaseType
         elif cdecl in model.PrimitiveType.ALL_PRIMITIVE_TYPES:
             result, quals = model.PrimitiveType(cdecl), 0
         elif cdecl == 'set-unicode-needed':
@@ -38,9 +35,12 @@ def resolve_common_type(parser, commontype):
                                "you call ffi.set_unicode()" % (commontype,))
         else:
             if commontype == cdecl:
-                raise api.FFIError("Unsupported type: %r.  Please file a bug "
-                                   "if you think it should be." % (commontype,))
-            result, quals = parser.parse_type_and_quals(cdecl)  # recursive
+                raise api.FFIError(
+                    "Unsupported type: %r.  Please look at "
+        "http://cffi.readthedocs.io/en/latest/cdef.html#ffi-cdef-limitations "
+                    "and file an issue if you think this type should really "
+                    "be supported." % (commontype,))
+            result, quals = parser.parse_type_and_quals(cdecl)   # recursive
 
         assert isinstance(result, model.BaseTypeByIdentity)
         _CACHE[commontype] = result, quals
@@ -73,8 +73,7 @@ def win_common_types():
         "PTSTR": "set-unicode-needed",
         "PTBYTE": "set-unicode-needed",
         "PTCHAR": "set-unicode-needed",
-    }
-
+        }
 
 if sys.platform == 'win32':
     COMMON_TYPES.update(win_common_types())

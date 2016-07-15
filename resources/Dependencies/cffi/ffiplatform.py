@@ -1,12 +1,9 @@
-# coding=utf-8
-# noinspection PyPep8
 import sys, os
 
 
 class VerificationError(Exception):
     """ An error raised when verification fails
     """
-
 
 class VerificationMissing(Exception):
     """ An error raised when incomplete structures are passed into
@@ -17,7 +14,6 @@ class VerificationMissing(Exception):
 LIST_OF_FILE_NAMES = ['sources', 'include_dirs', 'library_dirs',
                       'extra_objects', 'depends']
 
-
 def get_extension(srcfilename, modname, sources=(), **kwds):
     from distutils.core import Extension
     allsources = [srcfilename]
@@ -25,8 +21,6 @@ def get_extension(srcfilename, modname, sources=(), **kwds):
         allsources.append(os.path.normpath(src))
     return Extension(name=modname, sources=allsources, **kwds)
 
-
-# noinspection PyShadowingBuiltins,PyIncorrectDocstring
 def compile(tmpdir, ext, compiler_verbose=0):
     """Compile a C extension module using distutils."""
 
@@ -42,11 +36,9 @@ def compile(tmpdir, ext, compiler_verbose=0):
                 os.environ[key] = value
     return outputfilename
 
-
 def _build(tmpdir, ext, compiler_verbose=0):
     # XXX compact but horrible :-(
     from distutils.core import Distribution
-    # noinspection PyPep8
     import distutils.errors, distutils.log
     #
     dist = Distribution({'ext_modules': [ext]})
@@ -77,8 +69,6 @@ except ImportError:
     def samefile(f1, f2):
         return os.path.abspath(f1) == os.path.abspath(f2)
 
-
-# noinspection PyShadowingBuiltins
 def maybe_relative_path(path):
     if not os.path.isabs(path):
         return path      # already relative
@@ -101,13 +91,10 @@ def maybe_relative_path(path):
 
 try:
     int_or_long = (int, long)
-    # noinspection PyCompatibility
     import cStringIO
 except NameError:
     int_or_long = int      # Python 3
-    # noinspection PyPep8Naming
     import io as cStringIO
-
 
 def _flatten(x, f):
     if isinstance(x, str):
@@ -127,7 +114,6 @@ def _flatten(x, f):
     else:
         raise TypeError(
             "the keywords to verify() contains unsupported object %r" % (x,))
-
 
 def flatten(x):
     f = cStringIO.StringIO()

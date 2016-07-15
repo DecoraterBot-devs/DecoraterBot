@@ -1,15 +1,13 @@
-# coding=utf-8
-# noinspection PyPep8
 import types, sys
 import weakref
 
 from .lock import allocate_lock
 
+
 # type qualifiers
-Q_CONST = 0x01
+Q_CONST    = 0x01
 Q_RESTRICT = 0x02
 Q_VOLATILE = 0x04
-
 
 def qualify(quals, replace_with):
     if quals & Q_CONST:
@@ -56,7 +54,6 @@ class BaseTypeByIdentity(object):
     def is_integer_type(self):
         return False
 
-    # noinspection PyPep8Naming
     def get_cached_btype(self, ffi, finishlist, can_delay=False):
         try:
             BType = ffi._cached_btypes[self]
@@ -74,6 +71,7 @@ class BaseTypeByIdentity(object):
 
 
 class BaseType(BaseTypeByIdentity):
+
     def __eq__(self, other):
         return (self.__class__ == other.__class__ and
                 self._get_items() == other._get_items())
@@ -85,7 +83,6 @@ class BaseType(BaseTypeByIdentity):
         return hash((self.__class__, tuple(self._get_items())))
 
 
-# noinspection PyUnusedLocal
 class VoidType(BaseType):
     _attrs_ = ()
 
@@ -95,7 +92,6 @@ class VoidType(BaseType):
     def build_backend_type(self, ffi, finishlist):
         return global_cache(self, ffi, 'new_void_type')
 
-
 void_type = VoidType()
 
 
@@ -103,60 +99,59 @@ class BasePrimitiveType(BaseType):
     pass
 
 
-# noinspection PyUnusedLocal
 class PrimitiveType(BasePrimitiveType):
     _attrs_ = ('name',)
 
     ALL_PRIMITIVE_TYPES = {
-        'char': 'c',
-        'short': 'i',
-        'int': 'i',
-        'long': 'i',
-        'long long': 'i',
-        'signed char': 'i',
-        'unsigned char': 'i',
-        'unsigned short': 'i',
-        'unsigned int': 'i',
-        'unsigned long': 'i',
+        'char':               'c',
+        'short':              'i',
+        'int':                'i',
+        'long':               'i',
+        'long long':          'i',
+        'signed char':        'i',
+        'unsigned char':      'i',
+        'unsigned short':     'i',
+        'unsigned int':       'i',
+        'unsigned long':      'i',
         'unsigned long long': 'i',
-        'float': 'f',
-        'double': 'f',
-        'long double': 'f',
-        '_Bool': 'i',
+        'float':              'f',
+        'double':             'f',
+        'long double':        'f',
+        '_Bool':              'i',
         # the following types are not primitive in the C sense
-        'wchar_t': 'c',
-        'int8_t': 'i',
-        'uint8_t': 'i',
-        'int16_t': 'i',
-        'uint16_t': 'i',
-        'int32_t': 'i',
-        'uint32_t': 'i',
-        'int64_t': 'i',
-        'uint64_t': 'i',
-        'int_least8_t': 'i',
-        'uint_least8_t': 'i',
-        'int_least16_t': 'i',
-        'uint_least16_t': 'i',
-        'int_least32_t': 'i',
-        'uint_least32_t': 'i',
-        'int_least64_t': 'i',
-        'uint_least64_t': 'i',
-        'int_fast8_t': 'i',
-        'uint_fast8_t': 'i',
-        'int_fast16_t': 'i',
-        'uint_fast16_t': 'i',
-        'int_fast32_t': 'i',
-        'uint_fast32_t': 'i',
-        'int_fast64_t': 'i',
-        'uint_fast64_t': 'i',
-        'intptr_t': 'i',
-        'uintptr_t': 'i',
-        'intmax_t': 'i',
-        'uintmax_t': 'i',
-        'ptrdiff_t': 'i',
-        'size_t': 'i',
-        'ssize_t': 'i',
-    }
+        'wchar_t':            'c',
+        'int8_t':             'i',
+        'uint8_t':            'i',
+        'int16_t':            'i',
+        'uint16_t':           'i',
+        'int32_t':            'i',
+        'uint32_t':           'i',
+        'int64_t':            'i',
+        'uint64_t':           'i',
+        'int_least8_t':       'i',
+        'uint_least8_t':      'i',
+        'int_least16_t':      'i',
+        'uint_least16_t':     'i',
+        'int_least32_t':      'i',
+        'uint_least32_t':     'i',
+        'int_least64_t':      'i',
+        'uint_least64_t':     'i',
+        'int_fast8_t':        'i',
+        'uint_fast8_t':       'i',
+        'int_fast16_t':       'i',
+        'uint_fast16_t':      'i',
+        'int_fast32_t':       'i',
+        'uint_fast32_t':      'i',
+        'int_fast64_t':       'i',
+        'uint_fast64_t':      'i',
+        'intptr_t':           'i',
+        'uintptr_t':          'i',
+        'intmax_t':           'i',
+        'uintmax_t':          'i',
+        'ptrdiff_t':          'i',
+        'size_t':             'i',
+        'ssize_t':            'i',
+        }
 
     def __init__(self, name):
         assert name in self.ALL_PRIMITIVE_TYPES
@@ -165,10 +160,8 @@ class PrimitiveType(BasePrimitiveType):
 
     def is_char_type(self):
         return self.ALL_PRIMITIVE_TYPES[self.name] == 'c'
-
     def is_integer_type(self):
         return self.ALL_PRIMITIVE_TYPES[self.name] == 'i'
-
     def is_float_type(self):
         return self.ALL_PRIMITIVE_TYPES[self.name] == 'f'
 
@@ -190,9 +183,8 @@ class UnknownIntegerType(BasePrimitiveType):
         raise NotImplementedError("integer type '%s' can only be used after "
                                   "compilation" % self.name)
 
-
 class UnknownFloatType(BasePrimitiveType):
-    _attrs_ = ('name',)
+    _attrs_ = ('name', )
 
     def __init__(self, name):
         self.name = name
@@ -223,7 +215,6 @@ class BaseFunctionType(BaseType):
             self.result.c_name_with_marker.replace('&', replace_with))
 
 
-# noinspection PyUnusedLocal
 class RawFunctionType(BaseFunctionType):
     # Corresponds to a C type like 'int(int)', which is the C type of
     # a function, but not a pointer-to-function.  The backend has no
@@ -250,7 +241,7 @@ class FunctionPtrType(BaseFunctionType):
             args.append(tp.get_cached_btype(ffi, finishlist))
         abi_args = ()
         if self.abi == "__stdcall":
-            if not self.ellipsis:  # __stdcall ignored for variadic funcs
+            if not self.ellipsis:    # __stdcall ignored for variadic funcs
                 try:
                     abi_args = (ffi._backend.FFI_STDCALL,)
                 except AttributeError:
@@ -262,7 +253,6 @@ class FunctionPtrType(BaseFunctionType):
         return RawFunctionType(self.args, self.result, self.ellipsis, self.abi)
 
 
-# noinspection PyPep8Naming
 class PointerType(BaseType):
     _attrs_ = ('totype', 'quals')
 
@@ -278,14 +268,10 @@ class PointerType(BaseType):
         BItem = self.totype.get_cached_btype(ffi, finishlist, can_delay=True)
         return global_cache(self, ffi, 'new_pointer_type', BItem)
 
-
 voidp_type = PointerType(void_type)
 
-
-# noinspection PyPep8Naming
 def ConstPointerType(totype):
     return PointerType(totype, Q_CONST)
-
 
 const_voidp_type = ConstPointerType(void_type)
 
@@ -299,7 +285,6 @@ class NamedPointerType(PointerType):
         self.c_name_with_marker = name + '&'
 
 
-# noinspection PyPep8Naming
 class ArrayType(BaseType):
     _attrs_ = ('item', 'length')
     is_array_type = True
@@ -325,12 +310,10 @@ class ArrayType(BaseType):
             from . import api
             raise api.CDefError("cannot render the type %r: unknown length" %
                                 (self,))
-        self.item.get_cached_btype(ffi, finishlist)  # force the item BType
+        self.item.get_cached_btype(ffi, finishlist)   # force the item BType
         BPtrItem = PointerType(self.item).get_cached_btype(ffi, finishlist)
         return global_cache(self, ffi, 'new_array_type', BPtrItem, self.length)
 
-
-# noinspection PyTypeChecker
 char_array_type = ArrayType(PrimitiveType('char'), None)
 
 
@@ -338,7 +321,6 @@ class StructOrUnionOrEnum(BaseTypeByIdentity):
     _attrs_ = ('name',)
     forcename = None
 
-    # noinspection PyAttributeOutsideInit
     def build_c_name_with_marker(self):
         name = self.forcename or '%s %s' % (self.kind, self.name)
         self.c_name_with_marker = name + '&'
@@ -366,7 +348,6 @@ class StructOrUnion(StructOrUnionOrEnum):
         self.fldquals = fldquals
         self.build_c_name_with_marker()
 
-    # noinspection PyShadowingBuiltins
     def has_anonymous_struct_fields(self):
         if self.fldtypes is None:
             return False
@@ -375,7 +356,6 @@ class StructOrUnion(StructOrUnionOrEnum):
                 return True
         return False
 
-    # noinspection PyShadowingBuiltins
     def enumfields(self):
         fldquals = self.fldquals
         if fldquals is None:
@@ -389,7 +369,6 @@ class StructOrUnion(StructOrUnionOrEnum):
             else:
                 yield (name, type, bitsize, quals)
 
-    # noinspection PyShadowingBuiltins
     def force_flatten(self):
         # force the struct or union to have a declaration that lists
         # directly all fields returned by enumfields(), flattening
@@ -408,7 +387,6 @@ class StructOrUnion(StructOrUnionOrEnum):
         self.fldbitsize = tuple(bitsizes)
         self.fldquals = tuple(fldquals)
 
-    # noinspection PyPep8Naming
     def get_cached_btype(self, ffi, finishlist, can_delay=False):
         BType = StructOrUnionOrEnum.get_cached_btype(self, ffi, finishlist,
                                                      can_delay)
@@ -416,7 +394,6 @@ class StructOrUnion(StructOrUnionOrEnum):
             self.finish_backend_type(ffi, finishlist)
         return BType
 
-    # noinspection PyPep8Naming
     def finish_backend_type(self, ffi, finishlist):
         if self.completed:
             if self.completed != 2:
@@ -428,7 +405,7 @@ class StructOrUnion(StructOrUnionOrEnum):
         self.completed = 1
         #
         if self.fldtypes is None:
-            pass  # not completing it: it's an opaque struct
+            pass    # not completing it: it's an opaque struct
             #
         elif self.fixedlayout is None:
             fldtypes = [tp.get_cached_btype(ffi, finishlist)
@@ -436,7 +413,7 @@ class StructOrUnion(StructOrUnionOrEnum):
             lst = list(zip(self.fldnames, fldtypes, self.fldbitsize))
             sflags = 0
             if self.packed:
-                sflags = 8  # SF_PACKED
+                sflags = 8    # SF_PACKED
             ffi._backend.complete_struct_or_union(BType, lst, self,
                                                   -1, -1, sflags)
             #
@@ -453,10 +430,11 @@ class StructOrUnion(StructOrUnionOrEnum):
                     nlen, nrest = divmod(fsize, ffi.sizeof(BItemType))
                     if nrest != 0:
                         self._verification_error(
-                            "field '%s.%s' has a bogus size?" % (self.name, self.fldnames[i] or '{}'))
+                            "field '%s.%s' has a bogus size?" % (
+                            self.name, self.fldnames[i] or '{}'))
                     ftype = ftype.resolve_length(nlen)
                     self.fldtypes = (self.fldtypes[:i] + (ftype,) +
-                                     self.fldtypes[i + 1:])
+                                     self.fldtypes[i+1:])
                 #
                 BFieldType = ftype.get_cached_btype(ffi, finishlist)
                 if isinstance(ftype, ArrayType) and ftype.length is None:
@@ -547,7 +525,7 @@ class EnumType(StructOrUnionOrEnum):
                           "meant to be (unsigned/signed, int/long)"
                           % self._get_c_name())
             smallest_value = largest_value = 0
-        if smallest_value < 0:  # needs a signed type
+        if smallest_value < 0:   # needs a signed type
             sign = 1
             candidate1 = PrimitiveType("int")
             candidate2 = PrimitiveType("long")
@@ -559,13 +537,14 @@ class EnumType(StructOrUnionOrEnum):
         btype2 = candidate2.get_cached_btype(ffi, finishlist)
         size1 = ffi.sizeof(btype1)
         size2 = ffi.sizeof(btype2)
-        if smallest_value >= ((-1) << (8 * size1 - 1)) and largest_value < (1 << (8 * size1 - sign)):
+        if (smallest_value >= ((-1) << (8*size1-1)) and
+            largest_value < (1 << (8*size1-sign))):
             return btype1
-        if smallest_value >= ((-1) << (8 * size2 - 1)) and largest_value < (1 << (8 * size2 - sign)):
+        if (smallest_value >= ((-1) << (8*size2-1)) and
+            largest_value < (1 << (8*size2-sign))):
             return btype2
         raise api.CDefError("%s values don't all fit into either 'long' "
                             "or 'unsigned long'" % self._get_c_name())
-
 
 def unknown_type(name, structname=None):
     if structname is None:
@@ -575,7 +554,6 @@ def unknown_type(name, structname=None):
     tp.origin = "unknown_type"
     return tp
 
-
 def unknown_ptr_type(name, structname=None):
     if structname is None:
         structname = '$$%s' % name
@@ -584,7 +562,6 @@ def unknown_ptr_type(name, structname=None):
 
 
 global_lock = allocate_lock()
-
 
 def global_cache(srctype, ffi, funcname, *args, **kwds):
     key = kwds.pop('key', (funcname, args))
@@ -617,11 +594,8 @@ def global_cache(srctype, ffi, funcname, *args, **kwds):
         else:
             return res1
 
-
-# noinspection PyPep8Naming
 def pointer_cache(ffi, BType):
     return global_cache('?', ffi, 'new_pointer_type', BType)
-
 
 def attach_exception_info(e, name):
     if e.args and type(e.args[0]) is str:

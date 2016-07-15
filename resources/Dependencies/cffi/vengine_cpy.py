@@ -1,13 +1,10 @@
-# coding=utf-8
 #
 # DEPRECATED: implementation for ffi.verify()
 #
-# noinspection PyDeprecation,PyPep8
 import sys, imp
 from . import model, ffiplatform
 
 
-# noinspection PyUnusedLocal,PyPep8Naming
 class VCPythonEngine(object):
     _class_key = 'x'
     _gen_python_module = True
@@ -21,7 +18,6 @@ class VCPythonEngine(object):
     def patch_extension_kwds(self, kwds):
         pass
 
-    # noinspection PyDeprecation
     def find_module(self, module_name, path, so_suffixes):
         try:
             f, filename, descr = imp.find_module(module_name, path)
@@ -36,7 +32,6 @@ class VCPythonEngine(object):
             return None
         return filename
 
-    # noinspection PyAttributeOutsideInit
     def collect_types(self):
         self._typesdict = {}
         self._generate("collecttype")
@@ -44,17 +39,17 @@ class VCPythonEngine(object):
     def _prnt(self, what=''):
         self._f.write(what + '\n')
 
-    # noinspection PyShadowingBuiltins
     def _gettypenum(self, type):
         # a KeyError here is a bug.  please report it! :-)
         return self._typesdict[type]
 
     def _do_collect_type(self, tp):
-        if (not isinstance(tp, model.PrimitiveType) or tp.name == 'long double') and tp not in self._typesdict:
+        if ((not isinstance(tp, model.PrimitiveType)
+             or tp.name == 'long double')
+                and tp not in self._typesdict):
             num = len(self._typesdict)
             self._typesdict[tp] = num
 
-    # noinspection PyAttributeOutsideInit
     def write_source_to_f(self):
         self.collect_types()
         #
@@ -146,7 +141,6 @@ class VCPythonEngine(object):
         prnt()
         prnt('#endif')
 
-    # noinspection PyDeprecation,PyDeprecation,PyUnboundLocalVariable
     def load_library(self, flags=None):
         # XXX review all usages of 'self' here!
         # import it as a new extension module
@@ -178,22 +172,18 @@ class VCPythonEngine(object):
                            for (key, value) in self._typesdict.items()])
         lst = [revmapping[i] for i in range(len(revmapping))]
         lst = list(map(self.ffi._get_cached_btype, lst))
-
         #
         # build the FFILibrary class and instance and call _cffi_setup().
         # this will set up some fields like '_cffi_types', and only then
         # it will invoke the chained list of functions that will really
         # build (notably) the constant objects, as <cdata> if they are
         # pointers, and store them as attributes on the 'library' object.
-
         class FFILibrary(object):
             _cffi_python_module = module
             _cffi_ffi = self.ffi
             _cffi_dir = []
-
             def __dir__(self):
                 return FFILibrary._cffi_dir + list(self.__dict__)
-
         library = FFILibrary()
         if module._cffi_setup(lst, ffiplatform.VerificationError, library):
             import warnings
@@ -210,7 +200,8 @@ class VCPythonEngine(object):
         return library
 
     def _get_declarations(self):
-        lst = [(key, tp) for (key, (tp, qual)) in self.ffi._parser._declarations.items()]
+        lst = [(key, tp) for (key, (tp, qual)) in
+                                self.ffi._parser._declarations.items()]
         lst.sort()
         return lst
 
@@ -265,8 +256,8 @@ class VCPythonEngine(object):
         #
         elif isinstance(tp, (model.StructOrUnion, model.EnumType)):
             # a struct (not a struct pointer) as a function argument
-            self._prnt('  if (_cffi_to_c((char *)&%s, _cffi_type(%d), %s) < 0)' % (
-                tovar, self._gettypenum(tp), fromvar))
+            self._prnt('  if (_cffi_to_c((char *)&%s, _cffi_type(%d), %s) < 0)'
+                      % (tovar, self._gettypenum(tp), fromvar))
             self._prnt('    %s;' % errcode)
             return
         #
@@ -298,7 +289,7 @@ class VCPythonEngine(object):
         self._prnt('    memset((void *)%s, 0, (size_t)datasize);' % (tovar,))
         self._prnt('    if (_cffi_convert_array_from_object('
                    '(char *)%s, _cffi_type(%d), %s) < 0)' % (
-                       tovar, self._gettypenum(tp), fromvar))
+            tovar, self._gettypenum(tp), fromvar))
         self._prnt('      %s;' % errcode)
         self._prnt('  }')
 
@@ -333,15 +324,14 @@ class VCPythonEngine(object):
     # typedefs: generates no code so far
 
     _generate_cpy_typedef_collecttype = _generate_nothing
-    _generate_cpy_typedef_decl = _generate_nothing
+    _generate_cpy_typedef_decl   = _generate_nothing
     _generate_cpy_typedef_method = _generate_nothing
-    _loading_cpy_typedef = _loaded_noop
-    _loaded_cpy_typedef = _loaded_noop
+    _loading_cpy_typedef         = _loaded_noop
+    _loaded_cpy_typedef          = _loaded_noop
 
     # ----------
     # function declarations
 
-    # noinspection PyTypeChecker,PyShadowingBuiltins
     def _generate_cpy_function_collecttype(self, tp, name):
         assert isinstance(tp, model.FunctionPtrType)
         if tp.ellipsis:
@@ -353,7 +343,6 @@ class VCPythonEngine(object):
                 self._do_collect_type(type)
             self._do_collect_type(tp.result)
 
-    # noinspection PyShadowingBuiltins
     def _generate_cpy_function_decl(self, tp, name):
         assert isinstance(tp, model.FunctionPtrType)
         if tp.ellipsis:
@@ -452,38 +441,30 @@ class VCPythonEngine(object):
     # named structs
 
     _generate_cpy_struct_collecttype = _generate_nothing
-
     def _generate_cpy_struct_decl(self, tp, name):
         assert name == tp.name
         self._generate_struct_or_union_decl(tp, 'struct', name)
-
     def _generate_cpy_struct_method(self, tp, name):
         self._generate_struct_or_union_method(tp, 'struct', name)
-
     def _loading_cpy_struct(self, tp, name, module):
         self._loading_struct_or_union(tp, 'struct', name, module)
-
     def _loaded_cpy_struct(self, tp, name, module, **kwds):
         self._loaded_struct_or_union(tp)
 
     _generate_cpy_union_collecttype = _generate_nothing
-
     def _generate_cpy_union_decl(self, tp, name):
         assert name == tp.name
         self._generate_struct_or_union_decl(tp, 'union', name)
-
     def _generate_cpy_union_method(self, tp, name):
         self._generate_struct_or_union_method(tp, 'union', name)
-
     def _loading_cpy_union(self, tp, name, module):
         self._loading_struct_or_union(tp, 'union', name, module)
-
     def _loaded_cpy_union(self, tp, name, module, **kwds):
         self._loaded_struct_or_union(tp)
 
     def _generate_struct_or_union_decl(self, tp, prefix, name):
         if tp.fldnames is None:
-            return  # nothing to do with opaque structs
+            return     # nothing to do with opaque structs
         checkfuncname = '_cffi_check_%s_%s' % (prefix, name)
         layoutfuncname = '_cffi_layout_%s_%s' % (prefix, name)
         cname = ('%s %s' % (prefix, name)).strip()
@@ -494,17 +475,18 @@ class VCPythonEngine(object):
         prnt('  /* only to generate compile-time warnings or errors */')
         prnt('  (void)p;')
         for fname, ftype, fbitsize, fqual in tp.enumfields():
-            if (isinstance(ftype, model.PrimitiveType) and ftype.is_integer_type()) or fbitsize >= 0:
+            if (isinstance(ftype, model.PrimitiveType)
+                and ftype.is_integer_type()) or fbitsize >= 0:
                 # accept all integers, but complain on float or double
                 prnt('  (void)((p->%s) << 1);' % fname)
             else:
                 # only accept exactly the type declared.
                 try:
                     prnt('  { %s = &p->%s; (void)tmp; }' % (
-                        ftype.get_c_name('*tmp', 'field %r' % fname, quals=fqual),
+                        ftype.get_c_name('*tmp', 'field %r'%fname, quals=fqual),
                         fname))
                 except ffiplatform.VerificationError as e:
-                    prnt('  /* %s */' % str(e))  # cannot verify it, ignore
+                    prnt('  /* %s */' % str(e))   # cannot verify it, ignore
         prnt('}')
         prnt('static PyObject *')
         prnt('%s(PyObject *self, PyObject *noarg)' % (layoutfuncname,))
@@ -515,7 +497,7 @@ class VCPythonEngine(object):
         prnt('    offsetof(struct _cffi_aligncheck, y),')
         for fname, ftype, fbitsize, fqual in tp.enumfields():
             if fbitsize >= 0:
-                continue  # xxx ignore fbitsize for now
+                continue      # xxx ignore fbitsize for now
             prnt('    offsetof(%s, %s),' % (cname, fname))
             if isinstance(ftype, model.ArrayType) and ftype.length is None:
                 prnt('    0,  /* %s */' % ftype._get_c_name())
@@ -533,14 +515,14 @@ class VCPythonEngine(object):
 
     def _generate_struct_or_union_method(self, tp, prefix, name):
         if tp.fldnames is None:
-            return  # nothing to do with opaque structs
+            return     # nothing to do with opaque structs
         layoutfuncname = '_cffi_layout_%s_%s' % (prefix, name)
         self._prnt('  {"%s", %s, METH_NOARGS, NULL},' % (layoutfuncname,
                                                          layoutfuncname))
 
     def _loading_struct_or_union(self, tp, prefix, name, module):
         if tp.fldnames is None:
-            return  # nothing to do with opaque structs
+            return     # nothing to do with opaque structs
         layoutfuncname = '_cffi_layout_%s_%s' % (prefix, name)
         #
         function = getattr(module, layoutfuncname)
@@ -561,8 +543,8 @@ class VCPythonEngine(object):
 
     def _loaded_struct_or_union(self, tp):
         if tp.fldnames is None:
-            return  # nothing to do with opaque structs
-        self.ffi._get_cached_btype(tp)  # force 'fixedlayout' to be considered
+            return     # nothing to do with opaque structs
+        self.ffi._get_cached_btype(tp)   # force 'fixedlayout' to be considered
 
         if tp in self._struct_pending_verification:
             # check that the layout sizes and offsets match the real ones
@@ -571,7 +553,6 @@ class VCPythonEngine(object):
                     raise ffiplatform.VerificationError(
                         "%s (we have %d, but C compiler says %d)"
                         % (msg, expectedvalue, realvalue))
-
             ffi = self.ffi
             BStruct = ffi._get_cached_btype(tp)
             layout, cname = self._struct_pending_verification.pop(tp)
@@ -580,12 +561,12 @@ class VCPythonEngine(object):
             i = 2
             for fname, ftype, fbitsize, fqual in tp.enumfields():
                 if fbitsize >= 0:
-                    continue  # xxx ignore fbitsize for now
+                    continue        # xxx ignore fbitsize for now
                 check(layout[i], ffi.offsetof(BStruct, fname),
                       "wrong offset for field %r" % (fname,))
-                if layout[i + 1] != 0:
+                if layout[i+1] != 0:
                     BField = ffi._get_cached_btype(ftype)
-                    check(layout[i + 1], ffi.sizeof(BField),
+                    check(layout[i+1], ffi.sizeof(BField),
                           "wrong size for field %r" % (fname,))
                 i += 2
             assert i == len(layout)
@@ -680,7 +661,7 @@ class VCPythonEngine(object):
 
     _generate_cpy_constant_method = _generate_nothing
     _loading_cpy_constant = _loaded_noop
-    _loaded_cpy_constant = _loaded_noop
+    _loaded_cpy_constant  = _loaded_noop
 
     # ----------
     # enums
@@ -750,18 +731,17 @@ class VCPythonEngine(object):
         if tp == '...':
             check_value = None
         else:
-            check_value = tp  # an integer
+            check_value = tp     # an integer
         self._generate_cpy_const(True, name, check_value=check_value)
 
     _generate_cpy_macro_collecttype = _generate_nothing
     _generate_cpy_macro_method = _generate_nothing
     _loading_cpy_macro = _loaded_noop
-    _loaded_cpy_macro = _loaded_noop
+    _loaded_cpy_macro  = _loaded_noop
 
     # ----------
     # global variables
 
-    # noinspection PyTypeChecker
     def _generate_cpy_variable_collecttype(self, tp, name):
         if isinstance(tp, model.ArrayType):
             tp_ptr = model.PointerType(tp.item)
@@ -773,7 +753,7 @@ class VCPythonEngine(object):
         if isinstance(tp, model.ArrayType):
             tp_ptr = model.PointerType(tp.item)
             self._generate_cpy_const(False, name, tp, vartp=tp_ptr,
-                                     size_too=(tp.length == '...'))
+                                     size_too = (tp.length == '...'))
         else:
             tp_ptr = model.PointerType(tp)
             self._generate_cpy_const(False, name, tp_ptr, category='var')
@@ -783,8 +763,8 @@ class VCPythonEngine(object):
 
     def _loaded_cpy_variable(self, tp, name, module, library):
         value = getattr(library, name)
-        if isinstance(tp, model.ArrayType):  # int a[5] is "constant" in the
-            # sense that "a=..." is forbidden
+        if isinstance(tp, model.ArrayType):   # int a[5] is "constant" in the
+                                              # sense that "a=..." is forbidden
             if tp.length == '...':
                 assert isinstance(value, tuple)
                 (value, size) = value
@@ -806,13 +786,10 @@ class VCPythonEngine(object):
         # it by a property on the class, which reads/writes into ptr[0].
         ptr = value
         delattr(library, name)
-
         def getter(library):
             return ptr[0]
-
         def setter(library, value):
             ptr[0] = value
-
         setattr(type(library), name, property(getter, setter))
         type(library)._cffi_dir.append(name)
 
@@ -824,7 +801,6 @@ class VCPythonEngine(object):
         prnt('{')
         prnt('  return %s;' % self._chained_list_constants[True])
         prnt('}')
-
 
 cffimod_header = r'''
 #include <Python.h>

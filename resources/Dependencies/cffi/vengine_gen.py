@@ -1,15 +1,12 @@
-# coding=utf-8
 #
 # DEPRECATED: implementation for ffi.verify()
 #
-# noinspection PyPep8
 import sys, os
 import types
 
 from . import model, ffiplatform
 
 
-# noinspection PyUnusedLocal,PyPep8Naming,PyPep8Naming
 class VGenericEngine(object):
     _class_key = 'g'
     _gen_python_module = False
@@ -37,7 +34,7 @@ class VGenericEngine(object):
                     return filename
 
     def collect_types(self):
-        pass  # not needed in the generic engine
+        pass      # not needed in the generic engine
 
     def _prnt(self, what=''):
         self._f.write(what + '\n')
@@ -83,10 +80,8 @@ class VGenericEngine(object):
             _cffi_generic_module = module
             _cffi_ffi = self.ffi
             _cffi_dir = []
-
             def __dir__(self):
                 return FFILibrary._cffi_dir
-
         library = FFILibrary("")
         #
         # finally, call the loaded_gen_xxx() functions.  This will set
@@ -95,7 +90,8 @@ class VGenericEngine(object):
         return library
 
     def _get_declarations(self):
-        lst = [(key, tp) for (key, (tp, qual)) in self.ffi._parser._declarations.items()]
+        lst = [(key, tp) for (key, (tp, qual)) in
+                                self.ffi._parser._declarations.items()]
         lst.sort()
         return lst
 
@@ -133,14 +129,13 @@ class VGenericEngine(object):
     # ----------
     # typedefs: generates no code so far
 
-    _generate_gen_typedef_decl = _generate_nothing
-    _loading_gen_typedef = _loaded_noop
-    _loaded_gen_typedef = _loaded_noop
+    _generate_gen_typedef_decl   = _generate_nothing
+    _loading_gen_typedef         = _loaded_noop
+    _loaded_gen_typedef          = _loaded_noop
 
     # ----------
     # function declarations
 
-    # noinspection PyShadowingBuiltins
     def _generate_gen_function_decl(self, tp, name):
         assert isinstance(tp, model.FunctionPtrType)
         if tp.ellipsis:
@@ -195,8 +190,8 @@ class VGenericEngine(object):
         else:
             indirections = []
             base_tp = tp
-            if (any(isinstance(typ, model.StructOrUnion) for typ in tp.args) or isinstance(
-                    tp.result, model.StructOrUnion)):
+            if (any(isinstance(typ, model.StructOrUnion) for typ in tp.args)
+                    or isinstance(tp.result, model.StructOrUnion)):
                 indirect_args = []
                 for i, typ in enumerate(tp.args):
                     if isinstance(typ, model.StructOrUnion):
@@ -229,14 +224,13 @@ class VGenericEngine(object):
         BType = self.ffi._get_cached_btype(tp)
         if i == "result":
             ffi = self.ffi
-
             def newfunc(*args):
                 res = ffi.new(BType)
                 oldfunc(res, *args)
                 return res[0]
         else:
             def newfunc(*args):
-                args = args[:i] + (backend.newp(BType, args[i]),) + args[i + 1:]
+                args = args[:i] + (backend.newp(BType, args[i]),) + args[i+1:]
                 return oldfunc(*args)
         newfunc._cffi_base_type = base_tp
         return newfunc
@@ -266,7 +260,7 @@ class VGenericEngine(object):
 
     def _generate_struct_or_union_decl(self, tp, prefix, name):
         if tp.fldnames is None:
-            return  # nothing to do with opaque structs
+            return     # nothing to do with opaque structs
         checkfuncname = '_cffi_check_%s_%s' % (prefix, name)
         layoutfuncname = '_cffi_layout_%s_%s' % (prefix, name)
         cname = ('%s %s' % (prefix, name)).strip()
@@ -277,17 +271,18 @@ class VGenericEngine(object):
         prnt('  /* only to generate compile-time warnings or errors */')
         prnt('  (void)p;')
         for fname, ftype, fbitsize, fqual in tp.enumfields():
-            if (isinstance(ftype, model.PrimitiveType) and ftype.is_integer_type()) or fbitsize >= 0:
+            if (isinstance(ftype, model.PrimitiveType)
+                and ftype.is_integer_type()) or fbitsize >= 0:
                 # accept all integers, but complain on float or double
                 prnt('  (void)((p->%s) << 1);' % fname)
             else:
                 # only accept exactly the type declared.
                 try:
                     prnt('  { %s = &p->%s; (void)tmp; }' % (
-                        ftype.get_c_name('*tmp', 'field %r' % fname, quals=fqual),
+                        ftype.get_c_name('*tmp', 'field %r'%fname, quals=fqual),
                         fname))
                 except ffiplatform.VerificationError as e:
-                    prnt('  /* %s */' % str(e))  # cannot verify it, ignore
+                    prnt('  /* %s */' % str(e))   # cannot verify it, ignore
         prnt('}')
         self.export_symbols.append(layoutfuncname)
         prnt('intptr_t %s(intptr_t i)' % (layoutfuncname,))
@@ -298,7 +293,7 @@ class VGenericEngine(object):
         prnt('    offsetof(struct _cffi_aligncheck, y),')
         for fname, ftype, fbitsize, fqual in tp.enumfields():
             if fbitsize >= 0:
-                continue  # xxx ignore fbitsize for now
+                continue      # xxx ignore fbitsize for now
             prnt('    offsetof(%s, %s),' % (cname, fname))
             if isinstance(ftype, model.ArrayType) and ftype.length is None:
                 prnt('    0,  /* %s */' % ftype._get_c_name())
@@ -314,7 +309,7 @@ class VGenericEngine(object):
 
     def _loading_struct_or_union(self, tp, prefix, name, module):
         if tp.fldnames is None:
-            return  # nothing to do with opaque structs
+            return     # nothing to do with opaque structs
         layoutfuncname = '_cffi_layout_%s_%s' % (prefix, name)
         #
         BFunc = self.ffi._typeof_locked("intptr_t(*)(intptr_t)")[0]
@@ -323,8 +318,7 @@ class VGenericEngine(object):
         num = 0
         while True:
             x = function(num)
-            if x < 0:
-                break
+            if x < 0: break
             layout.append(x)
             num += 1
         if isinstance(tp, model.StructOrUnion) and tp.partial:
@@ -343,8 +337,8 @@ class VGenericEngine(object):
 
     def _loaded_struct_or_union(self, tp):
         if tp.fldnames is None:
-            return  # nothing to do with opaque structs
-        self.ffi._get_cached_btype(tp)  # force 'fixedlayout' to be considered
+            return     # nothing to do with opaque structs
+        self.ffi._get_cached_btype(tp)   # force 'fixedlayout' to be considered
 
         if tp in self._struct_pending_verification:
             # check that the layout sizes and offsets match the real ones
@@ -353,7 +347,6 @@ class VGenericEngine(object):
                     raise ffiplatform.VerificationError(
                         "%s (we have %d, but C compiler says %d)"
                         % (msg, expectedvalue, realvalue))
-
             ffi = self.ffi
             BStruct = ffi._get_cached_btype(tp)
             layout, cname = self._struct_pending_verification.pop(tp)
@@ -362,12 +355,12 @@ class VGenericEngine(object):
             i = 2
             for fname, ftype, fbitsize, fqual in tp.enumfields():
                 if fbitsize >= 0:
-                    continue  # xxx ignore fbitsize for now
+                    continue        # xxx ignore fbitsize for now
                 check(layout[i], ffi.offsetof(BStruct, fname),
                       "wrong offset for field %r" % (fname,))
-                if layout[i + 1] != 0:
+                if layout[i+1] != 0:
                     BField = ffi._get_cached_btype(ftype)
-                    check(layout[i + 1], ffi.sizeof(BField),
+                    check(layout[i+1], ffi.sizeof(BField),
                           "wrong size for field %r" % (fname,))
                 i += 2
             assert i == len(layout)
@@ -455,7 +448,7 @@ class VGenericEngine(object):
             value = int(p[0])
             if value < 0 and not negative:
                 BLongLong = self.ffi._typeof_locked("long long")[0]
-                value += (1 << (8 * self.ffi.sizeof(BLongLong)))
+                value += (1 << (8*self.ffi.sizeof(BLongLong)))
         else:
             assert check_value is None
             fntypeextra = '(*)(void)'
@@ -551,7 +544,7 @@ class VGenericEngine(object):
         if tp == '...':
             check_value = None
         else:
-            check_value = tp  # an integer
+            check_value = tp     # an integer
         self._generate_gen_const(True, name, check_value=check_value)
 
     _loading_gen_macro = _loaded_noop
@@ -560,7 +553,7 @@ class VGenericEngine(object):
         if tp == '...':
             check_value = None
         else:
-            check_value = tp  # an integer
+            check_value = tp     # an integer
         value = self._load_constant(True, tp, name, module,
                                     check_value=check_value)
         setattr(library, name, value)
@@ -588,8 +581,8 @@ class VGenericEngine(object):
     _loading_gen_variable = _loaded_noop
 
     def _loaded_gen_variable(self, tp, name, module, library):
-        if isinstance(tp, model.ArrayType):  # int a[5] is "constant" in the
-            # sense that "a=..." is forbidden
+        if isinstance(tp, model.ArrayType):   # int a[5] is "constant" in the
+                                              # sense that "a=..." is forbidden
             if tp.length == '...':
                 funcname = '_cffi_sizeof_%s' % (name,)
                 BFunc = self.ffi._typeof_locked('size_t(*)(void)')[0]
@@ -618,16 +611,12 @@ class VGenericEngine(object):
         BFunc = self.ffi._typeof_locked(tp.get_c_name('*(*)(void)', name))[0]
         function = module.load_function(BFunc, funcname)
         ptr = function()
-
         def getter(library):
             return ptr[0]
-
         def setter(library, value):
             ptr[0] = value
-
         setattr(type(library), name, property(getter, setter))
         type(library)._cffi_dir.append(name)
-
 
 cffimod_header = r'''
 #include <stdio.h>

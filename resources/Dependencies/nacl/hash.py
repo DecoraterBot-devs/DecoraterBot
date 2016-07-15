@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2013 Donald Stufft and individual contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +13,8 @@
 # limitations under the License.
 
 from __future__ import absolute_import, division, print_function
-# noinspection PyPackageRequirements
+
 import nacl.bindings
-# noinspection PyPackageRequirements
 import nacl.encoding
 
 

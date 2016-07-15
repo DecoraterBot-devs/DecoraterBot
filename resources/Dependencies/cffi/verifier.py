@@ -1,22 +1,16 @@
-# coding=utf-8
 #
 # DEPRECATED: implementation for ffi.verify()
 #
-# noinspection PyPep8
 import sys, os, binascii, shutil, io
 from . import __version_verifier_modules__
 from . import ffiplatform
 
 if sys.version_info >= (3, 3):
     import importlib.machinery
-
     def _extension_suffixes():
         return importlib.machinery.EXTENSION_SUFFIXES[:]
 else:
-    # noinspection PyDeprecation
     import imp
-
-    # noinspection PyDeprecation,PyShadowingBuiltins
     def _extension_suffixes():
         return [suffix for suffix, _, type in imp.get_suffixes()
                 if type == imp.C_EXTENSION]
@@ -31,7 +25,6 @@ else:
                 s = s.encode('ascii')
             super(NativeIO, self).write(s)
 
-
 def _hack_at_distutils():
     # Windows-only workaround for some configurations: see
     # https://bugs.python.org/issue23246 (Python 2.7 with 
@@ -45,7 +38,6 @@ def _hack_at_distutils():
 
 class Verifier(object):
 
-    # noinspection PyUnboundLocalVariable
     def __init__(self, ffi, preamble, tmpdir=None, modulename=None,
                  ext_package=None, tag='', force_generic_engine=False,
                  source_extension='.c', flags=None, relative_to=None, **kwds):
@@ -86,7 +78,6 @@ class Verifier(object):
         self._has_source = False
         self._has_module = False
 
-    # noinspection PyIncorrectDocstring
     def write_source(self, file=None):
         """Write the C source code.  It is produced in 'self.sourcefilename',
         which can be tweaked beforehand."""
@@ -122,7 +113,6 @@ class Verifier(object):
                     self._compile_module()
             return self._load_library()
 
-    # noinspection PyTypeChecker
     def get_module_name(self):
         basename = os.path.basename(self.modulefilename)
         # kill both the .so extension and the other .'s, as introduced
@@ -135,7 +125,7 @@ class Verifier(object):
         return basename
 
     def get_extension(self):
-        _hack_at_distutils()  # backward compatibility hack
+        _hack_at_distutils() # backward compatibility hack
         if not self._has_source:
             with self.ffi._lock:
                 if not self._has_source:
@@ -238,7 +228,6 @@ class Verifier(object):
 
 _FORCE_GENERIC_ENGINE = False      # for tests
 
-
 def _locate_engine_class(ffi, force_generic_engine):
     if _FORCE_GENERIC_ENGINE:
         force_generic_engine = True
@@ -263,7 +252,6 @@ def _locate_engine_class(ffi, force_generic_engine):
 
 _TMPDIR = None
 
-
 def _caller_dir_pycache():
     if _TMPDIR:
         return _TMPDIR
@@ -274,15 +262,11 @@ def _caller_dir_pycache():
     return os.path.abspath(os.path.join(os.path.dirname(filename),
                            '__pycache__'))
 
-
-# noinspection PyIncorrectDocstring
 def set_tmpdir(dirname):
     """Set the temporary directory to use instead of __pycache__."""
     global _TMPDIR
     _TMPDIR = dirname
 
-
-# noinspection PyIncorrectDocstring
 def cleanup_tmpdir(tmpdir=None, keep_so=False):
     """Clean up the temporary directory by removing all files in it
     called `_cffi_*.{c,so}` as well as the `build` subdirectory."""
@@ -303,7 +287,6 @@ def cleanup_tmpdir(tmpdir=None, keep_so=False):
             except OSError:
                 pass
     clean_dir = [os.path.join(tmpdir, 'build')]
-    # noinspection PyShadowingBuiltins
     for dir in clean_dir:
         try:
             for fn in os.listdir(dir):
@@ -315,7 +298,6 @@ def cleanup_tmpdir(tmpdir=None, keep_so=False):
         except OSError:
             pass
 
-
 def _get_so_suffixes():
     suffixes = _extension_suffixes()
     if not suffixes:
@@ -326,7 +308,6 @@ def _get_so_suffixes():
             suffixes = [".so"]
 
     return suffixes
-
 
 def _ensure_dir(filename):
     try:

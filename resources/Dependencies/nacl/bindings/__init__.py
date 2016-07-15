@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2013 Donald Stufft and individual contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +13,7 @@
 # limitations under the License.
 
 from __future__ import absolute_import, division, print_function
-# noinspection PyPackageRequirements
+
 from nacl.bindings.crypto_box import (
     crypto_box, crypto_box_BEFORENMBYTES, crypto_box_BOXZEROBYTES,
     crypto_box_NONCEBYTES, crypto_box_PUBLICKEYBYTES,
@@ -22,32 +21,26 @@ from nacl.bindings.crypto_box import (
     crypto_box_beforenm, crypto_box_keypair, crypto_box_open,
     crypto_box_open_afternm,
 )
-# noinspection PyPackageRequirements
 from nacl.bindings.crypto_hash import (
     crypto_hash, crypto_hash_BYTES, crypto_hash_sha256,
     crypto_hash_sha256_BYTES, crypto_hash_sha512, crypto_hash_sha512_BYTES,
 )
-# noinspection PyPackageRequirements
 from nacl.bindings.crypto_scalarmult import (
     crypto_scalarmult, crypto_scalarmult_BYTES, crypto_scalarmult_SCALARBYTES,
     crypto_scalarmult_base
 )
-# noinspection PyPackageRequirements
 from nacl.bindings.crypto_secretbox import (
     crypto_secretbox, crypto_secretbox_BOXZEROBYTES, crypto_secretbox_KEYBYTES,
     crypto_secretbox_NONCEBYTES, crypto_secretbox_ZEROBYTES,
     crypto_secretbox_open
 )
-# noinspection PyPackageRequirements
 from nacl.bindings.crypto_sign import (
     crypto_sign, crypto_sign_BYTES, crypto_sign_PUBLICKEYBYTES,
     crypto_sign_SECRETKEYBYTES, crypto_sign_SEEDBYTES,
     crypto_sign_ed25519_pk_to_curve25519, crypto_sign_ed25519_sk_to_curve25519,
     crypto_sign_keypair, crypto_sign_open, crypto_sign_seed_keypair
 )
-# noinspection PyPackageRequirements
 from nacl.bindings.randombytes import randombytes
-# noinspection PyPackageRequirements
 from nacl.bindings.sodium_core import sodium_init
 
 

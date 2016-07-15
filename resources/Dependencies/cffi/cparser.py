@@ -1,13 +1,9 @@
-# coding=utf-8
 from . import api, model
 from .commontypes import COMMON_TYPES, resolve_common_type
-
 try:
     from . import _pycparser as pycparser
 except ImportError:
-    # noinspection PyPackageRequirements
     import pycparser
-# noinspection PyPep8
 import weakref, re, sys
 
 try:
@@ -21,7 +17,9 @@ except ImportError:
 
 _r_comment = re.compile(r"/\*.*?\*/|//([^\n\\]|\\.)*?$",
                         re.DOTALL | re.MULTILINE)
-_r_define = re.compile(r"^\s*#\s*define\s+([A-Za-z_][A-Za-z_0-9]*)\b((?:[^\n\\]|\\.)*?)$", re.DOTALL | re.MULTILINE)
+_r_define  = re.compile(r"^\s*#\s*define\s+([A-Za-z_][A-Za-z_0-9]*)"
+                        r"\b((?:[^\n\\]|\\.)*?)$",
+                        re.DOTALL | re.MULTILINE)
 _r_partial_enum = re.compile(r"=\s*\.\.\.\s*[,}]|\.\.\.\s*\}")
 _r_enum_dotdotdot = re.compile(r"__dotdotdot\d+__$")
 _r_partial_array = re.compile(r"\[\s*\.\.\.\s*\]")
@@ -33,16 +31,14 @@ _r_stdcall2 = re.compile(r"[(]\s*(__stdcall|WINAPI)\b")
 _r_cdecl = re.compile(r"\b__cdecl\b")
 _r_extern_python = re.compile(r'\bextern\s*"'
                               r'(Python|Python\s*\+\s*C|C\s*\+\s*Python)"\s*.')
-_r_star_const_space = re.compile(  # matches "* const "
+_r_star_const_space = re.compile(       # matches "* const "
     r"[*]\s*((const|volatile|restrict)\b\s*)+")
-
 
 def _get_parser():
     global _parser_cache
     if _parser_cache is None:
         _parser_cache = pycparser.CParser()
     return _parser_cache
-
 
 def _workaround_for_old_pycparser(csource):
     # Workaround for a pycparser issue (fixed between pycparser 2.10 and
@@ -60,15 +56,13 @@ def _workaround_for_old_pycparser(csource):
         match = _r_star_const_space.search(csource)
         if not match:
             break
-        # print repr(''.join(parts)+csource), '=>',
+        #print repr(''.join(parts)+csource), '=>',
         parts.append(csource[:match.start()])
-        parts.append('(')
-        closing = ')'
-        parts.append(match.group())  # e.g. "* const "
+        parts.append('('); closing = ')'
+        parts.append(match.group())   # e.g. "* const "
         endpos = match.end()
         if csource.startswith('*', endpos):
-            parts.append('(')
-            closing += ')'
+            parts.append('('); closing += ')'
         level = 0
         i = endpos
         while i < len(csource):
@@ -84,10 +78,9 @@ def _workaround_for_old_pycparser(csource):
                     break
             i += 1
         csource = csource[endpos:i] + closing + csource[i:]
-        # print repr(''.join(parts)+csource)
+        #print repr(''.join(parts)+csource)
     parts.append(csource)
     return ''.join(parts)
-
 
 def _preprocess_extern_python(csource):
     # input: `extern "Python" int foo(int);` or
@@ -108,9 +101,9 @@ def _preprocess_extern_python(csource):
         if not match:
             break
         endpos = match.end() - 1
-        # print
-        # print ''.join(parts)+csource
-        # print '=>'
+        #print
+        #print ''.join(parts)+csource
+        #print '=>'
         parts.append(csource[:match.start()])
         if 'C' in match.group(1):
             parts.append('void __cffi_extern_python_plus_c_start; ')
@@ -124,21 +117,20 @@ def _preprocess_extern_python(csource):
             if csource.find('{', endpos + 1, closing) >= 0:
                 raise NotImplementedError("cannot use { } inside a block "
                                           "'extern \"Python\" { ... }'")
-            parts.append(csource[endpos + 1:closing])
-            csource = csource[closing + 1:]
+            parts.append(csource[endpos+1:closing])
+            csource = csource[closing+1:]
         else:
             # non-grouping variant
             semicolon = csource.find(';', endpos)
             if semicolon < 0:
                 raise api.CDefError("'extern \"Python\": no ';' found")
-            parts.append(csource[endpos:semicolon + 1])
-            csource = csource[semicolon + 1:]
+            parts.append(csource[endpos:semicolon+1])
+            csource = csource[semicolon+1:]
         parts.append(' void __cffi_extern_python_stop;')
-        # print ''.join(parts)+csource
-        # print
+        #print ''.join(parts)+csource
+        #print
     parts.append(csource)
     return ''.join(parts)
-
 
 def _preprocess(csource):
     # Remove comments.  NOTE: this only work because the cdef() section
@@ -182,15 +174,14 @@ def _preprocess(csource):
             p2 = csource.find('...', p, match.end())
             assert p2 > p
             csource = '%s,__dotdotdot%d__ %s' % (csource[:p], number,
-                                                 csource[p2 + 3:])
+                                                 csource[p2+3:])
         else:
-            assert csource[p:p + 3] == '...'
+            assert csource[p:p+3] == '...'
             csource = '%s __dotdotdot%d__ %s' % (csource[:p], number,
-                                                 csource[p + 3:])
+                                                 csource[p+3:])
     # Replace all remaining "..." with the same name, "__dotdotdot__",
     # which is declared with a typedef for the purpose of C parsing.
     return csource.replace('...', ' __dotdotdot__ '), macros
-
 
 def _common_type_names(csource):
     # Look in the source for what looks like usages of types from the
@@ -226,13 +217,14 @@ def _common_type_names(csource):
                 if is_typedef and paren == 0:
                     words_used.discard(previous_word)
                     look_for_words.discard(previous_word)
-            else:  # word in COMMON_TYPES
+            else:   # word in COMMON_TYPES
                 words_used.add(word)
         previous_word = word
     return words_used
 
 
 class Parser(object):
+
     def __init__(self):
         self._declarations = {}
         self._included_declarations = set()
@@ -243,7 +235,6 @@ class Parser(object):
         self._recomplete = []
         self._uses_new_feature = None
 
-    # noinspection PyUnboundLocalVariable
     def _parse(self, csource):
         csource, macros = _preprocess(csource)
         # XXX: for more efficiency we would need to poke into the
@@ -264,7 +255,7 @@ class Parser(object):
         csourcelines.append(csource)
         csource = '\n'.join(csourcelines)
         if lock is not None:
-            lock.acquire()  # pycparser is not thread-safe...
+            lock.acquire()     # pycparser is not thread-safe...
         try:
             ast = _get_parser().parse(csource)
         except pycparser.c_parser.ParseError as e:
@@ -281,12 +272,12 @@ class Parser(object):
         line = None
         msg = str(e)
         if msg.startswith(':') and ':' in msg[1:]:
-            linenum = msg[1:msg.find(':', 1)]
+            linenum = msg[1:msg.find(':',1)]
             if linenum.isdigit():
                 linenum = int(linenum, 10)
                 csourcelines = csource.splitlines()
                 if 1 <= linenum <= len(csourcelines):
-                    line = csourcelines[linenum - 1]
+                    line = csourcelines[linenum-1]
         return line
 
     def convert_pycparser_error(self, e, csource):
@@ -330,14 +321,14 @@ class Parser(object):
                         raise api.CDefError("typedef does not declare any name",
                                             decl)
                     quals = 0
-                    if (isinstance(
-                            decl.type.type, pycparser.c_ast.IdentifierType) and (
-                                decl.type.type.names[-1] == '__dotdotdot__')):
+                    if (isinstance(decl.type.type, pycparser.c_ast.IdentifierType)
+                            and decl.type.type.names[-1] == '__dotdotdot__'):
                         realtype = self._get_unknown_type(decl)
-                    elif (isinstance(decl.type, pycparser.c_ast.PtrDecl) and isinstance(
-                            decl.type.type, pycparser.c_ast.TypeDecl) and isinstance(
-                        decl.type.type.type, pycparser.c_ast.IdentifierType) and (
-                                decl.type.type.type.names == ['__dotdotdot__'])):
+                    elif (isinstance(decl.type, pycparser.c_ast.PtrDecl) and
+                          isinstance(decl.type.type, pycparser.c_ast.TypeDecl) and
+                          isinstance(decl.type.type.type,
+                                     pycparser.c_ast.IdentifierType) and
+                          decl.type.type.type.names == ['__dotdotdot__']):
                         realtype = model.unknown_ptr_type(decl.name)
                     else:
                         realtype, quals = self._get_type_and_quals(
@@ -354,7 +345,7 @@ class Parser(object):
     def _add_constants(self, key, val):
         if key in self._int_constants:
             if self._int_constants[key] == val:
-                return  # ignore identical double declarations
+                return     # ignore identical double declarations
             raise api.FFIError(
                 "multiple declarations of constant: %s" % (key,))
         self._int_constants[key] = val
@@ -365,7 +356,8 @@ class Parser(object):
         if neg:
             int_str = int_str[1:]
         # "010" is not valid oct in py3
-        if int_str.startswith("0") and int_str != '0' and not int_str.startswith("0x"):
+        if (int_str.startswith("0") and int_str != '0'
+                and not int_str.startswith("0x")):
             int_str = "0o" + int_str[1:]
         pyvalue = int(int_str, 0)
         if neg:
@@ -384,7 +376,8 @@ class Parser(object):
                 raise api.CDefError(
                     'only supports one of the following syntax:\n'
                     '  #define %s ...     (literally dot-dot-dot)\n'
-                    '  #define %s NUMBER  (with NUMBER an integer constant, decimal/hex/octal)\n'
+                    '  #define %s NUMBER  (with NUMBER an integer'
+                                    ' constant, decimal/hex/octal)\n'
                     'got:\n'
                     '  #define %s %s'
                     % (key, key, key, value))
@@ -401,7 +394,6 @@ class Parser(object):
             tag = 'function '
         self._declare(tag + decl.name, tp)
 
-    # noinspection PyTypeChecker
     def _parse_decl(self, decl):
         node = decl.type
         if isinstance(node, pycparser.c_ast.FuncDecl):
@@ -424,22 +416,26 @@ class Parser(object):
                                                      partial_length_ok=True)
                 if tp.is_raw_function:
                     self._declare_function(tp, quals, decl)
-                elif (tp.is_integer_type() and hasattr(decl, 'init') and hasattr(
-                        decl.init, 'value') and _r_int_literal.match(decl.init.value)):
+                elif (tp.is_integer_type() and
+                        hasattr(decl, 'init') and
+                        hasattr(decl.init, 'value') and
+                        _r_int_literal.match(decl.init.value)):
                     self._add_integer_constant(decl.name, decl.init.value)
-                elif (tp.is_integer_type() and isinstance(
-                        decl.init, pycparser.c_ast.UnaryOp) and decl.init.op == '-' and hasattr(
-                        decl.init.expr, 'value') and _r_int_literal.match(decl.init.expr.value)):
+                elif (tp.is_integer_type() and
+                        isinstance(decl.init, pycparser.c_ast.UnaryOp) and
+                        decl.init.op == '-' and
+                        hasattr(decl.init.expr, 'value') and
+                        _r_int_literal.match(decl.init.expr.value)):
                     self._add_integer_constant(decl.name,
                                                '-' + decl.init.expr.value)
-                elif (tp is model.void_type and decl.name.startswith(
-                        '__cffi_extern_python_')):
+                elif (tp is model.void_type and
+                      decl.name.startswith('__cffi_extern_python_')):
                     # hack: `extern "Python"` in the C source is replaced
                     # with "void __cffi_extern_python_start;" and
                     # "void __cffi_extern_python_stop;"
                     self._inside_extern_python = decl.name
                 else:
-                    if self._inside_extern_python != '__cffi_extern_python_stop':
+                    if self._inside_extern_python !='__cffi_extern_python_stop':
                         raise api.CDefError(
                             "cannot declare constants or "
                             "variables with 'extern \"Python\"'")
@@ -473,7 +469,6 @@ class Parser(object):
         if included:
             self._included_declarations.add(obj)
 
-    # noinspection PyShadowingBuiltins
     def _extract_quals(self, type):
         quals = 0
         if isinstance(type, (pycparser.c_ast.TypeDecl,
@@ -486,22 +481,21 @@ class Parser(object):
                 quals |= model.Q_RESTRICT
         return quals
 
-    # noinspection PyShadowingBuiltins
     def _get_type_pointer(self, type, quals, declname=None):
         if isinstance(type, model.RawFunctionType):
             return type.as_function_pointer()
-        if (isinstance(type, model.StructOrUnionOrEnum) and type.name.startswith(
-                '$') and type.name[1:].isdigit() and type.forcename is None and declname is not None):
+        if (isinstance(type, model.StructOrUnionOrEnum) and
+                type.name.startswith('$') and type.name[1:].isdigit() and
+                type.forcename is None and declname is not None):
             return model.NamedPointerType(type, declname, quals)
         return model.PointerType(type, quals)
 
-    # noinspection PyShadowingBuiltins
     def _get_type_and_quals(self, typenode, name=None, partial_length_ok=False):
         # first, dereference typedefs, if we have it already parsed, we're good
         if (isinstance(typenode, pycparser.c_ast.TypeDecl) and
-                isinstance(typenode.type, pycparser.c_ast.IdentifierType) and len(
-            typenode.type.names) == 1 and (
-                    'typedef ' + typenode.type.names[0]) in self._declarations):
+            isinstance(typenode.type, pycparser.c_ast.IdentifierType) and
+            len(typenode.type.names) == 1 and
+            ('typedef ' + typenode.type.names[0]) in self._declarations):
             tp, quals = self._declarations['typedef ' + typenode.type.names[0]]
             quals |= self._extract_quals(typenode)
             return tp, quals
@@ -513,7 +507,8 @@ class Parser(object):
             else:
                 length = self._parse_constant(
                     typenode.dim, partial_length_ok=partial_length_ok)
-            tp, quals = self._get_type_and_quals(typenode.type, partial_length_ok=partial_length_ok)
+            tp, quals = self._get_type_and_quals(typenode.type,
+                                partial_length_ok=partial_length_ok)
             return model.ArrayType(tp, length), quals
         #
         if isinstance(typenode, pycparser.c_ast.PtrDecl):
@@ -530,7 +525,7 @@ class Parser(object):
                 # assume a primitive type.  get it from .names, but reduce
                 # synonyms to a single chosen combination
                 names = list(type.names)
-                if names != ['signed', 'char']:  # keep this unmodified
+                if names != ['signed', 'char']:    # keep this unmodified
                     prefixes = {}
                     while names:
                         name = names[0]
@@ -545,8 +540,8 @@ class Parser(object):
                         for i in range(prefixes.get(prefix, 0)):
                             newnames.append(prefix)
                     if not names:
-                        names = ['int']  # implicitly
-                    if names == ['int']:  # but kill it if 'short' or 'long'
+                        names = ['int']    # implicitly
+                    if names == ['int']:   # but kill it if 'short' or 'long'
                         if 'short' in prefixes or 'long' in prefixes:
                             names = []
                     names = newnames + names
@@ -554,7 +549,8 @@ class Parser(object):
                 if ident == 'void':
                     return model.void_type, quals
                 if ident == '__dotdotdot__':
-                    raise api.FFIError(':%d: bad usage of "..."' % typenode.coord.line)
+                    raise api.FFIError(':%d: bad usage of "..."' %
+                            typenode.coord.line)
                 tp0, quals0 = resolve_common_type(self, ident)
                 return tp0, (quals | quals0)
             #
@@ -585,15 +581,18 @@ class Parser(object):
             return self._get_struct_union_enum_type('union', typenode, name,
                                                     nested=True), 0
         #
-        raise api.FFIError(":%d: bad or unsupported type declaration" % typenode.coord.line)
+        raise api.FFIError(":%d: bad or unsupported type declaration" %
+                typenode.coord.line)
 
     def _parse_function_type(self, typenode, funcname=None):
         params = list(getattr(typenode.args, 'params', []))
         for i, arg in enumerate(params):
             if not hasattr(arg, 'type'):
-                raise api.CDefError("%s arg %d: unknown type '%s' (if you meant to use the old C syntax of giving"
-                                    " untyped arguments, it is not supported)" % (funcname or 'in expression', i + 1,
-                                                                                  getattr(arg, 'name', '?')))
+                raise api.CDefError("%s arg %d: unknown type '%s'"
+                    " (if you meant to use the old C syntax of giving"
+                    " untyped arguments, it is not supported)"
+                    % (funcname or 'in expression', i + 1,
+                       getattr(arg, 'name', '?')))
         ellipsis = (
             len(params) > 0 and
             isinstance(params[-1].type, pycparser.c_ast.TypeDecl) and
@@ -615,12 +614,11 @@ class Parser(object):
         # to detect __stdcall functions: we textually replace "__stdcall"
         # with "volatile volatile const" above.
         abi = None
-        if hasattr(typenode.type, 'quals'):  # else, probable syntax error anyway
+        if hasattr(typenode.type, 'quals'): # else, probable syntax error anyway
             if typenode.type.quals[-3:] == ['volatile', 'volatile', 'const']:
                 abi = '__stdcall'
         return model.RawFunctionType(tuple(args), result, ellipsis, abi)
 
-    # noinspection PyShadowingBuiltins
     def _as_func_arg(self, type, quals):
         if isinstance(type, model.ArrayType):
             return model.PointerType(type.item, quals)
@@ -629,7 +627,6 @@ class Parser(object):
         else:
             return type
 
-    # noinspection PyUnboundLocalVariable,PyShadowingBuiltins
     def _get_struct_union_enum_type(self, kind, type, name=None, nested=False):
         # First, a level of caching on the exact 'type' node of the AST.
         # This is obscure, but needed because pycparser "unrolls" declarations
@@ -712,7 +709,8 @@ class Parser(object):
         fldbitsize = []
         fldquals = []
         for decl in type.decls:
-            if isinstance(decl.type, pycparser.c_ast.IdentifierType) and ''.join(decl.type.names) == '__dotdotdot__':
+            if (isinstance(decl.type, pycparser.c_ast.IdentifierType) and
+                    ''.join(decl.type.names) == '__dotdotdot__'):
                 # XXX pycparser is inconsistent: 'names' should be a list
                 # of strings, but is sometimes just one string.  Use
                 # str.join() as a way to cope with both.
@@ -742,7 +740,7 @@ class Parser(object):
                 raise NotImplementedError("%s: using both bitfields and '...;'"
                                           % (tp,))
         tp.packed = self._options.get('packed')
-        if tp.completed:  # must be re-completed: it is not opaque any more
+        if tp.completed:    # must be re-completed: it is not opaque any more
             tp.completed = 0
             self._recomplete.append(tp)
         return tp
@@ -751,7 +749,7 @@ class Parser(object):
         if not isinstance(tp, model.StructOrUnion):
             raise api.CDefError("%s cannot be partial" % (tp,))
         if not tp.has_c_name() and not nested:
-            raise NotImplementedError("%s is partial but has no C name" % (tp,))
+            raise NotImplementedError("%s is partial but has no C name" %(tp,))
         tp.partial = True
 
     def _parse_constant(self, exprnode, partial_length_ok=False):
@@ -765,23 +763,27 @@ class Parser(object):
                 return int(s, 8)
             elif '1' <= s[0] <= '9':
                 return int(s, 10)
-            elif s[0] == "'" and s[-1] == "'" and (len(
-                    s) == 3 or (len(s) == 4 and s[1] == "\\")):
+            elif s[0] == "'" and s[-1] == "'" and (
+                    len(s) == 3 or (len(s) == 4 and s[1] == "\\")):
                 return ord(s[-2])
             else:
                 raise api.CDefError("invalid constant %r" % (s,))
         #
-        if isinstance(exprnode, pycparser.c_ast.UnaryOp) and exprnode.op == '+':
+        if (isinstance(exprnode, pycparser.c_ast.UnaryOp) and
+                exprnode.op == '+'):
             return self._parse_constant(exprnode.expr)
         #
-        if isinstance(exprnode, pycparser.c_ast.UnaryOp) and exprnode.op == '-':
+        if (isinstance(exprnode, pycparser.c_ast.UnaryOp) and
+                exprnode.op == '-'):
             return -self._parse_constant(exprnode.expr)
         # load previously defined int constant
-        if isinstance(exprnode, pycparser.c_ast.ID) and exprnode.name in self._int_constants:
+        if (isinstance(exprnode, pycparser.c_ast.ID) and
+                exprnode.name in self._int_constants):
             return self._int_constants[exprnode.name]
         #
         if partial_length_ok:
-            if isinstance(exprnode, pycparser.c_ast.ID) and exprnode.name == '__dotdotdotarray__':
+            if (isinstance(exprnode, pycparser.c_ast.ID) and
+                    exprnode.name == '__dotdotdotarray__'):
                 self._partial_length = True
                 return '...'
         #
@@ -808,14 +810,14 @@ class Parser(object):
             enumvalues = tuple(enumvalues)
             tp = model.EnumType(explicit_name, enumerators, enumvalues)
             tp.partial = partial
-        else:  # opaque enum
+        else:   # opaque enum
             tp = model.EnumType(explicit_name, (), ())
         return tp
 
     def include(self, other):
         for name, (tp, quals) in other._declarations.items():
             if name.startswith('anonymous $enum_$'):
-                continue  # fix for test_anonymous_enum_include
+                continue   # fix for test_anonymous_enum_include
             kind = name.split(' ', 1)[0]
             if kind in ('struct', 'union', 'enum', 'anonymous', 'typedef'):
                 self._declare(name, tp, included=True, quals=quals)
@@ -828,7 +830,8 @@ class Parser(object):
         if len(typenames) == 1:
             return model.unknown_type(decl.name)
 
-        if typenames[:-1] == ['float'] or typenames[:-1] == ['double']:
+        if (typenames[:-1] == ['float'] or
+            typenames[:-1] == ['double']):
             # not for 'long double' so far
             result = model.UnknownFloatType(decl.name)
         else:

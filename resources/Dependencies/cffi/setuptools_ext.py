@@ -1,13 +1,10 @@
-# coding=utf-8
 import os
 
 try:
-    # noinspection PyUnboundLocalVariable
     basestring
 except NameError:
     # Python 3.x
     basestring = str
-
 
 def error(msg):
     from distutils.errors import DistutilsSetupError
@@ -27,7 +24,6 @@ def execfile(filename, glob):
     exec(code, glob, glob)
 
 
-# noinspection PyUnboundLocalVariable,PyPackageRequirements
 def add_cffi_module(dist, mod_spec):
     from cffi.api import FFI
 
@@ -74,7 +70,6 @@ def add_cffi_module(dist, mod_spec):
         _add_c_module(dist, ffi, module_name, source, source_extension, kwds)
 
 
-# noinspection PyPackageRequirements
 def _add_c_module(dist, ffi, module_name, source, source_extension, kwds):
     from distutils.core import Extension
     from distutils.command.build_ext import build_ext
@@ -106,8 +101,6 @@ def _add_c_module(dist, ffi, module_name, source, source_extension, kwds):
     dist.ext_modules.append(ext)
 
     base_class = dist.cmdclass.get('build_ext', build_ext)
-
-    # noinspection PyPep8Naming
     class build_ext_make_mod(base_class):
         def run(self):
             if ext.sources[0] == '$PLACEHOLDER':
@@ -121,7 +114,6 @@ def _add_c_module(dist, ffi, module_name, source, source_extension, kwds):
     # called again.
 
 
-# noinspection PyPackageRequirements
 def _add_py_module(dist, ffi, module_name):
     from distutils.dir_util import mkpath
     from distutils.command.build_py import build_py
@@ -137,8 +129,6 @@ def _add_py_module(dist, ffi, module_name):
             log.info("already up-to-date")
 
     base_class = dist.cmdclass.get('build_py', build_py)
-
-    # noinspection PyPep8Naming
     class build_py_make_mod(base_class):
         def run(self):
             base_class.run(self)
@@ -149,8 +139,6 @@ def _add_py_module(dist, ffi, module_name):
 
     # the following is only for "build_ext -i"
     base_class_2 = dist.cmdclass.get('build_ext', build_ext)
-
-    # noinspection PyPep8Naming
     class build_ext_make_mod(base_class_2):
         def run(self):
             base_class_2.run(self)
@@ -163,7 +151,6 @@ def _add_py_module(dist, ffi, module_name):
                 file_name = module_path[-1] + '.py'
                 generate_mod(os.path.join(package_dir, file_name))
     dist.cmdclass['build_ext'] = build_ext_make_mod
-
 
 def cffi_modules(dist, attr, value):
     assert attr == 'cffi_modules'

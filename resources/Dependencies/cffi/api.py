@@ -1,20 +1,14 @@
-# coding=utf-8
-# noinspection PyPep8
 import sys, types
 from .lock import allocate_lock
 
 try:
-    # noinspection PyStatementEffect
     callable
 except NameError:
     # Python 3.1
     from collections import Callable
-
-    # noinspection PyPep8,PyShadowingBuiltins
     callable = lambda x: isinstance(x, Callable)
 
 try:
-    # noinspection PyUnboundLocalVariable
     basestring
 except NameError:
     # Python 3.x
@@ -23,7 +17,6 @@ except NameError:
 
 class FFIError(Exception):
     pass
-
 
 class CDefError(Exception):
     def __str__(self):
@@ -34,25 +27,23 @@ class CDefError(Exception):
         return '%s%s' % (line, self.args[0])
 
 
-# noinspection PyPep8Naming
 class FFI(object):
-    # noinspection PySingleQuotedDocstring
     r'''
-        The main top-level class that you instantiate once, or once per module.
+    The main top-level class that you instantiate once, or once per module.
 
-        Example usage:
+    Example usage:
 
-            ffi = FFI()
-            ffi.cdef("""
-                int printf(const char *, ...);
-            """)
+        ffi = FFI()
+        ffi.cdef("""
+            int printf(const char *, ...);
+        """)
 
-            C = ffi.dlopen(None)   # standard library
-            -or-
-            C = ffi.verify()  # use a C compiler: verify the decl above is right
+        C = ffi.dlopen(None)   # standard library
+        -or-
+        C = ffi.verify()  # use a C compiler: verify the decl above is right
 
-            C.printf("hello, %s!\n", ffi.new("char[]", "world"))
-        '''
+        C.printf("hello, %s!\n", ffi.new("char[]", "world"))
+    '''
 
     def __init__(self, backend=None):
         """Create an FFI instance.  The 'backend' argument is used to
@@ -64,7 +55,8 @@ class FFI(object):
             # _cffi_backend.so compiled.
             import _cffi_backend as backend
             from . import __version__
-            assert backend.__version__ == __version__, "version mismatch, %s != %s" % (backend.__version__, __version__)
+            assert backend.__version__ == __version__, \
+               "version mismatch, %s != %s" % (backend.__version__, __version__)
             # (If you insist you can also try to pass the option
             # 'backend=backend_ctypes.CTypesBackend()', but don't
             # rely on it!  It's probably not going to work well.)
@@ -102,7 +94,6 @@ class FFI(object):
             self.NULL = self.cast(self.BVoidP, 0)
             self.CData, self.CType = backend._get_types()
 
-    # noinspection PyIncorrectDocstring
     def cdef(self, csource, override=False, packed=False):
         """Parse the given C source.  This registers all declared functions,
         types, and global variables.  The functions and global variables can
@@ -119,7 +110,7 @@ class FFI(object):
             self._embedding = ''
 
     def _cdef(self, csource, override=False, **options):
-        if not isinstance(csource, str):  # unicode, on Python 2
+        if not isinstance(csource, str):    # unicode, on Python 2
             if not isinstance(csource, basestring):
                 raise TypeError("cdef() argument must be a string")
             csource = csource.encode('ascii')
@@ -136,7 +127,6 @@ class FFI(object):
                 for tp in finishlist:
                     tp.finish_backend_type(self, finishlist)
 
-    # noinspection PyIncorrectDocstring
     def dlopen(self, name, flags=0):
         """Load and return a dynamic library identified by 'name'.
         The standard C library can be loaded by passing None.
@@ -151,14 +141,13 @@ class FFI(object):
             self._libraries.append(lib)
         return lib
 
-    # noinspection PyShadowingBuiltins,PyShadowingBuiltins
     def _typeof_locked(self, cdecl):
         # call me with the lock!
         key = cdecl
         if key in self._parsed_types:
             return self._parsed_types[key]
         #
-        if not isinstance(cdecl, str):  # unicode, on Python 2
+        if not isinstance(cdecl, str):    # unicode, on Python 2
             cdecl = cdecl.encode('ascii')
         #
         type = self._parser.parse_type(cdecl)
@@ -184,7 +173,6 @@ class FFI(object):
                             "pointer-to-function type" % (cdecl,))
         return btype
 
-    # noinspection PyIncorrectDocstring
     def typeof(self, cdecl):
         """Parse the C type given as a string and return the
         corresponding <ctype> object.
@@ -198,12 +186,12 @@ class FFI(object):
             res = _builtin_function_type(cdecl)
             if res is not None:
                 return res
-        if isinstance(cdecl, types.FunctionType) and hasattr(cdecl, '_cffi_base_type'):
+        if (isinstance(cdecl, types.FunctionType)
+                and hasattr(cdecl, '_cffi_base_type')):
             with self._lock:
                 return self._get_cached_btype(cdecl._cffi_base_type)
         raise TypeError(type(cdecl))
 
-    # noinspection PyIncorrectDocstring
     def sizeof(self, cdecl):
         """Return the size in bytes of the argument.  It can be a
         string naming a C type, or a 'cdata' instance.
@@ -214,7 +202,6 @@ class FFI(object):
         else:
             return self._backend.sizeof(cdecl)
 
-    # noinspection PyIncorrectDocstring
     def alignof(self, cdecl):
         """Return the natural alignment size in bytes of the C type
         given as a string.
@@ -223,7 +210,6 @@ class FFI(object):
             cdecl = self._typeof(cdecl)
         return self._backend.alignof(cdecl)
 
-    # noinspection PyIncorrectDocstring
     def offsetof(self, cdecl, *fields_or_indexes):
         """Return the offset of the named field inside the given
         structure or array, which must be given as a C type name.  
@@ -235,7 +221,6 @@ class FFI(object):
             cdecl = self._typeof(cdecl)
         return self._typeoffsetof(cdecl, *fields_or_indexes)[1]
 
-    # noinspection PyIncorrectDocstring
     def new(self, cdecl, init=None):
         """Allocate an instance according to the specified C type and
         return a pointer to it.  The specified C type must be either a
@@ -263,7 +248,6 @@ class FFI(object):
             cdecl = self._typeof(cdecl)
         return self._backend.newp(cdecl, init)
 
-    # noinspection PyIncorrectDocstring
     def new_allocator(self, alloc=None, free=None,
                       should_clear_after_alloc=True):
         """Return a new allocator, i.e. a function that behaves like ffi.new()
@@ -282,15 +266,12 @@ class FFI(object):
         compiled_ffi = self._backend.FFI()
         allocator = compiled_ffi.new_allocator(alloc, free,
                                                should_clear_after_alloc)
-
         def allocate(cdecl, init=None):
             if isinstance(cdecl, basestring):
                 cdecl = self._typeof(cdecl)
             return allocator(cdecl, init)
-
         return allocate
 
-    # noinspection PyIncorrectDocstring
     def cast(self, cdecl, source):
         """Similar to a C cast: returns an instance of the named C
         type initialized with the given 'source'.  The source is
@@ -300,7 +281,6 @@ class FFI(object):
             cdecl = self._typeof(cdecl)
         return self._backend.cast(cdecl, source)
 
-    # noinspection PyIncorrectDocstring
     def string(self, cdata, maxlen=-1):
         """Return a Python string (or unicode string) from the 'cdata'.
         If 'cdata' is a pointer or array of characters or bytes, returns
@@ -319,7 +299,6 @@ class FFI(object):
         """
         return self._backend.string(cdata, maxlen)
 
-    # noinspection PyIncorrectDocstring
     def unpack(self, cdata, length):
         """Unpack an array of C data of the given length, 
         returning a Python string/unicode/list.
@@ -337,7 +316,6 @@ class FFI(object):
         """
         return self._backend.unpack(cdata, length)
 
-    # noinspection PyIncorrectDocstring
     def buffer(self, cdata, size=-1):
         """Return a read-write buffer object that references the raw C data
         pointed to by the given 'cdata'.  The 'cdata' must be a pointer or
@@ -351,18 +329,16 @@ class FFI(object):
         """
         return self._backend.buffer(cdata, size)
 
-    # noinspection PyIncorrectDocstring
     def from_buffer(self, python_buffer):
         """Return a <cdata 'char[]'> that points to the data of the
         given Python object, which must support the buffer interface.
-        Note that this is not meant to be used on the built-in types str,
-        unicode, or bytearray (you can build 'char[]' arrays explicitly)
+        Note that this is not meant to be used on the built-in types
+        str or unicode (you can build 'char[]' arrays explicitly)
         but only on objects containing large quantities of raw data
         in some other format, like 'array.array' or numpy arrays.
         """
         return self._backend.from_buffer(self.BCharA, python_buffer)
 
-    # noinspection PyIncorrectDocstring
     def memmove(self, dest, src, n):
         """ffi.memmove(dest, src, n) copies n bytes of memory from src to dest.
 
@@ -379,7 +355,6 @@ class FFI(object):
         """
         return self._backend.memmove(dest, src, n)
 
-    # noinspection PyIncorrectDocstring
     def callback(self, cdecl, python_callable=None, error=None, onerror=None):
         """Return a callback object or a decorator making such a
         callback object.  'cdecl' must name a C function pointer type.
@@ -388,22 +363,19 @@ class FFI(object):
         callback object must be manually kept alive for as long as the
         callback may be invoked from the C level.
         """
-
         def callback_decorator_wrap(python_callable):
             if not callable(python_callable):
                 raise TypeError("the 'python_callable' argument "
                                 "is not callable")
             return self._backend.callback(cdecl, python_callable,
                                           error, onerror)
-
         if isinstance(cdecl, basestring):
             cdecl = self._typeof(cdecl, consider_function_as_funcptr=True)
         if python_callable is None:
-            return callback_decorator_wrap  # decorator mode
+            return callback_decorator_wrap                # decorator mode
         else:
             return callback_decorator_wrap(python_callable)  # direct mode
 
-    # noinspection PyIncorrectDocstring
     def getctype(self, cdecl, replace_with=''):
         """Return a string giving the C type 'cdecl', which may be itself
         a string or a <ctype> object.  If 'replace_with' is given, it gives
@@ -413,34 +385,20 @@ class FFI(object):
         if isinstance(cdecl, basestring):
             cdecl = self._typeof(cdecl)
         replace_with = replace_with.strip()
-        if replace_with.startswith('*') and '&[' in self._backend.getcname(cdecl, '&'):
+        if (replace_with.startswith('*')
+                and '&[' in self._backend.getcname(cdecl, '&')):
             replace_with = '(%s)' % replace_with
         elif replace_with and not replace_with[0] in '[(':
             replace_with = ' ' + replace_with
         return self._backend.getcname(cdecl, replace_with)
 
-    # noinspection PyAttributeOutsideInit,PyIncorrectDocstring
     def gc(self, cdata, destructor):
         """Return a new cdata object that points to the same
         data.  Later, when this new cdata object is garbage-collected,
         'destructor(old_cdata_object)' will be called.
         """
-        try:
-            gcp = self._backend.gcp
-        except AttributeError:
-            pass
-        else:
-            return gcp(cdata, destructor)
-        #
-        with self._lock:
-            try:
-                gc_weakrefs = self.gc_weakrefs
-            except AttributeError:
-                from .gc_weakref import GcWeakrefs
-                gc_weakrefs = self.gc_weakrefs = GcWeakrefs(self)
-            return gc_weakrefs.build(cdata, destructor)
+        return self._backend.gcp(cdata, destructor)
 
-    # noinspection PyShadowingBuiltins
     def _get_cached_btype(self, type):
         assert self._lock.acquire(False) is False
         # call me with the lock!
@@ -453,7 +411,6 @@ class FFI(object):
                 type.finish_backend_type(self, finishlist)
         return BType
 
-    # noinspection PyAttributeOutsideInit,PyIncorrectDocstring
     def verify(self, source='', tmpdir=None, **kwargs):
         """Verify that the current ffi signatures compile on this
         machine, and return a dynamic library object.  The dynamic
@@ -486,10 +443,8 @@ class FFI(object):
 
     def _get_errno(self):
         return self._backend.get_errno()
-
     def _set_errno(self, errno):
         self._backend.set_errno(errno)
-
     errno = property(_get_errno, _set_errno, None,
                      "the value of 'errno' from/to the C calls")
 
@@ -501,7 +456,6 @@ class FFI(object):
         with self._lock:
             return model.pointer_cache(self, ctype)
 
-    # noinspection PyIncorrectDocstring
     def addressof(self, cdata, *fields_or_indexes):
         """Return the address of a <cdata 'struct-or-union'>.
         If 'fields_or_indexes' are given, returns the address of that
@@ -525,7 +479,6 @@ class FFI(object):
             offset += offset1
         return ctype, offset
 
-    # noinspection PyIncorrectDocstring
     def include(self, ffi_to_include):
         """Includes the typedefs, structs, unions and enums defined
         in another FFI instance.  Usage is similar to a #include in C,
@@ -555,7 +508,6 @@ class FFI(object):
     def from_handle(self, x):
         return self._backend.from_handle(x)
 
-    # noinspection PyIncorrectDocstring
     def set_unicode(self, enabled_flag):
         """Windows: if 'enabled_flag' is True, enable the UNICODE and
         _UNICODE defines in C, and declare the types like TCHAR and LPTCSTR
@@ -600,7 +552,6 @@ class FFI(object):
             lst = kwds.setdefault(key, [])
             if value not in lst:
                 lst.append(value)
-
         #
         if '__pypy__' in sys.builtin_module_names:
             import os
@@ -629,20 +580,19 @@ class FFI(object):
             else:
                 try:
                     import sysconfig
-                except ImportError:  # 2.6
+                except ImportError:    # 2.6
                     from distutils import sysconfig
                 template = "python%d.%d"
                 if sysconfig.get_config_var('DEBUG_EXT'):
                     template += sysconfig.get_config_var('DEBUG_EXT')
-            pythonlib = (template % (
-                sys.hexversion >> 24, (sys.hexversion >> 16) & 0xff))
+            pythonlib = (template %
+                    (sys.hexversion >> 24, (sys.hexversion >> 16) & 0xff))
             if hasattr(sys, 'abiflags'):
                 pythonlib += sys.abiflags
         ensure('libraries', pythonlib)
         if sys.platform == "win32":
             ensure('extra_link_args', '/MANIFEST')
 
-    # noinspection PyAttributeOutsideInit
     def set_source(self, module_name, source, source_extension='.c', **kwds):
         if hasattr(self, '_assigned_source'):
             raise ValueError("set_source() cannot be called several times "
@@ -657,7 +607,7 @@ class FFI(object):
         from .recompiler import recompile
         #
         if not hasattr(self, '_assigned_source'):
-            if hasattr(self, 'verifier'):  # fallback, 'tmpdir' ignored
+            if hasattr(self, 'verifier'):     # fallback, 'tmpdir' ignored
                 return self.verifier.get_extension()
             raise ValueError("set_source() must be called before"
                              " distutils_extension()")
@@ -702,7 +652,6 @@ class FFI(object):
         recompile(self, module_name, source,
                   c_file=filename, call_c_compiler=False, **kwds)
 
-    # noinspection PyIncorrectDocstring
     def compile(self, tmpdir='.', verbose=0, target=None):
         """The 'target' argument gives the final file name of the
         compiled DLL.  Use '*' to force distutils' choice, suitable for
@@ -765,7 +714,7 @@ class FFI(object):
                 while not line.startswith(prefix):
                     prefix = prefix[:-1]
         i = len(prefix)
-        lines = [line[i:] + '\n' for line in lines]
+        lines = [line[i:]+'\n' for line in lines]
         pysource = ''.join(lines)
         #
         compile(pysource, "cffi_init", "exec")
@@ -794,16 +743,15 @@ class FFI(object):
         typedefs.sort()
         structs.sort()
         unions.sort()
-        return typedefs, structs, unions
+        return (typedefs, structs, unions)
 
 
 def _load_backend_lib(backend, name, flags):
     if name is None:
         if sys.platform != "win32":
             return backend.load_library(None, flags)
-        name = "c"
-        # Windows: load_library(None) fails, but this works
-        # (backward compatibility hack only)
+        name = "c"    # Windows: load_library(None) fails, but this works
+                      # (backward compatibility hack only)
     try:
         if '.' not in name and '/' not in name:
             raise OSError("library not found: %r" % (name,))
@@ -812,18 +760,14 @@ def _load_backend_lib(backend, name, flags):
         import ctypes.util
         path = ctypes.util.find_library(name)
         if path is None:
-            raise  # propagate the original OSError
+            raise     # propagate the original OSError
         return backend.load_library(path, flags)
-
 
 def _make_ffi_library(ffi, libname, flags):
     import os
     backend = ffi._backend
     backendlib = _load_backend_lib(backend, libname, flags)
-
     #
-
-    # noinspection PyPep8Naming
     def accessor_function(name):
         key = 'function ' + name
         tp, _ = ffi._parser._declarations[key]
@@ -833,10 +777,7 @@ def _make_ffi_library(ffi, libname, flags):
         except KeyError as e:
             raise AttributeError('%s: %s' % (name, e))
         library.__dict__[name] = value
-
     #
-
-    # noinspection PyPep8Naming
     def accessor_variable(name):
         key = 'variable ' + name
         tp, _ = ffi._parser._declarations[key]
@@ -846,24 +787,17 @@ def _make_ffi_library(ffi, libname, flags):
         setattr(FFILibrary, name, property(
             lambda self: read_variable(BType, name),
             lambda self, value: write_variable(BType, name, value)))
-
     #
-
     def accessor_constant(name):
         raise NotImplementedError("non-integer constant '%s' cannot be "
                                   "accessed from a dlopen() library" % (name,))
-
     #
-
     def accessor_int_constant(name):
         library.__dict__[name] = ffi._parser._int_constants[name]
-
     #
     accessors = {}
     accessors_version = [False]
-
     #
-
     def update_accessors():
         if accessors_version[0] is ffi._cdef_version:
             return
@@ -883,32 +817,25 @@ def _make_ffi_library(ffi, libname, flags):
                     def accessor_enum(name, tp=tp, i=i):
                         tp.check_not_partial()
                         library.__dict__[name] = tp.enumvalues[i]
-
                     accessors[enumname] = accessor_enum
         for name in ffi._parser._int_constants:
             accessors.setdefault(name, accessor_int_constant)
         accessors_version[0] = ffi._cdef_version
-
     #
-
     def make_accessor(name):
         with ffi._lock:
             if name in library.__dict__ or name in FFILibrary.__dict__:
-                return  # added by another thread while waiting for the lock
+                return    # added by another thread while waiting for the lock
             if name not in accessors:
                 update_accessors()
                 if name not in accessors:
                     raise AttributeError(name)
             accessors[name](name)
-
     #
-
     class FFILibrary(object):
         def __getattr__(self, name):
             make_accessor(name)
             return getattr(self, name)
-
-        # noinspection PyShadowingBuiltins
         def __setattr__(self, name, value):
             try:
                 property = getattr(self.__class__, name)
@@ -917,23 +844,20 @@ def _make_ffi_library(ffi, libname, flags):
                 setattr(self, name, value)
             else:
                 property.__set__(self, value)
-
         def __dir__(self):
             with ffi._lock:
                 update_accessors()
                 return accessors.keys()
-
     #
     if libname is not None:
         try:
-            if not isinstance(libname, str):  # unicode, on Python 2
+            if not isinstance(libname, str):    # unicode, on Python 2
                 libname = libname.encode('utf-8')
             FFILibrary.__name__ = 'FFILibrary_%s' % libname
         except UnicodeError:
             pass
     library = FFILibrary()
     return library, library.__dict__
-
 
 def _builtin_function_type(func):
     # a hack to make at least ffi.typeof(builtin_function) work,

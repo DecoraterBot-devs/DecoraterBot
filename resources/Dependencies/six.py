@@ -1,4 +1,3 @@
-# coding=utf-8
 """Utilities for writing code that runs on Python 2 and 3"""
 
 # Copyright (c) 2010-2015 Benjamin Peterson
@@ -84,7 +83,6 @@ def _import_module(name):
     return sys.modules[name]
 
 
-# noinspection PyUnusedLocal
 class _LazyDescr(object):
 
     def __init__(self, name):
@@ -163,7 +161,6 @@ class MovedAttribute(_LazyDescr):
         return getattr(module, self.attr)
 
 
-# noinspection PyUnusedLocal,PyIncorrectDocstring
 class _SixMetaPathImporter(object):
 
     """
@@ -320,7 +317,6 @@ moves = _MovedItems(__name__ + ".moves")
 _importer._add_module(moves, "moves")
 
 
-# noinspection PyPep8Naming
 class Module_six_moves_urllib_parse(_LazyModule):
 
     """Lazy loading of moved objects in six.moves.urllib_parse"""
@@ -361,7 +357,6 @@ _importer._add_module(Module_six_moves_urllib_parse(__name__ + ".moves.urllib_pa
                       "moves.urllib_parse", "moves.urllib.parse")
 
 
-# noinspection PyPep8Naming
 class Module_six_moves_urllib_error(_LazyModule):
 
     """Lazy loading of moved objects in six.moves.urllib_error"""
@@ -382,7 +377,6 @@ _importer._add_module(Module_six_moves_urllib_error(__name__ + ".moves.urllib.er
                       "moves.urllib_error", "moves.urllib.error")
 
 
-# noinspection PyPep8Naming
 class Module_six_moves_urllib_request(_LazyModule):
 
     """Lazy loading of moved objects in six.moves.urllib_request"""
@@ -433,7 +427,6 @@ _importer._add_module(Module_six_moves_urllib_request(__name__ + ".moves.urllib.
                       "moves.urllib_request", "moves.urllib.request")
 
 
-# noinspection PyPep8Naming
 class Module_six_moves_urllib_response(_LazyModule):
 
     """Lazy loading of moved objects in six.moves.urllib_response"""
@@ -455,7 +448,6 @@ _importer._add_module(Module_six_moves_urllib_response(__name__ + ".moves.urllib
                       "moves.urllib_response", "moves.urllib.response")
 
 
-# noinspection PyPep8Naming
 class Module_six_moves_urllib_robotparser(_LazyModule):
 
     """Lazy loading of moved objects in six.moves.urllib_robotparser"""
@@ -474,7 +466,6 @@ _importer._add_module(Module_six_moves_urllib_robotparser(__name__ + ".moves.url
                       "moves.urllib_robotparser", "moves.urllib.robotparser")
 
 
-# noinspection PyPep8Naming
 class Module_six_moves_urllib(types.ModuleType):
 
     """Create a six.moves.urllib namespace that resembles the Python 3 namespace"""
@@ -492,13 +483,11 @@ _importer._add_module(Module_six_moves_urllib(__name__ + ".moves.urllib"),
                       "moves.urllib")
 
 
-# noinspection PyIncorrectDocstring
 def add_move(move):
     """Add an item to six.moves."""
     setattr(_MovedItems, move.name, move)
 
 
-# noinspection PyIncorrectDocstring
 def remove_move(name):
     """Remove item from six.moves."""
     try:
@@ -533,15 +522,12 @@ try:
 except NameError:
     def advance_iterator(it):
         return it.next()
-# noinspection PyShadowingBuiltins
 next = advance_iterator
 
 
 try:
-    # noinspection PyShadowingBuiltins
     callable = callable
 except NameError:
-    # noinspection PyShadowingBuiltins
     def callable(obj):
         return any("__call__" in klass.__dict__ for klass in type(obj).__mro__)
 
@@ -552,7 +538,6 @@ if PY3:
 
     create_bound_method = types.MethodType
 
-    # noinspection PyUnusedLocal
     def create_unbound_method(func, cls):
         return func
 
@@ -572,9 +557,7 @@ else:
         def next(self):
             return type(self).__next__(self)
 
-    # noinspection PyShadowingBuiltins
     callable = callable
-# noinspection PyTypeChecker
 _add_doc(get_unbound_function,
          """Get the function out of a possibly unbound function""")
 
@@ -600,51 +583,34 @@ if PY3:
     def iterlists(d, **kw):
         return iter(d.lists(**kw))
 
-
-    # noinspection PyArgumentList
     viewkeys = operator.methodcaller("keys")
 
-    # noinspection PyArgumentList
     viewvalues = operator.methodcaller("values")
 
-    # noinspection PyArgumentList
     viewitems = operator.methodcaller("items")
 else:
-    # noinspection PyCompatibility
     def iterkeys(d, **kw):
         return d.iterkeys(**kw)
 
-
-    # noinspection PyCompatibility
     def itervalues(d, **kw):
         return d.itervalues(**kw)
 
-
-    # noinspection PyCompatibility
     def iteritems(d, **kw):
         return d.iteritems(**kw)
 
     def iterlists(d, **kw):
         return d.iterlists(**kw)
 
-
-    # noinspection PyArgumentList
     viewkeys = operator.methodcaller("viewkeys")
 
-    # noinspection PyArgumentList
     viewvalues = operator.methodcaller("viewvalues")
 
-    # noinspection PyArgumentList
     viewitems = operator.methodcaller("viewitems")
 
-# noinspection PyTypeChecker
 _add_doc(iterkeys, "Return an iterator over the keys of a dictionary.")
-# noinspection PyTypeChecker
 _add_doc(itervalues, "Return an iterator over the values of a dictionary.")
-# noinspection PyTypeChecker
 _add_doc(iteritems,
          "Return an iterator over the (key, value) pairs of a dictionary.")
-# noinspection PyTypeChecker
 _add_doc(iterlists,
          "Return an iterator over the (key, [values]) pairs of a dictionary.")
 
@@ -693,23 +659,18 @@ else:
     _assertCountEqual = "assertItemsEqual"
     _assertRaisesRegex = "assertRaisesRegexp"
     _assertRegex = "assertRegexpMatches"
-# noinspection PyTypeChecker
 _add_doc(b, """Byte literal""")
-# noinspection PyTypeChecker
 _add_doc(u, """Text literal""")
 
 
-# noinspection PyPep8Naming
 def assertCountEqual(self, *args, **kwargs):
     return getattr(self, _assertCountEqual)(*args, **kwargs)
 
 
-# noinspection PyPep8Naming
 def assertRaisesRegex(self, *args, **kwargs):
     return getattr(self, _assertRaisesRegex)(*args, **kwargs)
 
 
-# noinspection PyPep8Naming
 def assertRegex(self, *args, **kwargs):
     return getattr(self, _assertRegex)(*args, **kwargs)
 
@@ -725,7 +686,6 @@ if PY3:
         raise value
 
 else:
-    # noinspection PyUnusedLocal,PyIncorrectDocstring
     def exec_(_code_, _globs_=None, _locs_=None):
         """Execute code in a namespace."""
         if _globs_ is None:
@@ -754,7 +714,6 @@ elif sys.version_info[:2] > (3, 2):
     raise value from from_value
 """)
 else:
-    # noinspection PyUnusedLocal
     def raise_from(value, from_value):
         raise value
 
@@ -824,7 +783,6 @@ if sys.version_info[:2] < (3, 3):
         if flush and fp is not None:
             fp.flush()
 
-# noinspection PyTypeChecker
 _add_doc(reraise, """Reraise an exception.""")
 
 if sys.version_info[0:2] < (3, 4):
@@ -839,13 +797,11 @@ else:
     wraps = functools.wraps
 
 
-# noinspection PyIncorrectDocstring
 def with_metaclass(meta, *bases):
     """Create a base class with a metaclass."""
     # This requires a bit of explanation: the basic idea is to make a dummy
     # metaclass for one level of class instantiation that replaces itself with
     # the actual metaclass.
-    # noinspection PyUnusedLocal,PyPep8Naming
     class metaclass(meta):
 
         def __new__(cls, name, this_bases, d):
@@ -853,7 +809,6 @@ def with_metaclass(meta, *bases):
     return type.__new__(metaclass, 'temporary_class', (), {})
 
 
-# noinspection PyIncorrectDocstring
 def add_metaclass(metaclass):
     """Class decorator for creating a class with a metaclass."""
     def wrapper(cls):
@@ -870,7 +825,6 @@ def add_metaclass(metaclass):
     return wrapper
 
 
-# noinspection PyIncorrectDocstring
 def python_2_unicode_compatible(klass):
     """
     A decorator that defines __unicode__ and __str__ methods under Python 2.

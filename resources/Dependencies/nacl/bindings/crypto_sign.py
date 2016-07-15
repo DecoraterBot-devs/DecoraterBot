@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2013 Donald Stufft and individual contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +13,8 @@
 # limitations under the License.
 
 from __future__ import absolute_import, division, print_function
-# noinspection PyPackageRequirements
+
 from nacl._sodium import ffi, lib
-# noinspection PyPackageRequirements
 from nacl.exceptions import BadSignatureError
 
 
@@ -130,7 +128,6 @@ def crypto_sign_ed25519_pk_to_curve25519(public_key_bytes):
     return ffi.buffer(curve_public_key, curve_public_key_len)[:]
 
 
-# noinspection PyIncorrectDocstring
 def crypto_sign_ed25519_sk_to_curve25519(secret_key_bytes):
     """
     Converts a secret Ed25519 key (encoded as bytes ``secret_key_bytes``) to

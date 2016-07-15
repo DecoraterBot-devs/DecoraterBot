@@ -1,5 +1,3 @@
-# coding=utf-8
-# noinspection PyPep8
 import ctypes, ctypes.util, operator, sys
 from . import model
 
@@ -9,15 +7,11 @@ else:
     unicode = str
     long = int
     xrange = range
-    # noinspection PyPep8
     bytechr = lambda num: bytes([num])
-
 
 class CTypesType(type):
     pass
 
-
-# noinspection PyArgumentList,PyPep8Naming
 class CTypesData(object):
     __metaclass__ = CTypesType
     __slots__ = ['__weakref__']
@@ -78,7 +72,7 @@ class CTypesData(object):
             return 'NULL'
         else:
             if address < 0:
-                address += 1 << (8 * ctypes.sizeof(ctypes.c_void_p))
+                address += 1 << (8*ctypes.sizeof(ctypes.c_void_p))
             return '0x%x' % address
 
     def __repr__(self, c_name=None):
@@ -113,19 +107,16 @@ class CTypesData(object):
 
     def __iter__(self):
         raise TypeError("cdata %r does not support iteration" % (
-            self._get_c_name()), )
+            self._get_c_name()),)
 
-    # noinspection PyTypeChecker
     def _make_cmp(name):
         cmpfunc = getattr(operator, name)
-
         def cmp(self, other):
             if isinstance(other, CTypesData):
                 return cmpfunc(self._convert_to_address(None),
                                other._convert_to_address(None))
             else:
                 return NotImplemented
-
         cmp.func_name = name
         return cmp
 
@@ -166,7 +157,6 @@ class CTypesGenericArray(CTypesData):
     def _newp(cls, init):
         return cls(init)
 
-    # noinspection PyTypeChecker
     def __iter__(self):
         for i in xrange(len(self)):
             yield self[i]
@@ -175,7 +165,6 @@ class CTypesGenericArray(CTypesData):
         return self._addr_repr(ctypes.addressof(self._blob))
 
 
-# noinspection PyPep8Naming
 class CTypesGenericPtr(CTypesData):
     __slots__ = ['_address', '_as_ctype_ptr']
     _automatic_casts = False
@@ -216,11 +205,8 @@ class CTypesGenericPtr(CTypesData):
 
     def __nonzero__(self):
         return bool(self._address)
+    __bool__ = __nonzero__
 
-    def __bool__(self):
-        return bool(self._address)
-
-    # noinspection PyMethodOverriding
     @classmethod
     def _to_ctypes(cls, value):
         if not isinstance(value, CTypesData):
@@ -228,7 +214,6 @@ class CTypesGenericPtr(CTypesData):
         address = value._convert_to_address(cls)
         return ctypes.cast(address, cls._ctype)
 
-    # noinspection PyMethodOverriding
     @classmethod
     def _from_ctypes(cls, ctypes_ptr):
         address = ctypes.cast(ctypes_ptr, ctypes.c_void_p).value or 0
@@ -240,13 +225,13 @@ class CTypesGenericPtr(CTypesData):
             ctypes_ptr.contents = cls._to_ctypes(value).contents
 
     def _convert_to_address(self, BClass):
-        if BClass in (self.__class__, None) or BClass._automatic_casts or self._automatic_casts:
+        if (BClass in (self.__class__, None) or BClass._automatic_casts
+            or self._automatic_casts):
             return self._address
         else:
             return CTypesData._convert_to_address(self, BClass)
 
 
-# noinspection PyPep8Naming
 class CTypesBaseStructOrUnion(CTypesData):
     __slots__ = ['_blob']
 
@@ -268,14 +253,12 @@ class CTypesBaseStructOrUnion(CTypesData):
         else:
             return CTypesData._convert_to_address(self, BClass)
 
-    # noinspection PyMethodOverriding
     @classmethod
     def _from_ctypes(cls, ctypes_struct_or_union):
         self = cls.__new__(cls)
         self._blob = ctypes_struct_or_union
         return self
 
-    # noinspection PyMethodOverriding
     @classmethod
     def _to_ctypes(cls, value):
         return value._blob
@@ -284,8 +267,8 @@ class CTypesBaseStructOrUnion(CTypesData):
         return CTypesData.__repr__(self, c_name or self._get_c_name(' &'))
 
 
-# noinspection PyPep8Naming
 class CTypesBackend(object):
+
     PRIMITIVE_TYPES = {
         'char': ctypes.c_char,
         'short': ctypes.c_short,
@@ -301,12 +284,12 @@ class CTypesBackend(object):
         'float': ctypes.c_float,
         'double': ctypes.c_double,
         '_Bool': ctypes.c_bool,
-    }
+        }
 
     for _name in ['unsigned long long', 'unsigned long',
                   'unsigned int', 'unsigned short', 'unsigned char']:
         _size = ctypes.sizeof(PRIMITIVE_TYPES[_name])
-        PRIMITIVE_TYPES['uint%d_t' % (8 * _size)] = PRIMITIVE_TYPES[_name]
+        PRIMITIVE_TYPES['uint%d_t' % (8*_size)] = PRIMITIVE_TYPES[_name]
         if _size == ctypes.sizeof(ctypes.c_void_p):
             PRIMITIVE_TYPES['uintptr_t'] = PRIMITIVE_TYPES[_name]
         if _size == ctypes.sizeof(ctypes.c_size_t):
@@ -314,20 +297,20 @@ class CTypesBackend(object):
 
     for _name in ['long long', 'long', 'int', 'short', 'signed char']:
         _size = ctypes.sizeof(PRIMITIVE_TYPES[_name])
-        PRIMITIVE_TYPES['int%d_t' % (8 * _size)] = PRIMITIVE_TYPES[_name]
+        PRIMITIVE_TYPES['int%d_t' % (8*_size)] = PRIMITIVE_TYPES[_name]
         if _size == ctypes.sizeof(ctypes.c_void_p):
             PRIMITIVE_TYPES['intptr_t'] = PRIMITIVE_TYPES[_name]
             PRIMITIVE_TYPES['ptrdiff_t'] = PRIMITIVE_TYPES[_name]
         if _size == ctypes.sizeof(ctypes.c_size_t):
             PRIMITIVE_TYPES['ssize_t'] = PRIMITIVE_TYPES[_name]
 
+
     def __init__(self):
-        self.RTLD_LAZY = 0  # not supported anyway by ctypes
-        self.RTLD_NOW = 0
+        self.RTLD_LAZY = 0   # not supported anyway by ctypes
+        self.RTLD_NOW  = 0
         self.RTLD_GLOBAL = ctypes.RTLD_GLOBAL
         self.RTLD_LOCAL = ctypes.RTLD_LOCAL
 
-    # noinspection PyAttributeOutsideInit
     def set_ffi(self, ffi):
         self.ffi = ffi
 
@@ -338,27 +321,22 @@ class CTypesBackend(object):
         cdll = ctypes.CDLL(path, flags)
         return CTypesLibrary(self, cdll)
 
-    # noinspection PyAbstractClass
     def new_void_type(self):
         class CTypesVoid(CTypesData):
             __slots__ = []
             _reftypename = 'void &'
-
             @staticmethod
             def _from_ctypes(novalue):
                 return None
-
             @staticmethod
             def _to_ctypes(novalue):
                 if novalue is not None:
                     raise TypeError("None expected, got %s object" %
                                     (type(novalue).__name__,))
                 return None
-
         CTypesVoid._fix_class()
         return CTypesVoid
 
-    # noinspection PyAbstractClass,PyUnboundLocalVariable
     def new_primitive_type(self, name):
         if name == 'wchar_t':
             raise NotImplementedError(name)
@@ -375,10 +353,7 @@ class CTypesBackend(object):
             else:
                 kind = 'int'
             is_signed = (ctype(-1).value == -1)
-
         #
-
-        # noinspection PyTypeChecker
         def _cast_source_to_int(source):
             if isinstance(source, (int, long, float)):
                 source = int(source)
@@ -392,21 +367,17 @@ class CTypesBackend(object):
                 raise TypeError("bad type for cast to %r: %r" %
                                 (CTypesPrimitive, type(source).__name__))
             return source
-
         #
         kind1 = kind
-
         class CTypesPrimitive(CTypesGenericPrimitive):
             __slots__ = ['_value']
             _ctype = ctype
             _reftypename = '%s &' % name
             kind = kind1
 
-            # noinspection PyMissingConstructor
             def __init__(self, value):
                 self._value = value
 
-            # noinspection PyMethodOverriding
             @staticmethod
             def _create_ctype_obj(init):
                 if init is None:
@@ -417,9 +388,8 @@ class CTypesBackend(object):
                 @classmethod
                 def _cast_from(cls, source):
                     source = _cast_source_to_int(source)
-                    source = ctype(source).value  # cast within range
+                    source = ctype(source).value     # cast within range
                     return cls(source)
-
                 def __int__(self):
                     return self._value
 
@@ -429,7 +399,6 @@ class CTypesBackend(object):
                     if not isinstance(source, (int, long, float)):
                         source = _cast_source_to_int(source)
                     return cls(bool(source))
-
                 def __int__(self):
                     return self._value
 
@@ -439,7 +408,6 @@ class CTypesBackend(object):
                     source = _cast_source_to_int(source)
                     source = bytechr(source & 0xFF)
                     return cls(source)
-
                 def __int__(self):
                     return ord(self._value)
 
@@ -455,12 +423,10 @@ class CTypesBackend(object):
                             source = int(source)
                     else:
                         source = _cast_source_to_int(source)
-                    source = ctype(source).value  # fix precision
+                    source = ctype(source).value     # fix precision
                     return cls(source)
-
                 def __int__(self):
                     return int(self._value)
-
                 def __float__(self):
                     return self._value
 
@@ -488,10 +454,16 @@ class CTypesBackend(object):
                 def _to_ctypes(x):
                     if isinstance(x, bytes) and len(x) == 1:
                         return x
-                    if isinstance(x, CTypesPrimitive):  # <CData <char>>
+                    if isinstance(x, CTypesPrimitive):    # <CData <char>>
                         return x._value
                     raise TypeError("character expected, got %s" %
                                     type(x).__name__)
+                def __nonzero__(self):
+                    return ord(self._value) != 0
+            else:
+                def __nonzero__(self):
+                    return self._value != 0
+            __bool__ = __nonzero__
 
             if kind == 'float':
                 @staticmethod
@@ -515,7 +487,6 @@ class CTypesBackend(object):
             if kind == 'byte':
                 def _to_string(self, maxlen):
                     return chr(self._value & 0xff)
-
         #
         CTypesPrimitive._fix_class()
         return CTypesPrimitive
@@ -531,9 +502,7 @@ class CTypesBackend(object):
             kind = 'voidp'
         else:
             kind = 'generic'
-
         #
-
         class CTypesPtr(CTypesGenericPtr):
             __slots__ = ['_own']
             if kind == 'charp':
@@ -549,7 +518,6 @@ class CTypesBackend(object):
             else:
                 _reftypename = BItem._get_c_name(' * &')
 
-            # noinspection PyMissingConstructor
             def __init__(self, init):
                 ctypeobj = BItem._create_ctype_obj(init)
                 if kind == 'charp':
@@ -611,10 +579,9 @@ class CTypesBackend(object):
                     return 'owning %d bytes' % (
                         ctypes.sizeof(self._as_ctype_ptr.contents),)
                 return super(CTypesPtr, self)._get_own_repr()
-
         #
-        if (BItem is self.ffi._get_cached_btype(model.void_type) or BItem is self.ffi._get_cached_btype(
-                model.PrimitiveType('char'))):
+        if (BItem is self.ffi._get_cached_btype(model.void_type) or
+            BItem is self.ffi._get_cached_btype(model.PrimitiveType('char'))):
             CTypesPtr._automatic_casts = True
         #
         CTypesPtr._fix_class()
@@ -634,10 +601,7 @@ class CTypesBackend(object):
             kind = 'byte'
         else:
             kind = 'generic'
-
         #
-
-        # noinspection PyPep8Naming
         class CTypesArray(CTypesGenericArray):
             __slots__ = ['_blob', '_own']
             if length is not None:
@@ -648,14 +612,13 @@ class CTypesBackend(object):
             _declared_length = length
             _CTPtr = CTypesPtr
 
-            # noinspection PyMissingConstructor,PyCallingNonCallable
             def __init__(self, init):
                 if length is None:
                     if isinstance(init, (int, long)):
                         len1 = init
                         init = None
                     elif kind == 'char' and isinstance(init, bytes):
-                        len1 = len(init) + 1  # extra null
+                        len1 = len(init) + 1    # extra null
                     else:
                         init = tuple(init)
                         len1 = len(init)
@@ -668,7 +631,7 @@ class CTypesBackend(object):
             @staticmethod
             def _initialize(blob, init):
                 if isinstance(init, bytes):
-                    init = [init[i:i + 1] for i in range(len(init))]
+                    init = [init[i:i+1] for i in range(len(init))]
                 else:
                     init = tuple(init)
                 if len(init) > len(blob):
@@ -737,30 +700,22 @@ class CTypesBackend(object):
             def _cast_from(cls, source):
                 raise NotImplementedError("casting to %r" % (
                     cls._get_c_name(),))
-
         #
         CTypesArray._fix_class()
         return CTypesArray
 
-    # noinspection PyAbstractClass
     def _new_struct_or_union(self, kind, name, base_ctypes_class):
         #
-
-        # noinspection PyPep8Naming
         class struct_or_union(base_ctypes_class):
             pass
-
         struct_or_union.__name__ = '%s_%s' % (kind, name)
         kind1 = kind
-
         #
-
         class CTypesStructOrUnion(CTypesBaseStructOrUnion):
             __slots__ = ['_blob']
             _ctype = struct_or_union
             _reftypename = '%s &' % (name,)
             _kind = kind = kind1
-
         #
         CTypesStructOrUnion._fix_class()
         return CTypesStructOrUnion
@@ -795,25 +750,20 @@ class CTypesBackend(object):
             struct_or_union._pack_ = 1
         struct_or_union._fields_ = cfields
         CTypesStructOrUnion._bfield_types = bfield_types
-
         #
-        # noinspection PyDecorator
-
         @staticmethod
         def _create_ctype_obj(init):
             result = struct_or_union()
             if init is not None:
                 initialize(result, init)
             return result
-
         CTypesStructOrUnion._create_ctype_obj = _create_ctype_obj
-
         #
-
         def initialize(blob, init):
             if is_union:
                 if len(init) > 1:
-                    raise ValueError("union initializer: %d items given, but only one supported (use a dict if needed)"
+                    raise ValueError("union initializer: %d items given, but "
+                                    "only one supported (use a dict if needed)"
                                      % (len(init),))
             if not isinstance(init, dict):
                 if isinstance(init, (bytes, unicode)):
@@ -826,12 +776,12 @@ class CTypesBackend(object):
             addr = ctypes.addressof(blob)
             for fname, value in init.items():
                 BField, bitsize = name2fieldtype[fname]
-                assert bitsize < 0, "not implemented: initializer with bit fields"
+                assert bitsize < 0, \
+                       "not implemented: initializer with bit fields"
                 offset = CTypesStructOrUnion._offsetof(fname)
                 PTR = ctypes.POINTER(BField._ctype)
                 p = ctypes.cast(addr + offset, PTR)
                 BField._initialize(p.contents, value)
-
         is_union = CTypesStructOrUnion._kind == 'union'
         name2fieldtype = dict(zip(fnames, zip(btypes, bitfields)))
         #
@@ -848,10 +798,8 @@ class CTypesBackend(object):
                     addr = ctypes.addressof(self._blob)
                     p = ctypes.cast(addr + offset, PTR)
                     return BField._from_ctypes(p.contents)
-
                 def setter(self, value, fname=fname, BField=BField):
                     setattr(self._blob, fname, BField._to_ctypes(value))
-
                 #
                 if issubclass(BField, CTypesGenericArray):
                     setter = None
@@ -862,11 +810,10 @@ class CTypesBackend(object):
                             addr = ctypes.addressof(self._blob)
                             p = ctypes.cast(addr + offset, PTR)
                             return BFieldPtr._from_ctypes(p)
-                            #
+                #
             else:
                 def getter(self, fname=fname, BField=BField):
                     return BField._from_ctypes(getattr(self._blob, fname))
-
                 def setter(self, value, fname=fname, BField=BField):
                     # xxx obscure workaround
                     value = BField._to_ctypes(value)
@@ -882,13 +829,10 @@ class CTypesBackend(object):
             if hasattr(CTypesPtr, fname):
                 raise ValueError("the field name %r conflicts in "
                                  "the ctypes backend" % fname)
-
             def getter(self, fname=fname):
                 return getattr(self[0], fname)
-
             def setter(self, value, fname=fname):
                 setattr(self[0], fname, value)
-
             setattr(CTypesPtr, fname, property(getter, setter))
 
     def new_function_type(self, BArgs, BResult, has_varargs):
@@ -896,9 +840,7 @@ class CTypesBackend(object):
         if has_varargs:
             nameargs.append('...')
         nameargs = ', '.join(nameargs)
-
         #
-
         class CTypesFunctionPtr(CTypesGenericPtr):
             __slots__ = ['_own_callback', '_name']
             _ctype = ctypes.CFUNCTYPE(getattr(BResult, '_ctype', None),
@@ -906,7 +848,6 @@ class CTypesBackend(object):
                                       use_errno=True)
             _reftypename = BResult._get_c_name('(* &)(%s)' % (nameargs,))
 
-            # noinspection PyMissingConstructor
             def __init__(self, init, error=None):
                 # create a callback to the Python callable init()
                 import traceback
@@ -916,7 +857,6 @@ class CTypesBackend(object):
                         BResult._create_ctype_obj(error))
                 else:
                     error = None
-
                 def callback(*args):
                     args2 = []
                     for arg, BArg in zip(args, BArgs):
@@ -930,12 +870,11 @@ class CTypesBackend(object):
                     if issubclass(BResult, CTypesGenericPtr):
                         if res2:
                             res2 = ctypes.cast(res2, ctypes.c_void_p).value
-                            # .value: http://bugs.python.org/issue1574593
+                                # .value: http://bugs.python.org/issue1574593
                         else:
                             res2 = None
-                    # print repr(res2)
+                    #print repr(res2)
                     return res2
-
                 if issubclass(BResult, CTypesGenericPtr):
                     # The only pointers callbacks can return are void*s:
                     # http://bugs.python.org/issue5710
@@ -950,18 +889,17 @@ class CTypesBackend(object):
                                             ctypes.c_void_p).value
                 self._own_callback = init
 
-            # noinspection PyMethodOverriding
             @staticmethod
             def _initialize(ctypes_ptr, value):
                 if value:
-                    raise NotImplementedError("ctypes backend: not supported: initializers for function pointers")
+                    raise NotImplementedError("ctypes backend: not supported: "
+                                          "initializers for function pointers")
 
-            # noinspection PyMethodOverriding
             def __repr__(self):
                 c_name = getattr(self, '_name', None)
                 if c_name:
                     i = self._reftypename.index('(* &)')
-                    if self._reftypename[i - 1] not in ' )*':
+                    if self._reftypename[i-1] not in ' )*':
                         c_name = ' ' + c_name
                     c_name = self._reftypename.replace('(* &)', c_name)
                 return CTypesData.__repr__(self, c_name)
@@ -971,7 +909,6 @@ class CTypesBackend(object):
                     return 'calling %r' % (self._own_callback,)
                 return super(CTypesFunctionPtr, self)._get_own_repr()
 
-            # noinspection PyUnboundLocalVariable
             def __call__(self, *args):
                 if has_varargs:
                     assert len(args) >= len(BArgs)
@@ -995,7 +932,6 @@ class CTypesBackend(object):
                         ctypes_args.append(arg._arg_to_ctypes(arg))
                 result = self._as_ctype_ptr(*ctypes_args)
                 return BResult._from_ctypes(result)
-
         #
         CTypesFunctionPtr._fix_class()
         return CTypesFunctionPtr
@@ -1004,9 +940,7 @@ class CTypesBackend(object):
         assert isinstance(name, str)
         reverse_mapping = dict(zip(reversed(enumvalues),
                                    reversed(enumerators)))
-
         #
-
         class CTypesEnum(CTypesInt):
             __slots__ = []
             _reftypename = '%s &' % name
@@ -1018,14 +952,12 @@ class CTypesBackend(object):
                 except KeyError:
                     return str(value)
 
-            # noinspection PyUnusedLocal
             def _to_string(self, maxlen):
                 value = self._value
                 try:
                     return reverse_mapping[value]
                 except KeyError:
                     return str(value)
-
         #
         CTypesEnum._fix_class()
         return CTypesEnum
@@ -1062,8 +994,33 @@ class CTypesBackend(object):
         return BType._cast_from(source)
 
     def callback(self, BType, source, error, onerror):
-        assert onerror is None  # XXX not implemented
+        assert onerror is None   # XXX not implemented
         return BType(source, error)
+
+    def gcp(self, cdata, destructor):
+        BType = self.typeof(cdata)
+
+        if destructor is None:
+            if not (hasattr(BType, '_gcp_type') and
+                    BType._gcp_type is BType):
+                raise TypeError("Can remove destructor only on a object "
+                                "previously returned by ffi.gc()")
+            cdata._destructor = None
+            return None
+
+        try:
+            gcp_type = BType._gcp_type
+        except AttributeError:
+            class CTypesDataGcp(BType):
+                __slots__ = ['_orig', '_destructor']
+                def __del__(self):
+                    if self._destructor is not None:
+                        self._destructor(self._orig)
+            gcp_type = BType._gcp_type = CTypesDataGcp
+        new_cdata = self.cast(gcp_type, cdata)
+        new_cdata._orig = cdata
+        new_cdata._destructor = destructor
+        return new_cdata
 
     typeof = type
 
@@ -1079,7 +1036,7 @@ class CTypesBackend(object):
             BField = BType._bfield_types[fieldname]
             if BField is Ellipsis:
                 raise TypeError("not supported for bitfields")
-            return BField, BType._offsetof(fieldname)
+            return (BField, BType._offsetof(fieldname))
         elif isinstance(fieldname, (int, long)):
             if issubclass(BType, CTypesGenericArray):
                 BType = BType._CTPtr
@@ -1089,11 +1046,10 @@ class CTypesBackend(object):
             offset = BItem._get_size() * fieldname
             if offset > sys.maxsize:
                 raise OverflowError
-            return BItem, offset
+            return (BItem, offset)
         else:
             raise TypeError(type(fieldname))
 
-    # noinspection PyTypeChecker
     def rawaddressof(self, BTypePtr, cdata, offset=None):
         if isinstance(cdata, CTypesBaseStructOrUnion):
             ptr = ctypes.pointer(type(cdata)._to_ctypes(cdata))
@@ -1114,8 +1070,8 @@ class CTypesBackend(object):
         return BTypePtr._from_ctypes(ptr)
 
 
-# noinspection PyPep8Naming
 class CTypesLibrary(object):
+
     def __init__(self, backend, cdll):
         self.backend = backend
         self.cdll = cdll

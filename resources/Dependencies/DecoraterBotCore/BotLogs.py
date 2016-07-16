@@ -43,6 +43,7 @@ class BotLogs:
         @classmethod
         def set_up_asyncio_logger_code(self):
             asynciologger = logging.getLogger('asyncio')
+            logger.setLevel(logging.DEBUG)
             handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\asyncio.log', encoding='utf-8', mode='w')
             handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
             asynciologger.addHandler(handler)
@@ -199,7 +200,7 @@ class BotLogs:
 
         @classmethod
         def onban_code(self, client, member):
-            ban_log_data = str(LogData['Ban_Logs'][0]).format(member.name, member.discriminator, member.server.name)
+            ban_log_data = str(LogData['Ban_Logs'][0]).format(member.name, member.id, member.discriminator, member.server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\bans.txt'
             file = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -231,7 +232,7 @@ class BotLogs:
 
         @classmethod
         def onunban_code(self, server, user):
-            unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.discriminator, server.name)
+            unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\unbans.txt'
             file = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -241,7 +242,7 @@ class BotLogs:
 
         @classmethod
         def onkick_code(self, client, member):
-            kick_log_data = str(LogData['Kick_Logs'][0]).format(member.name, member.discriminator, member.server.name)
+            kick_log_data = str(LogData['Kick_Logs'][0]).format(member.name, member.id, member.discriminator, member.server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\kicks.txt'
             file = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)

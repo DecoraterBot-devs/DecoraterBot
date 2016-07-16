@@ -28,13 +28,13 @@
         "Name={0} has set the game on bot to {1}. ({2})(Servers)\n"
     ],
     "Ban_Logs": [
-        "{0} with a discriminator of {1} has been banned from the {2} server.\n"
+        "{0} with a ID of {1} and a discriminator of {2} has been banned from the {3} server.\n"
     ],
     "Unban_Logs": [
-        "{0} with a discriminator of {1} has been unbanned from the {2} server.\n"
+        "{0} with a ID of {1} and a discriminator of {2} has been unbanned from the {3} server.\n"
     ],
     "Kick_Logs": [
-        "{0} with a discriminator of {1} has been kicked from the {2} server.\n"
+        "{0} with a ID of {1} and a discriminator of {2} has been kicked from the {3} server.\n"
     ],
     "On_Server_Available": [
         "The {0.name} server with the ID of {0.id} has become Available.\n"

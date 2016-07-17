@@ -27,6 +27,25 @@ import BotPMError
 import BotVoiceCommands
 from discord.ext import commands
 
+try:
+    consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
+    consoletext = json.load(consoledatafile)
+except FileNotFoundError:
+    print('ConsoleWindow.json is not Found. Cannot Continue.')
+    sys.exit(2)
+try:
+    jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\IgnoreList.json', 'r')
+    somedict = json.load(jsonfile)
+except FileNotFoundError:
+    print(str(consoletext['Missing_JSON_Errors'][0]))
+    sys.exit(2)
+try:
+    botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
+    botmessages = json.load(botmessagesdata)
+except FileNotFoundError:
+    print(str(consoletext['Missing_JSON_Errors'][1]))
+    sys.exit(2)
+
 global _somebool
 _somebool = False
 
@@ -99,28 +118,10 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 
 if _logging or _logbans or _logunbans or _logkicks or _discord_logger or _asyncio_logger or _log_available or _log_unavailable:
     import BotLogs
-try:
-    consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
-    consoletext = json.load(consoledatafile)
-except FileNotFoundError:
-    print('ConsoleWindow.json is not Found. Cannot Continue.')
-    sys.exit(2)
-try:
-    jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\IgnoreList.json', 'r')
-    somedict = json.load(jsonfile)
-except FileNotFoundError:
-    print(str(consoletext['Missing_JSON_Errors'][0]))
-    sys.exit(2)
-try:
-    botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
-    botmessages = json.load(botmessagesdata)
-except FileNotFoundError:
-    print(str(consoletext['Missing_JSON_Errors'][1]))
-    sys.exit(2)
 
 
 class BotCommandData:
-    def __init__(self, client):
+    def __init__(self):
         nothing = None  # prevent error here.
 
     class bot:
@@ -382,7 +383,7 @@ class BotCommandData:
 
 
 class BotIgnores:
-    def __init__(self, client):
+    def __init__(self):
         nothing = None  # prevent error here.
 
     class bot:
@@ -424,36 +425,15 @@ class BotIgnores:
                             except discord.errors.Forbidden:
                                 return
                             except discord.errors.HTTPException:
-                                if len(message_data) > 2000:
-                                    exception_data = 'Ignoring exception caused at ignore_code:\n' + str(traceback.format_exc())
-                                    logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                                    try:
-                                        file = io.open(logfile, 'a', encoding='utf-8')
-                                        size = os.path.getsize(logfile)
-                                        if size >= 32102400:
-                                            file.seek(0)
-                                            file.truncate()
-                                        file.write(exception_data)
-                                    except PermissionError:
-                                        return
-                            else:
-                                yield from client.logout()
-                                print("This Bot's token was reset and as such is now VOID. Cannot continue.")
-                                sys.exit(1)
+                                funcname = 'ignore_code'
+                                tbinfo = str(traceback.format_exc())
+                                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
                         else:
                             return
                     else:
-                        exception_data = 'Ignoring exception caused at ignore_code:\n' + str(traceback.format_exc())
-                        logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                        try:
-                            file = io.open(logfile, 'a', encoding='utf-8')
-                            size = os.path.getsize(logfile)
-                            if size >= 32102400:
-                                file.seek(0)
-                                file.truncate()
-                            file.write(exception_data)
-                        except PermissionError:
-                            return
+                        funcname = 'ignore_code'
+                        tbinfo = str(traceback.format_exc())
+                        yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
             else:
                 yield from BotCommandData.ignored_channel_commands(client, message)
 
@@ -464,7 +444,7 @@ class BotIgnores:
 
 
 class BotEvents:
-    def __init__(self, client):
+    def __init__(self):
         nothing = None  # prevent error here.
 
     class bot:
@@ -497,17 +477,9 @@ class BotEvents:
                         if _logging == 'True':
                             BotLogs.BotLogs.delete_logs(client, message)
             except Exception as e:
-                exception_data = 'Ignoring exception caused at _resolve_delete_method_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = '_resolve_delete_method_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
         @asyncio.coroutine
@@ -534,55 +506,34 @@ class BotEvents:
                         if _logging == 'True':
                             BotLogs.BotLogs.edit_logs(client, before, after)
             except Exception as e:
-                exception_data = 'Ignoring exception caused at _resolve_edit_method_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = '_resolve_edit_method_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
+        @asyncio.coroutine
         def _resolve_onban_code(self, client, member):
             try:
                 if _logbans == 'True':
-                    BotLogs.BotLogs.onban(client, member)
+                    yield from BotLogs.BotLogs.onban(client, member)
             except Exception as e:
-                exception_data = 'Ignoring exception caused at _resolve_onban_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = '_resolve_onban_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
+        @asyncio.coroutine
         def _resolve_onunban_code(self, client, user):
             try:
                 if _logunbans == 'True':
-                    BotLogs.BotLogs.onunban(client, user)
+                    yield from BotLogs.BotLogs.onunban(client, user)
             except Exception as e:
-                exception_data = 'Ignoring exception caused at _resolve_onunban_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = '_resolve_onunban_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
+        @asyncio.coroutine
         def _resolve_onremove_code(self, client, member):
             try:
                 try:
@@ -591,29 +542,21 @@ class BotEvents:
                         return
                     else:
                         if _logkicks == 'True':
-                            BotLogs.BotLogs.onkick(client, member)
+                            yield from BotLogs.BotLogs.onkick(client, member)
                 except discord.errors.HTTPException:
                     if _logkicks == 'True':
-                        BotLogs.BotLogs.onkick(client, member)
+                        yield from BotLogs.BotLogs.onkick(client, member)
                 except discord.errors.Forbidden:
                     if _logkicks == 'True':
-                        BotLogs.BotLogs.onkick(client, member)
+                        yield from BotLogs.BotLogs.onkick(client, member)
                 if member.server and member.server.id == "71324306319093760":
                     newlyjoinedlist['users_to_be_verified'].remove(member.id)
                     filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json"
                     json.dump(newlyjoinedlist, open(filename, "w"))
             except Exception as e:
-                exception_data = 'Ignoring exception caused at _resolve_onremove_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = '_resolve_onremove_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
         @asyncio.coroutine
@@ -636,17 +579,9 @@ class BotEvents:
                     newlyjoinedlist['users_to_be_verified'].append(member.id)
                     json.dump(newlyjoinedlist, open(sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json", "w"))
             except Exception as e:
-                exception_data = 'Ignoring exception caused at _resolve_onjoin_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = '_resolve_onjoin_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
         @asyncio.coroutine
@@ -657,17 +592,9 @@ class BotEvents:
                 else:
                     return
             except Exception as e:
-                exception_data = 'Ignoring exception caused at _resolve_on_login_voice_channel_join_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = '_resolve_on_login_voice_channel_join_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
         @asyncio.coroutine
@@ -678,17 +605,9 @@ class BotEvents:
                 else:
                     return
             except Exception as e:
-                exception_data = 'Ignoring exception caused at high_level_reload_helper_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = 'high_level_reload_helper_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
         def _resolve_discord_logger_code(self):
@@ -721,17 +640,9 @@ class BotEvents:
                 else:
                     return
             except Exception as e:
-                exception_data = 'Ignoring exception caused at high_level_reload_helper2_code:\n' + str(traceback.format_exc())
-                logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
-                try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                except PermissionError:
-                    return
+                funcname = 'high_level_reload_helper2_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
     @classmethod
     @asyncio.coroutine
@@ -744,16 +655,19 @@ class BotEvents:
         yield from self.bot._resolve_edit_method_code(client, before, after)
 
     @classmethod
+    @asyncio.coroutine
     def _resolve_onban(self, client, member):
-        self.bot._resolve_onban_code(client, member)
+        yield from self.bot._resolve_onban_code(client, member)
 
     @classmethod
+    @asyncio.coroutine
     def _resolve_onunban(self, client, user):
-        self.bot._resolve_onunban_code(client, user)
+        yield from self.bot._resolve_onunban_code(client, user)
 
     @classmethod
+    @asyncio.coroutine
     def _resolve_onremove(self, client, member):
-        self.bot._resolve_onremove_code(client, member)
+        yield from self.bot._resolve_onremove_code(client, member)
 
     @classmethod
     @asyncio.coroutine

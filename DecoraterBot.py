@@ -35,17 +35,17 @@ def on_message_edit(before, after):
 
 @client.async_event
 def on_member_ban(member):
-    DecoraterBotCore.Core.BotCore.memberban(client, member)
+    yield from DecoraterBotCore.Core.BotCore.memberban(client, member)
 
 
 @client.async_event
 def on_member_unban(server, user):
-    DecoraterBotCore.Core.BotCore.memberunban(server, user)
+    yield from DecoraterBotCore.Core.BotCore.memberunban(server, user)
 
 
 @client.async_event
 def on_member_remove(member):
-    DecoraterBotCore.Core.BotCore.memberremove(client, member)
+    yield from DecoraterBotCore.Core.BotCore.memberremove(client, member)
 
 
 @client.async_event

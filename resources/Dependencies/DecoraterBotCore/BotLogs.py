@@ -1,13 +1,11 @@
 # coding=utf-8
 import discord
 import io
-import traceback
 import sys
 import os.path
 import asyncio
 import logging
 import json
-from discord.ext import commands
 
 try:
     consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
@@ -24,7 +22,7 @@ except FileNotFoundError:
 
 
 class BotLogs:
-    def __init__(self, client):
+    def __init__(self):
         nothing = None
 
     class bot:
@@ -43,7 +41,7 @@ class BotLogs:
         @classmethod
         def set_up_asyncio_logger_code(self):
             asynciologger = logging.getLogger('asyncio')
-            logger.setLevel(logging.DEBUG)
+            asynciologger.setLevel(logging.DEBUG)
             handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\asyncio.log', encoding='utf-8', mode='w')
             handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
             asynciologger.addHandler(handler)
@@ -178,6 +176,27 @@ class BotLogs:
                 return
 
         @classmethod
+        @asyncio.coroutine
+        def on_bot_error_code(self, funcname, tbinfo):
+            if bool(funcname) != False:
+                if bool(tbinfo) != False:
+                    exception_data = 'Ignoring exception caused at {0}:\n{1}'.format(funcname, tbinfo)
+                    logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
+                    try:
+                        file = io.open(logfile, 'a', encoding='utf-8')
+                        size = os.path.getsize(logfile)
+                        if size >= 32102400:
+                           file.seek(0)
+                           file.truncate()
+                        file.write(exception_data)
+                    except PermissionError:
+                        return
+                else:
+                    raise
+            else:
+                raise
+
+        @classmethod
         def gamelog_code(self, client, message, desgame):
             gmelogdata01 = str(LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
             gmelogsPM = gmelogdata01
@@ -199,6 +218,7 @@ class BotLogs:
                     return
 
         @classmethod
+        @asyncio.coroutine
         def onban_code(self, client, member):
             ban_log_data = str(LogData['Ban_Logs'][0]).format(member.name, member.id, member.discriminator, member.server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\bans.txt'
@@ -231,6 +251,7 @@ class BotLogs:
             file.write(unavailable_log_data)
 
         @classmethod
+        @asyncio.coroutine
         def onunban_code(self, server, user):
             unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\unbans.txt'
@@ -241,6 +262,7 @@ class BotLogs:
             file.write(unban_log_data)
 
         @classmethod
+        @asyncio.coroutine
         def onkick_code(self, client, member):
             kick_log_data = str(LogData['Kick_Logs'][0]).format(member.name, member.id, member.discriminator, member.server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\kicks.txt'
@@ -290,12 +312,29 @@ class BotLogs:
         yield from self.bot.send_delete_logs_code(client, message)
 
     @classmethod
+    @asyncio.coroutine
+    def on_bot_error(self, funcname, tbinfo):
+        """
+            This Function is for Internal Bot use only.
+            It is for catching any Errors and writing them to a file.
+
+            Usage
+            =====
+            funcname: Must be a string with the name of the function that caused a Error.
+                raises the Errors that happened if empty string or None is given.
+            tbinfo: string data of the traceback info. Must be a string for this to not Error itself.
+                raises the Errors that happened if empty string or None is given.
+        """
+        yield from self.bot.on_bot_error_code(funcname, tbinfo)
+
+    @classmethod
     def gamelog(self, client, message, desgame):
         self.bot.gamelog_code(client, message, desgame)
 
     @classmethod
+    @asyncio.coroutine
     def onban(self, client, member):
-        self.bot.onban_code(client, member)
+        yield from self.bot.onban_code(client, member)
 
     @classmethod
     @asyncio.coroutine
@@ -308,9 +347,11 @@ class BotLogs:
         yield from self.bot.onunavailable_code(server)
 
     @classmethod
+    @asyncio.coroutine
     def onunban(self, server, user):
-        self.bot.onunban_code(server, user)
+        yield from self.bot.onunban_code(server, user)
 
     @classmethod
+    @asyncio.coroutine
     def onkick(self, client, member):
-        self.bot.onkick_code(client, member)
+        yield from self.bot.onkick_code(client, member)

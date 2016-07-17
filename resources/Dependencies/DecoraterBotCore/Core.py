@@ -57,7 +57,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 
 
 class BotCore:
-    def __init__(self, client):
+    def __init__(self):
         nothing = None  # prevent error here.
 
     class bot:
@@ -160,17 +160,19 @@ class BotCore:
             yield from Ignore.BotEvents._resolve_edit_method(client, before, after)
 
         @classmethod
+        @asyncio.coroutine
         def memberban_code(self, client, member):
-            Ignore.BotEvents._resolve_onban(client, member)
+            yield from Ignore.BotEvents._resolve_onban(client, member)
 
         @classmethod
+        @asyncio.coroutine
         def memberunban_code(self, client, member):
-            Ignore.BotEvents._resolve_onunban(client, member)
+            yield from Ignore.BotEvents._resolve_onunban(client, member)
 
         @classmethod
+        @asyncio.coroutine
         def memberremove_code(self, client, member):
-            # depreciated
-            Ignore.BotEvents._resolve_onremove(client, member)
+            yield from Ignore.BotEvents._resolve_onremove(client, member)
 
         @classmethod
         @asyncio.coroutine
@@ -229,16 +231,19 @@ class BotCore:
         yield from self.bot.editmessage_code(client, before, after)
 
     @classmethod
+    @asyncio.coroutine
     def memberban(self, client, member):
-        self.bot.memberban_code(client, member)
+        yield from self.bot.memberban_code(client, member)
 
     @classmethod
+    @asyncio.coroutine
     def memberunban(self, client, member):
-        self.bot.memberunban_code(client, member)
+        yield from self.bot.memberunban_code(client, member)
 
     @classmethod
+    @asyncio.coroutine
     def memberremove(self, client, member):
-        self.bot.memberremove_code(client, member)
+        yield from self.bot.memberremove_code(client, member)
 
     @classmethod
     @asyncio.coroutine

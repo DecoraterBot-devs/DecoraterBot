@@ -1,4 +1,3 @@
-# coding=utf-8
 import asyncio
 import binascii
 import base64
@@ -477,7 +476,6 @@ class BodyPartReader(object):
             raise RuntimeError('unknown content transfer encoding: {}'
                                ''.format(encoding))
 
-    # noinspection PyIncorrectDocstring
     def get_charset(self, default=None):
         """Returns charset parameter from ``Content-Type`` header or default.
         """
@@ -569,7 +567,6 @@ class MultipartReader(object):
         headers = yield from self._read_headers()
         return self._get_part_reader(headers)
 
-    # noinspection PyCallingNonCallable
     def _get_part_reader(self, headers):
         """Dispatches the response by the `Content-Type` header, returning
         suitable reader instance.
@@ -902,7 +899,6 @@ class MultipartWriter(object):
         *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
         return params['boundary'].encode('us-ascii')
 
-    # noinspection PyIncorrectDocstring
     def append(self, obj, headers=None):
         """Adds a new body part to multipart writer."""
         if isinstance(obj, self.part_writer_cls):
@@ -915,7 +911,6 @@ class MultipartWriter(object):
             self.parts.append(self.part_writer_cls(obj, headers))
         return self.parts[-1]
 
-    # noinspection PyIncorrectDocstring
     def append_json(self, obj, headers=None):
         """Helper to append JSON part."""
         if not headers:
@@ -923,7 +918,6 @@ class MultipartWriter(object):
         headers[CONTENT_TYPE] = 'application/json'
         return self.append(obj, headers)
 
-    # noinspection PyIncorrectDocstring
     def append_form(self, obj, headers=None):
         """Helper to append form urlencoded part."""
         if not headers:

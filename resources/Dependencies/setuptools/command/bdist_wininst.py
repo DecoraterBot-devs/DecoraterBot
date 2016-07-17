@@ -1,8 +1,6 @@
-# coding=utf-8
 import distutils.command.bdist_wininst as orig
 
 
-# noinspection PyAttributeOutsideInit,PyIncorrectDocstring,PyIncorrectDocstring,PyPep8Naming
 class bdist_wininst(orig.bdist_wininst):
     def reinitialize_command(self, command, reinit_subcommands=0):
         """

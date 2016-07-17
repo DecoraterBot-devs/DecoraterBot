@@ -1,8 +1,6 @@
-# coding=utf-8
 import distutils.command.register as orig
 
 
-# noinspection PyPep8Naming
 class register(orig.register):
     __doc__ = orig.register.__doc__
 

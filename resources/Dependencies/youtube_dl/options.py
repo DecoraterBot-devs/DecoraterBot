@@ -26,7 +26,11 @@ def parseOpts(overrideArguments=None):
         except IOError:
             return default  # silently skip if file is not present
         try:
-            res = compat_shlex_split(optionf.read(), comments=True)
+            # FIXME: https://github.com/rg3/youtube-dl/commit/dfe5fa49aed02cf36ba9f743b11b0903554b5e56
+            contents = optionf.read()
+            if sys.version_info < (3,):
+                contents = contents.decode(preferredencoding())
+            res = compat_shlex_split(contents, comments=True)
         finally:
             optionf.close()
         return res
@@ -812,11 +816,11 @@ def parseOpts(overrideArguments=None):
             system_conf = []
             user_conf = []
         else:
-            system_conf = compat_conf(_readOptions('/etc/youtube-dl.conf'))
+            system_conf = _readOptions('/etc/youtube-dl.conf')
             if '--ignore-config' in system_conf:
                 user_conf = []
             else:
-                user_conf = compat_conf(_readUserConf())
+                user_conf = _readUserConf()
         argv = system_conf + user_conf + command_line_conf
 
         opts, args = parser.parse_args(argv)

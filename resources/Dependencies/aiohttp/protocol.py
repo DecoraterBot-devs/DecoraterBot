@@ -1,4 +1,3 @@
-# coding=utf-8
 """Http related parsers and protocol."""
 
 import collections
@@ -10,7 +9,7 @@ import sys
 import zlib
 from abc import abstractmethod, ABCMeta
 from wsgiref.handlers import format_date_time
-# noinspection PyPackageRequirements
+
 import aiohttp
 from . import errors, hdrs
 from .multidict import CIMultiDict, upstr
@@ -46,6 +45,7 @@ RawRequestMessage = collections.namedtuple(
     ['method', 'path', 'version', 'headers', 'raw_headers',
      'should_close', 'compression'])
 
+
 RawResponseMessage = collections.namedtuple(
     'RawResponseMessage',
     ['version', 'code', 'reason', 'headers', 'raw_headers',
@@ -53,13 +53,13 @@ RawResponseMessage = collections.namedtuple(
 
 
 class HttpParser:
+
     def __init__(self, max_line_size=8190, max_headers=32768,
                  max_field_size=8190):
         self.max_line_size = max_line_size
         self.max_headers = max_headers
         self.max_field_size = max_field_size
 
-    # noinspection PyIncorrectDocstring
     def parse_headers(self, lines):
         """Parses RFC 5322 headers from a stream.
 
@@ -270,6 +270,7 @@ class HttpResponseParser(HttpParser):
 
 
 class HttpPayloadParser:
+
     def __init__(self, message, length=None, compression=True,
                  readall=False, response_with_body=True):
         self.message = message
@@ -316,7 +317,6 @@ class HttpPayloadParser:
 
         out.feed_eof()
 
-    # noinspection PyIncorrectDocstring
     def parse_chunked_payload(self, out, buf):
         """Chunked transfer encoding parser."""
         while True:
@@ -348,7 +348,6 @@ class HttpPayloadParser:
         # read and discard trailer up to the CRLF terminator
         yield from buf.skipuntil(b'\r\n')
 
-    # noinspection PyIncorrectDocstring
     def parse_length_payload(self, out, buf, length=0):
         """Read specified amount of bytes."""
         required = length
@@ -357,7 +356,6 @@ class HttpPayloadParser:
             out.feed_data(chunk, len(chunk))
             required -= len(chunk)
 
-    # noinspection PyIncorrectDocstring
     def parse_eof_payload(self, out, buf):
         """Read all bytes until eof."""
         try:
@@ -378,7 +376,6 @@ class DeflateBuffer:
 
         self.zlib = zlib.decompressobj(wbits=zlib_mode)
 
-    # noinspection PyUnusedLocal
     def feed_data(self, chunk, size):
         try:
             chunk = self.zlib.decompress(chunk)
@@ -397,7 +394,6 @@ class DeflateBuffer:
         self.out.feed_eof()
 
 
-# noinspection PyIncorrectDocstring
 def wrap_payload_filter(func):
     """Wraps payload filter and piped filters.
 
@@ -418,8 +414,8 @@ def wrap_payload_filter(func):
     For a example to compress incoming stream with 'deflate' encoding
     and then split data and emit chunks of 8192 bytes size chunks:
 
-        response.add_compression_filter('deflate')
-        response.add_chunking_filter(8192)
+      >>> response.add_compression_filter('deflate')
+      >>> response.add_chunking_filter(8192)
 
     Filters do not alter transfer encoding.
 
@@ -430,12 +426,10 @@ def wrap_payload_filter(func):
       2. If Filter received EOF_MARKER, it should yield remaining
          data (buffered) and then yield EOF_MARKER.
     """
-
     @functools.wraps(func)
     def wrapper(self, *args, **kw):
         new_filter = func(self, *args, **kw)
 
-        # noinspection PyShadowingBuiltins
         filter = self.filter
         if filter is not None:
             next(new_filter)
@@ -448,7 +442,6 @@ def wrap_payload_filter(func):
     return wrapper
 
 
-# noinspection PyIncorrectDocstring,PyPep8Naming,PyShadowingBuiltins
 def filter_pipe(filter, filter2, *,
                 EOF_MARKER=EOF_MARKER, EOL_MARKER=EOL_MARKER):
     """Creates pipe between two filters.
@@ -495,35 +488,35 @@ class HttpMessage(metaclass=ABCMeta):
     compression and then send it with chunked transfer encoding, code may look
     like this:
 
-        response = aiohttp.Response(transport, 200)
+       >>> response = aiohttp.Response(transport, 200)
 
     We have to use deflate compression first:
 
-        response.add_compression_filter('deflate')
+      >>> response.add_compression_filter('deflate')
 
     Then we want to split output stream into chunks of 1024 bytes size:
 
-        response.add_chunking_filter(1024)
+      >>> response.add_chunking_filter(1024)
 
     We can add headers to response with add_headers() method. add_headers()
     does not send data to transport, send_headers() sends request/response
     line and then sends headers:
 
-        response.add_headers(
-             ('Content-Disposition', 'attachment; filename="..."'))
-        response.send_headers()
+      >>> response.add_headers(
+      ...     ('Content-Disposition', 'attachment; filename="..."'))
+      >>> response.send_headers()
 
     Now we can use chunked writer to write stream to a network stream.
     First call to write() method sends response status line and headers,
     add_header() and add_headers() method unavailable at this stage:
 
-        with open('...', 'rb') as f:
-            chunk = fp.read(8192)
-            while chunk:
-                response.write(chunk)
-                chunk = fp.read(8192)
+    >>> with open('...', 'rb') as f:
+    ...     chunk = fp.read(8192)
+    ...     while chunk:
+    ...         response.write(chunk)
+    ...         chunk = fp.read(8192)
 
-        response.write_eof()
+    >>> response.write_eof()
 
     """
 
@@ -602,7 +595,6 @@ class HttpMessage(metaclass=ABCMeta):
     def is_headers_sent(self):
         return self.headers_sent
 
-    # noinspection PyIncorrectDocstring
     def add_header(self, name, value):
         """Analyze headers. Calculate content length,
         removes hop headers, etc."""
@@ -644,13 +636,11 @@ class HttpMessage(metaclass=ABCMeta):
             # ignore hop-by-hop headers
             self.headers.add(name, value)
 
-    # noinspection PyIncorrectDocstring
     def add_headers(self, *headers):
         """Adds headers to a http message."""
         for name, value in headers:
             self.add_header(name, value)
 
-    # noinspection PyIncorrectDocstring,PyTypeChecker
     def send_headers(self, _sep=': ', _end='\r\n'):
         """Writes headers to a stream. Constructs payload writer."""
         # Chunked response is only for HTTP/1.1 clients or newer
@@ -698,7 +688,6 @@ class HttpMessage(metaclass=ABCMeta):
         if connection is not None:
             self.headers[hdrs.CONNECTION] = connection
 
-    # noinspection PyIncorrectDocstring,PyPep8Naming,PyTypeChecker
     def write(self, chunk, *,
               drain=False, EOF_MARKER=EOF_MARKER, EOL_MARKER=EOL_MARKER):
         """Writes chunk of data to a stream by using different writers.
@@ -774,7 +763,7 @@ class HttpMessage(metaclass=ABCMeta):
                 if length >= l:
                     self.transport.write(chunk)
                     self.output_length += l
-                    length = length - l
+                    length = length-l
                 else:
                     self.transport.write(chunk[:length])
                     self.output_length += length
@@ -790,9 +779,8 @@ class HttpMessage(metaclass=ABCMeta):
             self.transport.write(chunk)
             self.output_length += len(chunk)
 
-    # noinspection PyIncorrectDocstring,PyPep8Naming
     @wrap_payload_filter
-    def add_chunking_filter(self, chunk_size=16 * 1024, *,
+    def add_chunking_filter(self, chunk_size=16*1024, *,
                             EOF_MARKER=EOF_MARKER, EOL_MARKER=EOL_MARKER):
         """Split incoming stream into chunks."""
         buf = bytearray()
@@ -815,7 +803,6 @@ class HttpMessage(metaclass=ABCMeta):
 
                 chunk = yield EOL_MARKER
 
-    # noinspection PyIncorrectDocstring,PyPep8Naming
     @wrap_payload_filter
     def add_compression_filter(self, encoding='deflate', *,
                                EOF_MARKER=EOF_MARKER, EOL_MARKER=EOL_MARKER):
@@ -845,7 +832,6 @@ class Response(HttpMessage):
 
     HOP_HEADERS = ()
 
-    # noinspection PyPep8Naming
     @staticmethod
     def calc_reason(status, *, _RESPONSES=RESPONSES):
         record = _RESPONSES.get(status)
@@ -893,6 +879,7 @@ class Response(HttpMessage):
 
 
 class Request(HttpMessage):
+
     HOP_HEADERS = ()
 
     def __init__(self, transport, method, path,

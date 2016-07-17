@@ -1,4 +1,3 @@
-# coding=utf-8
 from distutils.errors import DistutilsArgError
 import inspect
 import glob
@@ -9,11 +8,10 @@ import distutils.command.install as orig
 import setuptools
 
 # Prior to numpy 1.9, NumPy relies on the '_install' name, so provide it for
-# now. See https://github.com/pypa/setuptools/issues/199/
+# now. See https://bitbucket.org/pypa/setuptools/issue/199/
 _install = orig.install
 
 
-# noinspection PyAttributeOutsideInit,PyPep8Naming
 class install(orig.install):
     """Use easy_install to install the package, w/dependencies"""
 
@@ -91,7 +89,8 @@ class install(orig.install):
         info = inspect.getframeinfo(caller)
         caller_module = caller.f_globals.get('__name__', '')
         return (
-            caller_module == 'distutils.dist' and info.function == 'run_commands'
+            caller_module == 'distutils.dist'
+            and info.function == 'run_commands'
         )
 
     def do_egg_install(self):

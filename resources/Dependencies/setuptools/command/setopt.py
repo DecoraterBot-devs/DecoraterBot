@@ -1,11 +1,8 @@
-# coding=utf-8
 from distutils.util import convert_path
 from distutils import log
 from distutils.errors import DistutilsOptionError
 import distutils
 import os
-
-from setuptools.extern.six.moves import configparser
 
 from setuptools import Command
 
@@ -13,7 +10,6 @@ from setuptools import Command
 __all__ = ['config_file', 'edit_config', 'option_base', 'setopt']
 
 
-# noinspection PyIncorrectDocstring
 def config_file(kind="local"):
     """Get the filename of the distutils, local, global, or per-user config
 
@@ -33,7 +29,6 @@ def config_file(kind="local"):
     )
 
 
-# noinspection PyIncorrectDocstring
 def edit_config(filename, settings, dry_run=False):
     """Edit a configuration file to include `settings`
 
@@ -42,8 +37,10 @@ def edit_config(filename, settings, dry_run=False):
     while a dictionary lists settings to be changed or deleted in that section.
     A setting of ``None`` means to delete that setting.
     """
+    from setuptools.compat import ConfigParser
+
     log.debug("Reading configuration from %s", filename)
-    opts = configparser.RawConfigParser()
+    opts = ConfigParser.RawConfigParser()
     opts.read([filename])
     for section, options in settings.items():
         if options is None:
@@ -77,7 +74,6 @@ def edit_config(filename, settings, dry_run=False):
             opts.write(f)
 
 
-# noinspection PyAttributeOutsideInit,PyPep8Naming
 class option_base(Command):
     """Abstract base class for commands that mess with config files"""
 
@@ -117,7 +113,6 @@ class option_base(Command):
         self.filename, = filenames
 
 
-# noinspection PyAttributeOutsideInit,PyPep8Naming
 class setopt(option_base):
     """Save command-line options to a file"""
 

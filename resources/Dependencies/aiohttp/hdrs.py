@@ -1,4 +1,3 @@
-# coding=utf-8
 """HTTP Headers constants."""
 from .multidict import upstr
 

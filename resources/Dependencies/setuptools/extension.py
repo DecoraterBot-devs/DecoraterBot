@@ -1,12 +1,9 @@
-# coding=utf-8
 import sys
 import re
 import functools
 import distutils.core
 import distutils.errors
 import distutils.extension
-
-from setuptools.extern.six.moves import map
 
 from .dist import _get_unpatched
 from . import msvc9_support
@@ -15,8 +12,6 @@ _Extension = _get_unpatched(distutils.core.Extension)
 
 msvc9_support.patch_for_specialized_compiler()
 
-
-# noinspection PyStatementEffect
 def _have_cython():
     """
     Return True if Cython can be imported.
@@ -50,7 +45,6 @@ class Extension(_Extension):
         target_ext = '.cpp' if lang.lower() == 'c++' else '.c'
         sub = functools.partial(re.sub, '.pyx$', target_ext)
         self.sources = list(map(sub, self.sources))
-
 
 class Library(Extension):
     """Just like a regular Extension, but built as a library instead"""

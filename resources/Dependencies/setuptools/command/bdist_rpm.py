@@ -1,8 +1,6 @@
-# coding=utf-8
 import distutils.command.bdist_rpm as orig
 
 
-# noinspection PyPep8Naming
 class bdist_rpm(orig.bdist_rpm):
     """
     Override the default bdist_rpm behavior to do the following:

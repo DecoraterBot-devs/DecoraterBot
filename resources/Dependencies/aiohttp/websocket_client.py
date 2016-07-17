@@ -1,4 +1,3 @@
-# coding=utf-8
 """WebSocket client for asyncio."""
 
 import asyncio

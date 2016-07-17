@@ -1,5 +1,11 @@
-# coding=utf-8
 """Utilities for extracting common archive formats"""
+
+
+__all__ = [
+    "unpack_archive", "unpack_zipfile", "unpack_tarfile", "default_filter",
+    "UnrecognizedFormat", "extraction_drivers", "unpack_directory",
+]
+
 import zipfile
 import tarfile
 import os
@@ -9,25 +15,16 @@ import contextlib
 from pkg_resources import ensure_directory, ContextualZipFile
 from distutils.errors import DistutilsError
 
-__all__ = [
-    "unpack_archive", "unpack_zipfile", "unpack_tarfile", "default_filter",
-    "UnrecognizedFormat", "extraction_drivers", "unpack_directory",
-]
-
-
 class UnrecognizedFormat(DistutilsError):
     """Couldn't recognize the archive type"""
 
-
-# noinspection PyUnusedLocal,PyIncorrectDocstring
-def default_filter(src, dst):
+def default_filter(src,dst):
     """The default progress/filter callback; returns True for all files"""
     return dst
 
 
-# noinspection PyIncorrectDocstring
 def unpack_archive(filename, extract_dir, progress_filter=default_filter,
-                   drivers=None):
+        drivers=None):
     """Unpack `filename` to `extract_dir`, or raise ``UnrecognizedFormat``
 
     `progress_filter` is a function taking two arguments: a source path
@@ -61,7 +58,6 @@ def unpack_archive(filename, extract_dir, progress_filter=default_filter,
         )
 
 
-# noinspection PyIncorrectDocstring
 def unpack_directory(filename, extract_dir, progress_filter=default_filter):
     """"Unpack" a directory, using the same interface as for archives
 
@@ -89,7 +85,6 @@ def unpack_directory(filename, extract_dir, progress_filter=default_filter):
             shutil.copystat(f, target)
 
 
-# noinspection PyIncorrectDocstring
 def unpack_zipfile(filename, extract_dir, progress_filter=default_filter):
     """Unpack zip `filename` to `extract_dir`
 
@@ -127,7 +122,6 @@ def unpack_zipfile(filename, extract_dir, progress_filter=default_filter):
                 os.chmod(target, unix_attributes)
 
 
-# noinspection PyIncorrectDocstring
 def unpack_tarfile(filename, extract_dir, progress_filter=default_filter):
     """Unpack tar/tar.gz/tar.bz2 `filename` to `extract_dir`
 

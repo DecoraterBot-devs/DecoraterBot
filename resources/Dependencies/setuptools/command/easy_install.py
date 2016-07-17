@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# coding=utf-8
 
 """
 Easy Install
@@ -21,7 +20,6 @@ from distutils.errors import DistutilsArgError, DistutilsOptionError, \
 from distutils.command.install import INSTALL_SCHEMES, SCHEME_KEYS
 from distutils import log, dir_util
 from distutils.command.build_scripts import first_line_re
-from distutils.spawn import find_executable
 import sys
 import os
 import zipimport
@@ -41,9 +39,6 @@ import subprocess
 import shlex
 import io
 
-from setuptools.extern import six
-from setuptools.extern.six.moves import configparser, map
-
 from setuptools import Command
 from setuptools.sandbox import run_setup
 from setuptools.py31compat import get_path, get_config_vars
@@ -52,6 +47,8 @@ from setuptools.archive_util import unpack_archive
 from setuptools.package_index import PackageIndex
 from setuptools.package_index import URL_SCHEME
 from setuptools.command import bdist_egg, egg_info
+from setuptools.compat import (iteritems, maxsize, basestring, unicode,
+                               reraise, PY2, PY3)
 from pkg_resources import (
     yield_lines, normalize_path, resource_string, ensure_directory,
     get_distribution, find_distributions, Environment, Requirement,
@@ -62,6 +59,7 @@ import pkg_resources
 
 # Turn on PEP440Warnings
 warnings.filterwarnings("default", category=pkg_resources.PEP440Warning)
+
 
 __all__ = [
     'samefile', 'easy_install', 'PthDistributions', 'extract_wininst_cfg',
@@ -83,21 +81,19 @@ def samefile(p1, p2):
     return norm_p1 == norm_p2
 
 
-if six.PY2:
+if PY2:
     def _to_ascii(s):
         return s
 
-
     def isascii(s):
         try:
-            six.text_type(s, 'ascii')
+            unicode(s, 'ascii')
             return True
         except UnicodeError:
             return False
 else:
     def _to_ascii(s):
         return s.encode('ascii')
-
 
     def isascii(s):
         try:
@@ -107,7 +103,6 @@ else:
             return False
 
 
-# noinspection PyAttributeOutsideInit,PyCompatibility,PyIncorrectDocstring,PyUnusedLocal,PyUnusedLocal,PyPep8Naming
 class easy_install(Command):
     """Manage a download/build/install process"""
     description = "Find/get/install Python packages"
@@ -220,19 +215,10 @@ class easy_install(Command):
         remover = rmtree if is_tree else os.unlink
         remover(path)
 
-    @staticmethod
-    def _render_version():
-        """
-        Render the Setuptools version and installation details, then exit.
-        """
-        ver = sys.version[:3]
-        dist = get_distribution('setuptools')
-        tmpl = 'setuptools {dist.version} from {dist.location} (Python {ver})'
-        print(tmpl.format(**locals()))
-        raise SystemExit()
-
     def finalize_options(self):
-        self.version and self._render_version()
+        if self.version:
+            print('setuptools %s' % get_distribution('setuptools').version)
+            sys.exit()
 
         py_version = sys.version.split()[0]
         prefix, exec_prefix = get_config_vars('prefix', 'exec_prefix')
@@ -295,7 +281,7 @@ class easy_install(Command):
             site_dirs = [
                 os.path.expanduser(s.strip()) for s in
                 self.site_dirs.split(',')
-                ]
+            ]
             for d in site_dirs:
                 if not os.path.isdir(d):
                     log.warn("%s (in --site-dirs) does not exist", d)
@@ -324,7 +310,7 @@ class easy_install(Command):
         self.local_index = Environment(self.shadow_path + sys.path)
 
         if self.find_links is not None:
-            if isinstance(self.find_links, six.string_types):
+            if isinstance(self.find_links, basestring):
                 self.find_links = self.find_links.split()
         else:
             self.find_links = []
@@ -417,13 +403,12 @@ class easy_install(Command):
         try:
             pid = os.getpid()
         except:
-            pid = random.randint(0, sys.maxsize)
+            pid = random.randint(0, maxsize)
         return os.path.join(self.install_dir, "test-easy-install-%s" % pid)
 
     def warn_deprecated_options(self):
         pass
 
-    # noinspection PyPep8Naming
     def check_site_dir(self):
         """Verify that self.install_dir is .pth-capable dir, if needed"""
 
@@ -714,7 +699,10 @@ class easy_install(Command):
         elif requirement is None or dist not in requirement:
             # if we wound up with a different version, resolve what we've got
             distreq = dist.as_requirement()
-            requirement = Requirement(str(distreq))
+            requirement = requirement or distreq
+            requirement = Requirement(
+                distreq.project_name, distreq.specs, requirement.extras
+            )
         log.info("Processing dependencies for %s", requirement)
         try:
             distros = WorkingSet([]).resolve(
@@ -763,10 +751,9 @@ class easy_install(Command):
         return dst
 
     def install_wrapper_scripts(self, dist):
-        if self.exclude_scripts:
-            return
-        for args in ScriptWriter.best().get_args(dist):
-            self.write_script(*args)
+        if not self.exclude_scripts:
+            for args in ScriptWriter.best().get_args(dist):
+                self.write_script(*args)
 
     def install_script(self, dist, script_name, script_text, dev_path=None):
         """Generate a legacy script wrapper and install it"""
@@ -774,8 +761,8 @@ class easy_install(Command):
         is_script = is_python_script(script_text, script_name)
 
         if is_script:
-            body = self._load_template(dev_path) % locals()
-            script_text = ScriptWriter.get_header(script_text) + body
+            script_text = (ScriptWriter.get_header(script_text) +
+                           self._load_template(dev_path) % locals())
         self.write_script(script_name, _to_ascii(script_text), 'b')
 
     @staticmethod
@@ -784,7 +771,7 @@ class easy_install(Command):
         There are a couple of template scripts in the package. This
         function loads one of them and prepares it for use.
         """
-        # See https://github.com/pypa/setuptools/issues/134 for info
+        # See https://bitbucket.org/pypa/setuptools/issue/134 for info
         # on script file naming and downstream issues with SVR4
         name = 'script.tmpl'
         if dev_path:
@@ -807,8 +794,9 @@ class easy_install(Command):
             ensure_directory(target)
             if os.path.exists(target):
                 os.unlink(target)
-            with open(target, "w" + mode) as f:
-                f.write(contents)
+            f = open(target, "w" + mode)
+            f.write(contents)
+            f.close()
             chmod(target, 0o777 - mask)
 
     def install_eggs(self, spec, dist_filename, tmpdir):
@@ -825,8 +813,8 @@ class easy_install(Command):
         elif os.path.isdir(dist_filename):
             setup_base = os.path.abspath(dist_filename)
 
-        if setup_base.startswith(tmpdir) and self.build_directory and spec is not None:
-            # something we downloaded
+        if (setup_base.startswith(tmpdir)  # something we downloaded
+                and self.build_directory and spec is not None):
             setup_base = self.maybe_move(spec, dist_filename, setup_base)
 
         # Find the setup.py file
@@ -1240,14 +1228,17 @@ class easy_install(Command):
 
         sitepy = os.path.join(self.install_dir, "site.py")
         source = resource_string("setuptools", "site-patch.py")
-        source = source.decode('utf-8')
         current = ""
 
         if os.path.exists(sitepy):
             log.debug("Checking existing site.py in %s", self.install_dir)
-            with io.open(sitepy) as strm:
-                current = strm.read()
+            f = open(sitepy, 'rb')
+            current = f.read()
+            # we want str, not bytes
+            if PY3:
+                current = current.decode()
 
+            f.close()
             if not current.startswith('def __boot():'):
                 raise DistutilsError(
                     "%s is not a setuptools-generated site.py; please"
@@ -1258,8 +1249,9 @@ class easy_install(Command):
             log.info("Creating %s", sitepy)
             if not self.dry_run:
                 ensure_directory(sitepy)
-                with io.open(sitepy, 'w', encoding='utf-8') as strm:
-                    strm.write(source)
+                f = open(sitepy, 'wb')
+                f.write(source)
+                f.close()
             self.byte_compile([sitepy])
 
         self.sitepy_installed = True
@@ -1269,7 +1261,7 @@ class easy_install(Command):
         if not self.user:
             return
         home = convert_path(os.path.expanduser("~"))
-        for name, path in six.iteritems(self.config_vars):
+        for name, path in iteritems(self.config_vars):
             if path.startswith(home) and not os.path.isdir(path):
                 self.debug_print("os.makedirs('%s', 0o700)" % path)
                 os.makedirs(path, 0o700)
@@ -1356,7 +1348,6 @@ def get_site_dirs():
     return sitedirs
 
 
-# noinspection PyIncorrectDocstring
 def expand_paths(inputs):
     """Yield sys.path directories that might contain "old-style" packages"""
 
@@ -1398,11 +1389,10 @@ def expand_paths(inputs):
                         yield line, os.listdir(line)
 
 
-# noinspection PyIncorrectDocstring
 def extract_wininst_cfg(dist_filename):
     """Extract configuration data from a bdist_wininst .exe
 
-    Returns a configparser.RawConfigParser, or None
+    Returns a ConfigParser.RawConfigParser, or None
     """
     f = open(dist_filename, 'rb')
     try:
@@ -1415,12 +1405,15 @@ def extract_wininst_cfg(dist_filename):
             return None
         f.seek(prepended - 12)
 
+        from setuptools.compat import StringIO, ConfigParser
+        import struct
+
         tag, cfglen, bmlen = struct.unpack("<iii", f.read(12))
         if tag not in (0x1234567A, 0x1234567B):
             return None  # not a valid tag
 
         f.seek(prepended - (12 + cfglen))
-        cfg = configparser.RawConfigParser(
+        cfg = ConfigParser.RawConfigParser(
             {'version': '', 'target_version': ''})
         try:
             part = f.read(cfglen)
@@ -1429,8 +1422,8 @@ def extract_wininst_cfg(dist_filename):
             # Now the config is in bytes, but for RawConfigParser, it should
             #  be text, so decode it.
             config = config.decode(sys.getfilesystemencoding())
-            cfg.readfp(six.StringIO(config))
-        except configparser.Error:
+            cfg.readfp(StringIO(config))
+        except ConfigParser.Error:
             return None
         if not cfg.has_section('metadata') or not cfg.has_section('Setup'):
             return None
@@ -1440,7 +1433,6 @@ def extract_wininst_cfg(dist_filename):
         f.close()
 
 
-# noinspection PyIncorrectDocstring
 def get_exe_prefixes(exe_filename):
     """Get exe->egg path translations for a given .exe file"""
 
@@ -1465,7 +1457,7 @@ def get_exe_prefixes(exe_filename):
                 continue
             if parts[0].upper() in ('PURELIB', 'PLATLIB'):
                 contents = z.read(name)
-                if six.PY3:
+                if PY3:
                     contents = contents.decode()
                 for pth in yield_lines(contents):
                     pth = pth.strip().replace('\\', '/')
@@ -1488,7 +1480,6 @@ def parse_requirement_arg(spec):
         )
 
 
-# noinspection PyIncorrectDocstring,PyIncorrectDocstring
 class PthDistributions(Environment):
     """A .pth file with Distribution paths in it"""
 
@@ -1539,26 +1530,29 @@ class PthDistributions(Environment):
         if not self.dirty:
             return
 
-        rel_paths = list(map(self.make_relative, self.paths))
-        if rel_paths:
+        data = '\n'.join(map(self.make_relative, self.paths))
+        if data:
             log.debug("Saving %s", self.filename)
-            lines = self._wrap_lines(rel_paths)
-            data = '\n'.join(lines) + '\n'
+            data = (
+                "import sys; sys.__plen = len(sys.path)\n"
+                "%s\n"
+                "import sys; new=sys.path[sys.__plen:];"
+                " del sys.path[sys.__plen:];"
+                " p=getattr(sys,'__egginsert',0); sys.path[p:p]=new;"
+                " sys.__egginsert = p+len(new)\n"
+            ) % data
 
             if os.path.islink(self.filename):
                 os.unlink(self.filename)
-            with open(self.filename, 'wt') as f:
-                f.write(data)
+            f = open(self.filename, 'wt')
+            f.write(data)
+            f.close()
 
         elif os.path.exists(self.filename):
             log.debug("Deleting empty %s", self.filename)
             os.unlink(self.filename)
 
         self.dirty = False
-
-    @staticmethod
-    def _wrap_lines(lines):
-        return lines
 
     def add(self, dist):
         """Add `dist` to the distribution map"""
@@ -1597,34 +1591,6 @@ class PthDistributions(Environment):
             return path
 
 
-# noinspection PyMethodOverriding,PyClassHasNoInit,PyArgumentList,PyPep8
-class RewritePthDistributions(PthDistributions):
-    @classmethod
-    def _wrap_lines(cls, lines):
-        yield cls.prelude
-        for line in lines:
-            yield line
-        yield cls.postlude
-
-    _inline = lambda text: textwrap.dedent(text).strip().replace('\n', '; ')
-    prelude = _inline("""
-        import sys
-        sys.__plen = len(sys.path)
-        """)
-    postlude = _inline("""
-        import sys
-        new = sys.path[sys.__plen:]
-        del sys.path[sys.__plen:]
-        p = getattr(sys, '__egginsert', 0)
-        sys.path[p:p] = new
-        sys.__egginsert = p + len(new)
-        """)
-
-
-if os.environ.get('SETUPTOOLS_SYS_PATH_TECHNIQUE', 'rewrite') == 'rewrite':
-    PthDistributions = RewritePthDistributions
-
-
 def _first_line_re():
     """
     Return a regular expression based on first_line_re suitable for matching
@@ -1637,16 +1603,14 @@ def _first_line_re():
     return re.compile(first_line_re.pattern.decode())
 
 
-# noinspection PyUnusedLocal
 def auto_chmod(func, arg, exc):
     if func is os.remove and os.name == 'nt':
         chmod(arg, stat.S_IWRITE)
         return func(arg)
     et, ev, _ = sys.exc_info()
-    six.reraise(et, (ev[0], ev[1] + (" %s %s" % (func, arg))))
+    reraise(et, (ev[0], ev[1] + (" %s %s" % (func, arg))))
 
 
-# noinspection PyIncorrectDocstring
 def update_dist_caches(dist_path, fix_zipimporter_caches):
     """
     Fix any globally cached `dist_path` related data
@@ -1743,7 +1707,8 @@ def _collect_zipimporter_cache_entries(normalized_path, cache):
     prefix_len = len(normalized_path)
     for p in cache:
         np = normalize_path(p)
-        if np.startswith(normalized_path) and np[prefix_len:prefix_len + 1] in (os.sep, ''):
+        if (np.startswith(normalized_path) and
+                np[prefix_len:prefix_len + 1] in (os.sep, '')):
             result.append(p)
     return result
 
@@ -1771,7 +1736,7 @@ def _update_zipimporter_cache(normalized_path, cache, updater=None):
         #  * Does not support the dict.pop() method, forcing us to use the
         #    get/del patterns instead. For more detailed information see the
         #    following links:
-        #      https://github.com/pypa/setuptools/issues/202#issuecomment-202913420
+        #      https://bitbucket.org/pypa/setuptools/issue/202/more-robust-zipimporter-cache-invalidation#comment-10495960
         #      https://bitbucket.org/pypy/pypy/src/dd07756a34a41f674c0cacfbc8ae1d4cc9ea2ae4/pypy/module/zipimport/interp_zipimport.py#cl-99
         old_entry = cache[p]
         del cache[p]
@@ -1785,14 +1750,12 @@ def _uncache(normalized_path, cache):
 
 
 def _remove_and_clear_zip_directory_cache_data(normalized_path):
-    # noinspection PyUnusedLocal
     def clear_and_remove_cached_zip_archive_directory_data(path, old_entry):
         old_entry.clear()
 
     _update_zipimporter_cache(
         normalized_path, zipimport._zip_directory_cache,
         updater=clear_and_remove_cached_zip_archive_directory_data)
-
 
 # PyPy Python implementation does not allow directly writing to the
 # zipimport._zip_directory_cache and so prevents us from attempting to correct
@@ -1825,9 +1788,8 @@ else:
             updater=replace_cached_zip_archive_directory_data)
 
 
-# noinspection PyIncorrectDocstring
 def is_python(text, filename='<string>'):
-    """Is this string a valid Python script?"""
+    "Is this string a valid Python script?"
     try:
         compile(text, filename, 'exec')
     except (SyntaxError, TypeError):
@@ -1836,7 +1798,6 @@ def is_python(text, filename='<string>'):
         return True
 
 
-# noinspection PyIncorrectDocstring
 def is_sh(executable):
     """Determine if the specified executable is a .sh (contains a #! line)"""
     try:
@@ -1847,13 +1808,11 @@ def is_sh(executable):
     return magic == '#!'
 
 
-# noinspection PyIncorrectDocstring
 def nt_quote_arg(arg):
     """Quote a command line argument according to Windows parsing rules"""
     return subprocess.list2cmdline([arg])
 
 
-# noinspection PyIncorrectDocstring
 def is_python_script(script_text, filename):
     """Is this text, as a whole, a Python script? (as opposed to shell/bat/etc.
     """
@@ -1872,7 +1831,6 @@ try:
     from os import chmod as _chmod
 except ImportError:
     # Jython compatibility
-    # noinspection PyUnusedLocal
     def _chmod(*args):
         pass
 
@@ -1885,7 +1843,17 @@ def chmod(path, mode):
         log.debug("chmod failed: %s", e)
 
 
-# noinspection PyIncorrectDocstring,PyIncorrectDocstring,PyTypeChecker,PyCallingNonCallable
+def fix_jython_executable(executable, options):
+    warnings.warn("Use JythonCommandSpec", DeprecationWarning, stacklevel=2)
+
+    if not JythonCommandSpec.relevant():
+        return executable
+
+    cmd = CommandSpec.best().from_param(executable)
+    cmd.install_options(options)
+    return cmd.as_header().lstrip('#!').rstrip('\n')
+
+
 class CommandSpec(list):
     """
     A command spec for a #! header, specified as a list of arguments akin to
@@ -1900,7 +1868,7 @@ class CommandSpec(list):
         """
         Choose the best CommandSpec class based on environmental conditions.
         """
-        return cls
+        return cls if not JythonCommandSpec.relevant() else JythonCommandSpec
 
     @classmethod
     def _sys_executable(cls):
@@ -1959,7 +1927,6 @@ class CommandSpec(list):
         cmdline = subprocess.list2cmdline(items)
         return '#!' + cmdline + '\n'
 
-
 # For pbr compat; will be removed in a future version.
 sys_executable = CommandSpec._sys_executable()
 
@@ -1968,7 +1935,36 @@ class WindowsCommandSpec(CommandSpec):
     split_args = dict(posix=False)
 
 
-# noinspection PyIncorrectDocstring,PyDeprecation
+class JythonCommandSpec(CommandSpec):
+    @classmethod
+    def relevant(cls):
+        return (
+            sys.platform.startswith('java')
+            and
+            __import__('java').lang.System.getProperty('os.name') != 'Linux'
+        )
+
+    def as_header(self):
+        """
+        Workaround Jython's sys.executable being a .sh (an invalid
+        shebang line interpreter)
+        """
+        if not is_sh(self[0]):
+            return super(JythonCommandSpec, self).as_header()
+
+        if self.options:
+            # Can't apply the workaround, leave it broken
+            log.warn(
+                "WARNING: Unable to adapt shebang line for Jython,"
+                " the following script is NOT executable\n"
+                "         see http://bugs.jython.org/issue1112 for"
+                " more information.")
+            return super(JythonCommandSpec, self).as_header()
+
+        items = ['/usr/bin/env'] + self + list(self.options)
+        return self._render(items)
+
+
 class ScriptWriter(object):
     """
     Encapsulates behavior around writing entry point scripts for console and
@@ -2045,10 +2041,7 @@ class ScriptWriter(object):
         """
         Select the best ScriptWriter for this environment.
         """
-        if sys.platform == 'win32' or (os.name == 'java' and os._name == 'nt'):
-            return WindowsScriptWriter.best()
-        else:
-            return cls
+        return WindowsScriptWriter.best() if sys.platform == 'win32' else cls
 
     @classmethod
     def _get_script_args(cls, type_, name, header, script_text):
@@ -2063,7 +2056,6 @@ class ScriptWriter(object):
         return cmd.as_header()
 
 
-# noinspection PyMethodOverriding
 class WindowsScriptWriter(ScriptWriter):
     command_spec_class = WindowsCommandSpec
 
@@ -2088,7 +2080,7 @@ class WindowsScriptWriter(ScriptWriter):
 
     @classmethod
     def _get_script_args(cls, type_, name, header, script_text):
-        """For Windows, add a .py extension"""
+        "For Windows, add a .py extension"
         ext = dict(console='.pya', gui='.pyw')[type_]
         if ext not in os.environ['PATHEXT'].lower().split(';'):
             warnings.warn("%s not listed in PATHEXT; scripts will not be "
@@ -2099,8 +2091,8 @@ class WindowsScriptWriter(ScriptWriter):
         blockers = [name + x for x in old]
         yield name + ext, header + script_text, 't', blockers
 
-    @classmethod
-    def _adjust_header(cls, type_, orig_header):
+    @staticmethod
+    def _adjust_header(type_, orig_header):
         """
         Make sure 'pythonw' is used for gui and and 'python' is used for
         console (regardless of what sys.executable is).
@@ -2111,19 +2103,11 @@ class WindowsScriptWriter(ScriptWriter):
             pattern, repl = repl, pattern
         pattern_ob = re.compile(re.escape(pattern), re.IGNORECASE)
         new_header = pattern_ob.sub(string=orig_header, repl=repl)
-        return new_header if cls._use_header(new_header) else orig_header
-
-    @staticmethod
-    def _use_header(new_header):
-        """
-        Should _adjust_header use the replaced header?
-
-        On non-windows systems, always use. On
-        Windows systems, only use the replaced header if it resolves
-        to an executable on the system.
-        """
         clean_header = new_header[2:-1].strip('"')
-        return sys.platform != 'win32' or find_executable(clean_header)
+        if sys.platform == 'win32' and not os.path.exists(clean_header):
+            # the adjusted version doesn't exist, so return the original
+            return orig_header
+        return new_header
 
 
 class WindowsExecutableLauncherWriter(WindowsScriptWriter):
@@ -2158,13 +2142,10 @@ class WindowsExecutableLauncherWriter(WindowsScriptWriter):
 
 
 # for backward-compatibility
-# noinspection PyDeprecation
 get_script_args = ScriptWriter.get_script_args
-# noinspection PyDeprecation
 get_script_header = ScriptWriter.get_script_header
 
 
-# noinspection PyShadowingBuiltins,PyIncorrectDocstring
 def get_win_launcher(type):
     """
     Load the Windows launcher (executable) suitable for launching a script.
@@ -2183,16 +2164,14 @@ def get_win_launcher(type):
     return resource_string('setuptools', launcher_fn)
 
 
-# noinspection PyUnusedLocal
 def load_launcher_manifest(name):
     manifest = pkg_resources.resource_string(__name__, 'launcher manifest.xml')
-    if six.PY2:
+    if PY2:
         return manifest % vars()
     else:
         return manifest.decode('utf-8') % vars()
 
 
-# noinspection PyIncorrectDocstring
 def rmtree(path, ignore_errors=False, onerror=auto_chmod):
     """Recursively delete a directory tree.
 
@@ -2200,11 +2179,9 @@ def rmtree(path, ignore_errors=False, onerror=auto_chmod):
     the 2.3 version doesn't really work right.
     """
     if ignore_errors:
-        # noinspection PyUnusedLocal
         def onerror(*args):
             pass
     elif onerror is None:
-        # noinspection PyCompatibility,PyUnusedLocal
         def onerror(*args):
             raise
     names = []
@@ -2269,7 +2246,6 @@ def main(argv=None, **kw):
         )
 
 
-# noinspection PyPep8Naming
 @contextlib.contextmanager
 def _patch_usage():
     import distutils.core

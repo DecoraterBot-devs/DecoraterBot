@@ -1,4 +1,3 @@
-# coding=utf-8
 """Various helper functions"""
 
 import asyncio
@@ -24,7 +23,6 @@ except ImportError:
 __all__ = ('BasicAuth', 'FormData', 'parse_mimetype', 'Timeout')
 
 
-# noinspection PyTypeChecker
 class BasicAuth(namedtuple('BasicAuth', ['login', 'password', 'encoding'])):
     """Http basic authentication helper.
 
@@ -33,7 +31,6 @@ class BasicAuth(namedtuple('BasicAuth', ['login', 'password', 'encoding'])):
     :param str encoding: (optional) encoding ('latin1' by default)
     """
 
-    # noinspection PyInitNewSignature
     def __new__(cls, login, password='', encoding='latin1'):
         if login is None:
             raise ValueError('None is not allowed as login value')
@@ -144,7 +141,6 @@ class FormData:
         data = urlencode(data, doseq=True)
         return data.encode(encoding)
 
-    # noinspection PyUnusedLocal
     def _gen_form_data(self, *args, **kwargs):
         """Encode a list of fields using the multipart/form-data MIME format"""
         for dispparams, headers, value in self._fields:
@@ -163,7 +159,6 @@ class FormData:
             return self._gen_form_urlencoded(encoding)
 
 
-# noinspection PyIncorrectDocstring
 def parse_mimetype(mimetype):
     """Parses a MIME type into its components.
 
@@ -174,7 +169,7 @@ def parse_mimetype(mimetype):
 
     Example:
 
-        parse_mimetype('text/html; charset=utf-8')
+    >>> parse_mimetype('text/html; charset=utf-8')
     ('text', 'html', '', {'charset': 'utf-8'})
 
     """
@@ -261,7 +256,6 @@ class AccessLogger:
             AccessLogger._FORMAT_CACHE[log_format] = _compiled_format
         self._log_format, self._methods = _compiled_format
 
-    # noinspection PyIncorrectDocstring
     def compile_format(self, log_format):
         """Translate log_format into form usable by modulo formatting
 
@@ -314,12 +308,10 @@ class AccessLogger:
     def _format_a(args):
         return args[3].get_extra_info('peername')[0]
 
-    # noinspection PyUnusedLocal
     @staticmethod
     def _format_t(args):
         return datetime.datetime.utcnow().strftime('[%d/%b/%Y:%H:%M:%S +0000]')
 
-    # noinspection PyPep8Naming,PyUnusedLocal
     @staticmethod
     def _format_P(args):
         return "<%s>" % os.getpid()
@@ -340,22 +332,18 @@ class AccessLogger:
     def _format_b(args):
         return args[2].body_length
 
-    # noinspection PyPep8Naming
     @staticmethod
     def _format_O(args):
         return args[2].output_length
 
-    # noinspection PyPep8Naming
     @staticmethod
     def _format_T(args):
         return round(args[4])
 
-    # noinspection PyPep8Naming
     @staticmethod
     def _format_Tf(args):
         return '%06f' % args[4]
 
-    # noinspection PyPep8Naming
     @staticmethod
     def _format_D(args):
         return round(args[4] * 1000000)
@@ -382,7 +370,6 @@ class AccessLogger:
 _marker = object()
 
 
-# noinspection PyPep8Naming
 class reify:
     """Use as a class method decorator.  It operates almost exactly like
     the Python `@property` decorator, but it puts the result of the
@@ -400,7 +387,6 @@ class reify:
             self.__doc__ = ""
         self.name = wrapped.__name__
 
-    # noinspection PyUnusedLocal
     def __get__(self, inst, owner, _marker=_marker):
         if inst is None:
             return self
@@ -421,7 +407,6 @@ UNRESERVED_SET = frozenset(
     "0123456789-._~")
 
 
-# noinspection PyIncorrectDocstring
 def unquote_unreserved(uri):
     """Un-escape any percent-escape sequences in a URI that are unreserved
     characters. This leaves all reserved, illegal and non-ASCII bytes encoded.
@@ -444,7 +429,6 @@ def unquote_unreserved(uri):
     return ''.join(parts)
 
 
-# noinspection PyIncorrectDocstring
 def requote_uri(uri):
     """Re-quote the given URI.
 
@@ -471,9 +455,9 @@ class Timeout:
     Useful in cases when you want to apply timeout logic around block
     of code or in cases when asyncio.wait_for is not suitable. For example:
 
-        with aiohttp.Timeout(0.001):
-            async with aiohttp.get('https://github.com') as r:
-                await r.text()
+    >>> with aiohttp.Timeout(0.001):
+    ...     async with aiohttp.get('https://github.com') as r:
+    ...         await r.text()
 
 
     :param timeout: timeout value in seconds
@@ -497,7 +481,6 @@ class Timeout:
             self._timeout, self._cancel_task)
         return self
 
-    # noinspection PyUnusedLocal
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is asyncio.CancelledError and self._cancelled:
             self._cancel_handler = None

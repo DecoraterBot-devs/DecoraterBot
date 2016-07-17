@@ -1,4 +1,3 @@
-# coding=utf-8
 import sys
 import asyncio
 import collections
@@ -49,7 +48,6 @@ class AsyncStreamReaderMixin:
         def __aiter__(self):
             return AsyncStreamIterator(self.readline)
 
-        # noinspection PyIncorrectDocstring
         def iter_chunked(self, n):
             """Returns an asynchronous iterator that yields chunks of size n.
 
@@ -158,7 +156,6 @@ class StreamReader(asyncio.StreamReader, AsyncStreamReaderMixin):
         finally:
             self._eof_waiter = None
 
-    # noinspection PyIncorrectDocstring
     def unread_data(self, data):
         """ rollback reading some data from stream, inserting it to buffer head.
         """
@@ -232,7 +229,6 @@ class StreamReader(asyncio.StreamReader, AsyncStreamReaderMixin):
 
         return b''.join(line)
 
-    # noinspection PyAttributeOutsideInit
     @asyncio.coroutine
     def read(self, n=-1):
         if self._exception is not None:
@@ -374,7 +370,6 @@ class EmptyStreamReader(AsyncStreamReaderMixin):
     def readline(self):
         return EOF_MARKER
 
-    # noinspection PyUnusedLocal
     @asyncio.coroutine
     def read(self, n=-1):
         return EOF_MARKER
@@ -577,7 +572,6 @@ class FlowControlDataQueue(DataQueue):
             else:
                 self._stream.paused = False
 
-    # noinspection PyMethodOverriding
     def feed_data(self, data, size):
         has_waiter = self._waiter is not None and not self._waiter.cancelled()
 

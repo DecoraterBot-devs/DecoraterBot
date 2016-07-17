@@ -1,6 +1,4 @@
-# coding=utf-8
 import asyncio
-# noinspection PyPackageRequirements
 import aiohttp
 import functools
 import http.cookies
@@ -9,11 +7,13 @@ import socket
 import sys
 import traceback
 import warnings
+
 from collections import defaultdict
 from hashlib import md5, sha1, sha256
 from itertools import chain
 from math import ceil
 from types import MappingProxyType
+
 from . import hdrs
 from .client import ClientRequest
 from .errors import ServerDisconnectedError
@@ -21,6 +21,7 @@ from .errors import HttpProxyError, ProxyConnectionError
 from .errors import ClientOSError, ClientTimeoutError
 from .errors import FingerprintMismatch
 from .helpers import BasicAuth
+
 
 __all__ = ('BaseConnector', 'TCPConnector', 'ProxyConnector', 'UnixConnector')
 
@@ -34,6 +35,7 @@ HASHFUNC_BY_DIGESTLEN = {
 
 
 class Connection(object):
+
     _source_traceback = None
     _transport = None
 
@@ -255,7 +257,6 @@ class BaseConnector(object):
         """
         return self._closed
 
-    # noinspection PyCallByClass,PyIncorrectDocstring
     def update_cookies(self, cookies):
         """Update shared cookies.
 
@@ -274,7 +275,6 @@ class BaseConnector(object):
                 else:
                     self.cookies[name] = value
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine
     def connect(self, req):
         """Get from pool or create new connection."""
@@ -311,17 +311,18 @@ class BaseConnector(object):
 
             except asyncio.TimeoutError as exc:
                 raise ClientTimeoutError(
-                    'Connection timeout to host {0[0]}:{0[1]} ssl:{0[2]}'.format(key)) from exc
+                    'Connection timeout to host {0[0]}:{0[1]} ssl:{0[2]}'
+                    .format(key)) from exc
             except OSError as exc:
                 raise ClientOSError(
                     exc.errno,
-                    'Cannot connect to host {0[0]}:{0[1]} ssl:{0[2]} [{1}]'.format(key, exc.strerror)) from exc
+                    'Cannot connect to host {0[0]}:{0[1]} ssl:{0[2]} [{1}]'
+                    .format(key, exc.strerror)) from exc
 
         self._acquired[key].add(transport)
         conn = Connection(self, key, req, transport, proto, self._loop)
         return conn
 
-    # noinspection PyUnusedLocal
     def _get(self, key):
         try:
             conns = self._conns[key]
@@ -409,7 +410,6 @@ class TCPConnector(BaseConnector):
     :param kwargs: see :class:`BaseConnector`
     """
 
-    # noinspection PyArgumentList
     def __init__(self, *, verify_ssl=True, fingerprint=None,
                  resolve=_marker, use_dns_cache=_marker,
                  family=0, ssl_context=None, local_addr=None,
@@ -496,7 +496,6 @@ class TCPConnector(BaseConnector):
         """Read-only dict of cached DNS record."""
         return MappingProxyType(self._cached_hosts)
 
-    # noinspection PyIncorrectDocstring
     def clear_dns_cache(self, host=None, port=None):
         """Remove specified host/port or clear all dns local cache."""
         if host is not None and port is not None:
@@ -523,7 +522,6 @@ class TCPConnector(BaseConnector):
                       DeprecationWarning, stacklevel=2)
         return self.cached_hosts
 
-    # noinspection PyIncorrectDocstring
     def clear_resolved_hosts(self, host=None, port=None):
         """Remove specified host/port or clear all resolve cache."""
         warnings.warn((".clear_resolved_hosts() is deprecated, "
@@ -617,9 +615,9 @@ class ProxyConnector(TCPConnector):
 
     Usage:
 
-        conn = ProxyConnector(proxy="http://some.proxy.com")
-        session = ClientSession(connector=conn)
-        resp = yield from session.get('http://python.org')
+    >>> conn = ProxyConnector(proxy="http://some.proxy.com")
+    >>> session = ClientSession(connector=conn)
+    >>> resp = yield from session.get('http://python.org')
 
     """
 
@@ -720,13 +718,12 @@ class UnixConnector(BaseConnector):
 
     Usage:
 
-        conn = UnixConnector(path='/path/to/socket')
-        session = ClientSession(connector=conn)
-        resp = yield from session.get('http://python.org')
+    >>> conn = UnixConnector(path='/path/to/socket')
+    >>> session = ClientSession(connector=conn)
+    >>> resp = yield from session.get('http://python.org')
 
     """
 
-    # noinspection PyArgumentList
     def __init__(self, path, **kwargs):
         super().__init__(**kwargs)
         self._path = path

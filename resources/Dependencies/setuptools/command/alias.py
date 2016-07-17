@@ -1,12 +1,8 @@
-# coding=utf-8
 from distutils.errors import DistutilsOptionError
-
-from setuptools.extern.six.moves import map
 
 from setuptools.command.setopt import edit_config, option_base, config_file
 
 
-# noinspection PyIncorrectDocstring
 def shquote(arg):
     """Quote an argument for later parsing by shlex.split()"""
     for c in '"', "'", "\\", "#":
@@ -17,7 +13,6 @@ def shquote(arg):
     return arg
 
 
-# noinspection PyAttributeOutsideInit,PyPep8Naming
 class alias(option_base):
     """Define a shortcut that invokes one or more commands"""
 

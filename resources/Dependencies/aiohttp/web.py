@@ -1,4 +1,3 @@
-# coding=utf-8
 import asyncio
 import warnings
 import sys
@@ -60,7 +59,6 @@ class RequestHandler(ServerHttpProtocol):
 
         super().connection_lost(exc)
 
-    # noinspection PyUnboundLocalVariable
     @asyncio.coroutine
     def handle_request(self, message, payload):
         if self.access_log:
@@ -139,7 +137,6 @@ class RequestHandlerFactory:
     def connection_made(self, handler, transport):
         self._connections[handler] = transport
 
-    # noinspection PyUnusedLocal
     def connection_lost(self, handler, exc=None):
         if handler in self._connections:
             del self._connections[handler]
@@ -190,7 +187,6 @@ class RequestHandlerFactory:
 
 class Application(dict):
 
-    # noinspection PyMissingConstructor
     def __init__(self, *, logger=web_logger, loop=None,
                  router=None, handler_factory=RequestHandlerFactory,
                  middlewares=(), debug=False):
@@ -296,7 +292,6 @@ class Application(dict):
         return "<Application>"
 
 
-# noinspection PyShadowingBuiltins,PyIncorrectDocstring
 def run_app(app, *, host='0.0.0.0', port=None,
             shutdown_timeout=60.0, ssl_context=None,
             print=print):
@@ -332,7 +327,6 @@ def run_app(app, *, host='0.0.0.0', port=None,
     loop.close()
 
 
-# noinspection PyUnboundLocalVariable
 def main(argv):
     arg_parser = ArgumentParser(
         description="aiohttp.web Application server",

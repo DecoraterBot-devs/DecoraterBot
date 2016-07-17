@@ -1,4 +1,3 @@
-# coding=utf-8
 """setuptools.command.bdist_egg
 
 Build .egg distributions"""
@@ -12,10 +11,9 @@ import os
 import marshal
 import textwrap
 
-from setuptools.extern import six
-
 from pkg_resources import get_build_platform, Distribution, ensure_directory
 from pkg_resources import EntryPoint
+from setuptools.compat import basestring
 from setuptools.extension import Library
 from setuptools import Command
 
@@ -54,7 +52,6 @@ def write_stub(resource, pyfile):
         f.write(_stub_template % resource)
 
 
-# noinspection PyAttributeOutsideInit,PyIncorrectDocstring,PyIncorrectDocstring,PyPep8Naming
 class bdist_egg(Command):
     description = "create an \"egg\" distribution"
 
@@ -286,7 +283,7 @@ class bdist_egg(Command):
         return 'a'
 
     def copy_metadata_to(self, target_dir):
-        """Copy metadata (egg info) to the target_dir"""
+        "Copy metadata (egg info) to the target_dir"
         # normalize the path (so that a forward-slash in egg_info will
         # match using startswith below)
         norm_egg_info = os.path.normpath(self.egg_info)
@@ -329,7 +326,6 @@ class bdist_egg(Command):
 NATIVE_EXTENSIONS = dict.fromkeys('.dll .so .dylib .pyd'.split())
 
 
-# noinspection PyIncorrectDocstring
 def walk_egg(egg_dir):
     """Walk an unpacked egg's contents, skipping the metadata directory"""
     walker = os.walk(egg_dir)
@@ -378,7 +374,6 @@ safety_flags = {
 }
 
 
-# noinspection PyIncorrectDocstring
 def scan_module(egg_dir, base, name, stubs):
     """Check whether module possibly uses unsafe-for-zipfile stuff"""
 
@@ -413,13 +408,12 @@ def scan_module(egg_dir, base, name, stubs):
     return safe
 
 
-# noinspection PyIncorrectDocstring
 def iter_symbols(code):
     """Yield names and strings used by `code` and its nested code objects"""
     for name in code.co_names:
         yield name
     for const in code.co_consts:
-        if isinstance(const, six.string_types):
+        if isinstance(const, basestring):
             yield const
         elif isinstance(const, CodeType):
             for name in iter_symbols(const):
@@ -442,7 +436,6 @@ INSTALL_DIRECTORY_ATTRS = [
 ]
 
 
-# noinspection PyUnusedLocal,PyIncorrectDocstring
 def make_zipfile(zip_filename, base_dir, verbose=0, dry_run=0, compress=True,
                  mode='w'):
     """Create a zip file from all the files under 'base_dir'.  The output

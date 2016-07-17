@@ -1,4 +1,3 @@
-# coding=utf-8
 """Parser is a generator function (NOT coroutine).
 
 Parser receives data with generator's send() method and sends data to
@@ -88,7 +87,6 @@ class StreamParser:
     unset_parser() sends EofStream into parser and then removes it.
     """
 
-    # noinspection PyUnusedLocal
     def __init__(self, *, loop=None, buf=None,
                  limit=DEFAULT_LIMIT, eof_exc_class=RuntimeError, **kwargs):
         self._loop = loop
@@ -131,7 +129,6 @@ class StreamParser:
             self._output = None
             self._parser = None
 
-    # noinspection PyIncorrectDocstring
     def feed_data(self, data):
         """send data to current parser or store in buffer."""
         if data is None:
@@ -170,7 +167,6 @@ class StreamParser:
 
         self._eof = True
 
-    # noinspection PyIncorrectDocstring
     def set_parser(self, parser, output=None):
         """set parser to stream. return parser's DataQueue."""
         if self._parser:
@@ -360,7 +356,6 @@ class ParserBuffer:
         if not self._helper.exception:
             self._writer.send(data)
 
-    # noinspection PyIncorrectDocstring
     def read(self, size):
         """read() reads specified amount of bytes."""
 
@@ -375,7 +370,6 @@ class ParserBuffer:
 
             self._writer.send((yield))
 
-    # noinspection PyIncorrectDocstring
     def readsome(self, size=None):
         """reads size of less amount of bytes."""
 
@@ -422,7 +416,6 @@ class ParserBuffer:
 
             self._writer.send((yield))
 
-    # noinspection PyIncorrectDocstring
     def wait(self, size):
         """wait() waits for specified amount of bytes
         then returns data without changing internal buffer."""
@@ -436,7 +429,6 @@ class ParserBuffer:
 
             self._writer.send((yield))
 
-    # noinspection PyIncorrectDocstring
     def waituntil(self, stop, limit=None):
         """waituntil() reads until `stop` bytes sequence."""
         assert isinstance(stop, bytes) and stop, \
@@ -463,7 +455,6 @@ class ParserBuffer:
 
             self._writer.send((yield))
 
-    # noinspection PyIncorrectDocstring
     def skip(self, size):
         """skip() skips specified amount of bytes."""
 
@@ -475,7 +466,6 @@ class ParserBuffer:
 
         del self._data[:size]
 
-    # noinspection PyIncorrectDocstring
     def skipuntil(self, stop):
         """skipuntil() reads until `stop` bytes sequence."""
         assert isinstance(stop, bytes) and stop, \

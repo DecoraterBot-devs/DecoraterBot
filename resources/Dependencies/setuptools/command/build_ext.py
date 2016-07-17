@@ -1,4 +1,3 @@
-# coding=utf-8
 from distutils.command.build_ext import build_ext as _du_build_ext
 from distutils.file_util import copy_file
 from distutils.ccompiler import new_compiler
@@ -13,7 +12,6 @@ from setuptools.extension import Library
 
 try:
     # Attempt to use Cython for building extensions, if available
-    # noinspection PyPackageRequirements
     from Cython.Distutils.build_ext import build_ext as _build_ext
 except ImportError:
     _build_ext = _du_build_ext
@@ -26,7 +24,6 @@ except ImportError:
 
     get_config_var("LDSHARED")  # make sure _config_vars is initialized
     del get_config_var
-    # noinspection PyPep8Naming
     from distutils.sysconfig import _config_vars as _CONFIG_VARS
 
 have_rtld = False
@@ -37,20 +34,15 @@ if sys.platform == "darwin":
     use_stubs = True
 elif os.name != 'nt':
     try:
-        # noinspection PyPackageRequirements
         import dl
-
         use_stubs = have_rtld = hasattr(dl, 'RTLD_NOW')
     except ImportError:
         pass
 
-# noinspection PyPep8
+
 if_dl = lambda s: s if have_rtld else ''
 
-
-# noinspection PyAttributeOutsideInit,PyClassHasNoInit,PyIncorrectDocstring,PyShadowingBuiltins,PyPep8Naming
 class build_ext(_build_ext):
-    # noinspection PyCallByClass
     def run(self):
         """Build extensions in build directory, then copy if --inplace"""
         old_inplace, self.inplace = self.inplace, 0
@@ -81,7 +73,6 @@ class build_ext(_build_ext):
             if ext._needs_stub:
                 self.write_stub(package_dir or os.curdir, ext, True)
 
-    # noinspection PyCallByClass
     def get_ext_filename(self, fullname):
         filename = _build_ext.get_ext_filename(self, fullname)
         if fullname in self.ext_map:
@@ -94,14 +85,12 @@ class build_ext(_build_ext):
                 return os.path.join(d, 'dl-' + fn)
         return filename
 
-    # noinspection PyCallByClass
     def initialize_options(self):
         _build_ext.initialize_options(self)
         self.shlib_compiler = None
         self.shlibs = []
         self.ext_map = {}
 
-    # noinspection PyCallByClass
     def finalize_options(self):
         _build_ext.finalize_options(self)
         self.extensions = self.extensions or []
@@ -171,13 +160,11 @@ class build_ext(_build_ext):
         # hack so distutils' build_extension() builds a library instead
         compiler.link_shared_object = link_shared_object.__get__(compiler)
 
-    # noinspection PyCallByClass
     def get_export_symbols(self, ext):
         if isinstance(ext, Library):
             return ext.export_symbols
         return _build_ext.get_export_symbols(self, ext)
 
-    # noinspection PyCallByClass
     def build_extension(self, ext):
         ext._convert_pyx_sources_to_lang()
         _compiler = self.compiler
@@ -200,7 +187,6 @@ class build_ext(_build_ext):
         pkg = '.'.join(ext._full_name.split('.')[:-1] + [''])
         return any(pkg + libname in libnames for libname in ext.libraries)
 
-    # noinspection PyCallByClass
     def get_outputs(self):
         return _build_ext.get_outputs(self) + self.__get_stubs_outputs()
 
@@ -286,7 +272,6 @@ else:
     # Build static libraries everywhere else
     libtype = 'static'
 
-    # noinspection PyUnusedLocal
     def link_shared_object(
             self, objects, output_libname, output_dir=None, libraries=None,
             library_dirs=None, runtime_library_dirs=None, export_symbols=None,

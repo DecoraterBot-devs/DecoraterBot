@@ -1,25 +1,19 @@
-# coding=utf-8
 import sys
-# noinspection PyDeprecation
 import imp
 import marshal
-# noinspection PyDeprecation
 from imp import PKG_DIRECTORY, PY_COMPILED, PY_SOURCE, PY_FROZEN
 from distutils.version import StrictVersion
-
-from setuptools.extern import six
+from setuptools import compat
 
 __all__ = [
     'Require', 'find_module', 'get_module_constant', 'extract_constant'
 ]
 
-
-# noinspection PyIncorrectDocstring,PyShadowingBuiltins,PyTypeChecker
 class Require:
     """A prerequisite to building or installing a distribution"""
 
     def __init__(self, name, requested_version, module, homepage='',
-                 attribute=None, format=None):
+            attribute=None, format=None):
 
         if format is None and requested_version is not None:
             format = StrictVersion
@@ -35,13 +29,13 @@ class Require:
     def full_name(self):
         """Return full package/distribution name, w/version"""
         if self.requested_version is not None:
-            return '%s-%s' % (self.name, self.requested_version)
+            return '%s-%s' % (self.name,self.requested_version)
         return self.name
 
     def version_ok(self, version):
         """Is 'version' sufficiently up-to-date?"""
-        return self.attribute is None or self.format is None or str(
-            version) != "unknown" and version >= self.requested_version
+        return self.attribute is None or self.format is None or \
+            str(version) != "unknown" and version >= self.requested_version
 
     def get_version(self, paths=None, default="unknown"):
 
@@ -57,9 +51,8 @@ class Require:
 
         if self.attribute is None:
             try:
-                f, p, i = find_module(self.module, paths)
-                if f:
-                    f.close()
+                f,p,i = find_module(self.module,paths)
+                if f: f.close()
                 return default
             except ImportError:
                 return None
@@ -83,41 +76,39 @@ class Require:
         return self.version_ok(version)
 
 
-# noinspection PyShadowingBuiltins
 def _iter_code(code):
+
     """Yield '(op,arg)' pair for each operation in code object 'code'"""
 
     from array import array
     from dis import HAVE_ARGUMENT, EXTENDED_ARG
 
-    bytes = array('b', code.co_code)
+    bytes = array('b',code.co_code)
     eof = len(code.co_code)
 
     ptr = 0
     extended_arg = 0
 
-    while ptr < eof:
+    while ptr<eof:
 
         op = bytes[ptr]
 
-        if op >= HAVE_ARGUMENT:
+        if op>=HAVE_ARGUMENT:
 
-            arg = bytes[ptr + 1] + bytes[ptr + 2] * 256 + extended_arg
+            arg = bytes[ptr+1] + bytes[ptr+2]*256 + extended_arg
             ptr += 3
 
-            if op == EXTENDED_ARG:
-                long_type = six.integer_types[-1]
-                extended_arg = arg * long_type(65536)
+            if op==EXTENDED_ARG:
+                extended_arg = arg * compat.long_type(65536)
                 continue
 
         else:
             arg = None
             ptr += 1
 
-        yield op, arg
+        yield op,arg
 
 
-# noinspection PyDeprecation,PyUnboundLocalVariable,PyIncorrectDocstring
 def find_module(module, paths=None):
     """Just like 'imp.find_module()', but with package support"""
 
@@ -125,20 +116,20 @@ def find_module(module, paths=None):
 
     while parts:
         part = parts.pop(0)
-        f, path, (suffix, mode, kind) = info = imp.find_module(part, paths)
+        f, path, (suffix,mode,kind) = info = imp.find_module(part, paths)
 
-        if kind == PKG_DIRECTORY:
+        if kind==PKG_DIRECTORY:
             parts = parts or ['__init__']
             paths = [path]
 
         elif parts:
-            raise ImportError("Can't find %r in %s" % (parts, module))
+            raise ImportError("Can't find %r in %s" % (parts,module))
 
     return info
 
 
-# noinspection PyDeprecation,PyIncorrectDocstring
 def get_module_constant(module, symbol, default=-1, paths=None):
+
     """Find 'module' by searching 'paths', and extract 'symbol'
 
     Return 'None' if 'module' does not exist on 'paths', or it does not define
@@ -152,12 +143,12 @@ def get_module_constant(module, symbol, default=-1, paths=None):
         return None
 
     try:
-        if kind == PY_COMPILED:
-            f.read(8)  # skip magic & date
+        if kind==PY_COMPILED:
+            f.read(8)   # skip magic & date
             code = marshal.load(f)
-        elif kind == PY_FROZEN:
+        elif kind==PY_FROZEN:
             code = imp.get_frozen_object(module)
-        elif kind == PY_SOURCE:
+        elif kind==PY_SOURCE:
             code = compile(f.read(), path, 'exec')
         else:
             # Not something we can parse; we'll have to import it.  :(
@@ -172,7 +163,6 @@ def get_module_constant(module, symbol, default=-1, paths=None):
     return extract_constant(code, symbol, default)
 
 
-# noinspection PyPep8Naming,PyIncorrectDocstring
 def extract_constant(code, symbol, default=-1):
     """Extract the constant value of 'symbol' from 'code'
 
@@ -200,9 +190,9 @@ def extract_constant(code, symbol, default=-1):
 
     for op, arg in _iter_code(code):
 
-        if op == LOAD_CONST:
+        if op==LOAD_CONST:
             const = code.co_consts[arg]
-        elif arg == name_idx and (op == STORE_NAME or op == STORE_GLOBAL):
+        elif arg==name_idx and (op==STORE_NAME or op==STORE_GLOBAL):
             return const
         else:
             const = default
@@ -221,6 +211,5 @@ def _update_globals():
     for name in incompatible:
         del globals()[name]
         __all__.remove(name)
-
 
 _update_globals()

@@ -1,4 +1,3 @@
-# coding=utf-8
 import asyncio
 import binascii
 import cgi
@@ -26,15 +25,18 @@ from .multidict import (CIMultiDictProxy,
 from .protocol import Response as ResponseImpl, HttpVersion10, HttpVersion11
 from .streams import EOF_MARKER
 
+
 __all__ = (
     'ContentCoding', 'Request', 'StreamResponse', 'Response',
     'json_response'
 )
 
+
 sentinel = object()
 
 
 class HeadersMixin:
+
     _content_type = None
     _content_dict = None
     _stored_content_type = sentinel
@@ -48,7 +50,6 @@ class HeadersMixin:
         else:
             self._content_type, self._content_dict = cgi.parse_header(raw)
 
-    # noinspection PyPep8Naming,PyIncorrectDocstring
     @property
     def content_type(self, _CONTENT_TYPE=hdrs.CONTENT_TYPE):
         """The value of content part for Content-Type HTTP header."""
@@ -57,7 +58,6 @@ class HeadersMixin:
             self._parse_content_type(raw)
         return self._content_type
 
-    # noinspection PyPep8Naming,PyIncorrectDocstring
     @property
     def charset(self, _CONTENT_TYPE=hdrs.CONTENT_TYPE):
         """The value of charset part for Content-Type HTTP header."""
@@ -66,7 +66,6 @@ class HeadersMixin:
             self._parse_content_type(raw)
         return self._content_dict.get('charset')
 
-    # noinspection PyPep8Naming,PyIncorrectDocstring
     @property
     def content_length(self, _CONTENT_LENGTH=hdrs.CONTENT_LENGTH):
         """The value of Content-Length HTTP header."""
@@ -75,7 +74,6 @@ class HeadersMixin:
             return None
         else:
             return int(l)
-
 
 FileField = collections.namedtuple('Field', 'name filename file content_type')
 
@@ -96,10 +94,10 @@ class ContentCoding(enum.Enum):
 
 
 class Request(dict, HeadersMixin):
+
     POST_METHODS = {hdrs.METH_PATCH, hdrs.METH_POST, hdrs.METH_PUT,
                     hdrs.METH_TRACE, hdrs.METH_DELETE}
 
-    # noinspection PyMissingConstructor
     def __init__(self, app, message, payload, transport, reader, writer, *,
                  secure_proxy_ssl_header=None):
         self._app = app
@@ -198,7 +196,6 @@ class Request(dict, HeadersMixin):
         """
         return self._splitted_path.query
 
-    # noinspection PyPep8Naming
     @reify
     def GET(self):
         """A multidict with all the variables in the query string.
@@ -208,7 +205,6 @@ class Request(dict, HeadersMixin):
         return MultiDictProxy(MultiDict(parse_qsl(self.query_string,
                                                   keep_blank_values=True)))
 
-    # noinspection PyPep8Naming
     @reify
     def POST(self):
         """A multidict with all the variables in the POST parameters.
@@ -229,7 +225,6 @@ class Request(dict, HeadersMixin):
         """A sequence of pars for all headers."""
         return tuple(self._message.raw_headers)
 
-    # noinspection PyPep8Naming,PyIncorrectDocstring
     @reify
     def if_modified_since(self, _IF_MODIFIED_SINCE=hdrs.IF_MODIFIED_SINCE):
         """The value of If-Modified-Since HTTP header, or None.
@@ -327,7 +322,6 @@ class Request(dict, HeadersMixin):
         encoding = self.charset or 'utf-8'
         return bytes_body.decode(encoding)
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine
     def json(self, *, loads=json.loads, loader=None):
         """Return BODY as JSON."""
@@ -385,7 +379,7 @@ class Request(dict, HeadersMixin):
                                field.type)
                 if self._post_files_cache is None:
                     self._post_files_cache = {}
-                self._post_files_cache[field.name + str(_count)] = field
+                self._post_files_cache[field.name+str(_count)] = field
                 _count += 1
                 out.add(field.name, ff)
             else:
@@ -414,6 +408,7 @@ class Request(dict, HeadersMixin):
 
 
 class StreamResponse(HeadersMixin):
+
     def __init__(self, *, status=200, reason=None, headers=None):
         self._body = None
         self._keep_alive = None
@@ -464,7 +459,6 @@ class StreamResponse(HeadersMixin):
     def reason(self):
         return self._reason
 
-    # noinspection PyAttributeOutsideInit
     def set_status(self, status, reason=None):
         self._status = int(status)
         if reason is None:
@@ -478,13 +472,11 @@ class StreamResponse(HeadersMixin):
     def force_close(self):
         self._keep_alive = False
 
-    # noinspection PyIncorrectDocstring
     def enable_chunked_encoding(self, chunk_size=None):
         """Enables automatic chunked transfer encoding."""
         self._chunked = True
         self._chunk_size = chunk_size
 
-    # noinspection PyIncorrectDocstring
     def enable_compression(self, force=None):
         """Enables response compression encoding."""
         # Backwards compatibility for when force was a bool <0.17.
@@ -502,7 +494,6 @@ class StreamResponse(HeadersMixin):
     def cookies(self):
         return self._cookies
 
-    # noinspection PyIncorrectDocstring
     def set_cookie(self, name, value, *, expires=None,
                    domain=None, max_age=None, path='/',
                    secure=None, httponly=None, version=None):
@@ -538,7 +529,6 @@ class StreamResponse(HeadersMixin):
         if version is not None:
             c['version'] = version
 
-    # noinspection PyIncorrectDocstring
     def del_cookie(self, name, *, domain=None, path='/'):
         """Delete cookie.
 
@@ -548,13 +538,11 @@ class StreamResponse(HeadersMixin):
         self._cookies.pop(name, None)
         self.set_cookie(name, '', max_age=0, domain=domain, path=path)
 
-    # noinspection PyMethodOverriding
     @property
     def content_length(self):
         # Just a placeholder for adding setter
         return super().content_length
 
-    # noinspection PyMethodOverriding
     @content_length.setter
     def content_length(self, value):
         if value is not None:
@@ -564,26 +552,22 @@ class StreamResponse(HeadersMixin):
         else:
             self.headers.pop(hdrs.CONTENT_LENGTH, None)
 
-    # noinspection PyMethodOverriding
     @property
     def content_type(self):
         # Just a placeholder for adding setter
         return super().content_type
 
-    # noinspection PyMethodOverriding,PyStatementEffect
     @content_type.setter
     def content_type(self, value):
         self.content_type  # read header values if needed
         self._content_type = str(value)
         self._generate_content_type_header()
 
-    # noinspection PyMethodOverriding
     @property
     def charset(self):
         # Just a placeholder for adding setter
         return super().charset
 
-    # noinspection PyMethodOverriding
     @charset.setter
     def charset(self, value):
         ctype = self.content_type  # read header values if needed
@@ -596,7 +580,6 @@ class StreamResponse(HeadersMixin):
             self._content_dict['charset'] = str(value).lower()
         self._generate_content_type_header()
 
-    # noinspection PyPep8Naming,PyIncorrectDocstring
     @property
     def last_modified(self, _LAST_MODIFIED=hdrs.LAST_MODIFIED):
         """The value of Last-Modified HTTP header, or None.
@@ -655,7 +638,6 @@ class StreamResponse(HeadersMixin):
             self._resp_impl.transport.set_tcp_nodelay(False)
         self._resp_impl.transport.set_tcp_cork(value)
 
-    # noinspection PyPep8Naming
     def _generate_content_type_header(self, CONTENT_TYPE=hdrs.CONTENT_TYPE):
         params = '; '.join("%s=%s" % i for i in self._content_dict.items())
         if params:
@@ -691,7 +673,6 @@ class StreamResponse(HeadersMixin):
                     self._do_start_compression(coding)
                     return
 
-    # noinspection PyNoneFunctionAssignment
     def start(self, request):
         warnings.warn('use .prepare(request) instead', DeprecationWarning)
         resp_impl = self._start_pre_check(request)
@@ -700,7 +681,6 @@ class StreamResponse(HeadersMixin):
 
         return self._start(request)
 
-    # noinspection PyNoneFunctionAssignment
     @asyncio.coroutine
     def prepare(self, request):
         resp_impl = self._start_pre_check(request)
@@ -732,7 +712,8 @@ class StreamResponse(HeadersMixin):
         if self._chunked:
             if request.version != HttpVersion11:
                 raise RuntimeError("Using chunked encoding is forbidden "
-                                   "for HTTP/{0.major}.{0.minor}".format(request.version))
+                                   "for HTTP/{0.major}.{0.minor}".format(
+                                       request.version))
             resp_impl.enable_chunked_encoding()
             if self._chunk_size:
                 resp_impl.add_chunking_filter(self._chunk_size)
@@ -776,7 +757,6 @@ class StreamResponse(HeadersMixin):
         yield from self._resp_impl.write_eof()
         self._eof_sent = True
 
-    # noinspection PyDeprecation
     def __repr__(self):
         if self.started:
             info = "{} {} ".format(self._req.method, self._req.path)
@@ -787,6 +767,7 @@ class StreamResponse(HeadersMixin):
 
 
 class Response(StreamResponse):
+
     def __init__(self, *, body=None, status=200,
                  reason=None, text=None, headers=None, content_type=None,
                  charset=None):

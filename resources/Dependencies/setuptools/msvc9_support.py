@@ -1,11 +1,9 @@
-# coding=utf-8
 try:
     import distutils.msvc9compiler
 except ImportError:
     pass
 
 unpatched = dict()
-
 
 def patch_for_specialized_compiler():
     """
@@ -26,8 +24,6 @@ def patch_for_specialized_compiler():
     distutils.msvc9compiler.find_vcvarsall = find_vcvarsall
     distutils.msvc9compiler.query_vcvarsall = query_vcvarsall
 
-
-# noinspection PyPep8Naming
 def find_vcvarsall(version):
     Reg = distutils.msvc9compiler.Reg
     VC_BASE = r'Software\%sMicrosoft\DevDiv\VCForPython\%0.1f'
@@ -50,7 +46,6 @@ def find_vcvarsall(version):
             return vcvarsall
 
     return unpatched['find_vcvarsall'](version)
-
 
 def query_vcvarsall(version, *args, **kwargs):
     try:

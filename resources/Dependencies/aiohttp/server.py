@@ -1,4 +1,3 @@
-# coding=utf-8
 """simple http server."""
 
 import asyncio
@@ -8,16 +7,14 @@ import socket
 
 from html import escape as html_escape
 from math import ceil
-# noinspection PyPackageRequirements
+
 import aiohttp
-# noinspection PyPackageRequirements
 from aiohttp import errors, streams, hdrs, helpers
-# noinspection PyPackageRequirements
 from aiohttp.log import access_logger, server_logger
-# noinspection PyPackageRequirements
 from aiohttp.helpers import ensure_future
 
 __all__ = ('ServerHttpProtocol',)
+
 
 RESPONSES = http.server.BaseHTTPRequestHandler.responses
 DEFAULT_ERROR_MESSAGE = """
@@ -31,13 +28,12 @@ DEFAULT_ERROR_MESSAGE = """
   </body>
 </html>"""
 
+
 if hasattr(socket, 'SO_KEEPALIVE'):
-    # noinspection PyUnusedLocal
     def tcp_keepalive(server, transport):
         sock = transport.get_extra_info('socket')
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
 else:
-    # noinspection PyUnusedLocal
     def tcp_keepalive(server, transport):  # pragma: no cover
         pass
 
@@ -120,7 +116,6 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
     def keep_alive_timeout(self):
         return self._keep_alive_period
 
-    # noinspection PyIncorrectDocstring
     def closing(self, timeout=15.0):
         """Worker process is about to exit, we need cleanup everything and
         stop accepting requests. It is especially important for keep-alive
@@ -129,7 +124,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
         self._keep_alive_on = False
         self._keep_alive_period = None
 
-        if not self._reading_request and self.transport is not None:
+        if (not self._reading_request and self.transport is not None):
             if self._request_handler:
                 self._request_handler.cancel()
                 self._request_handler = None
@@ -144,7 +139,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
             # connection_lost cleans timeout handler
             now = self._loop.time()
             self._timeout_handle = self._loop.call_at(
-                ceil(now + timeout), self.cancel_slow_request)
+                ceil(now+timeout), self.cancel_slow_request)
 
     def connection_made(self, transport):
         super().connection_made(transport)
@@ -155,7 +150,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
         if self._timeout:
             now = self._loop.time()
             self._timeout_handle = self._loop.call_at(
-                ceil(now + self._timeout), self.cancel_slow_request)
+                ceil(now+self._timeout), self.cancel_slow_request)
 
         if self._keep_alive_on:
             tcp_keepalive(self, transport)
@@ -245,7 +240,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                 if self._timeout and self._timeout_handle is None:
                     now = self._loop.time()
                     self._timeout_handle = self._loop.call_at(
-                        ceil(now + self._timeout), self.cancel_slow_request)
+                        ceil(now+self._timeout), self.cancel_slow_request)
 
                 # read request headers
                 httpstream = reader.set_parser(self._request_parser)
@@ -258,9 +253,9 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
 
                 # request may not have payload
                 if (message.headers.get(hdrs.CONTENT_LENGTH, 0) or
-                        (hdrs.SEC_WEBSOCKET_KEY1 in message.headers) or
-                        ('chunked' in message.headers.get(
-                            hdrs.TRANSFER_ENCODING, ''))):
+                    hdrs.SEC_WEBSOCKET_KEY1 in message.headers or
+                    'chunked' in message.headers.get(
+                        hdrs.TRANSFER_ENCODING, '')):
                     payload = streams.FlowControlStreamReader(
                         reader, loop=self._loop)
                     reader.set_parser(
@@ -306,7 +301,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                             self._keep_alive_period)
                         now = self._loop.time()
                         self._keep_alive_handle = self._loop.call_at(
-                            ceil(now + self._keep_alive_period),
+                            ceil(now+self._keep_alive_period),
                             self.transport.close)
                     elif self._keep_alive and self._keep_alive_on:
                         # do nothing, rely on kernel or upstream server
@@ -320,7 +315,6 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                     # connection is closed
                     return
 
-    # noinspection PyUnusedLocal,PyIncorrectDocstring
     def handle_error(self, status=500, message=None,
                      payload=None, exc=None, headers=None, reason=None):
         """Handle errors.

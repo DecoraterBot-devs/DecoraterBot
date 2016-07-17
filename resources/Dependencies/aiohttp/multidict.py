@@ -1,4 +1,3 @@
-# coding=utf-8
 """Multidict implementation.
 
 HTTP Headers and URL query string require specific data structure:
@@ -17,7 +16,6 @@ __all__ = ('MultiDictProxy', 'CIMultiDictProxy',
 _marker = object()
 
 
-# noinspection PyPep8Naming
 class _upstr(str):
 
     """Case insensitive str."""
@@ -39,7 +37,6 @@ class _upstr(str):
 
 class _Base:
 
-    # noinspection PyIncorrectDocstring
     def getall(self, key, default=_marker):
         """Return a list of all values matching the key."""
         res = [v for k, v in self._items if k == key]
@@ -49,7 +46,6 @@ class _Base:
             return default
         raise KeyError('Key not found: %r' % key)
 
-    # noinspection PyIncorrectDocstring
     def getone(self, key, default=_marker):
         """Get first value matching the key."""
         for k, v in self._items:
@@ -64,7 +60,6 @@ class _Base:
     def __getitem__(self, key):
         return self.getone(key, _marker)
 
-    # noinspection PyIncorrectDocstring
     def get(self, key, default=None):
         """Get first value matching the key.
 
@@ -114,17 +109,14 @@ class _Base:
 
 class _CIBase(_Base):
 
-    # noinspection PyIncorrectDocstring
     def getall(self, key, default=_marker):
         """Return a list of all values matching the key."""
         return super().getall(key.upper(), default)
 
-    # noinspection PyIncorrectDocstring
     def getone(self, key, default=_marker):
         """Get first value matching the key."""
         return super().getone(key.upper(), default)
 
-    # noinspection PyIncorrectDocstring
     def get(self, key, default=None):
         """Get first value matching the key.
 
@@ -139,7 +131,6 @@ class _CIBase(_Base):
         return super().__contains__(key.upper())
 
 
-# noinspection PyAbstractClass
 class _MultiDictProxy(_Base, abc.Mapping):
 
     def __init__(self, arg):
@@ -155,7 +146,6 @@ class _MultiDictProxy(_Base, abc.Mapping):
         return _MultiDict(self.items())
 
 
-# noinspection PyAbstractClass,PyMissingConstructor
 class _CIMultiDictProxy(_CIBase, _MultiDictProxy):
 
     def __init__(self, arg):
@@ -171,7 +161,6 @@ class _CIMultiDictProxy(_CIBase, _MultiDictProxy):
         return _CIMultiDict(self.items())
 
 
-# noinspection PyAbstractClass
 class _MultiDict(_Base, abc.MutableMapping):
 
     def __init__(self, *args, **kwargs):
@@ -179,7 +168,6 @@ class _MultiDict(_Base, abc.MutableMapping):
 
         self._extend(args, kwargs, self.__class__.__name__, self.add)
 
-    # noinspection PyIncorrectDocstring
     def add(self, key, value):
         """Add the key and value, not overwriting any previous value."""
         self._items.append((key, value))
@@ -189,7 +177,6 @@ class _MultiDict(_Base, abc.MutableMapping):
         cls = self.__class__
         return cls(self.items())
 
-    # noinspection PyIncorrectDocstring
     def extend(self, *args, **kwargs):
         """Extend current MultiDict with more values.
 
@@ -242,7 +229,6 @@ class _MultiDict(_Base, abc.MutableMapping):
         if not found:
             raise KeyError(key)
 
-    # noinspection PyIncorrectDocstring
     def setdefault(self, key, default=None):
         """Return value for key, set value to default if key is not present."""
         for k, v in self._items:
@@ -251,7 +237,6 @@ class _MultiDict(_Base, abc.MutableMapping):
         self._items.append((key, default))
         return default
 
-    # noinspection PyIncorrectDocstring
     def pop(self, key, default=_marker):
         """Remove specified key and return the corresponding value.
 
@@ -281,7 +266,6 @@ class _MultiDict(_Base, abc.MutableMapping):
         else:
             raise KeyError("empty multidict")
 
-    # noinspection PyMethodOverriding,PyIncorrectDocstring
     def update(self, *args, **kwargs):
         """Update the dictionary from *other*, overwriting existing keys."""
         self._extend(args, kwargs, 'update', self._replace)
@@ -292,10 +276,8 @@ class _MultiDict(_Base, abc.MutableMapping):
         self.add(key, value)
 
 
-# noinspection PyAbstractClass
 class _CIMultiDict(_CIBase, _MultiDict):
 
-    # noinspection PyIncorrectDocstring
     def add(self, key, value):
         """Add the key and value, not overwriting any previous value."""
         super().add(key.upper(), value)
@@ -309,7 +291,6 @@ class _CIMultiDict(_CIBase, _MultiDict):
     def _replace(self, key, value):
         super()._replace(key.upper(), value)
 
-    # noinspection PyIncorrectDocstring
     def setdefault(self, key, default=None):
         """Return value for key, set value to default if key is not present."""
         key = key.upper()
@@ -325,7 +306,6 @@ class _ViewBase:
         return len(self._items)
 
 
-# noinspection PyAbstractClass
 class _ItemsView(_ViewBase, abc.ItemsView):
 
     def __contains__(self, item):
@@ -344,7 +324,6 @@ class _ItemsView(_ViewBase, abc.ItemsView):
         return '{}({})'.format(self.__class__.__name__, body)
 
 
-# noinspection PyAbstractClass
 class _ValuesView(_ViewBase, abc.ValuesView):
 
     def __contains__(self, value):
@@ -365,7 +344,6 @@ class _ValuesView(_ViewBase, abc.ValuesView):
         return '{}({})'.format(self.__class__.__name__, body)
 
 
-# noinspection PyAbstractClass
 class _KeysView(_ViewBase, abc.KeysView):
 
     def __contains__(self, key):

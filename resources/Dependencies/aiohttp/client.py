@@ -1,4 +1,3 @@
-# coding=utf-8
 """HTTP Client for asyncio."""
 
 import asyncio
@@ -10,7 +9,7 @@ import traceback
 import warnings
 import http.cookies
 import urllib.parse
-# noinspection PyPackageRequirements
+
 import aiohttp
 from .client_reqrep import ClientRequest, ClientResponse
 from .errors import WSServerHandshakeError
@@ -91,7 +90,6 @@ class ClientSession:
                 context['source_traceback'] = self._source_traceback
             self._loop.call_exception_handler(context)
 
-    # noinspection PyIncorrectDocstring
     def request(self, method, url, *,
                 params=None,
                 data=None,
@@ -126,7 +124,6 @@ class ClientSession:
                 expect100=expect100,
                 read_until_eof=read_until_eof))
 
-    # noinspection PyUnboundLocalVariable
     @asyncio.coroutine
     def _request(self, method, url, *,
                  params=None,
@@ -237,6 +234,7 @@ class ClientSession:
                     r_url = urllib.parse.urljoin(url, r_url)
 
                 url = r_url
+                params = None
                 yield from resp.release()
                 continue
 
@@ -245,7 +243,6 @@ class ClientSession:
         resp._history = tuple(history)
         return resp
 
-    # noinspection PyIncorrectDocstring
     def ws_connect(self, url, *,
                    protocols=(),
                    timeout=10.0,
@@ -348,7 +345,6 @@ class ClientSession:
                                            autoping,
                                            self._loop)
 
-    # noinspection PyCallByClass
     def _update_cookies(self, cookies):
         """Update shared cookies."""
         if isinstance(cookies, dict):
@@ -379,7 +375,6 @@ class ClientSession:
                     added_names.add(key)
         return result
 
-    # noinspection PyIncorrectDocstring
     def get(self, url, *, allow_redirects=True, **kwargs):
         """Perform HTTP GET request."""
         return _RequestContextManager(
@@ -387,7 +382,6 @@ class ClientSession:
                           allow_redirects=allow_redirects,
                           **kwargs))
 
-    # noinspection PyIncorrectDocstring
     def options(self, url, *, allow_redirects=True, **kwargs):
         """Perform HTTP OPTIONS request."""
         return _RequestContextManager(
@@ -395,7 +389,6 @@ class ClientSession:
                           allow_redirects=allow_redirects,
                           **kwargs))
 
-    # noinspection PyIncorrectDocstring
     def head(self, url, *, allow_redirects=False, **kwargs):
         """Perform HTTP HEAD request."""
         return _RequestContextManager(
@@ -403,7 +396,6 @@ class ClientSession:
                           allow_redirects=allow_redirects,
                           **kwargs))
 
-    # noinspection PyIncorrectDocstring
     def post(self, url, *, data=None, **kwargs):
         """Perform HTTP POST request."""
         return _RequestContextManager(
@@ -411,7 +403,6 @@ class ClientSession:
                           data=data,
                           **kwargs))
 
-    # noinspection PyIncorrectDocstring
     def put(self, url, *, data=None, **kwargs):
         """Perform HTTP PUT request."""
         return _RequestContextManager(
@@ -419,7 +410,6 @@ class ClientSession:
                           data=data,
                           **kwargs))
 
-    # noinspection PyIncorrectDocstring
     def patch(self, url, *, data=None, **kwargs):
         """Perform HTTP PATCH request."""
         return _RequestContextManager(
@@ -427,7 +417,6 @@ class ClientSession:
                           data=data,
                           **kwargs))
 
-    # noinspection PyIncorrectDocstring
     def delete(self, url, **kwargs):
         """Perform HTTP DELETE request."""
         return _RequestContextManager(
@@ -479,7 +468,6 @@ class ClientSession:
     def __enter__(self):
         return self
 
-    # noinspection PyUnusedLocal
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
@@ -488,7 +476,6 @@ class ClientSession:
         def __aenter__(self):
             return self
 
-        # noinspection PyUnusedLocal
         @asyncio.coroutine
         def __aexit__(self, exc_type, exc_val, exc_tb):
             yield from self.close()
@@ -563,7 +550,6 @@ if not PY_35:
 
 class _RequestContextManager(_BaseRequestContextManager):
     if PY_35:
-        # noinspection PyUnusedLocal
         @asyncio.coroutine
         def __aexit__(self, exc_type, exc, tb):
             if exc_type is not None:
@@ -574,7 +560,6 @@ class _RequestContextManager(_BaseRequestContextManager):
 
 class _WSRequestContextManager(_BaseRequestContextManager):
     if PY_35:
-        # noinspection PyUnusedLocal
         @asyncio.coroutine
         def __aexit__(self, exc_type, exc, tb):
             yield from self._resp.close()
@@ -620,7 +605,6 @@ class _DetachedWSRequestContextManager(_WSRequestContextManager):
         self._session.detach()
 
 
-# noinspection InconsistentLineSeparators,PyArgumentList,PyIncorrectDocstring
 def request(method, url, *,
             params=None,
             data=None,
@@ -673,11 +657,11 @@ def request(method, url, *,
 
     Usage::
 
-        import aiohttp
-        resp = yield from aiohttp.request('GET', 'http://python.org/')
-        resp
-    <ClientResponse(python.org/) [200]>
-        data = yield from resp.read()
+      >>> import aiohttp
+      >>> resp = yield from aiohttp.request('GET', 'http://python.org/')
+      >>> resp
+      <ClientResponse(python.org/) [200]>
+      >>> data = yield from resp.read()
 
     """
     warnings.warn("Use ClientSession().request() instead", DeprecationWarning)
@@ -714,43 +698,36 @@ def request(method, url, *,
         session=session)
 
 
-# noinspection PyArgumentList,PyDeprecation
 def get(url, **kwargs):
     warnings.warn("Use ClientSession().get() instead", DeprecationWarning)
     return request(hdrs.METH_GET, url, **kwargs)
 
 
-# noinspection PyArgumentList,PyDeprecation
 def options(url, **kwargs):
     warnings.warn("Use ClientSession().options() instead", DeprecationWarning)
     return request(hdrs.METH_OPTIONS, url, **kwargs)
 
 
-# noinspection PyArgumentList,PyDeprecation
 def head(url, **kwargs):
     warnings.warn("Use ClientSession().head() instead", DeprecationWarning)
     return request(hdrs.METH_HEAD, url, **kwargs)
 
 
-# noinspection PyArgumentList,PyDeprecation
 def post(url, **kwargs):
     warnings.warn("Use ClientSession().post() instead", DeprecationWarning)
     return request(hdrs.METH_POST, url, **kwargs)
 
 
-# noinspection PyArgumentList,PyDeprecation
 def put(url, **kwargs):
     warnings.warn("Use ClientSession().put() instead", DeprecationWarning)
     return request(hdrs.METH_PUT, url, **kwargs)
 
 
-# noinspection PyArgumentList,PyDeprecation
 def patch(url, **kwargs):
     warnings.warn("Use ClientSession().patch() instead", DeprecationWarning)
     return request(hdrs.METH_PATCH, url, **kwargs)
 
 
-# noinspection PyArgumentList,PyDeprecation
 def delete(url, **kwargs):
     warnings.warn("Use ClientSession().delete() instead", DeprecationWarning)
     return request(hdrs.METH_DELETE, url, **kwargs)

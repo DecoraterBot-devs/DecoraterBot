@@ -1,20 +1,17 @@
-# coding=utf-8
 """Extensions to the 'distutils' for large or complex distributions"""
 
 import os
-import functools
 import distutils.core
 import distutils.filelist
 from distutils.core import Command as _Command
 from distutils.util import convert_path
 from fnmatch import fnmatchcase
 
-from setuptools.extern.six.moves import filterfalse, map
-
 import setuptools.version
 from setuptools.extension import Extension
 from setuptools.dist import Distribution, Feature, _get_unpatched
 from setuptools.depends import Require
+from setuptools.compat import filterfalse
 
 __all__ = [
     'setup', 'Distribution', 'Feature', 'Command', 'Extension', 'Require',
@@ -32,7 +29,6 @@ run_2to3_on_doctests = True
 lib2to3_fixer_packages = ['lib2to3.fixes']
 
 
-# noinspection PyPep8,PyIncorrectDocstring,PyShadowingBuiltins
 class PackageFinder(object):
     @classmethod
     def find(cls, where='.', exclude=(), include=('*',)):
@@ -110,7 +106,6 @@ class PackageFinder(object):
         """
         return lambda name: any(fnmatchcase(name, pat=pat) for pat in patterns)
 
-
 class PEP420PackageFinder(PackageFinder):
     @staticmethod
     def _looks_like_package(path):
@@ -122,53 +117,36 @@ setup = distutils.core.setup
 
 _Command = _get_unpatched(_Command)
 
-
 class Command(_Command):
     __doc__ = _Command.__doc__
 
     command_consumes_arguments = False
 
     def __init__(self, dist, **kw):
-        """
-        Construct the command for dist, updating
-        vars(self) with any keyword parameters.
-        """
-        _Command.__init__(self, dist)
-        vars(self).update(kw)
+        # Add support for keyword arguments
+        _Command.__init__(self,dist)
+        for k,v in kw.items():
+            setattr(self,k,v)
 
     def reinitialize_command(self, command, reinit_subcommands=0, **kw):
         cmd = _Command.reinitialize_command(self, command, reinit_subcommands)
-        vars(cmd).update(kw)
+        for k,v in kw.items():
+            setattr(cmd,k,v)    # update command with keywords
         return cmd
 
-# we can't patch distutils.cmd, alas
-distutils.core.Command = Command
+distutils.core.Command = Command    # we can't patch distutils.cmd, alas
 
-
-def _find_all_simple(path):
+def findall(dir = os.curdir):
+    """Find all files under 'dir' and return the list of full filenames
+    (relative to 'dir').
     """
-    Find all files under 'path'
-    """
-    results = (
-        os.path.join(base, file)
-        for base, dirs, files in os.walk(path, followlinks=True)
-        for file in files
-    )
-    return filter(os.path.isfile, results)
+    all_files = []
+    for base, dirs, files in os.walk(dir, followlinks=True):
+        if base==os.curdir or base.startswith(os.curdir+os.sep):
+            base = base[2:]
+        if base:
+            files = [os.path.join(base, f) for f in files]
+        all_files.extend(filter(os.path.isfile, files))
+    return all_files
 
-
-# noinspection PyShadowingBuiltins,PyIncorrectDocstring
-def findall(dir=os.curdir):
-    """
-    Find all files under 'dir' and return the list of full filenames.
-    Unless dir is '.', return full filenames with dir prepended.
-    """
-    files = _find_all_simple(dir)
-    if dir == os.curdir:
-        make_rel = functools.partial(os.path.relpath, start=dir)
-        files = map(make_rel, files)
-    return list(files)
-
-
-# fix findall bug in distutils (http://bugs.python.org/issue12885)
-distutils.filelist.findall = findall
+distutils.filelist.findall = findall    # fix findall bug in distutils.

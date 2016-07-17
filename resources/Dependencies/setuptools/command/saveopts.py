@@ -1,8 +1,6 @@
-# coding=utf-8
 from setuptools.command.setopt import edit_config, option_base
 
 
-# noinspection PyPep8Naming
 class saveopts(option_base):
     """Save command-line options to a file"""
 

@@ -1,4 +1,3 @@
-# coding=utf-8
 from distutils import log
 import distutils.command.install_scripts as orig
 import os
@@ -6,7 +5,6 @@ import os
 from pkg_resources import Distribution, PathMetadata, ensure_directory
 
 
-# noinspection PyAttributeOutsideInit,PyIncorrectDocstring,PyUnusedLocal,PyPep8Naming
 class install_scripts(orig.install_scripts):
     """Do normal script install, plus any egg_info wrapper scripts"""
 

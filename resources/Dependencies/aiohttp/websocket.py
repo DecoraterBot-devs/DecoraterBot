@@ -1,4 +1,3 @@
-# coding=utf-8
 """WebSocket protocol versions 13 and 8."""
 
 import base64
@@ -10,9 +9,7 @@ import random
 import sys
 
 from struct import Struct
-# noinspection PyPackageRequirements
 from aiohttp import errors, hdrs
-# noinspection PyPackageRequirements
 from aiohttp.log import ws_logger
 
 __all__ = ('WebSocketParser', 'WebSocketWriter', 'do_handshake',
@@ -76,7 +73,6 @@ class WebSocketError(Exception):
         super().__init__(message)
 
 
-# noinspection PyPep8Naming
 def WebSocketParser(out, buf):
     while True:
         fin, opcode, payload = yield from parse_frame(buf)
@@ -214,7 +210,6 @@ else:
         _websocket_mask = _websocket_mask_python
 
 
-# noinspection PyUnboundLocalVariable,PyIncorrectDocstring
 def parse_frame(buf, continuation=False):
     """Return the next frame from the socket."""
     # read header
@@ -249,7 +244,7 @@ def parse_frame(buf, continuation=False):
             'opcode {!r}'.format(opcode))
 
     has_mask = (second_byte >> 7) & 1
-    length = second_byte & 0x7f
+    length = (second_byte) & 0x7f
 
     # Control frames MUST have a payload length of 125 bytes or less
     if opcode > 0x7 and length > 125:
@@ -286,7 +281,6 @@ class WebSocketWriter:
         self.use_mask = use_mask
         self.randrange = random.randrange
 
-    # noinspection PyTypeChecker
     def _send_frame(self, message, opcode):
         """Send a frame over the websocket with message as its payload."""
         msg_length = len(message)
@@ -315,21 +309,18 @@ class WebSocketWriter:
             else:
                 self.writer.write(header + message)
 
-    # noinspection PyIncorrectDocstring
     def pong(self, message=b''):
         """Send pong message."""
         if isinstance(message, str):
             message = message.encode('utf-8')
         self._send_frame(message, OPCODE_PONG)
 
-    # noinspection PyIncorrectDocstring
     def ping(self, message=b''):
         """Send ping message."""
         if isinstance(message, str):
             message = message.encode('utf-8')
         self._send_frame(message, OPCODE_PING)
 
-    # noinspection PyIncorrectDocstring
     def send(self, message, binary=False):
         """Send a frame over the websocket with message as its payload."""
         if isinstance(message, str):
@@ -339,7 +330,6 @@ class WebSocketWriter:
         else:
             self._send_frame(message, OPCODE_TEXT)
 
-    # noinspection PyIncorrectDocstring
     def close(self, code=1000, message=b''):
         """Close the websocket, sending the specified code and message."""
         if isinstance(message, str):
@@ -348,7 +338,6 @@ class WebSocketWriter:
             PACK_CLOSE_CODE(code) + message, opcode=OPCODE_CLOSE)
 
 
-# noinspection PyIncorrectDocstring
 def do_handshake(method, headers, transport, protocols=()):
     """Prepare WebSocket handshake.
 

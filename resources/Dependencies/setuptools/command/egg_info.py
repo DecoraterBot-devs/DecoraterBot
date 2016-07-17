@@ -1,4 +1,3 @@
-# coding=utf-8
 """setuptools.command.egg_info
 
 Create a distribution's .egg-info directory and contents"""
@@ -11,33 +10,23 @@ import distutils.filelist
 import os
 import re
 import sys
-import io
-import warnings
-import time
 
-from setuptools.extern import six
-from setuptools.extern.six.moves import map
+try:
+    from setuptools_svn import svn_utils
+except ImportError:
+    pass
 
 from setuptools import Command
 from setuptools.command.sdist import sdist
+from setuptools.compat import basestring, PY3, StringIO
 from setuptools.command.sdist import walk_revctrl
-from setuptools.command.setopt import edit_config
-from setuptools.command import bdist_egg
 from pkg_resources import (
     parse_requirements, safe_name, parse_version,
     safe_version, yield_lines, EntryPoint, iter_entry_points, to_filename)
 import setuptools.unicode_utils as unicode_utils
 
-from pkg_resources.extern import packaging
+from pkg_resources import packaging
 
-try:
-    # noinspection PyPackageRequirements
-    from setuptools_svn import svn_utils
-except ImportError:
-    pass
-
-
-# noinspection PyAttributeOutsideInit,PyIncorrectDocstring,PyPep8Naming
 class egg_info(Command):
     description = "create a distribution's .egg-info directory"
 
@@ -69,6 +58,8 @@ class egg_info(Command):
         self.vtags = None
 
     def save_version_info(self, filename):
+        from setuptools.command.setopt import edit_config
+
         values = dict(
             egg_info=dict(
                 tag_svn_revision=0,
@@ -152,7 +143,7 @@ class egg_info(Command):
         to the file.
         """
         log.info("writing %s to %s", what, filename)
-        if six.PY3:
+        if PY3:
             data = data.encode("utf-8")
         if not self.dry_run:
             f = open(filename, 'wb')
@@ -193,8 +184,12 @@ class egg_info(Command):
         if self.tag_build:
             version += self.tag_build
         if self.tag_svn_revision:
-            version += '-r%s' % self.get_svn_revision()
+            rev = self.get_svn_revision()
+            if rev:     # is 0 if it's not an svn working copy
+                version += '-r%s' % rev
         if self.tag_date:
+            import time
+
             version += time.strftime("-%Y%m%d")
         return version
 
@@ -219,9 +214,9 @@ class egg_info(Command):
         if os.path.exists(bei):
             log.warn(
                 "-" * 78 + '\n'
-                           "Note: Your current .egg-info directory has a '-' in its name;"
-                           '\nthis will not work correctly with "setup.py develop".\n\n'
-                           'Please rename %s to %s to correct this problem.\n' + '-' * 78,
+                "Note: Your current .egg-info directory has a '-' in its name;"
+                '\nthis will not work correctly with "setup.py develop".\n\n'
+                'Please rename %s to %s to correct this problem.\n' + '-' * 78,
                 bei, self.egg_info
             )
             self.broken_egg_info = self.egg_info
@@ -276,7 +271,6 @@ class FileList(_FileList):
             log.warn(enc_warn, path, sys.getfilesystemencoding())
 
 
-# noinspection PyAttributeOutsideInit,PyPep8Naming
 class manifest_maker(sdist):
     template = "MANIFEST.in"
 
@@ -369,7 +363,6 @@ class manifest_maker(sdist):
                                       is_regex=1)
 
 
-# noinspection PyIncorrectDocstring
 def write_file(filename, contents):
     """Create a file with the specified name and write 'contents' (a
     sequence of strings without line terminators) to it.
@@ -383,7 +376,6 @@ def write_file(filename, contents):
         f.write(contents)
 
 
-# noinspection PyUnusedLocal
 def write_pkg_info(cmd, basename, filename):
     log.info("writing %s", filename)
     if not cmd.dry_run:
@@ -398,11 +390,11 @@ def write_pkg_info(cmd, basename, filename):
             metadata.name, metadata.version = oldname, oldver
 
         safe = getattr(cmd.distribution, 'zip_safe', None)
+        from setuptools.command import bdist_egg
 
         bdist_egg.write_safety_flag(cmd.egg_info, safe)
 
 
-# noinspection PyUnusedLocal
 def warn_depends_obsolete(cmd, basename, filename):
     if os.path.exists(filename):
         log.warn(
@@ -411,7 +403,6 @@ def warn_depends_obsolete(cmd, basename, filename):
         )
 
 
-# noinspection PyPep8
 def _write_requirements(stream, reqs):
     lines = yield_lines(reqs or ())
     append_cr = lambda line: line + '\n'
@@ -419,10 +410,9 @@ def _write_requirements(stream, reqs):
     stream.writelines(lines)
 
 
-# noinspection PyUnusedLocal
 def write_requirements(cmd, basename, filename):
     dist = cmd.distribution
-    data = six.StringIO()
+    data = StringIO()
     _write_requirements(data, dist.install_requires)
     extras_require = dist.extras_require or {}
     for extra in sorted(extras_require):
@@ -431,20 +421,18 @@ def write_requirements(cmd, basename, filename):
     cmd.write_or_delete_file("requirements", filename, data.getvalue())
 
 
-# noinspection PyUnusedLocal
 def write_setup_requirements(cmd, basename, filename):
     data = StringIO()
     _write_requirements(data, cmd.distribution.setup_requires)
     cmd.write_or_delete_file("setup-requirements", filename, data.getvalue())
 
 
-# noinspection PyUnusedLocal
 def write_toplevel_names(cmd, basename, filename):
     pkgs = dict.fromkeys(
         [
             k.split('.', 1)[0]
             for k in cmd.distribution.iter_distribution_names()
-            ]
+        ]
     )
     cmd.write_file("top-level names", filename, '\n'.join(sorted(pkgs)) + '\n')
 
@@ -461,16 +449,15 @@ def write_arg(cmd, basename, filename, force=False):
     cmd.write_or_delete_file(argname, filename, value, force)
 
 
-# noinspection PyUnboundLocalVariable,PyUnusedLocal
 def write_entries(cmd, basename, filename):
     ep = cmd.distribution.entry_points
 
-    if isinstance(ep, six.string_types) or ep is None:
+    if isinstance(ep, basestring) or ep is None:
         data = ep
     elif ep is not None:
         data = []
         for section, contents in sorted(ep.items()):
-            if not isinstance(contents, six.string_types):
+            if not isinstance(contents, basestring):
                 contents = EntryPoint.parse_group(section, contents)
                 contents = '\n'.join(sorted(map(str, contents.values())))
             data.append('[%s]\n%s\n\n' % (section, contents))
@@ -480,15 +467,14 @@ def write_entries(cmd, basename, filename):
 
 
 def get_pkg_info_revision():
-    """
-    Get a -r### off of PKG-INFO Version in case this is an sdist of
-    a subversion revision.
-    """
-    warnings.warn("get_pkg_info_revision is deprecated.", DeprecationWarning)
+    # See if we can get a -r### off of PKG-INFO, in case this is an sdist of
+    # a subversion revision
+    #
     if os.path.exists('PKG-INFO'):
-        with io.open('PKG-INFO') as f:
-            for line in f:
-                match = re.match(r"Version:.*-r(\d+)\s*$", line)
-                if match:
-                    return int(match.group(1))
+        f = open('PKG-INFO', 'rU')
+        for line in f:
+            match = re.match(r"Version:.*-r(\d+)\s*$", line)
+            if match:
+                return int(match.group(1))
+        f.close()
     return 0

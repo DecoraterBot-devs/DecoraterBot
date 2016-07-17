@@ -1,4 +1,3 @@
-# coding=utf-8
 import asyncio
 import sys
 from abc import ABCMeta, abstractmethod
@@ -9,7 +8,6 @@ PY_35 = sys.version_info >= (3, 5)
 
 class AbstractRouter(metaclass=ABCMeta):
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine  # pragma: no branch
     @abstractmethod
     def resolve(self, request):
@@ -18,13 +16,11 @@ class AbstractRouter(metaclass=ABCMeta):
 
 class AbstractMatchInfo(metaclass=ABCMeta):
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine  # pragma: no branch
     @abstractmethod
     def handler(self, request):
         """Execute matched request handler"""
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine  # pragma: no branch
     @abstractmethod
     def expect_handler(self, request):

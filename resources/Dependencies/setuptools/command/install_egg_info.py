@@ -1,15 +1,11 @@
-# coding=utf-8
 from distutils import log, dir_util
 import os
-
-from setuptools.extern.six.moves import map
 
 from setuptools import Command
 from setuptools.archive_util import unpack_archive
 import pkg_resources
 
 
-# noinspection PyAttributeOutsideInit,PyPep8Naming
 class install_egg_info(Command):
     """Install an .egg-info directory for the package"""
 
@@ -31,7 +27,7 @@ class install_egg_info(Command):
         ).egg_name() + '.egg-info'
         self.source = ei_cmd.egg_info
         self.target = os.path.join(self.install_dir, basename)
-        self.outputs = []
+        self.outputs = [self.target]
 
     def run(self):
         self.run_command('egg_info')
@@ -87,7 +83,7 @@ class install_egg_info(Command):
         "p = os.path.join(sys._getframe(1).f_locals['sitedir'], *%(pth)r)",
         "ie = os.path.exists(os.path.join(p,'__init__.py'))",
         "m = not ie and "
-        "sys.modules.setdefault(%(pkg)r, types.ModuleType(%(pkg)r))",
+            "sys.modules.setdefault(%(pkg)r, types.ModuleType(%(pkg)r))",
         "mp = (m or []) and m.__dict__.setdefault('__path__',[])",
         "(p not in mp) and mp.append(p)",
     )

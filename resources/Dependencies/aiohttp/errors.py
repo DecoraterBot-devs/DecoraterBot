@@ -1,4 +1,3 @@
-# coding=utf-8
 """http related errors."""
 
 from asyncio import TimeoutError

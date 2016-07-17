@@ -1,11 +1,9 @@
-# coding=utf-8
 import asyncio
 from itertools import count
 
 
 class BaseSignal(list):
 
-    # noinspection PyCallingNonCallable
     @asyncio.coroutine
     def _send(self, *args, **kwargs):
         for receiver in self:
@@ -16,12 +14,10 @@ class BaseSignal(list):
     def copy(self):
         raise NotImplementedError("copy() is forbidden")
 
-    # noinspection PyMethodOverriding
     def sort(self):
         raise NotImplementedError("sort() is forbidden")
 
 
-# noinspection PyAbstractClass
 class Signal(BaseSignal):
     """Coroutine-based signal implementation.
 
@@ -39,7 +35,6 @@ class Signal(BaseSignal):
         self._pre = app.on_pre_signal
         self._post = app.on_post_signal
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine
     def send(self, *args, **kwargs):
         """
@@ -55,7 +50,6 @@ class Signal(BaseSignal):
             yield from self._post.send(ordinal, self._name, *args, **kwargs)
 
 
-# noinspection PyAbstractClass
 class DebugSignal(BaseSignal):
 
     @asyncio.coroutine
@@ -63,7 +57,6 @@ class DebugSignal(BaseSignal):
         yield from self._send(ordinal, name, *args, **kwargs)
 
 
-# noinspection PyAbstractClass
 class PreSignal(DebugSignal):
 
     def __init__(self):
@@ -74,6 +67,5 @@ class PreSignal(DebugSignal):
         return next(self._counter)
 
 
-# noinspection PyAbstractClass
 class PostSignal(DebugSignal):
     pass

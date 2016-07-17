@@ -1,4 +1,3 @@
-# coding=utf-8
 """Utilities shared by tests."""
 
 import cgi
@@ -18,11 +17,8 @@ import traceback
 import urllib.parse
 
 import asyncio
-# noinspection PyPackageRequirements
 import aiohttp
-# noinspection PyPackageRequirements
 from aiohttp import server
-# noinspection PyPackageRequirements
 from aiohttp import helpers
 
 
@@ -106,7 +102,6 @@ def run_server(loop, *, listen_addr=('127.0.0.1', 0),
     else:
         sslcontext = None
 
-    # noinspection PyTypeChecker
     def run(loop, fut):
         thread_loop = asyncio.new_event_loop()
         asyncio.set_event_loop(thread_loop)
@@ -194,7 +189,6 @@ class Router:
 
         return wrapper
 
-    # noinspection PyTypeChecker
     def dispatch(self):  # pragma: no cover
         for route, fn in self._mapping:
             match = route.match(self._path)

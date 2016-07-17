@@ -1,4 +1,3 @@
-# coding=utf-8
 import sys
 import asyncio
 import warnings
@@ -77,7 +76,6 @@ class WebSocketResponse(StreamResponse):
         self._protocol = protocol
         self._loop = request.app.loop
 
-    # noinspection PyDeprecation
     def start(self, request):
         warnings.warn('use .prepare(request) instead', DeprecationWarning)
         # make pre-check to don't hide it by do_handshake() exceptions

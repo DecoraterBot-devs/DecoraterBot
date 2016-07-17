@@ -1,13 +1,11 @@
-# coding=utf-8
 import os
 import socket
 import atexit
 import re
 
-from setuptools.extern.six.moves import urllib, http_client, map
-
 import pkg_resources
 from pkg_resources import ResolutionError, ExtractionError
+from setuptools.compat import urllib2
 
 try:
     import ssl
@@ -26,24 +24,29 @@ cert_paths = """
 /usr/local/share/certs/ca-root.crt
 /etc/ssl/cert.pem
 /System/Library/OpenSSL/certs/cert.pem
-/usr/local/share/certs/ca-root-nss.crt
 """.strip().split()
 
-try:
-    HTTPSHandler = urllib.request.HTTPSHandler
-    HTTPSConnection = http_client.HTTPSConnection
-except AttributeError:
-    HTTPSHandler = HTTPSConnection = object
+
+HTTPSHandler = HTTPSConnection = object
+
+for what, where in (
+    ('HTTPSHandler', ['urllib2','urllib.request']),
+    ('HTTPSConnection', ['httplib', 'http.client']),
+):
+    for module in where:
+        try:
+            exec("from %s import %s" % (module, what))
+        except ImportError:
+            pass
 
 is_available = ssl is not None and object not in (HTTPSHandler, HTTPSConnection)
+
 
 try:
     from ssl import CertificateError, match_hostname
 except ImportError:
     try:
-        # noinspection PyPackageRequirements
         from backports.ssl_match_hostname import CertificateError
-        # noinspection PyPackageRequirements
         from backports.ssl_match_hostname import match_hostname
     except ImportError:
         CertificateError = None
@@ -106,8 +109,6 @@ if not match_hostname:
         pat = re.compile(r'\A' + r'\.'.join(pats) + r'\Z', re.IGNORECASE)
         return pat.match(hostname)
 
-
-    # noinspection PyIncorrectDocstring
     def match_hostname(cert, hostname):
         """Verify that *cert* (in decoded format as returned by
         SSLSocket.getpeercert()) matches the *hostname*.  RFC 2818 and RFC 6125
@@ -137,15 +138,18 @@ if not match_hostname:
                             return
                         dnsnames.append(value)
         if len(dnsnames) > 1:
-            raise CertificateError("hostname %r doesn't match either of %s" % (hostname, ', '
-                                                                               .join(map(repr, dnsnames))))
+            raise CertificateError("hostname %r "
+                "doesn't match either of %s"
+                % (hostname, ', '.join(map(repr, dnsnames))))
         elif len(dnsnames) == 1:
-            raise CertificateError("hostname %r doesn't match %r" % (hostname, dnsnames[0]))
+            raise CertificateError("hostname %r "
+                "doesn't match %r"
+                % (hostname, dnsnames[0]))
         else:
-            raise CertificateError("no appropriate commonName or subjectAltName fields were found")
+            raise CertificateError("no appropriate commonName or "
+                "subjectAltName fields were found")
 
 
-# noinspection PyCallByClass
 class VerifyingHTTPSHandler(HTTPSHandler):
     """Simple verifying handler: no auth, subclasses, timeouts, etc."""
 
@@ -159,10 +163,8 @@ class VerifyingHTTPSHandler(HTTPSHandler):
         )
 
 
-# noinspection PyAttributeOutsideInit,PyCallByClass,PyArgumentList
 class VerifyingHTTPSConn(HTTPSConnection):
     """Simple verifying connection: no auth, subclasses, timeouts, etc."""
-
     def __init__(self, host, ca_bundle, **kw):
         HTTPSConnection.__init__(self, host, **kw)
         self.ca_bundle = ca_bundle
@@ -194,19 +196,15 @@ class VerifyingHTTPSConn(HTTPSConnection):
             self.sock.close()
             raise
 
-
-# noinspection PyIncorrectDocstring
 def opener_for(ca_bundle=None):
     """Get a urlopen() replacement that uses ca_bundle for verification"""
-    return urllib.request.build_opener(
+    return urllib2.build_opener(
         VerifyingHTTPSHandler(ca_bundle or find_ca_bundle())
     ).open
 
 
 _wincerts = None
 
-
-# noinspection PyPackageRequirements
 def get_win_certfile():
     global _wincerts
     if _wincerts is not None:
@@ -225,19 +223,13 @@ def get_win_certfile():
             self.addcerts(certs)
             atexit.register(self.close)
 
-        def close(self):
-            try:
-                super(MyCertFile, self).close()
-            except OSError:
-                pass
-
     _wincerts = MyCertFile(stores=['CA', 'ROOT'])
     return _wincerts.name
 
 
 def find_ca_bundle():
     """Return an existing CA bundle path, or None"""
-    if os.name == 'nt':
+    if os.name=='nt':
         return get_win_certfile()
     else:
         for cert_path in cert_paths:

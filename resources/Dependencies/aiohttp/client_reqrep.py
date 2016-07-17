@@ -1,4 +1,3 @@
-# coding=utf-8
 import asyncio
 import collections
 import http.cookies
@@ -12,13 +11,10 @@ import urllib.parse
 import warnings
 
 try:
-    # noinspection PyPackageRequirements
     import cchardet as chardet
 except ImportError:
-    # noinspection PyPackageRequirements
     import chardet
 
-# noinspection PyPackageRequirements
 import aiohttp
 from . import hdrs, helpers, streams
 from .log import client_logger
@@ -99,7 +95,6 @@ class ClientRequest:
         self.update_transfer_encoding()
         self.update_expect_continue(expect100)
 
-    # noinspection PyIncorrectDocstring,PyAttributeOutsideInit
     def update_host(self, url):
         """Update destination host, port and connection type (ssl)."""
         url_parsed = urllib.parse.urlsplit(url)
@@ -148,7 +143,6 @@ class ClientRequest:
 
         self.host, self.port, self.scheme = host, port, scheme
 
-    # noinspection PyIncorrectDocstring,PyAttributeOutsideInit
     def update_version(self, version):
         """Convert request version to two elements tuple.
 
@@ -164,7 +158,6 @@ class ClientRequest:
                     .format(version)) from None
         self.version = version
 
-    # noinspection PyIncorrectDocstring,PyAttributeOutsideInit
     def update_path(self, params):
         """Build path."""
         # extract path
@@ -188,7 +181,6 @@ class ClientRequest:
         self.url = urllib.parse.urlunsplit(
             (scheme, netloc, self.path, '', ''))
 
-    # noinspection PyIncorrectDocstring,PyAttributeOutsideInit
     def update_headers(self, headers):
         """Update request headers."""
         self.headers = CIMultiDict()
@@ -201,7 +193,6 @@ class ClientRequest:
             for key, value in headers:
                 self.headers.add(key, value)
 
-    # noinspection PyAttributeOutsideInit
     def update_auto_headers(self, skip_auto_headers):
         self.skip_auto_headers = skip_auto_headers
         used_headers = set(self.headers) | skip_auto_headers
@@ -217,7 +208,6 @@ class ClientRequest:
         if hdrs.USER_AGENT not in used_headers:
             self.headers[hdrs.USER_AGENT] = self.SERVER_SOFTWARE
 
-    # noinspection PyIncorrectDocstring
     def update_cookies(self, cookies):
         """Update request cookies header."""
         if not cookies:
@@ -253,7 +243,6 @@ class ClientRequest:
             self.headers[hdrs.CONTENT_ENCODING] = self.compress
             self.chunked = True  # enable chunked, no need to deal with length
 
-    # noinspection PyIncorrectDocstring
     def update_auth(self, auth):
         """Set basic auth."""
         if auth is None:
@@ -375,7 +364,6 @@ class ClientRequest:
         if expect:
             self._continue = asyncio.Future(loop=self.loop)
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine
     def write_bytes(self, request, reader):
         """Support coroutines that yields bytes objects."""
@@ -606,7 +594,6 @@ class ClientResponse:
         return (self.method.lower() != 'head' and
                 self.status not in [204, 304])
 
-    # noinspection PyIncorrectDocstring,PyUnboundLocalVariable
     @asyncio.coroutine
     def start(self, connection, read_until_eof=False):
         """Start response processing."""
@@ -708,7 +695,6 @@ class ClientResponse:
                 self._writer = None
         yield from self.release()
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine
     def read(self, decode=False):
         """Read response payload."""
@@ -743,7 +729,6 @@ class ClientResponse:
 
         return encoding
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine
     def text(self, encoding=None):
         """Read response payload and decode."""
@@ -755,7 +740,6 @@ class ClientResponse:
 
         return self._content.decode(encoding)
 
-    # noinspection PyIncorrectDocstring,PyIncorrectDocstring
     @asyncio.coroutine
     def json(self, *, encoding=None, loads=json.loads):
         """Read and decodes JSON response."""
@@ -781,7 +765,6 @@ class ClientResponse:
         def __aenter__(self):
             return self
 
-        # noinspection PyUnusedLocal
         @asyncio.coroutine
         def __aexit__(self, exc_type, exc_val, exc_tb):
             if exc_type is None:

@@ -1,27 +1,19 @@
-# coding=utf-8
 from glob import glob
 from distutils.util import convert_path
 import distutils.command.build_py as orig
 import os
+import sys
 import fnmatch
 import textwrap
-import io
-import distutils.errors
-import collections
-import itertools
-
-from setuptools.extern.six.moves import map
 
 try:
     from setuptools.lib2to3_ex import Mixin2to3
 except ImportError:
-    # noinspection PyIncorrectDocstring
     class Mixin2to3:
         def run_2to3(self, files, doctests=True):
-            """do nothing"""
+            "do nothing"
 
 
-# noinspection PyAttributeOutsideInit,PyIncorrectDocstring,PyPep8Naming
 class build_py(orig.build_py, Mixin2to3):
     """Enhanced 'build_py' command that includes data files with packages
 
@@ -63,10 +55,9 @@ class build_py(orig.build_py, Mixin2to3):
         self.byte_compile(orig.build_py.get_outputs(self, include_bytecode=0))
 
     def __getattr__(self, attr):
-        """lazily compute data files"""
-        if attr == 'data_files':
-            self.data_files = self._get_data_files()
-            return self.data_files
+        if attr == 'data_files':  # lazily compute data files
+            self.data_files = files = self._get_data_files()
+            return files
         return orig.build_py.__getattr__(self, attr)
 
     def build_module(self, module, module_file, package):
@@ -79,26 +70,28 @@ class build_py(orig.build_py, Mixin2to3):
     def _get_data_files(self):
         """Generate list of '(package,src_dir,build_dir,filenames)' tuples"""
         self.analyze_manifest()
-        return list(map(self._get_pkg_data_files, self.packages or ()))
+        data = []
+        for package in self.packages or ():
+            # Locate package source directory
+            src_dir = self.get_package_dir(package)
 
-    def _get_pkg_data_files(self, package):
-        # Locate package source directory
-        src_dir = self.get_package_dir(package)
+            # Compute package build directory
+            build_dir = os.path.join(*([self.build_lib] + package.split('.')))
 
-        # Compute package build directory
-        build_dir = os.path.join(*([self.build_lib] + package.split('.')))
+            # Length of path to strip from found files
+            plen = len(src_dir) + 1
 
-        # Strip directory from globbed filenames
-        filenames = [
-            os.path.relpath(file, src_dir)
-            for file in self.find_data_files(package, src_dir)
+            # Strip directory from globbed filenames
+            filenames = [
+                file[plen:] for file in self.find_data_files(package, src_dir)
             ]
-        return package, src_dir, build_dir, filenames
+            data.append((package, src_dir, build_dir, filenames))
+        return data
 
     def find_data_files(self, package, src_dir):
         """Return filenames for package's data files in 'src_dir'"""
-        globs = (self.package_data.get('', []) +
-                 self.package_data.get(package, []))
+        globs = (self.package_data.get('', [])
+                 + self.package_data.get(package, []))
         files = self.manifest_files.get(package, [])[:]
         for pattern in globs:
             # Each pattern has to be converted to a platform-specific path
@@ -114,7 +107,8 @@ class build_py(orig.build_py, Mixin2to3):
                 srcfile = os.path.join(src_dir, filename)
                 outf, copied = self.copy_file(srcfile, target)
                 srcfile = os.path.abspath(srcfile)
-                if copied and srcfile in self.distribution.convert_2to3_doctests:
+                if (copied and
+                        srcfile in self.distribution.convert_2to3_doctests):
                     self.__doctests_2to3.append(outf)
 
     def analyze_manifest(self):
@@ -163,15 +157,17 @@ class build_py(orig.build_py, Mixin2to3):
         else:
             return init_py
 
-        with io.open(init_py, 'rb') as f:
-            contents = f.read()
-        if b'declare_namespace' not in contents:
-            raise distutils.errors.DistutilsError(
+        f = open(init_py, 'rbU')
+        if 'declare_namespace'.encode() not in f.read():
+            from distutils.errors import DistutilsError
+
+            raise DistutilsError(
                 "Namespace package problem: %s is a namespace package, but "
                 "its\n__init__.py does not call declare_namespace()! Please "
                 'fix it.\n(See the setuptools manual under '
                 '"Namespace Packages" for details.)\n"' % (package,)
             )
+        f.close()
         return init_py
 
     def initialize_options(self):
@@ -186,24 +182,21 @@ class build_py(orig.build_py, Mixin2to3):
 
     def exclude_data_files(self, package, src_dir, files):
         """Filter filenames for package's data files in 'src_dir'"""
-        globs = (
-            self.exclude_package_data.get('', []) + self.exclude_package_data.get(package, [])
-        )
-        bad = set(
-            item
-            for pattern in globs
-            for item in fnmatch.filter(
-                files,
-                os.path.join(src_dir, convert_path(pattern)),
+        globs = (self.exclude_package_data.get('', [])
+                 + self.exclude_package_data.get(package, []))
+        bad = []
+        for pattern in globs:
+            bad.extend(
+                fnmatch.filter(
+                    files, os.path.join(src_dir, convert_path(pattern))
+                )
             )
-        )
-        seen = collections.defaultdict(itertools.count)
+        bad = dict.fromkeys(bad)
+        seen = {}
         return [
-            fn
-            for fn in files
-            if fn not in bad and not next(seen[fn])
-            # ditch dupes
-            ]
+            f for f in files if f not in bad
+            and f not in seen and seen.setdefault(f, 1)  # ditch dupes
+        ]
 
 
 def assert_relative(path):

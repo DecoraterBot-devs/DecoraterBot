@@ -1,4 +1,3 @@
-# coding=utf-8
 """wsgi server.
 
 TODO:
@@ -14,9 +13,8 @@ import os
 import socket
 import sys
 from urllib.parse import urlsplit
-# noinspection PyPackageRequirements
+
 import aiohttp
-# noinspection PyPackageRequirements
 from aiohttp import server, hdrs
 
 __all__ = ('WSGIServerHttpProtocol',)
@@ -35,7 +33,6 @@ class WSGIServerHttpProtocol(server.ServerHttpProtocol):
 
     SCRIPT_NAME = os.environ.get('SCRIPT_NAME', '')
 
-    # noinspection PyArgumentList
     def __init__(self, app, readpayload=False, is_ssl=False, *args, **kw):
         super().__init__(*args, **kw)
 
@@ -132,7 +129,6 @@ class WSGIServerHttpProtocol(server.ServerHttpProtocol):
 
         return environ
 
-    # noinspection PyIncorrectDocstring
     @asyncio.coroutine
     def handle_request(self, message, payload):
         """Handle a single HTTP request"""
@@ -209,7 +205,6 @@ class WsgiResponse:
         self.writer = writer
         self.message = message
 
-    # noinspection PyAttributeOutsideInit,PyUnusedLocal
     def start_response(self, status, headers, exc_info=None):
         if exc_info:
             try:

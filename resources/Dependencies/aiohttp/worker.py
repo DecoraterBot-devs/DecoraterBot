@@ -1,5 +1,3 @@
-# coding=utf-8
-# coding=utf-8
 """Async gunicorn worker for aiohttp.web"""
 
 import asyncio
@@ -7,9 +5,8 @@ import logging
 import os
 import signal
 import sys
-# noinspection PyPackageRequirements
 import gunicorn.workers.base as base
-# noinspection PyPackageRequirements
+
 from aiohttp.helpers import ensure_future
 
 __all__ = ('GunicornWebWorker',)
@@ -23,7 +20,6 @@ class GunicornWebWorker(base.Worker):
         self.servers = {}
         self.exit_code = 0
 
-    # noinspection PyAttributeOutsideInit
     def init_process(self):
         # create new event_loop after fork
         asyncio.get_event_loop().close()
@@ -33,7 +29,6 @@ class GunicornWebWorker(base.Worker):
 
         super().init_process()
 
-    # noinspection PyAttributeOutsideInit
     def run(self):
         self._runner = ensure_future(self._run(), loop=self.loop)
 
@@ -128,11 +123,9 @@ class GunicornWebWorker(base.Worker):
         signal.siginterrupt(signal.SIGTERM, False)
         signal.siginterrupt(signal.SIGUSR1, False)
 
-    # noinspection PyAttributeOutsideInit,PyUnusedLocal
     def handle_quit(self, sig, frame):
         self.alive = False
 
-    # noinspection PyAttributeOutsideInit,PyUnusedLocal
     def handle_abort(self, sig, frame):
         self.alive = False
         self.exit_code = 1

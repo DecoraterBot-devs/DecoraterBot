@@ -1,4 +1,3 @@
-# coding=utf-8
 import platform
 import ctypes
 
@@ -9,7 +8,6 @@ def windows_only(func):
     return func
 
 
-# noinspection PyPep8Naming,PyIncorrectDocstring
 @windows_only
 def hide_file(path):
     """

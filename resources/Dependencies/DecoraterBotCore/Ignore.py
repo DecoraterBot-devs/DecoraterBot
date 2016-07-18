@@ -47,7 +47,18 @@ except FileNotFoundError:
     sys.exit(2)
 
 global _somebool
+# noinspection PyRedeclaration
 _somebool = False
+
+# default to True in case options are not present in Credentials.json
+_logging = True
+_logbans = True
+_logunbans = True
+_logkicks = True
+_discord_logger = True
+_asyncio_logger = True
+_log_available = True
+_log_unavailable = True
 
 PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
@@ -122,8 +133,9 @@ if _logging or _logbans or _logunbans or _logkicks or _discord_logger or _asynci
 
 class BotCommandData:
     def __init__(self):
-        nothing = None  # prevent error here.
+        pass
 
+    # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """
             This Class is for Internal Use only!!!
@@ -152,13 +164,15 @@ class BotCommandData:
                         ignored = somedict["channels"]
                         ignored.remove(message.channel.id)
                         json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
+                        msg_info = str(botmessages['Unignore_Channel_Data'][0])
                         try:
-                            yield from client.send_message(message.channel, str(botmessages['Unignore_Channel_Data'][0]))
+                            yield from client.send_message(message.channel, msg_info)
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
                     except Exception as e:
+                        msg_info = str(botmessages['Unignore_Channel_Data'][1])
                         try:
-                            yield from client.send_message(message.channel, str(botmessages['Unignore_Channel_Data'][1]))
+                            yield from client.send_message(message.channel, msg_info)
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
 
@@ -171,6 +185,8 @@ class BotCommandData:
                     desmod_new = message.content.lower()[len(_bot_prefix + 'reload '):].strip()
                     rejoin_after_reload = False
                     _somebool = False
+                    desmod = None
+                    reload_reason = None
                     if len(desmod_new) < 1:
                         desmod = None
                     if desmod_new.rfind('botlogs') is not -1:
@@ -214,12 +230,15 @@ class BotCommandData:
                                 if desmod == 'BotVoiceCommands':
                                     rsn = reload_reason
                                     rejoin_after_reload = True
-                                    yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass1_new(client, message, rsn)
+                                    yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass1_new(client,
+                                                                                                              message,
+                                                                                                              rsn)
                                 try:
                                     module = sys.modules.get(desmod)
                                     importlib.reload(module)
                                     if rejoin_after_reload:
-                                        yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(client, message)
+                                        yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass2_new(
+                                            client, message)
                                     try:
                                         msgdata = str(botmessages['reload_command_data'][0])
                                         message_data = msgdata + ' Reloaded ' + desmod + '.'
@@ -236,8 +255,8 @@ class BotCommandData:
                                 except Exception as e:
                                     reloadexception = str(traceback.format_exc())
                                     try:
-                                        reload_data = str(botmessages['reload_command_data'][1]) + '\n```py\n'
-                                        yield from client.send_message(message.channel, reload_data + reloadexception + '```')
+                                        reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
+                                        yield from client.send_message(message.channel, reload_data)
                                     except discord.errors.Forbidden:
                                         yield from BotPMError._resolve_send_message_error(client, message)
                     else:
@@ -316,22 +335,30 @@ class BotCommandData:
             serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
-            joinedlistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json', 'r')
+            serverid = str(serveridslist['config_server_ids'][0])
+            file_path = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+            filename_1 = 'verifycache.json'
+            filename_2 = 'verifycommand.json'
+            filename_3 = 'verifyrole.json'
+            filename_4 = 'verifymessages.json'
+            filename_5 = 'verifycache.json'
+            joinedlistfile = io.open(sys.path[0] + file_path + filename_1, 'r')
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
-            serverid = str(serveridslist['config_server_ids'][0])
-            memberjoinverifymessagefile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifycommand.json', 'r')
+            memberjoinverifymessagefile = io.open(sys.path[0] + file_path + filename_2, 'r')
             memberjoinverifymessagedata = json.load(memberjoinverifymessagefile)
             memberjoinverifymessagefile.close()
-            if message.content == str(memberjoinverifymessagedata['verify_command'][0]):
+            memberjoinverifyrolefile = io.open(sys.path[0] + file_path + filename_3, 'r')
+            memberjoinverifyroledata = json.load(memberjoinverifyrolefile)
+            memberjoinverifyrolefile.close()
+            memberjoinverifymessagefile2 = io.open(sys.path[0] + file_path + filename_4, 'r')
+            memberjoinverifymessagedata2 = json.load(memberjoinverifymessagefile2)
+            memberjoinverifymessagefile2.close()
+            role_name = str(memberjoinverifyroledata['verify_role_id'][0])
+            msg_command = str(memberjoinverifymessagedata['verify_command'][0])
+            if message.content == msg_command:
                 yield from client.delete_message(message)
-                memberjoinverifyrolefile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifyrole.json', 'r')
-                memberjoinverifyroledata = json.load(memberjoinverifyrolefile)
-                memberjoinverifyrolefile.close()
-                memberjoinverifymessagefile2 = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifymessages.json', 'r')
-                memberjoinverifymessagedata2 = json.load(memberjoinverifymessagefile2)
-                memberjoinverifymessagefile2.close()
-                role = discord.utils.find(lambda role: role.id == str(memberjoinverifyroledata['verify_role_id'][0]), message.channel.server.roles)
+                role = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
                 msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
                 # if message.author.id not in newlyjoinedlist:
                 #    yield from client.send_message(message.channel, "You are not on the list of people to verify.")
@@ -339,7 +366,7 @@ class BotCommandData:
                 yield from client.send_message(message.author, msg_data)
                 yield from client.add_roles(message.author, role)
                 newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
-                json.dump(newlyjoinedlist, open(sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json", "w"))
+                json.dump(newlyjoinedlist, open(sys.path[0] + file_path + filename_5, "w"))
 
     @classmethod
     @asyncio.coroutine
@@ -384,8 +411,9 @@ class BotCommandData:
 
 class BotIgnores:
     def __init__(self):
-        nothing = None  # prevent error here.
+        pass
 
+    # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """
             This Class is for Internal Use only!!!
@@ -445,8 +473,9 @@ class BotIgnores:
 
 class BotEvents:
     def __init__(self):
-        nothing = None  # prevent error here.
+        pass
 
+    # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """
             This Class is for Internal Use only!!!
@@ -543,15 +572,13 @@ class BotEvents:
                     else:
                         if _logkicks == 'True':
                             yield from BotLogs.BotLogs.onkick(client, member)
-                except discord.errors.HTTPException:
-                    if _logkicks == 'True':
-                        yield from BotLogs.BotLogs.onkick(client, member)
-                except discord.errors.Forbidden:
+                except (discord.errors.HTTPException, discord.errors.Forbidden):
                     if _logkicks == 'True':
                         yield from BotLogs.BotLogs.onkick(client, member)
                 if member.server and member.server.id == "71324306319093760":
                     newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                    filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json"
+                    file_name = "\\verifications\\verifycache.json"
+                    filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760" + file_name
                     json.dump(newlyjoinedlist, open(filename, "w"))
             except Exception as e:
                 funcname = '_resolve_onremove_code'
@@ -563,21 +590,28 @@ class BotEvents:
         def _resolve_onjoin_code(self, client, member):
             try:
                 if member.server.id == '71324306319093760':
-                    serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
+                    file_path_join_1 = '\\resources\\ConfigData\\serverconfigs'
+                    filename_join_1 = 'servers.json'
+                    serveridslistfile = io.open(sys.path[0] + file_path_1 + filename_join_1, 'r')
                     serveridslist = json.load(serveridslistfile)
                     serveridslistfile.close()
                     serverid = str(serveridslist['config_server_ids'][0])
-                    memberjoinmessagedatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\verifymessages.json', 'r')
+                    file_path_join_2 = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+                    filename_join_2 = 'verifymessages.json'
+                    filename_join_3 = 'verifycache.json'
+                    filename_join_4 = 'verifycache.json'
+                    memberjoinmessagedatafile = io.open(sys.path[0] + file_path_join_2 + filename_join_2, 'r')
                     memberjoinmessagedata = json.load(memberjoinmessagedatafile)
                     memberjoinmessagedatafile.close()
-                    message_data = str(memberjoinmessagedata['verify_messages'][0]).format(member.id, member.server.name)
+                    msg_info = str(memberjoinmessagedata['verify_messages'][0])
+                    message_data = msg_info.format(member.id, member.server.name)
                     des_channel = str(memberjoinmessagedata['verify_messages_channel'][0])
-                    joinedlistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json', 'r')
+                    joinedlistfile = io.open(sys.path[0] + file_path_join_2 + filename_join_3, 'r')
                     newlyjoinedlist = json.load(joinedlistfile)
                     joinedlistfile.close()
                     yield from client.send_message(discord.Object(id=des_channel), message_data)
                     newlyjoinedlist['users_to_be_verified'].append(member.id)
-                    json.dump(newlyjoinedlist, open(sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760\\verifications\\verifycache.json", "w"))
+                    json.dump(newlyjoinedlist, open(sys.path[0] + file_path_join_2 + filename_join_4, "w"))
             except Exception as e:
                 funcname = '_resolve_onjoin_code'
                 tbinfo = str(traceback.format_exc())
@@ -601,7 +635,8 @@ class BotEvents:
         def high_level_reload_helper_code(self, client, message, reload_reason):
             try:
                 if _disable_voice_commands is not True:
-                    yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass4_new(client, message, reload_reason)
+                    yield from BotVoiceCommands.VoiceBotCommands._reload_commands_bypass4_new(client, message,
+                                                                                              reload_reason)
                 else:
                     return
             except Exception as e:

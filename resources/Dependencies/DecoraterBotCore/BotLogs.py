@@ -23,8 +23,9 @@ except FileNotFoundError:
 
 class BotLogs:
     def __init__(self):
-        nothing = None
+        pass
 
+    # noinspection PyUnusedLocal,PyPep8Naming
     class bot:
         """
             This class is for Internal use only!!!
@@ -34,7 +35,8 @@ class BotLogs:
         def set_up_discord_logger_code(self):
             logger = logging.getLogger('discord')
             logger.setLevel(logging.DEBUG)
-            handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\discordpy.log', encoding='utf-8', mode='w')
+            handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\discordpy.log', encoding='utf-8',
+                                          mode='w')
             handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
             logger.addHandler(handler)
 
@@ -42,16 +44,25 @@ class BotLogs:
         def set_up_asyncio_logger_code(self):
             asynciologger = logging.getLogger('asyncio')
             asynciologger.setLevel(logging.DEBUG)
-            handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\asyncio.log', encoding='utf-8', mode='w')
+            handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\asyncio.log', encoding='utf-8',
+                                          mode='w')
             handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
             asynciologger.addHandler(handler)
 
         @classmethod
         def logs_code(self, client, message):
-            Logs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id, str(message.timestamp), message.content)
+            """
+                :type client: Discord.py Client object
+                :param message: Message Object
+            """
+            Logs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
+                                                                str(message.timestamp), message.content)
             LogsPM = Logs001
+            LogsServers = None
             if message.channel.is_private is False:
-                Logs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id, str(message.timestamp), message.channel.server.name, message.channel.name, message.content)
+                Logs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
+                                                                    str(message.timestamp), message.channel.server.name,
+                                                                    message.channel.name, message.content)
                 LogsServers = Logs003
             if message.content is not None:
                 logfile = sys.path[0] + '\\resources\\Logs\\log.txt'
@@ -73,10 +84,17 @@ class BotLogs:
             old = str(before.content)
             new = str(after.content)
             logfile = sys.path[0] + '\\resources\\Logs\\edit log.txt'
-            editlog001 = str(LogData['On_Message_Logs'][0]).format(before.author.name, before.author.id, str(before.timestamp), old, new)
+            usr_name = before.author.name
+            usr_id = before.author.id
+            msg_time = str(before.timestamp)
+            editlog001 = str(LogData['On_Message_Logs'][0]).format(usr_name, usr_id, msg_time, old, new)
             edit_log_PM = editlog001
+            editlogServers = None
             if before.channel.is_private is False:
-                editlog003 = str(LogData['On_Message_Logs'][1]).format(before.author.name, before.author.id, str(before.timestamp), before.channel.server.name, before.channel.name, old, new)
+                svr_name = before.channel.server.name
+                chl_name = before.channel.name
+                editlog003 = str(LogData['On_Message_Logs'][1]).format(usr_name, usr_id, msg_time, svr_name,
+                                                                       chl_name, old, new)
                 editlogServers = editlog003
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
@@ -105,10 +123,15 @@ class BotLogs:
 
         @classmethod
         def delete_logs_code(self, client, message):
-            dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id, str(message.timestamp), message.content)
+            dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
+                                                                   str(message.timestamp), message.content)
             dellogsPM = dellogs001
+            dellogsServers = None
             if message.channel.is_private is False:
-                dellogs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id, str(message.timestamp), message.channel.server.name, message.channel.name, message.content)
+                dellogs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
+                                                                       str(message.timestamp),
+                                                                       message.channel.server.name,
+                                                                       message.channel.name, message.content)
                 dellogsServers = dellogs003
             if message.content is not None:
                 try:
@@ -145,7 +168,10 @@ class BotLogs:
         @classmethod
         @asyncio.coroutine
         def send_logs_code(self, client, message):
-            Logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id, str(message.timestamp), message.channel.server.name, message.channel.name, message.content)
+            Logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
+                                                                     str(message.timestamp),
+                                                                     message.channel.server.name, message.channel.name,
+                                                                     message.content)
             sndmsglogs = Logs001
             try:
                 yield from client.send_message(discord.Object(id='153055192873566208'), sndmsglogs)
@@ -157,7 +183,10 @@ class BotLogs:
         def send_edit_logs_code(self, client, before, after):
             old = str(before.content)
             new = str(after.content)
-            editlog001 = str(LogData['Send_On_Message_Edit_Logs'][0]).format(before.author.name, before.author.id, str(before.timestamp), before.channel.server.name, before.channel.name, old, new)
+            editlog001 = str(LogData['Send_On_Message_Edit_Logs'][0]).format(before.author.name, before.author.id,
+                                                                             str(before.timestamp),
+                                                                             before.channel.server.name,
+                                                                             before.channel.name, old, new)
             sendeditlogs = editlog001
             if before.content != after.content:
                 try:
@@ -168,26 +197,30 @@ class BotLogs:
         @classmethod
         @asyncio.coroutine
         def send_delete_logs_code(self, client, message):
-            dellogs001 = str(LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id, str(message.timestamp), message.channel.server.name, message.channel.name, message.content)
+            dellogs001 = str(LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id,
+                                                                               str(message.timestamp),
+                                                                               message.channel.server.name,
+                                                                               message.channel.name, message.content)
             senddeletelogs = dellogs001
             try:
                 yield from client.send_message(discord.Object(id='153055192873566208'), senddeletelogs)
             except discord.errors.NotFound:
                 return
 
+        # noinspection PyCompatibility
         @classmethod
         @asyncio.coroutine
         def on_bot_error_code(self, funcname, tbinfo):
-            if bool(funcname) != False:
-                if bool(tbinfo) != False:
+            if bool(funcname):
+                if bool(tbinfo):
                     exception_data = 'Ignoring exception caused at {0}:\n{1}'.format(funcname, tbinfo)
                     logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
                     try:
                         file = io.open(logfile, 'a', encoding='utf-8')
                         size = os.path.getsize(logfile)
                         if size >= 32102400:
-                           file.seek(0)
-                           file.truncate()
+                            file.seek(0)
+                            file.truncate()
                         file.write(exception_data)
                     except PermissionError:
                         return
@@ -220,7 +253,11 @@ class BotLogs:
         @classmethod
         @asyncio.coroutine
         def onban_code(self, client, member):
-            ban_log_data = str(LogData['Ban_Logs'][0]).format(member.name, member.id, member.discriminator, member.server.name)
+            mem_name = member.name
+            mem_id = member.id
+            mem_dis = member.discriminator
+            mem_svr_name = member.server.name
+            ban_log_data = str(LogData['Ban_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
             logfile = sys.path[0] + '\\resources\\Logs\\bans.txt'
             file = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -264,7 +301,11 @@ class BotLogs:
         @classmethod
         @asyncio.coroutine
         def onkick_code(self, client, member):
-            kick_log_data = str(LogData['Kick_Logs'][0]).format(member.name, member.id, member.discriminator, member.server.name)
+            mem_name = member.name
+            mem_id = member.id
+            mem_dis = member.discriminator
+            mem_svr_name = member.server.name
+            kick_log_data = str(LogData['Kick_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
             logfile = sys.path[0] + '\\resources\\Logs\\kicks.txt'
             file = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -320,9 +361,9 @@ class BotLogs:
 
             Usage
             =====
-            funcname: Must be a string with the name of the function that caused a Error.
+            :param funcname: Must be a string with the name of the function that caused a Error.
                 raises the Errors that happened if empty string or None is given.
-            tbinfo: string data of the traceback info. Must be a string for this to not Error itself.
+            :param tbinfo: string data of the traceback info. Must be a string for this to not Error itself.
                 raises the Errors that happened if empty string or None is given.
         """
         yield from self.bot.on_bot_error_code(funcname, tbinfo)

@@ -15,7 +15,7 @@
     ],
     "reload_command_data": [
         ":ok:",
-        "Reloading Failed.",
+        "Reloading Failed.\n```py\n{0}\n```",
         "No Module specified to reload.",
         "Sorry, Only my owner can reload modules."
     ],

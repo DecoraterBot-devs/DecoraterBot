@@ -9,10 +9,7 @@
         " 20160204 Rev. 2022"
     ],
     "Window_Login_Text": [
-        "Logged in as ",
-        "Bot id=",
-        "Discord.py v",
-        " Async\n-------------------------"
+        "Logged in as {0}\nBot id={1}\nDiscord.py v{2} Async\n-------------------------"
     ],
     "Login_Failure": [
         "Incorrect email and/or password."

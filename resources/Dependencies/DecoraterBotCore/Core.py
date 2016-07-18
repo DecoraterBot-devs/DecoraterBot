@@ -58,8 +58,9 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 
 class BotCore:
     def __init__(self):
-        nothing = None  # prevent error here.
+        pass
 
+    # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """
             This Class is for Internal Use only!!!
@@ -88,7 +89,7 @@ class BotCore:
                     minutes = str(int((seconds / 60) % 60))
                     seconds = str(int(seconds % 60))
                     days = str(days)
-                    time_001 =  str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
+                    time_001 = str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
                     time_parse = time_001
                     try:
                         yield from client.send_message(message.channel, time_parse)
@@ -98,6 +99,8 @@ class BotCore:
                 if message.author.id == discord_user_id:
                     desmod_new = message.content.lower()[len(_bot_prefix + 'hlreload '):].strip()
                     _somebool = False
+                    desmod = None
+                    reload_reason = None
                     if desmod_new.rfind('ignore') is not -1:
                         desmod = 'Ignore'
                         rsn = desmod_new.strip('ignore')
@@ -134,8 +137,9 @@ class BotCore:
                                 except Exception as e:
                                     reloadexception = str(traceback.format_exc())
                                     try:
-                                        reload_data = str(botmessages['reload_command_data'][1]) + '\n```py\n'
-                                        yield from client.send_message(message.channel, reload_data + reloadexception + '```')
+
+                                        reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
+                                        yield from client.send_message(message.channel, reload_data)
                                     except discord.errors.Forbidden:
                                         yield from BotPMError._resolve_send_message_error(client, message)
                     else:

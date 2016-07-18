@@ -19,15 +19,18 @@ consoletext = json.load(consoledatafile)
 PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 
 global reconnects
+# noinspection PyRedeclaration
 reconnects = 0
 global is_bot_logged_in
+# noinspection PyRedeclaration
 is_bot_logged_in = False
 
 
 class BotLogin:
-    def __init__(self, client):
-        nothing = None  # avoid a error here.
+    def __init__(self):
+        pass
 
+    # noinspection PyPep8Naming
     class bot:
         """
             This Class is for Internal Use only!!!
@@ -46,6 +49,7 @@ class BotLogin:
                 if discord_user_password == 'None':
                     discord_user_password = None
                 bot_token = str(credentials['token'][0])
+                is_bot_logged_in = False
                 if bot_token == 'None':
                     bot_token = None
                 try:
@@ -70,16 +74,16 @@ class BotLogin:
                 except asyncio.futures.InvalidStateError:
                     reconnects = reconnects + 1
                     if reconnects != 0:
-                        print('Bot is currently reconnecting for ' + str(reconnects) + ' times.')
-                        sleeptime = reconnects * 5
+                        print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                        # sleeptime = reconnects * 5
                         self.login_info(client)
-                if is_bot_logged_in is True:
-                    if client.is_logged_in is not False:
-                        nothing = None
+                if is_bot_logged_in:
+                    if not client.is_logged_in:
+                        pass
                     else:
                         reconnects = reconnects + 1
                         if reconnects != 0:
-                            print('Bot is currently reconnecting for ' + str(reconnects) + ' times.')
+                            print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
                             sleeptime = reconnects * 5
                             asyncio.sleep(sleeptime)
                             self.login_info(client)
@@ -91,22 +95,23 @@ class BotLogin:
         @asyncio.coroutine
         def on_login_code(self, client):
             global logged_in
-            if logged_in is True:
+            if logged_in:
                 logged_in = False
                 botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
                 botmessages = json.load(botmessagesdata)
+                message_data = str(botmessages['On_Ready_Message'][0])
                 try:
-                    yield from client.send_message(discord.Object(id='118098998744580098'), str(botmessages['On_Ready_Message'][0]))
+                    yield from client.send_message(discord.Object(id='118098998744580098'), message_data)
                 except discord.errors.Forbidden:
                     return
                 try:
-                    yield from client.send_message(discord.Object(id='103685935593435136'), str(botmessages['On_Ready_Message'][0]))
+                    yield from client.send_message(discord.Object(id='103685935593435136'), message_data)
                 except discord.errors.Forbidden:
                     return
-                print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(consoletext['Window_Login_Text'][0]) + client.user.name)
-                print(str(consoletext['Window_Login_Text'][1]) + client.user.id)
-                print(str(consoletext['Window_Login_Text'][2]) + __version__ + str(consoletext['Window_Login_Text'][3]))
-            if logged_in is False:
+                bot_name = client.user.name
+                print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
+                    consoletext['Window_Login_Text'][0]).format(bot_name, client.user.id, __version__))
+            if not logged_in:
                 game_name = str(consoletext['On_Ready_Game'][0])
                 stream_url = "https://twitch.tv/decoraterbot"
                 yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))

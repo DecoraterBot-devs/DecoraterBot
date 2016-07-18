@@ -23,9 +23,11 @@ import BotPMError
 from discord.ext import commands
 
 global sent_prune_error_message
+# noinspection PyRedeclaration
 sent_prune_error_message = False
 
 bits = ctypes.sizeof(ctypes.c_voidp)
+PY36 = sys.version_info >= (3, 6)
 PY35 = sys.version_info >= (3, 5)
 
 try:
@@ -92,14 +94,16 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     elif _pm_commands_list == 'False':
         _pm_commands_list = False
 
-if _log_games == True:
+# noinspection PyUnboundLocalVariable
+if _log_games:
     import BotLogs
 
 
 class BotCommands:
-    def __init__(self, client):
-        nothing = None  # to prevent a error here.
+    def __init__(self):
+        pass
 
+    # noinspection PyUnusedLocal,PyPep8Naming
     class bot:
         """
             This class is for Internal use only!!!
@@ -158,7 +162,8 @@ class BotCommands:
                         desrole = message.content[len(_bot_prefix + "color " + _bot_prefix + "pink "):].strip()
                         role = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
                         try:
-                            yield from client.edit_role(message.channel.server, role, color=discord.Colour(int('ff3054', 16)))
+                            yield from client.edit_role(message.channel.server, role, color=discord.Colour(int(
+                                'ff3054', 16)))
                         except discord.errors.Forbidden:
                             try:
                                 message_data = 'This bot does not have permission to edit roles.'
@@ -173,7 +178,8 @@ class BotCommands:
                         desrole = message.content[len(_bot_prefix + "color " + _bot_prefix + "brown "):].strip()
                         role = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
                         try:
-                            yield from client.edit_role(message.channel.server, role, color=discord.Colour(int('652d2d', 16)))
+                            yield from client.edit_role(message.channel.server, role, color=discord.Colour(int(
+                                '652d2d', 16)))
                         except discord.errors.Forbidden:
                             try:
                                 message_data = 'This bot does not have permission to edit roles.'
@@ -202,7 +208,8 @@ class BotCommands:
                             debugcode = debugcode.replace('message.author.mention + "', message.author.mention)
                         yield from client.send_message(message.channel, debugcode)
                     else:
-                        botowner = discord.utils.find(lambda member: member.id == owner_id, message.channel.server.members)
+                        botowner = discord.utils.find(lambda member: member.id == owner_id,
+                                                      message.channel.server.members)
                         try:
                             try:
                                 debugcode = eval(debugcode)
@@ -249,7 +256,8 @@ class BotCommands:
                         execoutputfile = sys.path[0] + '\\resources\\exec_files\\eval_output_temp.txt'
                         eval_temp_result_output = io.open(execoutputfile, 'w', encoding='utf-8')
                         out = eval_temp_result_output
-                        p = subprocess.Popen(sys.path[4] + "\\python " + evalcodefile, stdout=out, stderr=out, shell=True)
+                        p = subprocess.Popen(sys.path[4] + "\\python " + evalcodefile, stdout=out, stderr=out,
+                                             shell=True)
                         p.wait()
                         eval_temp_result_output.close()
                         eval_temp_result_read = io.open(execoutputfile, 'r', encoding='utf-8')
@@ -309,7 +317,8 @@ class BotCommands:
                         if desgametype is not None:
                             if _log_games == 'True':
                                 BotLogs.BotLogs.gamelog(client, message, desgame)
-                            yield from client.change_status(game=discord.Game(name=desgame, type=desgametype, url=stream_url))
+                            yield from client.change_status(game=discord.Game(name=desgame, type=desgametype,
+                                                                              url=stream_url))
                             try:
                                 msgdata = str(botmessages['game_command_data'][0]).format(desgame)
                                 message_data = msgdata.replace("idle", "streaming")
@@ -356,9 +365,11 @@ class BotCommands:
                         if url is not None:
                             try:
                                 yield from client.accept_invite(url)
-                                yield from client.send_message(message.channel, str(botmessages['join_command_data'][0]))
+                                msg_data = str(botmessages['join_command_data'][0])
+                                yield from client.send_message(message.channel, msg_data)
                             except discord.errors.NotFound:
-                                yield from client.send_message(message.channel, str(botmessages['join_command_data'][1]))
+                                msg_data = str(botmessages['join_command_data'][1])
+                                yield from client.send_message(message.channel, msg_data)
                         else:
                             yield from client.send_message(message.channel, str(botmessages['join_command_data'][2]))
 
@@ -387,7 +398,8 @@ class BotCommands:
                     else:
                         if data.rfind(client.user.name) != -1:
                             try:
-                                yield from client.send_message(message.channel, str(botmessages['kill_command_data'][4]))
+                                msg_data = str(botmessages['kill_command_data'][4])
+                                yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                         else:
@@ -395,17 +407,20 @@ class BotCommands:
                             for disuser in message.mentions:
                                 if message.author == disuser:
                                     try:
-                                        yield from client.send_message(message.channel, str(botmessages['kill_command_data'][4]))
+                                        msg_data = str(botmessages['kill_command_data'][4])
+                                        yield from client.send_message(message.channel, msg_data)
                                     except discord.errors.Forbidden:
                                         yield from BotPMError._resolve_send_message_error(client, message)
                                     break
                                 if client.user == disuser:
                                     try:
-                                        yield from client.send_message(message.channel, str(botmessages['kill_command_data'][4]))
+                                        msg_data = str(botmessages['kill_command_data'][4])
+                                        yield from client.send_message(message.channel, msg_data)
                                     except discord.errors.Forbidden:
                                         yield from BotPMError._resolve_send_message_error(client, message)
                                     break
-                                user = discord.utils.find(lambda member: member.name == disuser.name, message.channel.server.members)
+                                user = discord.utils.find(lambda member: member.name == disuser.name,
+                                                          message.channel.server.members)
                                 if msg == 1:
                                     try:
                                         msgdata = str(botmessages['kill_command_data'][5]).format(message.author, user)
@@ -502,7 +517,8 @@ class BotCommands:
                     return
                 elif message.content.startswith(pref + 'unpause') or message.content.startswith(pref + 'stop'):
                     return
-                elif message.content.startswith(pref + 'move') or message.content.startswith(pref + 'LeaveVoiceChannel'):
+                elif message.content.startswith(pref + 'move') or message.content.startswith(pref + 'LeaveVoiceChannel'
+                                                                                             ):
                     return
                 elif message.content.startswith(pref + 'Playlist'):
                     return
@@ -616,12 +632,14 @@ class BotCommands:
                             break
                         except discord.Forbidden:
                             try:
-                                yield from client.send_message(message.channel, str(botmessages['softban_command_data'][1]))
+                                msg_data = str(botmessages['softban_command_data'][1])
+                                yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                         except discord.HTTPException:
                             try:
-                                yield from client.send_message(message.channel, str(botmessages['softban_command_data'][2]))
+                                msg_data = str(botmessages['softban_command_data'][2])
+                                yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                     else:
@@ -650,12 +668,14 @@ class BotCommands:
                             break
                         except discord.Forbidden:
                             try:
-                                yield from client.send_message(message.channel, str(botmessages['kick_command_data'][1]))
+                                yield from client.send_message(message.channel, str(
+                                    botmessages['kick_command_data'][1]))
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                         except discord.HTTPException:
                             try:
-                                yield from client.send_message(message.channel, str(botmessages['kick_command_data'][2]))
+                                yield from client.send_message(message.channel, str(
+                                    botmessages['kick_command_data'][2]))
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                     else:
@@ -735,7 +755,8 @@ class BotCommands:
                         return
                     else:
                         try:
-                            yield from client.send_message(message.channel, str(botmessages['update_command_data'][0]).format(info))
+                            yield from client.send_message(message.channel,
+                                                           str(botmessages['update_command_data'][0]).format(info))
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
             if message.content.startswith(_bot_prefix + 'Libs'):
@@ -788,8 +809,10 @@ class BotCommands:
             if message.content.startswith(_bot_prefix + 'stats'):
                 server_count = str(len(client.servers))
                 member_count = str(len(set([member for member in client.get_all_members()])))
-                textchannels_count = str(len(set([channel for channel in client.get_all_channels() if channel.type == discord.ChannelType.text])))
-                formatted_data = str(botmessages['stats_command_data'][0]).format(server_count, member_count, textchannels_count)
+                textchannels_count = str(len(set(
+                    [channel for channel in client.get_all_channels() if channel.type == discord.ChannelType.text])))
+                formatted_data = str(
+                    botmessages['stats_command_data'][0]).format(server_count, member_count, textchannels_count)
                 yield from client.send_message(message.channel, formatted_data)
             if message.content.startswith(_bot_prefix + 'rs'):
                 filename1 = str(sys.path[0]) + '\\resources\\images\\elsword\\RS.jpg'
@@ -819,6 +842,9 @@ class BotCommands:
                 desdata = message.content[len(_bot_prefix + 'meme'):].strip()
                 meme_error = False
                 desdata = str(desdata)
+                toptext = None
+                bottext = None
+                pic = None
                 msg_mention_list_len = len(message.mentions) - 1
                 if msg_mention_list_len == -1:
                     msg_mention_list_len = 0
@@ -828,23 +854,25 @@ class BotCommands:
                         desdata = desdata.splitlines()
                         pic = message.mentions[msg_mention_list_len].avatar_url
                         try:
-                            toptext = desdata[1].replace('_', '__').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
+                            toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
+                                '%', '~p').replace('#', '~h').replace('/', '~s')
                             for x in message.mentions:
                                 toptext = toptext.replace(x.mention, x.name)
                             toptext = toptext.replace('<', '').replace('>', '')
                         except IndexError:
                             meme_error = True
                             yield from client.send_message(message.channel, "Top Text is required for this to work properly.")
-                        if meme_error == False:
+                        if not meme_error:
                             try:
-                                bottext = desdata[2].replace('_', '__').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
+                                bottext = desdata[2].replace('_', '__').replace(
+                                    '?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
                                 for x in message.mentions:
                                     bottext = bottext.replace(x.mention, x.name)
                                 bottext = bottext.replace('<', '').replace('>', '')
                             except IndexError:
                                 meme_error = True
                                 yield from client.send_message(message.channel, "Bottom Text is required for this to work properly.")
-                        if meme_error == False:
+                        if not meme_error:
                             rep = "http://memegen.link/custom/{0}/{1}.jpg?alt={2}".format(toptext, bottext, pic)
                             yield from client.send_message(message.channel, rep)
                     else:
@@ -855,25 +883,27 @@ class BotCommands:
                         except IndexError:
                             meme_error = True
                             yield from client.send_message(message.channel, "A picture is required for this to work properly.")
-                        if meme_error == False:
+                        if not meme_error:
                             try:
-                                toptext = desdata[1].replace('_', '__').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
+                                toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
+                                    '%', '~p').replace('#', '~h').replace('/', '~s')
                                 for x in message.mentions:
                                     toptext = toptext.replace(x.mention, x.name)
                                 toptext = toptext.replace('<', '').replace('>', '')
                             except IndexError:
                                 meme_error = True
                                 yield from client.send_message(message.channel, "Top Text is required for this to work properly.")
-                        if meme_error == False:
+                        if not meme_error:
                             try:
-                                bottext = desdata[2].replace('_', '__').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
+                                bottext = desdata[2].replace('_', '__').replace('?', '~q').replace(
+                                    '%', '~p').replace('#', '~h').replace('/', '~s')
                                 for x in message.mentions:
                                     bottext = bottext.replace(x.mention, x.name)
                                 bottext = bottext.replace('<', '').replace('>', '')
                             except IndexError:
                                 meme_error = True
                                 yield from client.send_message(message.channel, "Bottom Text is required for this to work properly.")
-                        if meme_error == False:
+                        if not meme_error:
                             rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
                             yield from client.send_message(message.channel, rep)
                 except IndexError:
@@ -884,34 +914,37 @@ class BotCommands:
                     except IndexError:
                         meme_error = True
                         yield from client.send_message(message.channel, "A picture is required for this to work properly.")
-                    if meme_error == False:
+                    if not meme_error:
                         try:
-                            toptext = desdata[1].replace('_', '__').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
+                            toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
+                                '%', '~p').replace('#', '~h').replace('/', '~s')
                             for x in message.mentions:
                                 toptext = toptext.replace(x.mention, x.name)
                             toptext = toptext.replace('<', '').replace('>', '')
                         except IndexError:
                             meme_error = True
                             yield from client.send_message(message.channel, "Top Text is required for this to work properly.")
-                    if meme_error == False:
+                    if not meme_error:
                         try:
-                            bottext = desdata[2].replace('_', '__').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
+                            bottext = desdata[2].replace('_', '__').replace('?', '~q').replace(
+                                '%', '~p').replace('#', '~h').replace('/', '~s')
                             for x in message.mentions:
                                 bottext = bottext.replace(x.mention, x.name)
                             bottext = bottext.replace('<', '').replace('>', '')
                         except IndexError:
                             meme_error = True
                             yield from client.send_message(message.channel, "Bottom Text is required for this to work properly.")
-                    if meme_error == False:
+                    if not meme_error:
                         rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
                         yield from client.send_message(message.channel, rep)
             """
-                This below is left in so anyone could have a example of itterating through roles to find the right one that
-                they want.
+                This below is left in so anyone could have a example of itterating through roles to find the right one
+                that they want.
 
                 Note: This uses the json module to load up ppl who was listed in a json file that cannot use the bot.
 
-                This does also only send 1 message after it gets the entire role list consisting of the role name and it's id.
+                This does also only send 1 message after it gets the entire role list consisting of the role name
+                and it's id.
 
                 if message.content.startswith(_bot_prefix + 'roleinfo'):
                     roleinfo = None
@@ -927,7 +960,7 @@ class BotCommands:
                         yield from client.send_message(message.channel, "```" + roleinfo + "```")
             """
 
-        if PY35:
+        if PY35 or PY36:
             @classmethod
             async def prune_command_iterater_helper(self, client, message, num, sent_prune_error_message):
                 async for msg in client.logs_from(message.channel, limit=num + 1):
@@ -1040,18 +1073,23 @@ class BotCommands:
                         if 'dev' in desrole:
                             if role not in message.author.roles:
                                 yield from client.add_roles(message.author, role)
-                                yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][2]))
+                                yield from client.send_message(message.channel, str(
+                                    botmessages['giveme_command_data'][2]))
                             else:
-                                yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][7]))
+                                yield from client.send_message(message.channel, str(
+                                    botmessages['giveme_command_data'][7]))
                         elif 'stream' in desrole:
                             if role3 not in message.author.roles:
                                 yield from client.add_roles(message.author, role3)
-                                yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][3]))
+                                yield from client.send_message(message.channel, str(
+                                    botmessages['giveme_command_data'][3]))
                             else:
-                                yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][8]))
+                                yield from client.send_message(message.channel, str(
+                                    botmessages['giveme_command_data'][8]))
                     else:
                         try:
-                            yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][4]))
+                            yield from client.send_message(message.channel, str(
+                                botmessages['giveme_command_data'][4]))
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
             if message.content.startswith(_bot_prefix + 'remove'):
@@ -1120,13 +1158,15 @@ class BotCommands:
                                 banlist['Users'].append(message.mentions[0].id)
                                 json.dump(banlist, open(sys.path[0] + "\\resources\\ConfigData\\BotBanned.json", "w"))
                                 try:
-                                    message_data = str(botmessages['bot_ban_command_data'][0]).format(message.mentions[0])
+                                    message_data = str(
+                                        botmessages['bot_ban_command_data'][0]).format(message.mentions[0])
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError._resolve_send_message_error(client, message)
                                 except Exception as e:
                                     try:
-                                        messagedata = str(botmessages['bot_ban_command_data'][1]).format(message.mentions[0])
+                                        messagedata = str(
+                                            botmessages['bot_ban_command_data'][1]).format(message.mentions[0])
                                         message_data = messagedata + str(botmessages['bot_ban_command_data'][2])
                                         yield from client.send_message(message.channel, message_data)
                                     except discord.errors.Forbidden:
@@ -1147,13 +1187,15 @@ class BotCommands:
                                 tobotunban.remove(message.mentions[0].id)
                                 json.dump(banlist, open(sys.path[0] + "\\resources\\ConfigData\\BotBanned.json", "w"))
                                 try:
-                                    message_data = str(botmessages['bot_unban_command_data'][0]).format(message.mentions[0])
+                                    message_data = str(
+                                        botmessages['bot_unban_command_data'][0]).format(message.mentions[0])
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError._resolve_send_message_error(client, message)
                             except Exception as e:
                                 try:
-                                    messagedata = str(botmessages['bot_unban_command_data'][1]).format(message.mentions[0])
+                                    messagedata = str(
+                                        botmessages['bot_unban_command_data'][1]).format(message.mentions[0])
                                     message_data = messagedata + str(botmessages['bot_unban_command_data'][2])
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
@@ -1168,7 +1210,8 @@ class BotCommands:
                 else:
                     for disuser in message.mentions:
                         username = message.mentions[0].name
-                        seenin = set([member.server.name for member in client.get_all_members() if member.name == username])
+                        seenin = set(
+                            [member.server.name for member in client.get_all_members() if member.name == username])
                         seenin = str(len(seenin))
                         if str(message.mentions[0].game) != 'None':
                             desuser = message.mentions[0]
@@ -1186,7 +1229,9 @@ class BotCommands:
                             yield from BotPMError._resolve_send_message_error(client, message)
                         break
                     else:
-                        seenin = set([member.server.name for member in client.get_all_members() if member.name == message.author.name])
+                        seenin = set(
+                            [member.server.name for member in client.get_all_members()
+                             if member.name == message.author.name])
                         seenin = str(len(seenin))
                         if str(message.author.game) != 'None':
                             msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(message.author, seenin)
@@ -1223,12 +1268,13 @@ class BotCommands:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                         else:
                             if url.startswith("https://"):
-                                do_nothing = None
+                                pass
                             elif url.startswith("ftp://"):
-                                do_nothing = None
+                                pass
                             else:
                                 try:
-                                    yield from client.send_message(message.channel, str(botmessages['tinyurl_command_data'][1]))
+                                    yield from client.send_message(message.channel, str(
+                                        botmessages['tinyurl_command_data'][1]))
                                 except discord.errors.Forbidden:
                                     yield from BotPMError._resolve_send_message_error(client, message)
                         if url.startswith("https://"):
@@ -1241,12 +1287,13 @@ class BotCommands:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                         else:
                             if url.startswith("ftp://"):
-                                do_nothing = None
+                                pass
                             elif url.startswith("http://"):
-                                do_nothing = None
+                                pass
                             else:
                                 try:
-                                    yield from client.send_message(message.channel, str(botmessages['tinyurl_command_data'][1]))
+                                    yield from client.send_message(message.channel, str(
+                                        botmessages['tinyurl_command_data'][1]))
                                 except discord.errors.Forbidden:
                                     yield from BotPMError._resolve_send_message_error(client, message)
                         if url.startswith("ftp://"):
@@ -1259,12 +1306,13 @@ class BotCommands:
                                 yield from BotPMError._resolve_send_message_error(client, message)
                         else:
                             if url.startswith("http://"):
-                                do_nothing = None
+                                pass
                             elif url.startswith("https://"):
-                                do_nothing = None
+                                pass
                             else:
                                 try:
-                                    yield from client.send_message(message.channel, str(botmessages['tinyurl_command_data'][1]))
+                                    yield from client.send_message(message.channel, str(
+                                        botmessages['tinyurl_command_data'][1]))
                                 except discord.errors.Forbidden:
                                     yield from BotPMError._resolve_send_message_error(client, message)
                     else:

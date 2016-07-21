@@ -10,7 +10,7 @@ import traceback
 try:
     import BotCommands
 except SyntaxError:
-    exception_data = 'Fatal exception caused in BotCommands.py:\n' + str(traceback.format_exc())
+    exception_data = 'Fatal exception caused in BotCommands.py:\n{0}'.format(str(traceback.format_exc()))
     logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
     try:
         file = io.open(logfile, 'a', encoding='utf-8')
@@ -127,7 +127,8 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     if discord_user_id == 'None':
         discord_user_id = None
 
-if _logging or _logbans or _logunbans or _logkicks or _discord_logger or _asyncio_logger or _log_available or _log_unavailable:
+if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _asyncio_logger or _log_available or
+        _log_unavailable):
     import BotLogs
 
 
@@ -356,17 +357,22 @@ class BotCommandData:
             memberjoinverifymessagefile2.close()
             role_name = str(memberjoinverifyroledata['verify_role_id'][0])
             msg_command = str(memberjoinverifymessagedata['verify_command'][0])
-            if message.content == msg_command:
-                yield from client.delete_message(message)
-                role = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
-                msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
-                # if message.author.id not in newlyjoinedlist:
-                #    yield from client.send_message(message.channel, "You are not on the list of people to verify.")
-                # else:
-                yield from client.send_message(message.author, msg_data)
-                yield from client.add_roles(message.author, role)
-                newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
-                json.dump(newlyjoinedlist, open(sys.path[0] + file_path + filename_5, "w"))
+            try:
+                if message.content == msg_command:
+                    yield from client.delete_message(message)
+                    role = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
+                    msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
+                    # if message.author.id not in newlyjoinedlist:
+                    #    yield from client.send_message(message.channel, "You are not on the list of people to verify.")
+                    # else:
+                    yield from client.send_message(message.author, msg_data)
+                    yield from client.add_roles(message.author, role)
+                    newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
+                    json.dump(newlyjoinedlist, open(sys.path[0] + file_path + filename_5, "w"))
+            except NameError:
+                # byass this name Error for now.
+                # TODO: Make this Send a Message to the Cheese.Lab server when this happens so people would know.
+                pass
 
     @classmethod
     @asyncio.coroutine
@@ -590,9 +596,9 @@ class BotEvents:
         def _resolve_onjoin_code(self, client, member):
             try:
                 if member.server.id == '71324306319093760':
-                    file_path_join_1 = '\\resources\\ConfigData\\serverconfigs'
+                    file_path_join_1 = '\\resources\\ConfigData\\serverconfigs\\'
                     filename_join_1 = 'servers.json'
-                    serveridslistfile = io.open(sys.path[0] + file_path_1 + filename_join_1, 'r')
+                    serveridslistfile = io.open(sys.path[0] + file_path_join_1 + filename_join_1, 'r')
                     serveridslist = json.load(serveridslistfile)
                     serveridslistfile.close()
                     serverid = str(serveridslist['config_server_ids'][0])

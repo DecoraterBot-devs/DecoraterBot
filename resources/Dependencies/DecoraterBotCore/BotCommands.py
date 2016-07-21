@@ -136,7 +136,7 @@ class BotCommands:
                             yield from client.send_file(message.channel, heads_coin)
                         except discord.errors.Forbidden:
                             try:
-                                message_data = 'This bot does not have Permission to Attach Files.'
+                                message_data = str(botmessages['coin_command_data'][0])
                                 yield from client.send_message(message.channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
@@ -146,7 +146,7 @@ class BotCommands:
                             yield from client.send_file(message.channel, tails_coin)
                         except discord.errors.Forbidden:
                             try:
-                                message_data = 'This bot does not have Permission to Attach Files.'
+                                message_data = str(botmessages['coin_command_data'][0])
                                 yield from client.send_message(message.channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
@@ -166,7 +166,7 @@ class BotCommands:
                                 'ff3054', 16)))
                         except discord.errors.Forbidden:
                             try:
-                                message_data = 'This bot does not have permission to edit roles.'
+                                message_data = str(botmessages['color_command_data'][0])
                                 yield from client.send_message(message.channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
@@ -182,7 +182,7 @@ class BotCommands:
                                 '652d2d', 16)))
                         except discord.errors.Forbidden:
                             try:
-                                message_data = 'This bot does not have permission to edit roles.'
+                                message_data = str(botmessages['color_command_data'][0])
                                 yield from client.send_message(message.channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
@@ -219,31 +219,32 @@ class BotCommands:
                             try:
                                 yield from client.send_message(message.channel, debugcode)
                             except discord.errors.Forbidden:
-                                otherdata = " does not allow this bot to send"
-                                msgdata = "Server owner of " + message.channel.server.name + otherdata
-                                message_data = msgdata + " messages in " + message.channel.name + "."
+                                msgdata = str(botmessages['eval_command_data'][0])
+                                message_data = msgdata.format(message.channel.server.name, message.channel.name)
                                 yield from client.send_message(botowner, message_data)
                                 yield from client.send_message(botowner, debugcode)
                             except discord.errors.HTTPException:
                                 if len(debugcode) > 2000:
-                                    yield from client.send_message(message.channel, "Result was too large to send.")
+                                    result_info = str(botmessages['eval_command_data'][1])
+                                    yield from client.send_message(message.channel, result_info)
                         except Exception as e:
                             debugcode = traceback.format_exc()
                             debugcode = str(debugcode)
                             try:
                                 yield from client.send_message(message.channel, "```py\n" + debugcode + "\n```")
                             except discord.errors.Forbidden:
-                                otherdata = " does not allow this bot to send"
-                                msgdata = "Server owner of " + message.channel.server.name + otherdata
-                                message_data = msgdata + " messages in " + message.channel.name + "."
+                                msgdata = str(botmessages['eval_command_data'][0])
+                                message_data = msgdata.format(message.channel.server.name, message.channel.name)
                                 yield from client.send_message(botowner, message_data)
                                 yield from client.send_message(botowner, "```py\n" + debugcode + "\n```")
                 else:
                     try:
-                        yield from client.send_message(message.channel, "Sorry, Only my owner can eval Python Code. :eggplant:")
+                        result_info = str(botmessages['eval_command_data'][2])
+                        yield from client.send_message(message.channel, result_info)
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
             if message.content.startswith(_bot_prefix + 'debug'):
+                # makes the owner AKA Creator of the bot only able to use this as this can be dangerous.
                 if message.author.id == owner_id:
                     debugcode_new = "# coding=utf-8\n" + message.content[len(_bot_prefix + "debug "):].strip()
                     BotOwner = discord.utils.find(lambda member: member.id == owner_id, message.channel.server.members)
@@ -270,23 +271,28 @@ class BotCommands:
                         try:
                             yield from client.send_message(message.channel, "```py\n" + debugcode + "\n```")
                         except discord.errors.Forbidden:
-                            msgdata = "Server owner of " + message.channel.server.name + " does not allow this bot to send"
-                            message_data = msgdata + " messages in " + message.channel.name + "."
+                            msgdata = str(botmessages['eval_command_data'][0])
+                            message_data = msgdata.format(message.channel.server.name, message.channel.name)
                             yield from client.send_message(BotOwner, message_data)
                             yield from client.send_message(BotOwner, "```py\n" + debugcode + "\n```")
+                        except discord.errors.HTTPException:
+                            if len(debugcode) > 2000:
+                                result_info = str(botmessages['eval_command_data'][1])
+                                yield from client.send_message(message.channel, result_info)
                     except Exception as e:
                         debugcode = traceback.format_exc()
                         debugcode = str(debugcode)
                         try:
                             yield from client.send_message(message.channel, "```py\n" + debugcode + "\n```")
                         except discord.errors.Forbidden:
-                            msgdata = "Server owner of " + message.channel.server.name + " does not allow this bot to send"
-                            message_data = msgdata + " messages in " + message.channel.name + "."
+                            msgdata = str(botmessages['eval_command_data'][0])
+                            message_data = msgdata.format(message.channel.server.name, message.channel.name)
                             yield from client.send_message(BotOwner, message_data)
                             yield from client.send_message(BotOwner, "```py\n" + debugcode + "\n```")
                 else:
                     try:
-                        yield from client.send_message(message.channel, "Sorry, Only my owner can debug Python Code. :eggplant:")
+                        result_info = str(botmessages['debug_command_data'][0])
+                        yield from client.send_message(message.channel, result_info)
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
@@ -489,6 +495,10 @@ class BotCommands:
             else:
                 pref = _bot_prefix
                 unig = 'unignorechannel'
+                # Allows Joining a Voice Channel.
+                # This is handling if some idiot mentions the bot with this command in it.
+                # This also bypasses the PEP 8 Bullshit.
+                jovo = pref + 'JoinVoiceChannel'
                 if message.content.startswith(pref + 'kill') or message.content.startswith(pref + 'changelog'):
                     return
                 elif message.content.startswith(pref + 'raid') or message.content.startswith(pref + 'source'):
@@ -511,7 +521,7 @@ class BotCommands:
                     return
                 elif message.content.startswith(pref + 'ignorechannel') or message.content.startswith(pref + unig):
                     return
-                elif message.content.startswith(pref + 'tinyurl') or message.content.startswith(pref + 'JoinVoiceChannel'):
+                elif message.content.startswith(pref + 'tinyurl') or message.content.startswith(jovo):
                     return
                 elif message.content.startswith(pref + 'play') or message.content.startswith(pref + 'pause'):
                     return
@@ -714,8 +724,8 @@ class BotCommands:
                             try:
                                 if _pm_commands_list is True:
                                     yield from client.send_message(message.author, botcommandswithtinyurl)
-                                    msgdata = message.author.mention + ' ``Ok, check your private messages`` '
-                                    message_data = msgdata + ':thumbsup:'
+                                    msgdata = str(botmessages['commands_command_data'][6])
+                                    message_data = msgdata.format(message.author.mention)
                                     try:
                                         yield from client.send_message(message.channel, message_data)
                                     except discord.errors.Forbidden:
@@ -795,7 +805,7 @@ class BotCommands:
                             python_platform = "64-Bit"
                         elif bits == 4:
                             python_platform = "32-Bit"
-                        vers = "```py\nPython v" + platform.python_version() + " " + python_platform + "```"
+                        vers = "```py\nPython v{0} {1}```".format(platform.python_version(), python_platform)
                         try:
                             yield from client.send_message(message.channel, vers)
                         except discord.errors.Forbidden:
@@ -848,41 +858,16 @@ class BotCommands:
                 msg_mention_list_len = len(message.mentions) - 1
                 if msg_mention_list_len == -1:
                     msg_mention_list_len = 0
-                try:
+                if msg_mention_list_len == 1:
                     if desdata.startswith(message.mentions[msg_mention_list_len].mention):
                         desdata = desdata.replace(" | ", "\n").replace('-', '--').replace(' ', '-')
                         desdata = desdata.splitlines()
-                        pic = message.mentions[msg_mention_list_len].avatar_url
                         try:
-                            toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
-                                '%', '~p').replace('#', '~h').replace('/', '~s')
-                            for x in message.mentions:
-                                toptext = toptext.replace(x.mention, x.name)
-                            toptext = toptext.replace('<', '').replace('>', '')
+                            pic = message.mentions[msg_mention_list_len].avatar_url
                         except IndexError:
                             meme_error = True
-                            yield from client.send_message(message.channel, "Top Text is required for this to work properly.")
-                        if not meme_error:
-                            try:
-                                bottext = desdata[2].replace('_', '__').replace(
-                                    '?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
-                                for x in message.mentions:
-                                    bottext = bottext.replace(x.mention, x.name)
-                                bottext = bottext.replace('<', '').replace('>', '')
-                            except IndexError:
-                                meme_error = True
-                                yield from client.send_message(message.channel, "Bottom Text is required for this to work properly.")
-                        if not meme_error:
-                            rep = "http://memegen.link/custom/{0}/{1}.jpg?alt={2}".format(toptext, bottext, pic)
-                            yield from client.send_message(message.channel, rep)
-                    else:
-                        desdata = desdata.replace(" | ", "\n").replace('-', '--').replace(' ', '-')
-                        desdata = desdata.splitlines()
-                        try:
-                            pic = str(desdata[0])
-                        except IndexError:
-                            meme_error = True
-                            yield from client.send_message(message.channel, "A picture is required for this to work properly.")
+                            msgdata = str(botmessages['meme_command_data'][0])
+                            yield from client.send_message(message.channel, msgdata)
                         if not meme_error:
                             try:
                                 toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
@@ -892,28 +877,31 @@ class BotCommands:
                                 toptext = toptext.replace('<', '').replace('>', '')
                             except IndexError:
                                 meme_error = True
-                                yield from client.send_message(message.channel, "Top Text is required for this to work properly.")
+                                msgdata = str(botmessages['meme_command_data'][1])
+                                yield from client.send_message(message.channel, msgdata)
                         if not meme_error:
                             try:
-                                bottext = desdata[2].replace('_', '__').replace('?', '~q').replace(
-                                    '%', '~p').replace('#', '~h').replace('/', '~s')
+                                bottext = desdata[2].replace('_', '__').replace(
+                                    '?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
                                 for x in message.mentions:
                                     bottext = bottext.replace(x.mention, x.name)
                                 bottext = bottext.replace('<', '').replace('>', '')
                             except IndexError:
                                 meme_error = True
-                                yield from client.send_message(message.channel, "Bottom Text is required for this to work properly.")
+                                msgdata = str(botmessages['meme_command_data'][2])
+                                yield from client.send_message(message.channel, msgdata)
                         if not meme_error:
-                            rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
+                            rep = "http://memegen.link/custom/{0}/{1}.jpg?alt={2}".format(toptext, bottext, pic)
                             yield from client.send_message(message.channel, rep)
-                except IndexError:
+                else:
                     desdata = desdata.replace(" | ", "\n").replace('-', '--').replace(' ', '-')
                     desdata = desdata.splitlines()
                     try:
                         pic = str(desdata[0])
                     except IndexError:
                         meme_error = True
-                        yield from client.send_message(message.channel, "A picture is required for this to work properly.")
+                        msgdata = str(botmessages['meme_command_data'][0])
+                        yield from client.send_message(message.channel, msgdata)
                     if not meme_error:
                         try:
                             toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
@@ -923,7 +911,8 @@ class BotCommands:
                             toptext = toptext.replace('<', '').replace('>', '')
                         except IndexError:
                             meme_error = True
-                            yield from client.send_message(message.channel, "Top Text is required for this to work properly.")
+                            msgdata = str(botmessages['meme_command_data'][1])
+                            yield from client.send_message(message.channel, msgdata)
                     if not meme_error:
                         try:
                             bottext = desdata[2].replace('_', '__').replace('?', '~q').replace(
@@ -933,7 +922,8 @@ class BotCommands:
                             bottext = bottext.replace('<', '').replace('>', '')
                         except IndexError:
                             meme_error = True
-                            yield from client.send_message(message.channel, "Bottom Text is required for this to work properly.")
+                            msgdata = str(botmessages['meme_command_data'][2])
+                            yield from client.send_message(message.channel, msgdata)
                     if not meme_error:
                         rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
                         yield from client.send_message(message.channel, rep)
@@ -1149,7 +1139,8 @@ class BotCommands:
                 if message.author.id == owner_id:
                     if len(message.mentions) < 1:
                         try:
-                            yield from client.send_message(message.channel, 'You must mention a user to Bot Ban.')
+                            yield from client.send_message(message.channel, str(
+                                botmessages['bot_ban_command_data'][2]))
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
                     else:
@@ -1177,7 +1168,8 @@ class BotCommands:
                 if message.author.id == owner_id:
                     if len(message.mentions) < 1:
                         try:
-                            yield from client.send_message(message.channel, 'You must mention a user to Bot Unban.')
+                            yield from client.send_message(message.channel, str(
+                                botmessages['bot_unban_command_data'][2]))
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
                     else:

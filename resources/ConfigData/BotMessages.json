@@ -86,7 +86,8 @@
         "Available commands:\n\n**::kill**\n**::changelog**\n**::source**\n**::game <'string here'> | type=<1 for Twitch or 2 for Youtube (Soon™)>**\n**::meme <picture (required)> | <top text (required)> | <bottom text (required)>**\nmeme picture list can be found here. (BooBot's but it works for this too.) <http://pastebin.com/gCL2jMEL>\n**::remgame (Removes any game from status)**\n**::join <invite url or code>**\n**::say <whatever you want here>**\n**::type**\n**::uptime**\n**::Libs**\n**::as (changes bot's avatar to Asura's image)**\n**::rs (changes bot's avatar to Rune Slayer's image)**\n**::ai (changes bot's avatar to Aisha's base image)**",
         "\n**::tinyurl <URL to shorten here>**",
         "\n**::JoinVoiceChannel**\n**::play <youtube url here>**\n**::pause**\n**::unpause**\n**::stop**\n**::move**\n**::LeaveVoiceChannel**\n**::Playlist**\n**::vol (int value somewhere between 0~200)**",
-        "\n\nAll Commands listed above do not work with the ``<>``'s except for the ones that accept url's as that allows enbedding to be bypassed which is recommended."
+        "\n\nAll Commands listed above do not work with the ``<>``'s except for the ones that accept url's as that allows enbedding to be bypassed which is recommended.",
+        "{0} ``Ok, check your private messages`` :thumbsup:"
     ],
     "changelog_data": [
         "Created DecoraterBot.\n{0}\n\nChanges:\n+ Added **::tinyurl** command back in."
@@ -133,11 +134,13 @@
     ],
     "bot_ban_command_data": [
         "{0.name} is now bot banned.",
-        "Failed to bot ban {0.name}."
+        "Failed to bot ban {0.name}.",
+        "You must mention a user to Bot Ban."
     ],
     "bot_unban_command_data": [
         "{0.name} is now bot unbanned.",
-        "Failed to bot unban {0.name}."
+        "Failed to bot unban {0.name}.",
+        "You must mention a user to Bot Unban."
     ],
     "userinfo_command_data": [
         "Name: {0.name}\nID: {0.id}\nDiscriminator: #{0.discriminator}\nAvatar: {0.avatar_url}\nStatus: {0.status}\nVoice Channels: {0.voice_channel}\nJoined: {0.joined_at}\nGame: Playing {0.game}\nSeen In: {1} servers.\nIs Bot Account: {0.bot}\nNickname: {0.nick}"
@@ -157,5 +160,24 @@
         "The request to join a voice channel has timed out.",
         "Already connected to a voice channel on this server.",
         "Could not load 'opus.dll' or 'opus64.dll'."
+    ],
+    "eval_command_data": [
+        "Server owner of {0} does not allow this bot to send messages in {1}.",
+        "Result was too large to send.",
+        "Sorry, Only my owner can eval Python Code. :eggplant:"
+    ],
+    "debug_command_data": [
+        "Sorry, Only my owner can debug Python Code. :eggplant:"
+    ],
+    "coin_command_data": [
+        "This bot does not have Permission to Attach Files."
+    ],
+    "color_command_data": [
+        "This bot does not have Permission to edit roles."
+    ],
+    "meme_command_data": [
+        "A picture is required for this to work properly.",
+        "Top Text is required for this to work properly.",
+        "Bottom Text is required for this to work properly."
     ]
 }

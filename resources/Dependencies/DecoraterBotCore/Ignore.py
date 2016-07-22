@@ -50,6 +50,7 @@ global _somebool
 # noinspection PyRedeclaration
 _somebool = False
 
+
 # default to True in case options are not present in Credentials.json
 _logging = True
 _logbans = True
@@ -359,20 +360,24 @@ class BotCommandData:
             msg_command = str(memberjoinverifymessagedata['verify_command'][0])
             try:
                 if message.content == msg_command:
-                    yield from client.delete_message(message)
-                    role = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
-                    msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
-                    # if message.author.id not in newlyjoinedlist:
-                    #    yield from client.send_message(message.channel, "You are not on the list of people to verify.")
-                    # else:
-                    yield from client.send_message(message.author, msg_data)
-                    yield from client.add_roles(message.author, role)
-                    newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
-                    json.dump(newlyjoinedlist, open(sys.path[0] + file_path + filename_5, "w"))
+                    if message.author.id in newlyjoinedlist['users_to_be_verified']:
+                        yield from client.delete_message(message)
+                        role = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
+                        msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
+                        yield from client.send_message(message.author, msg_data)
+                        yield from client.add_roles(message.author, role)
+                        newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
+                        json.dump(newlyjoinedlist, open(sys.path[0] + file_path + filename_5, "w"))
+                    else:
+                        yield from client.delete_message(message)
+                        yield from client.send_message(message.channel, "You are not on the list of people to verify.")
+                else:
+                    if message.author.id != client.user.id:
+                        if message.author.id in newlyjoinedlist['users_to_be_verified']:
+                            yield from client.delete_message(message)
+                            yield from client.send_message(message.channel, "I am sorry, you did not send the right Verification Message. Please Read <#149323474765217792> and try again.")
             except NameError:
-                # byass this name Error for now.
-                # TODO: Make this Send a Message to the Cheese.Lab server when this happens so people would know.
-                pass
+                yield from client.send_message(message.channel, "Verification has Failed.")
 
     @classmethod
     @asyncio.coroutine
@@ -547,10 +552,35 @@ class BotEvents:
 
         @classmethod
         @asyncio.coroutine
+        def _resolve_verify_cache_cleanup_code(self, client, member):
+            try:
+                serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
+                serveridslist = json.load(serveridslistfile)
+                serveridslistfile.close()
+                serverid = str(serveridslist['config_server_ids'][0])
+                file_path = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+                filename_1 = 'verifycache.json'
+                joinedlistfile = io.open(sys.path[0] + file_path + filename_1, 'r')
+                newlyjoinedlist = json.load(joinedlistfile)
+                joinedlistfile.close()
+                if member.id in newlyjoinedlist['users_to_be_verified']:
+                    newlyjoinedlist['users_to_be_verified'].remove(member.id)
+                    file_name = "\\verifications\\verifycache.json"
+                    filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760" + file_name
+                    json.dump(newlyjoinedlist, open(filename, "w"))
+            except Exception as e:
+                funcname = '_resolve_verify_cache_cleanup_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
+
+        @classmethod
+        @asyncio.coroutine
         def _resolve_onban_code(self, client, member):
             try:
                 if _logbans == 'True':
                     yield from BotLogs.BotLogs.onban(client, member)
+                if member.server and member.server.id == "71324306319093760":
+                    yield from self._resolve_verify_cache_cleanup_code(client, member)
             except Exception as e:
                 funcname = '_resolve_onban_code'
                 tbinfo = str(traceback.format_exc())
@@ -582,10 +612,7 @@ class BotEvents:
                     if _logkicks == 'True':
                         yield from BotLogs.BotLogs.onkick(client, member)
                 if member.server and member.server.id == "71324306319093760":
-                    newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                    file_name = "\\verifications\\verifycache.json"
-                    filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760" + file_name
-                    json.dump(newlyjoinedlist, open(filename, "w"))
+                    yield from self._resolve_verify_cache_cleanup_code(client, member)
             except Exception as e:
                 funcname = '_resolve_onremove_code'
                 tbinfo = str(traceback.format_exc())
@@ -616,8 +643,12 @@ class BotEvents:
                     newlyjoinedlist = json.load(joinedlistfile)
                     joinedlistfile.close()
                     yield from client.send_message(discord.Object(id=des_channel), message_data)
-                    newlyjoinedlist['users_to_be_verified'].append(member.id)
-                    json.dump(newlyjoinedlist, open(sys.path[0] + file_path_join_2 + filename_join_4, "w"))
+                    if member.id in newlyjoinedlist['users_to_be_verified']:
+                        #since this person is already in the list lets not readd it.
+                        pass
+                    else:
+                        newlyjoinedlist['users_to_be_verified'].append(member.id)
+                        json.dump(newlyjoinedlist, open(sys.path[0] + file_path_join_2 + filename_join_4, "w"))
             except Exception as e:
                 funcname = '_resolve_onjoin_code'
                 tbinfo = str(traceback.format_exc())

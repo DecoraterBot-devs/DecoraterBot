@@ -62,7 +62,7 @@ except ImportError:
 
 from . import utils, opus
 from .gateway import *
-from .errors import ClientException, InvalidArgument, ConnectionClosed
+from .errors import ClientException, InvalidArgument, ConnectionClosed, VoiceWSTimeoutError
 
 
 class StreamPlayer(threading.Thread):
@@ -255,8 +255,14 @@ class VoiceClient:
                     break
                 elif e.code == 1006:
                     pass
+                elif e.code == 4003:
+                    # server seems to have crashed.
+                    pass
                 else:
                     raise
+            except VoiceWSTimeoutError:
+                # The goal with the internal exception from this is to suppress it.
+                pass
 
     @asyncio.coroutine
     def disconnect(self):

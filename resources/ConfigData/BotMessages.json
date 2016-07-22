@@ -102,7 +102,7 @@
         "Libs used: \n```Discord.py, DecoraterBotCore, and other libs```"
     ],
     "source_command_data": [
-        "{0.mention} <https://github.com/AraHaan/DecoraterBot/tree/Async>\n Core: <https://github.com/AraHaan/DecoraterBotCore/tree/Async>"
+        "{0.mention} <https://github.com/AraHaan/DecoraterBot/>\n Collaboration Fork: <https://github.com/Cheeselab/DecoraterBot>"
     ],
     "prune_command_data": [
         "You need to give this bot the ability to remove messages by a role and by a channel permission for it to work.",

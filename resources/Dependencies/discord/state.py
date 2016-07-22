@@ -24,24 +24,22 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-import asyncio
-import copy
-import datetime
-import enum
-import logging
-import math
-from collections import deque, namedtuple
-
-from . import utils, compat
-from .channel import Channel, PrivateChannel
-from .enums import Status
-from .game import Game
-from .member import Member
-from .message import Message
-from .role import Role
 from .server import Server
 from .user import User
+from .game import Game
+from .message import Message
+from .channel import Channel, PrivateChannel
+from .member import Member
+from .role import Role
+from . import utils, compat
+from .enums import Status, ChannelType, try_enum
+from .calls import GroupCall
 
+from collections import deque, namedtuple
+import copy, enum, math
+import datetime
+import asyncio
+import logging
 
 class ListenerType(enum.Enum):
     chunk = 0
@@ -67,6 +65,7 @@ class ConnectionState:
         self.user = None
         self.sequence = None
         self.session_id = None
+        self._calls = {}
         self._servers = {}
         self._voice_clients = {}
         self._private_channels = {}
@@ -142,11 +141,13 @@ class ConnectionState:
 
     def _add_private_channel(self, channel):
         self._private_channels[channel.id] = channel
-        self._private_channels_by_user[channel.user.id] = channel
+        if channel.type is ChannelType.private:
+            self._private_channels_by_user[channel.user.id] = channel
 
     def _remove_private_channel(self, channel):
         self._private_channels.pop(channel.id, None)
-        self._private_channels_by_user.pop(channel.user.id, None)
+        if channel.type is ChannelType.private:
+            self._private_channels_by_user.pop(channel.user.id, None)
 
     def _get_message(self, msg_id):
         return utils.find(lambda m: m.id == msg_id, self.messages)
@@ -209,8 +210,7 @@ class ConnectionState:
                 servers.append(server)
 
         for pm in data.get('private_channels'):
-            self._add_private_channel(PrivateChannel(id=pm['id'],
-                                                     user=User(**pm['recipient'])))
+            self._add_private_channel(PrivateChannel(self.user, **pm))
 
         compat.create_task(self._delay_ready(), loop=self.loop)
 
@@ -241,7 +241,10 @@ class ConnectionState:
         message = self._get_message(data.get('id'))
         if message is not None:
             older_message = copy.copy(message)
-            if 'content' not in data:
+            if 'call' in data:
+                # call state message edit
+                message._handle_call(data['call'])
+            elif 'content' not in data:
                 # embed only edit
                 message.embeds = data['embeds']
             else:
@@ -278,6 +281,7 @@ class ConnectionState:
         member.game = Game(**game) if game else None
         member.name = user.get('username', member.name)
         member.avatar = user.get('avatar', member.avatar)
+        member.discriminator = user.get('discriminator', member.discriminator)
 
         self.dispatch('member_update', old_member, member)
 
@@ -294,9 +298,17 @@ class ConnectionState:
                 self.dispatch('channel_delete', channel)
 
     def parse_channel_update(self, data):
+        channel_type = try_enum(ChannelType, data.get('type'))
+        channel_id = data.get('id')
+        if channel_type is ChannelType.group:
+            channel = self._get_private_channel(channel_id)
+            old_channel = copy.copy(channel)
+            channel._update_group(**data)
+            self.dispatch('channel_update', old_channel, channel)
+            return
+
         server = self._get_server(data.get('guild_id'))
         if server is not None:
-            channel_id = data.get('id')
             channel = server.get_channel(channel_id)
             if channel is not None:
                 old_channel = copy.copy(channel)
@@ -304,12 +316,10 @@ class ConnectionState:
                 self.dispatch('channel_update', old_channel, channel)
 
     def parse_channel_create(self, data):
-        is_private = data.get('is_private', False)
+        ch_type = try_enum(ChannelType, data.get('type'))
         channel = None
-        if is_private:
-            recipient = User(**data.get('recipient'))
-            pm_id = data.get('id')
-            channel = PrivateChannel(id=pm_id, user=recipient)
+        if ch_type in (ChannelType.group, ChannelType.private):
+            channel = PrivateChannel(self.user, **data)
             self._add_private_channel(channel)
         else:
             server = self._get_server(data.get('guild_id'))
@@ -318,6 +328,22 @@ class ConnectionState:
                 server._add_channel(channel)
 
         self.dispatch('channel_create', channel)
+
+    def parse_channel_recipient_add(self, data):
+        channel = self._get_private_channel(data.get('channel_id'))
+        user = User(**data.get('user', {}))
+        channel.recipients.append(user)
+        self.dispatch('group_join', channel, user)
+
+    def parse_channel_recipient_remove(self, data):
+        channel = self._get_private_channel(data.get('channel_id'))
+        user = User(**data.get('user', {}))
+        try:
+            channel.recipients.remove(user)
+        except ValueError:
+            pass
+        else:
+            self.dispatch('group_remove', channel, user)
 
     def _make_member(self, server, data):
         roles = [server.default_role]
@@ -541,16 +567,21 @@ class ConnectionState:
 
     def parse_voice_state_update(self, data):
         server = self._get_server(data.get('guild_id'))
-        user_id = data.get('user_id')
         if server is not None:
-            if user_id == self.user.id:
+            channel = server.get_channel(data.get('channel_id'))
+            if data.get('user_id') == self.user.id:
                 voice = self._get_voice_client(server.id)
                 if voice is not None:
-                    voice.channel = server.get_channel(data.get('channel_id'))
+                    voice.channel = channel
 
             before, after = server._update_voice_state(data)
             if after is not None:
                 self.dispatch('voice_state_update', before, after)
+        else:
+            # in here we're either at private or group calls
+            call = self._calls.get(data.get('channel_id'), None)
+            if call is not None:
+                call._update_voice_state(data)
 
     def parse_typing_start(self, data):
         channel = self.get_channel(data.get('channel_id'))
@@ -569,6 +600,25 @@ class ConnectionState:
             if member is not None:
                 timestamp = datetime.datetime.utcfromtimestamp(data.get('timestamp'))
                 self.dispatch('typing', channel, member, timestamp)
+
+    def parse_call_create(self, data):
+        message = self._get_message(data.get('message_id'))
+        if message is not None:
+            call = GroupCall(call=message, **data)
+            self._calls[data['channel_id']] = call
+            self.dispatch('call', call)
+
+    def parse_call_update(self, data):
+        call = self._calls.get(data.get('channel_id'), None)
+        if call is not None:
+            before = copy.copy(call)
+            call._update(**data)
+            self.dispatch('call_update', before, call)
+
+    def parse_call_delete(self, data):
+        call = self._calls.pop(data.get('channel_id'), None)
+        if call is not None:
+            self.dispatch('call_remove', call)
 
     def get_channel(self, id):
         if id is None:

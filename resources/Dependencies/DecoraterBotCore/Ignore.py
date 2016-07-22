@@ -134,9 +134,6 @@ if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _async
 
 
 class BotCommandData:
-    def __init__(self):
-        pass
-
     # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """
@@ -421,9 +418,6 @@ class BotCommandData:
 
 
 class BotIgnores:
-    def __init__(self):
-        pass
-
     # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """
@@ -483,9 +477,6 @@ class BotIgnores:
 
 
 class BotEvents:
-    def __init__(self):
-        pass
-
     # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """

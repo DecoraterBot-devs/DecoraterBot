@@ -100,9 +100,6 @@ if _log_games:
 
 
 class BotCommands:
-    def __init__(self):
-        pass
-
     # noinspection PyUnusedLocal,PyPep8Naming
     class bot:
         """

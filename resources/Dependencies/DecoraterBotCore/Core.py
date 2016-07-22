@@ -57,9 +57,6 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 
 
 class BotCore:
-    def __init__(self):
-        pass
-
     # noinspection PyPep8Naming,PyUnusedLocal
     class bot:
         """

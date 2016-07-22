@@ -22,9 +22,6 @@ except FileNotFoundError:
 
 
 class BotLogs:
-    def __init__(self):
-        pass
-
     # noinspection PyUnusedLocal,PyPep8Naming
     class bot:
         """

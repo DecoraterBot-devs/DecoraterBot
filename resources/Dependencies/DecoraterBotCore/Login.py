@@ -27,9 +27,6 @@ is_bot_logged_in = False
 
 
 class BotLogin:
-    def __init__(self):
-        pass
-
     # noinspection PyPep8Naming
     class bot:
         """

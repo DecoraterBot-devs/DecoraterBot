@@ -327,10 +327,16 @@ class PrivateChannel(Hashable):
     __slots__ = ['id', 'recipients', 'type', 'owner', 'icon', 'name', 'me']
 
     def __init__(self, me, **kwargs):
-        self.recipients = [User(**u) for u in kwargs['recipients']]
+        try:
+            self.recipients = [User(**u) for u in kwargs['recipients']]
+        except KeyError:
+            pass
         self.id = kwargs['id']
         self.me = me
-        self.type = ChannelType(kwargs['type'])
+        try:
+            self.type = ChannelType(kwargs['type'])
+        except KeyError:
+            pass
         self._update_group(**kwargs)
  
     def _update_group(self, **kwargs):

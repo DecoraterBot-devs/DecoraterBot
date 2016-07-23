@@ -543,6 +543,30 @@ class BotEvents:
 
         @classmethod
         @asyncio.coroutine
+        def _resolve_verify_cache_cleanup_2_code(self, client, member):
+            try:
+                serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
+                serveridslist = json.load(serveridslistfile)
+                serveridslistfile.close()
+                serverid = str(serveridslist['config_server_ids'][0])
+                file_path = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+                filename_1 = 'verifycache.json'
+                joinedlistfile = io.open(sys.path[0] + file_path + filename_1, 'r')
+                newlyjoinedlist = json.load(joinedlistfile)
+                joinedlistfile.close()
+                if member.id in newlyjoinedlist['users_to_be_verified']:
+                    yield from client.send_message(discord.Object(id='141489876200718336'), "{0} has left the {1} Server.".format(member.mention, member.server.name))
+                    newlyjoinedlist['users_to_be_verified'].remove(member.id)
+                    file_name = "\\verifications\\verifycache.json"
+                    filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760" + file_name
+                    json.dump(newlyjoinedlist, open(filename, "w"))
+            except Exception as e:
+                funcname = '_resolve_verify_cache_cleanup_2_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
+
+        @classmethod
+        @asyncio.coroutine
         def _resolve_verify_cache_cleanup_code(self, client, member):
             try:
                 serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
@@ -603,7 +627,7 @@ class BotEvents:
                     if _logkicks == 'True':
                         yield from BotLogs.BotLogs.onkick(client, member)
                 if member.server and member.server.id == "71324306319093760":
-                    yield from self._resolve_verify_cache_cleanup_code(client, member)
+                    yield from self._resolve_verify_cache_cleanup_2_code(client, member)
             except Exception as e:
                 funcname = '_resolve_onremove_code'
                 tbinfo = str(traceback.format_exc())

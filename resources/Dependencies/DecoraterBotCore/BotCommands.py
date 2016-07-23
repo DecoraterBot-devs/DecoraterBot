@@ -855,7 +855,7 @@ class BotCommands:
                 msg_mention_list_len = len(message.mentions) - 1
                 if msg_mention_list_len == -1:
                     msg_mention_list_len = 0
-                if msg_mention_list_len == 1:
+                if msg_mention_list_len == 0:
                     if desdata.startswith(message.mentions[msg_mention_list_len].mention):
                         desdata = desdata.replace(" | ", "\n").replace('-', '--').replace(' ', '-')
                         desdata = desdata.splitlines()
@@ -871,7 +871,7 @@ class BotCommands:
                                     '%', '~p').replace('#', '~h').replace('/', '~s')
                                 for x in message.mentions:
                                     toptext = toptext.replace(x.mention, x.name)
-                                toptext = toptext.replace('<', '').replace('>', '')
+                                toptext = toptext.replace('<', '').replace('>', '').replace('@', '')
                             except IndexError:
                                 meme_error = True
                                 msgdata = str(botmessages['meme_command_data'][1])
@@ -882,7 +882,7 @@ class BotCommands:
                                     '?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
                                 for x in message.mentions:
                                     bottext = bottext.replace(x.mention, x.name)
-                                bottext = bottext.replace('<', '').replace('>', '')
+                                bottext = bottext.replace('<', '').replace('>', '').replace('@', '')
                             except IndexError:
                                 meme_error = True
                                 msgdata = str(botmessages['meme_command_data'][2])
@@ -905,7 +905,7 @@ class BotCommands:
                                 '%', '~p').replace('#', '~h').replace('/', '~s')
                             for x in message.mentions:
                                 toptext = toptext.replace(x.mention, x.name)
-                            toptext = toptext.replace('<', '').replace('>', '')
+                            toptext = toptext.replace('<', '').replace('>', '').replace('@', '')
                         except IndexError:
                             meme_error = True
                             msgdata = str(botmessages['meme_command_data'][1])
@@ -916,7 +916,7 @@ class BotCommands:
                                 '%', '~p').replace('#', '~h').replace('/', '~s')
                             for x in message.mentions:
                                 bottext = bottext.replace(x.mention, x.name)
-                            bottext = bottext.replace('<', '').replace('>', '')
+                            bottext = bottext.replace('<', '').replace('>', '').replace('@', '')
                         except IndexError:
                             meme_error = True
                             msgdata = str(botmessages['meme_command_data'][2])

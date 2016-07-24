@@ -3,7 +3,7 @@
 Commands are usually using the `::` prefix.
 
 |   	| Text Channel Commands	|
-|:------:	|:-:	|---	|
+|:------:	|:-:	|
 | ::kill <optionally mention someone>	| Kills someone you mention and randomly generates a kill message. Can onso use the Command and not mention someone as well. (Works in PM and servers)	|
 | ::changelog	| Bot information and command changes. (Works in PM and servers)	|
 | ::raid <optionally mention where>	| Raids a person or place you mention.	|

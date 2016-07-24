@@ -15,7 +15,7 @@ Commands are usually using the `::` prefix.
 | ``::color ::pink/::brown <role name here>``	| Changes the Colors of a Role. (Was Originally a Testing Command) (Servers only)	|
 | ``::meme <picture (required)> | <top text (required)> | <bottom text (required)>``	| Gives a meme with the text you provide. meme picture list can be found here. (BooBot's but it works for this too.) http://pastebin.com/gCL2jMEL. You can also do things like ``::meme [mention someone here] | [top text] | [bottom text]``	|
 | ``::remgame``	| Removes any game from the bot's status.	|
-| ``::join <invite url or code>``	| For Joining Servers, However with Official API it does not work so that is why Credentials has a ``True`` and a ``False`` Option for if it is a bot account or not. If it is set to ``True`` it will send you a url to validate it to join the server via [oauth](https://www.something.com/link/to/oauth/official/website).	|
+| ``::join <invite url or code>``	| For Joining Servers, However with Official API it does not work so that is why Credentials has a ``True`` and a ``False`` Option for if it is a bot account or not. If it is set to ``True`` it will send you a url to validate it to join the server via [oauth](http://oauth.net/2/).	|
 | ``::update``	| Command that says that the bot has updated. Probably should remove this due to spamming of it is possible?	|
 | ``::say <whatever you want here>``	| Makes the bot Say whatever you want. Note: You cannot have ``::`` in this nor any Mentions to prevent any abuse of the API.	|
 | ``::type``	| Makes the bot send a ``typing`` status to the channel the command was sent from.	|
@@ -34,10 +34,7 @@ Commands are usually using the `::` prefix.
 | ``::as``	| Changes bot's avatar to Asura's image.	|
 | ``::rs``	| Changes bot's avatar to Rune Slayer's image.	|
 | ``::ai``	| Changes bot's avatar to Aisha's base image.	|
-| ``::tinyurl <URL to shorten here>``	| Makes the bot shorten the URL Provided. (Supports ``<`` and ``>`` between the URL to excape embedding of it with [oembed](https://www.something.com/link/to/oembed/official/website))	|
-
-# TODO: Link to Oauth on the word ``oauth`` above.
-# TODO: Link to Oembed on the word ``oembed`` above.
+| ``::tinyurl <URL to shorten here>``	| Makes the bot shorten the URL Provided. (Supports ``<`` and ``>`` between the URL to excape embedding of it with [oembed](http://oembed.com/))	|
 
 |   	| Voice Channel Commands	|
 |:------:	|:-:	|

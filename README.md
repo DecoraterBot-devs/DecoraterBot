@@ -55,6 +55,8 @@ Join the official Cheese.lab servers to help test and contribute to the developm
 
 [![](https://discordapp.com/api/servers/71324306319093760/widget.png?style=banner2)](https://discord.gg/cheese) 
 [![](https://discordapp.com/api/servers/200406284288131072/widget.png?style=banner2)](https://discord.gg/m9GDqER)
+And the Bot's Original Server (Kinda dead right now):
+[![](https://discordapp.com/api/servers/121816417937915904/widget.png?style=banner2)](https://discord.gg/0gBc5ook1D7ZkZAP)
 
 -
 

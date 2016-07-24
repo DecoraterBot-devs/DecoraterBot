@@ -35,8 +35,7 @@ def on_message_edit(before, after):
 
 @client.async_event
 def on_channel_delete(channel):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.channeldelete(channel)
 
 
 @client.async_event
@@ -135,8 +134,7 @@ def on_group_remove(channel, user):
 
 @client.async_event
 def on_error(event, *args, **kwargs):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.errors(event, *args, **kwargs)
 
 
 @client.async_event
@@ -147,20 +145,17 @@ def on_voice_state_update(before, after):
 
 @client.async_event
 def on_typing(channel, user, when):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.typing(channel, user, when)
 
 
 @client.async_event
 def on_socket_raw_receive(msg):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.raw_recv(msg)
 
 
 @client.async_event
 def on_socket_raw_send(payload):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.raw_send(payload)
 
 
 @client.async_event
@@ -170,8 +165,7 @@ def on_ready():
 
 @client.async_event
 def on_resumed():
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore._bot_resumed()
 
 
 DecoraterBotCore.Core.BotCore._login_helper(client)

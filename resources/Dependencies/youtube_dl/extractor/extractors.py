@@ -156,7 +156,11 @@ from .cnn import (
 )
 from .coub import CoubIE
 from .collegerama import CollegeRamaIE
-from .comedycentral import ComedyCentralIE, ComedyCentralShowsIE
+from .comedycentral import (
+    ComedyCentralIE,
+    ComedyCentralShowsIE,
+    ComedyCentralTVIE,
+)
 from .comcarcoff import ComCarCoffIE
 from .commonmistakes import CommonMistakesIE, UnicodeBOMIE
 from .commonprotocols import RtmpIE
@@ -538,6 +542,7 @@ from .niconico import NiconicoIE, NiconicoPlaylistIE
 from .ninecninemedia import NineCNineMediaIE
 from .ninegag import NineGagIE
 from .ninenow import NineNowIE
+from .nintendo import NintendoIE
 from .noco import NocoIE
 from .normalboots import NormalbootsIE
 from .nosvideo import NosVideoIE
@@ -582,6 +587,7 @@ from .nytimes import (
     NYTimesArticleIE,
 )
 from .nuvid import NuvidIE
+from .odatv import OdaTVIE
 from .odnoklassniki import OdnoklassnikiIE
 from .oktoberfesttv import OktoberfestTVIE
 from .onet import (
@@ -782,6 +788,7 @@ from .srmediathek import SRMediathekIE
 from .ssa import SSAIE
 from .stanfordoc import StanfordOpenClassroomIE
 from .steam import SteamIE
+from .streamable import StreamableIE
 from .streamcloud import StreamcloudIE
 from .streamcz import StreamCZIE
 from .streetvoice import StreetVoiceIE

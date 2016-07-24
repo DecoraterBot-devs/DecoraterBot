@@ -214,6 +214,42 @@ class BotCore:
 
         @classmethod
         @asyncio.coroutine
+        def raw_recv_code(self, msg):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def raw_send_code(self, payload):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def _bot_resumed_code(self):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def typing_code(self, channel, user, when):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def errors_code(self, event, *args, **kwargs):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def channeldelete_code(self, channel):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
         def _bot_ready_code(self, client):
             yield from Login.BotLogin.on_login(client)
             yield from Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
@@ -292,6 +328,36 @@ class BotCore:
     @asyncio.coroutine
     def groupremove(self, channel, user):
         yield from self.bot.groupremove_code(channel, user)
+
+    @classmethod
+    @asyncio.coroutine
+    def raw_recv(self, msg):
+        yield from self.bot.raw_recv_code(msg)
+
+    @classmethod
+    @asyncio.coroutine
+    def raw_send(self, payload):
+        yield from self.bot.raw_send_code(payload)
+
+    @classmethod
+    @asyncio.coroutine
+    def _bot_resumed(self):
+        yield from self.bot._bot_resumed_code()
+
+    @classmethod
+    @asyncio.coroutine
+    def typing(self, channel, user, when):
+        yield from self.bot.typing_code(channel, user, when)
+
+    @classmethod
+    @asyncio.coroutine
+    def errors(self, event, *args, **kwargs):
+        yield from self.bot.errors_code(event, *args, **kwargs)
+
+    @classmethod
+    @asyncio.coroutine
+    def channeldelete(self, channel):
+        yield from self.bot.channeldelete_code(channel)
 
     @classmethod
     @asyncio.coroutine

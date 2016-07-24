@@ -343,7 +343,10 @@ class PrivateChannel(Hashable):
         owner_id = kwargs.get('owner_id')
         self.icon = kwargs.get('icon')
         self.name = kwargs.get('name')
-        self.owner = utils.find(lambda u: u.id == owner_id, self.recipients)
+        try:
+            self.owner = utils.find(lambda u: u.id == owner_id, self.recipients)
+        except AttributeError:
+            pass
 
     @property
     def is_private(self):

@@ -8,7 +8,7 @@ DecoraterBot is a Discord bot that is written in [Python](https://www.python.org
 
 ## Future Updates
 
-The bot gets updated and tested regularly. Pushes release when features are stable.
+The bot gets updated and tested regularly. Pushes are released when features are stable.
 
 ## Configuration
 
@@ -29,11 +29,7 @@ After you have configurated the bot with a token you can run the bot with ``Deco
 
 ## Commands
 
-Commands are usually using the `::` prefix.
-
-``::kill <optionally mention someone>`` - Kills someone you mention and randomly generates a kill message.
-
-``::changelog`` - Bot information and command changes.
+View the list of bot commands [here](https://github.com/Cheeselab/DecoraterBot/blob/Async-Portable/Commands.MD)
 
 -
 

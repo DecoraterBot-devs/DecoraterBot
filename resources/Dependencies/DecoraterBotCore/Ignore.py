@@ -60,6 +60,26 @@ _discord_logger = True
 _asyncio_logger = True
 _log_available = True
 _log_unavailable = True
+# Newly Added. I am adding this comment here to separate the new from the old till I can get the stuff coded right.
+log_channel_create = True
+log_channel_delete = True
+log_channel_update = True
+log_member_update = True
+log_server_join = True
+log_server_remove = True
+log_server_update = True
+log_server_role_create = True
+log_server_role_delete = True
+log_server_role_update = True
+log_group_join = True
+log_group_remove = True
+log_error = True
+log_voice_state_update = True
+log_typing = True
+log_socket_raw_receive = True
+log_socket_raw_send = True
+log_resumed = True
+log_member_join = True
 
 PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
@@ -372,9 +392,9 @@ class BotCommandData:
                     if message.author.id != client.user.id:
                         if message.author.id in newlyjoinedlist['users_to_be_verified']:
                             yield from client.delete_message(message)
-                            yield from client.send_message(message.channel, "I am sorry, you did not send the right Verification Message. Please Read <#149323474765217792> and try again.")
+                            yield from client.send_message(message.channel, "{0} I am sorry, you did not send the right Verification Message. Please Read <#149323474765217792> and try again.".format(message.author.mention))
             except NameError:
-                yield from client.send_message(message.channel, "Verification has Failed.")
+                yield from client.send_message(message.channel, "{0} Verification has Failed.".format(message.author.mention))
 
     @classmethod
     @asyncio.coroutine
@@ -637,6 +657,7 @@ class BotEvents:
         @asyncio.coroutine
         def _resolve_onjoin_code(self, client, member):
             try:
+                # TODO: Add logging for this.
                 if member.server.id == '71324306319093760':
                     file_path_join_1 = '\\resources\\ConfigData\\serverconfigs\\'
                     filename_join_1 = 'servers.json'
@@ -721,12 +742,24 @@ class BotEvents:
         @classmethod
         @asyncio.coroutine
         def _resolve_ongroupjoin_code(self, channel, user):
-            yield from BotLogs.BotLogs.ongroupjoin(channel, user)
+            try:
+                if log_group_join:
+                    yield from BotLogs.BotLogs.ongroupjoin(channel, user)
+            except Exception as e:
+                funcname = '_resolve_ongroupjoin_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
         @asyncio.coroutine
         def _resolve_ongroupremove_code(self, channel, user):
-            yield from BotLogs.BotLogs.ongroupremove(channel, user)
+            try:
+                if log_group_remove:
+                    yield from BotLogs.BotLogs.ongroupremove(channel, user)
+            except Exception as e:
+                funcname = '_resolve_ongroupremove_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
         @classmethod
         @asyncio.coroutine

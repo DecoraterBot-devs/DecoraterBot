@@ -46,12 +46,17 @@ Commands are usually using the `::` prefix.
 
 ``::userinfo <mention user (optional if you want to see your own info)>`` - Shows your or the person you mentioned user information.
 
-::kick <mention person here>
-::ban <mention person here>
-::softban <mention person here>
-::clear (Clears all messages from bot within a 100 message limit.)
-::ignorechannel
-::unignorechannel
+``::kick <mention person here>`` - Kicks the User mentioned. (Bug in it if the bot has no permissions to kick or if the user has a higher rank than the bot that it sends 2 messages)
+
+``::ban <mention person here>`` - Bans the User mentioned. (Bug in it if the bot has no permissions to ban or if the user has a higher rank than the bot that it sends 2 messages)
+
+``::softban <mention person here>`` - Bans and then Immediately Unbans the user mentioned. (This Essenctially is a kick that prunes messages)
+
+``::clear`` - Clears all messages from bot within a 100 message limit.
+
+``::ignorechannel`` - Ignores the channel that this command was sent from.
+
+``::unignorechannel`` - Allows the bot to listen to commands from a Ignored Channel and Remvoes it from the ``Ignore`` List.
 
 ``::as`` - changes bot's avatar to Asura's image.
 

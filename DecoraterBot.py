@@ -139,8 +139,7 @@ def on_error(event, *args, **kwargs):
 
 @client.async_event
 def on_voice_state_update(before, after):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.voiceupdate(before, after)
 
 
 @client.async_event

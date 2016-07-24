@@ -250,6 +250,12 @@ class BotCore:
 
         @classmethod
         @asyncio.coroutine
+        def voiceupdate_code(before, after):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
         def _bot_ready_code(self, client):
             yield from Login.BotLogin.on_login(client)
             yield from Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
@@ -358,6 +364,11 @@ class BotCore:
     @asyncio.coroutine
     def channeldelete(self, channel):
         yield from self.bot.channeldelete_code(channel)
+
+    @classmethod
+    @asyncio.coroutine
+    def voiceupdate(before, after):
+        yield from self.bot.voiceupdate_code(before, after)
 
     @classmethod
     @asyncio.coroutine

@@ -34,6 +34,24 @@ def on_message_edit(before, after):
 
 
 @client.async_event
+def on_channel_delete(channel):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_channel_create(channel):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_channel_update(before, after):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
 def on_member_ban(member):
     yield from DecoraterBotCore.Core.BotCore.memberban(client, member)
 
@@ -49,13 +67,14 @@ def on_member_remove(member):
 
 
 @client.async_event
-def on_member_join(member):
-    yield from DecoraterBotCore.Core.BotCore.memberjoin(client, member)
+def on_member_update(before, after):
+    # TODO: Add this to logging and stuff.
+    pass
 
 
 @client.async_event
-def on_ready():
-    yield from DecoraterBotCore.Core.BotCore._bot_ready(client)
+def on_member_join(member):
+    yield from DecoraterBotCore.Core.BotCore.memberjoin(client, member)
 
 
 @client.async_event
@@ -68,4 +87,91 @@ def on_server_unavailable(server):
     yield from DecoraterBotCore.Core.BotCore._server_unavailable(server)
 
 
-DecoraterBotCore.BotCore._login_helper(client)
+@client.async_event
+def on_server_join(server):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_server_remove(server):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_server_update(before, after):
+    # TODO: Add this to logging and stuff.
+   pass
+
+
+@client.async_event
+def on_server_role_create(role):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_server_role_delete(role):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_server_role_update(before, after):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_group_join(channel, user):
+    yield from DecoraterBotCore.Core.BotCore.groupjoin(channel, user)
+
+
+@client.async_event
+def on_group_remove(channel, user):
+    yield from DecoraterBotCore.Core.BotCore.groupremove(channel, user)
+
+
+@client.async_event
+def on_error(event, *args, **kwargs):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_voice_state_update(before, after):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_typing(channel, user, when):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_socket_raw_receive(msg):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_socket_raw_send(payload):
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+@client.async_event
+def on_ready():
+    yield from DecoraterBotCore.Core.BotCore._bot_ready(client)
+
+
+@client.async_event
+def on_resumed():
+    # TODO: Add this to logging and stuff.
+    pass
+
+
+DecoraterBotCore.Core.BotCore._login_helper(client)

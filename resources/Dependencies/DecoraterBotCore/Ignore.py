@@ -720,6 +720,16 @@ class BotEvents:
 
         @classmethod
         @asyncio.coroutine
+        def _resolve_ongroupjoin_code(self, channel, user):
+            yield from BotLogs.BotLogs.ongroupjoin(channel, user)
+
+        @classmethod
+        @asyncio.coroutine
+        def _resolve_ongroupremove_code(self, channel, user):
+            yield from BotLogs.BotLogs.ongroupremove(channel, user)
+
+        @classmethod
+        @asyncio.coroutine
         def high_level_reload_helper2_code(self, client, message):
             try:
                 if _disable_voice_commands is not True:
@@ -788,6 +798,16 @@ class BotEvents:
     @asyncio.coroutine
     def server_unavailable(self, server):
         yield from self.bot.server_unavailable_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def _resolve_ongroupjoin(self, channel, user):
+        yield from self.bot._resolve_ongroupjoin_code(channel, user)
+
+    @classmethod
+    @asyncio.coroutine
+    def _resolve_ongroupremove(self, channel, user):
+        yield from self.bot._resolve_ongroupremove_code(channel, user)
 
     @classmethod
     @asyncio.coroutine

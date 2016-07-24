@@ -297,6 +297,18 @@ class BotLogs:
 
         @classmethod
         @asyncio.coroutine
+        def ongroupjoin_code(self, channel, user):
+            # TODO: Impliment this.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def ongroupremove_code(self, channel, user):
+            # TODO: Impliment this.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
         def onkick_code(self, client, member):
             mem_name = member.name
             mem_id = member.id
@@ -388,6 +400,16 @@ class BotLogs:
     @asyncio.coroutine
     def onunban(self, server, user):
         yield from self.bot.onunban_code(server, user)
+
+    @classmethod
+    @asyncio.coroutine
+    def ongroupjoin(self, channel, user):
+        yield from self.bot.ongroupjoin_code(channel, user)
+
+    @classmethod
+    @asyncio.coroutine
+    def ongroupremove(self, channel, user):
+        yield from self.bot.ongroupremove_code(channel, user)
 
     @classmethod
     @asyncio.coroutine

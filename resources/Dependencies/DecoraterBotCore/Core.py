@@ -204,6 +204,16 @@ class BotCore:
 
         @classmethod
         @asyncio.coroutine
+        def groupjoin_code(self, channel, user):
+            yield from Ignore.BotEvents._resolve_ongroupjoin(channel, user)
+
+        @classmethod
+        @asyncio.coroutine
+        def groupremove_code(self, channel, user):
+            yield from Ignore.BotEvents._resolve_ongroupremove(channel, user)
+
+        @classmethod
+        @asyncio.coroutine
         def _bot_ready_code(self, client):
             yield from Login.BotLogin.on_login(client)
             yield from Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
@@ -272,6 +282,16 @@ class BotCore:
     @asyncio.coroutine
     def _server_unavailable(self, server):
         yield from self.bot._server_unavailable_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def groupjoin(self, channel, user):
+        yield from self.bot.groupjoin_code(channel, user)
+
+    @classmethod
+    @asyncio.coroutine
+    def groupremove(self, channel, user):
+        yield from self.bot.groupremove_code(channel, user)
 
     @classmethod
     @asyncio.coroutine

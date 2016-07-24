@@ -4,11 +4,11 @@ Commands are usually using the `::` prefix.
 
 |   	| Text Channel Commands	|
 |:------:	|:-:	|
-| ``::kill <optionally mention someone>``	| Kills someone you mention and randomly generates a kill message. Can onso use the Command and not mention someone as well. (Works in PM and servers)	|
-| ``::changelog``	| Bot information and command changes. (Works in PM and servers)	|
-| ``::raid <optionally mention where>``	| Raids a person or place you mention.	|
-| ``::source``	| Shows GitHub Repositories. (Works in PM and servers)	|
-| ``::prune <number of messages to remove>``	| Prune a specific number of messages. Max is 100 due to Ratelimits. (Servers only)	|
+| ``::kill <optionally mention someone>``	| > Kills someone you mention and randomly generates a kill message. Can onso use the Command and not mention someone as well. (Works in PM and servers)	|
+| ``::changelog``	| > Bot information and command changes. (Works in PM and servers)	|
+| ``::raid <optionally mention where>``	| > Raids a person or place you mention.	|
+| ``::source``	| > Shows GitHub Repositories. (Works in PM and servers)	|
+| ``::prune <number of messages to remove>``	| > Prune a specific number of messages. Max is 100 due to Ratelimits. (Servers only)	|
 | ``::game <'string here'> | type=<1 for Twitch or 2 for Youtube (Soon™)>``	| Changes game status. (Works in PM and servers)	|
 | ``::debug``	| Debugs Python Code. (Bot owner only) (Works in PM and servers)	|
 | ``::eval``	| Evaluates Python Code without Subproccessing the Python Interpreter. (Bot owner only) (Works in PM and servers)	|

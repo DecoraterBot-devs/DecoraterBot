@@ -21,7 +21,6 @@ import BotCommands
 import BotPMError
 import BotVoiceCommands
 from discord.ext import commands
-import BotDecorators
 
 jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
 somedict = json.load(jsonfile)
@@ -151,27 +150,33 @@ class BotCore:
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def deletemessage_code(self, client, message):
             yield from Ignore.BotEvents._resolve_delete_method(client, message)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def editmessage_code(self, client, before, after):
             yield from Ignore.BotEvents._resolve_edit_method(client, before, after)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def memberban_code(self, client, member):
             yield from Ignore.BotEvents._resolve_onban(client, member)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def memberunban_code(self, client, member):
             yield from Ignore.BotEvents._resolve_onunban(client, member)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def memberremove_code(self, client, member):
             yield from Ignore.BotEvents._resolve_onremove(client, member)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def memberjoin_code(self, client, member):
             yield from Ignore.BotEvents._resolve_onjoin(client, member)
 
@@ -187,103 +192,124 @@ class BotCore:
         def _asyncio_logger_code(self):
             Ignore.BotEvents._resolve_asyncio_logger()
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _server_available_code(self, server):
             yield from Ignore.BotEvents.server_available(server)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _server_unavailable_code(self, server):
             yield from Ignore.BotEvents.server_unavailable(server)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def groupjoin_code(self, channel, user):
             yield from Ignore.BotEvents._resolve_ongroupjoin(channel, user)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def groupremove_code(self, channel, user):
             yield from Ignore.BotEvents._resolve_ongroupremove(channel, user)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def raw_recv_code(self, msg):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def raw_send_code(self, payload):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _bot_resumed_code(self):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def typing_code(self, channel, user, when):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def errors_code(self, event, *args, **kwargs):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def channeldelete_code(self, channel):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def voiceupdate_code(self, before, after):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def serverrolecreate_code(self, role):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def serverroledelete_code(self, role):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def serverroleupdate_code(self, before, after):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def serverjoin_code(self, server):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def serverremove_code(self, server):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def serverupdate_code(self, before, after):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def channelcreate_code(self, channel):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def channelupdate_code(self, before, after):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def memberupdate_code(self, before, after):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _bot_ready_code(self, client):
             yield from Login.BotLogin.on_login(client)
             yield from Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
@@ -296,31 +322,38 @@ class BotCore:
     def changewindowsize(self):
         self.bot.changewindowsize_code()
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def commands(self, client, message):
         yield from self.bot.commands_code(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def deletemessage(self, client, message):
         yield from self.bot.deletemessage_code(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def editmessage(self, client, before, after):
         yield from self.bot.editmessage_code(client, before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def memberban(self, client, member):
         yield from self.bot.memberban_code(client, member)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def memberunban(self, client, member):
         yield from self.bot.memberunban_code(client, member)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def memberremove(self, client, member):
         yield from self.bot.memberremove_code(client, member)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def memberjoin(self, client, member):
         yield from self.bot.memberjoin_code(client, member)
 
@@ -336,86 +369,107 @@ class BotCore:
     def _asyncio_logger(self):
         self.bot._asyncio_logger_code()
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _server_available(self, server):
         yield from self.bot._server_available_code(server)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _server_unavailable(self, server):
         yield from self.bot._server_unavailable_code(server)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def groupjoin(self, channel, user):
         yield from self.bot.groupjoin_code(channel, user)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def groupremove(self, channel, user):
         yield from self.bot.groupremove_code(channel, user)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def raw_recv(self, msg):
         yield from self.bot.raw_recv_code(msg)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def raw_send(self, payload):
         yield from self.bot.raw_send_code(payload)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _bot_resumed(self):
         yield from self.bot._bot_resumed_code()
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def typing(self, channel, user, when):
         yield from self.bot.typing_code(channel, user, when)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def errors(self, event, *args, **kwargs):
         yield from self.bot.errors_code(event, *args, **kwargs)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def channeldelete(self, channel):
         yield from self.bot.channeldelete_code(channel)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def voiceupdate(self, before, after):
         yield from self.bot.voiceupdate_code(before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def serverrolecreate(self, role):
         yield from self.bot.serverrolecreate_code(role)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def serverroledelete(self, role):
         yield from self.bot.serverroledelete_code(role)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def serverroleupdate(self, before, after):
         yield from self.bot.serverroleupdate_code(before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def serverjoin(self, server):
         yield from self.bot.serverjoin_code(server)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def serverremove(self, server):
         yield from self.bot.serverremove_code(server)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def serverupdate(self, before, after):
         yield from self.bot.serverupdate_code(before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def channelcreate(self, channel):
         yield from self.bot.channelcreate_code(channel)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def channelupdate(self, before, after):
         yield from self.bot.channelupdate_code(before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def memberupdate(self, before, after):
         yield from self.bot.memberupdate_code(before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _bot_ready(self, client):
         yield from self.bot._bot_ready_code(client)

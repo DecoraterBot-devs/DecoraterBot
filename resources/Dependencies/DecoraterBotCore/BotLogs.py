@@ -6,7 +6,6 @@ import os.path
 import asyncio
 import logging
 import json
-import BotDecorators
 
 try:
     consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
@@ -163,7 +162,8 @@ class BotLogs:
             except PermissionError:
                 return
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def send_logs_code(self, client, message):
             Logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                                      str(message.timestamp),
@@ -175,7 +175,8 @@ class BotLogs:
             except discord.errors.NotFound:
                 return
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def send_edit_logs_code(self, client, before, after):
             old = str(before.content)
             new = str(after.content)
@@ -190,7 +191,8 @@ class BotLogs:
                 except discord.errors.NotFound:
                     return
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def send_delete_logs_code(self, client, message):
             dellogs001 = str(LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id,
                                                                                str(message.timestamp),
@@ -203,7 +205,8 @@ class BotLogs:
                 return
 
         # noinspection PyCompatibility
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def on_bot_error_code(self, funcname, tbinfo):
             if bool(funcname):
                 if bool(tbinfo):
@@ -244,7 +247,8 @@ class BotLogs:
                 except PermissionError:
                     return
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def onban_code(self, client, member):
             mem_name = member.name
             mem_id = member.id
@@ -258,7 +262,8 @@ class BotLogs:
                 file.truncate()
             file.write(ban_log_data)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def onavailable_code(self, server):
             available_log_data = str(LogData['On_Server_Available'][0]).format(server)
             logfile = sys.path[0] + '\\resources\\Logs\\available_servers.txt'
@@ -268,7 +273,8 @@ class BotLogs:
                 file.truncate()
             file.write(available_log_data)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def onunavailable_code(self, server):
             unavailable_log_data = str(LogData['On_Server_Unavailable'][0]).format(server)
             logfile = sys.path[0] + '\\resources\\Logs\\unavailable_servers.txt'
@@ -278,7 +284,8 @@ class BotLogs:
                 file.truncate()
             file.write(unavailable_log_data)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def onunban_code(self, server, user):
             unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
             logfile = sys.path[0] + '\\resources\\Logs\\unbans.txt'
@@ -288,17 +295,20 @@ class BotLogs:
                 file.truncate()
             file.write(unban_log_data)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def ongroupjoin_code(self, channel, user):
             # TODO: Impliment this.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def ongroupremove_code(self, channel, user):
             # TODO: Impliment this.
             pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def onkick_code(self, client, member):
             mem_name = member.name
             mem_id = member.id
@@ -336,19 +346,23 @@ class BotLogs:
     def _resolve_embed_logs(self, client, before, after):
         self.bot._resolve_embed_logs_code(client, before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def send_logs(self, client, message):
         yield from self.bot.send_logs_code(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def send_edit_logs(self, client, before, after):
         yield from self.bot.send_edit_logs_code(client, before, after)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def send_delete_logs(self, client, message):
         yield from self.bot.send_delete_logs_code(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def on_bot_error(self, funcname, tbinfo):
         """
             This Function is for Internal Bot use only.
@@ -367,30 +381,37 @@ class BotLogs:
     def gamelog(self, client, message, desgame):
         self.bot.gamelog_code(client, message, desgame)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def onban(self, client, member):
         yield from self.bot.onban_code(client, member)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def onavailable(self, server):
         yield from self.bot.onavailable_code(server)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def onunavailable(self, server):
         yield from self.bot.onunavailable_code(server)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def onunban(self, server, user):
         yield from self.bot.onunban_code(server, user)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def ongroupjoin(self, channel, user):
         yield from self.bot.ongroupjoin_code(channel, user)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def ongroupremove(self, channel, user):
         yield from self.bot.ongroupremove_code(channel, user)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def onkick(self, client, member):
         yield from self.bot.onkick_code(client, member)

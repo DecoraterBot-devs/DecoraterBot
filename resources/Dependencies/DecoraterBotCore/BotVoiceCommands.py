@@ -22,7 +22,6 @@ from threading import Timer
 from collections import deque
 import BotPMError
 from discord.ext import commands
-import BotDecorators
 
 botbanslist = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
 banlist = json.load(botbanslist)
@@ -226,43 +225,53 @@ class VoiceBotCommands:
                 This class is for Internal use only!!!
             """
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def JoinVoiceChannel(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def play(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def stop(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def pause(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def unpause(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def move(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def LeaveVoiceChannel(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def Playlist(self):
                 pass
 
-            @BotDecorators.async_classmethod
+            @classmethod
+            @asyncio.coroutine
             def vol(self):
                 pass
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def voice_stuff_new_code(self, client, message):
             global player
             global vchannel
@@ -1234,7 +1243,8 @@ class VoiceBotCommands:
                     else:
                         yield from client.send_message(voice_message_channel, "Sorry, you can only use this when the bot is playing something.")
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def voice_stuff_new_disabled_code(self, client, message):
             """
                 :rtype: Message object
@@ -1269,7 +1279,8 @@ class VoiceBotCommands:
                 msgdata = "Sorry, Voice Channel commands are Temporarily disabled till Rapptz fixes the library bugs specifically for voice channels that would make total bot disconnects."
                 yield from client.send_message(message.channel, msgdata)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _reload_commands_bypass1_new_code(self, client, message, reload_reason):
             global player
             global vchannel
@@ -1311,7 +1322,8 @@ class VoiceBotCommands:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
         # noinspection PyUnboundLocalVariable
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _reload_commands_bypass2_new_code(self, client, message):
             global vchannel
             global voice
@@ -1378,7 +1390,8 @@ class VoiceBotCommands:
                 voice_message_channel = None
                 voice = None
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _reload_commands_bypass3_new_code(self, client):
             global vchannel
             global voice
@@ -1431,7 +1444,8 @@ class VoiceBotCommands:
                 voice_message_channel = None
                 voice = None
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def _reload_commands_bypass4_new_code(self, client, message, reload_reason):
             global player
             global vchannel
@@ -1472,11 +1486,13 @@ class VoiceBotCommands:
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def voice_stuff_new(self, client, message):
         yield from self.bot.voice_stuff_new_code(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def voice_stuff_new_disabled(self, client, message):
         """
         This is a Dummy function for disabling Voice channel stuffs when Discord.py has disconnect bugs.
@@ -1489,18 +1505,22 @@ class VoiceBotCommands:
         """
         yield from self.bot.voice_stuff_new_disabled_code(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _reload_commands_bypass1_new(self, client, message, reload_reason):
         yield from self.bot._reload_commands_bypass1_new_code(client, message, reload_reason)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _reload_commands_bypass2_new(self, client, message):
         yield from self.bot._reload_commands_bypass2_new_code(client, message)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _reload_commands_bypass3_new(self, client):
         yield from self.bot._reload_commands_bypass3_new_code(client)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def _reload_commands_bypass4_new(self, client, message, reload_reason):
         yield from self.bot._reload_commands_bypass4_new_code(client, message, reload_reason)

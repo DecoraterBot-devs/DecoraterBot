@@ -10,7 +10,6 @@ from discord.__init__ import __version__
 from colorama import init
 from colorama import Fore, Back, Style
 from discord.ext import commands
-import BotDecorators
 
 init()
 
@@ -89,7 +88,8 @@ class BotLogin:
                 print(str(consoletext['Credentials_Not_Found'][0]))
                 sys.exit(2)
 
-        @BotDecorators.async_classmethod
+        @classmethod
+        @asyncio.coroutine
         def on_login_code(self, client):
             global logged_in
             if logged_in:
@@ -122,7 +122,8 @@ class BotLogin:
     def login_info(self, client):
         self.bot.login_info_code(client)
 
-    @BotDecorators.async_classmethod
+    @classmethod
+    @asyncio.coroutine
     def on_login(self, client):
         yield from self.bot.on_login_code(client)
 

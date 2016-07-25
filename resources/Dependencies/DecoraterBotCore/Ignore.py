@@ -60,6 +60,27 @@ _discord_logger = True
 _asyncio_logger = True
 _log_available = True
 _log_unavailable = True
+log_channel_create = True
+log_channel_delete = True
+log_channel_update = True
+log_member_update = True
+log_server_join = True
+log_server_remove = True
+log_server_update = True
+log_server_role_create = True
+log_server_role_delete = True
+log_server_role_update = True
+log_group_join = True
+log_group_remove = True
+log_error = True
+log_voice_state_update = True
+log_typing = True
+log_socket_raw_receive = True
+log_socket_raw_send = True
+log_resumed = True
+log_member_join = True
+# Will Always be True to prevent the Error Handler from Causing Issues later.
+enable_error_handler = True
 
 PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
@@ -78,6 +99,25 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     _asyncio_logger = str(credentials['asyncio_logger'][0])
     _log_available = str(credentials['LogServerAvailable'][0])
     _log_unavailable = str(credentials['LogServerUnavailable'][0])
+    log_channel_create = str(credentials['log_channel_create'][0])
+    log_channel_delete = str(credentials['log_channel_delete'][0])
+    log_channel_update = str(credentials['log_channel_update'][0])
+    log_member_update = str(credentials['log_member_update'][0])
+    log_server_join = str(credentials['log_server_join'][0])
+    log_server_remove = str(credentials['log_server_remove'][0])
+    log_server_update = str(credentials['log_server_update'][0])
+    log_server_role_create = str(credentials['log_server_role_create'][0])
+    log_server_role_delete = str(credentials['log_server_role_delete'][0])
+    log_server_role_update = str(credentials['log_server_role_update'][0])
+    log_group_join = str(credentials['log_group_join'][0])
+    log_group_remove = str(credentials['log_group_remove'][0])
+    log_error = str(credentials['log_error'][0])
+    log_voice_state_update = str(credentials['log_voice_state_update'][0])
+    log_typing = str(credentials['log_typing'][0])
+    log_socket_raw_receive = str(credentials['log_socket_raw_receive'][0])
+    log_socket_raw_send = str(credentials['log_socket_raw_send'][0])
+    log_resumed = str(credentials['log_resumed'][0])
+    log_member_join = str(credentials['log_member_join'][0])
     if _logging == 'True':
         _logging = True
     elif _logging == 'False':
@@ -102,6 +142,82 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         _log_unavailable = True
     elif _log_unavailable == 'False':
         _log_unavailable = False
+    if log_channel_create == 'True':
+        log_channel_create = True
+    elif log_channel_create == 'False':
+        log_channel_create = False
+    if log_channel_delete == 'True':
+        log_channel_delete = True
+    elif log_channel_delete == 'False':
+        log_channel_delete = False
+    if log_channel_update == 'True':
+        log_channel_update = True
+    elif log_channel_update == 'False':
+        log_channel_update = False
+    if log_member_update == 'True':
+        log_member_update = True
+    elif log_member_update == 'False':
+        log_member_update = False
+    if log_server_join == 'True':
+        log_server_join = True
+    elif log_server_join == 'False':
+        log_server_join = False
+    if log_server_remove == 'True':
+        log_server_remove = True
+    elif log_server_remove == 'False':
+        log_server_remove = False
+    if log_server_update == 'True':
+        log_server_update = True
+    elif log_server_update == 'False':
+        log_server_update = False
+    if log_server_role_create == 'True':
+        log_server_role_create = True
+    elif log_server_role_create == 'False':
+        log_server_role_create = False
+    if log_server_role_delete == 'True':
+        log_server_role_delete = True
+    elif log_server_role_delete == 'False':
+        log_server_role_delete = False
+    if log_server_role_update == 'True':
+        log_server_role_update = True
+    elif log_server_role_update == 'False':
+        log_server_role_update = False
+    if log_group_join == 'True':
+        log_group_join = True
+    elif log_group_join == 'False':
+        log_group_join = False
+    if log_group_remove == 'True':
+        log_group_remove = True
+    elif log_group_remove == 'False':
+        log_group_remove = False
+    if log_error == 'True':
+        log_error = True
+    elif log_error == 'False':
+        log_error = False
+    if log_voice_state_update == 'True':
+        log_voice_state_update = True
+    elif log_voice_state_update == 'False':
+        log_voice_state_update = False
+    if log_typing == 'True':
+        log_typing = True
+    elif log_typing == 'False':
+        log_typing = False
+    if log_socket_raw_receive == 'True':
+        log_socket_raw_receive = True
+    elif log_socket_raw_receive == 'False':
+        log_socket_raw_receive = False
+    if log_socket_raw_send == 'True':
+        log_socket_raw_send = True
+    elif log_socket_raw_send == 'False':
+        log_socket_raw_send = False
+    if log_resumed == 'True':
+        log_resumed = True
+    elif log_resumed == 'False':
+        log_resumed = False
+    if log_member_join == 'True':
+        log_member_join = True
+    elif log_member_join == 'False':
+        log_member_join = False
     if _discord_logger == 'True':
         _discord_logger = True
     elif _discord_logger == 'False':
@@ -129,7 +245,11 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         discord_user_id = None
 
 if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _asyncio_logger or _log_available or
-        _log_unavailable):
+        _log_unavailable or log_channel_create or log_channel_delete or log_channel_update or 
+        log_member_update or log_server_join or log_server_remove or log_server_update or 
+        log_server_role_create or log_server_role_delete or log_server_role_update or log_group_join or 
+        log_group_remove or log_error or log_voice_state_update or log_typing or log_socket_raw_receive or 
+        log_socket_raw_send or log_resumed or log_member_join or enable_error_handler):
     import BotLogs
 
 
@@ -372,9 +492,9 @@ class BotCommandData:
                     if message.author.id != client.user.id:
                         if message.author.id in newlyjoinedlist['users_to_be_verified']:
                             yield from client.delete_message(message)
-                            yield from client.send_message(message.channel, "I am sorry, you did not send the right Verification Message. Please Read <#149323474765217792> and try again.")
+                            yield from client.send_message(message.channel, "{0} I am sorry, you did not send the right Verification Message. Please Read <#149323474765217792> and try again.".format(message.author.mention))
             except NameError:
-                yield from client.send_message(message.channel, "Verification has Failed.")
+                yield from client.send_message(message.channel, "{0} Verification has Failed.".format(message.author.mention))
 
     @classmethod
     @asyncio.coroutine
@@ -637,6 +757,7 @@ class BotEvents:
         @asyncio.coroutine
         def _resolve_onjoin_code(self, client, member):
             try:
+                # TODO: Add logging for this.
                 if member.server.id == '71324306319093760':
                     file_path_join_1 = '\\resources\\ConfigData\\serverconfigs\\'
                     filename_join_1 = 'servers.json'
@@ -720,6 +841,28 @@ class BotEvents:
 
         @classmethod
         @asyncio.coroutine
+        def _resolve_ongroupjoin_code(self, channel, user):
+            try:
+                if log_group_join:
+                    yield from BotLogs.BotLogs.ongroupjoin(channel, user)
+            except Exception as e:
+                funcname = '_resolve_ongroupjoin_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
+
+        @classmethod
+        @asyncio.coroutine
+        def _resolve_ongroupremove_code(self, channel, user):
+            try:
+                if log_group_remove:
+                    yield from BotLogs.BotLogs.ongroupremove(channel, user)
+            except Exception as e:
+                funcname = '_resolve_ongroupremove_code'
+                tbinfo = str(traceback.format_exc())
+                yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
+
+        @classmethod
+        @asyncio.coroutine
         def high_level_reload_helper2_code(self, client, message):
             try:
                 if _disable_voice_commands is not True:
@@ -788,6 +931,16 @@ class BotEvents:
     @asyncio.coroutine
     def server_unavailable(self, server):
         yield from self.bot.server_unavailable_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def _resolve_ongroupjoin(self, channel, user):
+        yield from self.bot._resolve_ongroupjoin_code(channel, user)
+
+    @classmethod
+    @asyncio.coroutine
+    def _resolve_ongroupremove(self, channel, user):
+        yield from self.bot._resolve_ongroupremove_code(channel, user)
 
     @classmethod
     @asyncio.coroutine

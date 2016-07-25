@@ -101,7 +101,7 @@ class BotLogs:
                     file.truncate()
                     try:
                         if before.content == after.content:
-                            _resolve_embed_logs(client, before, after)
+                            self._resolve_embed_logs_code(client, before, after)
                         else:
                             try:
                                 file.write(editlogServers)
@@ -112,7 +112,7 @@ class BotLogs:
                             print(str(LogData['On_Edit_Logs_Error'][0]))
                         else:
                             if before.content == after.content:
-                                _resolve_embed_logs(client, before, after)
+                                self._resolve_embed_logs_code(client, before, after)
                             else:
                                 file.write(edit_log_PM)
             except PermissionError:

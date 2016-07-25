@@ -21,6 +21,7 @@ from threading import Timer
 from collections import deque
 import BotPMError
 from discord.ext import commands
+import BotDecorators
 
 global sent_prune_error_message
 # noinspection PyRedeclaration
@@ -106,8 +107,7 @@ class BotCommands:
             This class is for Internal use only!!!
         """
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def attack_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'attack'):
                 if message.author.id in banlist['Users']:
@@ -119,8 +119,7 @@ class BotCommands:
                     else:
                         yield from client.send_message(message.author, str(botmessages['attack_command_data'][1]))
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def randomcoin_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'coin'):
                 if message.author.id in banlist['Users']:
@@ -148,8 +147,7 @@ class BotCommands:
                             except discord.errors.Forbidden:
                                 yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def colors_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'color'):
                 if message.author.id in banlist['Users']:
@@ -188,8 +186,7 @@ class BotCommands:
                         except AttributeError:
                             return
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def debug_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'eval'):
                 if message.author.id == owner_id:
@@ -293,8 +290,7 @@ class BotCommands:
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def games_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'game'):
                 if message.author.id in banlist['Users']:
@@ -350,8 +346,7 @@ class BotCommands:
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def invite_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'join'):
                 if message.author.id in banlist['Users']:
@@ -376,8 +371,7 @@ class BotCommands:
                         else:
                             yield from client.send_message(message.channel, str(botmessages['join_command_data'][2]))
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def kills_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'kill'):
                 if message.author.id in banlist['Users']:
@@ -482,8 +476,7 @@ class BotCommands:
                                     except discord.errors.Forbidden:
                                         yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def bot_mentioned_helper(self, client, message):
             if message.author.id in banlist['Users']:
                 return
@@ -553,8 +546,7 @@ class BotCommands:
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def mention_ban_helper(self, client, message):
             if message.author.id == client.user.id:
                 return
@@ -585,8 +577,7 @@ class BotCommands:
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def mod_commands_code(self, client, message):
             if len(message.mentions) > 5:
                 yield from self.mention_ban_helper(client, message)
@@ -696,8 +687,7 @@ class BotCommands:
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def other_commands_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'commands'):
                 if message.author.id in banlist['Users']:
@@ -969,8 +959,7 @@ class BotCommands:
                         except discord.HTTPException:
                             return
         else:
-            @classmethod
-            @asyncio.coroutine
+            @BotDecorators.async_classmethod
             def prune_command_iterater_helper(self, client, message, num, sent_prune_error_message):
                 logs = yield from client.logs_from(message.channel, limit=num + 1)
                 for msg in logs:
@@ -983,8 +972,7 @@ class BotCommands:
                         else:
                             return
 
-            @classmethod
-            @asyncio.coroutine
+            @BotDecorators.async_classmethod
             def clear_command_iterater_helper(self, client, message):
                 logs = yield from client.logs_from(message.channel, limit=100)
                 for msg in logs:
@@ -994,8 +982,7 @@ class BotCommands:
                         except discord.HTTPException:
                             return
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def prune_code(self, client, message):
             global sent_prune_error_message
             if message.content.startswith(_bot_prefix + 'prune'):
@@ -1031,8 +1018,7 @@ class BotCommands:
 
         # Unused but too lazy to remove this.
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def bot_roles_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'giveme'):
                 if message.channel.server and message.channel.server.id == "81812480254291968":
@@ -1100,8 +1086,7 @@ class BotCommands:
                 else:
                     return
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def bot_say_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'say'):
                 if message.author.id in banlist['Users']:
@@ -1122,8 +1107,7 @@ class BotCommands:
                         except discord.errors.HTTPException:
                             return
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def more_commands_code(self, client, message):
             if client.user.mention in message.content:
                 yield from self.bot_mentioned_helper(client, message)
@@ -1190,8 +1174,7 @@ class BotCommands:
                                 except discord.errors.Forbidden:
                                     yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def userdata_code(self, client, message):
             if message.content.startswith(_bot_prefix + "userinfo"):
                 if message.author.id in banlist['Users']:
@@ -1235,8 +1218,7 @@ class BotCommands:
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def convert_url_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'tinyurl'):
                 if disabletinyurl is True:
@@ -1310,8 +1292,7 @@ class BotCommands:
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def scan_for_invite_url_only_pm_code(self, client, message):
             if _is_official_bot == 'True':
                 if message.content.startswith('https://discord.gg/'):
@@ -1319,82 +1300,66 @@ class BotCommands:
                 if message.content.startswith('http://discord.gg/'):
                     yield from client.send_message(message.channel, str(botmessages['join_command_data'][3]))
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def attack(self, client, message):
         yield from self.bot.attack_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def randomcoin(self, client, message):
         yield from self.bot.randomcoin_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def colors(self, client, message):
         yield from self.bot.colors_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def debug(self, client, message):
         yield from self.bot.debug_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def games(self, client, message):
         yield from self.bot.games_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def invite(self, client, message):
         yield from self.bot.invite_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def kills(self, client, message):
         yield from self.bot.kills_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def mod_commands(self, client, message):
         yield from self.bot.mod_commands_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def other_commands(self, client, message):
         yield from self.bot.other_commands_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def prune(self, client, message):
         yield from self.bot.prune_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def bot_roles(self, client, message):
         yield from self.bot.bot_roles_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def bot_say(self, client, message):
         yield from self.bot.bot_say_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def more_commands(self, client, message):
         yield from self.bot.more_commands_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def userdata(self, client, message):
         yield from self.bot.userdata_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def convert_url(self, client, message):
         yield from self.bot.convert_url_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def scan_for_invite_url_only_pm(self, client, message):
         yield from self.bot.scan_for_invite_url_only_pm_code(client, message)

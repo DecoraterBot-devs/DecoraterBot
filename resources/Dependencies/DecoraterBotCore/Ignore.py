@@ -26,6 +26,7 @@ except SyntaxError:
 import BotPMError
 import BotVoiceCommands
 from discord.ext import commands
+import BotDecorators
 
 try:
     consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
@@ -260,8 +261,7 @@ class BotCommandData:
             This Class is for Internal Use only!!!
         """
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _ignore_channel_code(self, client, message):
             if message.content.startswith(_bot_prefix + 'ignorechannel'):
                 if message.channel.id not in somedict["channels"]:
@@ -295,8 +295,7 @@ class BotCommandData:
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _reload_command_code(self, client, message):
             global _somebool
             if message.content.startswith(_bot_prefix + 'reload'):
@@ -389,14 +388,12 @@ class BotCommandData:
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def ignored_channel_commands_code(self, client, message):
             yield from self._ignore_channel_code(client, message)
             yield from self._reload_command_code(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def enable_all_commands_code(self, client, message):
             yield from BotCommands.BotCommands.prune(client, message)
             yield from BotCommands.BotCommands.invite(client, message)
@@ -419,22 +416,19 @@ class BotCommandData:
                 yield from BotVoiceCommands.VoiceBotCommands.voice_stuff_new_disabled(client, message)
             yield from self.ignored_channel_commands_code(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def enable_all_commands_with_send_logs_code(self, client, message):
             yield from self.enable_all_commands_code(client, message)
             if _logging:
                 yield from BotLogs.BotLogs.send_logs(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def enable_all_commands_with_logs_code(self, client, message):
             yield from self.enable_all_commands_code(client, message)
             if _logging:
                 BotLogs.BotLogs.logs(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def pm_commands_code(self, client, message):
             yield from BotCommands.BotCommands.scan_for_invite_url_only_pm(client, message)
             yield from BotCommands.BotCommands.invite(client, message)
@@ -447,8 +441,7 @@ class BotCommandData:
             if _logging:
                 BotLogs.BotLogs.logs(client, message)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def cheesy_commands_code(self, client, message):
             yield from self.enable_all_commands_with_logs_code(client, message)
             serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
@@ -496,43 +489,35 @@ class BotCommandData:
             except NameError:
                 yield from client.send_message(message.channel, "{0} Verification has Failed.".format(message.author.mention))
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _ignore_channel(self, client, message):
         yield from self.bot._ignore_channel_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _reload_command(self, client, message):
         yield from self.bot._reload_command_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def ignored_channel_commands(self, client, message):
         yield from self.bot.ignored_channel_commands_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def enable_all_commands(self, client, message):
         yield from self.bot.enable_all_commands_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def enable_all_commands_with_send_logs(self, client, message):
         yield from self.bot.enable_all_commands_with_send_logs_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def enable_all_commands_with_logs(self, client, message):
         yield from self.bot.enable_all_commands_with_logs_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def pm_commands(self, client, message):
         yield from self.bot.pm_commands_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def cheesy_commands(self, client, message):
         yield from self.bot.cheesy_commands_code(client, message)
 
@@ -544,8 +529,7 @@ class BotIgnores:
             This Class is for Internal Use only!!!
         """
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def ignore_code(self, client, message):
             if message.channel.id not in somedict['channels']:
                 try:
@@ -590,8 +574,7 @@ class BotIgnores:
             else:
                 yield from BotCommandData.ignored_channel_commands(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def ignore(self, client, message):
         yield from self.bot.ignore_code(client, message)
 
@@ -603,8 +586,7 @@ class BotEvents:
             This Class is for Internal Use only!!!
         """
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_delete_method_code(self, client, message):
             try:
                 if message.channel.is_private is not False:
@@ -632,8 +614,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_edit_method_code(self, client, before, after):
             try:
                 if before.channel.is_private is not False:
@@ -661,8 +642,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_verify_cache_cleanup_2_code(self, client, member):
             try:
                 serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
@@ -685,8 +665,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_verify_cache_cleanup_code(self, client, member):
             try:
                 serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
@@ -708,8 +687,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_onban_code(self, client, member):
             try:
                 if _logbans == 'True':
@@ -721,8 +699,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_onunban_code(self, client, user):
             try:
                 if _logunbans == 'True':
@@ -732,8 +709,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_onremove_code(self, client, member):
             try:
                 try:
@@ -753,8 +729,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_onjoin_code(self, client, member):
             try:
                 # TODO: Add logging for this.
@@ -790,8 +765,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_on_login_voice_channel_join_code(self, client):
             try:
                 if _disable_voice_commands is not True:
@@ -803,8 +777,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def high_level_reload_helper_code(self, client, message, reload_reason):
             try:
                 if _disable_voice_commands is not True:
@@ -827,20 +800,17 @@ class BotEvents:
             if _asyncio_logger:
                 BotLogs.BotLogs.set_up_asyncio_logger()
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def server_available_code(self, server):
             if _log_available:
                 yield from BotLogs.BotLogs.onavailable(server)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def server_unavailable_code(self, server):
             if _log_unavailable:
                 yield from BotLogs.BotLogs.onunavailable(server)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_ongroupjoin_code(self, channel, user):
             try:
                 if log_group_join:
@@ -850,8 +820,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def _resolve_ongroupremove_code(self, channel, user):
             try:
                 if log_group_remove:
@@ -861,8 +830,7 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-        @classmethod
-        @asyncio.coroutine
+        @BotDecorators.async_classmethod
         def high_level_reload_helper2_code(self, client, message):
             try:
                 if _disable_voice_commands is not True:
@@ -874,43 +842,35 @@ class BotEvents:
                 tbinfo = str(traceback.format_exc())
                 yield from BotLogs.BotLogs.on_bot_error(funcname, tbinfo)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_delete_method(self, client, message):
         yield from self.bot._resolve_delete_method_code(client, message)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_edit_method(self, client, before, after):
         yield from self.bot._resolve_edit_method_code(client, before, after)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_onban(self, client, member):
         yield from self.bot._resolve_onban_code(client, member)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_onunban(self, client, user):
         yield from self.bot._resolve_onunban_code(client, user)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_onremove(self, client, member):
         yield from self.bot._resolve_onremove_code(client, member)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_onjoin(self, client, member):
         yield from self.bot._resolve_onjoin_code(client, member)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_on_login_voice_channel_join(self, client):
         yield from self.bot._resolve_on_login_voice_channel_join_code(client)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def high_level_reload_helper(self, client, message, reload_reason):
         yield from self.bot.high_level_reload_helper_code(client, message, reload_reason)
 
@@ -922,27 +882,22 @@ class BotEvents:
     def _resolve_asyncio_logger(self):
         self.bot._resolve_asyncio_logger_code()
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def server_available(self, server):
         yield from self.bot.server_available_code(server)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def server_unavailable(self, server):
         yield from self.bot.server_unavailable_code(server)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_ongroupjoin(self, channel, user):
         yield from self.bot._resolve_ongroupjoin_code(channel, user)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def _resolve_ongroupremove(self, channel, user):
         yield from self.bot._resolve_ongroupremove_code(channel, user)
 
-    @classmethod
-    @asyncio.coroutine
+    @BotDecorators.async_classmethod
     def high_level_reload_helper2(self, client, message):
         yield from self.bot.high_level_reload_helper2_code(client, message)

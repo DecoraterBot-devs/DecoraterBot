@@ -40,14 +40,12 @@ def on_channel_delete(channel):
 
 @client.async_event
 def on_channel_create(channel):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.channelcreate(channel)
 
 
 @client.async_event
 def on_channel_update(before, after):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.channelupdate(before, after)
 
 
 @client.async_event
@@ -67,8 +65,7 @@ def on_member_remove(member):
 
 @client.async_event
 def on_member_update(before, after):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.memberupdate(before, after)
 
 
 @client.async_event
@@ -88,20 +85,17 @@ def on_server_unavailable(server):
 
 @client.async_event
 def on_server_join(server):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.serverjoin(server)
 
 
 @client.async_event
 def on_server_remove(server):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.serverremove(server)
 
 
 @client.async_event
 def on_server_update(before, after):
-    # TODO: Add this to logging and stuff.
-   pass
+    yield from DecoraterBotCore.Core.BotCore.serverupdate(before, after)
 
 
 @client.async_event

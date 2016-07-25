@@ -274,6 +274,42 @@ class BotCore:
 
         @classmethod
         @asyncio.coroutine
+        def serverjoin_code(self, server):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def serverremove_code(self, server):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def serverupdate_code(self, before, after):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def channelcreate_code(self, channel):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def channelupdate_code(self, before, after):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def memberupdate_code(self, before, after):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
         def _bot_ready_code(self, client):
             yield from Login.BotLogin.on_login(client)
             yield from Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
@@ -402,6 +438,36 @@ class BotCore:
     @asyncio.coroutine
     def serverroleupdate(self, before, after):
         yield from self.bot.serverroleupdate_code(before, after)
+
+    @classmethod
+    @asyncio.coroutine
+    def serverjoin(self, server):
+        yield from self.bot.serverjoin_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def serverremove(self, server):
+        yield from self.bot.serverremove_code(server)
+
+    @classmethod
+    @asyncio.coroutine
+    def serverupdate(self, before, after):
+        yield from self.bot.serverupdate_code(before, after)
+
+    @classmethod
+    @asyncio.coroutine
+    def channelcreate(self, channel):
+        yield from self.bot.channelcreate_code(channel)
+
+    @classmethod
+    @asyncio.coroutine
+    def channelupdate(self, before, after):
+        yield from self.bot.channelupdate_code(before, after)
+
+    @classmethod
+    @asyncio.coroutine
+    def memberupdate(self, before, after):
+        yield from self.bot.memberupdate_code(before, after)
 
     @classmethod
     @asyncio.coroutine

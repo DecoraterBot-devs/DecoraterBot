@@ -20,7 +20,9 @@ To run this bot you will need 3 things:
 
 > Your Bot's ID
 
-Configuration is in Credentials.json in ``\\resources\\ConfigData\\``. More Documentation on setting that file up **coming Soon™**.
+Configuration is in Credentials.json in ``\\resources\\ConfigData\\``.
+
+More Documentation on setting that file up **coming Soon™**.
 
 After you have configurated the bot with a token you can run the bot with 1 of the following ways:
 

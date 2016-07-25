@@ -250,7 +250,25 @@ class BotCore:
 
         @classmethod
         @asyncio.coroutine
-        def voiceupdate_code(before, after):
+        def voiceupdate_code(self, before, after):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def serverrolecreate_code(self, role):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def serverroledelete_code(self, role):
+            # TODO: Add a Event function for this in the Ignores module.
+            pass
+
+        @classmethod
+        @asyncio.coroutine
+        def serverroleupdate_code(self, before, after):
             # TODO: Add a Event function for this in the Ignores module.
             pass
 
@@ -367,8 +385,23 @@ class BotCore:
 
     @classmethod
     @asyncio.coroutine
-    def voiceupdate(before, after):
+    def voiceupdate(self, before, after):
         yield from self.bot.voiceupdate_code(before, after)
+
+    @classmethod
+    @asyncio.coroutine
+    def serverrolecreate(self, role):
+        yield from self.bot.serverrolecreate_code(role)
+
+    @classmethod
+    @asyncio.coroutine
+    def serverroledelete(self, role):
+        yield from self.bot.serverroledelete_code(role)
+
+    @classmethod
+    @asyncio.coroutine
+    def serverroleupdate(self, before, after):
+        yield from self.bot.serverroleupdate_code(before, after)
 
     @classmethod
     @asyncio.coroutine

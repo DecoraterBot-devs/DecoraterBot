@@ -106,20 +106,17 @@ def on_server_update(before, after):
 
 @client.async_event
 def on_server_role_create(role):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.serverrolecreate(role)
 
 
 @client.async_event
 def on_server_role_delete(role):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.serverroledelete(role)
 
 
 @client.async_event
 def on_server_role_update(before, after):
-    # TODO: Add this to logging and stuff.
-    pass
+    yield from DecoraterBotCore.Core.BotCore.serverroleupdate(before, after)
 
 
 @client.async_event

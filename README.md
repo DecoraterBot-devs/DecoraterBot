@@ -43,6 +43,7 @@ Again. Do not use this Alpha Interpreter unless you do not want Voice Channel Co
 > with ``DecoraterBot.sln`` in Visual Studio 2015 Update 3.
 
 Note: You Will have to use the Bat files above by right clicking them in the solution file.
+Also I might be thinking about finally removing some of the folders with py files as I am thinking of makign most of them pyd's to have further optimizations to the bot's Error logs (eg function names to files that do not hold the specific errors). With that Said the lines that calls some functions then will not show.
 
 ## Contributors
 

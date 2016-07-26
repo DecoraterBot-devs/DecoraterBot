@@ -45,9 +45,7 @@ from .gateway import *
 from .http import HTTPClient
 
 import asyncio
-# noinspection PyPackageRequirements
 import aiohttp
-# noinspection PyPackageRequirements
 import websockets
 
 import logging, traceback
@@ -72,10 +70,10 @@ def app_info_icon_url(self):
     return 'https://cdn.discordapp.com/app-icons/{0.id}/{0.icon}.jpg'.format(self)
 
 AppInfo.icon_url = property(app_info_icon_url)
+
 ChannelPermissions = namedtuple('ChannelPermissions', 'target overwrite')
 ChannelPermissions.__new__.__defaults__ = (PermissionOverwrite(),)
 
-# noinspection PyIncorrectDocstring,PyAttributeOutsideInit,PyUnusedLocal,PyShadowingBuiltins,PyPep8
 class Client:
     """Represents a client connection that connects to Discord.
     This class is used to interact with the Discord WebSocket and API.
@@ -155,10 +153,10 @@ class Client:
         self._closed = asyncio.Event(loop=self.loop)
         self._is_logged_in = asyncio.Event(loop=self.loop)
         self._is_ready = asyncio.Event(loop=self.loop)
+
         if VoiceClient.warn_nacl:
             VoiceClient.warn_nacl = False
             log.warning("PyNaCl is not installed, voice will NOT be supported")
-
 
     # internals
 
@@ -170,7 +168,6 @@ class Client:
         filename = hashlib.md5(email.encode('utf-8')).hexdigest()
         return os.path.join(tempfile.gettempdir(), 'discord_py', filename)
 
-    @asyncio.coroutine
     def _get_cache_token(self, email, password):
         try:
             log.info('attempting to login via cache')
@@ -185,7 +182,7 @@ class Client:
             # redo the cache
         except OSError:
             log.info('a problem occurred while opening login cache')
-            return None  # file not found et al
+            return None # file not found et al
 
     def _update_cache(self, email, password):
         try:
@@ -214,6 +211,7 @@ class Client:
                 if result:
                     future.set_result(message)
                     removed.append(i)
+
 
         for idx in reversed(removed):
             del self._listeners[idx]
@@ -310,30 +308,19 @@ class Client:
     # login state management
 
     @asyncio.coroutine
-    def login(self, email, password):
-        """|coro|
+    def _login_1(self, token, **kwargs):
+        log.info('logging in using static token')
+        is_bot = kwargs.pop('bot', True)
+        data = yield from self.http.static_login(token, bot=is_bot)
+        self.email = data.get('email', None)
+        self.connection.is_bot = is_bot
+        self._is_logged_in.set()
 
-        Logs in the client with the specified credentials.
-
-        Parameters
-        ----------
-        email : str
-            The email used to login.
-        password : str
-            The password used to login.
-
-        Raises
-        ------
-        LoginFailure
-            The wrong credentials are passed.
-        HTTPException
-            An unknown HTTP related error occurred,
-            usually when it isn't 200 or the known incorrect credentials
-            passing status code.
-        """
-
+    @asyncio.coroutine
+    def _login_2(self, email, password, **kwargs):
         # attempt to read the token from cache
         self.connection.is_bot = False
+
         if self.cache_auth:
             token = self._get_cache_token(email, password)
             try:
@@ -344,11 +331,6 @@ class Client:
                 self._is_logged_in.set()
                 return
 
-        payload = {
-            'email': email,
-            'password': password
-        }
-
 
         yield from self.http.email_login(email, password)
         self.email = email
@@ -358,6 +340,50 @@ class Client:
         # let's make sure we don't have to do it again
         if self.cache_auth:
             self._update_cache(email, password)
+
+    @asyncio.coroutine
+    def login(self, *args, **kwargs):
+        """|coro|
+
+        Logs in the client with the specified credentials.
+
+        This function can be used in two different ways.
+
+        .. code-block:: python
+
+            await client.login('token')
+
+            # or
+
+            await client.login('email', 'password')
+
+        More than 2 parameters or less than 1 parameter raises a
+        :exc:`TypeError`.
+
+        Parameters
+        -----------
+        bot : bool
+            Keyword argument that specifies if the account logging on is a bot
+            token or not. Only useful for logging in with a static token.
+            Ignored for the email and password combo. Defaults to ``True``.
+
+        Raises
+        ------
+        LoginFailure
+            The wrong credentials are passed.
+        HTTPException
+            An unknown HTTP related error occurred,
+            usually when it isn't 200 or the known incorrect credentials
+            passing status code.
+        TypeError
+            The incorrect number of parameters is passed.
+        """
+
+        n = len(args)
+        if n in (2, 1):
+            yield from getattr(self, '_login_' + str(n))(*args, **kwargs)
+        else:
+            raise TypeError('login() takes 1 or 2 positional arguments but {} were given'.format(n))
 
     @asyncio.coroutine
     def logout(self):
@@ -395,7 +421,6 @@ class Client:
             except ConnectionClosed as e:
                 yield from self.close()
                 if e.code == 1001:
-                    print("Voice Websocket might have tried to clos main Websocket.")
                     # lets try to recurse.
                     yield from self.connect()
                 elif e.code != 1000:
@@ -422,52 +447,21 @@ class Client:
         if self.ws is not None and self.ws.open:
             yield from self.ws.close()
 
+
         yield from self.http.close()
         self._closed.set()
         self._is_ready.clear()
 
     @asyncio.coroutine
-    def login_bot(self, token):
-        token = token
-        is_bot = True
-        yield from self.http.static_login(token, bot=is_bot)
-        yield from self.http.static_login(token, bot=is_bot)
-        self.connection.is_bot = is_bot
-        self._is_logged_in.set()
-
-    @asyncio.coroutine
-    def connection_helper(self):
-        """|coro|
-
-        A intrnal use only function that helps with reconnecting in Windows.
-        This helps fix :error:`aiohttp.errors.ClientOSError` when the following happens.
-            1. The Computer is in Hybernate.
-            2. It is in Sleep Mode.
-        Both of the reasons above causes this exception. So I am simply handling it.
-        """
-        try:
-            yield from self.connect()
-        except aiohttp.errors.ClientOSError:
-            yield from self.connection_helper()
-        except ConnectionResetError:
-            yield from self.connection_helper()
-
-    @asyncio.coroutine
-    def start(self, email, password, token):
+    def start(self, *args, **kwargs):
         """|coro|
 
         A shorthand coroutine for :meth:`login` + :meth:`connect`.
         """
-        if token is not None:
-            yield from self.login_bot(token)
-            yield from self.connection_helper()
-        else:
-            if email is not None:
-                if password is not None:
-                    yield from self.login(email, password)
-                    yield from self.connection_helper()
+        yield from self.login(*args, **kwargs)
+        yield from self.connect()
 
-    def run(self, email, password, token):
+    def run(self, *args, **kwargs):
         """A blocking call that abstracts away the `event loop`_
         initialisation from you.
 
@@ -478,7 +472,7 @@ class Client:
         Roughly Equivalent to: ::
 
             try:
-                loop.run_until_complete(start(email, password))
+                loop.run_until_complete(start(*args, **kwargs))
             except KeyboardInterrupt:
                 loop.run_until_complete(logout())
                 # cancel all tasks lingering
@@ -491,8 +485,9 @@ class Client:
         is blocking. That means that registration of events or anything being
         called after this function call will not execute until it returns.
         """
+
         try:
-            self.loop.run_until_complete(self.start(email, password, token))
+            self.loop.run_until_complete(self.start(*args, **kwargs))
         except KeyboardInterrupt:
             self.loop.run_until_complete(self.logout())
             pending = asyncio.Task.all_tasks()
@@ -775,7 +770,7 @@ class Client:
             raise InvalidArgument('user argument must be a User')
 
         data = yield from self.http.start_private_message(user.id)
-        channel = PrivateChannel(me=self.user, id=data['id'], user=user)
+        channel = PrivateChannel(me=self.user, **data)
         self.connection._add_private_channel(channel)
         return channel
 
@@ -904,7 +899,6 @@ class Client:
         channel_id, guild_id = yield from self._resolve_destination(destination)
 
         try:
-
             with open(fp, 'rb') as f:
                 buffer = io.BytesIO(f.read())
                 if filename is None:
@@ -939,7 +933,6 @@ class Client:
         HTTPException
             Deleting the message failed.
         """
-
         channel = message.channel
         guild_id = channel.server.id if not getattr(channel, 'is_private', True) else None
         yield from self.http.delete_message(channel.id, message.id, guild_id)
@@ -973,6 +966,7 @@ class Client:
         HTTPException
             Deleting the messages failed.
         """
+
         messages = list(messages)
         if len(messages) > 100 or len(messages) < 2:
             raise ClientException('Can only delete messages in the range of [2, 100]')
@@ -1006,10 +1000,12 @@ class Client:
         check : predicate
             The function used to check if a message should be deleted.
             It must take a :class:`Message` as its sole parameter.
-        before : :class:`Message`
-            The message before scanning for purging must be.
-        after : :class:`Message`
-            The message after scanning for purging must be.
+        before : :class:`Message` or `datetime`
+            The message or date before which all deleted messages must be.
+            If a date is provided it must be a timezone-naive datetime representing UTC time.
+        after : :class:`Message` or `datetime`
+            The message or date after which all deleted messages must be.
+            If a date is provided it must be a timezone-naive datetime representing UTC time.
 
         Raises
         -------
@@ -1039,6 +1035,11 @@ class Client:
         if check is None:
             check = lambda m: True
 
+        if isinstance(before, datetime.datetime):
+            before = Object(utils.time_snowflake(before, high=False))
+        if isinstance(after, datetime.datetime):
+            after = Object(utils.time_snowflake(after, high=True))
+
         iterator = LogsFromIterator.create(self, channel, limit, before=before, after=after)
         ret = []
         count = 0
@@ -1057,16 +1058,17 @@ class Client:
                     yield from self.delete_message(ret[-1])
 
                 return ret
-        else:
-            if count == 100:
-                # we've reached a full 'queue'
-                to_delete = ret[-100:]
-                yield from self.delete_messages(to_delete)
-                count = 0
-                yield from asyncio.sleep(1)
-            if check(msg):
-                count += 1
-                ret.append(msg)
+            else:
+                if count == 100:
+                    # we've reached a full 'queue'
+                    to_delete = ret[-100:]
+                    yield from self.delete_messages(to_delete)
+                    count = 0
+                    yield from asyncio.sleep(1)
+
+                if check(msg):
+                    count += 1
+                    ret.append(msg)
 
     @asyncio.coroutine
     def edit_message(self, message, new_content):
@@ -1509,7 +1511,6 @@ class Client:
 
             if 'new_password' in fields:
                 args['new_password'] = fields['new_password']
-
 
         data = yield from self.http.edit_profile(**args)
         if not_bot_account:
@@ -2619,7 +2620,7 @@ class Client:
             except:
                 # we don't care if disconnect failed because connection failed
                 pass
-            raise e  # re-raise
+            raise e # re-raise
 
         self.connection._add_voice_client(server.id, voice)
         return voice
@@ -2692,3 +2693,5 @@ class Client:
         return AppInfo(id=data['id'], name=data['name'],
                        description=data['description'], icon=data['icon'],
                        owner=User(**data['owner']))
+
+

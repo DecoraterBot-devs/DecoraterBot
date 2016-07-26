@@ -64,7 +64,6 @@ from . import utils, opus
 from .gateway import *
 from .errors import ClientException, InvalidArgument, ConnectionClosed, VoiceWSTimeoutError
 
-
 class StreamPlayer(threading.Thread):
     def __init__(self, stream, encoder, connected, player, after, **kwargs):
         threading.Thread.__init__(self, **kwargs)
@@ -74,7 +73,7 @@ class StreamPlayer(threading.Thread):
         self.player = player
         self._end = threading.Event()
         self._resumed = threading.Event()
-        self._resumed.set()  # we are not paused
+        self._resumed.set() # we are not paused
         self._connected = connected
         self.after = after
         self.delay = encoder.frame_length / 1000.0
@@ -82,7 +81,6 @@ class StreamPlayer(threading.Thread):
 
         if after is not None and not callable(after):
             raise TypeError('Expected a callable for the "after" parameter.')
-
 
     def run(self):
         self.loops = 0
@@ -141,7 +139,6 @@ class StreamPlayer(threading.Thread):
 
     def is_done(self):
         return not self._connected.is_set() or self._end.is_set()
-
 
 class ProcessPlayer(StreamPlayer):
     def __init__(self, process, client, after, **kwargs):
@@ -240,6 +237,7 @@ class VoiceClient:
                 # websocket events anymore
                 self._connected.set()
                 break
+
         self.loop.create_task(self.poll_voice_ws())
 
     @asyncio.coroutine
@@ -393,7 +391,6 @@ class VoiceClient:
             A stream player with specific operations.
             See :meth:`create_stream_player`.
         """
-
         command = 'ffmpeg' if not use_avconv else 'avconv'
         input_name = '-' if pipe else shlex.quote(filename)
         before_args = ""
@@ -423,6 +420,7 @@ class VoiceClient:
             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e
         except subprocess.SubprocessError as e:
             raise ClientException('Popen failed: {0.__name__} {1}'.format(type(e), str(e))) from e
+
 
     @asyncio.coroutine
     def create_ytdl_player(self, url, *, ytdl_options=None, **kwargs):
@@ -521,44 +519,43 @@ class VoiceClient:
         ydl = youtube_dl.YoutubeDL(opts)
         func = functools.partial(ydl.extract_info, url, download=False)
         info = yield from self.loop.run_in_executor(None, func)
-        if info is not None:
-            if "entries" in info:
-                info = info['entries'][0]
+        if "entries" in info:
+            info = info['entries'][0]
 
-            log.info('playing URL {}'.format(url))
-            download_url = info['url']
-            player = self.create_ffmpeg_player(download_url, **kwargs)
+        log.info('playing URL {}'.format(url))
+        download_url = info['url']
+        player = self.create_ffmpeg_player(download_url, **kwargs)
 
-            # set the dynamic attributes from the info extraction
-            player.download_url = download_url
-            player.url = url
-            player.yt = ydl
-            player.views = info.get('view_count')
-            player.is_live = bool(info.get('is_live'))
-            player.likes = info.get('like_count')
-            player.dislikes = info.get('dislike_count')
-            player.duration = info.get('duration')
-            player.uploader = info.get('uploader')
+        # set the dynamic attributes from the info extraction
+        player.download_url = download_url
+        player.url = url
+        player.yt = ydl
+        player.views = info.get('view_count')
+        player.is_live = bool(info.get('is_live'))
+        player.likes = info.get('like_count')
+        player.dislikes = info.get('dislike_count')
+        player.duration = info.get('duration')
+        player.uploader = info.get('uploader')
 
-            is_twitch = 'twitch' in url
-            if is_twitch:
-                # twitch has 'title' and 'description' sort of mixed up.
-                player.title = info.get('description')
-                player.description = None
-            else:
-                player.title = info.get('title')
-                player.description = info.get('description')
+        is_twitch = 'twitch' in url
+        if is_twitch:
+            # twitch has 'title' and 'description' sort of mixed up.
+            player.title = info.get('description')
+            player.description = None
+        else:
+            player.title = info.get('title')
+            player.description = info.get('description')
 
-            # upload date handling
-            date = info.get('upload_date')
-            if date:
-                try:
-                    date = datetime.datetime.strptime(date, '%Y%M%d').date()
-                except ValueError:
-                    date = None
+        # upload date handling
+        date = info.get('upload_date')
+        if date:
+            try:
+                date = datetime.datetime.strptime(date, '%Y%M%d').date()
+            except ValueError:
+                date = None
 
-            player.upload_date = date
-            return player
+        player.upload_date = date
+        return player
 
     def encoder_options(self, *, sample_rate, channels=2):
         """Sets the encoder options for the OpusEncoder.
@@ -670,7 +667,5 @@ class VoiceClient:
             sent = self.socket.sendto(packet, (self.endpoint_ip, self.voice_port))
         except BlockingIOError:
             log.warning('A packet has been dropped (seq: {0.sequence}, timestamp: {0.timestamp})'.format(self))
-        except OSError:
-            log.warning('OSError: An operation was attempted on something that is not a socket')
 
         self.checked_add('timestamp', self.encoder.samples_per_frame, 4294967295)

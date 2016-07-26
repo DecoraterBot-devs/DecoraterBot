@@ -24,46 +24,36 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-import asyncio
-import json
-import logging
-import struct
 import sys
-import threading
-import time
-import zlib
-from collections import namedtuple
-
-# noinspection PyPackageRequirements
-import aiohttp
-# noinspection PyPackageRequirements
 import websockets
 import concurrent
-
+import asyncio
+import aiohttp
 from . import utils, endpoints, compat
 from .enums import Status
-from .errors import GatewayNotFound, ConnectionClosed, InvalidArgument, VoiceWSTimeoutError, InvalidServerError
 from .game import Game
+from .errors import GatewayNotFound, ConnectionClosed, InvalidArgument, VoiceWSTimeoutError, InvalidServerError
+import logging
+import zlib, time, json
+from collections import namedtuple
+import threading
+import struct
 
 log = logging.getLogger(__name__)
 
-__all__ = ['ReconnectWebSocket', 'DiscordWebSocket',
-           'KeepAliveHandler', 'VoiceKeepAliveHandler',
-           'DiscordVoiceWebSocket', 'ResumeWebSocket' ]
-
+__all__ = [ 'ReconnectWebSocket', 'DiscordWebSocket',
+            'KeepAliveHandler', 'VoiceKeepAliveHandler',
+            'DiscordVoiceWebSocket', 'ResumeWebSocket' ]
 
 class ReconnectWebSocket(Exception):
     """Signals to handle the RECONNECT opcode."""
     pass
 
-
 class ResumeWebSocket(Exception):
     """Signals to initialise via RESUME opcode instead of IDENTIFY."""
     pass
 
-
 EventListener = namedtuple('EventListener', 'predicate event result future')
-
 
 class KeepAliveHandler(threading.Thread):
     def __init__(self, *args, **kwargs):
@@ -97,7 +87,6 @@ class KeepAliveHandler(threading.Thread):
     def stop(self):
         self._stop_ev.set()
 
-
 class VoiceKeepAliveHandler(KeepAliveHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -108,7 +97,6 @@ class VoiceKeepAliveHandler(KeepAliveHandler):
             'op': self.ws.HEARTBEAT,
             'd': int(time.time() * 1000)
         }
-
 
 class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
     """Implements a WebSocket for Discord's gateway v6.
@@ -153,21 +141,20 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
         The authentication token for discord.
     """
 
-    DISPATCH = 0
-    HEARTBEAT = 1
-    IDENTIFY = 2
-    PRESENCE = 3
-    VOICE_STATE = 4
-    VOICE_PING = 5
-    RESUME = 6
-    RECONNECT = 7
-    REQUEST_MEMBERS = 8
+    DISPATCH           = 0
+    HEARTBEAT          = 1
+    IDENTIFY           = 2
+    PRESENCE           = 3
+    VOICE_STATE        = 4
+    VOICE_PING         = 5
+    RESUME             = 6
+    RECONNECT          = 7
+    REQUEST_MEMBERS    = 8
     INVALIDATE_SESSION = 9
-    HELLO = 10
-    HEARTBEAT_ACK = 11
-    GUILD_SYNC = 12
+    HELLO              = 10
+    HEARTBEAT_ACK      = 11
+    GUILD_SYNC         = 12
 
-    # noinspection PyArgumentList
     def __init__(self, *args, **kwargs):
         super().__init__(*args, max_size=None, **kwargs)
         # an empty dispatcher to prevent crashes
@@ -177,7 +164,6 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
         # the keep alive
         self._keep_alive = None
 
-    # noinspection PyIncorrectDocstring
     @classmethod
     @asyncio.coroutine
     def from_client(cls, client, *, resume=False):
@@ -284,6 +270,7 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
                 'token': self.token
             }
         }
+
         yield from self.send_as_json(payload)
 
     @asyncio.coroutine
@@ -291,7 +278,7 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
         self._dispatch('socket_raw_receive', msg)
 
         if isinstance(msg, bytes):
-            msg = zlib.decompress(msg, 15, 10490000)  # This is 10 MiB
+            msg = zlib.decompress(msg, 15, 10490000) # This is 10 MiB
             msg = msg.decode('utf-8')
 
         msg = json.loads(msg)
@@ -399,7 +386,6 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
             else:
                 raise ConnectionClosed(e) from e
 
-
     @asyncio.coroutine
     def send(self, data):
         self._dispatch('socket_raw_send', data)
@@ -418,7 +404,7 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
         if game is not None and not isinstance(game, Game):
             raise InvalidArgument('game must be of Game or None')
 
-        idle_since = None if idle is False else int(time.time() * 1000)
+        idle_since = None if idle == False else int(time.time() * 1000)
         sent_game = dict(game) if game else None
 
         payload = {
@@ -475,7 +461,6 @@ class DiscordWebSocket(websockets.client.WebSocketClientProtocol):
 
         yield from super().close(code, reason)
 
-
 class DiscordVoiceWebSocket(websockets.client.WebSocketClientProtocol):
     """Implements the websocket protocol for handling voice connections.
 
@@ -495,14 +480,13 @@ class DiscordVoiceWebSocket(websockets.client.WebSocketClientProtocol):
         Send only. Notifies the client if you are currently speaking.
     """
 
-    IDENTIFY = 0
-    SELECT_PROTOCOL = 1
-    READY = 2
-    HEARTBEAT = 3
+    IDENTIFY            = 0
+    SELECT_PROTOCOL     = 1
+    READY               = 2
+    HEARTBEAT           = 3
     SESSION_DESCRIPTION = 4
-    SPEAKING = 5
+    SPEAKING            = 5
 
-    # noinspection PyArgumentList
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.max_size = None
@@ -512,7 +496,6 @@ class DiscordVoiceWebSocket(websockets.client.WebSocketClientProtocol):
     def send_as_json(self, data):
         yield from self.send(utils.to_json(data))
 
-    # noinspection PyIncorrectDocstring
     @classmethod
     @asyncio.coroutine
     def from_client(cls, client):
@@ -628,3 +611,5 @@ class DiscordVoiceWebSocket(websockets.client.WebSocketClientProtocol):
             self._keep_alive.stop()
 
         yield from super().close(code, reason)
+
+

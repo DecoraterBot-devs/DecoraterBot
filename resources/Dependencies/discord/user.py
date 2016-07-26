@@ -27,7 +27,6 @@ DEALINGS IN THE SOFTWARE.
 from .utils import snowflake_time
 from .enums import DefaultAvatar
 
-
 class User:
     """Represents a Discord user.
 
@@ -88,7 +87,6 @@ class User:
             return ''
         return 'https://discordapp.com/api/users/{0.id}/avatars/{0.avatar}.jpg'.format(self)
 
-    # noinspection PyTypeChecker
     @property
     def default_avatar(self):
         """Returns the default avatar for a given user. This is calculated by the user's descriminator"""

@@ -26,13 +26,11 @@ DEALINGS IN THE SOFTWARE.
 
 import sys
 import asyncio
-# noinspection PyPackageRequirements
 import aiohttp
 from .message import Message
 from .object import Object
 
 PY35 = sys.version_info >= (3, 5)
-
 
 class LogsFromIterator:
     @staticmethod

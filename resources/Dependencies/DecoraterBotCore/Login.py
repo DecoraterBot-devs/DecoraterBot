@@ -50,7 +50,11 @@ class BotLogin:
                 if bot_token == 'None':
                     bot_token = None
                 try:
-                    client.run(discord_user_email, discord_user_password, bot_token)
+                    if discord_user_email and discord_user_password is not None:
+                        client.run(discord_user_email, discord_user_password)
+                    elif bot_token is not None:
+                        # This is for logging into the bot with a token.
+                        client.run(bot_token)
                     is_bot_logged_in = True
                 except discord.errors.GatewayNotFound:
                     print(str(consoletext['Login_Gateway_No_Find'][0]))

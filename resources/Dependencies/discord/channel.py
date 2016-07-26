@@ -35,8 +35,6 @@ from .member import Member
 
 Overwrites = namedtuple('Overwrites', 'id allow deny type')
 
-
-# noinspection PyPep8
 class Channel(Hashable):
     """Represents a Discord server channel.
 
@@ -282,8 +280,6 @@ class Channel(Hashable):
 
         return base
 
-
-# noinspection PyUnusedLocal,PyShadowingBuiltins
 class PrivateChannel(Hashable):
     """Represents a Discord private channel.
 
@@ -332,7 +328,7 @@ class PrivateChannel(Hashable):
         self.me = me
         self.type = ChannelType(kwargs['type'])
         self._update_group(**kwargs)
- 
+
     def _update_group(self, **kwargs):
         owner_id = kwargs.get('owner_id')
         self.icon = kwargs.get('icon')
@@ -412,3 +408,5 @@ class PrivateChannel(Hashable):
             base.kick_members = True
 
         return base
+
+

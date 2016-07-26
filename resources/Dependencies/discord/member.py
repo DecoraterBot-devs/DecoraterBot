@@ -31,7 +31,6 @@ from .enums import Status, ChannelType
 from .colour import Colour
 import copy
 
-
 class VoiceState:
     """Represents a Discord user's voice state.
 
@@ -102,6 +101,7 @@ class Member(User):
     nick : Optional[str]
         The server specific nickname of the user.
     """
+
     __slots__ = [ 'roles', 'joined_at', 'status', 'game', 'server', 'nick', 'voice' ]
 
     def __init__(self, **kwargs):

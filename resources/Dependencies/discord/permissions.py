@@ -24,8 +24,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-
-# noinspection PyIncorrectDocstring,PyUnusedLocal
 class Permissions:
     """Wraps up the Discord permission value.
 
@@ -69,8 +67,7 @@ class Permissions:
         permissions via the properties rather than using this raw value.
     """
 
-    __slots__ = ['value']
-
+    __slots__ = [ 'value' ]
     def __init__(self, permissions=0, **kwargs):
         self.value = permissions
 
@@ -130,7 +127,7 @@ class Permissions:
     def all(cls):
         """A factory method that creates a :class:`Permissions` with all
         permissions set to True."""
-        return cls(0b00011111111100111111110000111111)
+        return cls(0b00011111111101111111110000111111)
 
     @classmethod
     def all_channel(cls):
@@ -145,7 +142,7 @@ class Permissions:
         - change_nicknames
         - manage_nicknames
         """
-        return cls(0b00010011111100111111110000010001)
+        return cls(0b00010011111101111111110000010001)
 
     @classmethod
     def general(cls):
@@ -157,7 +154,7 @@ class Permissions:
     def text(cls):
         """A factory method that creates a :class:`Permissions` with all
         "Text" permissions from the official Discord UI set to True."""
-        return cls(0b00000000000000111111110000000000)
+        return cls(0b00000000000001111111110000000000)
 
     @classmethod
     def voice(cls):
@@ -165,13 +162,14 @@ class Permissions:
         "Voice" permissions from the official Discord UI set to True."""
         return cls(0b00000011111100000000000000000000)
 
+
     def _bit(self, index):
         return bool((self.value >> index) & 1)
 
     def _set(self, index, value):
-        if value:
+        if value == True:
             self.value |= (1 << index)
-        elif not value:
+        elif value == False:
             self.value &= ~(1 << index)
         else:
             raise TypeError('Value to set for Permissions must be a bool.')
@@ -281,8 +279,7 @@ class Permissions:
 
     @property
     def manage_messages(self):
-        """Returns True if a user can delete messages from a text channel.
-        Note that there are currently no way to edit other people's messages."""
+        """Returns True if a user can delete messages from a text channel. Note that there are currently no ways to edit other people's messages."""
         return self._bit(13)
 
     @manage_messages.setter
@@ -325,7 +322,16 @@ class Permissions:
     def mention_everyone(self, value):
         self._set(17, value)
 
-    # 2 unused
+    @property
+    def external_emojis(self):
+        """Returns True if a user can use emojis from other servers."""
+        return self._bit(18)
+
+    @external_emojis.setter
+    def external_emojis(self, value):
+        self._set(18, value)
+
+    # 1 unused
 
     @property
     def connect(self):
@@ -411,7 +417,7 @@ class Permissions:
     def manage_roles(self, value):
         self._set(28, value)
 
-        # 3 unused
+    # 3 unused
 
 def augment_from_permissions(cls):
     cls.VALID_NAMES = { name for name in dir(Permissions) if isinstance(getattr(Permissions, name), property) }

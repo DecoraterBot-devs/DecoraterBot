@@ -25,8 +25,6 @@ DEALINGS IN THE SOFTWARE.
 
 from .utils import snowflake_time
 
-
-# noinspection PyShadowingBuiltins
 class Object:
     """Represents a generic Discord object.
 

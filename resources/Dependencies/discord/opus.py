@@ -37,10 +37,8 @@ c_int_ptr = ctypes.POINTER(ctypes.c_int)
 c_int16_ptr = ctypes.POINTER(ctypes.c_int16)
 c_float_ptr = ctypes.POINTER(ctypes.c_float)
 
-
 class EncoderStruct(ctypes.Structure):
     pass
-
 
 EncoderStructPtr = ctypes.POINTER(EncoderStruct)
 
@@ -56,7 +54,6 @@ exported_functions = [
     ('opus_encoder_ctl', None, ctypes.c_int32),
     ('opus_encoder_destroy', [EncoderStructPtr], None)
 ]
-
 
 def libopus_loader(name):
     # create the library...
@@ -79,18 +76,16 @@ def libopus_loader(name):
 
     return lib
 
-
 try:
     if sys.platform == 'win32':
         _basedir = os.path.dirname(os.path.abspath(__file__))
-        _bitness = 'x64' if sys.maxsize > 2 ** 32 else 'x86'
+        _bitness = 'x64' if sys.maxsize > 2**32 else 'x86'
         _filename = os.path.join(_basedir, 'bin', 'libopus-0.{}.dll'.format(_bitness))
         _lib = libopus_loader(_filename)
     else:
         _lib = libopus_loader(ctypes.util.find_library('opus'))
 except Exception as e:
     _lib = None
-
 
 def load_opus(name):
     """Loads the libopus shared library for use with voice.
@@ -128,7 +123,6 @@ def load_opus(name):
     global _lib
     _lib = libopus_loader(name)
 
-
 def is_loaded():
     """Function to check if opus lib is successfully loaded either
     via the ``ctypes.util.find_library`` call of :func:`load_opus`.
@@ -142,7 +136,6 @@ def is_loaded():
     """
     global _lib
     return _lib is not None
-
 
 class OpusError(DiscordException):
     """An exception that is thrown for libopus related errors.
@@ -159,7 +152,6 @@ class OpusError(DiscordException):
         log.info('"{}" has happened'.format(msg))
         super().__init__(msg)
 
-
 class OpusNotLoaded(DiscordException):
     """An exception that is thrown for when libopus is not loaded."""
     pass
@@ -167,13 +159,13 @@ class OpusNotLoaded(DiscordException):
 
 # Some constants...
 OK = 0
-APPLICATION_AUDIO = 2049
-APPLICATION_VOIP = 2048
+APPLICATION_AUDIO    = 2049
+APPLICATION_VOIP     = 2048
 APPLICATION_LOWDELAY = 2051
-CTL_SET_BITRATE = 4002
-CTL_SET_BANDWIDTH = 4008
-CTL_SET_FEC = 4012
-CTL_SET_PLP = 4014
+CTL_SET_BITRATE      = 4002
+CTL_SET_BANDWIDTH    = 4008
+CTL_SET_FEC          = 4012
+CTL_SET_PLP          = 4014
 
 band_ctl = {
     'narrow': 1101,
@@ -182,7 +174,6 @@ band_ctl = {
     'superwide': 1104,
     'full': 1105,
 }
-
 
 class Encoder:
     def __init__(self, sampling, channels, application=APPLICATION_AUDIO):
@@ -239,33 +230,29 @@ class Encoder:
         if ret < 0:
             log.info('error has happened in set_bandwidth')
             raise OpusError(ret)
-
+            
     def set_fec(self, enabled=True):
         ret = _lib.opus_encoder_ctl(self._state, CTL_SET_FEC, 1 if enabled else 0)
-
+        
         if ret < 0:
             log.info('error has happened in set_fec')
             raise OpusError(ret)
-
+            
     def set_expected_packet_loss_percent(self, percentage):
         ret = _lib.opus_encoder_ctl(self._state, CTL_SET_PLP, min(100, max(0, int(percentage * 100))))
-
+        
         if ret < 0:
             log.info('error has happened in set_expected_packet_loss_percent')
             raise OpusError(ret)
 
-    # noinspection PyCallingNonCallable
     def encode(self, pcm, frame_size):
         max_data_bytes = len(pcm)
         pcm = ctypes.cast(pcm, c_int16_ptr)
         data = (ctypes.c_char * max_data_bytes)()
 
-        try:
-            ret = _lib.opus_encode(self._state, pcm, frame_size, data, max_data_bytes)
-            if ret < 0:
-                log.info('error has happened in encode')
-                raise OpusError(ret)
-        except OSError:
+        ret = _lib.opus_encode(self._state, pcm, frame_size, data, max_data_bytes)
+        if ret < 0:
             log.info('error has happened in encode')
+            raise OpusError(ret)
 
         return array.array('b', data[:ret]).tobytes()

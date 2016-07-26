@@ -17,12 +17,12 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2015-2016 Rapptz'
 __version__ = '0.10.0'
 
-from .client import Client, AppInfo
+from .client import Client, AppInfo, ChannelPermissions
 from .user import User
 from .game import Game
 from .channel import Channel, PrivateChannel
 from .server import Server
-from .member import Member
+from .member import Member, VoiceState
 from .message import Message
 from .errors import *
 from .calls import CallMessage, GroupCall
@@ -35,6 +35,7 @@ from . import utils, opus, compat
 from .voice_client import VoiceClient
 from .enums import ChannelType, ServerRegion, Status, MessageType
 from collections import namedtuple
+
 import logging
 
 VersionInfo = namedtuple('VersionInfo', 'major minor micro releaselevel serial')

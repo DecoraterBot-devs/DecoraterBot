@@ -26,7 +26,6 @@ DEALINGS IN THE SOFTWARE.
 
 from enum import Enum
 
-
 class ChannelType(Enum):
     text    = 0
     private = 1
@@ -35,7 +34,6 @@ class ChannelType(Enum):
 
     def __str__(self):
         return self.name
-
 
 class MessageType(Enum):
     default             = 0
@@ -63,7 +61,6 @@ class ServerRegion(Enum):
     def __str__(self):
         return self.value
 
-
 class Status(Enum):
     online = 'online'
     offline = 'offline'
@@ -71,7 +68,6 @@ class Status(Enum):
 
     def __str__(self):
         return self.value
-
 
 class DefaultAvatar(Enum):
     blurple = "6debd47ed13483642cf09e832ed0bc1b"

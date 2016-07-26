@@ -29,7 +29,6 @@ from .colour import Colour
 from .mixins import Hashable
 from .utils import snowflake_time
 
-
 class Role(Hashable):
     """Represents a Discord role in a :class:`Server`.
 

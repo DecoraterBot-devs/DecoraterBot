@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -679,13 +679,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* PyThreadStateGet.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 #define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
@@ -912,19 +905,9 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
 /* ClassMethod.proto */
 #include "descrobject.h"
 static PyObject* __Pyx_Method_ClassMethod(PyObject *method);
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -946,6 +929,7 @@ static PyTypeObject *__pyx_ptype_16DecoraterBotCore_5Login___pyx_scope_struct_1_
 int __pyx_module_is_main_DecoraterBotCore__Login = 0;
 
 /* Implementation of 'DecoraterBotCore.Login' */
+static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_KeyboardInterrupt;
 static const char __pyx_k_r[] = "r";
@@ -954,7 +938,6 @@ static const char __pyx_k_io[] = "io";
 static const char __pyx_k_os[] = "os";
 static const char __pyx_k_bot[] = "bot";
 static const char __pyx_k_doc[] = "__doc__";
-static const char __pyx_k_end[] = "end";
 static const char __pyx_k_run[] = "run";
 static const char __pyx_k_sys[] = "sys";
 static const char __pyx_k_url[] = "url";
@@ -966,7 +949,6 @@ static const char __pyx_k_PATH[] = "PATH";
 static const char __pyx_k_R_OK[] = "R_OK";
 static const char __pyx_k_args[] = "args";
 static const char __pyx_k_exit[] = "exit";
-static const char __pyx_k_file[] = "file";
 static const char __pyx_k_game[] = "game";
 static const char __pyx_k_init[] = "init";
 static const char __pyx_k_json[] = "json";
@@ -1075,8 +1057,8 @@ static const char __pyx_k_resources_ConfigData_BotMessage[] = "\\resources\\Conf
 static const char __pyx_k_resources_ConfigData_ConsoleWin[] = "\\resources\\ConfigData\\ConsoleWindow.json";
 static const char __pyx_k_resources_ConfigData_Credential[] = "\\resources\\ConfigData\\Credentials.json";
 static const char __pyx_k_Bot_is_currently_reconnecting_fo[] = "Bot is currently reconnecting for {0} times.";
-static PyObject *__pyx_kp_s_103685935593435136;
-static PyObject *__pyx_kp_s_118098998744580098;
+static PyObject *__pyx_kp_u_103685935593435136;
+static PyObject *__pyx_kp_u_118098998744580098;
 static PyObject *__pyx_n_s_BLACK;
 static PyObject *__pyx_n_s_BRIGHT;
 static PyObject *__pyx_n_s_Back;
@@ -1088,8 +1070,8 @@ static PyObject *__pyx_n_s_BotLogin_bot_variable_code;
 static PyObject *__pyx_n_s_BotLogin_login_info;
 static PyObject *__pyx_n_s_BotLogin_on_login;
 static PyObject *__pyx_n_s_BotLogin_variable;
-static PyObject *__pyx_kp_s_Bot_is_currently_reconnecting_fo;
-static PyObject *__pyx_n_s_Credentials_Not_Found;
+static PyObject *__pyx_kp_u_Bot_is_currently_reconnecting_fo;
+static PyObject *__pyx_n_u_Credentials_Not_Found;
 static PyObject *__pyx_n_s_DecoraterBotCore_Login;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Forbidden;
@@ -1099,23 +1081,23 @@ static PyObject *__pyx_n_s_Game;
 static PyObject *__pyx_n_s_GatewayNotFound;
 static PyObject *__pyx_n_s_InvalidStateError;
 static PyObject *__pyx_n_s_InvalidToken;
-static PyObject *__pyx_n_s_Invalid_Token;
+static PyObject *__pyx_n_u_Invalid_Token;
 static PyObject *__pyx_n_s_KeyboardInterrupt;
 static PyObject *__pyx_n_s_LoginFailure;
-static PyObject *__pyx_n_s_Login_Failure;
-static PyObject *__pyx_n_s_Login_Gateway_No_Find;
-static PyObject *__pyx_n_s_None;
+static PyObject *__pyx_n_u_Login_Failure;
+static PyObject *__pyx_n_u_Login_Gateway_No_Find;
+static PyObject *__pyx_n_u_None;
 static PyObject *__pyx_n_s_Object;
-static PyObject *__pyx_n_s_On_Ready_Game;
-static PyObject *__pyx_n_s_On_Ready_Message;
+static PyObject *__pyx_n_u_On_Ready_Game;
+static PyObject *__pyx_n_u_On_Ready_Message;
 static PyObject *__pyx_n_s_PATH;
 static PyObject *__pyx_n_s_R_OK;
 static PyObject *__pyx_n_s_Style;
 static PyObject *__pyx_kp_s_This_Class_is_for_Internal_Use;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_UnknownConnectionError;
-static PyObject *__pyx_n_s_Unknown_Connection_Error;
-static PyObject *__pyx_n_s_Window_Login_Text;
+static PyObject *__pyx_n_u_Unknown_Connection_Error;
+static PyObject *__pyx_n_u_Window_Login_Text;
 static PyObject *__pyx_n_s_access;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asyncio;
@@ -1142,16 +1124,14 @@ static PyObject *__pyx_n_s_discord_ext;
 static PyObject *__pyx_n_s_discord_user_email;
 static PyObject *__pyx_n_s_discord_user_password;
 static PyObject *__pyx_n_s_doc;
-static PyObject *__pyx_n_s_email;
-static PyObject *__pyx_n_s_end;
+static PyObject *__pyx_n_u_email;
 static PyObject *__pyx_n_s_errors;
 static PyObject *__pyx_n_s_exit;
-static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_futures;
 static PyObject *__pyx_n_s_game;
 static PyObject *__pyx_n_s_game_name;
-static PyObject *__pyx_kp_s_https_twitch_tv_decoraterbot;
+static PyObject *__pyx_kp_u_https_twitch_tv_decoraterbot;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
@@ -1175,16 +1155,16 @@ static PyObject *__pyx_n_s_on_login_code;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_os_path;
-static PyObject *__pyx_n_s_password;
+static PyObject *__pyx_n_u_password;
 static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_qualname;
-static PyObject *__pyx_n_s_r;
+static PyObject *__pyx_n_u_r;
 static PyObject *__pyx_n_s_reconnects;
-static PyObject *__pyx_kp_s_resources_ConfigData_BotMessage;
-static PyObject *__pyx_kp_s_resources_ConfigData_ConsoleWin;
-static PyObject *__pyx_kp_s_resources_ConfigData_Credential;
+static PyObject *__pyx_kp_u_resources_ConfigData_BotMessage;
+static PyObject *__pyx_kp_u_resources_ConfigData_ConsoleWin;
+static PyObject *__pyx_kp_u_resources_ConfigData_Credential;
 static PyObject *__pyx_n_s_run;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_send;
@@ -1195,7 +1175,7 @@ static PyObject *__pyx_n_s_stream_url;
 static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
-static PyObject *__pyx_n_s_token;
+static PyObject *__pyx_n_u_token;
 static PyObject *__pyx_n_s_type;
 static PyObject *__pyx_n_s_url;
 static PyObject *__pyx_n_s_user;
@@ -1454,9 +1434,9 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
     }
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_8, __pyx_t_6);
-    __Pyx_INCREF(__pyx_n_s_r);
-    __Pyx_GIVEREF(__pyx_n_s_r);
-    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_8, __pyx_n_s_r);
+    __Pyx_INCREF(__pyx_n_u_r);
+    __Pyx_GIVEREF(__pyx_n_u_r);
+    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_8, __pyx_n_u_r);
     __pyx_t_6 = 0;
     __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -1512,7 +1492,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                 if discord_user_email == 'None':
  *                     discord_user_email = None
  */
-    __pyx_t_2 = PyObject_GetItem(__pyx_v_credentials, __pyx_n_s_email); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_2 = PyObject_GetItem(__pyx_v_credentials, __pyx_n_u_email); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -1522,7 +1502,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_discord_user_email = __pyx_t_3;
@@ -1535,7 +1515,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                     discord_user_email = None
  *                 discord_user_password = str(credentials['password'][0])
  */
-    __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_discord_user_email, __pyx_n_s_None, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_discord_user_email, __pyx_n_u_None, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
     if (__pyx_t_1) {
 
       /* "DecoraterBotCore/Login.py":44
@@ -1564,7 +1544,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                 if discord_user_password == 'None':
  *                     discord_user_password = None
  */
-    __pyx_t_3 = PyObject_GetItem(__pyx_v_credentials, __pyx_n_s_password); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_v_credentials, __pyx_n_u_password); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -1574,7 +1554,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_discord_user_password = __pyx_t_2;
@@ -1587,7 +1567,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                     discord_user_password = None
  *                 bot_token = str(credentials['token'][0])
  */
-    __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_discord_user_password, __pyx_n_s_None, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_discord_user_password, __pyx_n_u_None, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
     if (__pyx_t_1) {
 
       /* "DecoraterBotCore/Login.py":47
@@ -1616,7 +1596,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                 is_bot_logged_in = False
  *                 if bot_token == 'None':
  */
-    __pyx_t_2 = PyObject_GetItem(__pyx_v_credentials, __pyx_n_s_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_2 = PyObject_GetItem(__pyx_v_credentials, __pyx_n_u_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -1626,7 +1606,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_bot_token = __pyx_t_3;
@@ -1648,7 +1628,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                     bot_token = None
  *                 try:
  */
-    __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_bot_token, __pyx_n_s_None, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_bot_token, __pyx_n_u_None, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
     if (__pyx_t_1) {
 
       /* "DecoraterBotCore/Login.py":51
@@ -1873,7 +1853,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  */
         __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_s_Login_Gateway_No_Find); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L11_except_error)
+        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_u_Login_Gateway_No_Find); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L11_except_error)
@@ -1884,10 +1864,17 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
         __Pyx_GIVEREF(__pyx_t_9);
         PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
         __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L11_except_error)
+        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (__Pyx_PrintOne(0, __pyx_t_9) < 0) __PYX_ERR(0, 60, __pyx_L11_except_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
+        __pyx_t_9 = 0;
+        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
         /* "DecoraterBotCore/Login.py":61
@@ -1938,7 +1925,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  */
         __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_s_Login_Failure); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L11_except_error)
+        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_u_Login_Failure); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L11_except_error)
@@ -1949,10 +1936,17 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
         __Pyx_GIVEREF(__pyx_t_9);
         PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
         __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L11_except_error)
+        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (__Pyx_PrintOne(0, __pyx_t_9) < 0) __PYX_ERR(0, 63, __pyx_L11_except_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
+        __pyx_t_9 = 0;
+        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
         /* "DecoraterBotCore/Login.py":64
@@ -2010,7 +2004,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  */
         __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_s_Invalid_Token); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L11_except_error)
+        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_u_Invalid_Token); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L11_except_error)
@@ -2021,10 +2015,17 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
         __Pyx_GIVEREF(__pyx_t_9);
         PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
         __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L11_except_error)
+        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (__Pyx_PrintOne(0, __pyx_t_9) < 0) __PYX_ERR(0, 66, __pyx_L11_except_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
+        __pyx_t_9 = 0;
+        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
         /* "DecoraterBotCore/Login.py":67
@@ -2082,7 +2083,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  */
         __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_s_Unknown_Connection_Error); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L11_except_error)
+        __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_n_u_Unknown_Connection_Error); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L11_except_error)
@@ -2093,10 +2094,17 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
         __Pyx_GIVEREF(__pyx_t_9);
         PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
         __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L11_except_error)
+        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (__Pyx_PrintOne(0, __pyx_t_9) < 0) __PYX_ERR(0, 69, __pyx_L11_except_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
+        __pyx_t_9 = 0;
+        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L11_except_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
         /* "DecoraterBotCore/Login.py":70
@@ -2242,7 +2250,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                         # sleeptime = reconnects * 5
  *                         self.login_info(client)
  */
-          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Bot_is_currently_reconnecting_fo, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L11_except_error)
+          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Bot_is_currently_reconnecting_fo, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L11_except_error)
           __Pyx_GOTREF(__pyx_t_5);
           __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_reconnects); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L11_except_error)
           __Pyx_GOTREF(__pyx_t_4);
@@ -2251,7 +2259,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
           __Pyx_GIVEREF(__pyx_t_4);
           PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_4);
           __pyx_t_4 = 0;
-          __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_15, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L11_except_error)
+          __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_15, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L11_except_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __pyx_t_15 = NULL;
@@ -2280,7 +2288,14 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
             __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
           }
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (__Pyx_PrintOne(0, __pyx_t_9) < 0) __PYX_ERR(0, 78, __pyx_L11_except_error)
+          __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L11_except_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_GIVEREF(__pyx_t_9);
+          PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9);
+          __pyx_t_9 = 0;
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 78, __pyx_L11_except_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
           /* "DecoraterBotCore/Login.py":80
@@ -2428,7 +2443,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
  *                             sleeptime = reconnects * 5
  *                             asyncio.sleep(sleeptime)
  */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Bot_is_currently_reconnecting_fo, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Bot_is_currently_reconnecting_fo, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_reconnects); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
@@ -2437,7 +2452,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
           __Pyx_GIVEREF(__pyx_t_3);
           PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_3);
           __pyx_t_3 = 0;
-          __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __pyx_t_9 = NULL;
@@ -2466,7 +2481,14 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           }
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (__Pyx_PrintOne(0, __pyx_t_6) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+          __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_GIVEREF(__pyx_t_6);
+          PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_6);
+          __pyx_t_6 = 0;
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 87, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
           /* "DecoraterBotCore/Login.py":88
@@ -2599,7 +2621,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
   /*else*/ {
     __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_Credentials_Not_Found); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_Credentials_Not_Found); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
@@ -2610,10 +2632,17 @@ static PyObject *__pyx_pf_16DecoraterBotCore_5Login_3bot_login_info_code(CYTHON_
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "DecoraterBotCore/Login.py":93
@@ -2845,7 +2874,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
     __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_resources_ConfigData_BotMessage); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_kp_u_resources_ConfigData_BotMessage); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -2867,9 +2896,9 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
     }
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_5);
-    __Pyx_INCREF(__pyx_n_s_r);
-    __Pyx_GIVEREF(__pyx_n_s_r);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_s_r);
+    __Pyx_INCREF(__pyx_n_u_r);
+    __Pyx_GIVEREF(__pyx_n_u_r);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_r);
     __pyx_t_5 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -2927,7 +2956,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
  *                 try:
  *                     yield from client.send_message(discord.Object(id='118098998744580098'), message_data)
  */
-    __pyx_t_1 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_botmessages, __pyx_n_s_On_Ready_Message); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_botmessages, __pyx_n_u_On_Ready_Message); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
@@ -2937,7 +2966,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
     __Pyx_GIVEREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_7);
     __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GIVEREF(__pyx_t_7);
@@ -2976,7 +3005,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_5);
-        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_id, __pyx_kp_s_118098998744580098) < 0) __PYX_ERR(0, 105, __pyx_L5_error)
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_id, __pyx_kp_u_118098998744580098) < 0) __PYX_ERR(0, 105, __pyx_L5_error)
         __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 105, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3158,7 +3187,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 109, __pyx_L16_error)
         __Pyx_GOTREF(__pyx_t_7);
-        if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_id, __pyx_kp_s_103685935593435136) < 0) __PYX_ERR(0, 109, __pyx_L16_error)
+        if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_id, __pyx_kp_u_103685935593435136) < 0) __PYX_ERR(0, 109, __pyx_L16_error)
         __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 109, __pyx_L16_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3364,7 +3393,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
  */
     __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_Window_Login_Text); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_Window_Login_Text); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
@@ -3383,7 +3412,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
@@ -3446,7 +3475,14 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_5) < 0) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
+    __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
     /* "DecoraterBotCore/Login.py":99
@@ -3481,7 +3517,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
  */
     __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = PyObject_GetItem(__pyx_t_5, __pyx_n_s_On_Ready_Game); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_t_5, __pyx_n_u_On_Ready_Game); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
@@ -3492,7 +3528,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GIVEREF(__pyx_t_5);
@@ -3506,9 +3542,9 @@ static PyObject *__pyx_gb_16DecoraterBotCore_5Login_3bot_4generator(__pyx_Corout
  *                 yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
  * 
  */
-    __Pyx_INCREF(__pyx_kp_s_https_twitch_tv_decoraterbot);
-    __Pyx_GIVEREF(__pyx_kp_s_https_twitch_tv_decoraterbot);
-    __pyx_cur_scope->__pyx_v_stream_url = __pyx_kp_s_https_twitch_tv_decoraterbot;
+    __Pyx_INCREF(__pyx_kp_u_https_twitch_tv_decoraterbot);
+    __Pyx_GIVEREF(__pyx_kp_u_https_twitch_tv_decoraterbot);
+    __pyx_cur_scope->__pyx_v_stream_url = __pyx_kp_u_https_twitch_tv_decoraterbot;
 
     /* "DecoraterBotCore/Login.py":118
  *                 game_name = str(consoletext['On_Ready_Game'][0])
@@ -4142,9 +4178,6 @@ static int __pyx_tp_traverse_16DecoraterBotCore_5Login___pyx_scope_struct__on_lo
   if (p->__pyx_v_self) {
     e = (*v)(p->__pyx_v_self, a); if (e) return e;
   }
-  if (p->__pyx_v_stream_url) {
-    e = (*v)(p->__pyx_v_stream_url, a); if (e) return e;
-  }
   if (p->__pyx_t_0) {
     e = (*v)(p->__pyx_t_0, a); if (e) return e;
   }
@@ -4183,9 +4216,6 @@ static int __pyx_tp_clear_16DecoraterBotCore_5Login___pyx_scope_struct__on_login
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_v_self);
   p->__pyx_v_self = Py_None; Py_INCREF(Py_None);
-  Py_XDECREF(tmp);
-  tmp = ((PyObject*)p->__pyx_v_stream_url);
-  p->__pyx_v_stream_url = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_t_0);
   p->__pyx_t_0 = Py_None; Py_INCREF(Py_None);
@@ -4391,8 +4421,8 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_103685935593435136, __pyx_k_103685935593435136, sizeof(__pyx_k_103685935593435136), 0, 0, 1, 0},
-  {&__pyx_kp_s_118098998744580098, __pyx_k_118098998744580098, sizeof(__pyx_k_118098998744580098), 0, 0, 1, 0},
+  {&__pyx_kp_u_103685935593435136, __pyx_k_103685935593435136, sizeof(__pyx_k_103685935593435136), 0, 1, 0, 0},
+  {&__pyx_kp_u_118098998744580098, __pyx_k_118098998744580098, sizeof(__pyx_k_118098998744580098), 0, 1, 0, 0},
   {&__pyx_n_s_BLACK, __pyx_k_BLACK, sizeof(__pyx_k_BLACK), 0, 0, 1, 1},
   {&__pyx_n_s_BRIGHT, __pyx_k_BRIGHT, sizeof(__pyx_k_BRIGHT), 0, 0, 1, 1},
   {&__pyx_n_s_Back, __pyx_k_Back, sizeof(__pyx_k_Back), 0, 0, 1, 1},
@@ -4404,8 +4434,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BotLogin_login_info, __pyx_k_BotLogin_login_info, sizeof(__pyx_k_BotLogin_login_info), 0, 0, 1, 1},
   {&__pyx_n_s_BotLogin_on_login, __pyx_k_BotLogin_on_login, sizeof(__pyx_k_BotLogin_on_login), 0, 0, 1, 1},
   {&__pyx_n_s_BotLogin_variable, __pyx_k_BotLogin_variable, sizeof(__pyx_k_BotLogin_variable), 0, 0, 1, 1},
-  {&__pyx_kp_s_Bot_is_currently_reconnecting_fo, __pyx_k_Bot_is_currently_reconnecting_fo, sizeof(__pyx_k_Bot_is_currently_reconnecting_fo), 0, 0, 1, 0},
-  {&__pyx_n_s_Credentials_Not_Found, __pyx_k_Credentials_Not_Found, sizeof(__pyx_k_Credentials_Not_Found), 0, 0, 1, 1},
+  {&__pyx_kp_u_Bot_is_currently_reconnecting_fo, __pyx_k_Bot_is_currently_reconnecting_fo, sizeof(__pyx_k_Bot_is_currently_reconnecting_fo), 0, 1, 0, 0},
+  {&__pyx_n_u_Credentials_Not_Found, __pyx_k_Credentials_Not_Found, sizeof(__pyx_k_Credentials_Not_Found), 0, 1, 0, 1},
   {&__pyx_n_s_DecoraterBotCore_Login, __pyx_k_DecoraterBotCore_Login, sizeof(__pyx_k_DecoraterBotCore_Login), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Forbidden, __pyx_k_Forbidden, sizeof(__pyx_k_Forbidden), 0, 0, 1, 1},
@@ -4415,23 +4445,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_GatewayNotFound, __pyx_k_GatewayNotFound, sizeof(__pyx_k_GatewayNotFound), 0, 0, 1, 1},
   {&__pyx_n_s_InvalidStateError, __pyx_k_InvalidStateError, sizeof(__pyx_k_InvalidStateError), 0, 0, 1, 1},
   {&__pyx_n_s_InvalidToken, __pyx_k_InvalidToken, sizeof(__pyx_k_InvalidToken), 0, 0, 1, 1},
-  {&__pyx_n_s_Invalid_Token, __pyx_k_Invalid_Token, sizeof(__pyx_k_Invalid_Token), 0, 0, 1, 1},
+  {&__pyx_n_u_Invalid_Token, __pyx_k_Invalid_Token, sizeof(__pyx_k_Invalid_Token), 0, 1, 0, 1},
   {&__pyx_n_s_KeyboardInterrupt, __pyx_k_KeyboardInterrupt, sizeof(__pyx_k_KeyboardInterrupt), 0, 0, 1, 1},
   {&__pyx_n_s_LoginFailure, __pyx_k_LoginFailure, sizeof(__pyx_k_LoginFailure), 0, 0, 1, 1},
-  {&__pyx_n_s_Login_Failure, __pyx_k_Login_Failure, sizeof(__pyx_k_Login_Failure), 0, 0, 1, 1},
-  {&__pyx_n_s_Login_Gateway_No_Find, __pyx_k_Login_Gateway_No_Find, sizeof(__pyx_k_Login_Gateway_No_Find), 0, 0, 1, 1},
-  {&__pyx_n_s_None, __pyx_k_None, sizeof(__pyx_k_None), 0, 0, 1, 1},
+  {&__pyx_n_u_Login_Failure, __pyx_k_Login_Failure, sizeof(__pyx_k_Login_Failure), 0, 1, 0, 1},
+  {&__pyx_n_u_Login_Gateway_No_Find, __pyx_k_Login_Gateway_No_Find, sizeof(__pyx_k_Login_Gateway_No_Find), 0, 1, 0, 1},
+  {&__pyx_n_u_None, __pyx_k_None, sizeof(__pyx_k_None), 0, 1, 0, 1},
   {&__pyx_n_s_Object, __pyx_k_Object, sizeof(__pyx_k_Object), 0, 0, 1, 1},
-  {&__pyx_n_s_On_Ready_Game, __pyx_k_On_Ready_Game, sizeof(__pyx_k_On_Ready_Game), 0, 0, 1, 1},
-  {&__pyx_n_s_On_Ready_Message, __pyx_k_On_Ready_Message, sizeof(__pyx_k_On_Ready_Message), 0, 0, 1, 1},
+  {&__pyx_n_u_On_Ready_Game, __pyx_k_On_Ready_Game, sizeof(__pyx_k_On_Ready_Game), 0, 1, 0, 1},
+  {&__pyx_n_u_On_Ready_Message, __pyx_k_On_Ready_Message, sizeof(__pyx_k_On_Ready_Message), 0, 1, 0, 1},
   {&__pyx_n_s_PATH, __pyx_k_PATH, sizeof(__pyx_k_PATH), 0, 0, 1, 1},
   {&__pyx_n_s_R_OK, __pyx_k_R_OK, sizeof(__pyx_k_R_OK), 0, 0, 1, 1},
   {&__pyx_n_s_Style, __pyx_k_Style, sizeof(__pyx_k_Style), 0, 0, 1, 1},
   {&__pyx_kp_s_This_Class_is_for_Internal_Use, __pyx_k_This_Class_is_for_Internal_Use, sizeof(__pyx_k_This_Class_is_for_Internal_Use), 0, 0, 1, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_UnknownConnectionError, __pyx_k_UnknownConnectionError, sizeof(__pyx_k_UnknownConnectionError), 0, 0, 1, 1},
-  {&__pyx_n_s_Unknown_Connection_Error, __pyx_k_Unknown_Connection_Error, sizeof(__pyx_k_Unknown_Connection_Error), 0, 0, 1, 1},
-  {&__pyx_n_s_Window_Login_Text, __pyx_k_Window_Login_Text, sizeof(__pyx_k_Window_Login_Text), 0, 0, 1, 1},
+  {&__pyx_n_u_Unknown_Connection_Error, __pyx_k_Unknown_Connection_Error, sizeof(__pyx_k_Unknown_Connection_Error), 0, 1, 0, 1},
+  {&__pyx_n_u_Window_Login_Text, __pyx_k_Window_Login_Text, sizeof(__pyx_k_Window_Login_Text), 0, 1, 0, 1},
   {&__pyx_n_s_access, __pyx_k_access, sizeof(__pyx_k_access), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
@@ -4458,16 +4488,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_discord_user_email, __pyx_k_discord_user_email, sizeof(__pyx_k_discord_user_email), 0, 0, 1, 1},
   {&__pyx_n_s_discord_user_password, __pyx_k_discord_user_password, sizeof(__pyx_k_discord_user_password), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
-  {&__pyx_n_s_email, __pyx_k_email, sizeof(__pyx_k_email), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
+  {&__pyx_n_u_email, __pyx_k_email, sizeof(__pyx_k_email), 0, 1, 0, 1},
   {&__pyx_n_s_errors, __pyx_k_errors, sizeof(__pyx_k_errors), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_futures, __pyx_k_futures, sizeof(__pyx_k_futures), 0, 0, 1, 1},
   {&__pyx_n_s_game, __pyx_k_game, sizeof(__pyx_k_game), 0, 0, 1, 1},
   {&__pyx_n_s_game_name, __pyx_k_game_name, sizeof(__pyx_k_game_name), 0, 0, 1, 1},
-  {&__pyx_kp_s_https_twitch_tv_decoraterbot, __pyx_k_https_twitch_tv_decoraterbot, sizeof(__pyx_k_https_twitch_tv_decoraterbot), 0, 0, 1, 0},
+  {&__pyx_kp_u_https_twitch_tv_decoraterbot, __pyx_k_https_twitch_tv_decoraterbot, sizeof(__pyx_k_https_twitch_tv_decoraterbot), 0, 1, 0, 0},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
@@ -4491,16 +4519,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_os_path, __pyx_k_os_path, sizeof(__pyx_k_os_path), 0, 0, 1, 1},
-  {&__pyx_n_s_password, __pyx_k_password, sizeof(__pyx_k_password), 0, 0, 1, 1},
+  {&__pyx_n_u_password, __pyx_k_password, sizeof(__pyx_k_password), 0, 1, 0, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
-  {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
+  {&__pyx_n_u_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 1, 0, 1},
   {&__pyx_n_s_reconnects, __pyx_k_reconnects, sizeof(__pyx_k_reconnects), 0, 0, 1, 1},
-  {&__pyx_kp_s_resources_ConfigData_BotMessage, __pyx_k_resources_ConfigData_BotMessage, sizeof(__pyx_k_resources_ConfigData_BotMessage), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_ConfigData_ConsoleWin, __pyx_k_resources_ConfigData_ConsoleWin, sizeof(__pyx_k_resources_ConfigData_ConsoleWin), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_ConfigData_Credential, __pyx_k_resources_ConfigData_Credential, sizeof(__pyx_k_resources_ConfigData_Credential), 0, 0, 1, 0},
+  {&__pyx_kp_u_resources_ConfigData_BotMessage, __pyx_k_resources_ConfigData_BotMessage, sizeof(__pyx_k_resources_ConfigData_BotMessage), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_ConfigData_ConsoleWin, __pyx_k_resources_ConfigData_ConsoleWin, sizeof(__pyx_k_resources_ConfigData_ConsoleWin), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_ConfigData_Credential, __pyx_k_resources_ConfigData_Credential, sizeof(__pyx_k_resources_ConfigData_Credential), 0, 1, 0, 0},
   {&__pyx_n_s_run, __pyx_k_run, sizeof(__pyx_k_run), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
@@ -4511,7 +4539,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
-  {&__pyx_n_s_token, __pyx_k_token, sizeof(__pyx_k_token), 0, 0, 1, 1},
+  {&__pyx_n_u_token, __pyx_k_token, sizeof(__pyx_k_token), 0, 1, 0, 1},
   {&__pyx_n_s_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 0, 1, 1},
   {&__pyx_n_s_url, __pyx_k_url, sizeof(__pyx_k_url), 0, 0, 1, 1},
   {&__pyx_n_s_user, __pyx_k_user, sizeof(__pyx_k_user), 0, 0, 1, 1},
@@ -4521,6 +4549,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 60, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 71, __pyx_L1_error)
   __pyx_builtin_KeyboardInterrupt = __Pyx_GetBuiltinName(__pyx_n_s_KeyboardInterrupt); if (!__pyx_builtin_KeyboardInterrupt) __PYX_ERR(0, 73, __pyx_L1_error)
   return 0;
@@ -4775,7 +4804,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  * import asyncio
  * import os
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_discord, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4787,7 +4816,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  * import os
  * import os.path
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4799,7 +4828,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  * import os.path
  * import sys
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4811,7 +4840,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  * import sys
  * import json
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os_path, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os_path, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4823,7 +4852,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  * import json
  * import io
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4835,7 +4864,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  * import io
  * from discord.__init__ import __version__
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4847,7 +4876,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  * from discord.__init__ import __version__
  * from colorama import init
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_io, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4864,7 +4893,7 @@ PyMODINIT_FUNC PyInit_Login(void)
   __Pyx_INCREF(__pyx_n_s_version);
   __Pyx_GIVEREF(__pyx_n_s_version);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_version);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_discord___init, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_discord___init, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_version); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
@@ -4885,7 +4914,7 @@ PyMODINIT_FUNC PyInit_Login(void)
   __Pyx_INCREF(__pyx_n_s_init);
   __Pyx_GIVEREF(__pyx_n_s_init);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_init);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_colorama, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_colorama, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
@@ -4912,7 +4941,7 @@ PyMODINIT_FUNC PyInit_Login(void)
   __Pyx_INCREF(__pyx_n_s_Style);
   __Pyx_GIVEREF(__pyx_n_s_Style);
   PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_Style);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_colorama, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_colorama, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Fore); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
@@ -4941,7 +4970,7 @@ PyMODINIT_FUNC PyInit_Login(void)
   __Pyx_INCREF(__pyx_n_s_commands);
   __Pyx_GIVEREF(__pyx_n_s_commands);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_commands);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord_ext, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord_ext, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_commands); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
@@ -4999,7 +5028,7 @@ PyMODINIT_FUNC PyInit_Login(void)
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_resources_ConfigData_ConsoleWin); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_resources_ConfigData_ConsoleWin); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -5021,9 +5050,9 @@ PyMODINIT_FUNC PyInit_Login(void)
   }
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_4);
-  __Pyx_INCREF(__pyx_n_s_r);
-  __Pyx_GIVEREF(__pyx_n_s_r);
-  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_s_r);
+  __Pyx_INCREF(__pyx_n_u_r);
+  __Pyx_GIVEREF(__pyx_n_u_r);
+  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_r);
   __pyx_t_4 = 0;
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -5090,7 +5119,7 @@ PyMODINIT_FUNC PyInit_Login(void)
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_resources_ConfigData_Credential); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_resources_ConfigData_Credential); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_PATH, __pyx_t_6) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
@@ -5249,7 +5278,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  *         """
  *             This Class is for Internal Use only!!!
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_bot, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_bot, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyObject_SetItem(__pyx_t_6, __pyx_n_s_bot, __pyx_t_3) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5369,7 +5398,7 @@ PyMODINIT_FUNC PyInit_Login(void)
  *     # noinspection PyPep8Naming
  *     class bot:
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_BotLogin, __pyx_empty_tuple, __pyx_t_6, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_BotLogin, __pyx_empty_tuple, __pyx_t_6, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_BotLogin, __pyx_t_3) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8182,112 +8211,6 @@ bad:
     }
 }
 
-/* Print */
-                  #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
 /* ClassMethod */
                   static PyObject* __Pyx_Method_ClassMethod(PyObject *method) {
 #if CYTHON_COMPILING_IN_PYPY
@@ -8328,43 +8251,6 @@ bad:
                    "a method_descriptor or instance method.");
     return NULL;
 }
-
-/* PrintOne */
-                  #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntFromPyVerify */
                   #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\

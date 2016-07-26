@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -642,13 +642,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* PyIntBinop.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
@@ -836,7 +829,7 @@ static const char __pyx_k_HebrewProber_is_non_final[] = "HebrewProber.is_non_fin
 static const char __pyx_k_HebrewProber_get_charset_name[] = "HebrewProber.get_charset_name";
 static const char __pyx_k_HebrewProber_set_model_probers[] = "HebrewProber.set_model_probers";
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\chardet\\hebrewprober.py";
-static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_CharSetProber;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_FINAL_KAF;
@@ -853,7 +846,7 @@ static PyObject *__pyx_n_s_HebrewProber_is_final;
 static PyObject *__pyx_n_s_HebrewProber_is_non_final;
 static PyObject *__pyx_n_s_HebrewProber_reset;
 static PyObject *__pyx_n_s_HebrewProber_set_model_probers;
-static PyObject *__pyx_kp_s_ISO_8859_8;
+static PyObject *__pyx_kp_u_ISO_8859_8;
 static PyObject *__pyx_n_s_LOGICAL_HEBREW_NAME;
 static PyObject *__pyx_n_s_MIN_FINAL_CHAR_DISTANCE;
 static PyObject *__pyx_n_s_MIN_MODEL_DISTANCE;
@@ -901,7 +894,7 @@ static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_set_model_probers;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_visualProber;
-static PyObject *__pyx_kp_s_windows_1255;
+static PyObject *__pyx_kp_u_windows_1255;
 static PyObject *__pyx_n_s_wrap_ord;
 static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber_2reset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
@@ -1136,7 +1129,7 @@ static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber_2reset(CYTHON_U
  *         self._mBeforePrev = ' '
  *         # These probers are owned by the group prober.
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mPrev, __pyx_kp_s_) < 0) __PYX_ERR(0, 170, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mPrev, __pyx_kp_u_) < 0) __PYX_ERR(0, 170, __pyx_L1_error)
 
   /* "chardet/hebrewprober.py":171
  *         # a word delimiter at the beginning of the data
@@ -1145,7 +1138,7 @@ static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber_2reset(CYTHON_U
  *         # These probers are owned by the group prober.
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mBeforePrev, __pyx_kp_s_) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mBeforePrev, __pyx_kp_u_) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
 
   /* "chardet/hebrewprober.py":164
  *         self.reset()
@@ -1915,7 +1908,7 @@ static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber_10feed(CYTHON_U
  *                 # We stand on a space - a word just ended
  *                 if self._mBeforePrev != ' ':
  */
-    __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_v_cur, __pyx_kp_s_, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_v_cur, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 231, __pyx_L1_error)
     if (__pyx_t_4) {
 
       /* "chardet/hebrewprober.py":233
@@ -1927,7 +1920,7 @@ static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber_10feed(CYTHON_U
  */
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mBeforePrev); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 233, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_kp_s_, Py_NE)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 233, __pyx_L1_error)
+      __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_t_2, __pyx_kp_u_, Py_NE)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 233, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (__pyx_t_4) {
 
@@ -2092,7 +2085,7 @@ static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber_10feed(CYTHON_U
     /*else*/ {
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mBeforePrev); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_10 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_kp_s_, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_10 = (__Pyx_PyUnicode_Equals(__pyx_t_2, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 245, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (__pyx_t_10) {
       } else {
@@ -2144,7 +2137,7 @@ static PyObject *__pyx_pf_7chardet_12hebrewprober_12HebrewProber_10feed(CYTHON_U
         __pyx_t_4 = __pyx_t_10;
         goto __pyx_L10_bool_binop_done;
       }
-      __pyx_t_10 = (__Pyx_PyString_Equals(__pyx_v_cur, __pyx_kp_s_, Py_NE)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 246, __pyx_L1_error)
+      __pyx_t_10 = (__Pyx_PyUnicode_Equals(__pyx_v_cur, __pyx_kp_u_, Py_NE)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 246, __pyx_L1_error)
       __pyx_t_4 = __pyx_t_10;
       __pyx_L10_bool_binop_done:;
 
@@ -2815,7 +2808,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_CharSetProber, __pyx_k_CharSetProber, sizeof(__pyx_k_CharSetProber), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_FINAL_KAF, __pyx_k_FINAL_KAF, sizeof(__pyx_k_FINAL_KAF), 0, 0, 1, 1},
@@ -2832,7 +2825,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_HebrewProber_is_non_final, __pyx_k_HebrewProber_is_non_final, sizeof(__pyx_k_HebrewProber_is_non_final), 0, 0, 1, 1},
   {&__pyx_n_s_HebrewProber_reset, __pyx_k_HebrewProber_reset, sizeof(__pyx_k_HebrewProber_reset), 0, 0, 1, 1},
   {&__pyx_n_s_HebrewProber_set_model_probers, __pyx_k_HebrewProber_set_model_probers, sizeof(__pyx_k_HebrewProber_set_model_probers), 0, 0, 1, 1},
-  {&__pyx_kp_s_ISO_8859_8, __pyx_k_ISO_8859_8, sizeof(__pyx_k_ISO_8859_8), 0, 0, 1, 0},
+  {&__pyx_kp_u_ISO_8859_8, __pyx_k_ISO_8859_8, sizeof(__pyx_k_ISO_8859_8), 0, 1, 0, 0},
   {&__pyx_n_s_LOGICAL_HEBREW_NAME, __pyx_k_LOGICAL_HEBREW_NAME, sizeof(__pyx_k_LOGICAL_HEBREW_NAME), 0, 0, 1, 1},
   {&__pyx_n_s_MIN_FINAL_CHAR_DISTANCE, __pyx_k_MIN_FINAL_CHAR_DISTANCE, sizeof(__pyx_k_MIN_FINAL_CHAR_DISTANCE), 0, 0, 1, 1},
   {&__pyx_n_s_MIN_MODEL_DISTANCE, __pyx_k_MIN_MODEL_DISTANCE, sizeof(__pyx_k_MIN_MODEL_DISTANCE), 0, 0, 1, 1},
@@ -2880,7 +2873,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_set_model_probers, __pyx_k_set_model_probers, sizeof(__pyx_k_set_model_probers), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_visualProber, __pyx_k_visualProber, sizeof(__pyx_k_visualProber), 0, 0, 1, 1},
-  {&__pyx_kp_s_windows_1255, __pyx_k_windows_1255, sizeof(__pyx_k_windows_1255), 0, 0, 1, 0},
+  {&__pyx_kp_u_windows_1255, __pyx_k_windows_1255, sizeof(__pyx_k_windows_1255), 0, 1, 0, 0},
   {&__pyx_n_s_wrap_ord, __pyx_k_wrap_ord, sizeof(__pyx_k_wrap_ord), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -3296,7 +3289,7 @@ PyMODINIT_FUNC PyInit_hebrewprober(void)
  * LOGICAL_HEBREW_NAME = "windows-1255"
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VISUAL_HEBREW_NAME, __pyx_kp_s_ISO_8859_8) < 0) __PYX_ERR(0, 152, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VISUAL_HEBREW_NAME, __pyx_kp_u_ISO_8859_8) < 0) __PYX_ERR(0, 152, __pyx_L1_error)
 
   /* "chardet/hebrewprober.py":153
  * 
@@ -3305,7 +3298,7 @@ PyMODINIT_FUNC PyInit_hebrewprober(void)
  * 
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LOGICAL_HEBREW_NAME, __pyx_kp_s_windows_1255) < 0) __PYX_ERR(0, 153, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LOGICAL_HEBREW_NAME, __pyx_kp_u_windows_1255) < 0) __PYX_ERR(0, 153, __pyx_L1_error)
 
   /* "chardet/hebrewprober.py":157
  * 
@@ -3429,7 +3422,7 @@ PyMODINIT_FUNC PyInit_hebrewprober(void)
  *     def __init__(self):
  *         CharSetProber.__init__(self)
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HebrewProber, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HebrewProber, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HebrewProber, __pyx_t_4) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

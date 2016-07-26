@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -875,18 +875,18 @@ static const char __pyx_k__3[] = "(\033|~{)";
   static PyObject *__pyx_n_s_MBCSGroupProber;
   static PyObject *__pyx_n_s_MINIMUM_THRESHOLD;
   static PyObject *__pyx_n_s_SBCSGroupProber;
-  static PyObject *__pyx_kp_s_UTF_16BE;
-  static PyObject *__pyx_kp_s_UTF_16LE;
-  static PyObject *__pyx_kp_s_UTF_32BE;
-  static PyObject *__pyx_kp_s_UTF_32LE;
-  static PyObject *__pyx_kp_s_UTF_8_SIG;
+  static PyObject *__pyx_kp_u_UTF_16BE;
+  static PyObject *__pyx_kp_u_UTF_16LE;
+  static PyObject *__pyx_kp_u_UTF_32BE;
+  static PyObject *__pyx_kp_u_UTF_32LE;
+  static PyObject *__pyx_kp_u_UTF_8_SIG;
   static PyObject *__pyx_n_s_UniversalDetector;
   static PyObject *__pyx_n_s_UniversalDetector___init;
   static PyObject *__pyx_n_s_UniversalDetector_close;
   static PyObject *__pyx_n_s_UniversalDetector_feed;
   static PyObject *__pyx_n_s_UniversalDetector_reset;
-  static PyObject *__pyx_kp_s_X_ISO_10646_UCS_4_2143;
-  static PyObject *__pyx_kp_s_X_ISO_10646_UCS_4_3412;
+  static PyObject *__pyx_kp_u_X_ISO_10646_UCS_4_2143;
+  static PyObject *__pyx_kp_u_X_ISO_10646_UCS_4_3412;
   static PyObject *__pyx_kp_b__10;
   static PyObject *__pyx_kp_b__12;
   static PyObject *__pyx_kp_b__3;
@@ -894,12 +894,12 @@ static const char __pyx_k__3[] = "(\033|~{)";
   static PyObject *__pyx_kp_b__5;
   static PyObject *__pyx_n_s_aBuf;
   static PyObject *__pyx_n_s_aLen;
-  static PyObject *__pyx_n_s_ascii;
+  static PyObject *__pyx_n_u_ascii;
   static PyObject *__pyx_n_s_chardet_universaldetector;
   static PyObject *__pyx_n_s_close;
   static PyObject *__pyx_n_s_codecs;
   static PyObject *__pyx_n_s_compile;
-  static PyObject *__pyx_n_s_confidence;
+  static PyObject *__pyx_n_u_confidence;
   static PyObject *__pyx_n_s_constants;
   static PyObject *__pyx_n_s_debug;
   static PyObject *__pyx_n_s_doc;
@@ -908,7 +908,7 @@ static const char __pyx_k__3[] = "(\033|~{)";
   static PyObject *__pyx_n_s_eFoundIt;
   static PyObject *__pyx_n_s_eHighbyte;
   static PyObject *__pyx_n_s_ePureAscii;
-  static PyObject *__pyx_n_s_encoding;
+  static PyObject *__pyx_n_u_encoding;
   static PyObject *__pyx_n_s_escDetector;
   static PyObject *__pyx_n_s_escprober;
   static PyObject *__pyx_n_s_feed;
@@ -931,8 +931,8 @@ static const char __pyx_k__3[] = "(\033|~{)";
   static PyObject *__pyx_n_s_mbcsgroupprober;
   static PyObject *__pyx_n_s_metaclass;
   static PyObject *__pyx_n_s_module;
-  static PyObject *__pyx_kp_s_no_data_received;
-  static PyObject *__pyx_kp_s_no_probers_hit_minimum_threshhol;
+  static PyObject *__pyx_kp_u_no_data_received;
+  static PyObject *__pyx_kp_u_no_probers_hit_minimum_threshhol;
   static PyObject *__pyx_n_s_prepare;
   static PyObject *__pyx_n_s_prober;
   static PyObject *__pyx_n_s_proberConfidence;
@@ -940,7 +940,7 @@ static const char __pyx_k__3[] = "(\033|~{)";
   static PyObject *__pyx_n_s_re;
   static PyObject *__pyx_n_s_reset;
   static PyObject *__pyx_n_s_result;
-  static PyObject *__pyx_kp_s_s_confidence_s;
+  static PyObject *__pyx_kp_u_s_confidence_s;
   static PyObject *__pyx_n_s_sbcsgroupprober;
   static PyObject *__pyx_n_s_search;
   static PyObject *__pyx_n_s_self;
@@ -1165,8 +1165,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_2rese
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, Py_None) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_confidence, __pyx_float_0_0) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_encoding, Py_None) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_confidence, __pyx_float_0_0) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_result, __pyx_t_1) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1588,8 +1588,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
       __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_encoding, __pyx_kp_s_UTF_8_SIG) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_u_encoding, __pyx_kp_u_UTF_8_SIG) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
       if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_result, __pyx_t_5) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
@@ -1633,8 +1633,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
       __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_encoding, __pyx_kp_s_UTF_32LE) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_6, __pyx_n_u_encoding, __pyx_kp_u_UTF_32LE) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_6, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
       if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_result, __pyx_t_6) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
@@ -1678,8 +1678,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
       __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_s_UTF_32BE) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_encoding, __pyx_kp_u_UTF_32BE) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
       if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_result, __pyx_t_1) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1715,8 +1715,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
       __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_s_X_ISO_10646_UCS_4_3412) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_encoding, __pyx_kp_u_X_ISO_10646_UCS_4_3412) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
 
       /* "chardet/universaldetector.py":87
  *             elif aBuf[:4] == b'\xFE\xFF\x00\x00':
@@ -1760,8 +1760,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
       __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_s_X_ISO_10646_UCS_4_2143) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_encoding, __pyx_kp_u_X_ISO_10646_UCS_4_2143) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
 
       /* "chardet/universaldetector.py":93
  *             elif aBuf[:4] == b'\x00\x00\xFF\xFE':
@@ -1813,8 +1813,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
       __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_encoding, __pyx_kp_s_UTF_16LE) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_u_encoding, __pyx_kp_u_UTF_16LE) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
       if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_result, __pyx_t_5) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
@@ -1858,8 +1858,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
       __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 102, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_encoding, __pyx_kp_s_UTF_16BE) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_6, __pyx_n_u_encoding, __pyx_kp_u_UTF_16BE) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_6, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
       if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_result, __pyx_t_6) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
@@ -1900,7 +1900,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
  */
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_result); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_1 = PyObject_GetItem(__pyx_t_6, __pyx_n_s_encoding); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetItem(__pyx_t_6, __pyx_n_u_encoding); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 105, __pyx_L1_error)
@@ -1912,7 +1912,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
   }
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_result); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_confidence); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_confidence); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyObject_RichCompare(__pyx_t_6, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
@@ -2307,7 +2307,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
       }
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_encoding, __pyx_t_6) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_7, __pyx_n_u_encoding, __pyx_t_6) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
       /* "chardet/universaldetector.py":123
@@ -2340,7 +2340,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
       }
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_confidence, __pyx_t_6) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_7, __pyx_n_u_confidence, __pyx_t_6) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
       /* "chardet/universaldetector.py":122
@@ -2646,7 +2646,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
         }
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_encoding, __pyx_t_1) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_u_encoding, __pyx_t_1) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
         /* "chardet/universaldetector.py":132
@@ -2676,7 +2676,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_4feed
         }
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_confidence, __pyx_t_1) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_u_confidence, __pyx_t_1) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
         /* "chardet/universaldetector.py":131
@@ -2953,8 +2953,8 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_6clos
  */
     __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_encoding, __pyx_n_s_ascii) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_u_encoding, __pyx_n_u_ascii) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_u_confidence, __pyx_float_1_0) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_result, __pyx_t_5) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
@@ -3244,7 +3244,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_6clos
       }
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_t_4) < 0) __PYX_ERR(0, 161, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_encoding, __pyx_t_4) < 0) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
       /* "chardet/universaldetector.py":162
@@ -3274,7 +3274,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_6clos
       }
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_confidence, __pyx_t_4) < 0) __PYX_ERR(0, 161, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_confidence, __pyx_t_4) < 0) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
       /* "chardet/universaldetector.py":161
@@ -3533,7 +3533,7 @@ static PyObject *__pyx_pf_7chardet_17universaldetector_17UniversalDetector_6clos
  *                                  (prober.get_charset_name(),
  *                                   prober.get_confidence()))
  */
-      __pyx_t_9 = __Pyx_PyString_Format(__pyx_kp_s_s_confidence_s, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_9 = PyUnicode_Format(__pyx_kp_u_s_confidence_s, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 170, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_10 = NULL;
@@ -3650,18 +3650,18 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_MBCSGroupProber, __pyx_k_MBCSGroupProber, sizeof(__pyx_k_MBCSGroupProber), 0, 0, 1, 1},
   {&__pyx_n_s_MINIMUM_THRESHOLD, __pyx_k_MINIMUM_THRESHOLD, sizeof(__pyx_k_MINIMUM_THRESHOLD), 0, 0, 1, 1},
   {&__pyx_n_s_SBCSGroupProber, __pyx_k_SBCSGroupProber, sizeof(__pyx_k_SBCSGroupProber), 0, 0, 1, 1},
-  {&__pyx_kp_s_UTF_16BE, __pyx_k_UTF_16BE, sizeof(__pyx_k_UTF_16BE), 0, 0, 1, 0},
-  {&__pyx_kp_s_UTF_16LE, __pyx_k_UTF_16LE, sizeof(__pyx_k_UTF_16LE), 0, 0, 1, 0},
-  {&__pyx_kp_s_UTF_32BE, __pyx_k_UTF_32BE, sizeof(__pyx_k_UTF_32BE), 0, 0, 1, 0},
-  {&__pyx_kp_s_UTF_32LE, __pyx_k_UTF_32LE, sizeof(__pyx_k_UTF_32LE), 0, 0, 1, 0},
-  {&__pyx_kp_s_UTF_8_SIG, __pyx_k_UTF_8_SIG, sizeof(__pyx_k_UTF_8_SIG), 0, 0, 1, 0},
+  {&__pyx_kp_u_UTF_16BE, __pyx_k_UTF_16BE, sizeof(__pyx_k_UTF_16BE), 0, 1, 0, 0},
+  {&__pyx_kp_u_UTF_16LE, __pyx_k_UTF_16LE, sizeof(__pyx_k_UTF_16LE), 0, 1, 0, 0},
+  {&__pyx_kp_u_UTF_32BE, __pyx_k_UTF_32BE, sizeof(__pyx_k_UTF_32BE), 0, 1, 0, 0},
+  {&__pyx_kp_u_UTF_32LE, __pyx_k_UTF_32LE, sizeof(__pyx_k_UTF_32LE), 0, 1, 0, 0},
+  {&__pyx_kp_u_UTF_8_SIG, __pyx_k_UTF_8_SIG, sizeof(__pyx_k_UTF_8_SIG), 0, 1, 0, 0},
   {&__pyx_n_s_UniversalDetector, __pyx_k_UniversalDetector, sizeof(__pyx_k_UniversalDetector), 0, 0, 1, 1},
   {&__pyx_n_s_UniversalDetector___init, __pyx_k_UniversalDetector___init, sizeof(__pyx_k_UniversalDetector___init), 0, 0, 1, 1},
   {&__pyx_n_s_UniversalDetector_close, __pyx_k_UniversalDetector_close, sizeof(__pyx_k_UniversalDetector_close), 0, 0, 1, 1},
   {&__pyx_n_s_UniversalDetector_feed, __pyx_k_UniversalDetector_feed, sizeof(__pyx_k_UniversalDetector_feed), 0, 0, 1, 1},
   {&__pyx_n_s_UniversalDetector_reset, __pyx_k_UniversalDetector_reset, sizeof(__pyx_k_UniversalDetector_reset), 0, 0, 1, 1},
-  {&__pyx_kp_s_X_ISO_10646_UCS_4_2143, __pyx_k_X_ISO_10646_UCS_4_2143, sizeof(__pyx_k_X_ISO_10646_UCS_4_2143), 0, 0, 1, 0},
-  {&__pyx_kp_s_X_ISO_10646_UCS_4_3412, __pyx_k_X_ISO_10646_UCS_4_3412, sizeof(__pyx_k_X_ISO_10646_UCS_4_3412), 0, 0, 1, 0},
+  {&__pyx_kp_u_X_ISO_10646_UCS_4_2143, __pyx_k_X_ISO_10646_UCS_4_2143, sizeof(__pyx_k_X_ISO_10646_UCS_4_2143), 0, 1, 0, 0},
+  {&__pyx_kp_u_X_ISO_10646_UCS_4_3412, __pyx_k_X_ISO_10646_UCS_4_3412, sizeof(__pyx_k_X_ISO_10646_UCS_4_3412), 0, 1, 0, 0},
   {&__pyx_kp_b__10, __pyx_k__10, sizeof(__pyx_k__10), 0, 0, 0, 0},
   {&__pyx_kp_b__12, __pyx_k__12, sizeof(__pyx_k__12), 0, 0, 0, 0},
   {&__pyx_kp_b__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 0, 0},
@@ -3669,12 +3669,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_b__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 0, 0},
   {&__pyx_n_s_aBuf, __pyx_k_aBuf, sizeof(__pyx_k_aBuf), 0, 0, 1, 1},
   {&__pyx_n_s_aLen, __pyx_k_aLen, sizeof(__pyx_k_aLen), 0, 0, 1, 1},
-  {&__pyx_n_s_ascii, __pyx_k_ascii, sizeof(__pyx_k_ascii), 0, 0, 1, 1},
+  {&__pyx_n_u_ascii, __pyx_k_ascii, sizeof(__pyx_k_ascii), 0, 1, 0, 1},
   {&__pyx_n_s_chardet_universaldetector, __pyx_k_chardet_universaldetector, sizeof(__pyx_k_chardet_universaldetector), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_codecs, __pyx_k_codecs, sizeof(__pyx_k_codecs), 0, 0, 1, 1},
   {&__pyx_n_s_compile, __pyx_k_compile, sizeof(__pyx_k_compile), 0, 0, 1, 1},
-  {&__pyx_n_s_confidence, __pyx_k_confidence, sizeof(__pyx_k_confidence), 0, 0, 1, 1},
+  {&__pyx_n_u_confidence, __pyx_k_confidence, sizeof(__pyx_k_confidence), 0, 1, 0, 1},
   {&__pyx_n_s_constants, __pyx_k_constants, sizeof(__pyx_k_constants), 0, 0, 1, 1},
   {&__pyx_n_s_debug, __pyx_k_debug, sizeof(__pyx_k_debug), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
@@ -3683,7 +3683,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_eFoundIt, __pyx_k_eFoundIt, sizeof(__pyx_k_eFoundIt), 0, 0, 1, 1},
   {&__pyx_n_s_eHighbyte, __pyx_k_eHighbyte, sizeof(__pyx_k_eHighbyte), 0, 0, 1, 1},
   {&__pyx_n_s_ePureAscii, __pyx_k_ePureAscii, sizeof(__pyx_k_ePureAscii), 0, 0, 1, 1},
-  {&__pyx_n_s_encoding, __pyx_k_encoding, sizeof(__pyx_k_encoding), 0, 0, 1, 1},
+  {&__pyx_n_u_encoding, __pyx_k_encoding, sizeof(__pyx_k_encoding), 0, 1, 0, 1},
   {&__pyx_n_s_escDetector, __pyx_k_escDetector, sizeof(__pyx_k_escDetector), 0, 0, 1, 1},
   {&__pyx_n_s_escprober, __pyx_k_escprober, sizeof(__pyx_k_escprober), 0, 0, 1, 1},
   {&__pyx_n_s_feed, __pyx_k_feed, sizeof(__pyx_k_feed), 0, 0, 1, 1},
@@ -3706,8 +3706,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_mbcsgroupprober, __pyx_k_mbcsgroupprober, sizeof(__pyx_k_mbcsgroupprober), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
-  {&__pyx_kp_s_no_data_received, __pyx_k_no_data_received, sizeof(__pyx_k_no_data_received), 0, 0, 1, 0},
-  {&__pyx_kp_s_no_probers_hit_minimum_threshhol, __pyx_k_no_probers_hit_minimum_threshhol, sizeof(__pyx_k_no_probers_hit_minimum_threshhol), 0, 0, 1, 0},
+  {&__pyx_kp_u_no_data_received, __pyx_k_no_data_received, sizeof(__pyx_k_no_data_received), 0, 1, 0, 0},
+  {&__pyx_kp_u_no_probers_hit_minimum_threshhol, __pyx_k_no_probers_hit_minimum_threshhol, sizeof(__pyx_k_no_probers_hit_minimum_threshhol), 0, 1, 0, 0},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_prober, __pyx_k_prober, sizeof(__pyx_k_prober), 0, 0, 1, 1},
   {&__pyx_n_s_proberConfidence, __pyx_k_proberConfidence, sizeof(__pyx_k_proberConfidence), 0, 0, 1, 1},
@@ -3715,7 +3715,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_re, __pyx_k_re, sizeof(__pyx_k_re), 0, 0, 1, 1},
   {&__pyx_n_s_reset, __pyx_k_reset, sizeof(__pyx_k_reset), 0, 0, 1, 1},
   {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
-  {&__pyx_kp_s_s_confidence_s, __pyx_k_s_confidence_s, sizeof(__pyx_k_s_confidence_s), 0, 0, 1, 0},
+  {&__pyx_kp_u_s_confidence_s, __pyx_k_s_confidence_s, sizeof(__pyx_k_s_confidence_s), 0, 1, 0, 0},
   {&__pyx_n_s_sbcsgroupprober, __pyx_k_sbcsgroupprober, sizeof(__pyx_k_sbcsgroupprober), 0, 0, 1, 1},
   {&__pyx_n_s_search, __pyx_k_search, sizeof(__pyx_k_search), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
@@ -3850,7 +3850,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             return
  *         self.done = True
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_no_data_received); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_no_data_received); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
 
@@ -3861,7 +3861,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             for prober in self._mCharSetProbers[0].mProbers:
  *                 if not prober:
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_no_probers_hit_minimum_threshhol); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_no_probers_hit_minimum_threshhol); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 166, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
@@ -4056,7 +4056,7 @@ PyMODINIT_FUNC PyInit_universaldetector(void)
  * import codecs
  * from .latin1prober import Latin1Prober  # windows-1252
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_2) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4068,7 +4068,7 @@ PyMODINIT_FUNC PyInit_universaldetector(void)
  * from .latin1prober import Latin1Prober  # windows-1252
  * from .mbcsgroupprober import MBCSGroupProber  # multi-byte character sets
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_codecs, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_codecs, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_codecs, __pyx_t_2) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4164,7 +4164,7 @@ PyMODINIT_FUNC PyInit_universaldetector(void)
  * 
  * MINIMUM_THRESHOLD = 0.20
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_re, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_re, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_re, __pyx_t_2) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4270,7 +4270,7 @@ PyMODINIT_FUNC PyInit_universaldetector(void)
  *     def __init__(self):
  *         self._highBitDetector = re.compile(b'[\x80-\xFF]')
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_UniversalDetector, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_UniversalDetector, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_UniversalDetector, __pyx_t_1) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;

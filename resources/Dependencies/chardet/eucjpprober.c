@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -873,7 +873,7 @@ static const char __pyx_k_EUCJPDistributionAnalysis[] = "EUCJPDistributionAnalys
 static const char __pyx_k_EUCJPProber_get_confidence[] = "EUCJPProber.get_confidence";
 static const char __pyx_k_EUCJPProber_get_charset_name[] = "EUCJPProber.get_charset_name";
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\chardet\\eucjpprober.py";
-static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_CodingStateMachine;
 static PyObject *__pyx_n_s_EUCJPContextAnalysis;
 static PyObject *__pyx_n_s_EUCJPDistributionAnalysis;
@@ -884,7 +884,7 @@ static PyObject *__pyx_n_s_EUCJPProber_get_charset_name;
 static PyObject *__pyx_n_s_EUCJPProber_get_confidence;
 static PyObject *__pyx_n_s_EUCJPProber_reset;
 static PyObject *__pyx_n_s_EUCJPSMModel;
-static PyObject *__pyx_kp_s_EUC_JP;
+static PyObject *__pyx_kp_u_EUC_JP;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_MultiByteCharSetProber;
 static PyObject *__pyx_n_s_SHORTCUT_THRESHOLD;
@@ -929,7 +929,7 @@ static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_next_state;
 static PyObject *__pyx_n_s_prepare;
-static PyObject *__pyx_kp_s_prober_hit_error_at_byte;
+static PyObject *__pyx_kp_u_prober_hit_error_at_byte;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reset;
@@ -1342,8 +1342,8 @@ static PyObject *__pyx_pf_7chardet_11eucjpprober_11EUCJPProber_4get_charset_name
  *     def feed(self, aBuf):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_kp_s_EUC_JP);
-  __pyx_r = __pyx_kp_s_EUC_JP;
+  __Pyx_INCREF(__pyx_kp_u_EUC_JP);
+  __pyx_r = __pyx_kp_u_EUC_JP;
   goto __pyx_L0;
 
   /* "chardet/eucjpprober.py":51
@@ -1634,7 +1634,7 @@ static PyObject *__pyx_pf_7chardet_11eucjpprober_11EUCJPProber_6feed(CYTHON_UNUS
         }
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyNumber_Add(__pyx_t_8, __pyx_kp_s_prober_hit_error_at_byte); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_5 = PyNumber_Add(__pyx_t_8, __pyx_kp_u_prober_hit_error_at_byte); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
@@ -1650,14 +1650,14 @@ static PyObject *__pyx_pf_7chardet_11eucjpprober_11EUCJPProber_6feed(CYTHON_UNUS
         __Pyx_INCREF(__pyx_v_i);
         __Pyx_GIVEREF(__pyx_v_i);
         PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_i);
-        __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_8 = PyNumber_Add(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyNumber_Add(__pyx_t_8, __pyx_kp_s_); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Add(__pyx_t_8, __pyx_kp_u_); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_8 = NULL;
@@ -2495,7 +2495,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_CodingStateMachine, __pyx_k_CodingStateMachine, sizeof(__pyx_k_CodingStateMachine), 0, 0, 1, 1},
   {&__pyx_n_s_EUCJPContextAnalysis, __pyx_k_EUCJPContextAnalysis, sizeof(__pyx_k_EUCJPContextAnalysis), 0, 0, 1, 1},
   {&__pyx_n_s_EUCJPDistributionAnalysis, __pyx_k_EUCJPDistributionAnalysis, sizeof(__pyx_k_EUCJPDistributionAnalysis), 0, 0, 1, 1},
@@ -2506,7 +2506,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_EUCJPProber_get_confidence, __pyx_k_EUCJPProber_get_confidence, sizeof(__pyx_k_EUCJPProber_get_confidence), 0, 0, 1, 1},
   {&__pyx_n_s_EUCJPProber_reset, __pyx_k_EUCJPProber_reset, sizeof(__pyx_k_EUCJPProber_reset), 0, 0, 1, 1},
   {&__pyx_n_s_EUCJPSMModel, __pyx_k_EUCJPSMModel, sizeof(__pyx_k_EUCJPSMModel), 0, 0, 1, 1},
-  {&__pyx_kp_s_EUC_JP, __pyx_k_EUC_JP, sizeof(__pyx_k_EUC_JP), 0, 0, 1, 0},
+  {&__pyx_kp_u_EUC_JP, __pyx_k_EUC_JP, sizeof(__pyx_k_EUC_JP), 0, 1, 0, 0},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_MultiByteCharSetProber, __pyx_k_MultiByteCharSetProber, sizeof(__pyx_k_MultiByteCharSetProber), 0, 0, 1, 1},
   {&__pyx_n_s_SHORTCUT_THRESHOLD, __pyx_k_SHORTCUT_THRESHOLD, sizeof(__pyx_k_SHORTCUT_THRESHOLD), 0, 0, 1, 1},
@@ -2551,7 +2551,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_next_state, __pyx_k_next_state, sizeof(__pyx_k_next_state), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
-  {&__pyx_kp_s_prober_hit_error_at_byte, __pyx_k_prober_hit_error_at_byte, sizeof(__pyx_k_prober_hit_error_at_byte), 0, 0, 1, 0},
+  {&__pyx_kp_u_prober_hit_error_at_byte, __pyx_k_prober_hit_error_at_byte, sizeof(__pyx_k_prober_hit_error_at_byte), 0, 1, 0, 0},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reset, __pyx_k_reset, sizeof(__pyx_k_reset), 0, 0, 1, 1},
@@ -2750,7 +2750,7 @@ PyMODINIT_FUNC PyInit_eucjpprober(void)
  * from . import constants
  * from .mbcharsetprober import MultiByteCharSetProber
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2967,7 +2967,7 @@ PyMODINIT_FUNC PyInit_eucjpprober(void)
  *     def __init__(self):
  *         MultiByteCharSetProber.__init__(self)
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EUCJPProber, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EUCJPProber, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EUCJPProber, __pyx_t_4) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

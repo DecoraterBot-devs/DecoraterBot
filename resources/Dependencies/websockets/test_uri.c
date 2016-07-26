@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -844,31 +844,31 @@ static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elswor
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_INVALID_URIS;
 static PyObject *__pyx_n_s_InvalidURI;
-static PyObject *__pyx_kp_s_PATH_QUERY;
+static PyObject *__pyx_kp_u_PATH_QUERY;
 static PyObject *__pyx_n_s_TestCase;
 static PyObject *__pyx_n_s_URITests;
 static PyObject *__pyx_n_s_URITests_test_error;
 static PyObject *__pyx_n_s_URITests_test_success;
 static PyObject *__pyx_n_s_VALID_URIS;
-static PyObject *__pyx_kp_s_WS_LOCALHOST_PATH_QUERY;
+static PyObject *__pyx_kp_u_WS_LOCALHOST_PATH_QUERY;
 static PyObject *__pyx_n_s__2;
-static PyObject *__pyx_kp_s__3;
+static PyObject *__pyx_kp_u__3;
 static PyObject *__pyx_n_s_assertEqual;
 static PyObject *__pyx_n_s_assertRaises;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_enter;
 static PyObject *__pyx_n_s_exceptions;
 static PyObject *__pyx_n_s_exit;
-static PyObject *__pyx_kp_s_http_localhost;
-static PyObject *__pyx_kp_s_https_localhost;
+static PyObject *__pyx_kp_u_http_localhost;
+static PyObject *__pyx_kp_u_https_localhost;
 static PyObject *__pyx_n_s_import;
-static PyObject *__pyx_n_s_localhost;
+static PyObject *__pyx_n_u_localhost;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_parse_uri;
 static PyObject *__pyx_n_s_parsed;
-static PyObject *__pyx_kp_s_path_query;
+static PyObject *__pyx_kp_u_path_query;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_self;
@@ -878,11 +878,11 @@ static PyObject *__pyx_n_s_test_success;
 static PyObject *__pyx_n_s_unittest;
 static PyObject *__pyx_n_s_uri;
 static PyObject *__pyx_n_s_websockets_test_uri;
-static PyObject *__pyx_kp_s_ws_localhost;
-static PyObject *__pyx_kp_s_ws_localhost_path_fragment;
-static PyObject *__pyx_kp_s_ws_localhost_path_query;
-static PyObject *__pyx_kp_s_ws_user_pass_localhost;
-static PyObject *__pyx_kp_s_wss_localhost;
+static PyObject *__pyx_kp_u_ws_localhost;
+static PyObject *__pyx_kp_u_ws_localhost_path_fragment;
+static PyObject *__pyx_kp_u_ws_localhost_path_query;
+static PyObject *__pyx_kp_u_ws_user_pass_localhost;
+static PyObject *__pyx_kp_u_wss_localhost;
 static PyObject *__pyx_pf_10websockets_8test_uri_8URITests_test_success(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10websockets_8test_uri_8URITests_2test_error(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_int_80;
@@ -1751,31 +1751,31 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_INVALID_URIS, __pyx_k_INVALID_URIS, sizeof(__pyx_k_INVALID_URIS), 0, 0, 1, 1},
   {&__pyx_n_s_InvalidURI, __pyx_k_InvalidURI, sizeof(__pyx_k_InvalidURI), 0, 0, 1, 1},
-  {&__pyx_kp_s_PATH_QUERY, __pyx_k_PATH_QUERY, sizeof(__pyx_k_PATH_QUERY), 0, 0, 1, 0},
+  {&__pyx_kp_u_PATH_QUERY, __pyx_k_PATH_QUERY, sizeof(__pyx_k_PATH_QUERY), 0, 1, 0, 0},
   {&__pyx_n_s_TestCase, __pyx_k_TestCase, sizeof(__pyx_k_TestCase), 0, 0, 1, 1},
   {&__pyx_n_s_URITests, __pyx_k_URITests, sizeof(__pyx_k_URITests), 0, 0, 1, 1},
   {&__pyx_n_s_URITests_test_error, __pyx_k_URITests_test_error, sizeof(__pyx_k_URITests_test_error), 0, 0, 1, 1},
   {&__pyx_n_s_URITests_test_success, __pyx_k_URITests_test_success, sizeof(__pyx_k_URITests_test_success), 0, 0, 1, 1},
   {&__pyx_n_s_VALID_URIS, __pyx_k_VALID_URIS, sizeof(__pyx_k_VALID_URIS), 0, 0, 1, 1},
-  {&__pyx_kp_s_WS_LOCALHOST_PATH_QUERY, __pyx_k_WS_LOCALHOST_PATH_QUERY, sizeof(__pyx_k_WS_LOCALHOST_PATH_QUERY), 0, 0, 1, 0},
+  {&__pyx_kp_u_WS_LOCALHOST_PATH_QUERY, __pyx_k_WS_LOCALHOST_PATH_QUERY, sizeof(__pyx_k_WS_LOCALHOST_PATH_QUERY), 0, 1, 0, 0},
   {&__pyx_n_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
   {&__pyx_n_s_assertEqual, __pyx_k_assertEqual, sizeof(__pyx_k_assertEqual), 0, 0, 1, 1},
   {&__pyx_n_s_assertRaises, __pyx_k_assertRaises, sizeof(__pyx_k_assertRaises), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
   {&__pyx_n_s_exceptions, __pyx_k_exceptions, sizeof(__pyx_k_exceptions), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
-  {&__pyx_kp_s_http_localhost, __pyx_k_http_localhost, sizeof(__pyx_k_http_localhost), 0, 0, 1, 0},
-  {&__pyx_kp_s_https_localhost, __pyx_k_https_localhost, sizeof(__pyx_k_https_localhost), 0, 0, 1, 0},
+  {&__pyx_kp_u_http_localhost, __pyx_k_http_localhost, sizeof(__pyx_k_http_localhost), 0, 1, 0, 0},
+  {&__pyx_kp_u_https_localhost, __pyx_k_https_localhost, sizeof(__pyx_k_https_localhost), 0, 1, 0, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {&__pyx_n_s_localhost, __pyx_k_localhost, sizeof(__pyx_k_localhost), 0, 0, 1, 1},
+  {&__pyx_n_u_localhost, __pyx_k_localhost, sizeof(__pyx_k_localhost), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_parse_uri, __pyx_k_parse_uri, sizeof(__pyx_k_parse_uri), 0, 0, 1, 1},
   {&__pyx_n_s_parsed, __pyx_k_parsed, sizeof(__pyx_k_parsed), 0, 0, 1, 1},
-  {&__pyx_kp_s_path_query, __pyx_k_path_query, sizeof(__pyx_k_path_query), 0, 0, 1, 0},
+  {&__pyx_kp_u_path_query, __pyx_k_path_query, sizeof(__pyx_k_path_query), 0, 1, 0, 0},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
@@ -1785,11 +1785,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_unittest, __pyx_k_unittest, sizeof(__pyx_k_unittest), 0, 0, 1, 1},
   {&__pyx_n_s_uri, __pyx_k_uri, sizeof(__pyx_k_uri), 0, 0, 1, 1},
   {&__pyx_n_s_websockets_test_uri, __pyx_k_websockets_test_uri, sizeof(__pyx_k_websockets_test_uri), 0, 0, 1, 1},
-  {&__pyx_kp_s_ws_localhost, __pyx_k_ws_localhost, sizeof(__pyx_k_ws_localhost), 0, 0, 1, 0},
-  {&__pyx_kp_s_ws_localhost_path_fragment, __pyx_k_ws_localhost_path_fragment, sizeof(__pyx_k_ws_localhost_path_fragment), 0, 0, 1, 0},
-  {&__pyx_kp_s_ws_localhost_path_query, __pyx_k_ws_localhost_path_query, sizeof(__pyx_k_ws_localhost_path_query), 0, 0, 1, 0},
-  {&__pyx_kp_s_ws_user_pass_localhost, __pyx_k_ws_user_pass_localhost, sizeof(__pyx_k_ws_user_pass_localhost), 0, 0, 1, 0},
-  {&__pyx_kp_s_wss_localhost, __pyx_k_wss_localhost, sizeof(__pyx_k_wss_localhost), 0, 0, 1, 0},
+  {&__pyx_kp_u_ws_localhost, __pyx_k_ws_localhost, sizeof(__pyx_k_ws_localhost), 0, 1, 0, 0},
+  {&__pyx_kp_u_ws_localhost_path_fragment, __pyx_k_ws_localhost_path_fragment, sizeof(__pyx_k_ws_localhost_path_fragment), 0, 1, 0, 0},
+  {&__pyx_kp_u_ws_localhost_path_query, __pyx_k_ws_localhost_path_query, sizeof(__pyx_k_ws_localhost_path_query), 0, 1, 0, 0},
+  {&__pyx_kp_u_ws_user_pass_localhost, __pyx_k_ws_user_pass_localhost, sizeof(__pyx_k_ws_user_pass_localhost), 0, 1, 0, 0},
+  {&__pyx_kp_u_wss_localhost, __pyx_k_wss_localhost, sizeof(__pyx_k_wss_localhost), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1817,10 +1817,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     ('wss://localhost/', (True, 'localhost', 443, '/')),
  *     ('ws://localhost/path?query', (False, 'localhost', 80, '/path?query')),
  */
-  __pyx_tuple__4 = PyTuple_Pack(4, Py_False, __pyx_n_s_localhost, __pyx_int_80, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(4, Py_False, __pyx_n_u_localhost, __pyx_int_80, __pyx_kp_u__3); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_kp_s_ws_localhost, __pyx_tuple__4); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_kp_u_ws_localhost, __pyx_tuple__4); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -1831,10 +1831,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     ('ws://localhost/path?query', (False, 'localhost', 80, '/path?query')),
  *     ('WS://LOCALHOST/PATH?QUERY', (False, 'localhost', 80, '/PATH?QUERY')),
  */
-  __pyx_tuple__6 = PyTuple_Pack(4, Py_True, __pyx_n_s_localhost, __pyx_int_443, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(4, Py_True, __pyx_n_u_localhost, __pyx_int_443, __pyx_kp_u__3); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_kp_s_wss_localhost, __pyx_tuple__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_kp_u_wss_localhost, __pyx_tuple__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -1845,10 +1845,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     ('WS://LOCALHOST/PATH?QUERY', (False, 'localhost', 80, '/PATH?QUERY')),
  * ]
  */
-  __pyx_tuple__8 = PyTuple_Pack(4, Py_False, __pyx_n_s_localhost, __pyx_int_80, __pyx_kp_s_path_query); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(4, Py_False, __pyx_n_u_localhost, __pyx_int_80, __pyx_kp_u_path_query); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_kp_s_ws_localhost_path_query, __pyx_tuple__8); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_kp_u_ws_localhost_path_query, __pyx_tuple__8); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -1859,10 +1859,10 @@ static int __Pyx_InitCachedConstants(void) {
  * ]
  * 
  */
-  __pyx_tuple__10 = PyTuple_Pack(4, Py_False, __pyx_n_s_localhost, __pyx_int_80, __pyx_kp_s_PATH_QUERY); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(4, Py_False, __pyx_n_u_localhost, __pyx_int_80, __pyx_kp_u_PATH_QUERY); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_kp_s_WS_LOCALHOST_PATH_QUERY, __pyx_tuple__10); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_kp_u_WS_LOCALHOST_PATH_QUERY, __pyx_tuple__10); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -2006,7 +2006,7 @@ PyMODINIT_FUNC PyInit_test_uri(void)
  * 
  * from .exceptions import InvalidURI
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_unittest, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2083,18 +2083,18 @@ PyMODINIT_FUNC PyInit_test_uri(void)
  */
   __pyx_t_1 = PyList_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_kp_s_http_localhost);
-  __Pyx_GIVEREF(__pyx_kp_s_http_localhost);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s_http_localhost);
-  __Pyx_INCREF(__pyx_kp_s_https_localhost);
-  __Pyx_GIVEREF(__pyx_kp_s_https_localhost);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_kp_s_https_localhost);
-  __Pyx_INCREF(__pyx_kp_s_ws_localhost_path_fragment);
-  __Pyx_GIVEREF(__pyx_kp_s_ws_localhost_path_fragment);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_kp_s_ws_localhost_path_fragment);
-  __Pyx_INCREF(__pyx_kp_s_ws_user_pass_localhost);
-  __Pyx_GIVEREF(__pyx_kp_s_ws_user_pass_localhost);
-  PyList_SET_ITEM(__pyx_t_1, 3, __pyx_kp_s_ws_user_pass_localhost);
+  __Pyx_INCREF(__pyx_kp_u_http_localhost);
+  __Pyx_GIVEREF(__pyx_kp_u_http_localhost);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_http_localhost);
+  __Pyx_INCREF(__pyx_kp_u_https_localhost);
+  __Pyx_GIVEREF(__pyx_kp_u_https_localhost);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_kp_u_https_localhost);
+  __Pyx_INCREF(__pyx_kp_u_ws_localhost_path_fragment);
+  __Pyx_GIVEREF(__pyx_kp_u_ws_localhost_path_fragment);
+  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_ws_localhost_path_fragment);
+  __Pyx_INCREF(__pyx_kp_u_ws_user_pass_localhost);
+  __Pyx_GIVEREF(__pyx_kp_u_ws_user_pass_localhost);
+  PyList_SET_ITEM(__pyx_t_1, 3, __pyx_kp_u_ws_user_pass_localhost);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_INVALID_URIS, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -2151,7 +2151,7 @@ PyMODINIT_FUNC PyInit_test_uri(void)
  * 
  *     def test_success(self):
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_URITests, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_URITests, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_URITests, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

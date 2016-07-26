@@ -839,9 +839,9 @@ static const char __pyx_k_crypto_sign_ed25519_pk_to_curve2[] = "crypto_sign_ed25
 static const char __pyx_k_crypto_sign_ed25519_sk_to_curve2[] = "crypto_sign_ed25519_sk_to_curve25519";
 static PyObject *__pyx_n_s_BadSignatureError;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
-static PyObject *__pyx_kp_s_Invalid_curve_public_key;
-static PyObject *__pyx_kp_s_Invalid_seed;
-static PyObject *__pyx_kp_s_Signature_was_forged_or_corrupt;
+static PyObject *__pyx_kp_u_Invalid_curve_public_key;
+static PyObject *__pyx_kp_u_Invalid_seed;
+static PyObject *__pyx_kp_u_Signature_was_forged_or_corrupt;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_buffer;
 static PyObject *__pyx_n_s_crypto_box_secretkeybytes;
@@ -882,8 +882,8 @@ static PyObject *__pyx_n_s_signed;
 static PyObject *__pyx_n_s_signed_len;
 static PyObject *__pyx_n_s_sk;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_kp_s_unsigned_char;
-static PyObject *__pyx_kp_s_unsigned_long_long;
+static PyObject *__pyx_kp_u_unsigned_char;
+static PyObject *__pyx_kp_u_unsigned_long_long;
 static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_crypto_sign_keypair(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_2crypto_sign_seed_keypair(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_seed); /* proto */
 static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_4crypto_sign(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_message, PyObject *__pyx_v_sk); /* proto */
@@ -989,9 +989,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_crypto_sign_keypair(CYTH
   if (__pyx_t_4) {
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_2);
   __pyx_t_2 = 0;
@@ -1033,9 +1033,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_crypto_sign_keypair(CYTH
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_5, __pyx_t_3);
   __pyx_t_3 = 0;
@@ -1364,9 +1364,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_2crypto_sign_seed_keypai
   if (__pyx_t_6) {
     __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_1, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_1, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_1, __pyx_t_3);
   __pyx_t_3 = 0;
@@ -1408,9 +1408,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_2crypto_sign_seed_keypai
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3); __pyx_t_3 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_1, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_1, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_1, __pyx_t_2);
   __pyx_t_2 = 0;
@@ -1752,9 +1752,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_4crypto_sign(CYTHON_UNUS
   if (__pyx_t_5) {
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_5); __pyx_t_5 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_4, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_4, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_4, __pyx_t_6);
   __pyx_t_6 = 0;
@@ -2046,9 +2046,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_6crypto_sign_open(CYTHON
   if (__pyx_t_5) {
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_4, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_4, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_4, __pyx_t_2);
   __pyx_t_2 = 0;
@@ -2368,9 +2368,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_8crypto_sign_ed25519_pk_
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3); __pyx_t_3 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_1, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_1, __pyx_kp_u_unsigned_char);
   __Pyx_INCREF(__pyx_v_curve_public_key_len);
   __Pyx_GIVEREF(__pyx_v_curve_public_key_len);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_1, __pyx_v_curve_public_key_len);
@@ -2642,9 +2642,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_11crypto_sign_10crypto_sign_ed25519_sk
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3); __pyx_t_3 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_1, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_1, __pyx_kp_u_unsigned_char);
   __Pyx_INCREF(__pyx_v_curve_secret_key_len);
   __Pyx_GIVEREF(__pyx_v_curve_secret_key_len);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_1, __pyx_v_curve_secret_key_len);
@@ -2820,9 +2820,9 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BadSignatureError, __pyx_k_BadSignatureError, sizeof(__pyx_k_BadSignatureError), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
-  {&__pyx_kp_s_Invalid_curve_public_key, __pyx_k_Invalid_curve_public_key, sizeof(__pyx_k_Invalid_curve_public_key), 0, 0, 1, 0},
-  {&__pyx_kp_s_Invalid_seed, __pyx_k_Invalid_seed, sizeof(__pyx_k_Invalid_seed), 0, 0, 1, 0},
-  {&__pyx_kp_s_Signature_was_forged_or_corrupt, __pyx_k_Signature_was_forged_or_corrupt, sizeof(__pyx_k_Signature_was_forged_or_corrupt), 0, 0, 1, 0},
+  {&__pyx_kp_u_Invalid_curve_public_key, __pyx_k_Invalid_curve_public_key, sizeof(__pyx_k_Invalid_curve_public_key), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_seed, __pyx_k_Invalid_seed, sizeof(__pyx_k_Invalid_seed), 0, 1, 0, 0},
+  {&__pyx_kp_u_Signature_was_forged_or_corrupt, __pyx_k_Signature_was_forged_or_corrupt, sizeof(__pyx_k_Signature_was_forged_or_corrupt), 0, 1, 0, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_buffer, __pyx_k_buffer, sizeof(__pyx_k_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_crypto_box_secretkeybytes, __pyx_k_crypto_box_secretkeybytes, sizeof(__pyx_k_crypto_box_secretkeybytes), 0, 0, 1, 1},
@@ -2863,8 +2863,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_signed_len, __pyx_k_signed_len, sizeof(__pyx_k_signed_len), 0, 0, 1, 1},
   {&__pyx_n_s_sk, __pyx_k_sk, sizeof(__pyx_k_sk), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_kp_s_unsigned_char, __pyx_k_unsigned_char, sizeof(__pyx_k_unsigned_char), 0, 0, 1, 0},
-  {&__pyx_kp_s_unsigned_long_long, __pyx_k_unsigned_long_long, sizeof(__pyx_k_unsigned_long_long), 0, 0, 1, 0},
+  {&__pyx_kp_u_unsigned_char, __pyx_k_unsigned_char, sizeof(__pyx_k_unsigned_char), 0, 1, 0, 0},
+  {&__pyx_kp_u_unsigned_long_long, __pyx_k_unsigned_long_long, sizeof(__pyx_k_unsigned_long_long), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -2907,7 +2907,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     pk = ffi.new("unsigned char[]", crypto_sign_PUBLICKEYBYTES)
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_Invalid_seed); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Invalid_seed); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -2940,7 +2940,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     rc = lib.crypto_sign(signed, signed_len, message, len(message), sk)
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_unsigned_long_long); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_unsigned_long_long); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -2962,7 +2962,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     if lib.crypto_sign_open(
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_unsigned_long_long); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_unsigned_long_long); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -2973,7 +2973,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     return ffi.buffer(message, message_len[0])[:]
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Signature_was_forged_or_corrupt); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Signature_was_forged_or_corrupt); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -2995,7 +2995,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     curve_public_key_len = crypto_sign_curve25519_BYTES
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Invalid_curve_public_key); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Invalid_curve_public_key); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -3017,7 +3017,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     curve_secret_key_len = crypto_sign_curve25519_BYTES
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_Invalid_curve_public_key); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_Invalid_curve_public_key); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 

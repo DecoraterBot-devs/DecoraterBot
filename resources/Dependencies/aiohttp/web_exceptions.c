@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -645,24 +645,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
-#endif
-
 /* PyObjectCallMethO.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
@@ -802,7 +784,6 @@ static const char __pyx_k_all[] = "__all__";
 static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_body[] = "body";
 static const char __pyx_k_init[] = "__init__";
-static const char __pyx_k_join[] = "join";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_self[] = "self";
 static const char __pyx_k_test[] = "__test__";
@@ -894,75 +875,128 @@ static const char __pyx_k_HTTPNetworkAuthenticationRequire[] = "HTTPNetworkAuthe
 static const char __pyx_k_HTTP_redirects_need_a_location_t[] = "HTTP redirects need a location to redirect to.";
 static const char __pyx_k_Base_class_for_exceptions_with_s_2[] = "Base class for exceptions with status codes in the 300s.";
 static const char __pyx_k_Base_class_for_exceptions_with_s_3[] = "Base class for exceptions with status codes in the 200s.";
-static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_n_s_Allow;
+static PyObject *__pyx_kp_u_;
+static PyObject *__pyx_n_u_Allow;
 static PyObject *__pyx_kp_s_Base_class_for_exceptions_with_s;
 static PyObject *__pyx_kp_s_Base_class_for_exceptions_with_s_2;
 static PyObject *__pyx_kp_s_Base_class_for_exceptions_with_s_3;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Exception;
 static PyObject *__pyx_n_s_HTTPAccepted;
+static PyObject *__pyx_n_u_HTTPAccepted;
 static PyObject *__pyx_n_s_HTTPBadGateway;
+static PyObject *__pyx_n_u_HTTPBadGateway;
 static PyObject *__pyx_n_s_HTTPBadRequest;
+static PyObject *__pyx_n_u_HTTPBadRequest;
 static PyObject *__pyx_n_s_HTTPClientError;
+static PyObject *__pyx_n_u_HTTPClientError;
 static PyObject *__pyx_n_s_HTTPConflict;
+static PyObject *__pyx_n_u_HTTPConflict;
 static PyObject *__pyx_n_s_HTTPCreated;
+static PyObject *__pyx_n_u_HTTPCreated;
 static PyObject *__pyx_n_s_HTTPError;
+static PyObject *__pyx_n_u_HTTPError;
 static PyObject *__pyx_n_s_HTTPException;
+static PyObject *__pyx_n_u_HTTPException;
 static PyObject *__pyx_n_s_HTTPException___init;
 static PyObject *__pyx_n_s_HTTPExpectationFailed;
+static PyObject *__pyx_n_u_HTTPExpectationFailed;
 static PyObject *__pyx_n_s_HTTPForbidden;
+static PyObject *__pyx_n_u_HTTPForbidden;
 static PyObject *__pyx_n_s_HTTPFound;
+static PyObject *__pyx_n_u_HTTPFound;
 static PyObject *__pyx_n_s_HTTPGatewayTimeout;
+static PyObject *__pyx_n_u_HTTPGatewayTimeout;
 static PyObject *__pyx_n_s_HTTPGone;
+static PyObject *__pyx_n_u_HTTPGone;
 static PyObject *__pyx_n_s_HTTPInternalServerError;
+static PyObject *__pyx_n_u_HTTPInternalServerError;
 static PyObject *__pyx_n_s_HTTPLengthRequired;
+static PyObject *__pyx_n_u_HTTPLengthRequired;
 static PyObject *__pyx_n_s_HTTPMethodNotAllowed;
+static PyObject *__pyx_n_u_HTTPMethodNotAllowed;
 static PyObject *__pyx_n_s_HTTPMethodNotAllowed___init;
 static PyObject *__pyx_n_s_HTTPMisdirectedRequest;
+static PyObject *__pyx_n_u_HTTPMisdirectedRequest;
 static PyObject *__pyx_n_s_HTTPMove;
 static PyObject *__pyx_n_s_HTTPMove___init;
 static PyObject *__pyx_n_s_HTTPMovedPermanently;
+static PyObject *__pyx_n_u_HTTPMovedPermanently;
 static PyObject *__pyx_n_s_HTTPMultipleChoices;
+static PyObject *__pyx_n_u_HTTPMultipleChoices;
 static PyObject *__pyx_n_s_HTTPNetworkAuthenticationRequire;
+static PyObject *__pyx_n_u_HTTPNetworkAuthenticationRequire;
 static PyObject *__pyx_n_s_HTTPNoContent;
+static PyObject *__pyx_n_u_HTTPNoContent;
 static PyObject *__pyx_n_s_HTTPNonAuthoritativeInformation;
+static PyObject *__pyx_n_u_HTTPNonAuthoritativeInformation;
 static PyObject *__pyx_n_s_HTTPNotAcceptable;
+static PyObject *__pyx_n_u_HTTPNotAcceptable;
 static PyObject *__pyx_n_s_HTTPNotExtended;
+static PyObject *__pyx_n_u_HTTPNotExtended;
 static PyObject *__pyx_n_s_HTTPNotFound;
+static PyObject *__pyx_n_u_HTTPNotFound;
 static PyObject *__pyx_n_s_HTTPNotImplemented;
+static PyObject *__pyx_n_u_HTTPNotImplemented;
 static PyObject *__pyx_n_s_HTTPNotModified;
+static PyObject *__pyx_n_u_HTTPNotModified;
 static PyObject *__pyx_n_s_HTTPOk;
+static PyObject *__pyx_n_u_HTTPOk;
 static PyObject *__pyx_n_s_HTTPPartialContent;
+static PyObject *__pyx_n_u_HTTPPartialContent;
 static PyObject *__pyx_n_s_HTTPPaymentRequired;
+static PyObject *__pyx_n_u_HTTPPaymentRequired;
 static PyObject *__pyx_n_s_HTTPPermanentRedirect;
+static PyObject *__pyx_n_u_HTTPPermanentRedirect;
 static PyObject *__pyx_n_s_HTTPPreconditionFailed;
+static PyObject *__pyx_n_u_HTTPPreconditionFailed;
 static PyObject *__pyx_n_s_HTTPPreconditionRequired;
+static PyObject *__pyx_n_u_HTTPPreconditionRequired;
 static PyObject *__pyx_n_s_HTTPProxyAuthenticationRequired;
+static PyObject *__pyx_n_u_HTTPProxyAuthenticationRequired;
 static PyObject *__pyx_n_s_HTTPRedirection;
+static PyObject *__pyx_n_u_HTTPRedirection;
 static PyObject *__pyx_n_s_HTTPRequestEntityTooLarge;
+static PyObject *__pyx_n_u_HTTPRequestEntityTooLarge;
 static PyObject *__pyx_n_s_HTTPRequestHeaderFieldsTooLarge;
+static PyObject *__pyx_n_u_HTTPRequestHeaderFieldsTooLarge;
 static PyObject *__pyx_n_s_HTTPRequestRangeNotSatisfiable;
+static PyObject *__pyx_n_u_HTTPRequestRangeNotSatisfiable;
 static PyObject *__pyx_n_s_HTTPRequestTimeout;
+static PyObject *__pyx_n_u_HTTPRequestTimeout;
 static PyObject *__pyx_n_s_HTTPRequestURITooLong;
+static PyObject *__pyx_n_u_HTTPRequestURITooLong;
 static PyObject *__pyx_n_s_HTTPResetContent;
+static PyObject *__pyx_n_u_HTTPResetContent;
 static PyObject *__pyx_n_s_HTTPSeeOther;
+static PyObject *__pyx_n_u_HTTPSeeOther;
 static PyObject *__pyx_n_s_HTTPServerError;
+static PyObject *__pyx_n_u_HTTPServerError;
 static PyObject *__pyx_n_s_HTTPServiceUnavailable;
+static PyObject *__pyx_n_u_HTTPServiceUnavailable;
 static PyObject *__pyx_n_s_HTTPSuccessful;
+static PyObject *__pyx_n_u_HTTPSuccessful;
 static PyObject *__pyx_n_s_HTTPTemporaryRedirect;
+static PyObject *__pyx_n_u_HTTPTemporaryRedirect;
 static PyObject *__pyx_n_s_HTTPTooManyRequests;
+static PyObject *__pyx_n_u_HTTPTooManyRequests;
 static PyObject *__pyx_n_s_HTTPUnauthorized;
+static PyObject *__pyx_n_u_HTTPUnauthorized;
 static PyObject *__pyx_n_s_HTTPUnsupportedMediaType;
+static PyObject *__pyx_n_u_HTTPUnsupportedMediaType;
 static PyObject *__pyx_n_s_HTTPUpgradeRequired;
+static PyObject *__pyx_n_u_HTTPUpgradeRequired;
 static PyObject *__pyx_n_s_HTTPUseProxy;
+static PyObject *__pyx_n_u_HTTPUseProxy;
 static PyObject *__pyx_n_s_HTTPVariantAlsoNegotiates;
+static PyObject *__pyx_n_u_HTTPVariantAlsoNegotiates;
 static PyObject *__pyx_n_s_HTTPVersionNotSupported;
-static PyObject *__pyx_kp_s_HTTP_redirects_need_a_location_t;
-static PyObject *__pyx_n_s_Location;
+static PyObject *__pyx_n_u_HTTPVersionNotSupported;
+static PyObject *__pyx_kp_u_HTTP_redirects_need_a_location_t;
+static PyObject *__pyx_n_u_Location;
 static PyObject *__pyx_n_s_Response;
 static PyObject *__pyx_n_s_ValueError;
-static PyObject *__pyx_kp_s__3;
+static PyObject *__pyx_kp_u__3;
 static PyObject *__pyx_n_s_aiohttp_web_exceptions;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_allow;
@@ -975,7 +1009,6 @@ static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_headers;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
-static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_location;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
@@ -1294,7 +1327,7 @@ static PyObject *__pyx_pf_7aiohttp_14web_exceptions_13HTTPException___init__(CYT
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_status); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
@@ -1575,7 +1608,7 @@ static PyObject *__pyx_pf_7aiohttp_14web_exceptions_9_HTTPMove___init__(CYTHON_U
  */
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_headers); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_n_s_Location, __pyx_v_location) < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_n_u_Location, __pyx_v_location) < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "aiohttp/web_exceptions.py":139
@@ -1746,7 +1779,7 @@ static PyObject *__pyx_pf_7aiohttp_14web_exceptions_20HTTPMethodNotAllowed___ini
   __pyx_t_1 = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   __pyx_t_3 = PyList_Sort(__pyx_t_1); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 213, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_2 = PyUnicode_Join(__pyx_kp_u__3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_allow = ((PyObject*)__pyx_t_2);
@@ -1814,7 +1847,7 @@ static PyObject *__pyx_pf_7aiohttp_14web_exceptions_20HTTPMethodNotAllowed___ini
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_headers); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_n_s_Allow, __pyx_v_allow) < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_n_u_Allow, __pyx_v_allow) < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "aiohttp/web_exceptions.py":217
@@ -1903,75 +1936,128 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_n_s_Allow, __pyx_k_Allow, sizeof(__pyx_k_Allow), 0, 0, 1, 1},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
+  {&__pyx_n_u_Allow, __pyx_k_Allow, sizeof(__pyx_k_Allow), 0, 1, 0, 1},
   {&__pyx_kp_s_Base_class_for_exceptions_with_s, __pyx_k_Base_class_for_exceptions_with_s, sizeof(__pyx_k_Base_class_for_exceptions_with_s), 0, 0, 1, 0},
   {&__pyx_kp_s_Base_class_for_exceptions_with_s_2, __pyx_k_Base_class_for_exceptions_with_s_2, sizeof(__pyx_k_Base_class_for_exceptions_with_s_2), 0, 0, 1, 0},
   {&__pyx_kp_s_Base_class_for_exceptions_with_s_3, __pyx_k_Base_class_for_exceptions_with_s_3, sizeof(__pyx_k_Base_class_for_exceptions_with_s_3), 0, 0, 1, 0},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Exception, __pyx_k_Exception, sizeof(__pyx_k_Exception), 0, 0, 1, 1},
   {&__pyx_n_s_HTTPAccepted, __pyx_k_HTTPAccepted, sizeof(__pyx_k_HTTPAccepted), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPAccepted, __pyx_k_HTTPAccepted, sizeof(__pyx_k_HTTPAccepted), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPBadGateway, __pyx_k_HTTPBadGateway, sizeof(__pyx_k_HTTPBadGateway), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPBadGateway, __pyx_k_HTTPBadGateway, sizeof(__pyx_k_HTTPBadGateway), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPBadRequest, __pyx_k_HTTPBadRequest, sizeof(__pyx_k_HTTPBadRequest), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPBadRequest, __pyx_k_HTTPBadRequest, sizeof(__pyx_k_HTTPBadRequest), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPClientError, __pyx_k_HTTPClientError, sizeof(__pyx_k_HTTPClientError), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPClientError, __pyx_k_HTTPClientError, sizeof(__pyx_k_HTTPClientError), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPConflict, __pyx_k_HTTPConflict, sizeof(__pyx_k_HTTPConflict), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPConflict, __pyx_k_HTTPConflict, sizeof(__pyx_k_HTTPConflict), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPCreated, __pyx_k_HTTPCreated, sizeof(__pyx_k_HTTPCreated), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPCreated, __pyx_k_HTTPCreated, sizeof(__pyx_k_HTTPCreated), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPError, __pyx_k_HTTPError, sizeof(__pyx_k_HTTPError), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPError, __pyx_k_HTTPError, sizeof(__pyx_k_HTTPError), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPException, __pyx_k_HTTPException, sizeof(__pyx_k_HTTPException), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPException, __pyx_k_HTTPException, sizeof(__pyx_k_HTTPException), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPException___init, __pyx_k_HTTPException___init, sizeof(__pyx_k_HTTPException___init), 0, 0, 1, 1},
   {&__pyx_n_s_HTTPExpectationFailed, __pyx_k_HTTPExpectationFailed, sizeof(__pyx_k_HTTPExpectationFailed), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPExpectationFailed, __pyx_k_HTTPExpectationFailed, sizeof(__pyx_k_HTTPExpectationFailed), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPForbidden, __pyx_k_HTTPForbidden, sizeof(__pyx_k_HTTPForbidden), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPForbidden, __pyx_k_HTTPForbidden, sizeof(__pyx_k_HTTPForbidden), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPFound, __pyx_k_HTTPFound, sizeof(__pyx_k_HTTPFound), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPFound, __pyx_k_HTTPFound, sizeof(__pyx_k_HTTPFound), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPGatewayTimeout, __pyx_k_HTTPGatewayTimeout, sizeof(__pyx_k_HTTPGatewayTimeout), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPGatewayTimeout, __pyx_k_HTTPGatewayTimeout, sizeof(__pyx_k_HTTPGatewayTimeout), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPGone, __pyx_k_HTTPGone, sizeof(__pyx_k_HTTPGone), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPGone, __pyx_k_HTTPGone, sizeof(__pyx_k_HTTPGone), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPInternalServerError, __pyx_k_HTTPInternalServerError, sizeof(__pyx_k_HTTPInternalServerError), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPInternalServerError, __pyx_k_HTTPInternalServerError, sizeof(__pyx_k_HTTPInternalServerError), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPLengthRequired, __pyx_k_HTTPLengthRequired, sizeof(__pyx_k_HTTPLengthRequired), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPLengthRequired, __pyx_k_HTTPLengthRequired, sizeof(__pyx_k_HTTPLengthRequired), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPMethodNotAllowed, __pyx_k_HTTPMethodNotAllowed, sizeof(__pyx_k_HTTPMethodNotAllowed), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPMethodNotAllowed, __pyx_k_HTTPMethodNotAllowed, sizeof(__pyx_k_HTTPMethodNotAllowed), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPMethodNotAllowed___init, __pyx_k_HTTPMethodNotAllowed___init, sizeof(__pyx_k_HTTPMethodNotAllowed___init), 0, 0, 1, 1},
   {&__pyx_n_s_HTTPMisdirectedRequest, __pyx_k_HTTPMisdirectedRequest, sizeof(__pyx_k_HTTPMisdirectedRequest), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPMisdirectedRequest, __pyx_k_HTTPMisdirectedRequest, sizeof(__pyx_k_HTTPMisdirectedRequest), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPMove, __pyx_k_HTTPMove, sizeof(__pyx_k_HTTPMove), 0, 0, 1, 1},
   {&__pyx_n_s_HTTPMove___init, __pyx_k_HTTPMove___init, sizeof(__pyx_k_HTTPMove___init), 0, 0, 1, 1},
   {&__pyx_n_s_HTTPMovedPermanently, __pyx_k_HTTPMovedPermanently, sizeof(__pyx_k_HTTPMovedPermanently), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPMovedPermanently, __pyx_k_HTTPMovedPermanently, sizeof(__pyx_k_HTTPMovedPermanently), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPMultipleChoices, __pyx_k_HTTPMultipleChoices, sizeof(__pyx_k_HTTPMultipleChoices), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPMultipleChoices, __pyx_k_HTTPMultipleChoices, sizeof(__pyx_k_HTTPMultipleChoices), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNetworkAuthenticationRequire, __pyx_k_HTTPNetworkAuthenticationRequire, sizeof(__pyx_k_HTTPNetworkAuthenticationRequire), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNetworkAuthenticationRequire, __pyx_k_HTTPNetworkAuthenticationRequire, sizeof(__pyx_k_HTTPNetworkAuthenticationRequire), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNoContent, __pyx_k_HTTPNoContent, sizeof(__pyx_k_HTTPNoContent), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNoContent, __pyx_k_HTTPNoContent, sizeof(__pyx_k_HTTPNoContent), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNonAuthoritativeInformation, __pyx_k_HTTPNonAuthoritativeInformation, sizeof(__pyx_k_HTTPNonAuthoritativeInformation), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNonAuthoritativeInformation, __pyx_k_HTTPNonAuthoritativeInformation, sizeof(__pyx_k_HTTPNonAuthoritativeInformation), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNotAcceptable, __pyx_k_HTTPNotAcceptable, sizeof(__pyx_k_HTTPNotAcceptable), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNotAcceptable, __pyx_k_HTTPNotAcceptable, sizeof(__pyx_k_HTTPNotAcceptable), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNotExtended, __pyx_k_HTTPNotExtended, sizeof(__pyx_k_HTTPNotExtended), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNotExtended, __pyx_k_HTTPNotExtended, sizeof(__pyx_k_HTTPNotExtended), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNotFound, __pyx_k_HTTPNotFound, sizeof(__pyx_k_HTTPNotFound), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNotFound, __pyx_k_HTTPNotFound, sizeof(__pyx_k_HTTPNotFound), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNotImplemented, __pyx_k_HTTPNotImplemented, sizeof(__pyx_k_HTTPNotImplemented), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNotImplemented, __pyx_k_HTTPNotImplemented, sizeof(__pyx_k_HTTPNotImplemented), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPNotModified, __pyx_k_HTTPNotModified, sizeof(__pyx_k_HTTPNotModified), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPNotModified, __pyx_k_HTTPNotModified, sizeof(__pyx_k_HTTPNotModified), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPOk, __pyx_k_HTTPOk, sizeof(__pyx_k_HTTPOk), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPOk, __pyx_k_HTTPOk, sizeof(__pyx_k_HTTPOk), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPPartialContent, __pyx_k_HTTPPartialContent, sizeof(__pyx_k_HTTPPartialContent), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPPartialContent, __pyx_k_HTTPPartialContent, sizeof(__pyx_k_HTTPPartialContent), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPPaymentRequired, __pyx_k_HTTPPaymentRequired, sizeof(__pyx_k_HTTPPaymentRequired), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPPaymentRequired, __pyx_k_HTTPPaymentRequired, sizeof(__pyx_k_HTTPPaymentRequired), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPPermanentRedirect, __pyx_k_HTTPPermanentRedirect, sizeof(__pyx_k_HTTPPermanentRedirect), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPPermanentRedirect, __pyx_k_HTTPPermanentRedirect, sizeof(__pyx_k_HTTPPermanentRedirect), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPPreconditionFailed, __pyx_k_HTTPPreconditionFailed, sizeof(__pyx_k_HTTPPreconditionFailed), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPPreconditionFailed, __pyx_k_HTTPPreconditionFailed, sizeof(__pyx_k_HTTPPreconditionFailed), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPPreconditionRequired, __pyx_k_HTTPPreconditionRequired, sizeof(__pyx_k_HTTPPreconditionRequired), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPPreconditionRequired, __pyx_k_HTTPPreconditionRequired, sizeof(__pyx_k_HTTPPreconditionRequired), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPProxyAuthenticationRequired, __pyx_k_HTTPProxyAuthenticationRequired, sizeof(__pyx_k_HTTPProxyAuthenticationRequired), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPProxyAuthenticationRequired, __pyx_k_HTTPProxyAuthenticationRequired, sizeof(__pyx_k_HTTPProxyAuthenticationRequired), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPRedirection, __pyx_k_HTTPRedirection, sizeof(__pyx_k_HTTPRedirection), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPRedirection, __pyx_k_HTTPRedirection, sizeof(__pyx_k_HTTPRedirection), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPRequestEntityTooLarge, __pyx_k_HTTPRequestEntityTooLarge, sizeof(__pyx_k_HTTPRequestEntityTooLarge), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPRequestEntityTooLarge, __pyx_k_HTTPRequestEntityTooLarge, sizeof(__pyx_k_HTTPRequestEntityTooLarge), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPRequestHeaderFieldsTooLarge, __pyx_k_HTTPRequestHeaderFieldsTooLarge, sizeof(__pyx_k_HTTPRequestHeaderFieldsTooLarge), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPRequestHeaderFieldsTooLarge, __pyx_k_HTTPRequestHeaderFieldsTooLarge, sizeof(__pyx_k_HTTPRequestHeaderFieldsTooLarge), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPRequestRangeNotSatisfiable, __pyx_k_HTTPRequestRangeNotSatisfiable, sizeof(__pyx_k_HTTPRequestRangeNotSatisfiable), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPRequestRangeNotSatisfiable, __pyx_k_HTTPRequestRangeNotSatisfiable, sizeof(__pyx_k_HTTPRequestRangeNotSatisfiable), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPRequestTimeout, __pyx_k_HTTPRequestTimeout, sizeof(__pyx_k_HTTPRequestTimeout), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPRequestTimeout, __pyx_k_HTTPRequestTimeout, sizeof(__pyx_k_HTTPRequestTimeout), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPRequestURITooLong, __pyx_k_HTTPRequestURITooLong, sizeof(__pyx_k_HTTPRequestURITooLong), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPRequestURITooLong, __pyx_k_HTTPRequestURITooLong, sizeof(__pyx_k_HTTPRequestURITooLong), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPResetContent, __pyx_k_HTTPResetContent, sizeof(__pyx_k_HTTPResetContent), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPResetContent, __pyx_k_HTTPResetContent, sizeof(__pyx_k_HTTPResetContent), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPSeeOther, __pyx_k_HTTPSeeOther, sizeof(__pyx_k_HTTPSeeOther), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPSeeOther, __pyx_k_HTTPSeeOther, sizeof(__pyx_k_HTTPSeeOther), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPServerError, __pyx_k_HTTPServerError, sizeof(__pyx_k_HTTPServerError), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPServerError, __pyx_k_HTTPServerError, sizeof(__pyx_k_HTTPServerError), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPServiceUnavailable, __pyx_k_HTTPServiceUnavailable, sizeof(__pyx_k_HTTPServiceUnavailable), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPServiceUnavailable, __pyx_k_HTTPServiceUnavailable, sizeof(__pyx_k_HTTPServiceUnavailable), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPSuccessful, __pyx_k_HTTPSuccessful, sizeof(__pyx_k_HTTPSuccessful), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPSuccessful, __pyx_k_HTTPSuccessful, sizeof(__pyx_k_HTTPSuccessful), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPTemporaryRedirect, __pyx_k_HTTPTemporaryRedirect, sizeof(__pyx_k_HTTPTemporaryRedirect), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPTemporaryRedirect, __pyx_k_HTTPTemporaryRedirect, sizeof(__pyx_k_HTTPTemporaryRedirect), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPTooManyRequests, __pyx_k_HTTPTooManyRequests, sizeof(__pyx_k_HTTPTooManyRequests), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPTooManyRequests, __pyx_k_HTTPTooManyRequests, sizeof(__pyx_k_HTTPTooManyRequests), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPUnauthorized, __pyx_k_HTTPUnauthorized, sizeof(__pyx_k_HTTPUnauthorized), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPUnauthorized, __pyx_k_HTTPUnauthorized, sizeof(__pyx_k_HTTPUnauthorized), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPUnsupportedMediaType, __pyx_k_HTTPUnsupportedMediaType, sizeof(__pyx_k_HTTPUnsupportedMediaType), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPUnsupportedMediaType, __pyx_k_HTTPUnsupportedMediaType, sizeof(__pyx_k_HTTPUnsupportedMediaType), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPUpgradeRequired, __pyx_k_HTTPUpgradeRequired, sizeof(__pyx_k_HTTPUpgradeRequired), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPUpgradeRequired, __pyx_k_HTTPUpgradeRequired, sizeof(__pyx_k_HTTPUpgradeRequired), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPUseProxy, __pyx_k_HTTPUseProxy, sizeof(__pyx_k_HTTPUseProxy), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPUseProxy, __pyx_k_HTTPUseProxy, sizeof(__pyx_k_HTTPUseProxy), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPVariantAlsoNegotiates, __pyx_k_HTTPVariantAlsoNegotiates, sizeof(__pyx_k_HTTPVariantAlsoNegotiates), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPVariantAlsoNegotiates, __pyx_k_HTTPVariantAlsoNegotiates, sizeof(__pyx_k_HTTPVariantAlsoNegotiates), 0, 1, 0, 1},
   {&__pyx_n_s_HTTPVersionNotSupported, __pyx_k_HTTPVersionNotSupported, sizeof(__pyx_k_HTTPVersionNotSupported), 0, 0, 1, 1},
-  {&__pyx_kp_s_HTTP_redirects_need_a_location_t, __pyx_k_HTTP_redirects_need_a_location_t, sizeof(__pyx_k_HTTP_redirects_need_a_location_t), 0, 0, 1, 0},
-  {&__pyx_n_s_Location, __pyx_k_Location, sizeof(__pyx_k_Location), 0, 0, 1, 1},
+  {&__pyx_n_u_HTTPVersionNotSupported, __pyx_k_HTTPVersionNotSupported, sizeof(__pyx_k_HTTPVersionNotSupported), 0, 1, 0, 1},
+  {&__pyx_kp_u_HTTP_redirects_need_a_location_t, __pyx_k_HTTP_redirects_need_a_location_t, sizeof(__pyx_k_HTTP_redirects_need_a_location_t), 0, 1, 0, 0},
+  {&__pyx_n_u_Location, __pyx_k_Location, sizeof(__pyx_k_Location), 0, 1, 0, 1},
   {&__pyx_n_s_Response, __pyx_k_Response, sizeof(__pyx_k_Response), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
   {&__pyx_n_s_aiohttp_web_exceptions, __pyx_k_aiohttp_web_exceptions, sizeof(__pyx_k_aiohttp_web_exceptions), 0, 0, 1, 1},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_allow, __pyx_k_allow, sizeof(__pyx_k_allow), 0, 0, 1, 1},
@@ -1984,7 +2070,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_headers, __pyx_k_headers, sizeof(__pyx_k_headers), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
-  {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_location, __pyx_k_location, sizeof(__pyx_k_location), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
@@ -2023,7 +2108,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(headers=headers, reason=reason,
  *                          body=body, text=text, content_type=content_type)
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_HTTP_redirects_need_a_location_t); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_HTTP_redirects_need_a_location_t); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -2034,7 +2119,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     'HTTPError',
  *     'HTTPRedirection',
  */
-  __pyx_tuple__4 = PyTuple_Pack(53, __pyx_n_s_HTTPException, __pyx_n_s_HTTPError, __pyx_n_s_HTTPRedirection, __pyx_n_s_HTTPSuccessful, __pyx_n_s_HTTPOk, __pyx_n_s_HTTPCreated, __pyx_n_s_HTTPAccepted, __pyx_n_s_HTTPNonAuthoritativeInformation, __pyx_n_s_HTTPNoContent, __pyx_n_s_HTTPResetContent, __pyx_n_s_HTTPPartialContent, __pyx_n_s_HTTPMultipleChoices, __pyx_n_s_HTTPMovedPermanently, __pyx_n_s_HTTPFound, __pyx_n_s_HTTPSeeOther, __pyx_n_s_HTTPNotModified, __pyx_n_s_HTTPUseProxy, __pyx_n_s_HTTPTemporaryRedirect, __pyx_n_s_HTTPPermanentRedirect, __pyx_n_s_HTTPClientError, __pyx_n_s_HTTPBadRequest, __pyx_n_s_HTTPUnauthorized, __pyx_n_s_HTTPPaymentRequired, __pyx_n_s_HTTPForbidden, __pyx_n_s_HTTPNotFound, __pyx_n_s_HTTPMethodNotAllowed, __pyx_n_s_HTTPNotAcceptable, __pyx_n_s_HTTPProxyAuthenticationRequired, __pyx_n_s_HTTPRequestTimeout, __pyx_n_s_HTTPConflict, __pyx_n_s_HTTPGone, __pyx_n_s_HTTPLengthRequired, __pyx_n_s_HTTPPreconditionFailed, __pyx_n_s_HTTPRequestEntityTooLarge, __pyx_n_s_HTTPRequestURITooLong, __pyx_n_s_HTTPUnsupportedMediaType, __pyx_n_s_HTTPRequestRangeNotSatisfiable, __pyx_n_s_HTTPExpectationFailed, __pyx_n_s_HTTPMisdirectedRequest, __pyx_n_s_HTTPUpgradeRequired, __pyx_n_s_HTTPPreconditionRequired, __pyx_n_s_HTTPTooManyRequests, __pyx_n_s_HTTPRequestHeaderFieldsTooLarge, __pyx_n_s_HTTPServerError, __pyx_n_s_HTTPInternalServerError, __pyx_n_s_HTTPNotImplemented, __pyx_n_s_HTTPBadGateway, __pyx_n_s_HTTPServiceUnavailable, __pyx_n_s_HTTPGatewayTimeout, __pyx_n_s_HTTPVersionNotSupported, __pyx_n_s_HTTPVariantAlsoNegotiates, __pyx_n_s_HTTPNotExtended, __pyx_n_s_HTTPNetworkAuthenticationRequire); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(53, __pyx_n_u_HTTPException, __pyx_n_u_HTTPError, __pyx_n_u_HTTPRedirection, __pyx_n_u_HTTPSuccessful, __pyx_n_u_HTTPOk, __pyx_n_u_HTTPCreated, __pyx_n_u_HTTPAccepted, __pyx_n_u_HTTPNonAuthoritativeInformation, __pyx_n_u_HTTPNoContent, __pyx_n_u_HTTPResetContent, __pyx_n_u_HTTPPartialContent, __pyx_n_u_HTTPMultipleChoices, __pyx_n_u_HTTPMovedPermanently, __pyx_n_u_HTTPFound, __pyx_n_u_HTTPSeeOther, __pyx_n_u_HTTPNotModified, __pyx_n_u_HTTPUseProxy, __pyx_n_u_HTTPTemporaryRedirect, __pyx_n_u_HTTPPermanentRedirect, __pyx_n_u_HTTPClientError, __pyx_n_u_HTTPBadRequest, __pyx_n_u_HTTPUnauthorized, __pyx_n_u_HTTPPaymentRequired, __pyx_n_u_HTTPForbidden, __pyx_n_u_HTTPNotFound, __pyx_n_u_HTTPMethodNotAllowed, __pyx_n_u_HTTPNotAcceptable, __pyx_n_u_HTTPProxyAuthenticationRequired, __pyx_n_u_HTTPRequestTimeout, __pyx_n_u_HTTPConflict, __pyx_n_u_HTTPGone, __pyx_n_u_HTTPLengthRequired, __pyx_n_u_HTTPPreconditionFailed, __pyx_n_u_HTTPRequestEntityTooLarge, __pyx_n_u_HTTPRequestURITooLong, __pyx_n_u_HTTPUnsupportedMediaType, __pyx_n_u_HTTPRequestRangeNotSatisfiable, __pyx_n_u_HTTPExpectationFailed, __pyx_n_u_HTTPMisdirectedRequest, __pyx_n_u_HTTPUpgradeRequired, __pyx_n_u_HTTPPreconditionRequired, __pyx_n_u_HTTPTooManyRequests, __pyx_n_u_HTTPRequestHeaderFieldsTooLarge, __pyx_n_u_HTTPServerError, __pyx_n_u_HTTPInternalServerError, __pyx_n_u_HTTPNotImplemented, __pyx_n_u_HTTPBadGateway, __pyx_n_u_HTTPServiceUnavailable, __pyx_n_u_HTTPGatewayTimeout, __pyx_n_u_HTTPVersionNotSupported, __pyx_n_u_HTTPVariantAlsoNegotiates, __pyx_n_u_HTTPNotExtended, __pyx_n_u_HTTPNetworkAuthenticationRequire); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -2328,7 +2413,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  * 
  *     # You should set in subclasses:
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPException, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPException, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPException, __pyx_t_5) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2354,7 +2439,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_HTTPError, __pyx_n_s_HTTPError, (PyObject *) NULL, __pyx_n_s_aiohttp_web_exceptions, __pyx_kp_s_Base_class_for_exceptions_with_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPError, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPError, __pyx_t_5) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2380,7 +2465,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_HTTPRedirection, __pyx_n_s_HTTPRedirection, (PyObject *) NULL, __pyx_n_s_aiohttp_web_exceptions, __pyx_kp_s_Base_class_for_exceptions_with_s_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPRedirection, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPRedirection, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPRedirection, __pyx_t_5) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2406,7 +2491,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_HTTPSuccessful, __pyx_n_s_HTTPSuccessful, (PyObject *) NULL, __pyx_n_s_aiohttp_web_exceptions, __pyx_kp_s_Base_class_for_exceptions_with_s_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPSuccessful, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPSuccessful, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPSuccessful, __pyx_t_5) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2449,7 +2534,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 200
  * 
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPOk, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPOk, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPOk, __pyx_t_5) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2492,7 +2577,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 201
  * 
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPCreated, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPCreated, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPCreated, __pyx_t_5) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2535,7 +2620,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 202
  * 
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPAccepted, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPAccepted, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPAccepted, __pyx_t_5) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2578,7 +2663,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 203
  * 
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNonAuthoritativeInformation, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNonAuthoritativeInformation, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNonAuthoritativeInformation, __pyx_t_5) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2630,7 +2715,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 204
  *     empty_body = True
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNoContent, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNoContent, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNoContent, __pyx_t_5) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2682,7 +2767,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 205
  *     empty_body = True
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPResetContent, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPResetContent, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPResetContent, __pyx_t_5) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2725,7 +2810,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 206
  * 
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPPartialContent, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPPartialContent, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPPartialContent, __pyx_t_5) < 0) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2785,7 +2870,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  * 
  *     def __init__(self, location, *, headers=None, reason=None,
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPMove, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPMove, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_5, __pyx_t_6) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2830,7 +2915,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 300
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPMultipleChoices, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPMultipleChoices, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPMultipleChoices, __pyx_t_6) < 0) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2873,7 +2958,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 301
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPMovedPermanently, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPMovedPermanently, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPMovedPermanently, __pyx_t_6) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2916,7 +3001,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 302
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPFound, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPFound, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPFound, __pyx_t_6) < 0) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2959,7 +3044,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 303
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPSeeOther, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPSeeOther, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPSeeOther, __pyx_t_6) < 0) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3011,7 +3096,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     # FIXME: this should include a date or etag header
  *     status_code = 304
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNotModified, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNotModified, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 160, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNotModified, __pyx_t_6) < 0) __PYX_ERR(0, 160, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3054,7 +3139,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     # Not a move, but looks a little like one
  *     status_code = 305
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPUseProxy, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPUseProxy, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 166, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPUseProxy, __pyx_t_6) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3097,7 +3182,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 307
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPTemporaryRedirect, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPTemporaryRedirect, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPTemporaryRedirect, __pyx_t_6) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3140,7 +3225,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 308
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPermanentRedirect, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 175, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPermanentRedirect, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPPermanentRedirect, __pyx_t_6) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3166,7 +3251,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_HTTPClientError, __pyx_n_s_HTTPClientError, (PyObject *) NULL, __pyx_n_s_aiohttp_web_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPClientError, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPClientError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPClientError, __pyx_t_6) < 0) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3209,7 +3294,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 400
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPBadRequest, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPBadRequest, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPBadRequest, __pyx_t_6) < 0) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3252,7 +3337,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 401
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPUnauthorized, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPUnauthorized, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPUnauthorized, __pyx_t_6) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3295,7 +3380,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 402
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPaymentRequired, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPaymentRequired, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPPaymentRequired, __pyx_t_6) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3338,7 +3423,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 403
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPForbidden, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPForbidden, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPForbidden, __pyx_t_6) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3381,7 +3466,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 404
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNotFound, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNotFound, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNotFound, __pyx_t_6) < 0) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3450,7 +3535,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 405
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPMethodNotAllowed, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPMethodNotAllowed, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_6, __pyx_t_7) < 0) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3495,7 +3580,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 406
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNotAcceptable, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 221, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNotAcceptable, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNotAcceptable, __pyx_t_7) < 0) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3538,7 +3623,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 407
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPProxyAuthenticationRequired, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPProxyAuthenticationRequired, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPProxyAuthenticationRequired, __pyx_t_7) < 0) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3581,7 +3666,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 408
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestTimeout, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestTimeout, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPRequestTimeout, __pyx_t_7) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3624,7 +3709,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 409
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPConflict, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPConflict, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPConflict, __pyx_t_7) < 0) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3667,7 +3752,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 410
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPGone, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPGone, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPGone, __pyx_t_7) < 0) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3710,7 +3795,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 411
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPLengthRequired, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPLengthRequired, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPLengthRequired, __pyx_t_7) < 0) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3753,7 +3838,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 412
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPreconditionFailed, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPreconditionFailed, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPPreconditionFailed, __pyx_t_7) < 0) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3796,7 +3881,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 413
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPRequestEntityTooLarge, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPRequestEntityTooLarge, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPRequestEntityTooLarge, __pyx_t_7) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3839,7 +3924,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 414
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestURITooLong, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 253, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestURITooLong, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPRequestURITooLong, __pyx_t_7) < 0) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3882,7 +3967,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 415
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPUnsupportedMediaType, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPUnsupportedMediaType, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPUnsupportedMediaType, __pyx_t_7) < 0) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3925,7 +4010,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 416
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestRangeNotSatisfiable, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestRangeNotSatisfiable, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPRequestRangeNotSatisfiable, __pyx_t_7) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3968,7 +4053,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 417
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPExpectationFailed, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPExpectationFailed, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPExpectationFailed, __pyx_t_7) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4011,7 +4096,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 421
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPMisdirectedRequest, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 269, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPMisdirectedRequest, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 269, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPMisdirectedRequest, __pyx_t_7) < 0) __PYX_ERR(0, 269, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4054,7 +4139,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 426
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPUpgradeRequired, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPUpgradeRequired, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPUpgradeRequired, __pyx_t_7) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4097,7 +4182,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 428
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPreconditionRequired, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPPreconditionRequired, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPPreconditionRequired, __pyx_t_7) < 0) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4140,7 +4225,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 429
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPTooManyRequests, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPTooManyRequests, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPTooManyRequests, __pyx_t_7) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4183,7 +4268,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 431
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestHeaderFieldsTooLarge, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPRequestHeaderFieldsTooLarge, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 285, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPRequestHeaderFieldsTooLarge, __pyx_t_7) < 0) __PYX_ERR(0, 285, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4209,7 +4294,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_HTTPServerError, __pyx_n_s_HTTPServerError, (PyObject *) NULL, __pyx_n_s_aiohttp_web_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPServerError, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPServerError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPServerError, __pyx_t_7) < 0) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4252,7 +4337,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 500
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPInternalServerError, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPInternalServerError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPInternalServerError, __pyx_t_7) < 0) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4295,7 +4380,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 501
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNotImplemented, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNotImplemented, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNotImplemented, __pyx_t_7) < 0) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4338,7 +4423,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 502
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPBadGateway, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPBadGateway, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 313, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPBadGateway, __pyx_t_7) < 0) __PYX_ERR(0, 313, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4381,7 +4466,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 503
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPServiceUnavailable, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPServiceUnavailable, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPServiceUnavailable, __pyx_t_7) < 0) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4424,7 +4509,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 504
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPGatewayTimeout, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPGatewayTimeout, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPGatewayTimeout, __pyx_t_7) < 0) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4467,7 +4552,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 505
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPVersionNotSupported, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPVersionNotSupported, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPVersionNotSupported, __pyx_t_7) < 0) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4510,7 +4595,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 506
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPVariantAlsoNegotiates, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPVariantAlsoNegotiates, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPVariantAlsoNegotiates, __pyx_t_7) < 0) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4553,7 +4638,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  *     status_code = 510
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNotExtended, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPNotExtended, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNotExtended, __pyx_t_7) < 0) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4592,7 +4677,7 @@ PyMODINIT_FUNC PyInit_web_exceptions(void)
  * class HTTPNetworkAuthenticationRequired(HTTPServerError):             # <<<<<<<<<<<<<<
  *     status_code = 511
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNetworkAuthenticationRequire, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 337, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPNetworkAuthenticationRequire, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HTTPNetworkAuthenticationRequire, __pyx_t_7) < 0) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -5034,13 +5119,6 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 bad:
     Py_XDECREF(owned_instance);
     return;
-}
-#endif
-
-/* StringJoin */
-    #if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
 }
 #endif
 

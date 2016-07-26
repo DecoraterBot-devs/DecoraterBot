@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -777,88 +777,104 @@ static const char __pyx_k_ACCESS_CONTROL_REQUEST_METHOD_2[] = "ACCESS_CONTROL_RE
 static const char __pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS[] = "ACCESS-CONTROL-ALLOW-CREDENTIALS";
 static const char __pyx_k_ACCESS_CONTROL_REQUEST_HEADERS_2[] = "ACCESS_CONTROL_REQUEST_HEADERS";
 static const char __pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS_2[] = "ACCESS_CONTROL_ALLOW_CREDENTIALS";
-static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_ACCEPT;
-static PyObject *__pyx_kp_s_ACCEPT_CHARSET;
+static PyObject *__pyx_n_u_ACCEPT;
+static PyObject *__pyx_kp_u_ACCEPT_CHARSET;
 static PyObject *__pyx_n_s_ACCEPT_CHARSET_2;
-static PyObject *__pyx_kp_s_ACCEPT_ENCODING;
+static PyObject *__pyx_kp_u_ACCEPT_ENCODING;
 static PyObject *__pyx_n_s_ACCEPT_ENCODING_2;
-static PyObject *__pyx_kp_s_ACCEPT_LANGUAGE;
+static PyObject *__pyx_kp_u_ACCEPT_LANGUAGE;
 static PyObject *__pyx_n_s_ACCEPT_LANGUAGE_2;
-static PyObject *__pyx_kp_s_ACCEPT_RANGES;
+static PyObject *__pyx_kp_u_ACCEPT_RANGES;
 static PyObject *__pyx_n_s_ACCEPT_RANGES_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_ALLOW_CREDENTIALS;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_ALLOW_CREDENTIALS;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_ALLOW_CREDENTIALS_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_ALLOW_HEADERS;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_ALLOW_HEADERS;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_ALLOW_HEADERS_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_ALLOW_METHODS;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_ALLOW_METHODS;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_ALLOW_METHODS_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_ALLOW_ORIGIN;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_ALLOW_ORIGIN;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_ALLOW_ORIGIN_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_EXPOSE_HEADERS;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_EXPOSE_HEADERS;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_EXPOSE_HEADERS_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_MAX_AGE;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_MAX_AGE;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_MAX_AGE_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_REQUEST_HEADERS;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_REQUEST_HEADERS;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_REQUEST_HEADERS_2;
-static PyObject *__pyx_kp_s_ACCESS_CONTROL_REQUEST_METHOD;
+static PyObject *__pyx_kp_u_ACCESS_CONTROL_REQUEST_METHOD;
 static PyObject *__pyx_n_s_ACCESS_CONTROL_REQUEST_METHOD_2;
 static PyObject *__pyx_n_s_AGE;
+static PyObject *__pyx_n_u_AGE;
 static PyObject *__pyx_n_s_ALLOW;
+static PyObject *__pyx_n_u_ALLOW;
 static PyObject *__pyx_n_s_AUTHORIZATION;
-static PyObject *__pyx_kp_s_CACHE_CONTROL;
+static PyObject *__pyx_n_u_AUTHORIZATION;
+static PyObject *__pyx_kp_u_CACHE_CONTROL;
 static PyObject *__pyx_n_s_CACHE_CONTROL_2;
-static PyObject *__pyx_n_s_CONNECT;
+static PyObject *__pyx_n_u_CONNECT;
 static PyObject *__pyx_n_s_CONNECTION;
-static PyObject *__pyx_kp_s_CONTENT_DISPOSITION;
+static PyObject *__pyx_n_u_CONNECTION;
+static PyObject *__pyx_kp_u_CONTENT_DISPOSITION;
 static PyObject *__pyx_n_s_CONTENT_DISPOSITION_2;
-static PyObject *__pyx_kp_s_CONTENT_ENCODING;
+static PyObject *__pyx_kp_u_CONTENT_ENCODING;
 static PyObject *__pyx_n_s_CONTENT_ENCODING_2;
-static PyObject *__pyx_kp_s_CONTENT_LANGUAGE;
+static PyObject *__pyx_kp_u_CONTENT_LANGUAGE;
 static PyObject *__pyx_n_s_CONTENT_LANGUAGE_2;
-static PyObject *__pyx_kp_s_CONTENT_LENGTH;
+static PyObject *__pyx_kp_u_CONTENT_LENGTH;
 static PyObject *__pyx_n_s_CONTENT_LENGTH_2;
-static PyObject *__pyx_kp_s_CONTENT_LOCATION;
+static PyObject *__pyx_kp_u_CONTENT_LOCATION;
 static PyObject *__pyx_n_s_CONTENT_LOCATION_2;
-static PyObject *__pyx_kp_s_CONTENT_MD5;
+static PyObject *__pyx_kp_u_CONTENT_MD5;
 static PyObject *__pyx_n_s_CONTENT_MD5_2;
-static PyObject *__pyx_kp_s_CONTENT_RANGE;
+static PyObject *__pyx_kp_u_CONTENT_RANGE;
 static PyObject *__pyx_n_s_CONTENT_RANGE_2;
-static PyObject *__pyx_kp_s_CONTENT_TRANSFER_ENCODING;
+static PyObject *__pyx_kp_u_CONTENT_TRANSFER_ENCODING;
 static PyObject *__pyx_n_s_CONTENT_TRANSFER_ENCODING_2;
-static PyObject *__pyx_kp_s_CONTENT_TYPE;
+static PyObject *__pyx_kp_u_CONTENT_TYPE;
 static PyObject *__pyx_n_s_CONTENT_TYPE_2;
 static PyObject *__pyx_n_s_COOKIE;
+static PyObject *__pyx_n_u_COOKIE;
 static PyObject *__pyx_n_s_DATE;
-static PyObject *__pyx_n_s_DELETE;
+static PyObject *__pyx_n_u_DATE;
+static PyObject *__pyx_n_u_DELETE;
 static PyObject *__pyx_n_s_DESTINATION;
+static PyObject *__pyx_n_u_DESTINATION;
 static PyObject *__pyx_n_s_DIGEST;
+static PyObject *__pyx_n_u_DIGEST;
 static PyObject *__pyx_n_s_ETAG;
+static PyObject *__pyx_n_u_ETAG;
 static PyObject *__pyx_n_s_EXPECT;
+static PyObject *__pyx_n_u_EXPECT;
 static PyObject *__pyx_n_s_EXPIRES;
+static PyObject *__pyx_n_u_EXPIRES;
 static PyObject *__pyx_n_s_FROM;
-static PyObject *__pyx_n_s_GET;
-static PyObject *__pyx_n_s_HEAD;
+static PyObject *__pyx_n_u_FROM;
+static PyObject *__pyx_n_u_GET;
+static PyObject *__pyx_n_u_HEAD;
 static PyObject *__pyx_n_s_HOST;
-static PyObject *__pyx_kp_s_IF_MATCH;
+static PyObject *__pyx_n_u_HOST;
+static PyObject *__pyx_kp_u_IF_MATCH;
 static PyObject *__pyx_n_s_IF_MATCH_2;
-static PyObject *__pyx_kp_s_IF_MODIFIED_SINCE;
+static PyObject *__pyx_kp_u_IF_MODIFIED_SINCE;
 static PyObject *__pyx_n_s_IF_MODIFIED_SINCE_2;
-static PyObject *__pyx_kp_s_IF_NONE_MATCH;
+static PyObject *__pyx_kp_u_IF_NONE_MATCH;
 static PyObject *__pyx_n_s_IF_NONE_MATCH_2;
-static PyObject *__pyx_kp_s_IF_RANGE;
+static PyObject *__pyx_kp_u_IF_RANGE;
 static PyObject *__pyx_n_s_IF_RANGE_2;
-static PyObject *__pyx_kp_s_IF_UNMODIFIED_SINCE;
+static PyObject *__pyx_kp_u_IF_UNMODIFIED_SINCE;
 static PyObject *__pyx_n_s_IF_UNMODIFIED_SINCE_2;
-static PyObject *__pyx_kp_s_KEEP_ALIVE;
+static PyObject *__pyx_kp_u_KEEP_ALIVE;
 static PyObject *__pyx_n_s_KEEP_ALIVE_2;
-static PyObject *__pyx_kp_s_LAST_EVENT_ID;
+static PyObject *__pyx_kp_u_LAST_EVENT_ID;
 static PyObject *__pyx_n_s_LAST_EVENT_ID_2;
-static PyObject *__pyx_kp_s_LAST_MODIFIED;
+static PyObject *__pyx_kp_u_LAST_MODIFIED;
 static PyObject *__pyx_n_s_LAST_MODIFIED_2;
 static PyObject *__pyx_n_s_LINK;
+static PyObject *__pyx_n_u_LINK;
 static PyObject *__pyx_n_s_LOCATION;
-static PyObject *__pyx_kp_s_MAX_FORWARDS;
+static PyObject *__pyx_n_u_LOCATION;
+static PyObject *__pyx_kp_u_MAX_FORWARDS;
 static PyObject *__pyx_n_s_MAX_FORWARDS_2;
 static PyObject *__pyx_n_s_METH_ALL;
 static PyObject *__pyx_n_s_METH_ANY;
@@ -871,48 +887,62 @@ static PyObject *__pyx_n_s_METH_PATCH;
 static PyObject *__pyx_n_s_METH_POST;
 static PyObject *__pyx_n_s_METH_PUT;
 static PyObject *__pyx_n_s_METH_TRACE;
-static PyObject *__pyx_n_s_OPTIONS;
+static PyObject *__pyx_n_u_OPTIONS;
 static PyObject *__pyx_n_s_ORIGIN;
-static PyObject *__pyx_n_s_PATCH;
-static PyObject *__pyx_n_s_POST;
+static PyObject *__pyx_n_u_ORIGIN;
+static PyObject *__pyx_n_u_PATCH;
+static PyObject *__pyx_n_u_POST;
 static PyObject *__pyx_n_s_PRAGMA;
+static PyObject *__pyx_n_u_PRAGMA;
 static PyObject *__pyx_n_s_PROXY_AUTHENTICATE;
-static PyObject *__pyx_kp_s_PROXY_AUTHORIZATION;
+static PyObject *__pyx_n_u_PROXY_AUTHENTICATE;
+static PyObject *__pyx_kp_u_PROXY_AUTHORIZATION;
 static PyObject *__pyx_n_s_PROXY_AUTHORIZATION_2;
-static PyObject *__pyx_n_s_PUT;
+static PyObject *__pyx_n_u_PUT;
 static PyObject *__pyx_n_s_RANGE;
+static PyObject *__pyx_n_u_RANGE;
 static PyObject *__pyx_n_s_REFERER;
-static PyObject *__pyx_kp_s_RETRY_AFTER;
+static PyObject *__pyx_n_u_REFERER;
+static PyObject *__pyx_kp_u_RETRY_AFTER;
 static PyObject *__pyx_n_s_RETRY_AFTER_2;
-static PyObject *__pyx_kp_s_SEC_WEBSOCKET_ACCEPT;
+static PyObject *__pyx_kp_u_SEC_WEBSOCKET_ACCEPT;
 static PyObject *__pyx_n_s_SEC_WEBSOCKET_ACCEPT_2;
-static PyObject *__pyx_kp_s_SEC_WEBSOCKET_KEY;
-static PyObject *__pyx_kp_s_SEC_WEBSOCKET_KEY1;
+static PyObject *__pyx_kp_u_SEC_WEBSOCKET_KEY;
+static PyObject *__pyx_kp_u_SEC_WEBSOCKET_KEY1;
 static PyObject *__pyx_n_s_SEC_WEBSOCKET_KEY1_2;
 static PyObject *__pyx_n_s_SEC_WEBSOCKET_KEY_2;
-static PyObject *__pyx_kp_s_SEC_WEBSOCKET_PROTOCOL;
+static PyObject *__pyx_kp_u_SEC_WEBSOCKET_PROTOCOL;
 static PyObject *__pyx_n_s_SEC_WEBSOCKET_PROTOCOL_2;
-static PyObject *__pyx_kp_s_SEC_WEBSOCKET_VERSION;
+static PyObject *__pyx_kp_u_SEC_WEBSOCKET_VERSION;
 static PyObject *__pyx_n_s_SEC_WEBSOCKET_VERSION_2;
 static PyObject *__pyx_n_s_SERVER;
-static PyObject *__pyx_kp_s_SET_COOKIE;
+static PyObject *__pyx_n_u_SERVER;
+static PyObject *__pyx_kp_u_SET_COOKIE;
 static PyObject *__pyx_n_s_SET_COOKIE_2;
 static PyObject *__pyx_n_s_TE;
-static PyObject *__pyx_n_s_TRACE;
+static PyObject *__pyx_n_u_TE;
+static PyObject *__pyx_n_u_TRACE;
 static PyObject *__pyx_n_s_TRAILER;
-static PyObject *__pyx_kp_s_TRANSFER_ENCODING;
+static PyObject *__pyx_n_u_TRAILER;
+static PyObject *__pyx_kp_u_TRANSFER_ENCODING;
 static PyObject *__pyx_n_s_TRANSFER_ENCODING_2;
 static PyObject *__pyx_n_s_UPGRADE;
+static PyObject *__pyx_n_u_UPGRADE;
 static PyObject *__pyx_n_s_URI;
-static PyObject *__pyx_kp_s_USER_AGENT;
+static PyObject *__pyx_n_u_URI;
+static PyObject *__pyx_kp_u_USER_AGENT;
 static PyObject *__pyx_n_s_USER_AGENT_2;
 static PyObject *__pyx_n_s_VARY;
+static PyObject *__pyx_n_u_VARY;
 static PyObject *__pyx_n_s_VIA;
-static PyObject *__pyx_kp_s_WANT_DIGEST;
+static PyObject *__pyx_n_u_VIA;
+static PyObject *__pyx_kp_u_WANT_DIGEST;
 static PyObject *__pyx_n_s_WANT_DIGEST_2;
 static PyObject *__pyx_n_s_WARNING;
+static PyObject *__pyx_n_u_WARNING;
 static PyObject *__pyx_n_s_WEBSOCKET;
-static PyObject *__pyx_kp_s_WWW_AUTHENTICATE;
+static PyObject *__pyx_n_u_WEBSOCKET;
+static PyObject *__pyx_kp_u_WWW_AUTHENTICATE;
 static PyObject *__pyx_n_s_WWW_AUTHENTICATE_2;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_main;
@@ -1026,88 +1056,104 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_ACCEPT, __pyx_k_ACCEPT, sizeof(__pyx_k_ACCEPT), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCEPT_CHARSET, __pyx_k_ACCEPT_CHARSET, sizeof(__pyx_k_ACCEPT_CHARSET), 0, 0, 1, 0},
+  {&__pyx_n_u_ACCEPT, __pyx_k_ACCEPT, sizeof(__pyx_k_ACCEPT), 0, 1, 0, 1},
+  {&__pyx_kp_u_ACCEPT_CHARSET, __pyx_k_ACCEPT_CHARSET, sizeof(__pyx_k_ACCEPT_CHARSET), 0, 1, 0, 0},
   {&__pyx_n_s_ACCEPT_CHARSET_2, __pyx_k_ACCEPT_CHARSET_2, sizeof(__pyx_k_ACCEPT_CHARSET_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCEPT_ENCODING, __pyx_k_ACCEPT_ENCODING, sizeof(__pyx_k_ACCEPT_ENCODING), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCEPT_ENCODING, __pyx_k_ACCEPT_ENCODING, sizeof(__pyx_k_ACCEPT_ENCODING), 0, 1, 0, 0},
   {&__pyx_n_s_ACCEPT_ENCODING_2, __pyx_k_ACCEPT_ENCODING_2, sizeof(__pyx_k_ACCEPT_ENCODING_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCEPT_LANGUAGE, __pyx_k_ACCEPT_LANGUAGE, sizeof(__pyx_k_ACCEPT_LANGUAGE), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCEPT_LANGUAGE, __pyx_k_ACCEPT_LANGUAGE, sizeof(__pyx_k_ACCEPT_LANGUAGE), 0, 1, 0, 0},
   {&__pyx_n_s_ACCEPT_LANGUAGE_2, __pyx_k_ACCEPT_LANGUAGE_2, sizeof(__pyx_k_ACCEPT_LANGUAGE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCEPT_RANGES, __pyx_k_ACCEPT_RANGES, sizeof(__pyx_k_ACCEPT_RANGES), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCEPT_RANGES, __pyx_k_ACCEPT_RANGES, sizeof(__pyx_k_ACCEPT_RANGES), 0, 1, 0, 0},
   {&__pyx_n_s_ACCEPT_RANGES_2, __pyx_k_ACCEPT_RANGES_2, sizeof(__pyx_k_ACCEPT_RANGES_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_ALLOW_CREDENTIALS, __pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_ALLOW_CREDENTIALS, __pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_ALLOW_CREDENTIALS_2, __pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS_2, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_CREDENTIALS_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_ALLOW_HEADERS, __pyx_k_ACCESS_CONTROL_ALLOW_HEADERS, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_HEADERS), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_ALLOW_HEADERS, __pyx_k_ACCESS_CONTROL_ALLOW_HEADERS, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_HEADERS), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_ALLOW_HEADERS_2, __pyx_k_ACCESS_CONTROL_ALLOW_HEADERS_2, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_HEADERS_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_ALLOW_METHODS, __pyx_k_ACCESS_CONTROL_ALLOW_METHODS, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_METHODS), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_ALLOW_METHODS, __pyx_k_ACCESS_CONTROL_ALLOW_METHODS, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_METHODS), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_ALLOW_METHODS_2, __pyx_k_ACCESS_CONTROL_ALLOW_METHODS_2, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_METHODS_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_ALLOW_ORIGIN, __pyx_k_ACCESS_CONTROL_ALLOW_ORIGIN, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_ORIGIN), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_ALLOW_ORIGIN, __pyx_k_ACCESS_CONTROL_ALLOW_ORIGIN, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_ORIGIN), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_ALLOW_ORIGIN_2, __pyx_k_ACCESS_CONTROL_ALLOW_ORIGIN_2, sizeof(__pyx_k_ACCESS_CONTROL_ALLOW_ORIGIN_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_EXPOSE_HEADERS, __pyx_k_ACCESS_CONTROL_EXPOSE_HEADERS, sizeof(__pyx_k_ACCESS_CONTROL_EXPOSE_HEADERS), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_EXPOSE_HEADERS, __pyx_k_ACCESS_CONTROL_EXPOSE_HEADERS, sizeof(__pyx_k_ACCESS_CONTROL_EXPOSE_HEADERS), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_EXPOSE_HEADERS_2, __pyx_k_ACCESS_CONTROL_EXPOSE_HEADERS_2, sizeof(__pyx_k_ACCESS_CONTROL_EXPOSE_HEADERS_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_MAX_AGE, __pyx_k_ACCESS_CONTROL_MAX_AGE, sizeof(__pyx_k_ACCESS_CONTROL_MAX_AGE), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_MAX_AGE, __pyx_k_ACCESS_CONTROL_MAX_AGE, sizeof(__pyx_k_ACCESS_CONTROL_MAX_AGE), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_MAX_AGE_2, __pyx_k_ACCESS_CONTROL_MAX_AGE_2, sizeof(__pyx_k_ACCESS_CONTROL_MAX_AGE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_REQUEST_HEADERS, __pyx_k_ACCESS_CONTROL_REQUEST_HEADERS, sizeof(__pyx_k_ACCESS_CONTROL_REQUEST_HEADERS), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_REQUEST_HEADERS, __pyx_k_ACCESS_CONTROL_REQUEST_HEADERS, sizeof(__pyx_k_ACCESS_CONTROL_REQUEST_HEADERS), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_REQUEST_HEADERS_2, __pyx_k_ACCESS_CONTROL_REQUEST_HEADERS_2, sizeof(__pyx_k_ACCESS_CONTROL_REQUEST_HEADERS_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_ACCESS_CONTROL_REQUEST_METHOD, __pyx_k_ACCESS_CONTROL_REQUEST_METHOD, sizeof(__pyx_k_ACCESS_CONTROL_REQUEST_METHOD), 0, 0, 1, 0},
+  {&__pyx_kp_u_ACCESS_CONTROL_REQUEST_METHOD, __pyx_k_ACCESS_CONTROL_REQUEST_METHOD, sizeof(__pyx_k_ACCESS_CONTROL_REQUEST_METHOD), 0, 1, 0, 0},
   {&__pyx_n_s_ACCESS_CONTROL_REQUEST_METHOD_2, __pyx_k_ACCESS_CONTROL_REQUEST_METHOD_2, sizeof(__pyx_k_ACCESS_CONTROL_REQUEST_METHOD_2), 0, 0, 1, 1},
   {&__pyx_n_s_AGE, __pyx_k_AGE, sizeof(__pyx_k_AGE), 0, 0, 1, 1},
+  {&__pyx_n_u_AGE, __pyx_k_AGE, sizeof(__pyx_k_AGE), 0, 1, 0, 1},
   {&__pyx_n_s_ALLOW, __pyx_k_ALLOW, sizeof(__pyx_k_ALLOW), 0, 0, 1, 1},
+  {&__pyx_n_u_ALLOW, __pyx_k_ALLOW, sizeof(__pyx_k_ALLOW), 0, 1, 0, 1},
   {&__pyx_n_s_AUTHORIZATION, __pyx_k_AUTHORIZATION, sizeof(__pyx_k_AUTHORIZATION), 0, 0, 1, 1},
-  {&__pyx_kp_s_CACHE_CONTROL, __pyx_k_CACHE_CONTROL, sizeof(__pyx_k_CACHE_CONTROL), 0, 0, 1, 0},
+  {&__pyx_n_u_AUTHORIZATION, __pyx_k_AUTHORIZATION, sizeof(__pyx_k_AUTHORIZATION), 0, 1, 0, 1},
+  {&__pyx_kp_u_CACHE_CONTROL, __pyx_k_CACHE_CONTROL, sizeof(__pyx_k_CACHE_CONTROL), 0, 1, 0, 0},
   {&__pyx_n_s_CACHE_CONTROL_2, __pyx_k_CACHE_CONTROL_2, sizeof(__pyx_k_CACHE_CONTROL_2), 0, 0, 1, 1},
-  {&__pyx_n_s_CONNECT, __pyx_k_CONNECT, sizeof(__pyx_k_CONNECT), 0, 0, 1, 1},
+  {&__pyx_n_u_CONNECT, __pyx_k_CONNECT, sizeof(__pyx_k_CONNECT), 0, 1, 0, 1},
   {&__pyx_n_s_CONNECTION, __pyx_k_CONNECTION, sizeof(__pyx_k_CONNECTION), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_DISPOSITION, __pyx_k_CONTENT_DISPOSITION, sizeof(__pyx_k_CONTENT_DISPOSITION), 0, 0, 1, 0},
+  {&__pyx_n_u_CONNECTION, __pyx_k_CONNECTION, sizeof(__pyx_k_CONNECTION), 0, 1, 0, 1},
+  {&__pyx_kp_u_CONTENT_DISPOSITION, __pyx_k_CONTENT_DISPOSITION, sizeof(__pyx_k_CONTENT_DISPOSITION), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_DISPOSITION_2, __pyx_k_CONTENT_DISPOSITION_2, sizeof(__pyx_k_CONTENT_DISPOSITION_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_ENCODING, __pyx_k_CONTENT_ENCODING, sizeof(__pyx_k_CONTENT_ENCODING), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_ENCODING, __pyx_k_CONTENT_ENCODING, sizeof(__pyx_k_CONTENT_ENCODING), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_ENCODING_2, __pyx_k_CONTENT_ENCODING_2, sizeof(__pyx_k_CONTENT_ENCODING_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_LANGUAGE, __pyx_k_CONTENT_LANGUAGE, sizeof(__pyx_k_CONTENT_LANGUAGE), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_LANGUAGE, __pyx_k_CONTENT_LANGUAGE, sizeof(__pyx_k_CONTENT_LANGUAGE), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_LANGUAGE_2, __pyx_k_CONTENT_LANGUAGE_2, sizeof(__pyx_k_CONTENT_LANGUAGE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_LENGTH, __pyx_k_CONTENT_LENGTH, sizeof(__pyx_k_CONTENT_LENGTH), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_LENGTH, __pyx_k_CONTENT_LENGTH, sizeof(__pyx_k_CONTENT_LENGTH), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_LENGTH_2, __pyx_k_CONTENT_LENGTH_2, sizeof(__pyx_k_CONTENT_LENGTH_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_LOCATION, __pyx_k_CONTENT_LOCATION, sizeof(__pyx_k_CONTENT_LOCATION), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_LOCATION, __pyx_k_CONTENT_LOCATION, sizeof(__pyx_k_CONTENT_LOCATION), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_LOCATION_2, __pyx_k_CONTENT_LOCATION_2, sizeof(__pyx_k_CONTENT_LOCATION_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_MD5, __pyx_k_CONTENT_MD5, sizeof(__pyx_k_CONTENT_MD5), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_MD5, __pyx_k_CONTENT_MD5, sizeof(__pyx_k_CONTENT_MD5), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_MD5_2, __pyx_k_CONTENT_MD5_2, sizeof(__pyx_k_CONTENT_MD5_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_RANGE, __pyx_k_CONTENT_RANGE, sizeof(__pyx_k_CONTENT_RANGE), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_RANGE, __pyx_k_CONTENT_RANGE, sizeof(__pyx_k_CONTENT_RANGE), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_RANGE_2, __pyx_k_CONTENT_RANGE_2, sizeof(__pyx_k_CONTENT_RANGE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_TRANSFER_ENCODING, __pyx_k_CONTENT_TRANSFER_ENCODING, sizeof(__pyx_k_CONTENT_TRANSFER_ENCODING), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_TRANSFER_ENCODING, __pyx_k_CONTENT_TRANSFER_ENCODING, sizeof(__pyx_k_CONTENT_TRANSFER_ENCODING), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_TRANSFER_ENCODING_2, __pyx_k_CONTENT_TRANSFER_ENCODING_2, sizeof(__pyx_k_CONTENT_TRANSFER_ENCODING_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_CONTENT_TYPE, __pyx_k_CONTENT_TYPE, sizeof(__pyx_k_CONTENT_TYPE), 0, 0, 1, 0},
+  {&__pyx_kp_u_CONTENT_TYPE, __pyx_k_CONTENT_TYPE, sizeof(__pyx_k_CONTENT_TYPE), 0, 1, 0, 0},
   {&__pyx_n_s_CONTENT_TYPE_2, __pyx_k_CONTENT_TYPE_2, sizeof(__pyx_k_CONTENT_TYPE_2), 0, 0, 1, 1},
   {&__pyx_n_s_COOKIE, __pyx_k_COOKIE, sizeof(__pyx_k_COOKIE), 0, 0, 1, 1},
+  {&__pyx_n_u_COOKIE, __pyx_k_COOKIE, sizeof(__pyx_k_COOKIE), 0, 1, 0, 1},
   {&__pyx_n_s_DATE, __pyx_k_DATE, sizeof(__pyx_k_DATE), 0, 0, 1, 1},
-  {&__pyx_n_s_DELETE, __pyx_k_DELETE, sizeof(__pyx_k_DELETE), 0, 0, 1, 1},
+  {&__pyx_n_u_DATE, __pyx_k_DATE, sizeof(__pyx_k_DATE), 0, 1, 0, 1},
+  {&__pyx_n_u_DELETE, __pyx_k_DELETE, sizeof(__pyx_k_DELETE), 0, 1, 0, 1},
   {&__pyx_n_s_DESTINATION, __pyx_k_DESTINATION, sizeof(__pyx_k_DESTINATION), 0, 0, 1, 1},
+  {&__pyx_n_u_DESTINATION, __pyx_k_DESTINATION, sizeof(__pyx_k_DESTINATION), 0, 1, 0, 1},
   {&__pyx_n_s_DIGEST, __pyx_k_DIGEST, sizeof(__pyx_k_DIGEST), 0, 0, 1, 1},
+  {&__pyx_n_u_DIGEST, __pyx_k_DIGEST, sizeof(__pyx_k_DIGEST), 0, 1, 0, 1},
   {&__pyx_n_s_ETAG, __pyx_k_ETAG, sizeof(__pyx_k_ETAG), 0, 0, 1, 1},
+  {&__pyx_n_u_ETAG, __pyx_k_ETAG, sizeof(__pyx_k_ETAG), 0, 1, 0, 1},
   {&__pyx_n_s_EXPECT, __pyx_k_EXPECT, sizeof(__pyx_k_EXPECT), 0, 0, 1, 1},
+  {&__pyx_n_u_EXPECT, __pyx_k_EXPECT, sizeof(__pyx_k_EXPECT), 0, 1, 0, 1},
   {&__pyx_n_s_EXPIRES, __pyx_k_EXPIRES, sizeof(__pyx_k_EXPIRES), 0, 0, 1, 1},
+  {&__pyx_n_u_EXPIRES, __pyx_k_EXPIRES, sizeof(__pyx_k_EXPIRES), 0, 1, 0, 1},
   {&__pyx_n_s_FROM, __pyx_k_FROM, sizeof(__pyx_k_FROM), 0, 0, 1, 1},
-  {&__pyx_n_s_GET, __pyx_k_GET, sizeof(__pyx_k_GET), 0, 0, 1, 1},
-  {&__pyx_n_s_HEAD, __pyx_k_HEAD, sizeof(__pyx_k_HEAD), 0, 0, 1, 1},
+  {&__pyx_n_u_FROM, __pyx_k_FROM, sizeof(__pyx_k_FROM), 0, 1, 0, 1},
+  {&__pyx_n_u_GET, __pyx_k_GET, sizeof(__pyx_k_GET), 0, 1, 0, 1},
+  {&__pyx_n_u_HEAD, __pyx_k_HEAD, sizeof(__pyx_k_HEAD), 0, 1, 0, 1},
   {&__pyx_n_s_HOST, __pyx_k_HOST, sizeof(__pyx_k_HOST), 0, 0, 1, 1},
-  {&__pyx_kp_s_IF_MATCH, __pyx_k_IF_MATCH, sizeof(__pyx_k_IF_MATCH), 0, 0, 1, 0},
+  {&__pyx_n_u_HOST, __pyx_k_HOST, sizeof(__pyx_k_HOST), 0, 1, 0, 1},
+  {&__pyx_kp_u_IF_MATCH, __pyx_k_IF_MATCH, sizeof(__pyx_k_IF_MATCH), 0, 1, 0, 0},
   {&__pyx_n_s_IF_MATCH_2, __pyx_k_IF_MATCH_2, sizeof(__pyx_k_IF_MATCH_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_IF_MODIFIED_SINCE, __pyx_k_IF_MODIFIED_SINCE, sizeof(__pyx_k_IF_MODIFIED_SINCE), 0, 0, 1, 0},
+  {&__pyx_kp_u_IF_MODIFIED_SINCE, __pyx_k_IF_MODIFIED_SINCE, sizeof(__pyx_k_IF_MODIFIED_SINCE), 0, 1, 0, 0},
   {&__pyx_n_s_IF_MODIFIED_SINCE_2, __pyx_k_IF_MODIFIED_SINCE_2, sizeof(__pyx_k_IF_MODIFIED_SINCE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_IF_NONE_MATCH, __pyx_k_IF_NONE_MATCH, sizeof(__pyx_k_IF_NONE_MATCH), 0, 0, 1, 0},
+  {&__pyx_kp_u_IF_NONE_MATCH, __pyx_k_IF_NONE_MATCH, sizeof(__pyx_k_IF_NONE_MATCH), 0, 1, 0, 0},
   {&__pyx_n_s_IF_NONE_MATCH_2, __pyx_k_IF_NONE_MATCH_2, sizeof(__pyx_k_IF_NONE_MATCH_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_IF_RANGE, __pyx_k_IF_RANGE, sizeof(__pyx_k_IF_RANGE), 0, 0, 1, 0},
+  {&__pyx_kp_u_IF_RANGE, __pyx_k_IF_RANGE, sizeof(__pyx_k_IF_RANGE), 0, 1, 0, 0},
   {&__pyx_n_s_IF_RANGE_2, __pyx_k_IF_RANGE_2, sizeof(__pyx_k_IF_RANGE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_IF_UNMODIFIED_SINCE, __pyx_k_IF_UNMODIFIED_SINCE, sizeof(__pyx_k_IF_UNMODIFIED_SINCE), 0, 0, 1, 0},
+  {&__pyx_kp_u_IF_UNMODIFIED_SINCE, __pyx_k_IF_UNMODIFIED_SINCE, sizeof(__pyx_k_IF_UNMODIFIED_SINCE), 0, 1, 0, 0},
   {&__pyx_n_s_IF_UNMODIFIED_SINCE_2, __pyx_k_IF_UNMODIFIED_SINCE_2, sizeof(__pyx_k_IF_UNMODIFIED_SINCE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_KEEP_ALIVE, __pyx_k_KEEP_ALIVE, sizeof(__pyx_k_KEEP_ALIVE), 0, 0, 1, 0},
+  {&__pyx_kp_u_KEEP_ALIVE, __pyx_k_KEEP_ALIVE, sizeof(__pyx_k_KEEP_ALIVE), 0, 1, 0, 0},
   {&__pyx_n_s_KEEP_ALIVE_2, __pyx_k_KEEP_ALIVE_2, sizeof(__pyx_k_KEEP_ALIVE_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_LAST_EVENT_ID, __pyx_k_LAST_EVENT_ID, sizeof(__pyx_k_LAST_EVENT_ID), 0, 0, 1, 0},
+  {&__pyx_kp_u_LAST_EVENT_ID, __pyx_k_LAST_EVENT_ID, sizeof(__pyx_k_LAST_EVENT_ID), 0, 1, 0, 0},
   {&__pyx_n_s_LAST_EVENT_ID_2, __pyx_k_LAST_EVENT_ID_2, sizeof(__pyx_k_LAST_EVENT_ID_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_LAST_MODIFIED, __pyx_k_LAST_MODIFIED, sizeof(__pyx_k_LAST_MODIFIED), 0, 0, 1, 0},
+  {&__pyx_kp_u_LAST_MODIFIED, __pyx_k_LAST_MODIFIED, sizeof(__pyx_k_LAST_MODIFIED), 0, 1, 0, 0},
   {&__pyx_n_s_LAST_MODIFIED_2, __pyx_k_LAST_MODIFIED_2, sizeof(__pyx_k_LAST_MODIFIED_2), 0, 0, 1, 1},
   {&__pyx_n_s_LINK, __pyx_k_LINK, sizeof(__pyx_k_LINK), 0, 0, 1, 1},
+  {&__pyx_n_u_LINK, __pyx_k_LINK, sizeof(__pyx_k_LINK), 0, 1, 0, 1},
   {&__pyx_n_s_LOCATION, __pyx_k_LOCATION, sizeof(__pyx_k_LOCATION), 0, 0, 1, 1},
-  {&__pyx_kp_s_MAX_FORWARDS, __pyx_k_MAX_FORWARDS, sizeof(__pyx_k_MAX_FORWARDS), 0, 0, 1, 0},
+  {&__pyx_n_u_LOCATION, __pyx_k_LOCATION, sizeof(__pyx_k_LOCATION), 0, 1, 0, 1},
+  {&__pyx_kp_u_MAX_FORWARDS, __pyx_k_MAX_FORWARDS, sizeof(__pyx_k_MAX_FORWARDS), 0, 1, 0, 0},
   {&__pyx_n_s_MAX_FORWARDS_2, __pyx_k_MAX_FORWARDS_2, sizeof(__pyx_k_MAX_FORWARDS_2), 0, 0, 1, 1},
   {&__pyx_n_s_METH_ALL, __pyx_k_METH_ALL, sizeof(__pyx_k_METH_ALL), 0, 0, 1, 1},
   {&__pyx_n_s_METH_ANY, __pyx_k_METH_ANY, sizeof(__pyx_k_METH_ANY), 0, 0, 1, 1},
@@ -1120,48 +1166,62 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_METH_POST, __pyx_k_METH_POST, sizeof(__pyx_k_METH_POST), 0, 0, 1, 1},
   {&__pyx_n_s_METH_PUT, __pyx_k_METH_PUT, sizeof(__pyx_k_METH_PUT), 0, 0, 1, 1},
   {&__pyx_n_s_METH_TRACE, __pyx_k_METH_TRACE, sizeof(__pyx_k_METH_TRACE), 0, 0, 1, 1},
-  {&__pyx_n_s_OPTIONS, __pyx_k_OPTIONS, sizeof(__pyx_k_OPTIONS), 0, 0, 1, 1},
+  {&__pyx_n_u_OPTIONS, __pyx_k_OPTIONS, sizeof(__pyx_k_OPTIONS), 0, 1, 0, 1},
   {&__pyx_n_s_ORIGIN, __pyx_k_ORIGIN, sizeof(__pyx_k_ORIGIN), 0, 0, 1, 1},
-  {&__pyx_n_s_PATCH, __pyx_k_PATCH, sizeof(__pyx_k_PATCH), 0, 0, 1, 1},
-  {&__pyx_n_s_POST, __pyx_k_POST, sizeof(__pyx_k_POST), 0, 0, 1, 1},
+  {&__pyx_n_u_ORIGIN, __pyx_k_ORIGIN, sizeof(__pyx_k_ORIGIN), 0, 1, 0, 1},
+  {&__pyx_n_u_PATCH, __pyx_k_PATCH, sizeof(__pyx_k_PATCH), 0, 1, 0, 1},
+  {&__pyx_n_u_POST, __pyx_k_POST, sizeof(__pyx_k_POST), 0, 1, 0, 1},
   {&__pyx_n_s_PRAGMA, __pyx_k_PRAGMA, sizeof(__pyx_k_PRAGMA), 0, 0, 1, 1},
+  {&__pyx_n_u_PRAGMA, __pyx_k_PRAGMA, sizeof(__pyx_k_PRAGMA), 0, 1, 0, 1},
   {&__pyx_n_s_PROXY_AUTHENTICATE, __pyx_k_PROXY_AUTHENTICATE, sizeof(__pyx_k_PROXY_AUTHENTICATE), 0, 0, 1, 1},
-  {&__pyx_kp_s_PROXY_AUTHORIZATION, __pyx_k_PROXY_AUTHORIZATION, sizeof(__pyx_k_PROXY_AUTHORIZATION), 0, 0, 1, 0},
+  {&__pyx_n_u_PROXY_AUTHENTICATE, __pyx_k_PROXY_AUTHENTICATE, sizeof(__pyx_k_PROXY_AUTHENTICATE), 0, 1, 0, 1},
+  {&__pyx_kp_u_PROXY_AUTHORIZATION, __pyx_k_PROXY_AUTHORIZATION, sizeof(__pyx_k_PROXY_AUTHORIZATION), 0, 1, 0, 0},
   {&__pyx_n_s_PROXY_AUTHORIZATION_2, __pyx_k_PROXY_AUTHORIZATION_2, sizeof(__pyx_k_PROXY_AUTHORIZATION_2), 0, 0, 1, 1},
-  {&__pyx_n_s_PUT, __pyx_k_PUT, sizeof(__pyx_k_PUT), 0, 0, 1, 1},
+  {&__pyx_n_u_PUT, __pyx_k_PUT, sizeof(__pyx_k_PUT), 0, 1, 0, 1},
   {&__pyx_n_s_RANGE, __pyx_k_RANGE, sizeof(__pyx_k_RANGE), 0, 0, 1, 1},
+  {&__pyx_n_u_RANGE, __pyx_k_RANGE, sizeof(__pyx_k_RANGE), 0, 1, 0, 1},
   {&__pyx_n_s_REFERER, __pyx_k_REFERER, sizeof(__pyx_k_REFERER), 0, 0, 1, 1},
-  {&__pyx_kp_s_RETRY_AFTER, __pyx_k_RETRY_AFTER, sizeof(__pyx_k_RETRY_AFTER), 0, 0, 1, 0},
+  {&__pyx_n_u_REFERER, __pyx_k_REFERER, sizeof(__pyx_k_REFERER), 0, 1, 0, 1},
+  {&__pyx_kp_u_RETRY_AFTER, __pyx_k_RETRY_AFTER, sizeof(__pyx_k_RETRY_AFTER), 0, 1, 0, 0},
   {&__pyx_n_s_RETRY_AFTER_2, __pyx_k_RETRY_AFTER_2, sizeof(__pyx_k_RETRY_AFTER_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_SEC_WEBSOCKET_ACCEPT, __pyx_k_SEC_WEBSOCKET_ACCEPT, sizeof(__pyx_k_SEC_WEBSOCKET_ACCEPT), 0, 0, 1, 0},
+  {&__pyx_kp_u_SEC_WEBSOCKET_ACCEPT, __pyx_k_SEC_WEBSOCKET_ACCEPT, sizeof(__pyx_k_SEC_WEBSOCKET_ACCEPT), 0, 1, 0, 0},
   {&__pyx_n_s_SEC_WEBSOCKET_ACCEPT_2, __pyx_k_SEC_WEBSOCKET_ACCEPT_2, sizeof(__pyx_k_SEC_WEBSOCKET_ACCEPT_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_SEC_WEBSOCKET_KEY, __pyx_k_SEC_WEBSOCKET_KEY, sizeof(__pyx_k_SEC_WEBSOCKET_KEY), 0, 0, 1, 0},
-  {&__pyx_kp_s_SEC_WEBSOCKET_KEY1, __pyx_k_SEC_WEBSOCKET_KEY1, sizeof(__pyx_k_SEC_WEBSOCKET_KEY1), 0, 0, 1, 0},
+  {&__pyx_kp_u_SEC_WEBSOCKET_KEY, __pyx_k_SEC_WEBSOCKET_KEY, sizeof(__pyx_k_SEC_WEBSOCKET_KEY), 0, 1, 0, 0},
+  {&__pyx_kp_u_SEC_WEBSOCKET_KEY1, __pyx_k_SEC_WEBSOCKET_KEY1, sizeof(__pyx_k_SEC_WEBSOCKET_KEY1), 0, 1, 0, 0},
   {&__pyx_n_s_SEC_WEBSOCKET_KEY1_2, __pyx_k_SEC_WEBSOCKET_KEY1_2, sizeof(__pyx_k_SEC_WEBSOCKET_KEY1_2), 0, 0, 1, 1},
   {&__pyx_n_s_SEC_WEBSOCKET_KEY_2, __pyx_k_SEC_WEBSOCKET_KEY_2, sizeof(__pyx_k_SEC_WEBSOCKET_KEY_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_SEC_WEBSOCKET_PROTOCOL, __pyx_k_SEC_WEBSOCKET_PROTOCOL, sizeof(__pyx_k_SEC_WEBSOCKET_PROTOCOL), 0, 0, 1, 0},
+  {&__pyx_kp_u_SEC_WEBSOCKET_PROTOCOL, __pyx_k_SEC_WEBSOCKET_PROTOCOL, sizeof(__pyx_k_SEC_WEBSOCKET_PROTOCOL), 0, 1, 0, 0},
   {&__pyx_n_s_SEC_WEBSOCKET_PROTOCOL_2, __pyx_k_SEC_WEBSOCKET_PROTOCOL_2, sizeof(__pyx_k_SEC_WEBSOCKET_PROTOCOL_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_SEC_WEBSOCKET_VERSION, __pyx_k_SEC_WEBSOCKET_VERSION, sizeof(__pyx_k_SEC_WEBSOCKET_VERSION), 0, 0, 1, 0},
+  {&__pyx_kp_u_SEC_WEBSOCKET_VERSION, __pyx_k_SEC_WEBSOCKET_VERSION, sizeof(__pyx_k_SEC_WEBSOCKET_VERSION), 0, 1, 0, 0},
   {&__pyx_n_s_SEC_WEBSOCKET_VERSION_2, __pyx_k_SEC_WEBSOCKET_VERSION_2, sizeof(__pyx_k_SEC_WEBSOCKET_VERSION_2), 0, 0, 1, 1},
   {&__pyx_n_s_SERVER, __pyx_k_SERVER, sizeof(__pyx_k_SERVER), 0, 0, 1, 1},
-  {&__pyx_kp_s_SET_COOKIE, __pyx_k_SET_COOKIE, sizeof(__pyx_k_SET_COOKIE), 0, 0, 1, 0},
+  {&__pyx_n_u_SERVER, __pyx_k_SERVER, sizeof(__pyx_k_SERVER), 0, 1, 0, 1},
+  {&__pyx_kp_u_SET_COOKIE, __pyx_k_SET_COOKIE, sizeof(__pyx_k_SET_COOKIE), 0, 1, 0, 0},
   {&__pyx_n_s_SET_COOKIE_2, __pyx_k_SET_COOKIE_2, sizeof(__pyx_k_SET_COOKIE_2), 0, 0, 1, 1},
   {&__pyx_n_s_TE, __pyx_k_TE, sizeof(__pyx_k_TE), 0, 0, 1, 1},
-  {&__pyx_n_s_TRACE, __pyx_k_TRACE, sizeof(__pyx_k_TRACE), 0, 0, 1, 1},
+  {&__pyx_n_u_TE, __pyx_k_TE, sizeof(__pyx_k_TE), 0, 1, 0, 1},
+  {&__pyx_n_u_TRACE, __pyx_k_TRACE, sizeof(__pyx_k_TRACE), 0, 1, 0, 1},
   {&__pyx_n_s_TRAILER, __pyx_k_TRAILER, sizeof(__pyx_k_TRAILER), 0, 0, 1, 1},
-  {&__pyx_kp_s_TRANSFER_ENCODING, __pyx_k_TRANSFER_ENCODING, sizeof(__pyx_k_TRANSFER_ENCODING), 0, 0, 1, 0},
+  {&__pyx_n_u_TRAILER, __pyx_k_TRAILER, sizeof(__pyx_k_TRAILER), 0, 1, 0, 1},
+  {&__pyx_kp_u_TRANSFER_ENCODING, __pyx_k_TRANSFER_ENCODING, sizeof(__pyx_k_TRANSFER_ENCODING), 0, 1, 0, 0},
   {&__pyx_n_s_TRANSFER_ENCODING_2, __pyx_k_TRANSFER_ENCODING_2, sizeof(__pyx_k_TRANSFER_ENCODING_2), 0, 0, 1, 1},
   {&__pyx_n_s_UPGRADE, __pyx_k_UPGRADE, sizeof(__pyx_k_UPGRADE), 0, 0, 1, 1},
+  {&__pyx_n_u_UPGRADE, __pyx_k_UPGRADE, sizeof(__pyx_k_UPGRADE), 0, 1, 0, 1},
   {&__pyx_n_s_URI, __pyx_k_URI, sizeof(__pyx_k_URI), 0, 0, 1, 1},
-  {&__pyx_kp_s_USER_AGENT, __pyx_k_USER_AGENT, sizeof(__pyx_k_USER_AGENT), 0, 0, 1, 0},
+  {&__pyx_n_u_URI, __pyx_k_URI, sizeof(__pyx_k_URI), 0, 1, 0, 1},
+  {&__pyx_kp_u_USER_AGENT, __pyx_k_USER_AGENT, sizeof(__pyx_k_USER_AGENT), 0, 1, 0, 0},
   {&__pyx_n_s_USER_AGENT_2, __pyx_k_USER_AGENT_2, sizeof(__pyx_k_USER_AGENT_2), 0, 0, 1, 1},
   {&__pyx_n_s_VARY, __pyx_k_VARY, sizeof(__pyx_k_VARY), 0, 0, 1, 1},
+  {&__pyx_n_u_VARY, __pyx_k_VARY, sizeof(__pyx_k_VARY), 0, 1, 0, 1},
   {&__pyx_n_s_VIA, __pyx_k_VIA, sizeof(__pyx_k_VIA), 0, 0, 1, 1},
-  {&__pyx_kp_s_WANT_DIGEST, __pyx_k_WANT_DIGEST, sizeof(__pyx_k_WANT_DIGEST), 0, 0, 1, 0},
+  {&__pyx_n_u_VIA, __pyx_k_VIA, sizeof(__pyx_k_VIA), 0, 1, 0, 1},
+  {&__pyx_kp_u_WANT_DIGEST, __pyx_k_WANT_DIGEST, sizeof(__pyx_k_WANT_DIGEST), 0, 1, 0, 0},
   {&__pyx_n_s_WANT_DIGEST_2, __pyx_k_WANT_DIGEST_2, sizeof(__pyx_k_WANT_DIGEST_2), 0, 0, 1, 1},
   {&__pyx_n_s_WARNING, __pyx_k_WARNING, sizeof(__pyx_k_WARNING), 0, 0, 1, 1},
+  {&__pyx_n_u_WARNING, __pyx_k_WARNING, sizeof(__pyx_k_WARNING), 0, 1, 0, 1},
   {&__pyx_n_s_WEBSOCKET, __pyx_k_WEBSOCKET, sizeof(__pyx_k_WEBSOCKET), 0, 0, 1, 1},
-  {&__pyx_kp_s_WWW_AUTHENTICATE, __pyx_k_WWW_AUTHENTICATE, sizeof(__pyx_k_WWW_AUTHENTICATE), 0, 0, 1, 0},
+  {&__pyx_n_u_WEBSOCKET, __pyx_k_WEBSOCKET, sizeof(__pyx_k_WEBSOCKET), 0, 1, 0, 1},
+  {&__pyx_kp_u_WWW_AUTHENTICATE, __pyx_k_WWW_AUTHENTICATE, sizeof(__pyx_k_WWW_AUTHENTICATE), 0, 1, 0, 0},
   {&__pyx_n_s_WWW_AUTHENTICATE_2, __pyx_k_WWW_AUTHENTICATE_2, sizeof(__pyx_k_WWW_AUTHENTICATE_2), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -1185,7 +1245,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_CONNECT = upstr('CONNECT')
  * METH_HEAD = upstr('HEAD')
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -1196,7 +1256,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_HEAD = upstr('HEAD')
  * METH_GET = upstr('GET')
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_s_CONNECT); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_u_CONNECT); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -1207,7 +1267,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_GET = upstr('GET')
  * METH_DELETE = upstr('DELETE')
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_HEAD); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_u_HEAD); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -1218,7 +1278,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_DELETE = upstr('DELETE')
  * METH_OPTIONS = upstr('OPTIONS')
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_GET); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_u_GET); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -1229,7 +1289,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_OPTIONS = upstr('OPTIONS')
  * METH_PATCH = upstr('PATCH')
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_s_DELETE); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_u_DELETE); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -1240,7 +1300,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_PATCH = upstr('PATCH')
  * METH_POST = upstr('POST')
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_OPTIONS); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_u_OPTIONS); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -1251,7 +1311,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_POST = upstr('POST')
  * METH_PUT = upstr('PUT')
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_n_s_PATCH); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_n_u_PATCH); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -1262,7 +1322,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_PUT = upstr('PUT')
  * METH_TRACE = upstr('TRACE')
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_s_POST); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_u_POST); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -1273,7 +1333,7 @@ static int __Pyx_InitCachedConstants(void) {
  * METH_TRACE = upstr('TRACE')
  * 
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_s_PUT); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_u_PUT); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
@@ -1284,7 +1344,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * METH_ALL = {METH_CONNECT, METH_HEAD, METH_GET, METH_DELETE,
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_s_TRACE); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_u_TRACE); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -1295,7 +1355,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCEPT_CHARSET = upstr('ACCEPT-CHARSET')
  * ACCEPT_ENCODING = upstr('ACCEPT-ENCODING')
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_ACCEPT); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_u_ACCEPT); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
@@ -1306,7 +1366,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCEPT_ENCODING = upstr('ACCEPT-ENCODING')
  * ACCEPT_LANGUAGE = upstr('ACCEPT-LANGUAGE')
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_ACCEPT_CHARSET); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_ACCEPT_CHARSET); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
@@ -1317,7 +1377,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCEPT_LANGUAGE = upstr('ACCEPT-LANGUAGE')
  * ACCEPT_RANGES = upstr('ACCEPT-RANGES')
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_ACCEPT_ENCODING); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_ACCEPT_ENCODING); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
 
@@ -1328,7 +1388,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCEPT_RANGES = upstr('ACCEPT-RANGES')
  * ACCESS_CONTROL_MAX_AGE = upstr('ACCESS-CONTROL-MAX-AGE')
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_ACCEPT_LANGUAGE); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_ACCEPT_LANGUAGE); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
 
@@ -1339,7 +1399,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_MAX_AGE = upstr('ACCESS-CONTROL-MAX-AGE')
  * ACCESS_CONTROL_ALLOW_CREDENTIALS = upstr('ACCESS-CONTROL-ALLOW-CREDENTIALS')
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_ACCEPT_RANGES); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_ACCEPT_RANGES); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
 
@@ -1350,7 +1410,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_ALLOW_CREDENTIALS = upstr('ACCESS-CONTROL-ALLOW-CREDENTIALS')
  * ACCESS_CONTROL_ALLOW_HEADERS = upstr('ACCESS-CONTROL-ALLOW-HEADERS')
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_MAX_AGE); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_MAX_AGE); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
@@ -1361,7 +1421,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_ALLOW_HEADERS = upstr('ACCESS-CONTROL-ALLOW-HEADERS')
  * ACCESS_CONTROL_ALLOW_METHODS = upstr('ACCESS-CONTROL-ALLOW-METHODS')
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_ALLOW_CREDENTIALS); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_ALLOW_CREDENTIALS); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
@@ -1372,7 +1432,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_ALLOW_METHODS = upstr('ACCESS-CONTROL-ALLOW-METHODS')
  * ACCESS_CONTROL_ALLOW_ORIGIN = upstr('ACCESS-CONTROL-ALLOW-ORIGIN')
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_ALLOW_HEADERS); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_ALLOW_HEADERS); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
@@ -1383,7 +1443,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_ALLOW_ORIGIN = upstr('ACCESS-CONTROL-ALLOW-ORIGIN')
  * ACCESS_CONTROL_EXPOSE_HEADERS = upstr('ACCESS-CONTROL-EXPOSE-HEADERS')
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_ALLOW_METHODS); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_ALLOW_METHODS); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
@@ -1394,7 +1454,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_EXPOSE_HEADERS = upstr('ACCESS-CONTROL-EXPOSE-HEADERS')
  * ACCESS_CONTROL_REQUEST_HEADERS = upstr('ACCESS-CONTROL-REQUEST-HEADERS')
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_ALLOW_ORIGIN); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_ALLOW_ORIGIN); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
 
@@ -1405,7 +1465,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_REQUEST_HEADERS = upstr('ACCESS-CONTROL-REQUEST-HEADERS')
  * ACCESS_CONTROL_REQUEST_METHOD = upstr('ACCESS-CONTROL-REQUEST-METHOD')
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_EXPOSE_HEADERS); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_EXPOSE_HEADERS); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
@@ -1416,7 +1476,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ACCESS_CONTROL_REQUEST_METHOD = upstr('ACCESS-CONTROL-REQUEST-METHOD')
  * AGE = upstr('AGE')
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_REQUEST_HEADERS); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_REQUEST_HEADERS); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
@@ -1427,7 +1487,7 @@ static int __Pyx_InitCachedConstants(void) {
  * AGE = upstr('AGE')
  * ALLOW = upstr('ALLOW')
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_ACCESS_CONTROL_REQUEST_METHOD); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_ACCESS_CONTROL_REQUEST_METHOD); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
 
@@ -1438,7 +1498,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ALLOW = upstr('ALLOW')
  * AUTHORIZATION = upstr('AUTHORIZATION')
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_s_AGE); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_u_AGE); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
 
@@ -1449,7 +1509,7 @@ static int __Pyx_InitCachedConstants(void) {
  * AUTHORIZATION = upstr('AUTHORIZATION')
  * CACHE_CONTROL = upstr('CACHE-CONTROL')
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_n_s_ALLOW); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_n_u_ALLOW); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__26);
   __Pyx_GIVEREF(__pyx_tuple__26);
 
@@ -1460,7 +1520,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CACHE_CONTROL = upstr('CACHE-CONTROL')
  * CONNECTION = upstr('CONNECTION')
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_n_s_AUTHORIZATION); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_n_u_AUTHORIZATION); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
 
@@ -1471,7 +1531,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONNECTION = upstr('CONNECTION')
  * CONTENT_DISPOSITION = upstr('CONTENT-DISPOSITION')
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_CACHE_CONTROL); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_CACHE_CONTROL); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
@@ -1482,7 +1542,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_DISPOSITION = upstr('CONTENT-DISPOSITION')
  * CONTENT_ENCODING = upstr('CONTENT-ENCODING')
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_n_s_CONNECTION); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_n_u_CONNECTION); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
 
@@ -1493,7 +1553,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_ENCODING = upstr('CONTENT-ENCODING')
  * CONTENT_LANGUAGE = upstr('CONTENT-LANGUAGE')
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_DISPOSITION); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_DISPOSITION); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
@@ -1504,7 +1564,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_LANGUAGE = upstr('CONTENT-LANGUAGE')
  * CONTENT_LENGTH = upstr('CONTENT-LENGTH')
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_ENCODING); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_ENCODING); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
 
@@ -1515,7 +1575,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_LENGTH = upstr('CONTENT-LENGTH')
  * CONTENT_LOCATION = upstr('CONTENT-LOCATION')
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_LANGUAGE); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_LANGUAGE); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
 
@@ -1526,7 +1586,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_LOCATION = upstr('CONTENT-LOCATION')
  * CONTENT_MD5 = upstr('CONTENT-MD5')
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_LENGTH); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_LENGTH); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
 
@@ -1537,7 +1597,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_MD5 = upstr('CONTENT-MD5')
  * CONTENT_RANGE = upstr('CONTENT-RANGE')
  */
-  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_LOCATION); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_LOCATION); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__34);
   __Pyx_GIVEREF(__pyx_tuple__34);
 
@@ -1548,7 +1608,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_RANGE = upstr('CONTENT-RANGE')
  * CONTENT_TRANSFER_ENCODING = upstr('CONTENT-TRANSFER-ENCODING')
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_MD5); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_MD5); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
 
@@ -1559,7 +1619,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_TRANSFER_ENCODING = upstr('CONTENT-TRANSFER-ENCODING')
  * CONTENT_TYPE = upstr('CONTENT-TYPE')
  */
-  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_RANGE); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_RANGE); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
 
@@ -1570,7 +1630,7 @@ static int __Pyx_InitCachedConstants(void) {
  * CONTENT_TYPE = upstr('CONTENT-TYPE')
  * COOKIE = upstr('COOKIE')
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_TRANSFER_ENCODING); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_TRANSFER_ENCODING); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
 
@@ -1581,7 +1641,7 @@ static int __Pyx_InitCachedConstants(void) {
  * COOKIE = upstr('COOKIE')
  * DATE = upstr('DATE')
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_CONTENT_TYPE); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_u_CONTENT_TYPE); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
 
@@ -1592,7 +1652,7 @@ static int __Pyx_InitCachedConstants(void) {
  * DATE = upstr('DATE')
  * DESTINATION = upstr('DESTINATION')
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_n_s_COOKIE); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_n_u_COOKIE); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
 
@@ -1603,7 +1663,7 @@ static int __Pyx_InitCachedConstants(void) {
  * DESTINATION = upstr('DESTINATION')
  * DIGEST = upstr('DIGEST')
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_n_s_DATE); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_n_u_DATE); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
 
@@ -1614,7 +1674,7 @@ static int __Pyx_InitCachedConstants(void) {
  * DIGEST = upstr('DIGEST')
  * ETAG = upstr('ETAG')
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_DESTINATION); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_u_DESTINATION); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
 
@@ -1625,7 +1685,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ETAG = upstr('ETAG')
  * EXPECT = upstr('EXPECT')
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_n_s_DIGEST); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_n_u_DIGEST); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
 
@@ -1636,7 +1696,7 @@ static int __Pyx_InitCachedConstants(void) {
  * EXPECT = upstr('EXPECT')
  * EXPIRES = upstr('EXPIRES')
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_n_s_ETAG); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_n_u_ETAG); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
 
@@ -1647,7 +1707,7 @@ static int __Pyx_InitCachedConstants(void) {
  * EXPIRES = upstr('EXPIRES')
  * FROM = upstr('FROM')
  */
-  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_s_EXPECT); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_u_EXPECT); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
 
@@ -1658,7 +1718,7 @@ static int __Pyx_InitCachedConstants(void) {
  * FROM = upstr('FROM')
  * HOST = upstr('HOST')
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_s_EXPIRES); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_u_EXPIRES); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
 
@@ -1669,7 +1729,7 @@ static int __Pyx_InitCachedConstants(void) {
  * HOST = upstr('HOST')
  * IF_MATCH = upstr('IF-MATCH')
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_n_s_FROM); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_n_u_FROM); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
 
@@ -1680,7 +1740,7 @@ static int __Pyx_InitCachedConstants(void) {
  * IF_MATCH = upstr('IF-MATCH')
  * IF_MODIFIED_SINCE = upstr('IF-MODIFIED-SINCE')
  */
-  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_n_s_HOST); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_n_u_HOST); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__47);
   __Pyx_GIVEREF(__pyx_tuple__47);
 
@@ -1691,7 +1751,7 @@ static int __Pyx_InitCachedConstants(void) {
  * IF_MODIFIED_SINCE = upstr('IF-MODIFIED-SINCE')
  * IF_NONE_MATCH = upstr('IF-NONE-MATCH')
  */
-  __pyx_tuple__48 = PyTuple_Pack(1, __pyx_kp_s_IF_MATCH); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_tuple__48 = PyTuple_Pack(1, __pyx_kp_u_IF_MATCH); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__48);
   __Pyx_GIVEREF(__pyx_tuple__48);
 
@@ -1702,7 +1762,7 @@ static int __Pyx_InitCachedConstants(void) {
  * IF_NONE_MATCH = upstr('IF-NONE-MATCH')
  * IF_RANGE = upstr('IF-RANGE')
  */
-  __pyx_tuple__49 = PyTuple_Pack(1, __pyx_kp_s_IF_MODIFIED_SINCE); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_tuple__49 = PyTuple_Pack(1, __pyx_kp_u_IF_MODIFIED_SINCE); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__49);
   __Pyx_GIVEREF(__pyx_tuple__49);
 
@@ -1713,7 +1773,7 @@ static int __Pyx_InitCachedConstants(void) {
  * IF_RANGE = upstr('IF-RANGE')
  * IF_UNMODIFIED_SINCE = upstr('IF-UNMODIFIED-SINCE')
  */
-  __pyx_tuple__50 = PyTuple_Pack(1, __pyx_kp_s_IF_NONE_MATCH); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_tuple__50 = PyTuple_Pack(1, __pyx_kp_u_IF_NONE_MATCH); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__50);
   __Pyx_GIVEREF(__pyx_tuple__50);
 
@@ -1724,7 +1784,7 @@ static int __Pyx_InitCachedConstants(void) {
  * IF_UNMODIFIED_SINCE = upstr('IF-UNMODIFIED-SINCE')
  * KEEP_ALIVE = upstr('KEEP-ALIVE')
  */
-  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_kp_s_IF_RANGE); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_kp_u_IF_RANGE); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__51);
   __Pyx_GIVEREF(__pyx_tuple__51);
 
@@ -1735,7 +1795,7 @@ static int __Pyx_InitCachedConstants(void) {
  * KEEP_ALIVE = upstr('KEEP-ALIVE')
  * LAST_EVENT_ID = upstr('LAST-EVENT-ID')
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_IF_UNMODIFIED_SINCE); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_u_IF_UNMODIFIED_SINCE); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__52);
   __Pyx_GIVEREF(__pyx_tuple__52);
 
@@ -1746,7 +1806,7 @@ static int __Pyx_InitCachedConstants(void) {
  * LAST_EVENT_ID = upstr('LAST-EVENT-ID')
  * LAST_MODIFIED = upstr('LAST-MODIFIED')
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_KEEP_ALIVE); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_u_KEEP_ALIVE); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__53);
   __Pyx_GIVEREF(__pyx_tuple__53);
 
@@ -1757,7 +1817,7 @@ static int __Pyx_InitCachedConstants(void) {
  * LAST_MODIFIED = upstr('LAST-MODIFIED')
  * LINK = upstr('LINK')
  */
-  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_s_LAST_EVENT_ID); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_u_LAST_EVENT_ID); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__54);
   __Pyx_GIVEREF(__pyx_tuple__54);
 
@@ -1768,7 +1828,7 @@ static int __Pyx_InitCachedConstants(void) {
  * LINK = upstr('LINK')
  * LOCATION = upstr('LOCATION')
  */
-  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_s_LAST_MODIFIED); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_u_LAST_MODIFIED); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__55);
   __Pyx_GIVEREF(__pyx_tuple__55);
 
@@ -1779,7 +1839,7 @@ static int __Pyx_InitCachedConstants(void) {
  * LOCATION = upstr('LOCATION')
  * MAX_FORWARDS = upstr('MAX-FORWARDS')
  */
-  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_n_s_LINK); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_n_u_LINK); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__56);
   __Pyx_GIVEREF(__pyx_tuple__56);
 
@@ -1790,7 +1850,7 @@ static int __Pyx_InitCachedConstants(void) {
  * MAX_FORWARDS = upstr('MAX-FORWARDS')
  * ORIGIN = upstr('ORIGIN')
  */
-  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_n_s_LOCATION); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_n_u_LOCATION); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__57);
   __Pyx_GIVEREF(__pyx_tuple__57);
 
@@ -1801,7 +1861,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ORIGIN = upstr('ORIGIN')
  * PRAGMA = upstr('PRAGMA')
  */
-  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_MAX_FORWARDS); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_u_MAX_FORWARDS); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__58);
   __Pyx_GIVEREF(__pyx_tuple__58);
 
@@ -1812,7 +1872,7 @@ static int __Pyx_InitCachedConstants(void) {
  * PRAGMA = upstr('PRAGMA')
  * PROXY_AUTHENTICATE = upstr('PROXY_AUTHENTICATE')
  */
-  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_n_s_ORIGIN); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_n_u_ORIGIN); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__59);
   __Pyx_GIVEREF(__pyx_tuple__59);
 
@@ -1823,7 +1883,7 @@ static int __Pyx_InitCachedConstants(void) {
  * PROXY_AUTHENTICATE = upstr('PROXY_AUTHENTICATE')
  * PROXY_AUTHORIZATION = upstr('PROXY-AUTHORIZATION')
  */
-  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_n_s_PRAGMA); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_n_u_PRAGMA); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
 
@@ -1834,7 +1894,7 @@ static int __Pyx_InitCachedConstants(void) {
  * PROXY_AUTHORIZATION = upstr('PROXY-AUTHORIZATION')
  * RANGE = upstr('RANGE')
  */
-  __pyx_tuple__61 = PyTuple_Pack(1, __pyx_n_s_PROXY_AUTHENTICATE); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_tuple__61 = PyTuple_Pack(1, __pyx_n_u_PROXY_AUTHENTICATE); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__61);
   __Pyx_GIVEREF(__pyx_tuple__61);
 
@@ -1845,7 +1905,7 @@ static int __Pyx_InitCachedConstants(void) {
  * RANGE = upstr('RANGE')
  * REFERER = upstr('REFERER')
  */
-  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_kp_s_PROXY_AUTHORIZATION); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_kp_u_PROXY_AUTHORIZATION); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
 
@@ -1856,7 +1916,7 @@ static int __Pyx_InitCachedConstants(void) {
  * REFERER = upstr('REFERER')
  * RETRY_AFTER = upstr('RETRY-AFTER')
  */
-  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_n_s_RANGE); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_n_u_RANGE); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__63);
   __Pyx_GIVEREF(__pyx_tuple__63);
 
@@ -1867,7 +1927,7 @@ static int __Pyx_InitCachedConstants(void) {
  * RETRY_AFTER = upstr('RETRY-AFTER')
  * SEC_WEBSOCKET_ACCEPT = upstr('SEC-WEBSOCKET-ACCEPT')
  */
-  __pyx_tuple__64 = PyTuple_Pack(1, __pyx_n_s_REFERER); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(1, __pyx_n_u_REFERER); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__64);
   __Pyx_GIVEREF(__pyx_tuple__64);
 
@@ -1878,7 +1938,7 @@ static int __Pyx_InitCachedConstants(void) {
  * SEC_WEBSOCKET_ACCEPT = upstr('SEC-WEBSOCKET-ACCEPT')
  * SEC_WEBSOCKET_VERSION = upstr('SEC-WEBSOCKET-VERSION')
  */
-  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_kp_s_RETRY_AFTER); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_kp_u_RETRY_AFTER); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__65);
   __Pyx_GIVEREF(__pyx_tuple__65);
 
@@ -1889,7 +1949,7 @@ static int __Pyx_InitCachedConstants(void) {
  * SEC_WEBSOCKET_VERSION = upstr('SEC-WEBSOCKET-VERSION')
  * SEC_WEBSOCKET_PROTOCOL = upstr('SEC-WEBSOCKET-PROTOCOL')
  */
-  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_kp_s_SEC_WEBSOCKET_ACCEPT); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_kp_u_SEC_WEBSOCKET_ACCEPT); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__66);
   __Pyx_GIVEREF(__pyx_tuple__66);
 
@@ -1900,7 +1960,7 @@ static int __Pyx_InitCachedConstants(void) {
  * SEC_WEBSOCKET_PROTOCOL = upstr('SEC-WEBSOCKET-PROTOCOL')
  * SEC_WEBSOCKET_KEY = upstr('SEC-WEBSOCKET-KEY')
  */
-  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_kp_s_SEC_WEBSOCKET_VERSION); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_kp_u_SEC_WEBSOCKET_VERSION); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__67);
   __Pyx_GIVEREF(__pyx_tuple__67);
 
@@ -1911,7 +1971,7 @@ static int __Pyx_InitCachedConstants(void) {
  * SEC_WEBSOCKET_KEY = upstr('SEC-WEBSOCKET-KEY')
  * SEC_WEBSOCKET_KEY1 = upstr('SEC-WEBSOCKET-KEY1')
  */
-  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_kp_s_SEC_WEBSOCKET_PROTOCOL); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_kp_u_SEC_WEBSOCKET_PROTOCOL); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__68);
   __Pyx_GIVEREF(__pyx_tuple__68);
 
@@ -1922,7 +1982,7 @@ static int __Pyx_InitCachedConstants(void) {
  * SEC_WEBSOCKET_KEY1 = upstr('SEC-WEBSOCKET-KEY1')
  * SERVER = upstr('SERVER')
  */
-  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_kp_s_SEC_WEBSOCKET_KEY); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_kp_u_SEC_WEBSOCKET_KEY); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__69);
   __Pyx_GIVEREF(__pyx_tuple__69);
 
@@ -1933,7 +1993,7 @@ static int __Pyx_InitCachedConstants(void) {
  * SERVER = upstr('SERVER')
  * SET_COOKIE = upstr('SET-COOKIE')
  */
-  __pyx_tuple__70 = PyTuple_Pack(1, __pyx_kp_s_SEC_WEBSOCKET_KEY1); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_tuple__70 = PyTuple_Pack(1, __pyx_kp_u_SEC_WEBSOCKET_KEY1); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__70);
   __Pyx_GIVEREF(__pyx_tuple__70);
 
@@ -1944,7 +2004,7 @@ static int __Pyx_InitCachedConstants(void) {
  * SET_COOKIE = upstr('SET-COOKIE')
  * TE = upstr('TE')
  */
-  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_n_s_SERVER); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_n_u_SERVER); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__71);
   __Pyx_GIVEREF(__pyx_tuple__71);
 
@@ -1955,7 +2015,7 @@ static int __Pyx_InitCachedConstants(void) {
  * TE = upstr('TE')
  * TRAILER = upstr('TRAILER')
  */
-  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_kp_s_SET_COOKIE); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_kp_u_SET_COOKIE); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__72);
   __Pyx_GIVEREF(__pyx_tuple__72);
 
@@ -1966,7 +2026,7 @@ static int __Pyx_InitCachedConstants(void) {
  * TRAILER = upstr('TRAILER')
  * TRANSFER_ENCODING = upstr('TRANSFER-ENCODING')
  */
-  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_n_s_TE); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_n_u_TE); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__73);
   __Pyx_GIVEREF(__pyx_tuple__73);
 
@@ -1977,7 +2037,7 @@ static int __Pyx_InitCachedConstants(void) {
  * TRANSFER_ENCODING = upstr('TRANSFER-ENCODING')
  * UPGRADE = upstr('UPGRADE')
  */
-  __pyx_tuple__74 = PyTuple_Pack(1, __pyx_n_s_TRAILER); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_tuple__74 = PyTuple_Pack(1, __pyx_n_u_TRAILER); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__74);
   __Pyx_GIVEREF(__pyx_tuple__74);
 
@@ -1988,7 +2048,7 @@ static int __Pyx_InitCachedConstants(void) {
  * UPGRADE = upstr('UPGRADE')
  * WEBSOCKET = upstr('WEBSOCKET')
  */
-  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_kp_s_TRANSFER_ENCODING); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_kp_u_TRANSFER_ENCODING); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__75);
   __Pyx_GIVEREF(__pyx_tuple__75);
 
@@ -1999,7 +2059,7 @@ static int __Pyx_InitCachedConstants(void) {
  * WEBSOCKET = upstr('WEBSOCKET')
  * URI = upstr('URI')
  */
-  __pyx_tuple__76 = PyTuple_Pack(1, __pyx_n_s_UPGRADE); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_tuple__76 = PyTuple_Pack(1, __pyx_n_u_UPGRADE); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__76);
   __Pyx_GIVEREF(__pyx_tuple__76);
 
@@ -2010,7 +2070,7 @@ static int __Pyx_InitCachedConstants(void) {
  * URI = upstr('URI')
  * USER_AGENT = upstr('USER-AGENT')
  */
-  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_n_s_WEBSOCKET); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_n_u_WEBSOCKET); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__77);
   __Pyx_GIVEREF(__pyx_tuple__77);
 
@@ -2021,7 +2081,7 @@ static int __Pyx_InitCachedConstants(void) {
  * USER_AGENT = upstr('USER-AGENT')
  * VARY = upstr('VARY')
  */
-  __pyx_tuple__78 = PyTuple_Pack(1, __pyx_n_s_URI); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_tuple__78 = PyTuple_Pack(1, __pyx_n_u_URI); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__78);
   __Pyx_GIVEREF(__pyx_tuple__78);
 
@@ -2032,7 +2092,7 @@ static int __Pyx_InitCachedConstants(void) {
  * VARY = upstr('VARY')
  * VIA = upstr('VIA')
  */
-  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_kp_s_USER_AGENT); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_kp_u_USER_AGENT); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__79);
   __Pyx_GIVEREF(__pyx_tuple__79);
 
@@ -2043,7 +2103,7 @@ static int __Pyx_InitCachedConstants(void) {
  * VIA = upstr('VIA')
  * WANT_DIGEST = upstr('WANT-DIGEST')
  */
-  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_n_s_VARY); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_n_u_VARY); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__80);
   __Pyx_GIVEREF(__pyx_tuple__80);
 
@@ -2054,7 +2114,7 @@ static int __Pyx_InitCachedConstants(void) {
  * WANT_DIGEST = upstr('WANT-DIGEST')
  * WARNING = upstr('WARNING')
  */
-  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_n_s_VIA); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_n_u_VIA); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__81);
   __Pyx_GIVEREF(__pyx_tuple__81);
 
@@ -2065,7 +2125,7 @@ static int __Pyx_InitCachedConstants(void) {
  * WARNING = upstr('WARNING')
  * WWW_AUTHENTICATE = upstr('WWW-AUTHENTICATE')
  */
-  __pyx_tuple__82 = PyTuple_Pack(1, __pyx_kp_s_WANT_DIGEST); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_tuple__82 = PyTuple_Pack(1, __pyx_kp_u_WANT_DIGEST); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__82);
   __Pyx_GIVEREF(__pyx_tuple__82);
 
@@ -2075,7 +2135,7 @@ static int __Pyx_InitCachedConstants(void) {
  * WARNING = upstr('WARNING')             # <<<<<<<<<<<<<<
  * WWW_AUTHENTICATE = upstr('WWW-AUTHENTICATE')
  */
-  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_n_s_WARNING); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_n_u_WARNING); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__83);
   __Pyx_GIVEREF(__pyx_tuple__83);
 
@@ -2084,7 +2144,7 @@ static int __Pyx_InitCachedConstants(void) {
  * WARNING = upstr('WARNING')
  * WWW_AUTHENTICATE = upstr('WWW-AUTHENTICATE')             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__84 = PyTuple_Pack(1, __pyx_kp_s_WWW_AUTHENTICATE); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_tuple__84 = PyTuple_Pack(1, __pyx_kp_u_WWW_AUTHENTICATE); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__84);
   __Pyx_GIVEREF(__pyx_tuple__84);
   __Pyx_RefNannyFinishContext();

@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -801,10 +801,10 @@ static PyObject *__pyx_n_s_CodingStateMachine_reset;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_byteCls;
 static PyObject *__pyx_n_s_c;
-static PyObject *__pyx_n_s_charLenTable;
+static PyObject *__pyx_n_u_charLenTable;
 static PyObject *__pyx_n_s_chardet_codingstatemachine;
-static PyObject *__pyx_n_s_classFactor;
-static PyObject *__pyx_n_s_classTable;
+static PyObject *__pyx_n_u_classFactor;
+static PyObject *__pyx_n_u_classTable;
 static PyObject *__pyx_n_s_compat;
 static PyObject *__pyx_n_s_constants;
 static PyObject *__pyx_n_s_curr_state;
@@ -821,14 +821,14 @@ static PyObject *__pyx_n_s_mModel;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
-static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_n_u_name;
 static PyObject *__pyx_n_s_next_state;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_reset;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_sm;
-static PyObject *__pyx_n_s_stateTable;
+static PyObject *__pyx_n_u_stateTable;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_wrap_ord;
 static PyObject *__pyx_pf_7chardet_18codingstatemachine_18CodingStateMachine___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_sm); /* proto */
@@ -1153,7 +1153,7 @@ static PyObject *__pyx_pf_7chardet_18codingstatemachine_18CodingStateMachine_4ne
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_classTable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_classTable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_wrap_ord); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
@@ -1226,7 +1226,7 @@ static PyObject *__pyx_pf_7chardet_18codingstatemachine_18CodingStateMachine_4ne
  */
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_charLenTable); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_charLenTable); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_v_byteCls); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
@@ -1255,7 +1255,7 @@ static PyObject *__pyx_pf_7chardet_18codingstatemachine_18CodingStateMachine_4ne
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_classFactor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_classFactor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyNumber_Multiply(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
@@ -1285,7 +1285,7 @@ static PyObject *__pyx_pf_7chardet_18codingstatemachine_18CodingStateMachine_4ne
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyObject_GetItem(__pyx_t_3, __pyx_n_s_stateTable); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetItem(__pyx_t_3, __pyx_n_u_stateTable); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_v_curr_state); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
@@ -1445,7 +1445,7 @@ static PyObject *__pyx_pf_7chardet_18codingstatemachine_18CodingStateMachine_8ge
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
@@ -1503,10 +1503,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_byteCls, __pyx_k_byteCls, sizeof(__pyx_k_byteCls), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
-  {&__pyx_n_s_charLenTable, __pyx_k_charLenTable, sizeof(__pyx_k_charLenTable), 0, 0, 1, 1},
+  {&__pyx_n_u_charLenTable, __pyx_k_charLenTable, sizeof(__pyx_k_charLenTable), 0, 1, 0, 1},
   {&__pyx_n_s_chardet_codingstatemachine, __pyx_k_chardet_codingstatemachine, sizeof(__pyx_k_chardet_codingstatemachine), 0, 0, 1, 1},
-  {&__pyx_n_s_classFactor, __pyx_k_classFactor, sizeof(__pyx_k_classFactor), 0, 0, 1, 1},
-  {&__pyx_n_s_classTable, __pyx_k_classTable, sizeof(__pyx_k_classTable), 0, 0, 1, 1},
+  {&__pyx_n_u_classFactor, __pyx_k_classFactor, sizeof(__pyx_k_classFactor), 0, 1, 0, 1},
+  {&__pyx_n_u_classTable, __pyx_k_classTable, sizeof(__pyx_k_classTable), 0, 1, 0, 1},
   {&__pyx_n_s_compat, __pyx_k_compat, sizeof(__pyx_k_compat), 0, 0, 1, 1},
   {&__pyx_n_s_constants, __pyx_k_constants, sizeof(__pyx_k_constants), 0, 0, 1, 1},
   {&__pyx_n_s_curr_state, __pyx_k_curr_state, sizeof(__pyx_k_curr_state), 0, 0, 1, 1},
@@ -1523,14 +1523,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
-  {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_n_u_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 1, 0, 1},
   {&__pyx_n_s_next_state, __pyx_k_next_state, sizeof(__pyx_k_next_state), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_reset, __pyx_k_reset, sizeof(__pyx_k_reset), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_sm, __pyx_k_sm, sizeof(__pyx_k_sm), 0, 0, 1, 1},
-  {&__pyx_n_s_stateTable, __pyx_k_stateTable, sizeof(__pyx_k_stateTable), 0, 0, 1, 1},
+  {&__pyx_n_u_stateTable, __pyx_k_stateTable, sizeof(__pyx_k_stateTable), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_wrap_ord, __pyx_k_wrap_ord, sizeof(__pyx_k_wrap_ord), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -1828,7 +1828,7 @@ PyMODINIT_FUNC PyInit_codingstatemachine(void)
  *     def __init__(self, sm):
  *         self._mModel = sm
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_CodingStateMachine, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_CodingStateMachine, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CodingStateMachine, __pyx_t_2) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;

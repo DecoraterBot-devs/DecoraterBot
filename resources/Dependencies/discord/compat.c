@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -763,6 +763,14 @@ static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject 
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 #endif
 
+/* SwapException.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_ExceptionSwap(type, value, tb)  __Pyx__ExceptionSwap(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#else
+static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value, PyObject **tb);
+#endif
+
 /* IncludeStringH.proto */
 #include <string.h>
 
@@ -880,9 +888,9 @@ static const char __pyx_k_chain_future_locals__call_check[] = "_chain_future.<lo
 static const char __pyx_k_chain_future_locals__call_set_s[] = "_chain_future.<locals>._call_set_state";
 static const char __pyx_k_run_coroutine_threadsafe_locals[] = "run_coroutine_threadsafe.<locals>.callback";
 static const char __pyx_k_A_future_is_required_for_destina[] = "A future is required for destination argument";
-static PyObject *__pyx_kp_s_A_coroutine_object_is_required;
-static PyObject *__pyx_kp_s_A_future_is_required_for_destina;
-static PyObject *__pyx_kp_s_A_future_is_required_for_source;
+static PyObject *__pyx_kp_u_A_coroutine_object_is_required;
+static PyObject *__pyx_kp_u_A_future_is_required_for_destina;
+static PyObject *__pyx_kp_u_A_future_is_required_for_source;
 static PyObject *__pyx_n_s_AttributeError;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Exception;
@@ -2966,6 +2974,14 @@ static PyObject *__pyx_pf_7discord_6compat_24run_coroutine_threadsafe_callback(P
   int __pyx_t_11;
   int __pyx_t_12;
   PyObject *__pyx_t_13 = NULL;
+  int __pyx_t_14;
+  char const *__pyx_t_15;
+  PyObject *__pyx_t_16 = NULL;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
+  PyObject *__pyx_t_19 = NULL;
+  PyObject *__pyx_t_20 = NULL;
+  PyObject *__pyx_t_21 = NULL;
   __Pyx_RefNannySetupContext("callback", 0);
   __pyx_outer_scope = (struct __pyx_obj_7discord_6compat___pyx_scope_struct_1_run_coroutine_threadsafe *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
@@ -3079,48 +3095,17 @@ static PyObject *__pyx_pf_7discord_6compat_24run_coroutine_threadsafe_callback(P
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_INCREF(__pyx_t_5);
       __pyx_v_exc = __pyx_t_5;
+      /*try:*/ {
 
-      /* "discord/compat.py":127
+        /* "discord/compat.py":127
  *                 _chain_future(create_task(coro, loop=loop), future)
  *             except Exception as exc:
  *                 if future.set_running_or_notify_cancel():             # <<<<<<<<<<<<<<
  *                     future.set_exception(exc)
  *                 raise
  */
-      if (unlikely(!__pyx_cur_scope->__pyx_v_future)) { __Pyx_RaiseClosureNameError("future"); __PYX_ERR(0, 127, __pyx_L5_except_error) }
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_future, __pyx_n_s_set_running_or_notify_cancel); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 127, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_6 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_8, function);
-        }
-      }
-      if (__pyx_t_6) {
-        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_6); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 127, __pyx_L5_except_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      } else {
-        __pyx_t_9 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 127, __pyx_L5_except_error)
-      }
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 127, __pyx_L5_except_error)
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (__pyx_t_12) {
-
-        /* "discord/compat.py":128
- *             except Exception as exc:
- *                 if future.set_running_or_notify_cancel():
- *                     future.set_exception(exc)             # <<<<<<<<<<<<<<
- *                 raise
- *         loop.call_soon_threadsafe(callback)
- */
-        if (unlikely(!__pyx_cur_scope->__pyx_v_future)) { __Pyx_RaiseClosureNameError("future"); __PYX_ERR(0, 128, __pyx_L5_except_error) }
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_future, __pyx_n_s_set_exception); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 128, __pyx_L5_except_error)
+        if (unlikely(!__pyx_cur_scope->__pyx_v_future)) { __Pyx_RaiseClosureNameError("future"); __PYX_ERR(0, 127, __pyx_L16_error) }
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_future, __pyx_n_s_set_running_or_notify_cancel); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 127, __pyx_L16_error)
         __Pyx_GOTREF(__pyx_t_8);
         __pyx_t_6 = NULL;
         if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
@@ -3132,45 +3117,125 @@ static PyObject *__pyx_pf_7discord_6compat_24run_coroutine_threadsafe_callback(P
             __Pyx_DECREF_SET(__pyx_t_8, function);
           }
         }
-        if (!__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_exc); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L5_except_error)
-          __Pyx_GOTREF(__pyx_t_9);
+        if (__pyx_t_6) {
+          __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_6); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 127, __pyx_L16_error)
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         } else {
-          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 128, __pyx_L5_except_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_6); __pyx_t_6 = NULL;
-          __Pyx_INCREF(__pyx_v_exc);
-          __Pyx_GIVEREF(__pyx_v_exc);
-          PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_v_exc);
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L5_except_error)
-          __Pyx_GOTREF(__pyx_t_9);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __pyx_t_9 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 127, __pyx_L16_error)
         }
+        __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 127, __pyx_L16_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        if (__pyx_t_12) {
 
-        /* "discord/compat.py":127
+          /* "discord/compat.py":128
+ *             except Exception as exc:
+ *                 if future.set_running_or_notify_cancel():
+ *                     future.set_exception(exc)             # <<<<<<<<<<<<<<
+ *                 raise
+ *         loop.call_soon_threadsafe(callback)
+ */
+          if (unlikely(!__pyx_cur_scope->__pyx_v_future)) { __Pyx_RaiseClosureNameError("future"); __PYX_ERR(0, 128, __pyx_L16_error) }
+          __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_future, __pyx_n_s_set_exception); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 128, __pyx_L16_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          __pyx_t_6 = NULL;
+          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
+            __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
+            if (likely(__pyx_t_6)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+              __Pyx_INCREF(__pyx_t_6);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_8, function);
+            }
+          }
+          if (!__pyx_t_6) {
+            __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_exc); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L16_error)
+            __Pyx_GOTREF(__pyx_t_9);
+          } else {
+            __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 128, __pyx_L16_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_6); __pyx_t_6 = NULL;
+            __Pyx_INCREF(__pyx_v_exc);
+            __Pyx_GIVEREF(__pyx_v_exc);
+            PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_v_exc);
+            __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L16_error)
+            __Pyx_GOTREF(__pyx_t_9);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          }
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+          /* "discord/compat.py":127
  *                 _chain_future(create_task(coro, loop=loop), future)
  *             except Exception as exc:
  *                 if future.set_running_or_notify_cancel():             # <<<<<<<<<<<<<<
  *                     future.set_exception(exc)
  *                 raise
  */
-      }
+        }
 
-      /* "discord/compat.py":129
+        /* "discord/compat.py":129
  *                 if future.set_running_or_notify_cancel():
  *                     future.set_exception(exc)
  *                 raise             # <<<<<<<<<<<<<<
  *         loop.call_soon_threadsafe(callback)
  *         return future
  */
-      __Pyx_GIVEREF(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_5);
-      __Pyx_XGIVEREF(__pyx_t_7);
-      __Pyx_ErrRestoreWithState(__pyx_t_4, __pyx_t_5, __pyx_t_7);
-      __pyx_t_4 = 0; __pyx_t_5 = 0; __pyx_t_7 = 0; 
-      __PYX_ERR(0, 129, __pyx_L5_except_error)
+        __Pyx_GIVEREF(__pyx_t_4);
+        __Pyx_GIVEREF(__pyx_t_5);
+        __Pyx_XGIVEREF(__pyx_t_7);
+        __Pyx_ErrRestoreWithState(__pyx_t_4, __pyx_t_5, __pyx_t_7);
+        __pyx_t_4 = 0; __pyx_t_5 = 0; __pyx_t_7 = 0; 
+        __PYX_ERR(0, 129, __pyx_L16_error)
+      }
+
+      /* "discord/compat.py":126
+ *             try:
+ *                 _chain_future(create_task(coro, loop=loop), future)
+ *             except Exception as exc:             # <<<<<<<<<<<<<<
+ *                 if future.set_running_or_notify_cancel():
+ *                     future.set_exception(exc)
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L16_error:;
+          __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_19, &__pyx_t_20, &__pyx_t_21);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18) < 0)) __Pyx_ErrFetch(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_17);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_19);
+          __Pyx_XGOTREF(__pyx_t_20);
+          __Pyx_XGOTREF(__pyx_t_21);
+          __pyx_t_11 = __pyx_lineno; __pyx_t_14 = __pyx_clineno; __pyx_t_15 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_exc);
+            __pyx_v_exc = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_19);
+            __Pyx_XGIVEREF(__pyx_t_20);
+            __Pyx_XGIVEREF(__pyx_t_21);
+            __Pyx_ExceptionReset(__pyx_t_19, __pyx_t_20, __pyx_t_21);
+          }
+          __Pyx_XGIVEREF(__pyx_t_16);
+          __Pyx_XGIVEREF(__pyx_t_17);
+          __Pyx_XGIVEREF(__pyx_t_18);
+          __Pyx_ErrRestore(__pyx_t_16, __pyx_t_17, __pyx_t_18);
+          __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0;
+          __pyx_lineno = __pyx_t_11; __pyx_clineno = __pyx_t_14; __pyx_filename = __pyx_t_15;
+          goto __pyx_L5_except_error;
+        }
+      }
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -3707,9 +3772,9 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_A_coroutine_object_is_required, __pyx_k_A_coroutine_object_is_required, sizeof(__pyx_k_A_coroutine_object_is_required), 0, 0, 1, 0},
-  {&__pyx_kp_s_A_future_is_required_for_destina, __pyx_k_A_future_is_required_for_destina, sizeof(__pyx_k_A_future_is_required_for_destina), 0, 0, 1, 0},
-  {&__pyx_kp_s_A_future_is_required_for_source, __pyx_k_A_future_is_required_for_source, sizeof(__pyx_k_A_future_is_required_for_source), 0, 0, 1, 0},
+  {&__pyx_kp_u_A_coroutine_object_is_required, __pyx_k_A_coroutine_object_is_required, sizeof(__pyx_k_A_coroutine_object_is_required), 0, 1, 0, 0},
+  {&__pyx_kp_u_A_future_is_required_for_destina, __pyx_k_A_future_is_required_for_destina, sizeof(__pyx_k_A_future_is_required_for_destina), 0, 1, 0, 0},
+  {&__pyx_kp_u_A_future_is_required_for_source, __pyx_k_A_future_is_required_for_source, sizeof(__pyx_k_A_future_is_required_for_source), 0, 1, 0, 0},
   {&__pyx_n_s_AttributeError, __pyx_k_AttributeError, sizeof(__pyx_k_AttributeError), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Exception, __pyx_k_Exception, sizeof(__pyx_k_Exception), 0, 0, 1, 1},
@@ -3785,7 +3850,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(destination, (asyncio.Future, concurrent.futures.Future)):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_A_future_is_required_for_source); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_A_future_is_required_for_source); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -3796,7 +3861,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         source_loop = source._loop if isinstance(source, asyncio.Future) else None
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_A_future_is_required_for_destina); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_A_future_is_required_for_destina); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -3843,7 +3908,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         future = concurrent.futures.Future()
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_A_coroutine_object_is_required); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_A_coroutine_object_is_required); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -4033,7 +4098,7 @@ PyMODINIT_FUNC PyInit_compat(void)
  * import asyncio
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_concurrent_futures, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_concurrent_futures, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_concurrent, __pyx_t_1) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4045,7 +4110,7 @@ PyMODINIT_FUNC PyInit_compat(void)
  * 
  * try:
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5511,6 +5576,31 @@ bad:
     Py_XDECREF(local_tb);
     return -1;
 }
+
+/* SwapException */
+              #if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->exc_type;
+    tmp_value = tstate->exc_value;
+    tmp_tb = tstate->exc_traceback;
+    tstate->exc_type = *type;
+    tstate->exc_value = *value;
+    tstate->exc_traceback = *tb;
+    *type = tmp_type;
+    *value = tmp_value;
+    *tb = tmp_tb;
+}
+#else
+static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value, PyObject **tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    PyErr_GetExcInfo(&tmp_type, &tmp_value, &tmp_tb);
+    PyErr_SetExcInfo(*type, *value, *tb);
+    *type = tmp_type;
+    *value = tmp_value;
+    *tb = tmp_tb;
+}
+#endif
 
 /* Import */
               static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {

@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -867,7 +867,7 @@ PyMODINIT_FUNC PyInit_lock(void)
  * 
  * if sys.version_info < (3,):
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -918,7 +918,7 @@ PyMODINIT_FUNC PyInit_lock(void)
         __Pyx_INCREF(__pyx_n_s_allocate_lock);
         __Pyx_GIVEREF(__pyx_n_s_allocate_lock);
         PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_allocate_lock);
-        __pyx_t_2 = __Pyx_Import(__pyx_n_s_thread, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L3_error)
+        __pyx_t_2 = __Pyx_Import(__pyx_n_s_thread, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_allocate_lock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L3_error)
@@ -971,7 +971,7 @@ PyMODINIT_FUNC PyInit_lock(void)
         __Pyx_INCREF(__pyx_n_s_allocate_lock);
         __Pyx_GIVEREF(__pyx_n_s_allocate_lock);
         PyList_SET_ITEM(__pyx_t_9, 0, __pyx_n_s_allocate_lock);
-        __pyx_t_10 = __Pyx_Import(__pyx_n_s_dummy_thread, __pyx_t_9, -1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 7, __pyx_L5_except_error)
+        __pyx_t_10 = __Pyx_Import(__pyx_n_s_dummy_thread, __pyx_t_9, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 7, __pyx_L5_except_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_t_9 = __Pyx_ImportFrom(__pyx_t_10, __pyx_n_s_allocate_lock); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 7, __pyx_L5_except_error)
@@ -1048,7 +1048,7 @@ PyMODINIT_FUNC PyInit_lock(void)
         __Pyx_INCREF(__pyx_n_s_allocate_lock);
         __Pyx_GIVEREF(__pyx_n_s_allocate_lock);
         PyList_SET_ITEM(__pyx_t_8, 0, __pyx_n_s_allocate_lock);
-        __pyx_t_1 = __Pyx_Import(__pyx_n_s_thread_2, __pyx_t_8, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L13_error)
+        __pyx_t_1 = __Pyx_Import(__pyx_n_s_thread_2, __pyx_t_8, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L13_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_8 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_allocate_lock); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 10, __pyx_L13_error)
@@ -1104,7 +1104,7 @@ PyMODINIT_FUNC PyInit_lock(void)
         __Pyx_INCREF(__pyx_n_s_allocate_lock);
         __Pyx_GIVEREF(__pyx_n_s_allocate_lock);
         PyList_SET_ITEM(__pyx_t_10, 0, __pyx_n_s_allocate_lock);
-        __pyx_t_9 = __Pyx_Import(__pyx_n_s_dummy_thread_2, __pyx_t_10, -1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 12, __pyx_L15_except_error)
+        __pyx_t_9 = __Pyx_Import(__pyx_n_s_dummy_thread_2, __pyx_t_10, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 12, __pyx_L15_except_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_t_10 = __Pyx_ImportFrom(__pyx_t_9, __pyx_n_s_allocate_lock); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 12, __pyx_L15_except_error)

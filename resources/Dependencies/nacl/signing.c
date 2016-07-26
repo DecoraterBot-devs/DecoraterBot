@@ -921,19 +921,19 @@ static PyObject *__pyx_n_s_SigningKey;
 static PyObject *__pyx_n_s_SigningKey___bytes;
 static PyObject *__pyx_n_s_SigningKey___init;
 static PyObject *__pyx_n_s_SigningKey_generate;
-static PyObject *__pyx_kp_s_SigningKey_must_be_created_from;
+static PyObject *__pyx_kp_u_SigningKey_must_be_created_from;
 static PyObject *__pyx_n_s_SigningKey_sign;
 static PyObject *__pyx_n_s_SigningKey_to_curve25519_private;
 static PyObject *__pyx_n_s_StringFixer;
-static PyObject *__pyx_kp_s_The_key_must_be_exactly_s_bytes;
+static PyObject *__pyx_kp_u_The_key_must_be_exactly_s_bytes;
 static PyObject *__pyx_kp_s_The_public_key_counterpart_to_a;
-static PyObject *__pyx_kp_s_The_seed_must_be_exactly_d_bytes;
+static PyObject *__pyx_kp_u_The_seed_must_be_exactly_d_bytes;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_VerifyKey;
 static PyObject *__pyx_n_s_VerifyKey___bytes;
 static PyObject *__pyx_n_s_VerifyKey___init;
-static PyObject *__pyx_kp_s_VerifyKey_must_be_created_from_3;
+static PyObject *__pyx_kp_u_VerifyKey_must_be_created_from_3;
 static PyObject *__pyx_n_s_VerifyKey_to_curve25519_public_k;
 static PyObject *__pyx_n_s_VerifyKey_verify;
 static PyObject *__pyx_n_s_binary_type;
@@ -1595,7 +1595,7 @@ static PyObject *__pyx_pf_4nacl_7signing_9VerifyKey___init__(CYTHON_UNUSED PyObj
  *                 nacl.bindings.crypto_sign_PUBLICKEYBYTES,
  *             )
  */
-    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_The_key_must_be_exactly_s_bytes, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_2 = PyUnicode_Format(__pyx_kp_u_The_key_must_be_exactly_s_bytes, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -2401,7 +2401,7 @@ static PyObject *__pyx_pf_4nacl_7signing_10SigningKey___init__(CYTHON_UNUSED PyO
  *                 nacl.bindings.crypto_sign_SEEDBYTES
  *             )
  */
-    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_The_seed_must_be_exactly_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_2 = PyUnicode_Format(__pyx_kp_u_The_seed_must_be_exactly_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -3404,19 +3404,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SigningKey___bytes, __pyx_k_SigningKey___bytes, sizeof(__pyx_k_SigningKey___bytes), 0, 0, 1, 1},
   {&__pyx_n_s_SigningKey___init, __pyx_k_SigningKey___init, sizeof(__pyx_k_SigningKey___init), 0, 0, 1, 1},
   {&__pyx_n_s_SigningKey_generate, __pyx_k_SigningKey_generate, sizeof(__pyx_k_SigningKey_generate), 0, 0, 1, 1},
-  {&__pyx_kp_s_SigningKey_must_be_created_from, __pyx_k_SigningKey_must_be_created_from, sizeof(__pyx_k_SigningKey_must_be_created_from), 0, 0, 1, 0},
+  {&__pyx_kp_u_SigningKey_must_be_created_from, __pyx_k_SigningKey_must_be_created_from, sizeof(__pyx_k_SigningKey_must_be_created_from), 0, 1, 0, 0},
   {&__pyx_n_s_SigningKey_sign, __pyx_k_SigningKey_sign, sizeof(__pyx_k_SigningKey_sign), 0, 0, 1, 1},
   {&__pyx_n_s_SigningKey_to_curve25519_private, __pyx_k_SigningKey_to_curve25519_private, sizeof(__pyx_k_SigningKey_to_curve25519_private), 0, 0, 1, 1},
   {&__pyx_n_s_StringFixer, __pyx_k_StringFixer, sizeof(__pyx_k_StringFixer), 0, 0, 1, 1},
-  {&__pyx_kp_s_The_key_must_be_exactly_s_bytes, __pyx_k_The_key_must_be_exactly_s_bytes, sizeof(__pyx_k_The_key_must_be_exactly_s_bytes), 0, 0, 1, 0},
+  {&__pyx_kp_u_The_key_must_be_exactly_s_bytes, __pyx_k_The_key_must_be_exactly_s_bytes, sizeof(__pyx_k_The_key_must_be_exactly_s_bytes), 0, 1, 0, 0},
   {&__pyx_kp_s_The_public_key_counterpart_to_a, __pyx_k_The_public_key_counterpart_to_a, sizeof(__pyx_k_The_public_key_counterpart_to_a), 0, 0, 1, 0},
-  {&__pyx_kp_s_The_seed_must_be_exactly_d_bytes, __pyx_k_The_seed_must_be_exactly_d_bytes, sizeof(__pyx_k_The_seed_must_be_exactly_d_bytes), 0, 0, 1, 0},
+  {&__pyx_kp_u_The_seed_must_be_exactly_d_bytes, __pyx_k_The_seed_must_be_exactly_d_bytes, sizeof(__pyx_k_The_seed_must_be_exactly_d_bytes), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_VerifyKey, __pyx_k_VerifyKey, sizeof(__pyx_k_VerifyKey), 0, 0, 1, 1},
   {&__pyx_n_s_VerifyKey___bytes, __pyx_k_VerifyKey___bytes, sizeof(__pyx_k_VerifyKey___bytes), 0, 0, 1, 1},
   {&__pyx_n_s_VerifyKey___init, __pyx_k_VerifyKey___init, sizeof(__pyx_k_VerifyKey___init), 0, 0, 1, 1},
-  {&__pyx_kp_s_VerifyKey_must_be_created_from_3, __pyx_k_VerifyKey_must_be_created_from_3, sizeof(__pyx_k_VerifyKey_must_be_created_from_3), 0, 0, 1, 0},
+  {&__pyx_kp_u_VerifyKey_must_be_created_from_3, __pyx_k_VerifyKey_must_be_created_from_3, sizeof(__pyx_k_VerifyKey_must_be_created_from_3), 0, 1, 0, 0},
   {&__pyx_n_s_VerifyKey_to_curve25519_public_k, __pyx_k_VerifyKey_to_curve25519_public_k, sizeof(__pyx_k_VerifyKey_to_curve25519_public_k), 0, 0, 1, 1},
   {&__pyx_n_s_VerifyKey_verify, __pyx_k_VerifyKey_verify, sizeof(__pyx_k_VerifyKey_verify), 0, 0, 1, 1},
   {&__pyx_n_s_binary_type, __pyx_k_binary_type, sizeof(__pyx_k_binary_type), 0, 0, 1, 1},
@@ -3503,7 +3503,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if len(key) != nacl.bindings.crypto_sign_PUBLICKEYBYTES:
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_VerifyKey_must_be_created_from_3); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_VerifyKey_must_be_created_from_3); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -3514,7 +3514,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         # Verify that our seed is the proper size
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_SigningKey_must_be_created_from); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_SigningKey_must_be_created_from); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -3981,7 +3981,7 @@ PyMODINIT_FUNC PyInit_signing(void)
  *     """
  *     A bytes subclass that holds a messaged that has been signed by a
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_SignedMessage, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_SignedMessage, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SignedMessage, __pyx_t_5) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4094,7 +4094,7 @@ PyMODINIT_FUNC PyInit_signing(void)
  *     """
  *     The public key counterpart to an Ed25519 SigningKey for producing digital
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_VerifyKey, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_VerifyKey, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_VerifyKey, __pyx_t_5) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4230,7 +4230,7 @@ PyMODINIT_FUNC PyInit_signing(void)
  *     """
  *     Private key for producing digital signatures using the Ed25519 algorithm.
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_SigningKey, __pyx_t_1, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_SigningKey, __pyx_t_1, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SigningKey, __pyx_t_6) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;

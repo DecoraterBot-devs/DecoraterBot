@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -767,7 +767,7 @@ static PyObject *__pyx_n_s_EUCKRProber;
 static PyObject *__pyx_n_s_EUCKRProber___init;
 static PyObject *__pyx_n_s_EUCKRProber_get_charset_name;
 static PyObject *__pyx_n_s_EUCKRSMModel;
-static PyObject *__pyx_kp_s_EUC_KR;
+static PyObject *__pyx_kp_u_EUC_KR;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_MultiByteCharSetProber;
 static PyObject *__pyx_n_s_chardet_euckrprober;
@@ -1023,8 +1023,8 @@ static PyObject *__pyx_pf_7chardet_11euckrprober_11EUCKRProber_2get_charset_name
  *         return "EUC-KR"             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_kp_s_EUC_KR);
-  __pyx_r = __pyx_kp_s_EUC_KR;
+  __Pyx_INCREF(__pyx_kp_u_EUC_KR);
+  __pyx_r = __pyx_kp_u_EUC_KR;
   goto __pyx_L0;
 
   /* "chardet/euckrprober.py":42
@@ -1070,7 +1070,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_EUCKRProber___init, __pyx_k_EUCKRProber___init, sizeof(__pyx_k_EUCKRProber___init), 0, 0, 1, 1},
   {&__pyx_n_s_EUCKRProber_get_charset_name, __pyx_k_EUCKRProber_get_charset_name, sizeof(__pyx_k_EUCKRProber_get_charset_name), 0, 0, 1, 1},
   {&__pyx_n_s_EUCKRSMModel, __pyx_k_EUCKRSMModel, sizeof(__pyx_k_EUCKRSMModel), 0, 0, 1, 1},
-  {&__pyx_kp_s_EUC_KR, __pyx_k_EUC_KR, sizeof(__pyx_k_EUC_KR), 0, 0, 1, 0},
+  {&__pyx_kp_u_EUC_KR, __pyx_k_EUC_KR, sizeof(__pyx_k_EUC_KR), 0, 1, 0, 0},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_MultiByteCharSetProber, __pyx_k_MultiByteCharSetProber, sizeof(__pyx_k_MultiByteCharSetProber), 0, 0, 1, 1},
   {&__pyx_n_s_chardet_euckrprober, __pyx_k_chardet_euckrprober, sizeof(__pyx_k_chardet_euckrprober), 0, 0, 1, 1},
@@ -1366,7 +1366,7 @@ PyMODINIT_FUNC PyInit_euckrprober(void)
  *     def __init__(self):
  *         MultiByteCharSetProber.__init__(self)
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EUCKRProber, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EUCKRProber, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EUCKRProber, __pyx_t_4) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

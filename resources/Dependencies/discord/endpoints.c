@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -657,19 +657,19 @@ static PyObject *__pyx_n_s_ME;
 static PyObject *__pyx_n_s_REGISTER;
 static PyObject *__pyx_n_s_SERVERS;
 static PyObject *__pyx_n_s_USERS;
-static PyObject *__pyx_kp_s_api;
-static PyObject *__pyx_kp_s_auth_login;
-static PyObject *__pyx_kp_s_auth_logout;
-static PyObject *__pyx_kp_s_auth_register;
-static PyObject *__pyx_kp_s_channels;
-static PyObject *__pyx_kp_s_gateway;
-static PyObject *__pyx_kp_s_guilds;
-static PyObject *__pyx_kp_s_https_discordapp_com;
+static PyObject *__pyx_kp_u_api;
+static PyObject *__pyx_kp_u_auth_login;
+static PyObject *__pyx_kp_u_auth_logout;
+static PyObject *__pyx_kp_u_auth_register;
+static PyObject *__pyx_kp_u_channels;
+static PyObject *__pyx_kp_u_gateway;
+static PyObject *__pyx_kp_u_guilds;
+static PyObject *__pyx_kp_u_https_discordapp_com;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_kp_s_me;
-static PyObject *__pyx_kp_s_oauth2_applications;
+static PyObject *__pyx_kp_u_me;
+static PyObject *__pyx_kp_u_oauth2_applications;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_kp_s_users;
+static PyObject *__pyx_kp_u_users;
 
 static PyMethodDef __pyx_methods[] = {
   {0, 0, 0, 0}
@@ -705,19 +705,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_REGISTER, __pyx_k_REGISTER, sizeof(__pyx_k_REGISTER), 0, 0, 1, 1},
   {&__pyx_n_s_SERVERS, __pyx_k_SERVERS, sizeof(__pyx_k_SERVERS), 0, 0, 1, 1},
   {&__pyx_n_s_USERS, __pyx_k_USERS, sizeof(__pyx_k_USERS), 0, 0, 1, 1},
-  {&__pyx_kp_s_api, __pyx_k_api, sizeof(__pyx_k_api), 0, 0, 1, 0},
-  {&__pyx_kp_s_auth_login, __pyx_k_auth_login, sizeof(__pyx_k_auth_login), 0, 0, 1, 0},
-  {&__pyx_kp_s_auth_logout, __pyx_k_auth_logout, sizeof(__pyx_k_auth_logout), 0, 0, 1, 0},
-  {&__pyx_kp_s_auth_register, __pyx_k_auth_register, sizeof(__pyx_k_auth_register), 0, 0, 1, 0},
-  {&__pyx_kp_s_channels, __pyx_k_channels, sizeof(__pyx_k_channels), 0, 0, 1, 0},
-  {&__pyx_kp_s_gateway, __pyx_k_gateway, sizeof(__pyx_k_gateway), 0, 0, 1, 0},
-  {&__pyx_kp_s_guilds, __pyx_k_guilds, sizeof(__pyx_k_guilds), 0, 0, 1, 0},
-  {&__pyx_kp_s_https_discordapp_com, __pyx_k_https_discordapp_com, sizeof(__pyx_k_https_discordapp_com), 0, 0, 1, 0},
+  {&__pyx_kp_u_api, __pyx_k_api, sizeof(__pyx_k_api), 0, 1, 0, 0},
+  {&__pyx_kp_u_auth_login, __pyx_k_auth_login, sizeof(__pyx_k_auth_login), 0, 1, 0, 0},
+  {&__pyx_kp_u_auth_logout, __pyx_k_auth_logout, sizeof(__pyx_k_auth_logout), 0, 1, 0, 0},
+  {&__pyx_kp_u_auth_register, __pyx_k_auth_register, sizeof(__pyx_k_auth_register), 0, 1, 0, 0},
+  {&__pyx_kp_u_channels, __pyx_k_channels, sizeof(__pyx_k_channels), 0, 1, 0, 0},
+  {&__pyx_kp_u_gateway, __pyx_k_gateway, sizeof(__pyx_k_gateway), 0, 1, 0, 0},
+  {&__pyx_kp_u_guilds, __pyx_k_guilds, sizeof(__pyx_k_guilds), 0, 1, 0, 0},
+  {&__pyx_kp_u_https_discordapp_com, __pyx_k_https_discordapp_com, sizeof(__pyx_k_https_discordapp_com), 0, 1, 0, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_kp_s_me, __pyx_k_me, sizeof(__pyx_k_me), 0, 0, 1, 0},
-  {&__pyx_kp_s_oauth2_applications, __pyx_k_oauth2_applications, sizeof(__pyx_k_oauth2_applications), 0, 0, 1, 0},
+  {&__pyx_kp_u_me, __pyx_k_me, sizeof(__pyx_k_me), 0, 1, 0, 0},
+  {&__pyx_kp_u_oauth2_applications, __pyx_k_oauth2_applications, sizeof(__pyx_k_oauth2_applications), 0, 1, 0, 0},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_kp_s_users, __pyx_k_users, sizeof(__pyx_k_users), 0, 0, 1, 0},
+  {&__pyx_kp_u_users, __pyx_k_users, sizeof(__pyx_k_users), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -838,7 +838,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  * API_BASE      = BASE     + '/api'
  * GATEWAY       = API_BASE + '/gateway'
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BASE, __pyx_kp_s_https_discordapp_com) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BASE, __pyx_kp_u_https_discordapp_com) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
 
   /* "discord/endpoints.py":28
  * 
@@ -849,7 +849,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_BASE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_api); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_api); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_API_BASE, __pyx_t_2) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
@@ -864,7 +864,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_gateway); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_gateway); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_GATEWAY, __pyx_t_1) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
@@ -879,7 +879,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_users); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_users); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_USERS, __pyx_t_2) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
@@ -894,7 +894,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_USERS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_me); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_me); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ME, __pyx_t_1) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
@@ -909,7 +909,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_auth_register); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_auth_register); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_REGISTER, __pyx_t_2) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
@@ -924,7 +924,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_auth_login); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_auth_login); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_LOGIN, __pyx_t_1) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
@@ -939,7 +939,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_auth_logout); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_auth_logout); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_LOGOUT, __pyx_t_2) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
@@ -954,7 +954,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_guilds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_guilds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SERVERS, __pyx_t_1) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
@@ -968,7 +968,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_channels); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_channels); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CHANNELS, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
@@ -981,7 +981,7 @@ PyMODINIT_FUNC PyInit_endpoints(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_API_BASE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_oauth2_applications); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_oauth2_applications); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_APPLICATIONS, __pyx_t_1) < 0) __PYX_ERR(0, 37, __pyx_L1_error)

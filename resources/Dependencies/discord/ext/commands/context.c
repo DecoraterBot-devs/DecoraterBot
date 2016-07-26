@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -938,16 +938,19 @@ static PyObject *__pyx_n_s_Context_invoke;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_kp_s_Represents_the_context_in_which;
 static PyObject *__pyx_n_s_args;
+static PyObject *__pyx_n_u_args;
 static PyObject *__pyx_n_s_arguments;
 static PyObject *__pyx_n_s_asyncio;
 static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_asyncio_tasks;
 static PyObject *__pyx_n_s_attrs;
 static PyObject *__pyx_n_s_bot;
+static PyObject *__pyx_n_u_bot;
 static PyObject *__pyx_n_s_callback;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_cog;
 static PyObject *__pyx_n_s_command;
+static PyObject *__pyx_n_u_command;
 static PyObject *__pyx_n_s_coroutine;
 static PyObject *__pyx_n_s_discord_ext_commands_context;
 static PyObject *__pyx_n_s_doc;
@@ -957,15 +960,20 @@ static PyObject *__pyx_n_s_inspect;
 static PyObject *__pyx_n_s_instance;
 static PyObject *__pyx_n_s_invoke;
 static PyObject *__pyx_n_s_invoked_subcommand;
+static PyObject *__pyx_n_u_invoked_subcommand;
 static PyObject *__pyx_n_s_invoked_with;
+static PyObject *__pyx_n_u_invoked_with;
 static PyObject *__pyx_n_s_kwargs;
+static PyObject *__pyx_n_u_kwargs;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_message;
+static PyObject *__pyx_n_u_message;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_pass_context;
 static PyObject *__pyx_n_s_pop;
 static PyObject *__pyx_n_s_prefix;
+static PyObject *__pyx_n_u_prefix;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_property;
 static PyObject *__pyx_n_s_qualname;
@@ -974,9 +982,11 @@ static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_slots;
 static PyObject *__pyx_n_s_subcommand_passed;
+static PyObject *__pyx_n_u_subcommand_passed;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_view;
+static PyObject *__pyx_n_u_view;
 static PyObject *__pyx_pf_7discord_3ext_8commands_7context_7Context___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attrs); /* proto */
 static PyObject *__pyx_pf_7discord_3ext_8commands_7context_7Context_2invoke(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_command, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_pf_7discord_3ext_8commands_7context_7Context_5cog(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
@@ -1128,9 +1138,9 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_7context_7Context___init__(CYT
   if (__pyx_t_4) {
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
   }
-  __Pyx_INCREF(__pyx_n_s_args);
-  __Pyx_GIVEREF(__pyx_n_s_args);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_n_s_args);
+  __Pyx_INCREF(__pyx_n_u_args);
+  __Pyx_GIVEREF(__pyx_n_u_args);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_n_u_args);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_3);
   __pyx_t_3 = 0;
@@ -1169,9 +1179,9 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_7context_7Context___init__(CYT
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
   }
-  __Pyx_INCREF(__pyx_n_s_kwargs);
-  __Pyx_GIVEREF(__pyx_n_s_kwargs);
-  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_n_s_kwargs);
+  __Pyx_INCREF(__pyx_n_u_kwargs);
+  __Pyx_GIVEREF(__pyx_n_u_kwargs);
+  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_n_u_kwargs);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_5, __pyx_t_6);
   __pyx_t_6 = 0;
@@ -1875,16 +1885,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_kp_s_Represents_the_context_in_which, __pyx_k_Represents_the_context_in_which, sizeof(__pyx_k_Represents_the_context_in_which), 0, 0, 1, 0},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
+  {&__pyx_n_u_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 1, 0, 1},
   {&__pyx_n_s_arguments, __pyx_k_arguments, sizeof(__pyx_k_arguments), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_tasks, __pyx_k_asyncio_tasks, sizeof(__pyx_k_asyncio_tasks), 0, 0, 1, 1},
   {&__pyx_n_s_attrs, __pyx_k_attrs, sizeof(__pyx_k_attrs), 0, 0, 1, 1},
   {&__pyx_n_s_bot, __pyx_k_bot, sizeof(__pyx_k_bot), 0, 0, 1, 1},
+  {&__pyx_n_u_bot, __pyx_k_bot, sizeof(__pyx_k_bot), 0, 1, 0, 1},
   {&__pyx_n_s_callback, __pyx_k_callback, sizeof(__pyx_k_callback), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_cog, __pyx_k_cog, sizeof(__pyx_k_cog), 0, 0, 1, 1},
   {&__pyx_n_s_command, __pyx_k_command, sizeof(__pyx_k_command), 0, 0, 1, 1},
+  {&__pyx_n_u_command, __pyx_k_command, sizeof(__pyx_k_command), 0, 1, 0, 1},
   {&__pyx_n_s_coroutine, __pyx_k_coroutine, sizeof(__pyx_k_coroutine), 0, 0, 1, 1},
   {&__pyx_n_s_discord_ext_commands_context, __pyx_k_discord_ext_commands_context, sizeof(__pyx_k_discord_ext_commands_context), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
@@ -1894,15 +1907,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_instance, __pyx_k_instance, sizeof(__pyx_k_instance), 0, 0, 1, 1},
   {&__pyx_n_s_invoke, __pyx_k_invoke, sizeof(__pyx_k_invoke), 0, 0, 1, 1},
   {&__pyx_n_s_invoked_subcommand, __pyx_k_invoked_subcommand, sizeof(__pyx_k_invoked_subcommand), 0, 0, 1, 1},
+  {&__pyx_n_u_invoked_subcommand, __pyx_k_invoked_subcommand, sizeof(__pyx_k_invoked_subcommand), 0, 1, 0, 1},
   {&__pyx_n_s_invoked_with, __pyx_k_invoked_with, sizeof(__pyx_k_invoked_with), 0, 0, 1, 1},
+  {&__pyx_n_u_invoked_with, __pyx_k_invoked_with, sizeof(__pyx_k_invoked_with), 0, 1, 0, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
+  {&__pyx_n_u_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_message, __pyx_k_message, sizeof(__pyx_k_message), 0, 0, 1, 1},
+  {&__pyx_n_u_message, __pyx_k_message, sizeof(__pyx_k_message), 0, 1, 0, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_pass_context, __pyx_k_pass_context, sizeof(__pyx_k_pass_context), 0, 0, 1, 1},
   {&__pyx_n_s_pop, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
   {&__pyx_n_s_prefix, __pyx_k_prefix, sizeof(__pyx_k_prefix), 0, 0, 1, 1},
+  {&__pyx_n_u_prefix, __pyx_k_prefix, sizeof(__pyx_k_prefix), 0, 1, 0, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_property, __pyx_k_property, sizeof(__pyx_k_property), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
@@ -1911,9 +1929,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
   {&__pyx_n_s_slots, __pyx_k_slots, sizeof(__pyx_k_slots), 0, 0, 1, 1},
   {&__pyx_n_s_subcommand_passed, __pyx_k_subcommand_passed, sizeof(__pyx_k_subcommand_passed), 0, 0, 1, 1},
+  {&__pyx_n_u_subcommand_passed, __pyx_k_subcommand_passed, sizeof(__pyx_k_subcommand_passed), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_view, __pyx_k_view, sizeof(__pyx_k_view), 0, 0, 1, 1},
+  {&__pyx_n_u_view, __pyx_k_view, sizeof(__pyx_k_view), 0, 1, 0, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1934,7 +1954,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot = attrs.pop('bot', None)
  *         self.args = attrs.pop('args', [])
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_s_message, Py_None); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_u_message, Py_None); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -1945,7 +1965,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.args = attrs.pop('args', [])
  *         self.kwargs = attrs.pop('kwargs', {})
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_bot, Py_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_bot, Py_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -1956,7 +1976,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.command = attrs.pop('command', None)
  *         self.view = attrs.pop('view', None)
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_s_prefix); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_u_prefix); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -1967,7 +1987,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.view = attrs.pop('view', None)
  *         self.invoked_with = attrs.pop('invoked_with', None)
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_command, Py_None); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_u_command, Py_None); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -1978,7 +1998,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.invoked_with = attrs.pop('invoked_with', None)
  *         self.invoked_subcommand = attrs.pop('invoked_subcommand', None)
  */
-  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_s_view, Py_None); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_u_view, Py_None); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -1989,7 +2009,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.invoked_subcommand = attrs.pop('invoked_subcommand', None)
  *         self.subcommand_passed = attrs.pop('subcommand_passed', None)
  */
-  __pyx_tuple__6 = PyTuple_Pack(2, __pyx_n_s_invoked_with, Py_None); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(2, __pyx_n_u_invoked_with, Py_None); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -2000,7 +2020,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.subcommand_passed = attrs.pop('subcommand_passed', None)
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_invoked_subcommand, Py_None); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_u_invoked_subcommand, Py_None); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -2011,7 +2031,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     @asyncio.coroutine
  */
-  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_s_subcommand_passed, Py_None); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_u_subcommand_passed, Py_None); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -2171,7 +2191,7 @@ PyMODINIT_FUNC PyInit_context(void)
  * 
  * class Context:
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2195,36 +2215,36 @@ PyMODINIT_FUNC PyInit_context(void)
  */
   __pyx_t_2 = PyList_New(10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_message);
-  __Pyx_GIVEREF(__pyx_n_s_message);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_message);
-  __Pyx_INCREF(__pyx_n_s_bot);
-  __Pyx_GIVEREF(__pyx_n_s_bot);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_bot);
-  __Pyx_INCREF(__pyx_n_s_args);
-  __Pyx_GIVEREF(__pyx_n_s_args);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_args);
-  __Pyx_INCREF(__pyx_n_s_kwargs);
-  __Pyx_GIVEREF(__pyx_n_s_kwargs);
-  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_s_kwargs);
-  __Pyx_INCREF(__pyx_n_s_command);
-  __Pyx_GIVEREF(__pyx_n_s_command);
-  PyList_SET_ITEM(__pyx_t_2, 4, __pyx_n_s_command);
-  __Pyx_INCREF(__pyx_n_s_view);
-  __Pyx_GIVEREF(__pyx_n_s_view);
-  PyList_SET_ITEM(__pyx_t_2, 5, __pyx_n_s_view);
-  __Pyx_INCREF(__pyx_n_s_invoked_with);
-  __Pyx_GIVEREF(__pyx_n_s_invoked_with);
-  PyList_SET_ITEM(__pyx_t_2, 6, __pyx_n_s_invoked_with);
-  __Pyx_INCREF(__pyx_n_s_invoked_subcommand);
-  __Pyx_GIVEREF(__pyx_n_s_invoked_subcommand);
-  PyList_SET_ITEM(__pyx_t_2, 7, __pyx_n_s_invoked_subcommand);
-  __Pyx_INCREF(__pyx_n_s_subcommand_passed);
-  __Pyx_GIVEREF(__pyx_n_s_subcommand_passed);
-  PyList_SET_ITEM(__pyx_t_2, 8, __pyx_n_s_subcommand_passed);
-  __Pyx_INCREF(__pyx_n_s_prefix);
-  __Pyx_GIVEREF(__pyx_n_s_prefix);
-  PyList_SET_ITEM(__pyx_t_2, 9, __pyx_n_s_prefix);
+  __Pyx_INCREF(__pyx_n_u_message);
+  __Pyx_GIVEREF(__pyx_n_u_message);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_u_message);
+  __Pyx_INCREF(__pyx_n_u_bot);
+  __Pyx_GIVEREF(__pyx_n_u_bot);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_bot);
+  __Pyx_INCREF(__pyx_n_u_args);
+  __Pyx_GIVEREF(__pyx_n_u_args);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_u_args);
+  __Pyx_INCREF(__pyx_n_u_kwargs);
+  __Pyx_GIVEREF(__pyx_n_u_kwargs);
+  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_u_kwargs);
+  __Pyx_INCREF(__pyx_n_u_command);
+  __Pyx_GIVEREF(__pyx_n_u_command);
+  PyList_SET_ITEM(__pyx_t_2, 4, __pyx_n_u_command);
+  __Pyx_INCREF(__pyx_n_u_view);
+  __Pyx_GIVEREF(__pyx_n_u_view);
+  PyList_SET_ITEM(__pyx_t_2, 5, __pyx_n_u_view);
+  __Pyx_INCREF(__pyx_n_u_invoked_with);
+  __Pyx_GIVEREF(__pyx_n_u_invoked_with);
+  PyList_SET_ITEM(__pyx_t_2, 6, __pyx_n_u_invoked_with);
+  __Pyx_INCREF(__pyx_n_u_invoked_subcommand);
+  __Pyx_GIVEREF(__pyx_n_u_invoked_subcommand);
+  PyList_SET_ITEM(__pyx_t_2, 7, __pyx_n_u_invoked_subcommand);
+  __Pyx_INCREF(__pyx_n_u_subcommand_passed);
+  __Pyx_GIVEREF(__pyx_n_u_subcommand_passed);
+  PyList_SET_ITEM(__pyx_t_2, 8, __pyx_n_u_subcommand_passed);
+  __Pyx_INCREF(__pyx_n_u_prefix);
+  __Pyx_GIVEREF(__pyx_n_u_prefix);
+  PyList_SET_ITEM(__pyx_t_2, 9, __pyx_n_u_prefix);
   if (PyObject_SetItem(__pyx_t_1, __pyx_n_s_slots, __pyx_t_2) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -2326,7 +2346,7 @@ PyMODINIT_FUNC PyInit_context(void)
  *     """Represents the context in which a command is being invoked under.
  * 
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Context, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Context, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Context, __pyx_t_2) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;

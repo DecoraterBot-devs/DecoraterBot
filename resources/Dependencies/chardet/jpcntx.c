@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -863,7 +863,7 @@ static const char __pyx_k_SJISContextAnalysis_get_charset[] = "SJISContextAnalys
 static const char __pyx_k_JapaneseContextAnalysis_get_conf[] = "JapaneseContextAnalysis.get_confidence";
 static const char __pyx_k_JapaneseContextAnalysis_get_orde[] = "JapaneseContextAnalysis.get_order";
 static const char __pyx_k_JapaneseContextAnalysis_got_enou[] = "JapaneseContextAnalysis.got_enough_data";
-static PyObject *__pyx_n_s_CP932;
+static PyObject *__pyx_n_u_CP932;
 static PyObject *__pyx_n_s_DONT_KNOW;
 static PyObject *__pyx_n_s_ENOUGH_REL_THRESHOLD;
 static PyObject *__pyx_n_s_EUCJPContextAnalysis;
@@ -879,7 +879,7 @@ static PyObject *__pyx_n_s_JapaneseContextAnalysis_reset;
 static PyObject *__pyx_n_s_MAX_REL_THRESHOLD;
 static PyObject *__pyx_n_s_MINIMUM_DATA_THRESHOLD;
 static PyObject *__pyx_n_s_NUM_OF_CATEGORY;
-static PyObject *__pyx_n_s_SHIFT_JIS;
+static PyObject *__pyx_n_u_SHIFT_JIS;
 static PyObject *__pyx_n_s_SJISContextAnalysis;
 static PyObject *__pyx_n_s_SJISContextAnalysis___init;
 static PyObject *__pyx_n_s_SJISContextAnalysis_get_charset;
@@ -2044,7 +2044,7 @@ static PyObject *__pyx_pf_7chardet_6jpcntx_19SJISContextAnalysis___init__(CYTHON
  * 
  *     def get_charset_name(self):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_charset_name, __pyx_n_s_SHIFT_JIS) < 0) __PYX_ERR(0, 189, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_charset_name, __pyx_n_u_SHIFT_JIS) < 0) __PYX_ERR(0, 189, __pyx_L1_error)
 
   /* "chardet/jpcntx.py":188
  * class SJISContextAnalysis(JapaneseContextAnalysis):
@@ -2355,7 +2355,7 @@ static PyObject *__pyx_pf_7chardet_6jpcntx_19SJISContextAnalysis_4get_order(CYTH
  *         else:
  *             charLen = 1
  */
-      if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_charset_name, __pyx_n_s_CP932) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_charset_name, __pyx_n_u_CP932) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
 
       /* "chardet/jpcntx.py":201
  *         if (0x81 <= first_char <= 0x9F) or (0xE0 <= first_char <= 0xFC):
@@ -2990,7 +2990,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_CP932, __pyx_k_CP932, sizeof(__pyx_k_CP932), 0, 0, 1, 1},
+  {&__pyx_n_u_CP932, __pyx_k_CP932, sizeof(__pyx_k_CP932), 0, 1, 0, 1},
   {&__pyx_n_s_DONT_KNOW, __pyx_k_DONT_KNOW, sizeof(__pyx_k_DONT_KNOW), 0, 0, 1, 1},
   {&__pyx_n_s_ENOUGH_REL_THRESHOLD, __pyx_k_ENOUGH_REL_THRESHOLD, sizeof(__pyx_k_ENOUGH_REL_THRESHOLD), 0, 0, 1, 1},
   {&__pyx_n_s_EUCJPContextAnalysis, __pyx_k_EUCJPContextAnalysis, sizeof(__pyx_k_EUCJPContextAnalysis), 0, 0, 1, 1},
@@ -3006,7 +3006,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_MAX_REL_THRESHOLD, __pyx_k_MAX_REL_THRESHOLD, sizeof(__pyx_k_MAX_REL_THRESHOLD), 0, 0, 1, 1},
   {&__pyx_n_s_MINIMUM_DATA_THRESHOLD, __pyx_k_MINIMUM_DATA_THRESHOLD, sizeof(__pyx_k_MINIMUM_DATA_THRESHOLD), 0, 0, 1, 1},
   {&__pyx_n_s_NUM_OF_CATEGORY, __pyx_k_NUM_OF_CATEGORY, sizeof(__pyx_k_NUM_OF_CATEGORY), 0, 0, 1, 1},
-  {&__pyx_n_s_SHIFT_JIS, __pyx_k_SHIFT_JIS, sizeof(__pyx_k_SHIFT_JIS), 0, 0, 1, 1},
+  {&__pyx_n_u_SHIFT_JIS, __pyx_k_SHIFT_JIS, sizeof(__pyx_k_SHIFT_JIS), 0, 1, 0, 1},
   {&__pyx_n_s_SJISContextAnalysis, __pyx_k_SJISContextAnalysis, sizeof(__pyx_k_SJISContextAnalysis), 0, 0, 1, 1},
   {&__pyx_n_s_SJISContextAnalysis___init, __pyx_k_SJISContextAnalysis___init, sizeof(__pyx_k_SJISContextAnalysis___init), 0, 0, 1, 1},
   {&__pyx_n_s_SJISContextAnalysis_get_charset, __pyx_k_SJISContextAnalysis_get_charset, sizeof(__pyx_k_SJISContextAnalysis_get_charset), 0, 0, 1, 1},
@@ -4427,7 +4427,7 @@ PyMODINIT_FUNC PyInit_jpcntx(void)
  *     def __init__(self):
  *         self.reset()
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_JapaneseContextAnalysis, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_JapaneseContextAnalysis, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_JapaneseContextAnalysis, __pyx_t_1) < 0) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4495,7 +4495,7 @@ PyMODINIT_FUNC PyInit_jpcntx(void)
  *     # noinspection PyMissingConstructor
  *     def __init__(self):
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_SJISContextAnalysis, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_SJISContextAnalysis, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SJISContextAnalysis, __pyx_t_4) < 0) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4541,7 +4541,7 @@ PyMODINIT_FUNC PyInit_jpcntx(void)
  *     def get_order(self, aBuf):
  *         if not aBuf:
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EUCJPContextAnalysis, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EUCJPContextAnalysis, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EUCJPContextAnalysis, __pyx_t_4) < 0) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

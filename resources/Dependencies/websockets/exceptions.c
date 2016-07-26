@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -776,6 +776,7 @@ static const char __pyx_k_Exception_raised_when_an_operat[] = "\n    Exception r
 static const char __pyx_k_Exception_raised_when_the_origi[] = "\n    Exception raised when the origin in a handshake request is forbidden.\n\n    ";
 static const char __pyx_k_Exception_raised_when_trying_to[] = "\n    Exception raised when trying to read or write on a closed connection.\n\n    Provides the connection close code and reason in its ``code`` and\n    ``reason`` attributes respectively.\n\n    ";
 static PyObject *__pyx_n_s_ConnectionClosed;
+static PyObject *__pyx_n_u_ConnectionClosed;
 static PyObject *__pyx_n_s_ConnectionClosed___init;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Exception;
@@ -787,15 +788,21 @@ static PyObject *__pyx_kp_s_Exception_raised_when_the_origi;
 static PyObject *__pyx_kp_s_Exception_raised_when_trying_to;
 static PyObject *__pyx_kp_s_Internal_exception_raised_when;
 static PyObject *__pyx_n_s_InvalidHandshake;
+static PyObject *__pyx_n_u_InvalidHandshake;
 static PyObject *__pyx_n_s_InvalidOrigin;
+static PyObject *__pyx_n_u_InvalidOrigin;
 static PyObject *__pyx_n_s_InvalidState;
+static PyObject *__pyx_n_u_InvalidState;
 static PyObject *__pyx_n_s_InvalidURI;
+static PyObject *__pyx_n_u_InvalidURI;
 static PyObject *__pyx_n_s_PayloadTooBig;
+static PyObject *__pyx_n_u_PayloadTooBig;
 static PyObject *__pyx_n_s_WebSocketProtocolError;
-static PyObject *__pyx_kp_s_WebSocket_connection_is_closed;
+static PyObject *__pyx_n_u_WebSocketProtocolError;
+static PyObject *__pyx_kp_u_WebSocket_connection_is_closed;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_code;
-static PyObject *__pyx_kp_s_code_2;
+static PyObject *__pyx_kp_u_code_2;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_init;
@@ -803,12 +810,12 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_message;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
-static PyObject *__pyx_kp_s_no_code;
-static PyObject *__pyx_kp_s_no_reason;
+static PyObject *__pyx_kp_u_no_code;
+static PyObject *__pyx_kp_u_no_reason;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_reason;
-static PyObject *__pyx_kp_s_reason_2;
+static PyObject *__pyx_kp_u_reason_2;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_test;
@@ -930,8 +937,8 @@ static PyObject *__pyx_pf_10websockets_10exceptions_16ConnectionClosed___init__(
  *         message += 'code = {}, '.format(code) if code else 'no code, '
  *         message += 'reason = {}.'.format(reason) if reason else 'no reason.'
  */
-  __Pyx_INCREF(__pyx_kp_s_WebSocket_connection_is_closed);
-  __pyx_v_message = __pyx_kp_s_WebSocket_connection_is_closed;
+  __Pyx_INCREF(__pyx_kp_u_WebSocket_connection_is_closed);
+  __pyx_v_message = __pyx_kp_u_WebSocket_connection_is_closed;
 
   /* "websockets/exceptions.py":41
  *         self.reason = reason
@@ -942,7 +949,7 @@ static PyObject *__pyx_pf_10websockets_10exceptions_16ConnectionClosed___init__(
  */
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_code); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
   if (__pyx_t_2) {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_code_2, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_code_2, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -972,8 +979,8 @@ static PyObject *__pyx_pf_10websockets_10exceptions_16ConnectionClosed___init__(
     __pyx_t_1 = __pyx_t_3;
     __pyx_t_3 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s_no_code);
-    __pyx_t_1 = __pyx_kp_s_no_code;
+    __Pyx_INCREF(__pyx_kp_u_no_code);
+    __pyx_t_1 = __pyx_kp_u_no_code;
   }
   __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_message, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -990,7 +997,7 @@ static PyObject *__pyx_pf_10websockets_10exceptions_16ConnectionClosed___init__(
  */
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_reason); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
   if (__pyx_t_2) {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_reason_2, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_reason_2, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1020,8 +1027,8 @@ static PyObject *__pyx_pf_10websockets_10exceptions_16ConnectionClosed___init__(
     __pyx_t_3 = __pyx_t_1;
     __pyx_t_1 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s_no_reason);
-    __pyx_t_3 = __pyx_kp_s_no_reason;
+    __Pyx_INCREF(__pyx_kp_u_no_reason);
+    __pyx_t_3 = __pyx_kp_u_no_reason;
   }
   __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_message, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1130,6 +1137,7 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ConnectionClosed, __pyx_k_ConnectionClosed, sizeof(__pyx_k_ConnectionClosed), 0, 0, 1, 1},
+  {&__pyx_n_u_ConnectionClosed, __pyx_k_ConnectionClosed, sizeof(__pyx_k_ConnectionClosed), 0, 1, 0, 1},
   {&__pyx_n_s_ConnectionClosed___init, __pyx_k_ConnectionClosed___init, sizeof(__pyx_k_ConnectionClosed___init), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Exception, __pyx_k_Exception, sizeof(__pyx_k_Exception), 0, 0, 1, 1},
@@ -1141,15 +1149,21 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Exception_raised_when_trying_to, __pyx_k_Exception_raised_when_trying_to, sizeof(__pyx_k_Exception_raised_when_trying_to), 0, 0, 1, 0},
   {&__pyx_kp_s_Internal_exception_raised_when, __pyx_k_Internal_exception_raised_when, sizeof(__pyx_k_Internal_exception_raised_when), 0, 0, 1, 0},
   {&__pyx_n_s_InvalidHandshake, __pyx_k_InvalidHandshake, sizeof(__pyx_k_InvalidHandshake), 0, 0, 1, 1},
+  {&__pyx_n_u_InvalidHandshake, __pyx_k_InvalidHandshake, sizeof(__pyx_k_InvalidHandshake), 0, 1, 0, 1},
   {&__pyx_n_s_InvalidOrigin, __pyx_k_InvalidOrigin, sizeof(__pyx_k_InvalidOrigin), 0, 0, 1, 1},
+  {&__pyx_n_u_InvalidOrigin, __pyx_k_InvalidOrigin, sizeof(__pyx_k_InvalidOrigin), 0, 1, 0, 1},
   {&__pyx_n_s_InvalidState, __pyx_k_InvalidState, sizeof(__pyx_k_InvalidState), 0, 0, 1, 1},
+  {&__pyx_n_u_InvalidState, __pyx_k_InvalidState, sizeof(__pyx_k_InvalidState), 0, 1, 0, 1},
   {&__pyx_n_s_InvalidURI, __pyx_k_InvalidURI, sizeof(__pyx_k_InvalidURI), 0, 0, 1, 1},
+  {&__pyx_n_u_InvalidURI, __pyx_k_InvalidURI, sizeof(__pyx_k_InvalidURI), 0, 1, 0, 1},
   {&__pyx_n_s_PayloadTooBig, __pyx_k_PayloadTooBig, sizeof(__pyx_k_PayloadTooBig), 0, 0, 1, 1},
+  {&__pyx_n_u_PayloadTooBig, __pyx_k_PayloadTooBig, sizeof(__pyx_k_PayloadTooBig), 0, 1, 0, 1},
   {&__pyx_n_s_WebSocketProtocolError, __pyx_k_WebSocketProtocolError, sizeof(__pyx_k_WebSocketProtocolError), 0, 0, 1, 1},
-  {&__pyx_kp_s_WebSocket_connection_is_closed, __pyx_k_WebSocket_connection_is_closed, sizeof(__pyx_k_WebSocket_connection_is_closed), 0, 0, 1, 0},
+  {&__pyx_n_u_WebSocketProtocolError, __pyx_k_WebSocketProtocolError, sizeof(__pyx_k_WebSocketProtocolError), 0, 1, 0, 1},
+  {&__pyx_kp_u_WebSocket_connection_is_closed, __pyx_k_WebSocket_connection_is_closed, sizeof(__pyx_k_WebSocket_connection_is_closed), 0, 1, 0, 0},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_code, __pyx_k_code, sizeof(__pyx_k_code), 0, 0, 1, 1},
-  {&__pyx_kp_s_code_2, __pyx_k_code_2, sizeof(__pyx_k_code_2), 0, 0, 1, 0},
+  {&__pyx_kp_u_code_2, __pyx_k_code_2, sizeof(__pyx_k_code_2), 0, 1, 0, 0},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
@@ -1157,12 +1171,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_message, __pyx_k_message, sizeof(__pyx_k_message), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
-  {&__pyx_kp_s_no_code, __pyx_k_no_code, sizeof(__pyx_k_no_code), 0, 0, 1, 0},
-  {&__pyx_kp_s_no_reason, __pyx_k_no_reason, sizeof(__pyx_k_no_reason), 0, 0, 1, 0},
+  {&__pyx_kp_u_no_code, __pyx_k_no_code, sizeof(__pyx_k_no_code), 0, 1, 0, 0},
+  {&__pyx_kp_u_no_reason, __pyx_k_no_reason, sizeof(__pyx_k_no_reason), 0, 1, 0, 0},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_reason, __pyx_k_reason, sizeof(__pyx_k_reason), 0, 0, 1, 1},
-  {&__pyx_kp_s_reason_2, __pyx_k_reason_2, sizeof(__pyx_k_reason_2), 0, 0, 1, 0},
+  {&__pyx_kp_u_reason_2, __pyx_k_reason_2, sizeof(__pyx_k_reason_2), 0, 1, 0, 0},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
@@ -1310,27 +1324,27 @@ PyMODINIT_FUNC PyInit_exceptions(void)
  */
   __pyx_t_1 = PyList_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_InvalidHandshake);
-  __Pyx_GIVEREF(__pyx_n_s_InvalidHandshake);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_InvalidHandshake);
-  __Pyx_INCREF(__pyx_n_s_InvalidOrigin);
-  __Pyx_GIVEREF(__pyx_n_s_InvalidOrigin);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_InvalidOrigin);
-  __Pyx_INCREF(__pyx_n_s_InvalidState);
-  __Pyx_GIVEREF(__pyx_n_s_InvalidState);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_InvalidState);
-  __Pyx_INCREF(__pyx_n_s_InvalidURI);
-  __Pyx_GIVEREF(__pyx_n_s_InvalidURI);
-  PyList_SET_ITEM(__pyx_t_1, 3, __pyx_n_s_InvalidURI);
-  __Pyx_INCREF(__pyx_n_s_ConnectionClosed);
-  __Pyx_GIVEREF(__pyx_n_s_ConnectionClosed);
-  PyList_SET_ITEM(__pyx_t_1, 4, __pyx_n_s_ConnectionClosed);
-  __Pyx_INCREF(__pyx_n_s_PayloadTooBig);
-  __Pyx_GIVEREF(__pyx_n_s_PayloadTooBig);
-  PyList_SET_ITEM(__pyx_t_1, 5, __pyx_n_s_PayloadTooBig);
-  __Pyx_INCREF(__pyx_n_s_WebSocketProtocolError);
-  __Pyx_GIVEREF(__pyx_n_s_WebSocketProtocolError);
-  PyList_SET_ITEM(__pyx_t_1, 6, __pyx_n_s_WebSocketProtocolError);
+  __Pyx_INCREF(__pyx_n_u_InvalidHandshake);
+  __Pyx_GIVEREF(__pyx_n_u_InvalidHandshake);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_u_InvalidHandshake);
+  __Pyx_INCREF(__pyx_n_u_InvalidOrigin);
+  __Pyx_GIVEREF(__pyx_n_u_InvalidOrigin);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_u_InvalidOrigin);
+  __Pyx_INCREF(__pyx_n_u_InvalidState);
+  __Pyx_GIVEREF(__pyx_n_u_InvalidState);
+  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_u_InvalidState);
+  __Pyx_INCREF(__pyx_n_u_InvalidURI);
+  __Pyx_GIVEREF(__pyx_n_u_InvalidURI);
+  PyList_SET_ITEM(__pyx_t_1, 3, __pyx_n_u_InvalidURI);
+  __Pyx_INCREF(__pyx_n_u_ConnectionClosed);
+  __Pyx_GIVEREF(__pyx_n_u_ConnectionClosed);
+  PyList_SET_ITEM(__pyx_t_1, 4, __pyx_n_u_ConnectionClosed);
+  __Pyx_INCREF(__pyx_n_u_PayloadTooBig);
+  __Pyx_GIVEREF(__pyx_n_u_PayloadTooBig);
+  PyList_SET_ITEM(__pyx_t_1, 5, __pyx_n_u_PayloadTooBig);
+  __Pyx_INCREF(__pyx_n_u_WebSocketProtocolError);
+  __Pyx_GIVEREF(__pyx_n_u_WebSocketProtocolError);
+  PyList_SET_ITEM(__pyx_t_1, 6, __pyx_n_u_WebSocketProtocolError);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1350,7 +1364,7 @@ PyMODINIT_FUNC PyInit_exceptions(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_InvalidHandshake, __pyx_n_s_InvalidHandshake, (PyObject *) NULL, __pyx_n_s_websockets_exceptions, __pyx_kp_s_Exception_raised_when_a_handsha); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidHandshake, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidHandshake, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_InvalidHandshake, __pyx_t_4) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1376,7 +1390,7 @@ PyMODINIT_FUNC PyInit_exceptions(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_InvalidOrigin, __pyx_n_s_InvalidOrigin, (PyObject *) NULL, __pyx_n_s_websockets_exceptions, __pyx_kp_s_Exception_raised_when_the_origi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_InvalidOrigin, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_InvalidOrigin, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_InvalidOrigin, __pyx_t_4) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1400,7 +1414,7 @@ PyMODINIT_FUNC PyInit_exceptions(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_InvalidState, __pyx_n_s_InvalidState, (PyObject *) NULL, __pyx_n_s_websockets_exceptions, __pyx_kp_s_Exception_raised_when_an_operat); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_InvalidState, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_InvalidState, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_InvalidState, __pyx_t_4) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1451,7 +1465,7 @@ PyMODINIT_FUNC PyInit_exceptions(void)
  *     """
  *     Exception raised when trying to read or write on a closed connection.
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ConnectionClosed, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ConnectionClosed, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_5) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1477,7 +1491,7 @@ PyMODINIT_FUNC PyInit_exceptions(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_InvalidURI, __pyx_n_s_InvalidURI, (PyObject *) NULL, __pyx_n_s_websockets_exceptions, __pyx_kp_s_Exception_raised_when_an_URI_is); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidURI, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidURI, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_InvalidURI, __pyx_t_5) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1501,7 +1515,7 @@ PyMODINIT_FUNC PyInit_exceptions(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_PayloadTooBig, __pyx_n_s_PayloadTooBig, (PyObject *) NULL, __pyx_n_s_websockets_exceptions, __pyx_kp_s_Exception_raised_when_a_frame_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_PayloadTooBig, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_PayloadTooBig, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_PayloadTooBig, __pyx_t_5) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1525,7 +1539,7 @@ PyMODINIT_FUNC PyInit_exceptions(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_WebSocketProtocolError, __pyx_n_s_WebSocketProtocolError, (PyObject *) NULL, __pyx_n_s_websockets_exceptions, __pyx_kp_s_Internal_exception_raised_when); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_WebSocketProtocolError, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_WebSocketProtocolError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_WebSocketProtocolError, __pyx_t_5) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;

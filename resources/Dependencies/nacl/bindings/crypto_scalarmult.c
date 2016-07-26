@@ -773,7 +773,7 @@ static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_q;
 static PyObject *__pyx_n_s_rc;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_kp_s_unsigned_char;
+static PyObject *__pyx_kp_u_unsigned_char;
 static PyObject *__pyx_pf_4nacl_8bindings_17crypto_scalarmult_crypto_scalarmult_base(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_n); /* proto */
 static PyObject *__pyx_pf_4nacl_8bindings_17crypto_scalarmult_2crypto_scalarmult(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_n, PyObject *__pyx_v_p); /* proto */
 static PyObject *__pyx_int_0;
@@ -852,9 +852,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_17crypto_scalarmult_crypto_scalarmult_
   if (__pyx_t_4) {
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_2);
   __pyx_t_2 = 0;
@@ -1114,9 +1114,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_17crypto_scalarmult_2crypto_scalarmult
   if (__pyx_t_4) {
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_2);
   __pyx_t_2 = 0;
@@ -1307,7 +1307,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_q, __pyx_k_q, sizeof(__pyx_k_q), 0, 0, 1, 1},
   {&__pyx_n_s_rc, __pyx_k_rc, sizeof(__pyx_k_rc), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_kp_s_unsigned_char, __pyx_k_unsigned_char, sizeof(__pyx_k_unsigned_char), 0, 0, 1, 0},
+  {&__pyx_kp_u_unsigned_char, __pyx_k_unsigned_char, sizeof(__pyx_k_unsigned_char), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {

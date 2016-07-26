@@ -788,11 +788,11 @@ static const char __pyx_k_nacl_bindings_crypto_secretbox[] = "nacl.bindings.cryp
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\nacl\\bindings\\crypto_secretbox.py";
 static const char __pyx_k_Decryption_failed_Ciphertext_fai[] = "Decryption failed. Ciphertext failed verification";
 static PyObject *__pyx_n_s_CryptoError;
-static PyObject *__pyx_kp_s_Decryption_failed_Ciphertext_fai;
+static PyObject *__pyx_kp_u_Decryption_failed_Ciphertext_fai;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
-static PyObject *__pyx_kp_s_Encryption_failed;
-static PyObject *__pyx_kp_s_Invalid_key;
-static PyObject *__pyx_kp_s_Invalid_nonce;
+static PyObject *__pyx_kp_u_Encryption_failed;
+static PyObject *__pyx_kp_u_Invalid_key;
+static PyObject *__pyx_kp_u_Invalid_nonce;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_b__3;
 static PyObject *__pyx_n_s_buffer;
@@ -821,7 +821,7 @@ static PyObject *__pyx_n_s_nonce;
 static PyObject *__pyx_n_s_padded;
 static PyObject *__pyx_n_s_plaintext;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_kp_s_unsigned_char;
+static PyObject *__pyx_kp_u_unsigned_char;
 static PyObject *__pyx_pf_4nacl_8bindings_16crypto_secretbox_crypto_secretbox(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_message, PyObject *__pyx_v_nonce, PyObject *__pyx_v_key); /* proto */
 static PyObject *__pyx_pf_4nacl_8bindings_16crypto_secretbox_2crypto_secretbox_open(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ciphertext, PyObject *__pyx_v_nonce, PyObject *__pyx_v_key); /* proto */
 static PyObject *__pyx_int_0;
@@ -1059,9 +1059,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_16crypto_secretbox_crypto_secretbox(CY
   if (__pyx_t_6) {
     __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_1, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_1, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_1, __pyx_t_3);
   __pyx_t_3 = 0;
@@ -1464,9 +1464,9 @@ static PyObject *__pyx_pf_4nacl_8bindings_16crypto_secretbox_2crypto_secretbox_o
   if (__pyx_t_6) {
     __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_unsigned_char);
-  __Pyx_GIVEREF(__pyx_kp_s_unsigned_char);
-  PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_1, __pyx_kp_s_unsigned_char);
+  __Pyx_INCREF(__pyx_kp_u_unsigned_char);
+  __Pyx_GIVEREF(__pyx_kp_u_unsigned_char);
+  PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_1, __pyx_kp_u_unsigned_char);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_1, __pyx_t_3);
   __pyx_t_3 = 0;
@@ -1683,11 +1683,11 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_CryptoError, __pyx_k_CryptoError, sizeof(__pyx_k_CryptoError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Decryption_failed_Ciphertext_fai, __pyx_k_Decryption_failed_Ciphertext_fai, sizeof(__pyx_k_Decryption_failed_Ciphertext_fai), 0, 0, 1, 0},
+  {&__pyx_kp_u_Decryption_failed_Ciphertext_fai, __pyx_k_Decryption_failed_Ciphertext_fai, sizeof(__pyx_k_Decryption_failed_Ciphertext_fai), 0, 1, 0, 0},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
-  {&__pyx_kp_s_Encryption_failed, __pyx_k_Encryption_failed, sizeof(__pyx_k_Encryption_failed), 0, 0, 1, 0},
-  {&__pyx_kp_s_Invalid_key, __pyx_k_Invalid_key, sizeof(__pyx_k_Invalid_key), 0, 0, 1, 0},
-  {&__pyx_kp_s_Invalid_nonce, __pyx_k_Invalid_nonce, sizeof(__pyx_k_Invalid_nonce), 0, 0, 1, 0},
+  {&__pyx_kp_u_Encryption_failed, __pyx_k_Encryption_failed, sizeof(__pyx_k_Encryption_failed), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_key, __pyx_k_Invalid_key, sizeof(__pyx_k_Invalid_key), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_nonce, __pyx_k_Invalid_nonce, sizeof(__pyx_k_Invalid_nonce), 0, 1, 0, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_kp_b__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 0, 0},
   {&__pyx_n_s_buffer, __pyx_k_buffer, sizeof(__pyx_k_buffer), 0, 0, 1, 1},
@@ -1716,7 +1716,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_padded, __pyx_k_padded, sizeof(__pyx_k_padded), 0, 0, 1, 1},
   {&__pyx_n_s_plaintext, __pyx_k_plaintext, sizeof(__pyx_k_plaintext), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_kp_s_unsigned_char, __pyx_k_unsigned_char, sizeof(__pyx_k_unsigned_char), 0, 0, 1, 0},
+  {&__pyx_kp_u_unsigned_char, __pyx_k_unsigned_char, sizeof(__pyx_k_unsigned_char), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1737,7 +1737,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     if len(nonce) != crypto_secretbox_NONCEBYTES:
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Invalid_key); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Invalid_key); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -1748,7 +1748,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     padded = b"\x00" * crypto_secretbox_ZEROBYTES + message
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Invalid_nonce); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Invalid_nonce); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -1759,7 +1759,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     ciphertext = ffi.buffer(ciphertext, len(padded))
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_Encryption_failed); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Encryption_failed); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -1770,7 +1770,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     if len(nonce) != crypto_secretbox_NONCEBYTES:
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_Invalid_key); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Invalid_key); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -1781,7 +1781,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     padded = b"\x00" * crypto_secretbox_BOXZEROBYTES + ciphertext
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Invalid_nonce); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Invalid_nonce); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -1792,7 +1792,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     plaintext = ffi.buffer(plaintext, len(padded))
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Decryption_failed_Ciphertext_fai); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Decryption_failed_Ciphertext_fai); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 

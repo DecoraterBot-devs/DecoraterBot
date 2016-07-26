@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -967,7 +967,8 @@ struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_28_genexpr {
   PyObject *__pyx_v_item;
   PyObject *__pyx_t_0;
   Py_ssize_t __pyx_t_1;
-  PyObject *(*__pyx_t_2)(PyObject *);
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
 };
 
 
@@ -1127,8 +1128,6 @@ struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_38_genexpr {
   PyObject_HEAD
   struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_37_set_content_disposition *__pyx_outer_scope;
   PyObject *__pyx_v_pair;
-  PyObject *__pyx_t_0;
-  Py_ssize_t __pyx_t_1;
 };
 
 
@@ -1373,24 +1372,6 @@ static CYTHON_INLINE void __Pyx_CyFunction_SetAnnotationsDict(PyObject *m,
                                                               PyObject *dict);
 static int __pyx_CyFunction_init(void);
 
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
-#endif
-
 /* RaiseNeedMoreValuesToUnpack.proto */
 static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
 
@@ -1451,6 +1432,25 @@ static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject 
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 #endif
 
+/* PyObjectCallMethod0.proto */
+static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
+
+/* RaiseNoneIterError.proto */
+static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
+
+/* UnpackTupleError.proto */
+static void __Pyx_UnpackTupleError(PyObject *, Py_ssize_t index);
+
+/* UnpackTuple2.proto */
+static CYTHON_INLINE int __Pyx_unpack_tuple2(PyObject* tuple, PyObject** value1, PyObject** value2,
+                                             int is_tuple, int has_known_size, int decref_tuple);
+
+/* dict_iter.proto */
+static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* dict, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_is_dict);
+static CYTHON_INLINE int __Pyx_dict_iter_next(PyObject* dict_or_iter, Py_ssize_t orig_length, Py_ssize_t* ppos,
+                                              PyObject** pkey, PyObject** pvalue, PyObject** pitem, int is_dict);
+
 /* ListCompAppend.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
@@ -1467,6 +1467,15 @@ static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
 #else
 #define __Pyx_ListComp_Append(L,x) PyList_Append(L,x)
 #endif
+
+/* IncludeStringH.proto */
+#include <string.h>
+
+/* BytesEquals.proto */
+static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
+
+/* UnicodeEquals.proto */
+static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
 /* ListAppend.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1583,24 +1592,8 @@ static CYTHON_INLINE PyObject* __Pyx_Generator_Yield_From(__pyx_CoroutineObject 
     if (value == Py_None) PyErr_SetNone(PyExc_StopIteration); else __Pyx__ReturnWithStopIteration(value)
 static void __Pyx__ReturnWithStopIteration(PyObject* value);
 
-/* IncludeStringH.proto */
-#include <string.h>
-
-/* BytesEquals.proto */
-static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
-
 /* append.proto */
 static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
-
-/* UnicodeEquals.proto */
-static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
-
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
 
 /* PyIntBinop.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1609,9 +1602,6 @@ static PyObject* __Pyx_PyInt_AddCObj(PyObject *op1, PyObject *op2, long intval, 
 #define __Pyx_PyInt_AddCObj(op1, op2, intval, inplace)\
     (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
 #endif
-
-/* PyObjectCallMethod0.proto */
-static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
 
 /* pop.proto */
 static CYTHON_INLINE PyObject* __Pyx__PyObject_Pop(PyObject* L);
@@ -1652,12 +1642,27 @@ static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *, PyObject *);
 /* GetAttr3.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
 
+/* StringJoin.proto */
+#if PY_MAJOR_VERSION < 3
+#define __Pyx_PyString_Join __Pyx_PyBytes_Join
+#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
+#else
+#define __Pyx_PyString_Join PyUnicode_Join
+#define __Pyx_PyBaseString_Join PyUnicode_Join
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+    #if PY_MAJOR_VERSION < 3
+    #define __Pyx_PyBytes_Join _PyString_Join
+    #else
+    #define __Pyx_PyBytes_Join _PyBytes_Join
+    #endif
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
+#endif
+
 /* IterNext.proto */
 #define __Pyx_PyIter_Next(obj) __Pyx_PyIter_Next2(obj, NULL)
 static CYTHON_INLINE PyObject *__Pyx_PyIter_Next2(PyObject *, PyObject *);
-
-/* py_dict_items.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyDict_Items(PyObject* d);
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -1797,28 +1802,28 @@ static const char __pyx_k__21[] = "";
 static const char __pyx_k__22[] = ";";
 static const char __pyx_k__24[] = "=";
 static const char __pyx_k__29[] = "\\/";
-static const char __pyx_k__36[] = "\r\n";
-static const char __pyx_k__38[] = "--";
-static const char __pyx_k__46[] = ": ";
-static const char __pyx_k__47[] = "\r\n\r\n";
-static const char __pyx_k__51[] = "; ";
-static const char __pyx_k__55[] = "--\r\n";
-static const char __pyx_k__58[] = "(";
-static const char __pyx_k__59[] = ")";
-static const char __pyx_k__60[] = "<";
-static const char __pyx_k__61[] = ">";
-static const char __pyx_k__62[] = "@";
-static const char __pyx_k__63[] = ",";
-static const char __pyx_k__64[] = ":";
-static const char __pyx_k__65[] = "\\";
-static const char __pyx_k__66[] = "/";
-static const char __pyx_k__67[] = "[";
-static const char __pyx_k__68[] = "]";
-static const char __pyx_k__69[] = "?";
-static const char __pyx_k__70[] = "{";
-static const char __pyx_k__71[] = "}";
-static const char __pyx_k__72[] = " ";
-static const char __pyx_k__74[] = "_";
+static const char __pyx_k__35[] = "\r\n";
+static const char __pyx_k__37[] = "--";
+static const char __pyx_k__45[] = ": ";
+static const char __pyx_k__46[] = "\r\n\r\n";
+static const char __pyx_k__50[] = "; ";
+static const char __pyx_k__54[] = "--\r\n";
+static const char __pyx_k__57[] = "(";
+static const char __pyx_k__58[] = ")";
+static const char __pyx_k__59[] = "<";
+static const char __pyx_k__60[] = ">";
+static const char __pyx_k__61[] = "@";
+static const char __pyx_k__62[] = ",";
+static const char __pyx_k__63[] = ":";
+static const char __pyx_k__64[] = "\\";
+static const char __pyx_k__65[] = "/";
+static const char __pyx_k__66[] = "[";
+static const char __pyx_k__67[] = "]";
+static const char __pyx_k__68[] = "?";
+static const char __pyx_k__69[] = "{";
+static const char __pyx_k__70[] = "}";
+static const char __pyx_k__71[] = " ";
+static const char __pyx_k__73[] = "_";
 static const char __pyx_k_all[] = "__all__";
 static const char __pyx_k_chr[] = "chr";
 static const char __pyx_k_cls[] = "cls";
@@ -2195,12 +2200,15 @@ static const char __pyx_k_parse_content_disposition_locals_3[] = "parse_content_
 static const char __pyx_k_parse_content_disposition_locals_4[] = "parse_content_disposition.<locals>.is_extended_param";
 static const char __pyx_k_parse_content_disposition_locals_5[] = "parse_content_disposition.<locals>.is_continuous_param";
 static const char __pyx_k_parse_content_disposition_locals_6[] = "parse_content_disposition.<locals>.unescape";
-static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_kp_s_1;
+static PyObject *__pyx_kp_u_;
+static PyObject *__pyx_kp_u_1;
 static PyObject *__pyx_n_s_AttributeError;
 static PyObject *__pyx_n_s_BadContentDispositionHeader;
+static PyObject *__pyx_n_u_BadContentDispositionHeader;
 static PyObject *__pyx_n_s_BadContentDispositionParam;
+static PyObject *__pyx_n_u_BadContentDispositionParam;
 static PyObject *__pyx_n_s_BodyPartReader;
+static PyObject *__pyx_n_u_BodyPartReader;
 static PyObject *__pyx_n_s_BodyPartReader___aiter;
 static PyObject *__pyx_n_s_BodyPartReader___anext;
 static PyObject *__pyx_n_s_BodyPartReader___init;
@@ -2221,6 +2229,7 @@ static PyObject *__pyx_n_s_BodyPartReader_readline;
 static PyObject *__pyx_n_s_BodyPartReader_release;
 static PyObject *__pyx_n_s_BodyPartReader_text;
 static PyObject *__pyx_n_s_BodyPartWriter;
+static PyObject *__pyx_n_u_BodyPartWriter;
 static PyObject *__pyx_n_s_BodyPartWriter___init;
 static PyObject *__pyx_n_s_BodyPartWriter__apply_content_en;
 static PyObject *__pyx_n_s_BodyPartWriter__apply_content_tr;
@@ -2252,15 +2261,16 @@ static PyObject *__pyx_n_s_CONTENT_LENGTH;
 static PyObject *__pyx_n_s_CONTENT_TRANSFER_ENCODING;
 static PyObject *__pyx_n_s_CONTENT_TYPE;
 static PyObject *__pyx_n_s_CTL;
-static PyObject *__pyx_kp_s_Chunk_size_must_be_greater_or_eq;
-static PyObject *__pyx_kp_s_Content_Length_required_for_chun;
+static PyObject *__pyx_kp_u_Chunk_size_must_be_greater_or_eq;
+static PyObject *__pyx_kp_u_Content_Length_required_for_chun;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_HttpParser;
 static PyObject *__pyx_n_s_IOBase;
-static PyObject *__pyx_kp_s_Invalid_boundary_r_expected_r;
+static PyObject *__pyx_kp_u_Invalid_boundary_r_expected_r;
 static PyObject *__pyx_n_s_MAX_WBITS;
 static PyObject *__pyx_n_s_Mapping;
 static PyObject *__pyx_n_s_MultipartReader;
+static PyObject *__pyx_n_u_MultipartReader;
 static PyObject *__pyx_n_s_MultipartReader___aiter;
 static PyObject *__pyx_n_s_MultipartReader___anext;
 static PyObject *__pyx_n_s_MultipartReader___init;
@@ -2283,6 +2293,7 @@ static PyObject *__pyx_n_s_MultipartResponseWrapper_at_eof;
 static PyObject *__pyx_n_s_MultipartResponseWrapper_next;
 static PyObject *__pyx_n_s_MultipartResponseWrapper_release;
 static PyObject *__pyx_n_s_MultipartWriter;
+static PyObject *__pyx_n_u_MultipartWriter;
 static PyObject *__pyx_n_s_MultipartWriter___enter;
 static PyObject *__pyx_n_s_MultipartWriter___exit;
 static PyObject *__pyx_n_s_MultipartWriter___init;
@@ -2299,7 +2310,7 @@ static PyObject *__pyx_kp_s_Multipart_reader_for_single_body;
 static PyObject *__pyx_kp_s_Multipart_writer_for_single_body;
 static PyObject *__pyx_n_s_OSError;
 static PyObject *__pyx_n_s_Path;
-static PyObject *__pyx_kp_s_Reading_after_EOF;
+static PyObject *__pyx_kp_u_Reading_after_EOF;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_RuntimeWarning;
 static PyObject *__pyx_n_s_SEPARATORS;
@@ -2311,37 +2322,37 @@ static PyObject *__pyx_n_s_UnicodeDecodeError;
 static PyObject *__pyx_n_s_UnicodeEncodeError;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_s_Wrapper_around_the_class_Multipa;
-static PyObject *__pyx_kp_s__2;
+static PyObject *__pyx_kp_u__2;
 static PyObject *__pyx_kp_b__21;
-static PyObject *__pyx_kp_s__21;
-static PyObject *__pyx_kp_s__22;
-static PyObject *__pyx_kp_s__24;
-static PyObject *__pyx_kp_s__29;
-static PyObject *__pyx_kp_b__36;
-static PyObject *__pyx_kp_b__38;
-static PyObject *__pyx_kp_s__38;
-static PyObject *__pyx_kp_s__4;
+static PyObject *__pyx_kp_u__21;
+static PyObject *__pyx_kp_u__22;
+static PyObject *__pyx_kp_u__24;
+static PyObject *__pyx_kp_u__29;
+static PyObject *__pyx_kp_b__35;
+static PyObject *__pyx_kp_b__37;
+static PyObject *__pyx_kp_u__37;
+static PyObject *__pyx_kp_u__4;
+static PyObject *__pyx_kp_b__45;
 static PyObject *__pyx_kp_b__46;
-static PyObject *__pyx_kp_b__47;
-static PyObject *__pyx_kp_s__51;
-static PyObject *__pyx_kp_b__55;
-static PyObject *__pyx_kp_s__58;
-static PyObject *__pyx_kp_s__59;
-static PyObject *__pyx_kp_s__60;
-static PyObject *__pyx_kp_s__61;
-static PyObject *__pyx_kp_s__62;
-static PyObject *__pyx_kp_s__63;
-static PyObject *__pyx_kp_s__64;
-static PyObject *__pyx_kp_s__65;
-static PyObject *__pyx_kp_s__66;
-static PyObject *__pyx_kp_s__67;
-static PyObject *__pyx_kp_s__68;
-static PyObject *__pyx_kp_s__69;
-static PyObject *__pyx_kp_s__70;
-static PyObject *__pyx_kp_s__71;
-static PyObject *__pyx_kp_s__72;
-static PyObject *__pyx_n_s__74;
-static PyObject *__pyx_kp_s__8;
+static PyObject *__pyx_kp_u__50;
+static PyObject *__pyx_kp_b__54;
+static PyObject *__pyx_kp_u__57;
+static PyObject *__pyx_kp_u__58;
+static PyObject *__pyx_kp_u__59;
+static PyObject *__pyx_kp_u__60;
+static PyObject *__pyx_kp_u__61;
+static PyObject *__pyx_kp_u__62;
+static PyObject *__pyx_kp_u__63;
+static PyObject *__pyx_kp_u__64;
+static PyObject *__pyx_kp_u__65;
+static PyObject *__pyx_kp_u__66;
+static PyObject *__pyx_kp_u__67;
+static PyObject *__pyx_kp_u__68;
+static PyObject *__pyx_kp_u__69;
+static PyObject *__pyx_kp_u__70;
+static PyObject *__pyx_kp_u__71;
+static PyObject *__pyx_n_s__73;
+static PyObject *__pyx_kp_u__8;
 static PyObject *__pyx_n_s_a2b_qp;
 static PyObject *__pyx_n_s_aiohttp_multipart;
 static PyObject *__pyx_n_s_aiter;
@@ -2350,10 +2361,10 @@ static PyObject *__pyx_n_s_anext;
 static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_append_form;
 static PyObject *__pyx_n_s_append_json;
-static PyObject *__pyx_n_s_application;
-static PyObject *__pyx_kp_s_application_json;
-static PyObject *__pyx_kp_s_application_octet_stream;
-static PyObject *__pyx_kp_s_application_x_www_form_urlencode;
+static PyObject *__pyx_n_u_application;
+static PyObject *__pyx_kp_u_application_json;
+static PyObject *__pyx_kp_u_application_octet_stream;
+static PyObject *__pyx_kp_u_application_x_www_form_urlencode;
 static PyObject *__pyx_n_s_apply_content_encoding;
 static PyObject *__pyx_n_s_apply_content_transfer_encoding;
 static PyObject *__pyx_n_s_args;
@@ -2362,22 +2373,25 @@ static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_asyncio_tasks;
 static PyObject *__pyx_n_s_at_eof;
 static PyObject *__pyx_n_s_at_eof_2;
-static PyObject *__pyx_n_s_attachment;
+static PyObject *__pyx_n_u_attachment;
 static PyObject *__pyx_n_s_b2a_qp;
 static PyObject *__pyx_n_s_b64decode;
 static PyObject *__pyx_n_s_b64encode;
-static PyObject *__pyx_kp_s_bad_content_disposition_paramete;
-static PyObject *__pyx_kp_s_bad_content_disposition_type_r;
+static PyObject *__pyx_kp_u_bad_content_disposition_paramete;
+static PyObject *__pyx_kp_u_bad_content_disposition_type_r;
 static PyObject *__pyx_n_s_base64;
+static PyObject *__pyx_n_u_base64;
 static PyObject *__pyx_n_s_binascii;
 static PyObject *__pyx_n_s_boundary;
+static PyObject *__pyx_n_u_boundary;
 static PyObject *__pyx_n_s_boundary_2;
-static PyObject *__pyx_kp_s_boundary_missed_for_Content_Type;
-static PyObject *__pyx_kp_s_boundary_r_is_too_long_70_chars;
-static PyObject *__pyx_kp_s_boundary_should_contains_ASCII_o;
+static PyObject *__pyx_kp_u_boundary_missed_for_Content_Type;
+static PyObject *__pyx_kp_u_boundary_r_is_too_long_70_chars;
+static PyObject *__pyx_kp_u_boundary_should_contains_ASCII_o;
 static PyObject *__pyx_n_s_buffer;
 static PyObject *__pyx_n_s_chars;
 static PyObject *__pyx_n_s_charset;
+static PyObject *__pyx_n_u_charset;
 static PyObject *__pyx_n_s_chr;
 static PyObject *__pyx_n_s_chunk;
 static PyObject *__pyx_n_s_chunk_size;
@@ -2390,6 +2404,7 @@ static PyObject *__pyx_n_s_compressobj;
 static PyObject *__pyx_n_s_content;
 static PyObject *__pyx_n_s_content_2;
 static PyObject *__pyx_n_s_content_disposition_filename;
+static PyObject *__pyx_n_u_content_disposition_filename;
 static PyObject *__pyx_n_s_content_disposition_filename_loc;
 static PyObject *__pyx_n_s_content_eof;
 static PyObject *__pyx_n_s_content_length;
@@ -2403,7 +2418,7 @@ static PyObject *__pyx_n_s_decode_content;
 static PyObject *__pyx_n_s_decode_content_transfer;
 static PyObject *__pyx_n_s_decompress;
 static PyObject *__pyx_n_s_default;
-static PyObject *__pyx_n_s_deflate;
+static PyObject *__pyx_n_u_deflate;
 static PyObject *__pyx_n_s_deque;
 static PyObject *__pyx_n_s_disptype;
 static PyObject *__pyx_n_s_div;
@@ -2422,8 +2437,9 @@ static PyObject *__pyx_n_s_exc_val;
 static PyObject *__pyx_n_s_exit;
 static PyObject *__pyx_n_s_extend;
 static PyObject *__pyx_n_s_fetch_next_part;
-static PyObject *__pyx_kp_s_filename;
+static PyObject *__pyx_kp_u_filename;
 static PyObject *__pyx_n_s_filename_2;
+static PyObject *__pyx_n_u_filename_2;
 static PyObject *__pyx_n_s_fileno;
 static PyObject *__pyx_n_s_fill_headers_with_defaults;
 static PyObject *__pyx_n_s_find;
@@ -2444,14 +2460,14 @@ static PyObject *__pyx_n_s_guess_content_length;
 static PyObject *__pyx_n_s_guess_content_type;
 static PyObject *__pyx_n_s_guess_filename;
 static PyObject *__pyx_n_s_guess_type;
-static PyObject *__pyx_n_s_gzip;
+static PyObject *__pyx_n_u_gzip;
 static PyObject *__pyx_n_s_has_encoding;
 static PyObject *__pyx_n_s_hdrs;
 static PyObject *__pyx_n_s_header;
 static PyObject *__pyx_n_s_headers;
 static PyObject *__pyx_n_s_helpers;
 static PyObject *__pyx_n_s_hex;
-static PyObject *__pyx_n_s_identity;
+static PyObject *__pyx_n_u_identity;
 static PyObject *__pyx_n_s_idx;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
@@ -2468,10 +2484,11 @@ static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_iter;
 static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_json;
+static PyObject *__pyx_n_u_json;
 static PyObject *__pyx_n_s_key;
 static PyObject *__pyx_n_s_last_boundary;
 static PyObject *__pyx_n_s_last_part;
-static PyObject *__pyx_n_s_latin1;
+static PyObject *__pyx_n_u_latin1;
 static PyObject *__pyx_n_s_len;
 static PyObject *__pyx_n_s_length;
 static PyObject *__pyx_n_s_length_2;
@@ -2487,16 +2504,17 @@ static PyObject *__pyx_n_s_maybe_encode_stream;
 static PyObject *__pyx_n_s_maybe_release_last_part;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_mimetypes;
-static PyObject *__pyx_n_s_mixed;
+static PyObject *__pyx_n_u_mixed;
 static PyObject *__pyx_n_s_mod;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_mtype;
 static PyObject *__pyx_n_s_multidict;
-static PyObject *__pyx_n_s_multipart;
-static PyObject *__pyx_kp_s_multipart_boundary;
-static PyObject *__pyx_kp_s_multipart_content_type_expected;
+static PyObject *__pyx_n_u_multipart;
+static PyObject *__pyx_kp_u_multipart_boundary;
+static PyObject *__pyx_kp_u_multipart_content_type_expected;
 static PyObject *__pyx_n_s_multipart_reader_cls;
 static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_n_u_name;
 static PyObject *__pyx_n_s_next;
 static PyObject *__pyx_n_s_next_line;
 static PyObject *__pyx_n_s_num;
@@ -2505,6 +2523,7 @@ static PyObject *__pyx_n_s_object;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_params;
 static PyObject *__pyx_n_s_parse_content_disposition;
+static PyObject *__pyx_n_u_parse_content_disposition;
 static PyObject *__pyx_n_s_parse_content_disposition_locals;
 static PyObject *__pyx_n_s_parse_content_disposition_locals_2;
 static PyObject *__pyx_n_s_parse_content_disposition_locals_3;
@@ -2529,7 +2548,7 @@ static PyObject *__pyx_n_s_property;
 static PyObject *__pyx_n_s_protocol;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_quote;
-static PyObject *__pyx_kp_s_quoted_printable;
+static PyObject *__pyx_kp_u_quoted_printable;
 static PyObject *__pyx_n_s_qval;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_re;
@@ -2540,7 +2559,7 @@ static PyObject *__pyx_n_s_read_chunk;
 static PyObject *__pyx_n_s_read_chunk_from_length;
 static PyObject *__pyx_n_s_read_chunk_from_stream;
 static PyObject *__pyx_n_s_read_headers;
-static PyObject *__pyx_kp_s_reader_did_not_read_all_the_data;
+static PyObject *__pyx_kp_u_reader_did_not_read_all_the_data;
 static PyObject *__pyx_n_s_readline;
 static PyObject *__pyx_n_s_readline_2;
 static PyObject *__pyx_n_s_release;
@@ -2549,7 +2568,7 @@ static PyObject *__pyx_n_s_response;
 static PyObject *__pyx_n_s_response_wrapper_cls;
 static PyObject *__pyx_n_s_result;
 static PyObject *__pyx_n_s_rstrip;
-static PyObject *__pyx_kp_s_s;
+static PyObject *__pyx_kp_u_s;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_serialize;
@@ -2571,7 +2590,7 @@ static PyObject *__pyx_n_s_split;
 static PyObject *__pyx_n_s_st_size;
 static PyObject *__pyx_n_s_startswith;
 static PyObject *__pyx_n_s_stream;
-static PyObject *__pyx_n_s_strict;
+static PyObject *__pyx_n_u_strict;
 static PyObject *__pyx_n_s_string;
 static PyObject *__pyx_n_s_strip;
 static PyObject *__pyx_n_s_stype;
@@ -2582,21 +2601,21 @@ static PyObject *__pyx_n_s_tail;
 static PyObject *__pyx_n_s_tell;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_text;
-static PyObject *__pyx_kp_s_text_plain_charset_utf_8;
+static PyObject *__pyx_kp_u_text_plain_charset_utf_8;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_unescape;
-static PyObject *__pyx_kp_s_unknown_body_part_type_r;
-static PyObject *__pyx_kp_s_unknown_content_encoding;
-static PyObject *__pyx_kp_s_unknown_content_transfer_encodin;
+static PyObject *__pyx_kp_u_unknown_body_part_type_r;
+static PyObject *__pyx_kp_u_unknown_content_encoding;
+static PyObject *__pyx_kp_u_unknown_content_transfer_encodin;
 static PyObject *__pyx_n_s_unquote;
 static PyObject *__pyx_n_s_unread;
 static PyObject *__pyx_n_s_unread_data;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_urlencode;
 static PyObject *__pyx_n_s_urllib_parse;
-static PyObject *__pyx_kp_s_us_ascii;
-static PyObject *__pyx_kp_s_utf_8;
-static PyObject *__pyx_kp_s_utf_8_2;
+static PyObject *__pyx_kp_u_us_ascii;
+static PyObject *__pyx_kp_u_utf_8;
+static PyObject *__pyx_kp_u_utf_8_2;
 static PyObject *__pyx_n_s_uuid;
 static PyObject *__pyx_n_s_uuid4;
 static PyObject *__pyx_n_s_val;
@@ -2605,7 +2624,7 @@ static PyObject *__pyx_n_s_warn;
 static PyObject *__pyx_n_s_warnings;
 static PyObject *__pyx_n_s_wbits;
 static PyObject *__pyx_n_s_window;
-static PyObject *__pyx_kp_s_x_www_form_urlencoded;
+static PyObject *__pyx_kp_u_x_www_form_urlencoded;
 static PyObject *__pyx_n_s_zcomp;
 static PyObject *__pyx_n_s_zlib;
 static PyObject *__pyx_n_s_zlib_mode;
@@ -2733,7 +2752,6 @@ static PyObject *__pyx_tp_new_7aiohttp_9multipart___pyx_scope_struct_36__apply_c
 static PyObject *__pyx_tp_new_7aiohttp_9multipart___pyx_scope_struct_37_set_content_disposition(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_7aiohttp_9multipart___pyx_scope_struct_38_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_7aiohttp_9multipart___pyx_scope_struct_39_serialize(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items = {0, &__pyx_n_s_items, 0, 0, 0};
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_pop = {0, &__pyx_n_s_pop, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -2753,8 +2771,8 @@ static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_slice__26;
 static PyObject *__pyx_slice__28;
 static PyObject *__pyx_slice__34;
-static PyObject *__pyx_slice__39;
-static PyObject *__pyx_slice__50;
+static PyObject *__pyx_slice__38;
+static PyObject *__pyx_slice__49;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__15;
@@ -2767,175 +2785,174 @@ static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__31;
 static PyObject *__pyx_tuple__32;
 static PyObject *__pyx_tuple__33;
-static PyObject *__pyx_tuple__35;
-static PyObject *__pyx_tuple__37;
+static PyObject *__pyx_tuple__36;
+static PyObject *__pyx_tuple__39;
 static PyObject *__pyx_tuple__40;
 static PyObject *__pyx_tuple__41;
 static PyObject *__pyx_tuple__42;
 static PyObject *__pyx_tuple__43;
 static PyObject *__pyx_tuple__44;
-static PyObject *__pyx_tuple__45;
+static PyObject *__pyx_tuple__47;
 static PyObject *__pyx_tuple__48;
-static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__51;
 static PyObject *__pyx_tuple__52;
 static PyObject *__pyx_tuple__53;
-static PyObject *__pyx_tuple__54;
+static PyObject *__pyx_tuple__55;
 static PyObject *__pyx_tuple__56;
-static PyObject *__pyx_tuple__57;
-static PyObject *__pyx_tuple__73;
-static PyObject *__pyx_tuple__75;
-static PyObject *__pyx_tuple__77;
-static PyObject *__pyx_tuple__79;
-static PyObject *__pyx_tuple__81;
-static PyObject *__pyx_tuple__83;
-static PyObject *__pyx_tuple__85;
-static PyObject *__pyx_tuple__87;
-static PyObject *__pyx_tuple__89;
-static PyObject *__pyx_tuple__91;
-static PyObject *__pyx_tuple__93;
-static PyObject *__pyx_tuple__95;
-static PyObject *__pyx_tuple__97;
-static PyObject *__pyx_tuple__99;
-static PyObject *__pyx_tuple__101;
-static PyObject *__pyx_tuple__103;
-static PyObject *__pyx_tuple__105;
-static PyObject *__pyx_tuple__107;
-static PyObject *__pyx_tuple__109;
-static PyObject *__pyx_tuple__111;
-static PyObject *__pyx_tuple__113;
-static PyObject *__pyx_tuple__115;
-static PyObject *__pyx_tuple__117;
-static PyObject *__pyx_tuple__119;
-static PyObject *__pyx_tuple__121;
-static PyObject *__pyx_tuple__123;
-static PyObject *__pyx_tuple__125;
+static PyObject *__pyx_tuple__72;
+static PyObject *__pyx_tuple__74;
+static PyObject *__pyx_tuple__76;
+static PyObject *__pyx_tuple__78;
+static PyObject *__pyx_tuple__80;
+static PyObject *__pyx_tuple__82;
+static PyObject *__pyx_tuple__84;
+static PyObject *__pyx_tuple__86;
+static PyObject *__pyx_tuple__88;
+static PyObject *__pyx_tuple__90;
+static PyObject *__pyx_tuple__92;
+static PyObject *__pyx_tuple__94;
+static PyObject *__pyx_tuple__96;
+static PyObject *__pyx_tuple__98;
+static PyObject *__pyx_tuple__100;
+static PyObject *__pyx_tuple__102;
+static PyObject *__pyx_tuple__104;
+static PyObject *__pyx_tuple__106;
+static PyObject *__pyx_tuple__108;
+static PyObject *__pyx_tuple__110;
+static PyObject *__pyx_tuple__112;
+static PyObject *__pyx_tuple__114;
+static PyObject *__pyx_tuple__116;
+static PyObject *__pyx_tuple__118;
+static PyObject *__pyx_tuple__120;
+static PyObject *__pyx_tuple__122;
+static PyObject *__pyx_tuple__124;
+static PyObject *__pyx_tuple__126;
 static PyObject *__pyx_tuple__127;
-static PyObject *__pyx_tuple__128;
-static PyObject *__pyx_tuple__130;
-static PyObject *__pyx_tuple__132;
-static PyObject *__pyx_tuple__134;
-static PyObject *__pyx_tuple__136;
-static PyObject *__pyx_tuple__138;
-static PyObject *__pyx_tuple__140;
-static PyObject *__pyx_tuple__142;
-static PyObject *__pyx_tuple__144;
-static PyObject *__pyx_tuple__146;
-static PyObject *__pyx_tuple__148;
-static PyObject *__pyx_tuple__150;
-static PyObject *__pyx_tuple__152;
-static PyObject *__pyx_tuple__154;
-static PyObject *__pyx_tuple__156;
-static PyObject *__pyx_tuple__158;
+static PyObject *__pyx_tuple__129;
+static PyObject *__pyx_tuple__131;
+static PyObject *__pyx_tuple__133;
+static PyObject *__pyx_tuple__135;
+static PyObject *__pyx_tuple__137;
+static PyObject *__pyx_tuple__139;
+static PyObject *__pyx_tuple__141;
+static PyObject *__pyx_tuple__143;
+static PyObject *__pyx_tuple__145;
+static PyObject *__pyx_tuple__147;
+static PyObject *__pyx_tuple__149;
+static PyObject *__pyx_tuple__151;
+static PyObject *__pyx_tuple__153;
+static PyObject *__pyx_tuple__155;
+static PyObject *__pyx_tuple__157;
+static PyObject *__pyx_tuple__159;
 static PyObject *__pyx_tuple__160;
-static PyObject *__pyx_tuple__161;
-static PyObject *__pyx_tuple__163;
-static PyObject *__pyx_tuple__165;
+static PyObject *__pyx_tuple__162;
+static PyObject *__pyx_tuple__164;
+static PyObject *__pyx_tuple__166;
 static PyObject *__pyx_tuple__167;
-static PyObject *__pyx_tuple__168;
-static PyObject *__pyx_tuple__170;
-static PyObject *__pyx_tuple__172;
-static PyObject *__pyx_tuple__174;
-static PyObject *__pyx_tuple__176;
-static PyObject *__pyx_tuple__178;
-static PyObject *__pyx_tuple__180;
-static PyObject *__pyx_tuple__182;
-static PyObject *__pyx_tuple__184;
-static PyObject *__pyx_tuple__186;
-static PyObject *__pyx_tuple__188;
-static PyObject *__pyx_tuple__190;
-static PyObject *__pyx_tuple__192;
-static PyObject *__pyx_tuple__194;
-static PyObject *__pyx_tuple__196;
-static PyObject *__pyx_tuple__198;
+static PyObject *__pyx_tuple__169;
+static PyObject *__pyx_tuple__171;
+static PyObject *__pyx_tuple__173;
+static PyObject *__pyx_tuple__175;
+static PyObject *__pyx_tuple__177;
+static PyObject *__pyx_tuple__179;
+static PyObject *__pyx_tuple__181;
+static PyObject *__pyx_tuple__183;
+static PyObject *__pyx_tuple__185;
+static PyObject *__pyx_tuple__187;
+static PyObject *__pyx_tuple__189;
+static PyObject *__pyx_tuple__191;
+static PyObject *__pyx_tuple__193;
+static PyObject *__pyx_tuple__195;
+static PyObject *__pyx_tuple__197;
+static PyObject *__pyx_tuple__199;
 static PyObject *__pyx_tuple__200;
-static PyObject *__pyx_tuple__201;
-static PyObject *__pyx_tuple__203;
-static PyObject *__pyx_tuple__205;
-static PyObject *__pyx_tuple__207;
-static PyObject *__pyx_tuple__209;
-static PyObject *__pyx_tuple__211;
+static PyObject *__pyx_tuple__202;
+static PyObject *__pyx_tuple__204;
+static PyObject *__pyx_tuple__206;
+static PyObject *__pyx_tuple__208;
+static PyObject *__pyx_tuple__210;
+static PyObject *__pyx_tuple__212;
 static PyObject *__pyx_tuple__213;
-static PyObject *__pyx_tuple__214;
+static PyObject *__pyx_tuple__215;
 static PyObject *__pyx_tuple__216;
-static PyObject *__pyx_tuple__217;
+static PyObject *__pyx_tuple__218;
 static PyObject *__pyx_tuple__219;
-static PyObject *__pyx_tuple__220;
 static PyObject *__pyx_codeobj__10;
 static PyObject *__pyx_codeobj__12;
 static PyObject *__pyx_codeobj__14;
 static PyObject *__pyx_codeobj__16;
 static PyObject *__pyx_codeobj__18;
 static PyObject *__pyx_codeobj__20;
-static PyObject *__pyx_codeobj__76;
-static PyObject *__pyx_codeobj__78;
-static PyObject *__pyx_codeobj__80;
-static PyObject *__pyx_codeobj__82;
-static PyObject *__pyx_codeobj__84;
-static PyObject *__pyx_codeobj__86;
-static PyObject *__pyx_codeobj__88;
-static PyObject *__pyx_codeobj__90;
-static PyObject *__pyx_codeobj__92;
-static PyObject *__pyx_codeobj__94;
-static PyObject *__pyx_codeobj__96;
-static PyObject *__pyx_codeobj__98;
-static PyObject *__pyx_codeobj__100;
-static PyObject *__pyx_codeobj__102;
-static PyObject *__pyx_codeobj__104;
-static PyObject *__pyx_codeobj__106;
-static PyObject *__pyx_codeobj__108;
-static PyObject *__pyx_codeobj__110;
-static PyObject *__pyx_codeobj__112;
-static PyObject *__pyx_codeobj__114;
-static PyObject *__pyx_codeobj__116;
-static PyObject *__pyx_codeobj__118;
-static PyObject *__pyx_codeobj__120;
-static PyObject *__pyx_codeobj__122;
-static PyObject *__pyx_codeobj__124;
-static PyObject *__pyx_codeobj__126;
-static PyObject *__pyx_codeobj__129;
-static PyObject *__pyx_codeobj__131;
-static PyObject *__pyx_codeobj__133;
-static PyObject *__pyx_codeobj__135;
-static PyObject *__pyx_codeobj__137;
-static PyObject *__pyx_codeobj__139;
-static PyObject *__pyx_codeobj__141;
-static PyObject *__pyx_codeobj__143;
-static PyObject *__pyx_codeobj__145;
-static PyObject *__pyx_codeobj__147;
-static PyObject *__pyx_codeobj__149;
-static PyObject *__pyx_codeobj__151;
-static PyObject *__pyx_codeobj__153;
-static PyObject *__pyx_codeobj__155;
-static PyObject *__pyx_codeobj__157;
-static PyObject *__pyx_codeobj__159;
-static PyObject *__pyx_codeobj__162;
-static PyObject *__pyx_codeobj__164;
-static PyObject *__pyx_codeobj__166;
-static PyObject *__pyx_codeobj__169;
-static PyObject *__pyx_codeobj__171;
-static PyObject *__pyx_codeobj__173;
-static PyObject *__pyx_codeobj__175;
-static PyObject *__pyx_codeobj__177;
-static PyObject *__pyx_codeobj__179;
-static PyObject *__pyx_codeobj__181;
-static PyObject *__pyx_codeobj__183;
-static PyObject *__pyx_codeobj__185;
-static PyObject *__pyx_codeobj__187;
-static PyObject *__pyx_codeobj__189;
-static PyObject *__pyx_codeobj__191;
-static PyObject *__pyx_codeobj__193;
-static PyObject *__pyx_codeobj__195;
-static PyObject *__pyx_codeobj__197;
-static PyObject *__pyx_codeobj__199;
-static PyObject *__pyx_codeobj__202;
-static PyObject *__pyx_codeobj__204;
-static PyObject *__pyx_codeobj__206;
-static PyObject *__pyx_codeobj__208;
-static PyObject *__pyx_codeobj__210;
-static PyObject *__pyx_codeobj__212;
-static PyObject *__pyx_codeobj__215;
-static PyObject *__pyx_codeobj__218;
-static PyObject *__pyx_codeobj__221;
+static PyObject *__pyx_codeobj__75;
+static PyObject *__pyx_codeobj__77;
+static PyObject *__pyx_codeobj__79;
+static PyObject *__pyx_codeobj__81;
+static PyObject *__pyx_codeobj__83;
+static PyObject *__pyx_codeobj__85;
+static PyObject *__pyx_codeobj__87;
+static PyObject *__pyx_codeobj__89;
+static PyObject *__pyx_codeobj__91;
+static PyObject *__pyx_codeobj__93;
+static PyObject *__pyx_codeobj__95;
+static PyObject *__pyx_codeobj__97;
+static PyObject *__pyx_codeobj__99;
+static PyObject *__pyx_codeobj__101;
+static PyObject *__pyx_codeobj__103;
+static PyObject *__pyx_codeobj__105;
+static PyObject *__pyx_codeobj__107;
+static PyObject *__pyx_codeobj__109;
+static PyObject *__pyx_codeobj__111;
+static PyObject *__pyx_codeobj__113;
+static PyObject *__pyx_codeobj__115;
+static PyObject *__pyx_codeobj__117;
+static PyObject *__pyx_codeobj__119;
+static PyObject *__pyx_codeobj__121;
+static PyObject *__pyx_codeobj__123;
+static PyObject *__pyx_codeobj__125;
+static PyObject *__pyx_codeobj__128;
+static PyObject *__pyx_codeobj__130;
+static PyObject *__pyx_codeobj__132;
+static PyObject *__pyx_codeobj__134;
+static PyObject *__pyx_codeobj__136;
+static PyObject *__pyx_codeobj__138;
+static PyObject *__pyx_codeobj__140;
+static PyObject *__pyx_codeobj__142;
+static PyObject *__pyx_codeobj__144;
+static PyObject *__pyx_codeobj__146;
+static PyObject *__pyx_codeobj__148;
+static PyObject *__pyx_codeobj__150;
+static PyObject *__pyx_codeobj__152;
+static PyObject *__pyx_codeobj__154;
+static PyObject *__pyx_codeobj__156;
+static PyObject *__pyx_codeobj__158;
+static PyObject *__pyx_codeobj__161;
+static PyObject *__pyx_codeobj__163;
+static PyObject *__pyx_codeobj__165;
+static PyObject *__pyx_codeobj__168;
+static PyObject *__pyx_codeobj__170;
+static PyObject *__pyx_codeobj__172;
+static PyObject *__pyx_codeobj__174;
+static PyObject *__pyx_codeobj__176;
+static PyObject *__pyx_codeobj__178;
+static PyObject *__pyx_codeobj__180;
+static PyObject *__pyx_codeobj__182;
+static PyObject *__pyx_codeobj__184;
+static PyObject *__pyx_codeobj__186;
+static PyObject *__pyx_codeobj__188;
+static PyObject *__pyx_codeobj__190;
+static PyObject *__pyx_codeobj__192;
+static PyObject *__pyx_codeobj__194;
+static PyObject *__pyx_codeobj__196;
+static PyObject *__pyx_codeobj__198;
+static PyObject *__pyx_codeobj__201;
+static PyObject *__pyx_codeobj__203;
+static PyObject *__pyx_codeobj__205;
+static PyObject *__pyx_codeobj__207;
+static PyObject *__pyx_codeobj__209;
+static PyObject *__pyx_codeobj__211;
+static PyObject *__pyx_codeobj__214;
+static PyObject *__pyx_codeobj__217;
+static PyObject *__pyx_codeobj__220;
 static PyObject *__pyx_gb_7aiohttp_9multipart_6generator32(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
 
 /* "aiohttp/multipart.py":34
@@ -3262,7 +3279,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_25parse_content_disposition_2is_qu
   __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
   if (__Pyx_PyObject_IsTrue(__pyx_t_3)) {
     __Pyx_DECREF(__pyx_t_3);
-    __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_kp_s_, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+    __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_kp_u_, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3742,7 +3759,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_25parse_content_disposition_10unes
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sub); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__8, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u__8, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -3788,9 +3805,9 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_25parse_content_disposition_10unes
   }
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_7, __pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s_1);
-  __Pyx_GIVEREF(__pyx_kp_s_1);
-  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_7, __pyx_kp_s_1);
+  __Pyx_INCREF(__pyx_kp_u_1);
+  __Pyx_GIVEREF(__pyx_kp_u_1);
+  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_7, __pyx_kp_u_1);
   __Pyx_INCREF(__pyx_v_text);
   __Pyx_GIVEREF(__pyx_v_text);
   PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_7, __pyx_v_text);
@@ -3969,7 +3986,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_parse_content_disposition(CYTHON_U
   __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyString_Join(__pyx_kp_s__21, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_4 = PyUnicode_Join(__pyx_kp_u__21, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_t_1)->__pyx_arg_chars = __pyx_t_4;
@@ -4241,7 +4258,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_parse_content_disposition(CYTHON_U
  *             warnings.warn(BadContentDispositionHeader(header))
  *             return None, {}
  */
-    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_s__24, __pyx_v_item, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__24, __pyx_v_item, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
     __pyx_t_6 = (__pyx_t_5 != 0);
     if (__pyx_t_6) {
 
@@ -4983,8 +5000,8 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_parse_content_disposition(CYTHON_U
           __pyx_t_2 = __pyx_v_encoding;
           goto __pyx_L18_bool_binop_done;
         }
-        __Pyx_INCREF(__pyx_kp_s_utf_8);
-        __pyx_t_2 = __pyx_kp_s_utf_8;
+        __Pyx_INCREF(__pyx_kp_u_utf_8);
+        __pyx_t_2 = __pyx_kp_u_utf_8;
         __pyx_L18_bool_binop_done:;
         __Pyx_DECREF_SET(__pyx_v_encoding, __pyx_t_2);
         __pyx_t_2 = 0;
@@ -5126,9 +5143,9 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_parse_content_disposition(CYTHON_U
           __Pyx_INCREF(__pyx_v_encoding);
           __Pyx_GIVEREF(__pyx_v_encoding);
           PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_16, __pyx_v_encoding);
-          __Pyx_INCREF(__pyx_n_s_strict);
-          __Pyx_GIVEREF(__pyx_n_s_strict);
-          PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_16, __pyx_n_s_strict);
+          __Pyx_INCREF(__pyx_n_u_strict);
+          __Pyx_GIVEREF(__pyx_n_u_strict);
+          PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_16, __pyx_n_u_strict);
           __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L20_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5624,14 +5641,13 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_28content_disposition_filename_2ge
   struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_4_genexpr *__pyx_cur_scope = ((struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_4_genexpr *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  PyObject *(*__pyx_t_5)(PyObject *);
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *(*__pyx_t_8)(PyObject *);
-  int __pyx_t_9;
+  int __pyx_t_7;
+  int __pyx_t_8;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("None", 0);
   switch (__pyx_generator->resume_label) {
@@ -5652,121 +5668,27 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_28content_disposition_filename_2ge
  *                           if key.startswith('filename*'))
  *         for num, (key, value) in enumerate(fnparams):
  */
+  __pyx_t_2 = 0;
   if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_params)) { __Pyx_RaiseClosureNameError("params"); __PYX_ERR(0, 141, __pyx_L1_error) }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_params, __pyx_n_s_items); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
+  if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_params == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
+    __PYX_ERR(0, 141, __pyx_L1_error)
   }
-  if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
-    __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-  } else {
-    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_2))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 141, __pyx_L1_error)
-        #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        #endif
-      } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 141, __pyx_L1_error)
-        #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        #endif
-      }
-    } else {
-      __pyx_t_1 = __pyx_t_5(__pyx_t_2);
-      if (unlikely(!__pyx_t_1)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 141, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_1);
-    }
-    if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
-      PyObject* sequence = __pyx_t_1;
-      #if CYTHON_COMPILING_IN_CPYTHON
-      Py_ssize_t size = Py_SIZE(sequence);
-      #else
-      Py_ssize_t size = PySequence_Size(sequence);
-      #endif
-      if (unlikely(size != 2)) {
-        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 141, __pyx_L1_error)
-      }
-      #if CYTHON_COMPILING_IN_CPYTHON
-      if (likely(PyTuple_CheckExact(sequence))) {
-        __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
-        __pyx_t_6 = PyTuple_GET_ITEM(sequence, 1); 
-      } else {
-        __pyx_t_3 = PyList_GET_ITEM(sequence, 0); 
-        __pyx_t_6 = PyList_GET_ITEM(sequence, 1); 
-      }
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      #else
-      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 141, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      #endif
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    } else {
-      Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 141, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
-      index = 0; __pyx_t_3 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_3)) goto __pyx_L6_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_3);
-      index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L6_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(0, 141, __pyx_L1_error)
-      __pyx_t_8 = NULL;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      goto __pyx_L7_unpacking_done;
-      __pyx_L6_unpacking_failed:;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_8 = NULL;
-      if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 141, __pyx_L1_error)
-      __pyx_L7_unpacking_done:;
-    }
+  __pyx_t_5 = __Pyx_dict_iterator(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_params, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_1);
+  __pyx_t_1 = __pyx_t_5;
+  __pyx_t_5 = 0;
+  while (1) {
+    __pyx_t_7 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, &__pyx_t_5, &__pyx_t_6, NULL, __pyx_t_4);
+    if (unlikely(__pyx_t_7 == 0)) break;
+    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 141, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_key);
-    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_key, __pyx_t_3);
-    __Pyx_GIVEREF(__pyx_t_3);
-    __pyx_t_3 = 0;
+    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_key, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_5);
+    __pyx_t_5 = 0;
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_value);
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_value, __pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_6);
@@ -5779,14 +5701,14 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_28content_disposition_filename_2ge
  *         for num, (key, value) in enumerate(fnparams):
  *             _, tail = key.split('*', 1)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_key, __pyx_n_s_startswith); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_key, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (__pyx_t_9) {
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__pyx_t_8) {
 
       /* "aiohttp/multipart.py":140
  *     else:
@@ -5795,16 +5717,16 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_28content_disposition_filename_2ge
  *                           for key, value in params.items()
  *                           if key.startswith('filename*'))
  */
-      __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 140, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_key);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_key);
-      PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_cur_scope->__pyx_v_key);
+      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_cur_scope->__pyx_v_key);
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_value);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_value);
-      PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_cur_scope->__pyx_v_value);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 140, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_cur_scope->__pyx_v_value);
+      if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 140, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
       /* "aiohttp/multipart.py":142
  *         fnparams = sorted((key, value)
@@ -5814,16 +5736,8 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_28content_disposition_filename_2ge
  *             _, tail = key.split('*', 1)
  */
     }
-
-    /* "aiohttp/multipart.py":141
- *         parts = []
- *         fnparams = sorted((key, value)
- *                           for key, value in params.items()             # <<<<<<<<<<<<<<
- *                           if key.startswith('filename*'))
- *         for num, (key, value) in enumerate(fnparams):
- */
   }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "aiohttp/multipart.py":140
  *     else:
@@ -5838,10 +5752,8 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_28content_disposition_filename_2ge
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("genexpr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5932,7 +5844,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  *         return params['filename*']
  *     elif 'filename' in params:
  */
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_kp_s_filename, __pyx_cur_scope->__pyx_v_params, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u_filename, __pyx_cur_scope->__pyx_v_params, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
@@ -5944,7 +5856,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  *         return params['filename']
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_params, __pyx_kp_s_filename); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_params, __pyx_kp_u_filename); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -5966,7 +5878,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  *         return params['filename']
  *     else:
  */
-  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_filename_2, __pyx_cur_scope->__pyx_v_params, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_filename_2, __pyx_cur_scope->__pyx_v_params, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
@@ -5978,7 +5890,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  *         parts = []
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_params, __pyx_n_s_filename_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_params, __pyx_n_u_filename_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -6220,13 +6132,11 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
       __Pyx_INCREF(__pyx_v_num);
       __Pyx_GIVEREF(__pyx_v_num);
       PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_num);
-      __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 147, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyObject_RichCompare(__pyx_v_tail, __pyx_t_9, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_tail, __pyx_t_9, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 147, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 147, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       if (__pyx_t_2) {
 
         /* "aiohttp/multipart.py":148
@@ -6311,7 +6221,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  *         if "'" in value:
  *             encoding, _, value = value.split("'", 2)
  */
-    __pyx_t_3 = __Pyx_PyString_Join(__pyx_kp_s__21, __pyx_v_parts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_3 = PyUnicode_Join(__pyx_kp_u__21, __pyx_v_parts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_3);
     __pyx_t_3 = 0;
@@ -6323,7 +6233,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  *             encoding, _, value = value.split("'", 2)
  *             encoding = encoding or 'utf-8'
  */
-    __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_kp_s__2, __pyx_v_value, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__2, __pyx_v_value, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
     __pyx_t_2 = (__pyx_t_1 != 0);
     if (__pyx_t_2) {
 
@@ -6334,13 +6244,14 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  *             encoding = encoding or 'utf-8'
  *             return unquote(value, encoding, 'strict')
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_split); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
+      if (unlikely(__pyx_v_value == Py_None)) {
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "split");
+        __PYX_ERR(0, 155, __pyx_L1_error)
+      }
+      __pyx_t_3 = PyUnicode_Split(__pyx_v_value, __pyx_kp_u__2, 2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 155, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if ((likely(PyTuple_CheckExact(__pyx_t_5))) || (PyList_CheckExact(__pyx_t_5))) {
-        PyObject* sequence = __pyx_t_5;
+      if (1) {
+        PyObject* sequence = __pyx_t_3;
         #if CYTHON_COMPILING_IN_CPYTHON
         Py_ssize_t size = Py_SIZE(sequence);
         #else
@@ -6352,56 +6263,28 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
           __PYX_ERR(0, 155, __pyx_L1_error)
         }
         #if CYTHON_COMPILING_IN_CPYTHON
-        if (likely(PyTuple_CheckExact(sequence))) {
-          __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
-          __pyx_t_8 = PyTuple_GET_ITEM(sequence, 1); 
-          __pyx_t_9 = PyTuple_GET_ITEM(sequence, 2); 
-        } else {
-          __pyx_t_3 = PyList_GET_ITEM(sequence, 0); 
-          __pyx_t_8 = PyList_GET_ITEM(sequence, 1); 
-          __pyx_t_9 = PyList_GET_ITEM(sequence, 2); 
-        }
-        __Pyx_INCREF(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_8);
+        __pyx_t_5 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_9 = PyList_GET_ITEM(sequence, 1); 
+        __pyx_t_8 = PyList_GET_ITEM(sequence, 2); 
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_8);
         #else
-        __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 155, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_8 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_8);
         #endif
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      } else {
-        Py_ssize_t index = -1;
-        __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_11 = Py_TYPE(__pyx_t_4)->tp_iternext;
-        index = 0; __pyx_t_3 = __pyx_t_11(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L14_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_3);
-        index = 1; __pyx_t_8 = __pyx_t_11(__pyx_t_4); if (unlikely(!__pyx_t_8)) goto __pyx_L14_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_8);
-        index = 2; __pyx_t_9 = __pyx_t_11(__pyx_t_4); if (unlikely(!__pyx_t_9)) goto __pyx_L14_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_9);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_4), 3) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
-        __pyx_t_11 = NULL;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        goto __pyx_L15_unpacking_done;
-        __pyx_L14_unpacking_failed:;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_11 = NULL;
-        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 155, __pyx_L1_error)
-        __pyx_L15_unpacking_done:;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
-      __pyx_v_encoding = __pyx_t_3;
-      __pyx_t_3 = 0;
-      __Pyx_XDECREF_SET(__pyx_v__, __pyx_t_8);
-      __pyx_t_8 = 0;
-      __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_9);
+      __pyx_v_encoding = __pyx_t_5;
+      __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v__, __pyx_t_9);
       __pyx_t_9 = 0;
+      __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
+      __pyx_t_8 = 0;
 
       /* "aiohttp/multipart.py":156
  *         if "'" in value:
@@ -6414,14 +6297,14 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
       if (!__pyx_t_2) {
       } else {
         __Pyx_INCREF(__pyx_v_encoding);
-        __pyx_t_5 = __pyx_v_encoding;
-        goto __pyx_L16_bool_binop_done;
+        __pyx_t_3 = __pyx_v_encoding;
+        goto __pyx_L14_bool_binop_done;
       }
-      __Pyx_INCREF(__pyx_kp_s_utf_8);
-      __pyx_t_5 = __pyx_kp_s_utf_8;
-      __pyx_L16_bool_binop_done:;
-      __Pyx_DECREF_SET(__pyx_v_encoding, __pyx_t_5);
-      __pyx_t_5 = 0;
+      __Pyx_INCREF(__pyx_kp_u_utf_8);
+      __pyx_t_3 = __pyx_kp_u_utf_8;
+      __pyx_L14_bool_binop_done:;
+      __Pyx_DECREF_SET(__pyx_v_encoding, __pyx_t_3);
+      __pyx_t_3 = 0;
 
       /* "aiohttp/multipart.py":157
  *             encoding, _, value = value.split("'", 2)
@@ -6431,40 +6314,40 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_2content_disposition_filename(CYTH
  * 
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_unquote); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 157, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_8 = NULL;
+      __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_unquote); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_9 = NULL;
       __pyx_t_7 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_9))) {
-        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_9);
-        if (likely(__pyx_t_8)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-          __Pyx_INCREF(__pyx_t_8);
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+        __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
+        if (likely(__pyx_t_9)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+          __Pyx_INCREF(__pyx_t_9);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_9, function);
+          __Pyx_DECREF_SET(__pyx_t_8, function);
           __pyx_t_7 = 1;
         }
       }
-      __pyx_t_3 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      if (__pyx_t_8) {
-        __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __pyx_t_8 = NULL;
+      __pyx_t_5 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (__pyx_t_9) {
+        __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9); __pyx_t_9 = NULL;
       }
       __Pyx_INCREF(__pyx_v_value);
       __Pyx_GIVEREF(__pyx_v_value);
-      PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_7, __pyx_v_value);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_7, __pyx_v_value);
       __Pyx_INCREF(__pyx_v_encoding);
       __Pyx_GIVEREF(__pyx_v_encoding);
-      PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_v_encoding);
-      __Pyx_INCREF(__pyx_n_s_strict);
-      __Pyx_GIVEREF(__pyx_n_s_strict);
-      PyTuple_SET_ITEM(__pyx_t_3, 2+__pyx_t_7, __pyx_n_s_strict);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 157, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
+      PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_7, __pyx_v_encoding);
+      __Pyx_INCREF(__pyx_n_u_strict);
+      __Pyx_GIVEREF(__pyx_n_u_strict);
+      PyTuple_SET_ITEM(__pyx_t_5, 2+__pyx_t_7, __pyx_n_u_strict);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __pyx_r = __pyx_t_3;
+      __pyx_t_3 = 0;
       goto __pyx_L0;
 
       /* "aiohttp/multipart.py":154
@@ -9035,10 +8918,10 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_15generator6(__py
         if (__Pyx_PyGen_FetchStopIterationValue(&__pyx_t_1) < 0) __PYX_ERR(0, 279, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
       }
-      __pyx_t_2 = (__Pyx_PyBytes_Equals(__pyx_kp_b__36, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 279, __pyx_L1_error)
+      __pyx_t_2 = (__Pyx_PyBytes_Equals(__pyx_kp_b__35, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (unlikely(!__pyx_t_2)) {
-        PyErr_SetObject(PyExc_AssertionError, __pyx_kp_s_reader_did_not_read_all_the_data);
+        PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_reader_did_not_read_all_the_data);
         __PYX_ERR(0, 279, __pyx_L1_error)
       }
     }
@@ -9225,7 +9108,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_18generator7(__py
     __pyx_t_2 = (__pyx_t_1 != Py_None);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!(__pyx_t_2 != 0))) {
-      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_s_Content_Length_required_for_chun);
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Content_Length_required_for_chun);
       __PYX_ERR(0, 292, __pyx_L1_error)
     }
   }
@@ -9511,7 +9394,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_21generator8(__py
     __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 307, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (unlikely(!__pyx_t_4)) {
-      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_s_Chunk_size_must_be_greater_or_eq);
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Chunk_size_must_be_greater_or_eq);
       __PYX_ERR(0, 307, __pyx_L1_error)
     }
   }
@@ -9726,7 +9609,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_21generator8(__py
     __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 315, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(!__pyx_t_4)) {
-      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_s_Reading_after_EOF);
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Reading_after_EOF);
       __PYX_ERR(0, 315, __pyx_L1_error)
     }
   }
@@ -9757,7 +9640,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_21generator8(__py
  */
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_boundary_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = PyNumber_Add(__pyx_kp_b__36, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Add(__pyx_kp_b__35, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GIVEREF(__pyx_t_5);
@@ -10428,7 +10311,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_24generator9(__py
  */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_line, __pyx_n_s_rstrip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 355, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 355, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 355, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GIVEREF(__pyx_t_3);
@@ -10457,7 +10340,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_24generator9(__py
  */
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_boundary_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 357, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = PyNumber_Add(__pyx_t_3, __pyx_kp_b__38); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_3, __pyx_kp_b__37); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GIVEREF(__pyx_t_1);
@@ -10637,7 +10520,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_24generator9(__py
  *             self._unread.append(next_line)
  * 
  */
-      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_cur_scope->__pyx_v_line, 0, -2L, NULL, NULL, &__pyx_slice__39, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 366, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_cur_scope->__pyx_v_line, 0, -2L, NULL, NULL, &__pyx_slice__38, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_line);
       __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_line, __pyx_t_1);
@@ -11179,7 +11062,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_30generator11(__p
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_default, __pyx_n_s_latin1) < 0) __PYX_ERR(0, 396, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_default, __pyx_n_u_latin1) < 0) __PYX_ERR(0, 396, __pyx_L1_error)
   __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 396, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11468,7 +11351,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_33generator12(__p
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_default, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 409, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_default, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 409, __pyx_L1_error)
   __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11789,7 +11672,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartReader_36generator13(__p
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 423, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_default, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 423, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_default, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 423, __pyx_L1_error)
   __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 423, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -12334,7 +12217,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_41_decode_content
  *             return zlib.decompress(data, -zlib.MAX_WBITS)
  *         elif encoding == 'gzip':
  */
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_encoding, __pyx_n_s_deflate, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 459, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_encoding, __pyx_n_u_deflate, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 459, __pyx_L1_error)
   if (__pyx_t_5) {
 
     /* "aiohttp/multipart.py":460
@@ -12405,7 +12288,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_41_decode_content
  *             return zlib.decompress(data, 16 + zlib.MAX_WBITS)
  *         elif encoding == 'identity':
  */
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_encoding, __pyx_n_s_gzip, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 461, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_encoding, __pyx_n_u_gzip, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 461, __pyx_L1_error)
   if (__pyx_t_5) {
 
     /* "aiohttp/multipart.py":462
@@ -12476,7 +12359,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_41_decode_content
  *             return data
  *         else:
  */
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_encoding, __pyx_n_s_identity, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 463, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_encoding, __pyx_n_u_identity, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 463, __pyx_L1_error)
   if (__pyx_t_5) {
 
     /* "aiohttp/multipart.py":464
@@ -12508,7 +12391,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_41_decode_content
  *     def _decode_content_transfer(self, data):
  */
   /*else*/ {
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_unknown_content_encoding, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 466, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_unknown_content_encoding, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 466, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_2 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_7))) {
@@ -12696,7 +12579,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_43_decode_content
  *             return base64.b64decode(data)
  *         elif encoding == 'quoted-printable':
  */
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_encoding, __pyx_n_s_base64, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_encoding, __pyx_n_u_base64, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 471, __pyx_L1_error)
   if (__pyx_t_5) {
 
     /* "aiohttp/multipart.py":472
@@ -12757,7 +12640,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_43_decode_content
  *             return binascii.a2b_qp(data)
  *         else:
  */
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_encoding, __pyx_kp_s_quoted_printable, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_encoding, __pyx_kp_u_quoted_printable, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 473, __pyx_L1_error)
   if (__pyx_t_5) {
 
     /* "aiohttp/multipart.py":474
@@ -12827,7 +12710,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_43_decode_content
  * 
  *     def get_charset(self, default=None):
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_unknown_content_transfer_encodin, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 477, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_unknown_content_transfer_encodin, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 477, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -13016,9 +12899,9 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_45get_charset(CYT
   }
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s__21);
-  __Pyx_GIVEREF(__pyx_kp_s__21);
-  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_kp_s__21);
+  __Pyx_INCREF(__pyx_kp_u__21);
+  __Pyx_GIVEREF(__pyx_kp_u__21);
+  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_kp_u__21);
   __pyx_t_2 = 0;
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 482, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -13115,9 +12998,9 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartReader_45get_charset(CYT
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3); __pyx_t_3 = NULL;
   }
-  __Pyx_INCREF(__pyx_n_s_charset);
-  __Pyx_GIVEREF(__pyx_n_s_charset);
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_n_s_charset);
+  __Pyx_INCREF(__pyx_n_u_charset);
+  __Pyx_GIVEREF(__pyx_n_u_charset);
+  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_n_u_charset);
   __Pyx_INCREF(__pyx_v_default);
   __Pyx_GIVEREF(__pyx_v_default);
   PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_default);
@@ -13519,7 +13402,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader___init__(CYTHON_
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_kp_s__38, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_kp_u__37, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 508, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 508, __pyx_L1_error)
@@ -14975,9 +14858,9 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader_20_get_part_read
   }
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_3);
-  __Pyx_INCREF(__pyx_kp_s__21);
-  __Pyx_GIVEREF(__pyx_kp_s__21);
-  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_kp_s__21);
+  __Pyx_INCREF(__pyx_kp_u__21);
+  __Pyx_GIVEREF(__pyx_kp_u__21);
+  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_kp_u__21);
   __pyx_t_3 = 0;
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 576, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -15055,7 +14938,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader_20_get_part_read
  *             if self.multipart_reader_cls is None:
  *                 return type(self)(headers, self._content)
  */
-  __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_mtype, __pyx_n_s_multipart, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 578, __pyx_L1_error)
+  __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_v_mtype, __pyx_n_u_multipart, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 578, __pyx_L1_error)
   if (__pyx_t_8) {
 
     /* "aiohttp/multipart.py":579
@@ -15393,9 +15276,9 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader_22_get_boundary(
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_mtype, __pyx_n_s_multipart, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 588, __pyx_L1_error)
+    __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_v_mtype, __pyx_n_u_multipart, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 588, __pyx_L1_error)
     if (unlikely(!__pyx_t_8)) {
-      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_s_multipart_content_type_expected);
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_multipart_content_type_expected);
       __PYX_ERR(0, 588, __pyx_L1_error)
     }
   }
@@ -15408,7 +15291,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader_22_get_boundary(
  *             raise ValueError('boundary missed for Content-Type: %s'
  *                              % self.headers[CONTENT_TYPE])
  */
-  __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_boundary, __pyx_v_params, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 590, __pyx_L1_error)
+  __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_boundary, __pyx_v_params, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 590, __pyx_L1_error)
   __pyx_t_9 = (__pyx_t_8 != 0);
   if (__pyx_t_9) {
 
@@ -15427,7 +15310,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader_22_get_boundary(
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_boundary_missed_for_Content_Type, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_boundary_missed_for_Content_Type, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 592, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
@@ -15466,7 +15349,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader_22_get_boundary(
  *         if len(boundary) > 70:
  *             raise ValueError('boundary %r is too long (70 chars max)'
  */
-  __pyx_t_3 = PyObject_GetItem(__pyx_v_params, __pyx_n_s_boundary); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 594, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_v_params, __pyx_n_u_boundary); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 594, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_boundary = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -15489,7 +15372,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartReader_22_get_boundary(
  * 
  *         return boundary
  */
-    __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_boundary_r_is_too_long_70_chars, __pyx_v_boundary); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 597, __pyx_L1_error)
+    __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_boundary_r_is_too_long_70_chars, __pyx_v_boundary); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 597, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
 
     /* "aiohttp/multipart.py":596
@@ -15923,7 +15806,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_15MultipartReader_29generator19(__
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_boundary_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 612, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyNumber_Add(__pyx_t_3, __pyx_kp_b__38); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 612, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_3, __pyx_kp_b__37); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 612, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v_chunk, __pyx_t_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 612, __pyx_L1_error)
@@ -15977,7 +15860,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_15MultipartReader_29generator19(__
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_Invalid_boundary_r_expected_r, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 616, __pyx_L1_error)
+    __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_Invalid_boundary_r_expected_r, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 616, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -16947,7 +16830,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter___init__(CYTHON_U
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_serialize_str); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 657, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_3, ((PyObject *)(&PyString_Type)), __pyx_t_4) < 0) __PYX_ERR(0, 656, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, ((PyObject *)(&PyUnicode_Type)), __pyx_t_4) < 0) __PYX_ERR(0, 656, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "aiohttp/multipart.py":658
@@ -16992,7 +16875,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter___init__(CYTHON_U
  */
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_serialize_json); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 660, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_tuple__40, __pyx_t_6) < 0) __PYX_ERR(0, 656, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_tuple__39, __pyx_t_6) < 0) __PYX_ERR(0, 656, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
   /* "aiohttp/multipart.py":661
@@ -17004,7 +16887,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter___init__(CYTHON_U
  */
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_serialize_form); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 661, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_tuple__41, __pyx_t_6) < 0) __PYX_ERR(0, 656, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_tuple__40, __pyx_t_6) < 0) __PYX_ERR(0, 656, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
   /* "aiohttp/multipart.py":655
@@ -17260,7 +17143,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_2_fill_headers_wi
       __Pyx_INCREF(__pyx_v_content_length);
       __Pyx_GIVEREF(__pyx_v_content_length);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_content_length);
-      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 673, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 673, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_headers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 673, __pyx_L1_error)
@@ -17370,7 +17253,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_2_fill_headers_wi
       __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 678, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_filename_2, __pyx_v_filename) < 0) __PYX_ERR(0, 678, __pyx_L1_error)
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__42, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 678, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__41, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 678, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17553,7 +17436,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_4_guess_content_l
  *             *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
  *             charset = params.get('charset', 'us-ascii')
  */
-  __pyx_t_2 = PyString_Check(__pyx_v_obj); 
+  __pyx_t_2 = PyUnicode_Check(__pyx_v_obj); 
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
@@ -17661,7 +17544,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_4_guess_content_l
  */
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_params, __pyx_n_s_get); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 685, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 685, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 685, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_charset = __pyx_t_10;
@@ -17840,7 +17723,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_4_guess_content_l
  */
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_params, __pyx_n_s_get); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 689, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 689, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 689, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_charset = __pyx_t_9;
@@ -18304,7 +18187,7 @@ static PyObject *__pyx_pw_7aiohttp_9multipart_14BodyPartWriter_7_guess_content_t
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_obj,&__pyx_n_s_default,0};
     PyObject* values[3] = {0,0,0};
-    values[2] = ((PyObject *)((PyObject*)__pyx_kp_s_application_octet_stream));
+    values[2] = ((PyObject *)((PyObject*)__pyx_kp_u_application_octet_stream));
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
@@ -18382,7 +18265,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_6_guess_content_t
  *             name = getattr(obj, 'name')
  *             return mimetypes.guess_type(name)[0]
  */
-  __pyx_t_1 = PyObject_HasAttr(__pyx_v_obj, __pyx_n_s_name); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 702, __pyx_L1_error)
+  __pyx_t_1 = PyObject_HasAttr(__pyx_v_obj, __pyx_n_u_name); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 702, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
@@ -18393,7 +18276,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_6_guess_content_t
  *             return mimetypes.guess_type(name)[0]
  *         elif isinstance(obj, (str, io.StringIO)):
  */
-    __pyx_t_3 = __Pyx_GetAttr(__pyx_v_obj, __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 703, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetAttr(__pyx_v_obj, __pyx_n_u_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v_name = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -18464,7 +18347,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_6_guess_content_t
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_StringIO); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 705, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_1 = PyString_Check(__pyx_v_obj); 
+  __pyx_t_1 = PyUnicode_Check(__pyx_v_obj); 
   __pyx_t_7 = (__pyx_t_1 != 0);
   if (!__pyx_t_7) {
   } else {
@@ -18487,8 +18370,8 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_6_guess_content_t
  *             return default
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_kp_s_text_plain_charset_utf_8);
-    __pyx_r = __pyx_kp_s_text_plain_charset_utf_8;
+    __Pyx_INCREF(__pyx_kp_u_text_plain_charset_utf_8);
+    __pyx_r = __pyx_kp_u_text_plain_charset_utf_8;
     goto __pyx_L0;
 
     /* "aiohttp/multipart.py":705
@@ -18640,7 +18523,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_8_guess_filename(
  *             if name is not None:
  *                 return Path(name).name
  */
-    __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_n_s_name, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 712, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_n_u_name, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 712, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_name = __pyx_t_2;
     __pyx_t_2 = 0;
@@ -18797,7 +18680,7 @@ static PyObject *__pyx_lambda_funcdef_lambda4(CYTHON_UNUSED PyObject *__pyx_self
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_i, __pyx_n_s_encode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 734, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 734, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
@@ -18852,10 +18735,12 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_9serialize_2gener
   struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_28_genexpr *__pyx_cur_scope = ((struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_28_genexpr *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  PyObject *(*__pyx_t_5)(PyObject *);
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("None", 0);
   switch (__pyx_generator->resume_label) {
@@ -18875,74 +18760,29 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_9serialize_2gener
  *             )
  *         yield b'\r\n\r\n'
  */
+  __pyx_t_2 = 0;
   if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self)) { __Pyx_RaiseClosureNameError("self"); __PYX_ERR(0, 735, __pyx_L1_error) }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self, __pyx_n_s_headers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 735, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_items); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 735, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self, __pyx_n_s_headers); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 735, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  if (unlikely(__pyx_t_5 == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
+    __PYX_ERR(0, 735, __pyx_L1_error)
   }
-  if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
-  }
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
-    __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-  } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 735, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 735, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_3))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 735, __pyx_L1_error)
-        #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        #endif
-      } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 735, __pyx_L1_error)
-        #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        #endif
-      }
-    } else {
-      __pyx_t_1 = __pyx_t_5(__pyx_t_3);
-      if (unlikely(!__pyx_t_1)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 735, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_1);
-    }
+  __pyx_t_6 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 735, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_XDECREF(__pyx_t_1);
+  __pyx_t_1 = __pyx_t_6;
+  __pyx_t_6 = 0;
+  while (1) {
+    __pyx_t_7 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, NULL, NULL, &__pyx_t_6, __pyx_t_4);
+    if (unlikely(__pyx_t_7 == 0)) break;
+    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_item);
-    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_item, __pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_1);
-    __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_item, __pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_6);
+    __pyx_t_6 = 0;
 
     /* "aiohttp/multipart.py":734
  *         if self.headers:
@@ -18951,66 +18791,52 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_9serialize_2gener
  *                 for item in self.headers.items()
  *             )
  */
-    __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_9serialize_7genexpr_lambda4, 0, __pyx_n_s_BodyPartWriter_serialize_locals_2, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 734, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+    __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_9serialize_7genexpr_lambda4, 0, __pyx_n_s_BodyPartWriter_serialize_locals_2, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6);
     __Pyx_INCREF(__pyx_cur_scope->__pyx_v_item);
     __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_item);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_cur_scope->__pyx_v_item);
-    __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyBytes_Join(__pyx_kp_b__46, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 734, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_2;
-    __pyx_t_2 = 0;
-    __Pyx_XGIVEREF(__pyx_t_3);
-    __pyx_cur_scope->__pyx_t_0 = __pyx_t_3;
-    __pyx_cur_scope->__pyx_t_1 = __pyx_t_4;
-    __pyx_cur_scope->__pyx_t_2 = __pyx_t_5;
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_cur_scope->__pyx_v_item);
+    __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyBytes_Join(__pyx_kp_b__45, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_r = __pyx_t_5;
+    __pyx_t_5 = 0;
+    __Pyx_XGIVEREF(__pyx_t_1);
+    __pyx_cur_scope->__pyx_t_0 = __pyx_t_1;
+    __pyx_cur_scope->__pyx_t_1 = __pyx_t_2;
+    __pyx_cur_scope->__pyx_t_2 = __pyx_t_3;
+    __pyx_cur_scope->__pyx_t_3 = __pyx_t_4;
     __Pyx_XGIVEREF(__pyx_r);
     __Pyx_RefNannyFinishContext();
     /* return from generator, yielding value */
     __pyx_generator->resume_label = 1;
     return __pyx_r;
     __pyx_L6_resume_from_yield:;
-    __pyx_t_3 = __pyx_cur_scope->__pyx_t_0;
+    __pyx_t_1 = __pyx_cur_scope->__pyx_t_0;
     __pyx_cur_scope->__pyx_t_0 = 0;
-    __Pyx_XGOTREF(__pyx_t_3);
-    __pyx_t_4 = __pyx_cur_scope->__pyx_t_1;
-    __pyx_t_5 = __pyx_cur_scope->__pyx_t_2;
+    __Pyx_XGOTREF(__pyx_t_1);
+    __pyx_t_2 = __pyx_cur_scope->__pyx_t_1;
+    __pyx_t_3 = __pyx_cur_scope->__pyx_t_2;
+    __pyx_t_4 = __pyx_cur_scope->__pyx_t_3;
     if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 734, __pyx_L1_error)
-
-    /* "aiohttp/multipart.py":735
- *             yield b'\r\n'.join(
- *                 b': '.join(map(lambda i: i.encode('latin1'), item))
- *                 for item in self.headers.items()             # <<<<<<<<<<<<<<
- *             )
- *         yield b'\r\n\r\n'
- */
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "aiohttp/multipart.py":734
- *         if self.headers:
- *             yield b'\r\n'.join(
- *                 b': '.join(map(lambda i: i.encode('latin1'), item))             # <<<<<<<<<<<<<<
- *                 for item in self.headers.items()
- *             )
- */
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* function exit code */
   PyErr_SetNone(PyExc_StopIteration);
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("genexpr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
@@ -19119,7 +18945,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_12generator22(__p
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_5, __pyx_n_s_identity, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 721, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_5, __pyx_n_u_identity, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 721, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 721, __pyx_L1_error)
   if (!__pyx_t_4) {
@@ -19247,7 +19073,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_12generator22(__p
  *                 b': '.join(map(lambda i: i.encode('latin1'), item))
  *                 for item in self.headers.items()
  */
-    __pyx_t_2 = __Pyx_PyBytes_Join(__pyx_kp_b__36, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyBytes_Join(__pyx_kp_b__35, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 733, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_r = __pyx_t_2;
@@ -19276,8 +19102,8 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_12generator22(__p
  *         yield from self._maybe_encode_stream(self._serialize_obj())
  *         yield b'\r\n'
  */
-  __Pyx_INCREF(__pyx_kp_b__47);
-  __pyx_r = __pyx_kp_b__47;
+  __Pyx_INCREF(__pyx_kp_b__46);
+  __pyx_r = __pyx_kp_b__46;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   /* return from generator, yielding value */
@@ -19367,8 +19193,8 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_12generator22(__p
  * 
  *     def _serialize_obj(self):
  */
-  __Pyx_INCREF(__pyx_kp_b__36);
-  __pyx_r = __pyx_kp_b__36;
+  __Pyx_INCREF(__pyx_kp_b__35);
+  __pyx_r = __pyx_kp_b__35;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   /* return from generator, yielding value */
@@ -20260,7 +20086,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_20generator24(__p
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_params, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 758, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__48, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 758, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 758, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -20540,7 +20366,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_23generator25(__p
  *                 yield from self._serialize_str(chunk)
  *             else:
  */
-    __pyx_t_7 = PyString_Check(__pyx_cur_scope->__pyx_v_chunk); 
+    __pyx_t_7 = PyUnicode_Check(__pyx_cur_scope->__pyx_v_chunk); 
     __pyx_t_6 = (__pyx_t_7 != 0);
     if (__pyx_t_6) {
 
@@ -21147,7 +20973,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_29generator27(__p
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_params, __pyx_n_s_get); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 775, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__49, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 775, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__48, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 775, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = NULL;
@@ -21512,7 +21338,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_32_serialize_defa
  * 
  *     def _maybe_encode_stream(self, stream):
  */
-  __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_unknown_body_part_type_r, ((PyObject *)Py_TYPE(__pyx_v_obj))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 783, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_unknown_body_part_type_r, ((PyObject *)Py_TYPE(__pyx_v_obj))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 783, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 783, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -22025,7 +21851,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_39generator29(__p
  *             yield from stream
  *         elif encoding in ('deflate', 'gzip'):
  */
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_n_s_identity, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 794, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_n_u_identity, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 794, __pyx_L1_error)
   if (__pyx_t_5) {
 
     /* "aiohttp/multipart.py":795
@@ -22072,13 +21898,13 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_39generator29(__p
  */
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_encoding);
   __pyx_t_1 = __pyx_cur_scope->__pyx_v_encoding;
-  __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_deflate, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 796, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_deflate, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 796, __pyx_L1_error)
   if (!__pyx_t_6) {
   } else {
     __pyx_t_5 = __pyx_t_6;
     goto __pyx_L6_bool_binop_done;
   }
-  __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_gzip, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 796, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_gzip, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 796, __pyx_L1_error)
   __pyx_t_5 = __pyx_t_6;
   __pyx_L6_bool_binop_done:;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22092,7 +21918,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_39generator29(__p
  *                 zlib_mode = 16 + zlib.MAX_WBITS
  *             else:
  */
-    __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_n_s_gzip, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 797, __pyx_L1_error)
+    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_n_u_gzip, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 797, __pyx_L1_error)
     if (__pyx_t_6) {
 
       /* "aiohttp/multipart.py":798
@@ -22365,7 +22191,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_39generator29(__p
  * 
  *     def _apply_content_transfer_encoding(self, stream):
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_unknown_content_encoding, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 808, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_unknown_content_encoding, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 808, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_3 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -22617,7 +22443,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_42generator30(__p
  *             buffer = bytearray()
  *             while True:
  */
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_n_s_base64, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 812, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_n_u_base64, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 812, __pyx_L1_error)
   if (__pyx_t_5) {
 
     /* "aiohttp/multipart.py":813
@@ -22872,7 +22698,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_42generator30(__p
           __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_b64encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 823, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_cur_scope->__pyx_v_buffer, 0, 0, NULL, NULL, &__pyx_slice__50, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 823, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_cur_scope->__pyx_v_buffer, 0, 0, NULL, NULL, &__pyx_slice__49, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 823, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_t_4 = NULL;
           if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -22993,7 +22819,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_42generator30(__p
  *             for chunk in stream:
  *                 yield binascii.b2a_qp(chunk)
  */
-  __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_kp_s_quoted_printable, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 826, __pyx_L1_error)
+  __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_encoding, __pyx_kp_u_quoted_printable, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 826, __pyx_L1_error)
   if (__pyx_t_8) {
 
     /* "aiohttp/multipart.py":827
@@ -23139,7 +22965,7 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_42generator30(__p
  * 
  *     def set_content_disposition(self, disptype, **params):
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_unknown_content_transfer_encodin, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 831, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_unknown_content_transfer_encodin, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 831, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_9 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -23338,13 +23164,14 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_23set_content_dis
   __Pyx_RefNannySetupContext("None", 0);
   switch (__pyx_generator->resume_label) {
     case 0: goto __pyx_L3_first_run;
-    case 1: goto __pyx_L6_resume_from_yield;
     default: /* CPython raises the right error here */
     __Pyx_RefNannyFinishContext();
     return NULL;
   }
   __pyx_L3_first_run:;
   if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 854, __pyx_L1_error)
+  __pyx_r = PyList_New(0); if (unlikely(!__pyx_r)) __PYX_ERR(0, 854, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_r);
   if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_lparams)) { __Pyx_RaiseClosureNameError("lparams"); __PYX_ERR(0, 854, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_lparams == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
@@ -23363,36 +23190,22 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_14BodyPartWriter_23set_content_dis
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_pair, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyString_Join(__pyx_kp_s__24, __pyx_cur_scope->__pyx_v_pair); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __pyx_t_3 = PyUnicode_Join(__pyx_kp_u__24, __pyx_cur_scope->__pyx_v_pair); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 854, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_r = __pyx_t_3;
-    __pyx_t_3 = 0;
-    __Pyx_XGIVEREF(__pyx_t_1);
-    __pyx_cur_scope->__pyx_t_0 = __pyx_t_1;
-    __pyx_cur_scope->__pyx_t_1 = __pyx_t_2;
-    __Pyx_XGIVEREF(__pyx_r);
-    __Pyx_RefNannyFinishContext();
-    /* return from generator, yielding value */
-    __pyx_generator->resume_label = 1;
-    return __pyx_r;
-    __pyx_L6_resume_from_yield:;
-    __pyx_t_1 = __pyx_cur_scope->__pyx_t_0;
-    __pyx_cur_scope->__pyx_t_0 = 0;
-    __Pyx_XGOTREF(__pyx_t_1);
-    __pyx_t_2 = __pyx_cur_scope->__pyx_t_1;
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 854, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* function exit code */
-  PyErr_SetNone(PyExc_StopIteration);
   goto __pyx_L0;
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("genexpr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
+  __Pyx_XGIVEREF(__pyx_r);
   __pyx_generator->resume_label = -1;
   __Pyx_Coroutine_clear((PyObject*)__pyx_generator);
   __Pyx_RefNannyFinishContext();
@@ -23424,11 +23237,12 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   Py_ssize_t __pyx_t_8;
-  PyObject *(*__pyx_t_9)(PyObject *);
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *(*__pyx_t_11)(PyObject *);
+  Py_ssize_t __pyx_t_9;
+  int __pyx_t_10;
+  int __pyx_t_11;
   Py_ssize_t __pyx_t_12;
-  int __pyx_t_13;
+  PyObject *__pyx_t_13 = NULL;
+  int __pyx_t_14;
   __Pyx_RefNannySetupContext("set_content_disposition", 0);
   __pyx_cur_scope = (struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_37_set_content_disposition *)__pyx_tp_new_7aiohttp_9multipart___pyx_scope_struct_37_set_content_disposition(__pyx_ptype_7aiohttp_9multipart___pyx_scope_struct_37_set_content_disposition, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
@@ -23472,7 +23286,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *         value = disptype
  *         if params:
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_bad_content_disposition_type_r, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 842, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_bad_content_disposition_type_r, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 842, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_4 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
@@ -23568,102 +23382,22 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *                 if not key or not (TOKEN > set(key)):
  *                     raise ValueError('bad content disposition parameter'
  */
-    __pyx_t_6 = __Pyx_PyDict_Items(__pyx_v_params); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 846, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    if (likely(PyList_CheckExact(__pyx_t_6)) || PyTuple_CheckExact(__pyx_t_6)) {
-      __pyx_t_5 = __pyx_t_6; __Pyx_INCREF(__pyx_t_5); __pyx_t_8 = 0;
-      __pyx_t_9 = NULL;
-    } else {
-      __pyx_t_8 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 846, __pyx_L1_error)
+    __pyx_t_8 = 0;
+    __pyx_t_5 = __Pyx_dict_iterator(__pyx_v_params, 1, __pyx_n_s_items, (&__pyx_t_9), (&__pyx_t_10)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 846, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_6);
+    __pyx_t_6 = __pyx_t_5;
+    __pyx_t_5 = 0;
+    while (1) {
+      __pyx_t_11 = __Pyx_dict_iter_next(__pyx_t_6, __pyx_t_9, &__pyx_t_8, &__pyx_t_5, &__pyx_t_7, NULL, __pyx_t_10);
+      if (unlikely(__pyx_t_11 == 0)) break;
+      if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 846, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 846, __pyx_L1_error)
-    }
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    for (;;) {
-      if (likely(!__pyx_t_9)) {
-        if (likely(PyList_CheckExact(__pyx_t_5))) {
-          if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_5)) break;
-          #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_6); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 846, __pyx_L1_error)
-          #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 846, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          #endif
-        } else {
-          if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
-          #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_6); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 846, __pyx_L1_error)
-          #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 846, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          #endif
-        }
-      } else {
-        __pyx_t_6 = __pyx_t_9(__pyx_t_5);
-        if (unlikely(!__pyx_t_6)) {
-          PyObject* exc_type = PyErr_Occurred();
-          if (exc_type) {
-            if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 846, __pyx_L1_error)
-          }
-          break;
-        }
-        __Pyx_GOTREF(__pyx_t_6);
-      }
-      if ((likely(PyTuple_CheckExact(__pyx_t_6))) || (PyList_CheckExact(__pyx_t_6))) {
-        PyObject* sequence = __pyx_t_6;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        Py_ssize_t size = Py_SIZE(sequence);
-        #else
-        Py_ssize_t size = PySequence_Size(sequence);
-        #endif
-        if (unlikely(size != 2)) {
-          if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 846, __pyx_L1_error)
-        }
-        #if CYTHON_COMPILING_IN_CPYTHON
-        if (likely(PyTuple_CheckExact(sequence))) {
-          __pyx_t_7 = PyTuple_GET_ITEM(sequence, 0); 
-          __pyx_t_4 = PyTuple_GET_ITEM(sequence, 1); 
-        } else {
-          __pyx_t_7 = PyList_GET_ITEM(sequence, 0); 
-          __pyx_t_4 = PyList_GET_ITEM(sequence, 1); 
-        }
-        __Pyx_INCREF(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_4);
-        #else
-        __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 846, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 846, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        #endif
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      } else {
-        Py_ssize_t index = -1;
-        __pyx_t_10 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 846, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
-        index = 0; __pyx_t_7 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_7)) goto __pyx_L9_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_7);
-        index = 1; __pyx_t_4 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_4)) goto __pyx_L9_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_4);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(0, 846, __pyx_L1_error)
-        __pyx_t_11 = NULL;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        goto __pyx_L10_unpacking_done;
-        __pyx_L9_unpacking_failed:;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_11 = NULL;
-        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 846, __pyx_L1_error)
-        __pyx_L10_unpacking_done:;
-      }
-      __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_7);
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_5);
+      __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_val, __pyx_t_7);
       __pyx_t_7 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_val, __pyx_t_4);
-      __pyx_t_4 = 0;
 
       /* "aiohttp/multipart.py":847
  *             lparams = []
@@ -23677,20 +23411,20 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
       if (!__pyx_t_3) {
       } else {
         __pyx_t_1 = __pyx_t_3;
-        goto __pyx_L12_bool_binop_done;
+        goto __pyx_L10_bool_binop_done;
       }
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_TOKEN); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 847, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = PySet_New(__pyx_v_key); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 847, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_t_6, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 847, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 847, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_TOKEN); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 847, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_5 = PySet_New(__pyx_v_key); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 847, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_7, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 847, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 847, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_2 = ((!__pyx_t_3) != 0);
       __pyx_t_1 = __pyx_t_2;
-      __pyx_L12_bool_binop_done:;
+      __pyx_L10_bool_binop_done:;
       if (__pyx_t_1) {
 
         /* "aiohttp/multipart.py":849
@@ -23700,35 +23434,35 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *                 qval = quote(val, '')
  *                 lparams.append((key, '"%s"' % qval))
  */
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_bad_content_disposition_paramete, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 849, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = NULL;
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_bad_content_disposition_paramete, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 849, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_7 = NULL;
         __pyx_t_12 = 0;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
-          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-          if (likely(__pyx_t_6)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-            __Pyx_INCREF(__pyx_t_6);
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+          __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+          if (likely(__pyx_t_7)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+            __Pyx_INCREF(__pyx_t_7);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_4, function);
+            __Pyx_DECREF_SET(__pyx_t_5, function);
             __pyx_t_12 = 1;
           }
         }
-        __pyx_t_10 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 849, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        if (__pyx_t_6) {
-          __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_6); __pyx_t_6 = NULL;
+        __pyx_t_13 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 849, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_13);
+        if (__pyx_t_7) {
+          __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
         }
         __Pyx_INCREF(__pyx_v_key);
         __Pyx_GIVEREF(__pyx_v_key);
-        PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_12, __pyx_v_key);
+        PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_12, __pyx_v_key);
         __Pyx_INCREF(__pyx_v_val);
         __Pyx_GIVEREF(__pyx_v_val);
-        PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_12, __pyx_v_val);
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_10, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 849, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_12, __pyx_v_val);
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 849, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
         /* "aiohttp/multipart.py":848
  *             for key, val in params.items():
@@ -23737,16 +23471,16 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *                                      ' {!r}={!r}'.format(key, val))
  *                 qval = quote(val, '')
  */
-        __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 848, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 848, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_4);
+        PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
+        __pyx_t_4 = 0;
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 848, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_GIVEREF(__pyx_t_7);
-        PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_7);
-        __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 848, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_Raise(__pyx_t_7, 0, 0, 0);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __PYX_ERR(0, 848, __pyx_L1_error)
 
         /* "aiohttp/multipart.py":847
@@ -23765,37 +23499,37 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *                 lparams.append((key, '"%s"' % qval))
  *                 if key == 'filename':
  */
-      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_quote); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 850, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_10 = NULL;
+      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_quote); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 850, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_13 = NULL;
       __pyx_t_12 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_10)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_10);
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_13)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_13);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
           __pyx_t_12 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 850, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      if (__pyx_t_10) {
-        __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_10); __pyx_t_10 = NULL;
+      __pyx_t_7 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 850, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__pyx_t_13) {
+        __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_13); __pyx_t_13 = NULL;
       }
       __Pyx_INCREF(__pyx_v_val);
       __Pyx_GIVEREF(__pyx_v_val);
-      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_12, __pyx_v_val);
-      __Pyx_INCREF(__pyx_kp_s__21);
-      __Pyx_GIVEREF(__pyx_kp_s__21);
-      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_12, __pyx_kp_s__21);
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 850, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_qval, __pyx_t_7);
-      __pyx_t_7 = 0;
+      PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_12, __pyx_v_val);
+      __Pyx_INCREF(__pyx_kp_u__21);
+      __Pyx_GIVEREF(__pyx_kp_u__21);
+      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_12, __pyx_kp_u__21);
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 850, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_qval, __pyx_t_4);
+      __pyx_t_4 = 0;
 
       /* "aiohttp/multipart.py":851
  *                                      ' {!r}={!r}'.format(key, val))
@@ -23804,18 +23538,18 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *                 if key == 'filename':
  *                     lparams.append(('filename*', "utf-8''" + qval))
  */
-      __pyx_t_7 = __Pyx_PyString_Format(__pyx_kp_s_s, __pyx_v_qval); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 851, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 851, __pyx_L1_error)
+      __pyx_t_4 = PyUnicode_Format(__pyx_kp_u_s, __pyx_v_qval); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 851, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 851, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_v_key);
       __Pyx_GIVEREF(__pyx_v_key);
-      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_key);
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_13 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_lparams, __pyx_t_4); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 851, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_key);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_14 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_lparams, __pyx_t_5); if (unlikely(__pyx_t_14 == -1)) __PYX_ERR(0, 851, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
       /* "aiohttp/multipart.py":852
  *                 qval = quote(val, '')
@@ -23824,7 +23558,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *                     lparams.append(('filename*', "utf-8''" + qval))
  *             sparams = '; '.join('='.join(pair) for pair in lparams)
  */
-      __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_key, __pyx_n_s_filename_2, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 852, __pyx_L1_error)
+      __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_key, __pyx_n_u_filename_2, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 852, __pyx_L1_error)
       if (__pyx_t_1) {
 
         /* "aiohttp/multipart.py":853
@@ -23834,18 +23568,18 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *             sparams = '; '.join('='.join(pair) for pair in lparams)
  *             value = '; '.join((value, sparams))
  */
-        __pyx_t_4 = PyNumber_Add(__pyx_kp_s_utf_8_2, __pyx_v_qval); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 853, __pyx_L1_error)
+        __pyx_t_5 = PyNumber_Add(__pyx_kp_u_utf_8_2, __pyx_v_qval); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 853, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 853, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 853, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_INCREF(__pyx_kp_s_filename);
-        __Pyx_GIVEREF(__pyx_kp_s_filename);
-        PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_kp_s_filename);
-        __Pyx_GIVEREF(__pyx_t_4);
-        PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_4);
-        __pyx_t_4 = 0;
-        __pyx_t_13 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_lparams, __pyx_t_7); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 853, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __Pyx_INCREF(__pyx_kp_u_filename);
+        __Pyx_GIVEREF(__pyx_kp_u_filename);
+        PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_filename);
+        __Pyx_GIVEREF(__pyx_t_5);
+        PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_5);
+        __pyx_t_5 = 0;
+        __pyx_t_14 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_lparams, __pyx_t_4); if (unlikely(__pyx_t_14 == -1)) __PYX_ERR(0, 853, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
         /* "aiohttp/multipart.py":852
  *                 qval = quote(val, '')
@@ -23855,16 +23589,8 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *             sparams = '; '.join('='.join(pair) for pair in lparams)
  */
       }
-
-      /* "aiohttp/multipart.py":846
- *         if params:
- *             lparams = []
- *             for key, val in params.items():             # <<<<<<<<<<<<<<
- *                 if not key or not (TOKEN > set(key)):
- *                     raise ValueError('bad content disposition parameter'
- */
     }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "aiohttp/multipart.py":854
  *                 if key == 'filename':
@@ -23873,13 +23599,16 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *             value = '; '.join((value, sparams))
  *         self.headers[CONTENT_DISPOSITION] = value
  */
-    __pyx_t_5 = __pyx_pf_7aiohttp_9multipart_14BodyPartWriter_23set_content_disposition_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 854, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_PyString_Join(__pyx_kp_s__51, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 854, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_sparams = ((PyObject*)__pyx_t_7);
-    __pyx_t_7 = 0;
+    __pyx_t_6 = __pyx_pf_7aiohttp_9multipart_14BodyPartWriter_23set_content_disposition_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_4 = __Pyx_Generator_Next(__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyUnicode_Join(__pyx_kp_u__50, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_v_sparams = ((PyObject*)__pyx_t_6);
+    __pyx_t_6 = 0;
 
     /* "aiohttp/multipart.py":855
  *                     lparams.append(('filename*', "utf-8''" + qval))
@@ -23888,19 +23617,19 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  *         self.headers[CONTENT_DISPOSITION] = value
  * 
  */
-    __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 855, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 855, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_v_value);
     __Pyx_GIVEREF(__pyx_v_value);
-    PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_value);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_value);
     __Pyx_INCREF(__pyx_v_sparams);
     __Pyx_GIVEREF(__pyx_v_sparams);
-    PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_sparams);
-    __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s__51, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 855, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_5);
-    __pyx_t_5 = 0;
+    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_sparams);
+    __pyx_t_4 = PyUnicode_Join(__pyx_kp_u__50, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 855, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_4);
+    __pyx_t_4 = 0;
 
     /* "aiohttp/multipart.py":844
  *                              ''.format(disptype))
@@ -23918,13 +23647,13 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
  * 
  *     @property
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_headers); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 856, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_CONTENT_DISPOSITION); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 856, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_t_7, __pyx_v_value) < 0)) __PYX_ERR(0, 856, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_headers); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 856, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_CONTENT_DISPOSITION); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 856, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_t_6, __pyx_v_value) < 0)) __PYX_ERR(0, 856, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
   /* "aiohttp/multipart.py":833
  *                                ''.format(encoding))
@@ -23942,7 +23671,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_14BodyPartWriter_43set_content_dis
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_13);
   __Pyx_AddTraceback("aiohttp.multipart.BodyPartWriter.set_content_disposition", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -24221,7 +23950,7 @@ static PyObject *__pyx_pw_7aiohttp_9multipart_15MultipartWriter_1__init__(PyObje
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_subtype,&__pyx_n_s_boundary,0};
     PyObject* values[3] = {0,0,0};
-    values[1] = ((PyObject *)((PyObject*)__pyx_n_s_mixed));
+    values[1] = ((PyObject *)((PyObject*)__pyx_n_u_mixed));
     values[2] = ((PyObject *)((PyObject *)Py_None));
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -24365,7 +24094,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartWriter___init__(CYTHON_
  */
       __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_boundary, __pyx_n_s_encode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 876, __pyx_L3_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 876, __pyx_L3_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__51, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 876, __pyx_L3_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -24411,7 +24140,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartWriter___init__(CYTHON_
  *         self.headers = CIMultiDict()
  *         self.headers[CONTENT_TYPE] = 'multipart/{}; boundary="{}"'.format(
  */
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 878, __pyx_L5_except_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 878, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -24473,7 +24202,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartWriter___init__(CYTHON_
  *             subtype, boundary
  *         )
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_multipart_boundary, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 880, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_multipart_boundary, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 880, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "aiohttp/multipart.py":882
@@ -24987,12 +24716,12 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartWriter_10boundary(CYTHO
  *     def append(self, obj, headers=None):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_GetItem(__pyx_v_params, __pyx_n_s_boundary); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 900, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetItem(__pyx_v_params, __pyx_n_u_boundary); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 900, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_encode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 900, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 900, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 900, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_r = __pyx_t_1;
@@ -25503,7 +25232,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartWriter_14append_json(CY
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_CONTENT_TYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 918, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(PyObject_SetItem(__pyx_v_headers, __pyx_t_3, __pyx_kp_s_application_json) < 0)) __PYX_ERR(0, 918, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_headers, __pyx_t_3, __pyx_kp_u_application_json) < 0)) __PYX_ERR(0, 918, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "aiohttp/multipart.py":919
@@ -25723,7 +25452,7 @@ static PyObject *__pyx_pf_7aiohttp_9multipart_15MultipartWriter_16append_form(CY
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_CONTENT_TYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 925, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(PyObject_SetItem(__pyx_v_headers, __pyx_t_3, __pyx_kp_s_application_x_www_form_urlencode) < 0)) __PYX_ERR(0, 925, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_headers, __pyx_t_3, __pyx_kp_u_application_x_www_form_urlencode) < 0)) __PYX_ERR(0, 925, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "aiohttp/multipart.py":926
@@ -26020,10 +25749,10 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_15MultipartWriter_20generator31(__
  */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_boundary); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 936, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = PyNumber_Add(__pyx_kp_b__38, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 936, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_kp_b__37, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 936, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_kp_b__36); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 936, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_kp_b__35); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 936, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_r = __pyx_t_1;
@@ -26119,10 +25848,10 @@ static PyObject *__pyx_gb_7aiohttp_9multipart_15MultipartWriter_20generator31(__
  */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_boundary); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 939, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = PyNumber_Add(__pyx_kp_b__38, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 939, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_kp_b__37, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 939, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_kp_b__55); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 939, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_kp_b__54); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 939, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_r = __pyx_t_1;
@@ -30615,7 +30344,6 @@ static void __pyx_tp_dealloc_7aiohttp_9multipart___pyx_scope_struct_38_genexpr(P
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->__pyx_outer_scope);
   Py_CLEAR(p->__pyx_v_pair);
-  Py_CLEAR(p->__pyx_t_0);
   if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_7aiohttp_9multipart___pyx_scope_struct_38_genexpr < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_38_genexpr)))) {
     __pyx_freelist_7aiohttp_9multipart___pyx_scope_struct_38_genexpr[__pyx_freecount_7aiohttp_9multipart___pyx_scope_struct_38_genexpr++] = ((struct __pyx_obj_7aiohttp_9multipart___pyx_scope_struct_38_genexpr *)o);
   } else {
@@ -30632,9 +30360,6 @@ static int __pyx_tp_traverse_7aiohttp_9multipart___pyx_scope_struct_38_genexpr(P
   if (p->__pyx_v_pair) {
     e = (*v)(p->__pyx_v_pair, a); if (e) return e;
   }
-  if (p->__pyx_t_0) {
-    e = (*v)(p->__pyx_t_0, a); if (e) return e;
-  }
   return 0;
 }
 
@@ -30646,9 +30371,6 @@ static int __pyx_tp_clear_7aiohttp_9multipart___pyx_scope_struct_38_genexpr(PyOb
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_v_pair);
   p->__pyx_v_pair = Py_None; Py_INCREF(Py_None);
-  Py_XDECREF(tmp);
-  tmp = ((PyObject*)p->__pyx_t_0);
-  p->__pyx_t_0 = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -30852,12 +30574,15 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_kp_s_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
+  {&__pyx_kp_u_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 1, 0, 0},
   {&__pyx_n_s_AttributeError, __pyx_k_AttributeError, sizeof(__pyx_k_AttributeError), 0, 0, 1, 1},
   {&__pyx_n_s_BadContentDispositionHeader, __pyx_k_BadContentDispositionHeader, sizeof(__pyx_k_BadContentDispositionHeader), 0, 0, 1, 1},
+  {&__pyx_n_u_BadContentDispositionHeader, __pyx_k_BadContentDispositionHeader, sizeof(__pyx_k_BadContentDispositionHeader), 0, 1, 0, 1},
   {&__pyx_n_s_BadContentDispositionParam, __pyx_k_BadContentDispositionParam, sizeof(__pyx_k_BadContentDispositionParam), 0, 0, 1, 1},
+  {&__pyx_n_u_BadContentDispositionParam, __pyx_k_BadContentDispositionParam, sizeof(__pyx_k_BadContentDispositionParam), 0, 1, 0, 1},
   {&__pyx_n_s_BodyPartReader, __pyx_k_BodyPartReader, sizeof(__pyx_k_BodyPartReader), 0, 0, 1, 1},
+  {&__pyx_n_u_BodyPartReader, __pyx_k_BodyPartReader, sizeof(__pyx_k_BodyPartReader), 0, 1, 0, 1},
   {&__pyx_n_s_BodyPartReader___aiter, __pyx_k_BodyPartReader___aiter, sizeof(__pyx_k_BodyPartReader___aiter), 0, 0, 1, 1},
   {&__pyx_n_s_BodyPartReader___anext, __pyx_k_BodyPartReader___anext, sizeof(__pyx_k_BodyPartReader___anext), 0, 0, 1, 1},
   {&__pyx_n_s_BodyPartReader___init, __pyx_k_BodyPartReader___init, sizeof(__pyx_k_BodyPartReader___init), 0, 0, 1, 1},
@@ -30878,6 +30603,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BodyPartReader_release, __pyx_k_BodyPartReader_release, sizeof(__pyx_k_BodyPartReader_release), 0, 0, 1, 1},
   {&__pyx_n_s_BodyPartReader_text, __pyx_k_BodyPartReader_text, sizeof(__pyx_k_BodyPartReader_text), 0, 0, 1, 1},
   {&__pyx_n_s_BodyPartWriter, __pyx_k_BodyPartWriter, sizeof(__pyx_k_BodyPartWriter), 0, 0, 1, 1},
+  {&__pyx_n_u_BodyPartWriter, __pyx_k_BodyPartWriter, sizeof(__pyx_k_BodyPartWriter), 0, 1, 0, 1},
   {&__pyx_n_s_BodyPartWriter___init, __pyx_k_BodyPartWriter___init, sizeof(__pyx_k_BodyPartWriter___init), 0, 0, 1, 1},
   {&__pyx_n_s_BodyPartWriter__apply_content_en, __pyx_k_BodyPartWriter__apply_content_en, sizeof(__pyx_k_BodyPartWriter__apply_content_en), 0, 0, 1, 1},
   {&__pyx_n_s_BodyPartWriter__apply_content_tr, __pyx_k_BodyPartWriter__apply_content_tr, sizeof(__pyx_k_BodyPartWriter__apply_content_tr), 0, 0, 1, 1},
@@ -30909,15 +30635,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_CONTENT_TRANSFER_ENCODING, __pyx_k_CONTENT_TRANSFER_ENCODING, sizeof(__pyx_k_CONTENT_TRANSFER_ENCODING), 0, 0, 1, 1},
   {&__pyx_n_s_CONTENT_TYPE, __pyx_k_CONTENT_TYPE, sizeof(__pyx_k_CONTENT_TYPE), 0, 0, 1, 1},
   {&__pyx_n_s_CTL, __pyx_k_CTL, sizeof(__pyx_k_CTL), 0, 0, 1, 1},
-  {&__pyx_kp_s_Chunk_size_must_be_greater_or_eq, __pyx_k_Chunk_size_must_be_greater_or_eq, sizeof(__pyx_k_Chunk_size_must_be_greater_or_eq), 0, 0, 1, 0},
-  {&__pyx_kp_s_Content_Length_required_for_chun, __pyx_k_Content_Length_required_for_chun, sizeof(__pyx_k_Content_Length_required_for_chun), 0, 0, 1, 0},
+  {&__pyx_kp_u_Chunk_size_must_be_greater_or_eq, __pyx_k_Chunk_size_must_be_greater_or_eq, sizeof(__pyx_k_Chunk_size_must_be_greater_or_eq), 0, 1, 0, 0},
+  {&__pyx_kp_u_Content_Length_required_for_chun, __pyx_k_Content_Length_required_for_chun, sizeof(__pyx_k_Content_Length_required_for_chun), 0, 1, 0, 0},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_HttpParser, __pyx_k_HttpParser, sizeof(__pyx_k_HttpParser), 0, 0, 1, 1},
   {&__pyx_n_s_IOBase, __pyx_k_IOBase, sizeof(__pyx_k_IOBase), 0, 0, 1, 1},
-  {&__pyx_kp_s_Invalid_boundary_r_expected_r, __pyx_k_Invalid_boundary_r_expected_r, sizeof(__pyx_k_Invalid_boundary_r_expected_r), 0, 0, 1, 0},
+  {&__pyx_kp_u_Invalid_boundary_r_expected_r, __pyx_k_Invalid_boundary_r_expected_r, sizeof(__pyx_k_Invalid_boundary_r_expected_r), 0, 1, 0, 0},
   {&__pyx_n_s_MAX_WBITS, __pyx_k_MAX_WBITS, sizeof(__pyx_k_MAX_WBITS), 0, 0, 1, 1},
   {&__pyx_n_s_Mapping, __pyx_k_Mapping, sizeof(__pyx_k_Mapping), 0, 0, 1, 1},
   {&__pyx_n_s_MultipartReader, __pyx_k_MultipartReader, sizeof(__pyx_k_MultipartReader), 0, 0, 1, 1},
+  {&__pyx_n_u_MultipartReader, __pyx_k_MultipartReader, sizeof(__pyx_k_MultipartReader), 0, 1, 0, 1},
   {&__pyx_n_s_MultipartReader___aiter, __pyx_k_MultipartReader___aiter, sizeof(__pyx_k_MultipartReader___aiter), 0, 0, 1, 1},
   {&__pyx_n_s_MultipartReader___anext, __pyx_k_MultipartReader___anext, sizeof(__pyx_k_MultipartReader___anext), 0, 0, 1, 1},
   {&__pyx_n_s_MultipartReader___init, __pyx_k_MultipartReader___init, sizeof(__pyx_k_MultipartReader___init), 0, 0, 1, 1},
@@ -30940,6 +30667,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_MultipartResponseWrapper_next, __pyx_k_MultipartResponseWrapper_next, sizeof(__pyx_k_MultipartResponseWrapper_next), 0, 0, 1, 1},
   {&__pyx_n_s_MultipartResponseWrapper_release, __pyx_k_MultipartResponseWrapper_release, sizeof(__pyx_k_MultipartResponseWrapper_release), 0, 0, 1, 1},
   {&__pyx_n_s_MultipartWriter, __pyx_k_MultipartWriter, sizeof(__pyx_k_MultipartWriter), 0, 0, 1, 1},
+  {&__pyx_n_u_MultipartWriter, __pyx_k_MultipartWriter, sizeof(__pyx_k_MultipartWriter), 0, 1, 0, 1},
   {&__pyx_n_s_MultipartWriter___enter, __pyx_k_MultipartWriter___enter, sizeof(__pyx_k_MultipartWriter___enter), 0, 0, 1, 1},
   {&__pyx_n_s_MultipartWriter___exit, __pyx_k_MultipartWriter___exit, sizeof(__pyx_k_MultipartWriter___exit), 0, 0, 1, 1},
   {&__pyx_n_s_MultipartWriter___init, __pyx_k_MultipartWriter___init, sizeof(__pyx_k_MultipartWriter___init), 0, 0, 1, 1},
@@ -30956,7 +30684,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Multipart_writer_for_single_body, __pyx_k_Multipart_writer_for_single_body, sizeof(__pyx_k_Multipart_writer_for_single_body), 0, 0, 1, 0},
   {&__pyx_n_s_OSError, __pyx_k_OSError, sizeof(__pyx_k_OSError), 0, 0, 1, 1},
   {&__pyx_n_s_Path, __pyx_k_Path, sizeof(__pyx_k_Path), 0, 0, 1, 1},
-  {&__pyx_kp_s_Reading_after_EOF, __pyx_k_Reading_after_EOF, sizeof(__pyx_k_Reading_after_EOF), 0, 0, 1, 0},
+  {&__pyx_kp_u_Reading_after_EOF, __pyx_k_Reading_after_EOF, sizeof(__pyx_k_Reading_after_EOF), 0, 1, 0, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeWarning, __pyx_k_RuntimeWarning, sizeof(__pyx_k_RuntimeWarning), 0, 0, 1, 1},
   {&__pyx_n_s_SEPARATORS, __pyx_k_SEPARATORS, sizeof(__pyx_k_SEPARATORS), 0, 0, 1, 1},
@@ -30968,37 +30696,37 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_UnicodeEncodeError, __pyx_k_UnicodeEncodeError, sizeof(__pyx_k_UnicodeEncodeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_kp_s_Wrapper_around_the_class_Multipa, __pyx_k_Wrapper_around_the_class_Multipa, sizeof(__pyx_k_Wrapper_around_the_class_Multipa), 0, 0, 1, 0},
-  {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
+  {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {&__pyx_kp_b__21, __pyx_k__21, sizeof(__pyx_k__21), 0, 0, 0, 0},
-  {&__pyx_kp_s__21, __pyx_k__21, sizeof(__pyx_k__21), 0, 0, 1, 0},
-  {&__pyx_kp_s__22, __pyx_k__22, sizeof(__pyx_k__22), 0, 0, 1, 0},
-  {&__pyx_kp_s__24, __pyx_k__24, sizeof(__pyx_k__24), 0, 0, 1, 0},
-  {&__pyx_kp_s__29, __pyx_k__29, sizeof(__pyx_k__29), 0, 0, 1, 0},
-  {&__pyx_kp_b__36, __pyx_k__36, sizeof(__pyx_k__36), 0, 0, 0, 0},
-  {&__pyx_kp_b__38, __pyx_k__38, sizeof(__pyx_k__38), 0, 0, 0, 0},
-  {&__pyx_kp_s__38, __pyx_k__38, sizeof(__pyx_k__38), 0, 0, 1, 0},
-  {&__pyx_kp_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 0},
+  {&__pyx_kp_u__21, __pyx_k__21, sizeof(__pyx_k__21), 0, 1, 0, 0},
+  {&__pyx_kp_u__22, __pyx_k__22, sizeof(__pyx_k__22), 0, 1, 0, 0},
+  {&__pyx_kp_u__24, __pyx_k__24, sizeof(__pyx_k__24), 0, 1, 0, 0},
+  {&__pyx_kp_u__29, __pyx_k__29, sizeof(__pyx_k__29), 0, 1, 0, 0},
+  {&__pyx_kp_b__35, __pyx_k__35, sizeof(__pyx_k__35), 0, 0, 0, 0},
+  {&__pyx_kp_b__37, __pyx_k__37, sizeof(__pyx_k__37), 0, 0, 0, 0},
+  {&__pyx_kp_u__37, __pyx_k__37, sizeof(__pyx_k__37), 0, 1, 0, 0},
+  {&__pyx_kp_u__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 1, 0, 0},
+  {&__pyx_kp_b__45, __pyx_k__45, sizeof(__pyx_k__45), 0, 0, 0, 0},
   {&__pyx_kp_b__46, __pyx_k__46, sizeof(__pyx_k__46), 0, 0, 0, 0},
-  {&__pyx_kp_b__47, __pyx_k__47, sizeof(__pyx_k__47), 0, 0, 0, 0},
-  {&__pyx_kp_s__51, __pyx_k__51, sizeof(__pyx_k__51), 0, 0, 1, 0},
-  {&__pyx_kp_b__55, __pyx_k__55, sizeof(__pyx_k__55), 0, 0, 0, 0},
-  {&__pyx_kp_s__58, __pyx_k__58, sizeof(__pyx_k__58), 0, 0, 1, 0},
-  {&__pyx_kp_s__59, __pyx_k__59, sizeof(__pyx_k__59), 0, 0, 1, 0},
-  {&__pyx_kp_s__60, __pyx_k__60, sizeof(__pyx_k__60), 0, 0, 1, 0},
-  {&__pyx_kp_s__61, __pyx_k__61, sizeof(__pyx_k__61), 0, 0, 1, 0},
-  {&__pyx_kp_s__62, __pyx_k__62, sizeof(__pyx_k__62), 0, 0, 1, 0},
-  {&__pyx_kp_s__63, __pyx_k__63, sizeof(__pyx_k__63), 0, 0, 1, 0},
-  {&__pyx_kp_s__64, __pyx_k__64, sizeof(__pyx_k__64), 0, 0, 1, 0},
-  {&__pyx_kp_s__65, __pyx_k__65, sizeof(__pyx_k__65), 0, 0, 1, 0},
-  {&__pyx_kp_s__66, __pyx_k__66, sizeof(__pyx_k__66), 0, 0, 1, 0},
-  {&__pyx_kp_s__67, __pyx_k__67, sizeof(__pyx_k__67), 0, 0, 1, 0},
-  {&__pyx_kp_s__68, __pyx_k__68, sizeof(__pyx_k__68), 0, 0, 1, 0},
-  {&__pyx_kp_s__69, __pyx_k__69, sizeof(__pyx_k__69), 0, 0, 1, 0},
-  {&__pyx_kp_s__70, __pyx_k__70, sizeof(__pyx_k__70), 0, 0, 1, 0},
-  {&__pyx_kp_s__71, __pyx_k__71, sizeof(__pyx_k__71), 0, 0, 1, 0},
-  {&__pyx_kp_s__72, __pyx_k__72, sizeof(__pyx_k__72), 0, 0, 1, 0},
-  {&__pyx_n_s__74, __pyx_k__74, sizeof(__pyx_k__74), 0, 0, 1, 1},
-  {&__pyx_kp_s__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 0},
+  {&__pyx_kp_u__50, __pyx_k__50, sizeof(__pyx_k__50), 0, 1, 0, 0},
+  {&__pyx_kp_b__54, __pyx_k__54, sizeof(__pyx_k__54), 0, 0, 0, 0},
+  {&__pyx_kp_u__57, __pyx_k__57, sizeof(__pyx_k__57), 0, 1, 0, 0},
+  {&__pyx_kp_u__58, __pyx_k__58, sizeof(__pyx_k__58), 0, 1, 0, 0},
+  {&__pyx_kp_u__59, __pyx_k__59, sizeof(__pyx_k__59), 0, 1, 0, 0},
+  {&__pyx_kp_u__60, __pyx_k__60, sizeof(__pyx_k__60), 0, 1, 0, 0},
+  {&__pyx_kp_u__61, __pyx_k__61, sizeof(__pyx_k__61), 0, 1, 0, 0},
+  {&__pyx_kp_u__62, __pyx_k__62, sizeof(__pyx_k__62), 0, 1, 0, 0},
+  {&__pyx_kp_u__63, __pyx_k__63, sizeof(__pyx_k__63), 0, 1, 0, 0},
+  {&__pyx_kp_u__64, __pyx_k__64, sizeof(__pyx_k__64), 0, 1, 0, 0},
+  {&__pyx_kp_u__65, __pyx_k__65, sizeof(__pyx_k__65), 0, 1, 0, 0},
+  {&__pyx_kp_u__66, __pyx_k__66, sizeof(__pyx_k__66), 0, 1, 0, 0},
+  {&__pyx_kp_u__67, __pyx_k__67, sizeof(__pyx_k__67), 0, 1, 0, 0},
+  {&__pyx_kp_u__68, __pyx_k__68, sizeof(__pyx_k__68), 0, 1, 0, 0},
+  {&__pyx_kp_u__69, __pyx_k__69, sizeof(__pyx_k__69), 0, 1, 0, 0},
+  {&__pyx_kp_u__70, __pyx_k__70, sizeof(__pyx_k__70), 0, 1, 0, 0},
+  {&__pyx_kp_u__71, __pyx_k__71, sizeof(__pyx_k__71), 0, 1, 0, 0},
+  {&__pyx_n_s__73, __pyx_k__73, sizeof(__pyx_k__73), 0, 0, 1, 1},
+  {&__pyx_kp_u__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 1, 0, 0},
   {&__pyx_n_s_a2b_qp, __pyx_k_a2b_qp, sizeof(__pyx_k_a2b_qp), 0, 0, 1, 1},
   {&__pyx_n_s_aiohttp_multipart, __pyx_k_aiohttp_multipart, sizeof(__pyx_k_aiohttp_multipart), 0, 0, 1, 1},
   {&__pyx_n_s_aiter, __pyx_k_aiter, sizeof(__pyx_k_aiter), 0, 0, 1, 1},
@@ -31007,10 +30735,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_append_form, __pyx_k_append_form, sizeof(__pyx_k_append_form), 0, 0, 1, 1},
   {&__pyx_n_s_append_json, __pyx_k_append_json, sizeof(__pyx_k_append_json), 0, 0, 1, 1},
-  {&__pyx_n_s_application, __pyx_k_application, sizeof(__pyx_k_application), 0, 0, 1, 1},
-  {&__pyx_kp_s_application_json, __pyx_k_application_json, sizeof(__pyx_k_application_json), 0, 0, 1, 0},
-  {&__pyx_kp_s_application_octet_stream, __pyx_k_application_octet_stream, sizeof(__pyx_k_application_octet_stream), 0, 0, 1, 0},
-  {&__pyx_kp_s_application_x_www_form_urlencode, __pyx_k_application_x_www_form_urlencode, sizeof(__pyx_k_application_x_www_form_urlencode), 0, 0, 1, 0},
+  {&__pyx_n_u_application, __pyx_k_application, sizeof(__pyx_k_application), 0, 1, 0, 1},
+  {&__pyx_kp_u_application_json, __pyx_k_application_json, sizeof(__pyx_k_application_json), 0, 1, 0, 0},
+  {&__pyx_kp_u_application_octet_stream, __pyx_k_application_octet_stream, sizeof(__pyx_k_application_octet_stream), 0, 1, 0, 0},
+  {&__pyx_kp_u_application_x_www_form_urlencode, __pyx_k_application_x_www_form_urlencode, sizeof(__pyx_k_application_x_www_form_urlencode), 0, 1, 0, 0},
   {&__pyx_n_s_apply_content_encoding, __pyx_k_apply_content_encoding, sizeof(__pyx_k_apply_content_encoding), 0, 0, 1, 1},
   {&__pyx_n_s_apply_content_transfer_encoding, __pyx_k_apply_content_transfer_encoding, sizeof(__pyx_k_apply_content_transfer_encoding), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
@@ -31019,22 +30747,25 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_asyncio_tasks, __pyx_k_asyncio_tasks, sizeof(__pyx_k_asyncio_tasks), 0, 0, 1, 1},
   {&__pyx_n_s_at_eof, __pyx_k_at_eof, sizeof(__pyx_k_at_eof), 0, 0, 1, 1},
   {&__pyx_n_s_at_eof_2, __pyx_k_at_eof_2, sizeof(__pyx_k_at_eof_2), 0, 0, 1, 1},
-  {&__pyx_n_s_attachment, __pyx_k_attachment, sizeof(__pyx_k_attachment), 0, 0, 1, 1},
+  {&__pyx_n_u_attachment, __pyx_k_attachment, sizeof(__pyx_k_attachment), 0, 1, 0, 1},
   {&__pyx_n_s_b2a_qp, __pyx_k_b2a_qp, sizeof(__pyx_k_b2a_qp), 0, 0, 1, 1},
   {&__pyx_n_s_b64decode, __pyx_k_b64decode, sizeof(__pyx_k_b64decode), 0, 0, 1, 1},
   {&__pyx_n_s_b64encode, __pyx_k_b64encode, sizeof(__pyx_k_b64encode), 0, 0, 1, 1},
-  {&__pyx_kp_s_bad_content_disposition_paramete, __pyx_k_bad_content_disposition_paramete, sizeof(__pyx_k_bad_content_disposition_paramete), 0, 0, 1, 0},
-  {&__pyx_kp_s_bad_content_disposition_type_r, __pyx_k_bad_content_disposition_type_r, sizeof(__pyx_k_bad_content_disposition_type_r), 0, 0, 1, 0},
+  {&__pyx_kp_u_bad_content_disposition_paramete, __pyx_k_bad_content_disposition_paramete, sizeof(__pyx_k_bad_content_disposition_paramete), 0, 1, 0, 0},
+  {&__pyx_kp_u_bad_content_disposition_type_r, __pyx_k_bad_content_disposition_type_r, sizeof(__pyx_k_bad_content_disposition_type_r), 0, 1, 0, 0},
   {&__pyx_n_s_base64, __pyx_k_base64, sizeof(__pyx_k_base64), 0, 0, 1, 1},
+  {&__pyx_n_u_base64, __pyx_k_base64, sizeof(__pyx_k_base64), 0, 1, 0, 1},
   {&__pyx_n_s_binascii, __pyx_k_binascii, sizeof(__pyx_k_binascii), 0, 0, 1, 1},
   {&__pyx_n_s_boundary, __pyx_k_boundary, sizeof(__pyx_k_boundary), 0, 0, 1, 1},
+  {&__pyx_n_u_boundary, __pyx_k_boundary, sizeof(__pyx_k_boundary), 0, 1, 0, 1},
   {&__pyx_n_s_boundary_2, __pyx_k_boundary_2, sizeof(__pyx_k_boundary_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_boundary_missed_for_Content_Type, __pyx_k_boundary_missed_for_Content_Type, sizeof(__pyx_k_boundary_missed_for_Content_Type), 0, 0, 1, 0},
-  {&__pyx_kp_s_boundary_r_is_too_long_70_chars, __pyx_k_boundary_r_is_too_long_70_chars, sizeof(__pyx_k_boundary_r_is_too_long_70_chars), 0, 0, 1, 0},
-  {&__pyx_kp_s_boundary_should_contains_ASCII_o, __pyx_k_boundary_should_contains_ASCII_o, sizeof(__pyx_k_boundary_should_contains_ASCII_o), 0, 0, 1, 0},
+  {&__pyx_kp_u_boundary_missed_for_Content_Type, __pyx_k_boundary_missed_for_Content_Type, sizeof(__pyx_k_boundary_missed_for_Content_Type), 0, 1, 0, 0},
+  {&__pyx_kp_u_boundary_r_is_too_long_70_chars, __pyx_k_boundary_r_is_too_long_70_chars, sizeof(__pyx_k_boundary_r_is_too_long_70_chars), 0, 1, 0, 0},
+  {&__pyx_kp_u_boundary_should_contains_ASCII_o, __pyx_k_boundary_should_contains_ASCII_o, sizeof(__pyx_k_boundary_should_contains_ASCII_o), 0, 1, 0, 0},
   {&__pyx_n_s_buffer, __pyx_k_buffer, sizeof(__pyx_k_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_chars, __pyx_k_chars, sizeof(__pyx_k_chars), 0, 0, 1, 1},
   {&__pyx_n_s_charset, __pyx_k_charset, sizeof(__pyx_k_charset), 0, 0, 1, 1},
+  {&__pyx_n_u_charset, __pyx_k_charset, sizeof(__pyx_k_charset), 0, 1, 0, 1},
   {&__pyx_n_s_chr, __pyx_k_chr, sizeof(__pyx_k_chr), 0, 0, 1, 1},
   {&__pyx_n_s_chunk, __pyx_k_chunk, sizeof(__pyx_k_chunk), 0, 0, 1, 1},
   {&__pyx_n_s_chunk_size, __pyx_k_chunk_size, sizeof(__pyx_k_chunk_size), 0, 0, 1, 1},
@@ -31047,6 +30778,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_content, __pyx_k_content, sizeof(__pyx_k_content), 0, 0, 1, 1},
   {&__pyx_n_s_content_2, __pyx_k_content_2, sizeof(__pyx_k_content_2), 0, 0, 1, 1},
   {&__pyx_n_s_content_disposition_filename, __pyx_k_content_disposition_filename, sizeof(__pyx_k_content_disposition_filename), 0, 0, 1, 1},
+  {&__pyx_n_u_content_disposition_filename, __pyx_k_content_disposition_filename, sizeof(__pyx_k_content_disposition_filename), 0, 1, 0, 1},
   {&__pyx_n_s_content_disposition_filename_loc, __pyx_k_content_disposition_filename_loc, sizeof(__pyx_k_content_disposition_filename_loc), 0, 0, 1, 1},
   {&__pyx_n_s_content_eof, __pyx_k_content_eof, sizeof(__pyx_k_content_eof), 0, 0, 1, 1},
   {&__pyx_n_s_content_length, __pyx_k_content_length, sizeof(__pyx_k_content_length), 0, 0, 1, 1},
@@ -31060,7 +30792,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_decode_content_transfer, __pyx_k_decode_content_transfer, sizeof(__pyx_k_decode_content_transfer), 0, 0, 1, 1},
   {&__pyx_n_s_decompress, __pyx_k_decompress, sizeof(__pyx_k_decompress), 0, 0, 1, 1},
   {&__pyx_n_s_default, __pyx_k_default, sizeof(__pyx_k_default), 0, 0, 1, 1},
-  {&__pyx_n_s_deflate, __pyx_k_deflate, sizeof(__pyx_k_deflate), 0, 0, 1, 1},
+  {&__pyx_n_u_deflate, __pyx_k_deflate, sizeof(__pyx_k_deflate), 0, 1, 0, 1},
   {&__pyx_n_s_deque, __pyx_k_deque, sizeof(__pyx_k_deque), 0, 0, 1, 1},
   {&__pyx_n_s_disptype, __pyx_k_disptype, sizeof(__pyx_k_disptype), 0, 0, 1, 1},
   {&__pyx_n_s_div, __pyx_k_div, sizeof(__pyx_k_div), 0, 0, 1, 1},
@@ -31079,8 +30811,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
   {&__pyx_n_s_extend, __pyx_k_extend, sizeof(__pyx_k_extend), 0, 0, 1, 1},
   {&__pyx_n_s_fetch_next_part, __pyx_k_fetch_next_part, sizeof(__pyx_k_fetch_next_part), 0, 0, 1, 1},
-  {&__pyx_kp_s_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 0},
+  {&__pyx_kp_u_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 1, 0, 0},
   {&__pyx_n_s_filename_2, __pyx_k_filename_2, sizeof(__pyx_k_filename_2), 0, 0, 1, 1},
+  {&__pyx_n_u_filename_2, __pyx_k_filename_2, sizeof(__pyx_k_filename_2), 0, 1, 0, 1},
   {&__pyx_n_s_fileno, __pyx_k_fileno, sizeof(__pyx_k_fileno), 0, 0, 1, 1},
   {&__pyx_n_s_fill_headers_with_defaults, __pyx_k_fill_headers_with_defaults, sizeof(__pyx_k_fill_headers_with_defaults), 0, 0, 1, 1},
   {&__pyx_n_s_find, __pyx_k_find, sizeof(__pyx_k_find), 0, 0, 1, 1},
@@ -31101,14 +30834,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_guess_content_type, __pyx_k_guess_content_type, sizeof(__pyx_k_guess_content_type), 0, 0, 1, 1},
   {&__pyx_n_s_guess_filename, __pyx_k_guess_filename, sizeof(__pyx_k_guess_filename), 0, 0, 1, 1},
   {&__pyx_n_s_guess_type, __pyx_k_guess_type, sizeof(__pyx_k_guess_type), 0, 0, 1, 1},
-  {&__pyx_n_s_gzip, __pyx_k_gzip, sizeof(__pyx_k_gzip), 0, 0, 1, 1},
+  {&__pyx_n_u_gzip, __pyx_k_gzip, sizeof(__pyx_k_gzip), 0, 1, 0, 1},
   {&__pyx_n_s_has_encoding, __pyx_k_has_encoding, sizeof(__pyx_k_has_encoding), 0, 0, 1, 1},
   {&__pyx_n_s_hdrs, __pyx_k_hdrs, sizeof(__pyx_k_hdrs), 0, 0, 1, 1},
   {&__pyx_n_s_header, __pyx_k_header, sizeof(__pyx_k_header), 0, 0, 1, 1},
   {&__pyx_n_s_headers, __pyx_k_headers, sizeof(__pyx_k_headers), 0, 0, 1, 1},
   {&__pyx_n_s_helpers, __pyx_k_helpers, sizeof(__pyx_k_helpers), 0, 0, 1, 1},
   {&__pyx_n_s_hex, __pyx_k_hex, sizeof(__pyx_k_hex), 0, 0, 1, 1},
-  {&__pyx_n_s_identity, __pyx_k_identity, sizeof(__pyx_k_identity), 0, 0, 1, 1},
+  {&__pyx_n_u_identity, __pyx_k_identity, sizeof(__pyx_k_identity), 0, 1, 0, 1},
   {&__pyx_n_s_idx, __pyx_k_idx, sizeof(__pyx_k_idx), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
@@ -31125,10 +30858,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_iter, __pyx_k_iter, sizeof(__pyx_k_iter), 0, 0, 1, 1},
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 0, 1, 1},
+  {&__pyx_n_u_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 1, 0, 1},
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
   {&__pyx_n_s_last_boundary, __pyx_k_last_boundary, sizeof(__pyx_k_last_boundary), 0, 0, 1, 1},
   {&__pyx_n_s_last_part, __pyx_k_last_part, sizeof(__pyx_k_last_part), 0, 0, 1, 1},
-  {&__pyx_n_s_latin1, __pyx_k_latin1, sizeof(__pyx_k_latin1), 0, 0, 1, 1},
+  {&__pyx_n_u_latin1, __pyx_k_latin1, sizeof(__pyx_k_latin1), 0, 1, 0, 1},
   {&__pyx_n_s_len, __pyx_k_len, sizeof(__pyx_k_len), 0, 0, 1, 1},
   {&__pyx_n_s_length, __pyx_k_length, sizeof(__pyx_k_length), 0, 0, 1, 1},
   {&__pyx_n_s_length_2, __pyx_k_length_2, sizeof(__pyx_k_length_2), 0, 0, 1, 1},
@@ -31144,16 +30878,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_maybe_release_last_part, __pyx_k_maybe_release_last_part, sizeof(__pyx_k_maybe_release_last_part), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_mimetypes, __pyx_k_mimetypes, sizeof(__pyx_k_mimetypes), 0, 0, 1, 1},
-  {&__pyx_n_s_mixed, __pyx_k_mixed, sizeof(__pyx_k_mixed), 0, 0, 1, 1},
+  {&__pyx_n_u_mixed, __pyx_k_mixed, sizeof(__pyx_k_mixed), 0, 1, 0, 1},
   {&__pyx_n_s_mod, __pyx_k_mod, sizeof(__pyx_k_mod), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_mtype, __pyx_k_mtype, sizeof(__pyx_k_mtype), 0, 0, 1, 1},
   {&__pyx_n_s_multidict, __pyx_k_multidict, sizeof(__pyx_k_multidict), 0, 0, 1, 1},
-  {&__pyx_n_s_multipart, __pyx_k_multipart, sizeof(__pyx_k_multipart), 0, 0, 1, 1},
-  {&__pyx_kp_s_multipart_boundary, __pyx_k_multipart_boundary, sizeof(__pyx_k_multipart_boundary), 0, 0, 1, 0},
-  {&__pyx_kp_s_multipart_content_type_expected, __pyx_k_multipart_content_type_expected, sizeof(__pyx_k_multipart_content_type_expected), 0, 0, 1, 0},
+  {&__pyx_n_u_multipart, __pyx_k_multipart, sizeof(__pyx_k_multipart), 0, 1, 0, 1},
+  {&__pyx_kp_u_multipart_boundary, __pyx_k_multipart_boundary, sizeof(__pyx_k_multipart_boundary), 0, 1, 0, 0},
+  {&__pyx_kp_u_multipart_content_type_expected, __pyx_k_multipart_content_type_expected, sizeof(__pyx_k_multipart_content_type_expected), 0, 1, 0, 0},
   {&__pyx_n_s_multipart_reader_cls, __pyx_k_multipart_reader_cls, sizeof(__pyx_k_multipart_reader_cls), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_n_u_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 1, 0, 1},
   {&__pyx_n_s_next, __pyx_k_next, sizeof(__pyx_k_next), 0, 0, 1, 1},
   {&__pyx_n_s_next_line, __pyx_k_next_line, sizeof(__pyx_k_next_line), 0, 0, 1, 1},
   {&__pyx_n_s_num, __pyx_k_num, sizeof(__pyx_k_num), 0, 0, 1, 1},
@@ -31162,6 +30897,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_params, __pyx_k_params, sizeof(__pyx_k_params), 0, 0, 1, 1},
   {&__pyx_n_s_parse_content_disposition, __pyx_k_parse_content_disposition, sizeof(__pyx_k_parse_content_disposition), 0, 0, 1, 1},
+  {&__pyx_n_u_parse_content_disposition, __pyx_k_parse_content_disposition, sizeof(__pyx_k_parse_content_disposition), 0, 1, 0, 1},
   {&__pyx_n_s_parse_content_disposition_locals, __pyx_k_parse_content_disposition_locals, sizeof(__pyx_k_parse_content_disposition_locals), 0, 0, 1, 1},
   {&__pyx_n_s_parse_content_disposition_locals_2, __pyx_k_parse_content_disposition_locals_2, sizeof(__pyx_k_parse_content_disposition_locals_2), 0, 0, 1, 1},
   {&__pyx_n_s_parse_content_disposition_locals_3, __pyx_k_parse_content_disposition_locals_3, sizeof(__pyx_k_parse_content_disposition_locals_3), 0, 0, 1, 1},
@@ -31186,7 +30922,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_protocol, __pyx_k_protocol, sizeof(__pyx_k_protocol), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_quote, __pyx_k_quote, sizeof(__pyx_k_quote), 0, 0, 1, 1},
-  {&__pyx_kp_s_quoted_printable, __pyx_k_quoted_printable, sizeof(__pyx_k_quoted_printable), 0, 0, 1, 0},
+  {&__pyx_kp_u_quoted_printable, __pyx_k_quoted_printable, sizeof(__pyx_k_quoted_printable), 0, 1, 0, 0},
   {&__pyx_n_s_qval, __pyx_k_qval, sizeof(__pyx_k_qval), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_re, __pyx_k_re, sizeof(__pyx_k_re), 0, 0, 1, 1},
@@ -31197,7 +30933,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_read_chunk_from_length, __pyx_k_read_chunk_from_length, sizeof(__pyx_k_read_chunk_from_length), 0, 0, 1, 1},
   {&__pyx_n_s_read_chunk_from_stream, __pyx_k_read_chunk_from_stream, sizeof(__pyx_k_read_chunk_from_stream), 0, 0, 1, 1},
   {&__pyx_n_s_read_headers, __pyx_k_read_headers, sizeof(__pyx_k_read_headers), 0, 0, 1, 1},
-  {&__pyx_kp_s_reader_did_not_read_all_the_data, __pyx_k_reader_did_not_read_all_the_data, sizeof(__pyx_k_reader_did_not_read_all_the_data), 0, 0, 1, 0},
+  {&__pyx_kp_u_reader_did_not_read_all_the_data, __pyx_k_reader_did_not_read_all_the_data, sizeof(__pyx_k_reader_did_not_read_all_the_data), 0, 1, 0, 0},
   {&__pyx_n_s_readline, __pyx_k_readline, sizeof(__pyx_k_readline), 0, 0, 1, 1},
   {&__pyx_n_s_readline_2, __pyx_k_readline_2, sizeof(__pyx_k_readline_2), 0, 0, 1, 1},
   {&__pyx_n_s_release, __pyx_k_release, sizeof(__pyx_k_release), 0, 0, 1, 1},
@@ -31206,7 +30942,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_response_wrapper_cls, __pyx_k_response_wrapper_cls, sizeof(__pyx_k_response_wrapper_cls), 0, 0, 1, 1},
   {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
   {&__pyx_n_s_rstrip, __pyx_k_rstrip, sizeof(__pyx_k_rstrip), 0, 0, 1, 1},
-  {&__pyx_kp_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 0},
+  {&__pyx_kp_u_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 1, 0, 0},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
   {&__pyx_n_s_serialize, __pyx_k_serialize, sizeof(__pyx_k_serialize), 0, 0, 1, 1},
@@ -31228,7 +30964,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_st_size, __pyx_k_st_size, sizeof(__pyx_k_st_size), 0, 0, 1, 1},
   {&__pyx_n_s_startswith, __pyx_k_startswith, sizeof(__pyx_k_startswith), 0, 0, 1, 1},
   {&__pyx_n_s_stream, __pyx_k_stream, sizeof(__pyx_k_stream), 0, 0, 1, 1},
-  {&__pyx_n_s_strict, __pyx_k_strict, sizeof(__pyx_k_strict), 0, 0, 1, 1},
+  {&__pyx_n_u_strict, __pyx_k_strict, sizeof(__pyx_k_strict), 0, 1, 0, 1},
   {&__pyx_n_s_string, __pyx_k_string, sizeof(__pyx_k_string), 0, 0, 1, 1},
   {&__pyx_n_s_strip, __pyx_k_strip, sizeof(__pyx_k_strip), 0, 0, 1, 1},
   {&__pyx_n_s_stype, __pyx_k_stype, sizeof(__pyx_k_stype), 0, 0, 1, 1},
@@ -31239,21 +30975,21 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_tell, __pyx_k_tell, sizeof(__pyx_k_tell), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_text, __pyx_k_text, sizeof(__pyx_k_text), 0, 0, 1, 1},
-  {&__pyx_kp_s_text_plain_charset_utf_8, __pyx_k_text_plain_charset_utf_8, sizeof(__pyx_k_text_plain_charset_utf_8), 0, 0, 1, 0},
+  {&__pyx_kp_u_text_plain_charset_utf_8, __pyx_k_text_plain_charset_utf_8, sizeof(__pyx_k_text_plain_charset_utf_8), 0, 1, 0, 0},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_unescape, __pyx_k_unescape, sizeof(__pyx_k_unescape), 0, 0, 1, 1},
-  {&__pyx_kp_s_unknown_body_part_type_r, __pyx_k_unknown_body_part_type_r, sizeof(__pyx_k_unknown_body_part_type_r), 0, 0, 1, 0},
-  {&__pyx_kp_s_unknown_content_encoding, __pyx_k_unknown_content_encoding, sizeof(__pyx_k_unknown_content_encoding), 0, 0, 1, 0},
-  {&__pyx_kp_s_unknown_content_transfer_encodin, __pyx_k_unknown_content_transfer_encodin, sizeof(__pyx_k_unknown_content_transfer_encodin), 0, 0, 1, 0},
+  {&__pyx_kp_u_unknown_body_part_type_r, __pyx_k_unknown_body_part_type_r, sizeof(__pyx_k_unknown_body_part_type_r), 0, 1, 0, 0},
+  {&__pyx_kp_u_unknown_content_encoding, __pyx_k_unknown_content_encoding, sizeof(__pyx_k_unknown_content_encoding), 0, 1, 0, 0},
+  {&__pyx_kp_u_unknown_content_transfer_encodin, __pyx_k_unknown_content_transfer_encodin, sizeof(__pyx_k_unknown_content_transfer_encodin), 0, 1, 0, 0},
   {&__pyx_n_s_unquote, __pyx_k_unquote, sizeof(__pyx_k_unquote), 0, 0, 1, 1},
   {&__pyx_n_s_unread, __pyx_k_unread, sizeof(__pyx_k_unread), 0, 0, 1, 1},
   {&__pyx_n_s_unread_data, __pyx_k_unread_data, sizeof(__pyx_k_unread_data), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_urlencode, __pyx_k_urlencode, sizeof(__pyx_k_urlencode), 0, 0, 1, 1},
   {&__pyx_n_s_urllib_parse, __pyx_k_urllib_parse, sizeof(__pyx_k_urllib_parse), 0, 0, 1, 1},
-  {&__pyx_kp_s_us_ascii, __pyx_k_us_ascii, sizeof(__pyx_k_us_ascii), 0, 0, 1, 0},
-  {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
-  {&__pyx_kp_s_utf_8_2, __pyx_k_utf_8_2, sizeof(__pyx_k_utf_8_2), 0, 0, 1, 0},
+  {&__pyx_kp_u_us_ascii, __pyx_k_us_ascii, sizeof(__pyx_k_us_ascii), 0, 1, 0, 0},
+  {&__pyx_kp_u_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
+  {&__pyx_kp_u_utf_8_2, __pyx_k_utf_8_2, sizeof(__pyx_k_utf_8_2), 0, 1, 0, 0},
   {&__pyx_n_s_uuid, __pyx_k_uuid, sizeof(__pyx_k_uuid), 0, 0, 1, 1},
   {&__pyx_n_s_uuid4, __pyx_k_uuid4, sizeof(__pyx_k_uuid4), 0, 0, 1, 1},
   {&__pyx_n_s_val, __pyx_k_val, sizeof(__pyx_k_val), 0, 0, 1, 1},
@@ -31262,7 +30998,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_warnings, __pyx_k_warnings, sizeof(__pyx_k_warnings), 0, 0, 1, 1},
   {&__pyx_n_s_wbits, __pyx_k_wbits, sizeof(__pyx_k_wbits), 0, 0, 1, 1},
   {&__pyx_n_s_window, __pyx_k_window, sizeof(__pyx_k_window), 0, 0, 1, 1},
-  {&__pyx_kp_s_x_www_form_urlencoded, __pyx_k_x_www_form_urlencoded, sizeof(__pyx_k_x_www_form_urlencoded), 0, 0, 1, 0},
+  {&__pyx_kp_u_x_www_form_urlencoded, __pyx_k_x_www_form_urlencoded, sizeof(__pyx_k_x_www_form_urlencoded), 0, 1, 0, 0},
   {&__pyx_n_s_zcomp, __pyx_k_zcomp, sizeof(__pyx_k_zcomp), 0, 0, 1, 1},
   {&__pyx_n_s_zlib, __pyx_k_zlib, sizeof(__pyx_k_zlib), 0, 0, 1, 1},
   {&__pyx_n_s_zlib_mode, __pyx_k_zlib_mode, sizeof(__pyx_k_zlib_mode), 0, 0, 1, 1},
@@ -31299,7 +31035,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def is_extended_param(string):
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s__2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u__2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -31310,7 +31046,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def is_continuous_param(string):
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s__4); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u__4); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -31321,7 +31057,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         if not pos:
  *             return False
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s__4); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u__4); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -31332,7 +31068,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         return substring.isdigit()
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s__4); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u__4); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -31415,7 +31151,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     if not is_token(disptype):
  *         warnings.warn(BadContentDispositionHeader(header))
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s__22); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u__22); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
@@ -31426,7 +31162,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         key = key.lower().strip()
  *         value = value.lstrip()
  */
-  __pyx_tuple__25 = PyTuple_Pack(2, __pyx_kp_s__24, __pyx_int_1); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(2, __pyx_kp_u__24, __pyx_int_1); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
 
@@ -31448,7 +31184,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 encoding = encoding or 'utf-8'
  *             else:
  */
-  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_kp_s__2, __pyx_int_2); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_kp_u__2, __pyx_int_2); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
 
@@ -31462,7 +31198,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_slice__28 = PySlice_New(__pyx_int_1, __pyx_int_neg_1, Py_None); if (unlikely(!__pyx_slice__28)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__28);
   __Pyx_GIVEREF(__pyx_slice__28);
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s__29); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_u__29); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
@@ -31473,7 +31209,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         for num, (key, value) in enumerate(fnparams):
  *             _, tail = key.split('*', 1)
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_filename); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_u_filename); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
 
@@ -31484,7 +31220,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             if tail.endswith('*'):
  *                 tail = tail[:-1]
  */
-  __pyx_tuple__32 = PyTuple_Pack(2, __pyx_kp_s__4, __pyx_int_1); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_tuple__32 = PyTuple_Pack(2, __pyx_kp_u__4, __pyx_int_1); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
 
@@ -31495,7 +31231,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 tail = tail[:-1]
  *             if tail == str(num):
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s__4); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_u__4); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
 
@@ -31510,17 +31246,6 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__34);
   __Pyx_GIVEREF(__pyx_slice__34);
 
-  /* "aiohttp/multipart.py":155
- *         value = ''.join(parts)
- *         if "'" in value:
- *             encoding, _, value = value.split("'", 2)             # <<<<<<<<<<<<<<
- *             encoding = encoding or 'utf-8'
- *             return unquote(value, encoding, 'strict')
- */
-  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_kp_s__2, __pyx_int_2); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 155, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
-
   /* "aiohttp/multipart.py":355
  *             # the very last boundary may not come with \r\n,
  *             # so set single rules for everyone
@@ -31528,9 +31253,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             boundary = self._boundary
  *             last_boundary = self._boundary + b'--'
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_b__36); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 355, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_b__35); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 355, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
 
   /* "aiohttp/multipart.py":366
  *             next_line = yield from self._content.readline()
@@ -31539,9 +31264,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self._unread.append(next_line)
  * 
  */
-  __pyx_slice__39 = PySlice_New(Py_None, __pyx_int_neg_2, Py_None); if (unlikely(!__pyx_slice__39)) __PYX_ERR(0, 366, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__39);
-  __Pyx_GIVEREF(__pyx_slice__39);
+  __pyx_slice__38 = PySlice_New(Py_None, __pyx_int_neg_2, Py_None); if (unlikely(!__pyx_slice__38)) __PYX_ERR(0, 366, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__38);
+  __Pyx_GIVEREF(__pyx_slice__38);
 
   /* "aiohttp/multipart.py":660
  *             io.IOBase: self._serialize_io,
@@ -31550,9 +31275,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             ('application', 'x-www-form-urlencoded'): self._serialize_form
  *         }
  */
-  __pyx_tuple__40 = PyTuple_Pack(2, __pyx_n_s_application, __pyx_n_s_json); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 660, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_tuple__39 = PyTuple_Pack(2, __pyx_n_u_application, __pyx_n_u_json); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 660, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
 
   /* "aiohttp/multipart.py":661
  *             MultipartWriter: self._serialize_multipart,
@@ -31561,9 +31286,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         }
  * 
  */
-  __pyx_tuple__41 = PyTuple_Pack(2, __pyx_n_s_application, __pyx_kp_s_x_www_form_urlencoded); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 661, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_tuple__40 = PyTuple_Pack(2, __pyx_n_u_application, __pyx_kp_u_x_www_form_urlencoded); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 661, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__40);
+  __Pyx_GIVEREF(__pyx_tuple__40);
 
   /* "aiohttp/multipart.py":678
  *             filename = self._guess_filename(self.obj)
@@ -31572,9 +31297,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def _guess_content_length(self, obj):
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_n_s_attachment); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 678, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__42);
-  __Pyx_GIVEREF(__pyx_tuple__42);
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_u_attachment); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 678, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
 
   /* "aiohttp/multipart.py":685
  *         elif isinstance(obj, str):
@@ -31583,9 +31308,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             return len(obj.encode(charset))
  *         elif isinstance(obj, io.StringIO):
  */
-  __pyx_tuple__43 = PyTuple_Pack(2, __pyx_n_s_charset, __pyx_kp_s_us_ascii); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 685, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_tuple__42 = PyTuple_Pack(2, __pyx_n_u_charset, __pyx_kp_u_us_ascii); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 685, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
 
   /* "aiohttp/multipart.py":689
  *         elif isinstance(obj, io.StringIO):
@@ -31594,9 +31319,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             return len(obj.getvalue().encode(charset)) - obj.tell()
  *         elif isinstance(obj, io.BytesIO):
  */
-  __pyx_tuple__44 = PyTuple_Pack(2, __pyx_n_s_charset, __pyx_kp_s_us_ascii); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 689, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
+  __pyx_tuple__43 = PyTuple_Pack(2, __pyx_n_u_charset, __pyx_kp_u_us_ascii); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 689, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
 
   /* "aiohttp/multipart.py":734
  *         if self.headers:
@@ -31605,9 +31330,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 for item in self.headers.items()
  *             )
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_s_latin1); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 734, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__45);
-  __Pyx_GIVEREF(__pyx_tuple__45);
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_u_latin1); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 734, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
 
   /* "aiohttp/multipart.py":758
  *     def _serialize_str(self, obj):
@@ -31616,9 +31341,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def _serialize_io(self, obj):
  */
-  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_n_s_charset, __pyx_kp_s_us_ascii); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 758, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__48);
-  __Pyx_GIVEREF(__pyx_tuple__48);
+  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_n_u_charset, __pyx_kp_u_us_ascii); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 758, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
 
   /* "aiohttp/multipart.py":775
  *     def _serialize_json(self, obj):
@@ -31627,9 +31352,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def _serialize_form(self, obj):
  */
-  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_n_s_charset, __pyx_kp_s_utf_8); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 775, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__49);
-  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_n_u_charset, __pyx_kp_u_utf_8); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 775, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__48);
+  __Pyx_GIVEREF(__pyx_tuple__48);
 
   /* "aiohttp/multipart.py":823
  *                 if not chunk:
@@ -31638,9 +31363,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                     return
  *                 buffer.extend(chunk)
  */
-  __pyx_slice__50 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__50)) __PYX_ERR(0, 823, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__50);
-  __Pyx_GIVEREF(__pyx_slice__50);
+  __pyx_slice__49 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__49)) __PYX_ERR(0, 823, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__49);
+  __Pyx_GIVEREF(__pyx_slice__49);
 
   /* "aiohttp/multipart.py":876
  *         boundary = boundary if boundary is not None else uuid.uuid4().hex
@@ -31649,9 +31374,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         except UnicodeEncodeError:
  *             raise ValueError('boundary should contains ASCII only chars')
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_us_ascii); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 876, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_kp_u_us_ascii); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 876, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__51);
+  __Pyx_GIVEREF(__pyx_tuple__51);
 
   /* "aiohttp/multipart.py":878
  *             boundary.encode('us-ascii')
@@ -31660,9 +31385,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.headers = CIMultiDict()
  *         self.headers[CONTENT_TYPE] = 'multipart/{}; boundary="{}"'.format(
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_boundary_should_contains_ASCII_o); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 878, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__53);
-  __Pyx_GIVEREF(__pyx_tuple__53);
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_u_boundary_should_contains_ASCII_o); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 878, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
 
   /* "aiohttp/multipart.py":900
  *     def boundary(self):
@@ -31671,9 +31396,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def append(self, obj, headers=None):
  */
-  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_s_us_ascii); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 900, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_u_us_ascii); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 900, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__53);
+  __Pyx_GIVEREF(__pyx_tuple__53);
 
   /* "aiohttp/multipart.py":28
  * 
@@ -31682,9 +31407,9 @@ static int __Pyx_InitCachedConstants(void) {
  *            'BodyPartReader', 'BodyPartWriter',
  *            'BadContentDispositionHeader', 'BadContentDispositionParam',
  */
-  __pyx_tuple__56 = PyTuple_Pack(8, __pyx_n_s_MultipartReader, __pyx_n_s_MultipartWriter, __pyx_n_s_BodyPartReader, __pyx_n_s_BodyPartWriter, __pyx_n_s_BadContentDispositionHeader, __pyx_n_s_BadContentDispositionParam, __pyx_n_s_parse_content_disposition, __pyx_n_s_content_disposition_filename); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 28, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__56);
-  __Pyx_GIVEREF(__pyx_tuple__56);
+  __pyx_tuple__55 = PyTuple_Pack(8, __pyx_n_u_MultipartReader, __pyx_n_u_MultipartWriter, __pyx_n_u_BodyPartReader, __pyx_n_u_BodyPartWriter, __pyx_n_u_BadContentDispositionHeader, __pyx_n_u_BadContentDispositionParam, __pyx_n_u_parse_content_disposition, __pyx_n_u_content_disposition_filename); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__55);
+  __Pyx_GIVEREF(__pyx_tuple__55);
 
   /* "aiohttp/multipart.py":35
  * 
@@ -31693,9 +31418,9 @@ static int __Pyx_InitCachedConstants(void) {
  * SEPARATORS = {'(', ')', '<', '>', '@', ',', ';', ':', '\\', '"', '/', '[', ']',
  *               '?', '=', '{', '}', ' ', chr(9)}
  */
-  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_int_127); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 35, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__57);
-  __Pyx_GIVEREF(__pyx_tuple__57);
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_int_127); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__56);
+  __Pyx_GIVEREF(__pyx_tuple__56);
 
   /* "aiohttp/multipart.py":37
  * CTL = set(chr(i) for i in range(0, 32)) | {chr(127), }
@@ -31704,9 +31429,9 @@ static int __Pyx_InitCachedConstants(void) {
  * TOKEN = CHAR ^ CTL ^ SEPARATORS
  * 
  */
-  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_int_9); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__73);
-  __Pyx_GIVEREF(__pyx_tuple__73);
+  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_int_9); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__72);
+  __Pyx_GIVEREF(__pyx_tuple__72);
 
   /* "aiohttp/multipart.py":49
  * 
@@ -31715,10 +31440,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     def is_token(string):
  *         return string and TOKEN >= set(string)
  */
-  __pyx_tuple__75 = PyTuple_Pack(21, __pyx_n_s_header, __pyx_n_s_is_token, __pyx_n_s_is_token, __pyx_n_s_is_quoted, __pyx_n_s_is_quoted, __pyx_n_s_is_rfc5987, __pyx_n_s_is_rfc5987, __pyx_n_s_is_extended_param, __pyx_n_s_is_extended_param, __pyx_n_s_is_continuous_param, __pyx_n_s_is_continuous_param, __pyx_n_s_unescape, __pyx_n_s_unescape, __pyx_n_s_disptype, __pyx_n_s_parts, __pyx_n_s_params, __pyx_n_s_item, __pyx_n_s_key, __pyx_n_s_value, __pyx_n_s_encoding, __pyx_n_s__74); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 49, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__75);
-  __Pyx_GIVEREF(__pyx_tuple__75);
-  __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(1, 0, 21, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_parse_content_disposition, 49, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_tuple__74 = PyTuple_Pack(21, __pyx_n_s_header, __pyx_n_s_is_token, __pyx_n_s_is_token, __pyx_n_s_is_quoted, __pyx_n_s_is_quoted, __pyx_n_s_is_rfc5987, __pyx_n_s_is_rfc5987, __pyx_n_s_is_extended_param, __pyx_n_s_is_extended_param, __pyx_n_s_is_continuous_param, __pyx_n_s_is_continuous_param, __pyx_n_s_unescape, __pyx_n_s_unescape, __pyx_n_s_disptype, __pyx_n_s_parts, __pyx_n_s_params, __pyx_n_s_item, __pyx_n_s_key, __pyx_n_s_value, __pyx_n_s_encoding, __pyx_n_s__73); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__74);
+  __Pyx_GIVEREF(__pyx_tuple__74);
+  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(1, 0, 21, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_parse_content_disposition, 49, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 49, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":131
  * 
@@ -31727,10 +31452,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     if not params:
  *         return None
  */
-  __pyx_tuple__77 = PyTuple_Pack(11, __pyx_n_s_params, __pyx_n_s_parts, __pyx_n_s_fnparams, __pyx_n_s_num, __pyx_n_s_key, __pyx_n_s_value, __pyx_n_s__74, __pyx_n_s_tail, __pyx_n_s_encoding, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 131, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__77);
-  __Pyx_GIVEREF(__pyx_tuple__77);
-  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(1, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_content_disposition_filename, 131, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_tuple__76 = PyTuple_Pack(11, __pyx_n_s_params, __pyx_n_s_parts, __pyx_n_s_fnparams, __pyx_n_s_num, __pyx_n_s_key, __pyx_n_s_value, __pyx_n_s__73, __pyx_n_s_tail, __pyx_n_s_encoding, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__76);
+  __Pyx_GIVEREF(__pyx_tuple__76);
+  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(1, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_content_disposition_filename, 131, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 131, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":165
  *     underlying connection and close it when it needs in."""
@@ -31739,10 +31464,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.resp = resp
  *         self.stream = stream
  */
-  __pyx_tuple__79 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_resp, __pyx_n_s_stream); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 165, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__79);
-  __Pyx_GIVEREF(__pyx_tuple__79);
-  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 165, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_tuple__78 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_resp, __pyx_n_s_stream); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__78);
+  __Pyx_GIVEREF(__pyx_tuple__78);
+  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 165, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 165, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":170
  * 
@@ -31751,10 +31476,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self
  * 
  */
-  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 170, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__81);
-  __Pyx_GIVEREF(__pyx_tuple__81);
-  __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_aiter, 170, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__80);
+  __Pyx_GIVEREF(__pyx_tuple__80);
+  __pyx_codeobj__81 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__80, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_aiter, 170, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__81)) __PYX_ERR(0, 170, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":174
  * 
@@ -31763,10 +31488,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         part = yield from self.next()
  *         if part is None:
  */
-  __pyx_tuple__83 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 174, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__83);
-  __Pyx_GIVEREF(__pyx_tuple__83);
-  __pyx_codeobj__84 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__83, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_anext, 174, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__84)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_tuple__82 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__82);
+  __Pyx_GIVEREF(__pyx_tuple__82);
+  __pyx_codeobj__83 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__82, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_anext, 174, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__83)) __PYX_ERR(0, 174, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":180
  *         return part
@@ -31775,10 +31500,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Returns ``True`` when all response data had been read.
  * 
  */
-  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(0, 180, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__85);
-  __Pyx_GIVEREF(__pyx_tuple__85);
-  __pyx_codeobj__86 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__85, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_at_eof, 180, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__86)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_tuple__84 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__84);
+  __Pyx_GIVEREF(__pyx_tuple__84);
+  __pyx_codeobj__85 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__84, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_at_eof, 180, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__85)) __PYX_ERR(0, 180, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":188
  * 
@@ -31787,10 +31512,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Emits next multipart reader object."""
  *         item = yield from self.stream.next()
  */
-  __pyx_tuple__87 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(0, 188, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__87);
-  __Pyx_GIVEREF(__pyx_tuple__87);
-  __pyx_codeobj__88 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__87, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_next, 188, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__88)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_tuple__86 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__86)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__86);
+  __Pyx_GIVEREF(__pyx_tuple__86);
+  __pyx_codeobj__87 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__86, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_next, 188, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__87)) __PYX_ERR(0, 188, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":196
  * 
@@ -31799,10 +31524,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Releases the connection gracefully, reading all the content
  *         to the void."""
  */
-  __pyx_tuple__89 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(0, 196, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__89);
-  __Pyx_GIVEREF(__pyx_tuple__89);
-  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_release, 196, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_tuple__88 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__88);
+  __Pyx_GIVEREF(__pyx_tuple__88);
+  __pyx_codeobj__89 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__88, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_release, 196, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__89)) __PYX_ERR(0, 196, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":207
  *     chunk_size = 8192
@@ -31811,10 +31536,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.headers = headers
  *         self._boundary = boundary
  */
-  __pyx_tuple__91 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_boundary, __pyx_n_s_headers, __pyx_n_s_content, __pyx_n_s_length_2); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(0, 207, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__91);
-  __Pyx_GIVEREF(__pyx_tuple__91);
-  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 207, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_tuple__90 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_boundary, __pyx_n_s_headers, __pyx_n_s_content, __pyx_n_s_length_2); if (unlikely(!__pyx_tuple__90)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__90);
+  __Pyx_GIVEREF(__pyx_tuple__90);
+  __pyx_codeobj__91 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__90, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 207, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__91)) __PYX_ERR(0, 207, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":220
  * 
@@ -31823,10 +31548,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self
  * 
  */
-  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(0, 220, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__93);
-  __Pyx_GIVEREF(__pyx_tuple__93);
-  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_aiter, 220, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(0, 220, __pyx_L1_error)
+  __pyx_tuple__92 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__92)) __PYX_ERR(0, 220, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__92);
+  __Pyx_GIVEREF(__pyx_tuple__92);
+  __pyx_codeobj__93 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__92, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_aiter, 220, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__93)) __PYX_ERR(0, 220, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":224
  * 
@@ -31835,10 +31560,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         part = yield from self.next()
  *         if part is None:
  */
-  __pyx_tuple__95 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(0, 224, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__95);
-  __Pyx_GIVEREF(__pyx_tuple__95);
-  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_anext, 224, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_tuple__94 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__94)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__94);
+  __Pyx_GIVEREF(__pyx_tuple__94);
+  __pyx_codeobj__95 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__94, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_anext, 224, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__95)) __PYX_ERR(0, 224, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":231
  * 
@@ -31847,10 +31572,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         item = yield from self.read()
  *         if not item:
  */
-  __pyx_tuple__97 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(0, 231, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__97);
-  __Pyx_GIVEREF(__pyx_tuple__97);
-  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_next, 231, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_tuple__96 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__96)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__96);
+  __Pyx_GIVEREF(__pyx_tuple__96);
+  __pyx_codeobj__97 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__96, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_next, 231, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__97)) __PYX_ERR(0, 231, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":238
  * 
@@ -31859,10 +31584,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Reads body part data.
  * 
  */
-  __pyx_tuple__99 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_decode, __pyx_n_s_data); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(0, 238, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__99);
-  __Pyx_GIVEREF(__pyx_tuple__99);
-  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read, 238, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __pyx_tuple__98 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_decode, __pyx_n_s_data); if (unlikely(!__pyx_tuple__98)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__98);
+  __Pyx_GIVEREF(__pyx_tuple__98);
+  __pyx_codeobj__99 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__98, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read, 238, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__99)) __PYX_ERR(0, 238, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":261
  * 
@@ -31871,10 +31596,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Reads body part content chunk of the specified size.
  * 
  */
-  __pyx_tuple__101 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(0, 261, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__101);
-  __Pyx_GIVEREF(__pyx_tuple__101);
-  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_chunk, 261, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_tuple__100 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__100)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__100);
+  __Pyx_GIVEREF(__pyx_tuple__100);
+  __pyx_codeobj__101 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__100, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_chunk, 261, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__101)) __PYX_ERR(0, 261, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":284
  * 
@@ -31883,10 +31608,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Reads body part content chunk of the specified size.
  *         The body part must has `Content-Length` header with proper value.
  */
-  __pyx_tuple__103 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_chunk_size, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(0, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__103);
-  __Pyx_GIVEREF(__pyx_tuple__103);
-  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_chunk_from_length, 284, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_tuple__102 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_chunk_size, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__102)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__102);
+  __Pyx_GIVEREF(__pyx_tuple__102);
+  __pyx_codeobj__103 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__102, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_chunk_from_length, 284, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__103)) __PYX_ERR(0, 284, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":299
  * 
@@ -31895,10 +31620,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Reads content chunk of body part with unknown length.
  *         The `Content-Length` header for body part is not necessary.
  */
-  __pyx_tuple__105 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_first_chunk, __pyx_n_s_chunk, __pyx_n_s_window, __pyx_n_s_sub, __pyx_n_s_idx, __pyx_n_s_result); if (unlikely(!__pyx_tuple__105)) __PYX_ERR(0, 299, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__105);
-  __Pyx_GIVEREF(__pyx_tuple__105);
-  __pyx_codeobj__106 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__105, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_chunk_from_stream, 299, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__106)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_tuple__104 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_first_chunk, __pyx_n_s_chunk, __pyx_n_s_window, __pyx_n_s_sub, __pyx_n_s_idx, __pyx_n_s_result); if (unlikely(!__pyx_tuple__104)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__104);
+  __Pyx_GIVEREF(__pyx_tuple__104);
+  __pyx_codeobj__105 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__104, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_chunk_from_stream, 299, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__105)) __PYX_ERR(0, 299, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":339
  * 
@@ -31907,10 +31632,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Reads body part by line by line.
  * 
  */
-  __pyx_tuple__107 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_line, __pyx_n_s_sline, __pyx_n_s_boundary, __pyx_n_s_last_boundary, __pyx_n_s_next_line); if (unlikely(!__pyx_tuple__107)) __PYX_ERR(0, 339, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__107);
-  __Pyx_GIVEREF(__pyx_tuple__107);
-  __pyx_codeobj__108 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__107, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_readline, 339, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__108)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_tuple__106 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_line, __pyx_n_s_sline, __pyx_n_s_boundary, __pyx_n_s_last_boundary, __pyx_n_s_next_line); if (unlikely(!__pyx_tuple__106)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__106);
+  __Pyx_GIVEREF(__pyx_tuple__106);
+  __pyx_codeobj__107 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__106, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_readline, 339, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__107)) __PYX_ERR(0, 339, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":372
  * 
@@ -31919,10 +31644,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Lke :meth:`read`, but reads all the data to the void.
  * 
  */
-  __pyx_tuple__109 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__109)) __PYX_ERR(0, 372, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__109);
-  __Pyx_GIVEREF(__pyx_tuple__109);
-  __pyx_codeobj__110 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__109, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_release, 372, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__110)) __PYX_ERR(0, 372, __pyx_L1_error)
+  __pyx_tuple__108 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__108)) __PYX_ERR(0, 372, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__108);
+  __Pyx_GIVEREF(__pyx_tuple__108);
+  __pyx_codeobj__109 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__108, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_release, 372, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__109)) __PYX_ERR(0, 372, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":387
  * 
@@ -31931,10 +31656,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Lke :meth:`read`, but assumes that body part contains text data.
  * 
  */
-  __pyx_tuple__111 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_encoding, __pyx_n_s_data); if (unlikely(!__pyx_tuple__111)) __PYX_ERR(0, 387, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__111);
-  __Pyx_GIVEREF(__pyx_tuple__111);
-  __pyx_codeobj__112 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__111, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_text, 387, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__112)) __PYX_ERR(0, 387, __pyx_L1_error)
+  __pyx_tuple__110 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_encoding, __pyx_n_s_data); if (unlikely(!__pyx_tuple__110)) __PYX_ERR(0, 387, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__110);
+  __Pyx_GIVEREF(__pyx_tuple__110);
+  __pyx_codeobj__111 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__110, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_text, 387, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__111)) __PYX_ERR(0, 387, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":400
  * 
@@ -31943,10 +31668,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Lke :meth:`read`, but assumes that body parts contains JSON data.
  * 
  */
-  __pyx_tuple__113 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_encoding, __pyx_n_s_data); if (unlikely(!__pyx_tuple__113)) __PYX_ERR(0, 400, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__113);
-  __Pyx_GIVEREF(__pyx_tuple__113);
-  __pyx_codeobj__114 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__113, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_json, 400, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__114)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_tuple__112 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_encoding, __pyx_n_s_data); if (unlikely(!__pyx_tuple__112)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__112);
+  __Pyx_GIVEREF(__pyx_tuple__112);
+  __pyx_codeobj__113 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__112, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_json, 400, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__113)) __PYX_ERR(0, 400, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":413
  * 
@@ -31955,10 +31680,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Lke :meth:`read`, but assumes that body parts contains form
  *         urlencoded data.
  */
-  __pyx_tuple__115 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_encoding, __pyx_n_s_data); if (unlikely(!__pyx_tuple__115)) __PYX_ERR(0, 413, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__115);
-  __Pyx_GIVEREF(__pyx_tuple__115);
-  __pyx_codeobj__116 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__115, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_form, 413, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__116)) __PYX_ERR(0, 413, __pyx_L1_error)
+  __pyx_tuple__114 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_encoding, __pyx_n_s_data); if (unlikely(!__pyx_tuple__114)) __PYX_ERR(0, 413, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__114);
+  __Pyx_GIVEREF(__pyx_tuple__114);
+  __pyx_codeobj__115 = (PyObject*)__Pyx_PyCode_New(1, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__114, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_form, 413, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__115)) __PYX_ERR(0, 413, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":426
  *         return parse_qsl(data.rstrip().decode(encoding), encoding=encoding)
@@ -31967,10 +31692,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Returns ``True`` if the boundary was reached or
  *         ``False`` otherwise.
  */
-  __pyx_tuple__117 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__117)) __PYX_ERR(0, 426, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__117);
-  __Pyx_GIVEREF(__pyx_tuple__117);
-  __pyx_codeobj__118 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__117, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_at_eof, 426, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__118)) __PYX_ERR(0, 426, __pyx_L1_error)
+  __pyx_tuple__116 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__116)) __PYX_ERR(0, 426, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__116);
+  __Pyx_GIVEREF(__pyx_tuple__116);
+  __pyx_codeobj__117 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__116, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_at_eof, 426, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__117)) __PYX_ERR(0, 426, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":434
  *         return self._at_eof
@@ -31979,10 +31704,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Decodes data according the specified `Content-Encoding`
  *         or `Content-Transfer-Encoding` headers value.
  */
-  __pyx_tuple__119 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_data); if (unlikely(!__pyx_tuple__119)) __PYX_ERR(0, 434, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__119);
-  __Pyx_GIVEREF(__pyx_tuple__119);
-  __pyx_codeobj__120 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__119, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode, 434, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__120)) __PYX_ERR(0, 434, __pyx_L1_error)
+  __pyx_tuple__118 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_data); if (unlikely(!__pyx_tuple__118)) __PYX_ERR(0, 434, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__118);
+  __Pyx_GIVEREF(__pyx_tuple__118);
+  __pyx_codeobj__119 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__118, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode, 434, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__119)) __PYX_ERR(0, 434, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":456
  *         return data
@@ -31991,10 +31716,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         encoding = self.headers[CONTENT_ENCODING].lower()
  * 
  */
-  __pyx_tuple__121 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_data, __pyx_n_s_encoding); if (unlikely(!__pyx_tuple__121)) __PYX_ERR(0, 456, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__121);
-  __Pyx_GIVEREF(__pyx_tuple__121);
-  __pyx_codeobj__122 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__121, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode_content, 456, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__122)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __pyx_tuple__120 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_data, __pyx_n_s_encoding); if (unlikely(!__pyx_tuple__120)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__120);
+  __Pyx_GIVEREF(__pyx_tuple__120);
+  __pyx_codeobj__121 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__120, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode_content, 456, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__121)) __PYX_ERR(0, 456, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":468
  *             raise RuntimeError('unknown content encoding: {}'.format(encoding))
@@ -32003,10 +31728,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         encoding = self.headers[CONTENT_TRANSFER_ENCODING].lower()
  * 
  */
-  __pyx_tuple__123 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_data, __pyx_n_s_encoding); if (unlikely(!__pyx_tuple__123)) __PYX_ERR(0, 468, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__123);
-  __Pyx_GIVEREF(__pyx_tuple__123);
-  __pyx_codeobj__124 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__123, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode_content_transfer, 468, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__124)) __PYX_ERR(0, 468, __pyx_L1_error)
+  __pyx_tuple__122 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_data, __pyx_n_s_encoding); if (unlikely(!__pyx_tuple__122)) __PYX_ERR(0, 468, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__122);
+  __Pyx_GIVEREF(__pyx_tuple__122);
+  __pyx_codeobj__123 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__122, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode_content_transfer, 468, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__123)) __PYX_ERR(0, 468, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":479
  *                                ''.format(encoding))
@@ -32015,13 +31740,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Returns charset parameter from ``Content-Type`` header or default.
  *         """
  */
-  __pyx_tuple__125 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_default, __pyx_n_s_ctype, __pyx_n_s__74, __pyx_n_s_params); if (unlikely(!__pyx_tuple__125)) __PYX_ERR(0, 479, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__125);
-  __Pyx_GIVEREF(__pyx_tuple__125);
-  __pyx_codeobj__126 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__125, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_charset, 479, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__126)) __PYX_ERR(0, 479, __pyx_L1_error)
-  __pyx_tuple__127 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__127)) __PYX_ERR(0, 479, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__127);
-  __Pyx_GIVEREF(__pyx_tuple__127);
+  __pyx_tuple__124 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_default, __pyx_n_s_ctype, __pyx_n_s__73, __pyx_n_s_params); if (unlikely(!__pyx_tuple__124)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__124);
+  __Pyx_GIVEREF(__pyx_tuple__124);
+  __pyx_codeobj__125 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__124, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_charset, 479, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__125)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __pyx_tuple__126 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__126)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__126);
+  __Pyx_GIVEREF(__pyx_tuple__126);
 
   /* "aiohttp/multipart.py":487
  * 
@@ -32030,10 +31755,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Returns filename specified in Content-Disposition header or ``None``
  *         if missed or header is malformed."""
  */
-  __pyx_tuple__128 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s__74, __pyx_n_s_params); if (unlikely(!__pyx_tuple__128)) __PYX_ERR(0, 487, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__128);
-  __Pyx_GIVEREF(__pyx_tuple__128);
-  __pyx_codeobj__129 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__128, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_filename_2, 487, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__129)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __pyx_tuple__127 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s__73, __pyx_n_s_params); if (unlikely(!__pyx_tuple__127)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__127);
+  __Pyx_GIVEREF(__pyx_tuple__127);
+  __pyx_codeobj__128 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__127, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_filename_2, 487, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__128)) __PYX_ERR(0, 487, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":506
  *     part_reader_cls = BodyPartReader
@@ -32042,10 +31767,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.headers = headers
  *         self._boundary = ('--' + self._get_boundary()).encode()
  */
-  __pyx_tuple__130 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_headers, __pyx_n_s_content); if (unlikely(!__pyx_tuple__130)) __PYX_ERR(0, 506, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__130);
-  __Pyx_GIVEREF(__pyx_tuple__130);
-  __pyx_codeobj__131 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__130, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 506, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__131)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_tuple__129 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_headers, __pyx_n_s_content); if (unlikely(!__pyx_tuple__129)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__129);
+  __Pyx_GIVEREF(__pyx_tuple__129);
+  __pyx_codeobj__130 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__129, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 506, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__130)) __PYX_ERR(0, 506, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":515
  * 
@@ -32054,10 +31779,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self
  * 
  */
-  __pyx_tuple__132 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__132)) __PYX_ERR(0, 515, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__132);
-  __Pyx_GIVEREF(__pyx_tuple__132);
-  __pyx_codeobj__133 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__132, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_aiter, 515, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__133)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_tuple__131 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__131)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__131);
+  __Pyx_GIVEREF(__pyx_tuple__131);
+  __pyx_codeobj__132 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_aiter, 515, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__132)) __PYX_ERR(0, 515, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":519
  * 
@@ -32066,10 +31791,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         part = yield from self.next()
  *         if part is None:
  */
-  __pyx_tuple__134 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__134)) __PYX_ERR(0, 519, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__134);
-  __Pyx_GIVEREF(__pyx_tuple__134);
-  __pyx_codeobj__135 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__134, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_anext, 519, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__135)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __pyx_tuple__133 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__133)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__133);
+  __Pyx_GIVEREF(__pyx_tuple__133);
+  __pyx_codeobj__134 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__133, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_anext, 519, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__134)) __PYX_ERR(0, 519, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":526
  * 
@@ -32078,10 +31803,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Constructs reader instance from HTTP response.
  * 
  */
-  __pyx_tuple__136 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_response, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__136)) __PYX_ERR(0, 526, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__136);
-  __Pyx_GIVEREF(__pyx_tuple__136);
-  __pyx_codeobj__137 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__136, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_from_response, 526, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__137)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_tuple__135 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_response, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__135)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__135);
+  __Pyx_GIVEREF(__pyx_tuple__135);
+  __pyx_codeobj__136 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__135, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_from_response, 526, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__136)) __PYX_ERR(0, 526, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":535
  *         return obj
@@ -32090,10 +31815,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Returns ``True`` if the final boundary was reached or
  *         ``False`` otherwise.
  */
-  __pyx_tuple__138 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__138)) __PYX_ERR(0, 535, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__138);
-  __Pyx_GIVEREF(__pyx_tuple__138);
-  __pyx_codeobj__139 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__138, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_at_eof, 535, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__139)) __PYX_ERR(0, 535, __pyx_L1_error)
+  __pyx_tuple__137 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__137)) __PYX_ERR(0, 535, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__137);
+  __Pyx_GIVEREF(__pyx_tuple__137);
+  __pyx_codeobj__138 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__137, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_at_eof, 535, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__138)) __PYX_ERR(0, 535, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":544
  * 
@@ -32102,10 +31827,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Emits the next multipart body part."""
  *         if self._at_eof:
  */
-  __pyx_tuple__140 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__140)) __PYX_ERR(0, 544, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__140);
-  __Pyx_GIVEREF(__pyx_tuple__140);
-  __pyx_codeobj__141 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__140, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_next, 544, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__141)) __PYX_ERR(0, 544, __pyx_L1_error)
+  __pyx_tuple__139 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__139)) __PYX_ERR(0, 544, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__139);
+  __Pyx_GIVEREF(__pyx_tuple__139);
+  __pyx_codeobj__140 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__139, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_next, 544, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__140)) __PYX_ERR(0, 544, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":556
  * 
@@ -32114,10 +31839,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Reads all the body parts to the void till the final boundary."""
  *         while not self._at_eof:
  */
-  __pyx_tuple__142 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__142)) __PYX_ERR(0, 556, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__142);
-  __Pyx_GIVEREF(__pyx_tuple__142);
-  __pyx_codeobj__143 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__142, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_release, 556, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__143)) __PYX_ERR(0, 556, __pyx_L1_error)
+  __pyx_tuple__141 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__141)) __PYX_ERR(0, 556, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__141);
+  __Pyx_GIVEREF(__pyx_tuple__141);
+  __pyx_codeobj__142 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__141, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_release, 556, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__142)) __PYX_ERR(0, 556, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":565
  * 
@@ -32126,10 +31851,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Returns the next body part reader."""
  *         headers = yield from self._read_headers()
  */
-  __pyx_tuple__144 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__144)) __PYX_ERR(0, 565, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__144);
-  __Pyx_GIVEREF(__pyx_tuple__144);
-  __pyx_codeobj__145 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__144, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_fetch_next_part, 565, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__145)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_tuple__143 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__143)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__143);
+  __Pyx_GIVEREF(__pyx_tuple__143);
+  __pyx_codeobj__144 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__143, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_fetch_next_part, 565, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__144)) __PYX_ERR(0, 565, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":570
  *         return self._get_part_reader(headers)
@@ -32138,10 +31863,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Dispatches the response by the `Content-Type` header, returning
  *         suitable reader instance.
  */
-  __pyx_tuple__146 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_headers, __pyx_n_s_ctype, __pyx_n_s_mtype, __pyx_n_s__74); if (unlikely(!__pyx_tuple__146)) __PYX_ERR(0, 570, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__146);
-  __Pyx_GIVEREF(__pyx_tuple__146);
-  __pyx_codeobj__147 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__146, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_part_reader, 570, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__147)) __PYX_ERR(0, 570, __pyx_L1_error)
+  __pyx_tuple__145 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_headers, __pyx_n_s_ctype, __pyx_n_s_mtype, __pyx_n_s__73); if (unlikely(!__pyx_tuple__145)) __PYX_ERR(0, 570, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__145);
+  __Pyx_GIVEREF(__pyx_tuple__145);
+  __pyx_codeobj__146 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__145, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_part_reader, 570, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__146)) __PYX_ERR(0, 570, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":585
  *             return self.part_reader_cls(self._boundary, headers, self._content)
@@ -32150,10 +31875,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         mtype, *_, params = parse_mimetype(self.headers[CONTENT_TYPE])
  * 
  */
-  __pyx_tuple__148 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_mtype, __pyx_n_s__74, __pyx_n_s_params, __pyx_n_s_boundary); if (unlikely(!__pyx_tuple__148)) __PYX_ERR(0, 585, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__148);
-  __Pyx_GIVEREF(__pyx_tuple__148);
-  __pyx_codeobj__149 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__148, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_boundary, 585, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__149)) __PYX_ERR(0, 585, __pyx_L1_error)
+  __pyx_tuple__147 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_mtype, __pyx_n_s__73, __pyx_n_s_params, __pyx_n_s_boundary); if (unlikely(!__pyx_tuple__147)) __PYX_ERR(0, 585, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__147);
+  __Pyx_GIVEREF(__pyx_tuple__147);
+  __pyx_codeobj__148 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__147, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_boundary, 585, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__148)) __PYX_ERR(0, 585, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":602
  * 
@@ -32162,10 +31887,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if self._unread:
  *             return self._unread.pop()
  */
-  __pyx_tuple__150 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__150)) __PYX_ERR(0, 602, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__150);
-  __Pyx_GIVEREF(__pyx_tuple__150);
-  __pyx_codeobj__151 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__150, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_readline_2, 602, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__151)) __PYX_ERR(0, 602, __pyx_L1_error)
+  __pyx_tuple__149 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__149)) __PYX_ERR(0, 602, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__149);
+  __Pyx_GIVEREF(__pyx_tuple__149);
+  __pyx_codeobj__150 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__149, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_readline_2, 602, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__150)) __PYX_ERR(0, 602, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":608
  * 
@@ -32174,10 +31899,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         chunk = (yield from self._readline()).rstrip()
  *         if chunk == self._boundary:
  */
-  __pyx_tuple__152 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__152)) __PYX_ERR(0, 608, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__152);
-  __Pyx_GIVEREF(__pyx_tuple__152);
-  __pyx_codeobj__153 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__152, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_boundary, 608, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__153)) __PYX_ERR(0, 608, __pyx_L1_error)
+  __pyx_tuple__151 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__151)) __PYX_ERR(0, 608, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__151);
+  __Pyx_GIVEREF(__pyx_tuple__151);
+  __pyx_codeobj__152 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__151, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_boundary, 608, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__152)) __PYX_ERR(0, 608, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":619
  * 
@@ -32186,10 +31911,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         lines = [b'']
  *         while True:
  */
-  __pyx_tuple__154 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_lines, __pyx_n_s_chunk, __pyx_n_s_parser, __pyx_n_s_headers, __pyx_n_s__74); if (unlikely(!__pyx_tuple__154)) __PYX_ERR(0, 619, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__154);
-  __Pyx_GIVEREF(__pyx_tuple__154);
-  __pyx_codeobj__155 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__154, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_headers, 619, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__155)) __PYX_ERR(0, 619, __pyx_L1_error)
+  __pyx_tuple__153 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_lines, __pyx_n_s_chunk, __pyx_n_s_parser, __pyx_n_s_headers, __pyx_n_s__73); if (unlikely(!__pyx_tuple__153)) __PYX_ERR(0, 619, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__153);
+  __Pyx_GIVEREF(__pyx_tuple__153);
+  __pyx_codeobj__154 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__153, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_read_headers, 619, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__154)) __PYX_ERR(0, 619, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":632
  * 
@@ -32198,10 +31923,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Ensures that the last read body part is read completely."""
  *         if self._last_part is not None:
  */
-  __pyx_tuple__156 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__156)) __PYX_ERR(0, 632, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__156);
-  __Pyx_GIVEREF(__pyx_tuple__156);
-  __pyx_codeobj__157 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__156, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_maybe_release_last_part, 632, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__157)) __PYX_ERR(0, 632, __pyx_L1_error)
+  __pyx_tuple__155 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__155)) __PYX_ERR(0, 632, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__155);
+  __Pyx_GIVEREF(__pyx_tuple__155);
+  __pyx_codeobj__156 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__155, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_maybe_release_last_part, 632, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__156)) __PYX_ERR(0, 632, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":644
  *     """Multipart writer for single body part."""
@@ -32210,13 +31935,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         if headers is None:
  *             headers = CIMultiDict()
  */
-  __pyx_tuple__158 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers, __pyx_n_s_chunk_size); if (unlikely(!__pyx_tuple__158)) __PYX_ERR(0, 644, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__158);
-  __Pyx_GIVEREF(__pyx_tuple__158);
-  __pyx_codeobj__159 = (PyObject*)__Pyx_PyCode_New(3, 1, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__158, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 644, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__159)) __PYX_ERR(0, 644, __pyx_L1_error)
-  __pyx_tuple__160 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__160)) __PYX_ERR(0, 644, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__160);
-  __Pyx_GIVEREF(__pyx_tuple__160);
+  __pyx_tuple__157 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers, __pyx_n_s_chunk_size); if (unlikely(!__pyx_tuple__157)) __PYX_ERR(0, 644, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__157);
+  __Pyx_GIVEREF(__pyx_tuple__157);
+  __pyx_codeobj__158 = (PyObject*)__Pyx_PyCode_New(3, 1, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__157, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 644, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__158)) __PYX_ERR(0, 644, __pyx_L1_error)
+  __pyx_tuple__159 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__159)) __PYX_ERR(0, 644, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__159);
+  __Pyx_GIVEREF(__pyx_tuple__159);
 
   /* "aiohttp/multipart.py":664
  *         }
@@ -32225,10 +31950,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if CONTENT_TYPE not in self.headers:
  *             content_type = self._guess_content_type(self.obj)
  */
-  __pyx_tuple__161 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_content_type, __pyx_n_s_content_length, __pyx_n_s_filename_2); if (unlikely(!__pyx_tuple__161)) __PYX_ERR(0, 664, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__161);
-  __Pyx_GIVEREF(__pyx_tuple__161);
-  __pyx_codeobj__162 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__161, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_fill_headers_with_defaults, 664, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__162)) __PYX_ERR(0, 664, __pyx_L1_error)
+  __pyx_tuple__160 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_content_type, __pyx_n_s_content_length, __pyx_n_s_filename_2); if (unlikely(!__pyx_tuple__160)) __PYX_ERR(0, 664, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__160);
+  __Pyx_GIVEREF(__pyx_tuple__160);
+  __pyx_codeobj__161 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__160, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_fill_headers_with_defaults, 664, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__161)) __PYX_ERR(0, 664, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":680
  *                 self.set_content_disposition('attachment', filename=filename)
@@ -32237,10 +31962,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if isinstance(obj, bytes):
  *             return len(obj)
  */
-  __pyx_tuple__163 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s__74, __pyx_n_s_params, __pyx_n_s_charset); if (unlikely(!__pyx_tuple__163)) __PYX_ERR(0, 680, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__163);
-  __Pyx_GIVEREF(__pyx_tuple__163);
-  __pyx_codeobj__164 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__163, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_guess_content_length, 680, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__164)) __PYX_ERR(0, 680, __pyx_L1_error)
+  __pyx_tuple__162 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s__73, __pyx_n_s_params, __pyx_n_s_charset); if (unlikely(!__pyx_tuple__162)) __PYX_ERR(0, 680, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__162);
+  __Pyx_GIVEREF(__pyx_tuple__162);
+  __pyx_codeobj__163 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__162, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_guess_content_length, 680, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__163)) __PYX_ERR(0, 680, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":701
  *             return None
@@ -32249,13 +31974,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         if hasattr(obj, 'name'):
  *             name = getattr(obj, 'name')
  */
-  __pyx_tuple__165 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_default, __pyx_n_s_name); if (unlikely(!__pyx_tuple__165)) __PYX_ERR(0, 701, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__165);
-  __Pyx_GIVEREF(__pyx_tuple__165);
-  __pyx_codeobj__166 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__165, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_guess_content_type, 701, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__166)) __PYX_ERR(0, 701, __pyx_L1_error)
-  __pyx_tuple__167 = PyTuple_Pack(1, ((PyObject*)__pyx_kp_s_application_octet_stream)); if (unlikely(!__pyx_tuple__167)) __PYX_ERR(0, 701, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__167);
-  __Pyx_GIVEREF(__pyx_tuple__167);
+  __pyx_tuple__164 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_default, __pyx_n_s_name); if (unlikely(!__pyx_tuple__164)) __PYX_ERR(0, 701, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__164);
+  __Pyx_GIVEREF(__pyx_tuple__164);
+  __pyx_codeobj__165 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__164, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_guess_content_type, 701, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__165)) __PYX_ERR(0, 701, __pyx_L1_error)
+  __pyx_tuple__166 = PyTuple_Pack(1, ((PyObject*)__pyx_kp_u_application_octet_stream)); if (unlikely(!__pyx_tuple__166)) __PYX_ERR(0, 701, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__166);
+  __Pyx_GIVEREF(__pyx_tuple__166);
 
   /* "aiohttp/multipart.py":710
  *             return default
@@ -32264,10 +31989,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if isinstance(obj, io.IOBase):
  *             name = getattr(obj, 'name', None)
  */
-  __pyx_tuple__168 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_name); if (unlikely(!__pyx_tuple__168)) __PYX_ERR(0, 710, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__168);
-  __Pyx_GIVEREF(__pyx_tuple__168);
-  __pyx_codeobj__169 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__168, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_guess_filename, 710, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__169)) __PYX_ERR(0, 710, __pyx_L1_error)
+  __pyx_tuple__167 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_name); if (unlikely(!__pyx_tuple__167)) __PYX_ERR(0, 710, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__167);
+  __Pyx_GIVEREF(__pyx_tuple__167);
+  __pyx_codeobj__168 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__167, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_guess_filename, 710, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__168)) __PYX_ERR(0, 710, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":716
  *                 return Path(name).name
@@ -32276,10 +32001,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Yields byte chunks for body part."""
  * 
  */
-  __pyx_tuple__170 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_has_encoding, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__170)) __PYX_ERR(0, 716, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__170);
-  __Pyx_GIVEREF(__pyx_tuple__170);
-  __pyx_codeobj__171 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__170, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize, 716, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__171)) __PYX_ERR(0, 716, __pyx_L1_error)
+  __pyx_tuple__169 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_has_encoding, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__169)) __PYX_ERR(0, 716, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__169);
+  __Pyx_GIVEREF(__pyx_tuple__169);
+  __pyx_codeobj__170 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__169, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize, 716, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__170)) __PYX_ERR(0, 716, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":741
  *         yield b'\r\n'
@@ -32288,10 +32013,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         obj = self.obj
  *         mtype, stype, *_ = parse_mimetype(self.headers.get(CONTENT_TYPE))
  */
-  __pyx_tuple__172 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_mtype, __pyx_n_s_stype, __pyx_n_s__74, __pyx_n_s_serializer, __pyx_n_s_key); if (unlikely(!__pyx_tuple__172)) __PYX_ERR(0, 741, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__172);
-  __Pyx_GIVEREF(__pyx_tuple__172);
-  __pyx_codeobj__173 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__172, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_obj, 741, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__173)) __PYX_ERR(0, 741, __pyx_L1_error)
+  __pyx_tuple__171 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_mtype, __pyx_n_s_stype, __pyx_n_s__73, __pyx_n_s_serializer, __pyx_n_s_key); if (unlikely(!__pyx_tuple__171)) __PYX_ERR(0, 741, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__171);
+  __Pyx_GIVEREF(__pyx_tuple__171);
+  __pyx_codeobj__172 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__171, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_obj, 741, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__172)) __PYX_ERR(0, 741, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":753
  *         return self._serialize_default(obj)
@@ -32300,10 +32025,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield obj
  * 
  */
-  __pyx_tuple__174 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__174)) __PYX_ERR(0, 753, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__174);
-  __Pyx_GIVEREF(__pyx_tuple__174);
-  __pyx_codeobj__175 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__174, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_bytes, 753, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__175)) __PYX_ERR(0, 753, __pyx_L1_error)
+  __pyx_tuple__173 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__173)) __PYX_ERR(0, 753, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__173);
+  __Pyx_GIVEREF(__pyx_tuple__173);
+  __pyx_codeobj__174 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__173, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_bytes, 753, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__174)) __PYX_ERR(0, 753, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":756
  *         yield obj
@@ -32312,10 +32037,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
  *         yield obj.encode(params.get('charset', 'us-ascii'))
  */
-  __pyx_tuple__176 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s__74, __pyx_n_s_params); if (unlikely(!__pyx_tuple__176)) __PYX_ERR(0, 756, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__176);
-  __Pyx_GIVEREF(__pyx_tuple__176);
-  __pyx_codeobj__177 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__176, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_str, 756, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__177)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __pyx_tuple__175 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s__73, __pyx_n_s_params); if (unlikely(!__pyx_tuple__175)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__175);
+  __Pyx_GIVEREF(__pyx_tuple__175);
+  __pyx_codeobj__176 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__175, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_str, 756, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__176)) __PYX_ERR(0, 756, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":760
  *         yield obj.encode(params.get('charset', 'us-ascii'))
@@ -32324,10 +32049,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         while True:
  *             chunk = obj.read(self._chunk_size)
  */
-  __pyx_tuple__178 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__178)) __PYX_ERR(0, 760, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__178);
-  __Pyx_GIVEREF(__pyx_tuple__178);
-  __pyx_codeobj__179 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__178, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_io, 760, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__179)) __PYX_ERR(0, 760, __pyx_L1_error)
+  __pyx_tuple__177 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__177)) __PYX_ERR(0, 760, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__177);
+  __Pyx_GIVEREF(__pyx_tuple__177);
+  __pyx_codeobj__178 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__177, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_io, 760, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__178)) __PYX_ERR(0, 760, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":770
  *                 yield from self._serialize_bytes(chunk)
@@ -32336,10 +32061,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from obj.serialize()
  * 
  */
-  __pyx_tuple__180 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__180)) __PYX_ERR(0, 770, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__180);
-  __Pyx_GIVEREF(__pyx_tuple__180);
-  __pyx_codeobj__181 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__180, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_multipart, 770, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__181)) __PYX_ERR(0, 770, __pyx_L1_error)
+  __pyx_tuple__179 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__179)) __PYX_ERR(0, 770, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__179);
+  __Pyx_GIVEREF(__pyx_tuple__179);
+  __pyx_codeobj__180 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__179, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_multipart, 770, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__180)) __PYX_ERR(0, 770, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":773
  *         yield from obj.serialize()
@@ -32348,10 +32073,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
  *         yield json.dumps(obj).encode(params.get('charset', 'utf-8'))
  */
-  __pyx_tuple__182 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s__74, __pyx_n_s_params); if (unlikely(!__pyx_tuple__182)) __PYX_ERR(0, 773, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__182);
-  __Pyx_GIVEREF(__pyx_tuple__182);
-  __pyx_codeobj__183 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__182, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_json, 773, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__183)) __PYX_ERR(0, 773, __pyx_L1_error)
+  __pyx_tuple__181 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s__73, __pyx_n_s_params); if (unlikely(!__pyx_tuple__181)) __PYX_ERR(0, 773, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__181);
+  __Pyx_GIVEREF(__pyx_tuple__181);
+  __pyx_codeobj__182 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__181, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_json, 773, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__182)) __PYX_ERR(0, 773, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":777
  *         yield json.dumps(obj).encode(params.get('charset', 'utf-8'))
@@ -32360,10 +32085,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if isinstance(obj, Mapping):
  *             obj = list(obj.items())
  */
-  __pyx_tuple__184 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__184)) __PYX_ERR(0, 777, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__184);
-  __Pyx_GIVEREF(__pyx_tuple__184);
-  __pyx_codeobj__185 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__184, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_form, 777, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__185)) __PYX_ERR(0, 777, __pyx_L1_error)
+  __pyx_tuple__183 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__183)) __PYX_ERR(0, 777, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__183);
+  __Pyx_GIVEREF(__pyx_tuple__183);
+  __pyx_codeobj__184 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__183, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_form, 777, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__184)) __PYX_ERR(0, 777, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":782
  *         return self._serialize_str(urlencode(obj, doseq=True))
@@ -32372,10 +32097,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         raise TypeError('unknown body part type %r' % type(obj))
  * 
  */
-  __pyx_tuple__186 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__186)) __PYX_ERR(0, 782, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__186);
-  __Pyx_GIVEREF(__pyx_tuple__186);
-  __pyx_codeobj__187 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__186, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_default, 782, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__187)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __pyx_tuple__185 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__185)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__185);
+  __Pyx_GIVEREF(__pyx_tuple__185);
+  __pyx_codeobj__186 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__185, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize_default, 782, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__186)) __PYX_ERR(0, 782, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":785
  *         raise TypeError('unknown body part type %r' % type(obj))
@@ -32384,10 +32109,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if CONTENT_ENCODING in self.headers:
  *             stream = self._apply_content_encoding(stream)
  */
-  __pyx_tuple__188 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_stream); if (unlikely(!__pyx_tuple__188)) __PYX_ERR(0, 785, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__188);
-  __Pyx_GIVEREF(__pyx_tuple__188);
-  __pyx_codeobj__189 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__188, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_maybe_encode_stream, 785, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__189)) __PYX_ERR(0, 785, __pyx_L1_error)
+  __pyx_tuple__187 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_stream); if (unlikely(!__pyx_tuple__187)) __PYX_ERR(0, 785, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__187);
+  __Pyx_GIVEREF(__pyx_tuple__187);
+  __pyx_codeobj__188 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__187, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_maybe_encode_stream, 785, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__188)) __PYX_ERR(0, 785, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":792
  *         yield from stream
@@ -32396,10 +32121,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         encoding = self.headers[CONTENT_ENCODING].lower()
  *         if encoding == 'identity':
  */
-  __pyx_tuple__190 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_stream, __pyx_n_s_encoding, __pyx_n_s_zlib_mode, __pyx_n_s_zcomp, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__190)) __PYX_ERR(0, 792, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__190);
-  __Pyx_GIVEREF(__pyx_tuple__190);
-  __pyx_codeobj__191 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__190, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_apply_content_encoding, 792, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__191)) __PYX_ERR(0, 792, __pyx_L1_error)
+  __pyx_tuple__189 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_stream, __pyx_n_s_encoding, __pyx_n_s_zlib_mode, __pyx_n_s_zcomp, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__189)) __PYX_ERR(0, 792, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__189);
+  __Pyx_GIVEREF(__pyx_tuple__189);
+  __pyx_codeobj__190 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__189, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_apply_content_encoding, 792, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__190)) __PYX_ERR(0, 792, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":810
  *                                ''.format(encoding))
@@ -32408,10 +32133,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         encoding = self.headers[CONTENT_TRANSFER_ENCODING].lower()
  *         if encoding == 'base64':
  */
-  __pyx_tuple__192 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_stream, __pyx_n_s_encoding, __pyx_n_s_buffer, __pyx_n_s_div, __pyx_n_s_mod, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__192)) __PYX_ERR(0, 810, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__192);
-  __Pyx_GIVEREF(__pyx_tuple__192);
-  __pyx_codeobj__193 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__192, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_apply_content_transfer_encoding, 810, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__193)) __PYX_ERR(0, 810, __pyx_L1_error)
+  __pyx_tuple__191 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_stream, __pyx_n_s_encoding, __pyx_n_s_buffer, __pyx_n_s_div, __pyx_n_s_mod, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__191)) __PYX_ERR(0, 810, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__191);
+  __Pyx_GIVEREF(__pyx_tuple__191);
+  __pyx_codeobj__192 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__191, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_apply_content_transfer_encoding, 810, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__192)) __PYX_ERR(0, 810, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":833
  *                                ''.format(encoding))
@@ -32420,10 +32145,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Sets ``Content-Disposition`` header.
  * 
  */
-  __pyx_tuple__194 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_disptype, __pyx_n_s_params, __pyx_n_s_value, __pyx_n_s_lparams, __pyx_n_s_key, __pyx_n_s_val, __pyx_n_s_qval, __pyx_n_s_sparams, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__194)) __PYX_ERR(0, 833, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__194);
-  __Pyx_GIVEREF(__pyx_tuple__194);
-  __pyx_codeobj__195 = (PyObject*)__Pyx_PyCode_New(2, 0, 11, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__194, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_content_disposition, 833, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__195)) __PYX_ERR(0, 833, __pyx_L1_error)
+  __pyx_tuple__193 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_disptype, __pyx_n_s_params, __pyx_n_s_value, __pyx_n_s_lparams, __pyx_n_s_key, __pyx_n_s_val, __pyx_n_s_qval, __pyx_n_s_sparams, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__193)) __PYX_ERR(0, 833, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__193);
+  __Pyx_GIVEREF(__pyx_tuple__193);
+  __pyx_codeobj__194 = (PyObject*)__Pyx_PyCode_New(2, 0, 11, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__193, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_content_disposition, 833, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__194)) __PYX_ERR(0, 833, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":859
  * 
@@ -32432,10 +32157,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Returns filename specified in Content-Disposition header or ``None``
  *         if missed."""
  */
-  __pyx_tuple__196 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s__74, __pyx_n_s_params); if (unlikely(!__pyx_tuple__196)) __PYX_ERR(0, 859, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__196);
-  __Pyx_GIVEREF(__pyx_tuple__196);
-  __pyx_codeobj__197 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__196, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_filename_2, 859, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__197)) __PYX_ERR(0, 859, __pyx_L1_error)
+  __pyx_tuple__195 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s__73, __pyx_n_s_params); if (unlikely(!__pyx_tuple__195)) __PYX_ERR(0, 859, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__195);
+  __Pyx_GIVEREF(__pyx_tuple__195);
+  __pyx_codeobj__196 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__195, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_filename_2, 859, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__196)) __PYX_ERR(0, 859, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":873
  *     part_writer_cls = BodyPartWriter
@@ -32444,13 +32169,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         boundary = boundary if boundary is not None else uuid.uuid4().hex
  *         try:
  */
-  __pyx_tuple__198 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_subtype, __pyx_n_s_boundary); if (unlikely(!__pyx_tuple__198)) __PYX_ERR(0, 873, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__198);
-  __Pyx_GIVEREF(__pyx_tuple__198);
-  __pyx_codeobj__199 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__198, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 873, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__199)) __PYX_ERR(0, 873, __pyx_L1_error)
-  __pyx_tuple__200 = PyTuple_Pack(2, ((PyObject*)__pyx_n_s_mixed), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__200)) __PYX_ERR(0, 873, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__200);
-  __Pyx_GIVEREF(__pyx_tuple__200);
+  __pyx_tuple__197 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_subtype, __pyx_n_s_boundary); if (unlikely(!__pyx_tuple__197)) __PYX_ERR(0, 873, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__197);
+  __Pyx_GIVEREF(__pyx_tuple__197);
+  __pyx_codeobj__198 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__197, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 873, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__198)) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_tuple__199 = PyTuple_Pack(2, ((PyObject*)__pyx_n_u_mixed), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__199)) __PYX_ERR(0, 873, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__199);
+  __Pyx_GIVEREF(__pyx_tuple__199);
 
   /* "aiohttp/multipart.py":885
  *         self.parts = []
@@ -32459,10 +32184,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self
  * 
  */
-  __pyx_tuple__201 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__201)) __PYX_ERR(0, 885, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__201);
-  __Pyx_GIVEREF(__pyx_tuple__201);
-  __pyx_codeobj__202 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__201, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_enter, 885, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__202)) __PYX_ERR(0, 885, __pyx_L1_error)
+  __pyx_tuple__200 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__200)) __PYX_ERR(0, 885, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__200);
+  __Pyx_GIVEREF(__pyx_tuple__200);
+  __pyx_codeobj__201 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__200, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_enter, 885, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__201)) __PYX_ERR(0, 885, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":888
  *         return self
@@ -32471,10 +32196,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         pass
  * 
  */
-  __pyx_tuple__203 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_exc_type, __pyx_n_s_exc_val, __pyx_n_s_exc_tb); if (unlikely(!__pyx_tuple__203)) __PYX_ERR(0, 888, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__203);
-  __Pyx_GIVEREF(__pyx_tuple__203);
-  __pyx_codeobj__204 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__203, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_exit, 888, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__204)) __PYX_ERR(0, 888, __pyx_L1_error)
+  __pyx_tuple__202 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_exc_type, __pyx_n_s_exc_val, __pyx_n_s_exc_tb); if (unlikely(!__pyx_tuple__202)) __PYX_ERR(0, 888, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__202);
+  __Pyx_GIVEREF(__pyx_tuple__202);
+  __pyx_codeobj__203 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__202, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_exit, 888, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__203)) __PYX_ERR(0, 888, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":891
  *         pass
@@ -32483,10 +32208,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return iter(self.parts)
  * 
  */
-  __pyx_tuple__205 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__205)) __PYX_ERR(0, 891, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__205);
-  __Pyx_GIVEREF(__pyx_tuple__205);
-  __pyx_codeobj__206 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__205, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 891, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__206)) __PYX_ERR(0, 891, __pyx_L1_error)
+  __pyx_tuple__204 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__204)) __PYX_ERR(0, 891, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__204);
+  __Pyx_GIVEREF(__pyx_tuple__204);
+  __pyx_codeobj__205 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__204, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 891, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__205)) __PYX_ERR(0, 891, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":894
  *         return iter(self.parts)
@@ -32495,10 +32220,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return len(self.parts)
  * 
  */
-  __pyx_tuple__207 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__207)) __PYX_ERR(0, 894, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__207);
-  __Pyx_GIVEREF(__pyx_tuple__207);
-  __pyx_codeobj__208 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__207, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 894, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__208)) __PYX_ERR(0, 894, __pyx_L1_error)
+  __pyx_tuple__206 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__206)) __PYX_ERR(0, 894, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__206);
+  __Pyx_GIVEREF(__pyx_tuple__206);
+  __pyx_codeobj__207 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__206, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 894, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__207)) __PYX_ERR(0, 894, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":898
  * 
@@ -32507,10 +32232,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
  *         return params['boundary'].encode('us-ascii')
  */
-  __pyx_tuple__209 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s__74, __pyx_n_s_params); if (unlikely(!__pyx_tuple__209)) __PYX_ERR(0, 898, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__209);
-  __Pyx_GIVEREF(__pyx_tuple__209);
-  __pyx_codeobj__210 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__209, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_boundary, 898, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__210)) __PYX_ERR(0, 898, __pyx_L1_error)
+  __pyx_tuple__208 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s__73, __pyx_n_s_params); if (unlikely(!__pyx_tuple__208)) __PYX_ERR(0, 898, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__208);
+  __Pyx_GIVEREF(__pyx_tuple__208);
+  __pyx_codeobj__209 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__208, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_boundary, 898, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__209)) __PYX_ERR(0, 898, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":902
  *         return params['boundary'].encode('us-ascii')
@@ -32519,13 +32244,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Adds a new body part to multipart writer."""
  *         if isinstance(obj, self.part_writer_cls):
  */
-  __pyx_tuple__211 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__211)) __PYX_ERR(0, 902, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__211);
-  __Pyx_GIVEREF(__pyx_tuple__211);
-  __pyx_codeobj__212 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__211, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append, 902, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__212)) __PYX_ERR(0, 902, __pyx_L1_error)
-  __pyx_tuple__213 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__213)) __PYX_ERR(0, 902, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__213);
-  __Pyx_GIVEREF(__pyx_tuple__213);
+  __pyx_tuple__210 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__210)) __PYX_ERR(0, 902, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__210);
+  __Pyx_GIVEREF(__pyx_tuple__210);
+  __pyx_codeobj__211 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__210, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append, 902, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__211)) __PYX_ERR(0, 902, __pyx_L1_error)
+  __pyx_tuple__212 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__212)) __PYX_ERR(0, 902, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__212);
+  __Pyx_GIVEREF(__pyx_tuple__212);
 
   /* "aiohttp/multipart.py":914
  *         return self.parts[-1]
@@ -32534,13 +32259,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Helper to append JSON part."""
  *         if not headers:
  */
-  __pyx_tuple__214 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__214)) __PYX_ERR(0, 914, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__214);
-  __Pyx_GIVEREF(__pyx_tuple__214);
-  __pyx_codeobj__215 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__214, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append_json, 914, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__215)) __PYX_ERR(0, 914, __pyx_L1_error)
-  __pyx_tuple__216 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__216)) __PYX_ERR(0, 914, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__216);
-  __Pyx_GIVEREF(__pyx_tuple__216);
+  __pyx_tuple__213 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__213)) __PYX_ERR(0, 914, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__213);
+  __Pyx_GIVEREF(__pyx_tuple__213);
+  __pyx_codeobj__214 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__213, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append_json, 914, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__214)) __PYX_ERR(0, 914, __pyx_L1_error)
+  __pyx_tuple__215 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__215)) __PYX_ERR(0, 914, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__215);
+  __Pyx_GIVEREF(__pyx_tuple__215);
 
   /* "aiohttp/multipart.py":921
  *         return self.append(obj, headers)
@@ -32549,13 +32274,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Helper to append form urlencoded part."""
  *         if not headers:
  */
-  __pyx_tuple__217 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__217)) __PYX_ERR(0, 921, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__217);
-  __Pyx_GIVEREF(__pyx_tuple__217);
-  __pyx_codeobj__218 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__217, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append_form, 921, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__218)) __PYX_ERR(0, 921, __pyx_L1_error)
-  __pyx_tuple__219 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__219)) __PYX_ERR(0, 921, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__219);
-  __Pyx_GIVEREF(__pyx_tuple__219);
+  __pyx_tuple__216 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_obj, __pyx_n_s_headers); if (unlikely(!__pyx_tuple__216)) __PYX_ERR(0, 921, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__216);
+  __Pyx_GIVEREF(__pyx_tuple__216);
+  __pyx_codeobj__217 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__216, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append_form, 921, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__217)) __PYX_ERR(0, 921, __pyx_L1_error)
+  __pyx_tuple__218 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__218)) __PYX_ERR(0, 921, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__218);
+  __Pyx_GIVEREF(__pyx_tuple__218);
 
   /* "aiohttp/multipart.py":929
  *         return self.append(obj, headers)
@@ -32564,10 +32289,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Yields multipart byte chunks."""
  *         if not self.parts:
  */
-  __pyx_tuple__220 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__220)) __PYX_ERR(0, 929, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__220);
-  __Pyx_GIVEREF(__pyx_tuple__220);
-  __pyx_codeobj__221 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__220, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize, 929, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__221)) __PYX_ERR(0, 929, __pyx_L1_error)
+  __pyx_tuple__219 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_part); if (unlikely(!__pyx_tuple__219)) __PYX_ERR(0, 929, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__219);
+  __Pyx_GIVEREF(__pyx_tuple__219);
+  __pyx_codeobj__220 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__219, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_serialize, 929, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__220)) __PYX_ERR(0, 929, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -32576,7 +32301,6 @@ static int __Pyx_InitCachedConstants(void) {
 }
 
 static int __Pyx_InitGlobals(void) {
-  __pyx_umethod_PyDict_Type_items.type = (PyObject*)&PyDict_Type;
   __pyx_umethod_PyList_Type_pop.type = (PyObject*)&PyList_Type;
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -32818,7 +32542,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import binascii
  * import base64
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32829,7 +32553,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import base64
  * import json
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_binascii, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_binascii, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_binascii, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32841,7 +32565,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import json
  * import io
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_base64, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_base64, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_base64, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32853,7 +32577,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import io
  * import mimetypes
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32865,7 +32589,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import mimetypes
  * import os
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_io, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32877,7 +32601,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import os
  * import re
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_mimetypes, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_mimetypes, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_mimetypes, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32889,7 +32613,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import re
  * import uuid
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32901,7 +32625,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import uuid
  * import warnings
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_re, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_re, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_re, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32913,7 +32637,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import warnings
  * import zlib
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_uuid, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_uuid, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_uuid, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32925,7 +32649,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * import zlib
  * from urllib.parse import quote, unquote, urlencode, parse_qsl
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_warnings, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_warnings, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32937,7 +32661,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * from urllib.parse import quote, unquote, urlencode, parse_qsl
  * from collections import deque, Mapping, Sequence
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_zlib, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_zlib, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_zlib, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32963,7 +32687,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __Pyx_INCREF(__pyx_n_s_parse_qsl);
   __Pyx_GIVEREF(__pyx_n_s_parse_qsl);
   PyList_SET_ITEM(__pyx_t_1, 3, __pyx_n_s_parse_qsl);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_urllib_parse, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_urllib_parse, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_quote); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
@@ -33002,7 +32726,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __Pyx_INCREF(__pyx_n_s_Sequence);
   __Pyx_GIVEREF(__pyx_n_s_Sequence);
   PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_Sequence);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_deque); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
@@ -33031,7 +32755,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __Pyx_INCREF(__pyx_n_s_Path);
   __Pyx_GIVEREF(__pyx_n_s_Path);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Path);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pathlib, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pathlib, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
@@ -33167,7 +32891,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *            'BodyPartReader', 'BodyPartWriter',
  *            'BadContentDispositionHeader', 'BadContentDispositionParam',
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_tuple__56) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_tuple__55) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
 
   /* "aiohttp/multipart.py":34
  * 
@@ -33196,7 +32920,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __pyx_t_2 = __Pyx_Generator_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_chr, __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_chr, __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = PySet_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -33216,28 +32940,28 @@ PyMODINIT_FUNC PyInit_multipart(void)
  * TOKEN = CHAR ^ CTL ^ SEPARATORS
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_chr, __pyx_tuple__73, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_chr, __pyx_tuple__72, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = PySet_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__58) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__59) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__60) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__61) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__62) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__63) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__22) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__64) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__65) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s_) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__66) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__67) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__68) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__69) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__24) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__70) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__71) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
-  if (PySet_Add(__pyx_t_3, __pyx_kp_s__72) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__57) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__58) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__59) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__60) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__61) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__62) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__22) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__63) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__64) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u_) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__65) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__66) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__67) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__68) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__24) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__69) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__70) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_3, __pyx_kp_u__71) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   if (PySet_Add(__pyx_t_3, __pyx_t_1) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SEPARATORS, __pyx_t_3) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
@@ -33283,7 +33007,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_3, __pyx_n_s_BadContentDispositionHeader, __pyx_n_s_BadContentDispositionHeader, (PyObject *) NULL, __pyx_n_s_aiohttp_multipart, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BadContentDispositionHeader, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BadContentDispositionHeader, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_BadContentDispositionHeader, __pyx_t_4) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -33307,7 +33031,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_3, __pyx_n_s_BadContentDispositionParam, __pyx_n_s_BadContentDispositionParam, (PyObject *) NULL, __pyx_n_s_aiohttp_multipart, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BadContentDispositionParam, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BadContentDispositionParam, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_BadContentDispositionParam, __pyx_t_4) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -33322,7 +33046,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *     def is_token(string):
  *         return string and TOKEN >= set(string)
  */
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_1parse_content_disposition, 0, __pyx_n_s_parse_content_disposition, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__76)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_1parse_content_disposition, 0, __pyx_n_s_parse_content_disposition, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__75)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_parse_content_disposition, __pyx_t_3) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -33334,7 +33058,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *     if not params:
  *         return None
  */
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_3content_disposition_filename, 0, __pyx_n_s_content_disposition_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__78)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_3content_disposition_filename, 0, __pyx_n_s_content_disposition_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__77)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_content_disposition_filename, __pyx_t_3) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -33363,7 +33087,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         self.resp = resp
  *         self.stream = stream
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_1__init__, 0, __pyx_n_s_MultipartResponseWrapper___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_1__init__, 0, __pyx_n_s_MultipartResponseWrapper___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__79)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_init, __pyx_t_4) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -33388,7 +33112,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         return self
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_3__aiter__, 0, __pyx_n_s_MultipartResponseWrapper___aiter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_3__aiter__, 0, __pyx_n_s_MultipartResponseWrapper___aiter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__81)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -33439,7 +33163,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         part = yield from self.next()
  *         if part is None:
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_5__anext__, 0, __pyx_n_s_MultipartResponseWrapper___anext, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__84)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_5__anext__, 0, __pyx_n_s_MultipartResponseWrapper___anext, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__83)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -33477,7 +33201,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Returns ``True`` when all response data had been read.
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_8at_eof, 0, __pyx_n_s_MultipartResponseWrapper_at_eof, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_8at_eof, 0, __pyx_n_s_MultipartResponseWrapper_at_eof, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__85)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_at_eof, __pyx_t_4) < 0) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -33502,7 +33226,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Emits next multipart reader object."""
  *         item = yield from self.stream.next()
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_10next, 0, __pyx_n_s_MultipartResponseWrapper_next, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__88)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_10next, 0, __pyx_n_s_MultipartResponseWrapper_next, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__87)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -33553,7 +33277,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Releases the connection gracefully, reading all the content
  *         to the void."""
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_13release, 0, __pyx_n_s_MultipartResponseWrapper_release, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__90)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_24MultipartResponseWrapper_13release, 0, __pyx_n_s_MultipartResponseWrapper_release, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__89)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -33591,7 +33315,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *     """Wrapper around the :class:`MultipartBodyReader` to take care about
  *     underlying connection and close it when it needs in."""
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MultipartResponseWrapper, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MultipartResponseWrapper, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 161, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MultipartResponseWrapper, __pyx_t_4) < 0) __PYX_ERR(0, 161, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -33632,7 +33356,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         self.headers = headers
  *         self._boundary = boundary
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_1__init__, 0, __pyx_n_s_BodyPartReader___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__92)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_1__init__, 0, __pyx_n_s_BodyPartReader___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__91)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_init, __pyx_t_4) < 0) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -33657,7 +33381,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         return self
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_3__aiter__, 0, __pyx_n_s_BodyPartReader___aiter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__94)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 220, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_3__aiter__, 0, __pyx_n_s_BodyPartReader___aiter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__93)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -33708,7 +33432,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         part = yield from self.next()
  *         if part is None:
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_5__anext__, 0, __pyx_n_s_BodyPartReader___anext, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__96)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_5__anext__, 0, __pyx_n_s_BodyPartReader___anext, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__95)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -33759,7 +33483,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         item = yield from self.read()
  *         if not item:
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_8next, 0, __pyx_n_s_BodyPartReader_next, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__98)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_8next, 0, __pyx_n_s_BodyPartReader_next, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__97)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -33813,7 +33537,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_decode, ((PyObject *)Py_False)) < 0) __PYX_ERR(0, 238, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_11read, 0, __pyx_n_s_BodyPartReader_read, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__100)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_11read, 0, __pyx_n_s_BodyPartReader_read, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__99)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_8, __pyx_t_7);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -33866,7 +33590,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Reads body part content chunk of the specified size.
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_14read_chunk, 0, __pyx_n_s_BodyPartReader_read_chunk, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__102)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_14read_chunk, 0, __pyx_n_s_BodyPartReader_read_chunk, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__101)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (!__Pyx_CyFunction_InitDefaults(__pyx_t_5, sizeof(__pyx_defaults), 1)) __PYX_ERR(0, 261, __pyx_L1_error)
   __pyx_t_8 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_chunk_size);
@@ -33929,7 +33653,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Reads body part content chunk of the specified size.
  *         The body part must has `Content-Length` header with proper value.
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_17_read_chunk_from_length, 0, __pyx_n_s_BodyPartReader__read_chunk_from, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__104)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_17_read_chunk_from_length, 0, __pyx_n_s_BodyPartReader__read_chunk_from, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__103)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -33980,7 +33704,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Reads content chunk of body part with unknown length.
  *         The `Content-Length` header for body part is not necessary.
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_20_read_chunk_from_stream, 0, __pyx_n_s_BodyPartReader__read_chunk_from_2, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__106)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_20_read_chunk_from_stream, 0, __pyx_n_s_BodyPartReader__read_chunk_from_2, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__105)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -34031,7 +33755,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Reads body part by line by line.
  * 
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_23readline, 0, __pyx_n_s_BodyPartReader_readline, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__108)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_23readline, 0, __pyx_n_s_BodyPartReader_readline, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__107)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -34082,7 +33806,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Lke :meth:`read`, but reads all the data to the void.
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_26release, 0, __pyx_n_s_BodyPartReader_release, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__110)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 372, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_26release, 0, __pyx_n_s_BodyPartReader_release, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__109)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -34136,7 +33860,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_encoding, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 387, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_29text, 0, __pyx_n_s_BodyPartReader_text, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__112)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 387, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_29text, 0, __pyx_n_s_BodyPartReader_text, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__111)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_5, __pyx_t_6);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -34192,7 +33916,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_encoding, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_32json, 0, __pyx_n_s_BodyPartReader_json, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__114)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_32json, 0, __pyx_n_s_BodyPartReader_json, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__113)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_5, __pyx_t_7);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -34248,7 +33972,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 413, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_encoding, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_35form, 0, __pyx_n_s_BodyPartReader_form, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__116)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 413, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_35form, 0, __pyx_n_s_BodyPartReader_form, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__115)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 413, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_5, __pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -34288,7 +34012,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Returns ``True`` if the boundary was reached or
  *         ``False`` otherwise.
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_38at_eof, 0, __pyx_n_s_BodyPartReader_at_eof, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__118)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 426, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_38at_eof, 0, __pyx_n_s_BodyPartReader_at_eof, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__117)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_at_eof, __pyx_t_4) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -34300,7 +34024,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Decodes data according the specified `Content-Encoding`
  *         or `Content-Transfer-Encoding` headers value.
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_40decode, 0, __pyx_n_s_BodyPartReader_decode, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__120)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_40decode, 0, __pyx_n_s_BodyPartReader_decode, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__119)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_decode, __pyx_t_4) < 0) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -34312,7 +34036,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         encoding = self.headers[CONTENT_ENCODING].lower()
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_42_decode_content, 0, __pyx_n_s_BodyPartReader__decode_content, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__122)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_42_decode_content, 0, __pyx_n_s_BodyPartReader__decode_content, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__121)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_decode_content, __pyx_t_4) < 0) __PYX_ERR(0, 456, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -34324,7 +34048,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         encoding = self.headers[CONTENT_TRANSFER_ENCODING].lower()
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_44_decode_content_transfer, 0, __pyx_n_s_BodyPartReader__decode_content_t, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__124)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 468, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_44_decode_content_transfer, 0, __pyx_n_s_BodyPartReader__decode_content_t, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__123)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_decode_content_transfer, __pyx_t_4) < 0) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -34336,9 +34060,9 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Returns charset parameter from ``Content-Type`` header or default.
  *         """
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_46get_charset, 0, __pyx_n_s_BodyPartReader_get_charset, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__126)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_46get_charset, 0, __pyx_n_s_BodyPartReader_get_charset, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__125)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 479, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__127);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__126);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_get_charset, __pyx_t_4) < 0) __PYX_ERR(0, 479, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -34349,7 +34073,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Returns filename specified in Content-Disposition header or ``None``
  *         if missed or header is malformed."""
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_48filename, 0, __pyx_n_s_BodyPartReader_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__129)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartReader_48filename, 0, __pyx_n_s_BodyPartReader_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__128)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 487, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
   /* "aiohttp/multipart.py":486
@@ -34377,7 +34101,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *     """Multipart reader for single body part."""
  * 
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BodyPartReader, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BodyPartReader, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_BodyPartReader, __pyx_t_4) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -34442,7 +34166,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         self.headers = headers
  *         self._boundary = ('--' + self._get_boundary()).encode()
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_1__init__, 0, __pyx_n_s_MultipartReader___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__131)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_1__init__, 0, __pyx_n_s_MultipartReader___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__130)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 506, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_init, __pyx_t_4) < 0) __PYX_ERR(0, 506, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -34467,7 +34191,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         return self
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_3__aiter__, 0, __pyx_n_s_MultipartReader___aiter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__133)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_3__aiter__, 0, __pyx_n_s_MultipartReader___aiter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__132)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 515, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -34518,7 +34242,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         part = yield from self.next()
  *         if part is None:
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_5__anext__, 0, __pyx_n_s_MultipartReader___anext, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__135)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_5__anext__, 0, __pyx_n_s_MultipartReader___anext, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__134)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -34556,7 +34280,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Constructs reader instance from HTTP response.
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_8from_response, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MultipartReader_from_response, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__137)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_8from_response, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MultipartReader_from_response, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__136)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
   /* "aiohttp/multipart.py":525
@@ -34579,7 +34303,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Returns ``True`` if the final boundary was reached or
  *         ``False`` otherwise.
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_10at_eof, 0, __pyx_n_s_MultipartReader_at_eof, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__139)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 535, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_10at_eof, 0, __pyx_n_s_MultipartReader_at_eof, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__138)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 535, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_at_eof, __pyx_t_8) < 0) __PYX_ERR(0, 535, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -34604,7 +34328,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Emits the next multipart body part."""
  *         if self._at_eof:
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_12next, 0, __pyx_n_s_MultipartReader_next, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__141)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 544, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_12next, 0, __pyx_n_s_MultipartReader_next, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__140)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 544, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -34655,7 +34379,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Reads all the body parts to the void till the final boundary."""
  *         while not self._at_eof:
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_15release, 0, __pyx_n_s_MultipartReader_release, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__143)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 556, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_15release, 0, __pyx_n_s_MultipartReader_release, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__142)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 556, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -34706,7 +34430,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Returns the next body part reader."""
  *         headers = yield from self._read_headers()
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_18fetch_next_part, 0, __pyx_n_s_MultipartReader_fetch_next_part, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__145)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_18fetch_next_part, 0, __pyx_n_s_MultipartReader_fetch_next_part, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__144)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 565, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -34744,7 +34468,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Dispatches the response by the `Content-Type` header, returning
  *         suitable reader instance.
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_21_get_part_reader, 0, __pyx_n_s_MultipartReader__get_part_reader, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__147)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 570, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_21_get_part_reader, 0, __pyx_n_s_MultipartReader__get_part_reader, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__146)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 570, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_get_part_reader, __pyx_t_8) < 0) __PYX_ERR(0, 570, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -34756,7 +34480,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         mtype, *_, params = parse_mimetype(self.headers[CONTENT_TYPE])
  * 
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_23_get_boundary, 0, __pyx_n_s_MultipartReader__get_boundary, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__149)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 585, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_23_get_boundary, 0, __pyx_n_s_MultipartReader__get_boundary, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__148)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 585, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_get_boundary, __pyx_t_8) < 0) __PYX_ERR(0, 585, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -34781,7 +34505,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         if self._unread:
  *             return self._unread.pop()
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_25_readline, 0, __pyx_n_s_MultipartReader__readline, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__151)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 602, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_25_readline, 0, __pyx_n_s_MultipartReader__readline, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__150)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 602, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -34832,7 +34556,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         chunk = (yield from self._readline()).rstrip()
  *         if chunk == self._boundary:
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_28_read_boundary, 0, __pyx_n_s_MultipartReader__read_boundary, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__153)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 608, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_28_read_boundary, 0, __pyx_n_s_MultipartReader__read_boundary, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__152)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 608, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -34883,7 +34607,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         lines = [b'']
  *         while True:
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_31_read_headers, 0, __pyx_n_s_MultipartReader__read_headers, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__155)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 619, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_31_read_headers, 0, __pyx_n_s_MultipartReader__read_headers, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__154)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 619, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -34934,7 +34658,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Ensures that the last read body part is read completely."""
  *         if self._last_part is not None:
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_34_maybe_release_last_part, 0, __pyx_n_s_MultipartReader__maybe_release_l, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__157)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 632, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartReader_34_maybe_release_last_part, 0, __pyx_n_s_MultipartReader__maybe_release_l, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__156)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 632, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -34972,7 +34696,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *     """Multipart body reader."""
  * 
  */
-  __pyx_t_8 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MultipartReader, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MultipartReader, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 495, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MultipartReader, __pyx_t_8) < 0) __PYX_ERR(0, 495, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -35007,9 +34731,9 @@ PyMODINIT_FUNC PyInit_multipart(void)
   __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 644, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_chunk_size, ((PyObject *)__pyx_int_8192)) < 0) __PYX_ERR(0, 644, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_1__init__, 0, __pyx_n_s_BodyPartWriter___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__159)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 644, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_1__init__, 0, __pyx_n_s_BodyPartWriter___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__158)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 644, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__160);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__159);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_7, __pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_init, __pyx_t_7) < 0) __PYX_ERR(0, 644, __pyx_L1_error)
@@ -35022,7 +34746,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         if CONTENT_TYPE not in self.headers:
  *             content_type = self._guess_content_type(self.obj)
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_3_fill_headers_with_defaults, 0, __pyx_n_s_BodyPartWriter__fill_headers_wit, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__162)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 664, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_3_fill_headers_with_defaults, 0, __pyx_n_s_BodyPartWriter__fill_headers_wit, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__161)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 664, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_fill_headers_with_defaults, __pyx_t_7) < 0) __PYX_ERR(0, 664, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35034,7 +34758,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         if isinstance(obj, bytes):
  *             return len(obj)
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_5_guess_content_length, 0, __pyx_n_s_BodyPartWriter__guess_content_le, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__164)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 680, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_5_guess_content_length, 0, __pyx_n_s_BodyPartWriter__guess_content_le, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__163)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 680, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_guess_content_length, __pyx_t_7) < 0) __PYX_ERR(0, 680, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35046,9 +34770,9 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         if hasattr(obj, 'name'):
  *             name = getattr(obj, 'name')
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_7_guess_content_type, 0, __pyx_n_s_BodyPartWriter__guess_content_ty, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__166)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 701, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_7_guess_content_type, 0, __pyx_n_s_BodyPartWriter__guess_content_ty, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__165)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 701, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__167);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__166);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_guess_content_type, __pyx_t_7) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
@@ -35059,7 +34783,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         if isinstance(obj, io.IOBase):
  *             name = getattr(obj, 'name', None)
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_9_guess_filename, 0, __pyx_n_s_BodyPartWriter__guess_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__169)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 710, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_9_guess_filename, 0, __pyx_n_s_BodyPartWriter__guess_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__168)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_guess_filename, __pyx_t_7) < 0) __PYX_ERR(0, 710, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35071,7 +34795,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Yields byte chunks for body part."""
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_11serialize, 0, __pyx_n_s_BodyPartWriter_serialize, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__171)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 716, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_11serialize, 0, __pyx_n_s_BodyPartWriter_serialize, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__170)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 716, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize, __pyx_t_7) < 0) __PYX_ERR(0, 716, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35083,7 +34807,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         obj = self.obj
  *         mtype, stype, *_ = parse_mimetype(self.headers.get(CONTENT_TYPE))
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_14_serialize_obj, 0, __pyx_n_s_BodyPartWriter__serialize_obj, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__173)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 741, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_14_serialize_obj, 0, __pyx_n_s_BodyPartWriter__serialize_obj, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__172)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_obj, __pyx_t_7) < 0) __PYX_ERR(0, 741, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35095,7 +34819,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         yield obj
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_16_serialize_bytes, 0, __pyx_n_s_BodyPartWriter__serialize_bytes, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__175)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 753, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_16_serialize_bytes, 0, __pyx_n_s_BodyPartWriter__serialize_bytes, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__174)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 753, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_bytes, __pyx_t_7) < 0) __PYX_ERR(0, 753, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35107,7 +34831,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
  *         yield obj.encode(params.get('charset', 'us-ascii'))
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_19_serialize_str, 0, __pyx_n_s_BodyPartWriter__serialize_str, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__177)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_19_serialize_str, 0, __pyx_n_s_BodyPartWriter__serialize_str, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__176)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 756, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_str, __pyx_t_7) < 0) __PYX_ERR(0, 756, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35119,7 +34843,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         while True:
  *             chunk = obj.read(self._chunk_size)
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_22_serialize_io, 0, __pyx_n_s_BodyPartWriter__serialize_io, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__179)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 760, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_22_serialize_io, 0, __pyx_n_s_BodyPartWriter__serialize_io, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__178)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 760, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_io, __pyx_t_7) < 0) __PYX_ERR(0, 760, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35131,7 +34855,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         yield from obj.serialize()
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_25_serialize_multipart, 0, __pyx_n_s_BodyPartWriter__serialize_multip, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__181)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 770, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_25_serialize_multipart, 0, __pyx_n_s_BodyPartWriter__serialize_multip, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__180)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 770, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_multipart, __pyx_t_7) < 0) __PYX_ERR(0, 770, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35143,7 +34867,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
  *         yield json.dumps(obj).encode(params.get('charset', 'utf-8'))
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_28_serialize_json, 0, __pyx_n_s_BodyPartWriter__serialize_json, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__183)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 773, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_28_serialize_json, 0, __pyx_n_s_BodyPartWriter__serialize_json, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__182)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 773, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_json, __pyx_t_7) < 0) __PYX_ERR(0, 773, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35155,7 +34879,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         if isinstance(obj, Mapping):
  *             obj = list(obj.items())
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_31_serialize_form, 0, __pyx_n_s_BodyPartWriter__serialize_form, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__185)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 777, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_31_serialize_form, 0, __pyx_n_s_BodyPartWriter__serialize_form, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__184)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 777, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_form, __pyx_t_7) < 0) __PYX_ERR(0, 777, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35167,7 +34891,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         raise TypeError('unknown body part type %r' % type(obj))
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_33_serialize_default, 0, __pyx_n_s_BodyPartWriter__serialize_defaul, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__187)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_33_serialize_default, 0, __pyx_n_s_BodyPartWriter__serialize_defaul, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__186)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize_default, __pyx_t_7) < 0) __PYX_ERR(0, 782, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35179,7 +34903,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         if CONTENT_ENCODING in self.headers:
  *             stream = self._apply_content_encoding(stream)
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_35_maybe_encode_stream, 0, __pyx_n_s_BodyPartWriter__maybe_encode_str, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__189)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 785, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_35_maybe_encode_stream, 0, __pyx_n_s_BodyPartWriter__maybe_encode_str, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__188)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 785, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_maybe_encode_stream, __pyx_t_7) < 0) __PYX_ERR(0, 785, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35191,7 +34915,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         encoding = self.headers[CONTENT_ENCODING].lower()
  *         if encoding == 'identity':
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_38_apply_content_encoding, 0, __pyx_n_s_BodyPartWriter__apply_content_en, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__191)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 792, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_38_apply_content_encoding, 0, __pyx_n_s_BodyPartWriter__apply_content_en, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__190)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 792, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_apply_content_encoding, __pyx_t_7) < 0) __PYX_ERR(0, 792, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35203,7 +34927,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         encoding = self.headers[CONTENT_TRANSFER_ENCODING].lower()
  *         if encoding == 'base64':
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_41_apply_content_transfer_encoding, 0, __pyx_n_s_BodyPartWriter__apply_content_tr, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__193)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 810, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_41_apply_content_transfer_encoding, 0, __pyx_n_s_BodyPartWriter__apply_content_tr, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__192)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 810, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_apply_content_transfer_encoding, __pyx_t_7) < 0) __PYX_ERR(0, 810, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35215,7 +34939,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Sets ``Content-Disposition`` header.
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_44set_content_disposition, 0, __pyx_n_s_BodyPartWriter_set_content_dispo_2, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__195)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 833, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_44set_content_disposition, 0, __pyx_n_s_BodyPartWriter_set_content_dispo_2, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__194)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 833, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_set_content_disposition, __pyx_t_7) < 0) __PYX_ERR(0, 833, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35227,7 +34951,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Returns filename specified in Content-Disposition header or ``None``
  *         if missed."""
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_46filename, 0, __pyx_n_s_BodyPartWriter_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__197)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 859, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_14BodyPartWriter_46filename, 0, __pyx_n_s_BodyPartWriter_filename, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__196)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 859, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "aiohttp/multipart.py":858
@@ -35255,7 +34979,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *     """Multipart writer for single body part."""
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BodyPartWriter, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 641, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BodyPartWriter, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 641, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_BodyPartWriter, __pyx_t_7) < 0) __PYX_ERR(0, 641, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35299,9 +35023,9 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         boundary = boundary if boundary is not None else uuid.uuid4().hex
  *         try:
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_1__init__, 0, __pyx_n_s_MultipartWriter___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__199)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_1__init__, 0, __pyx_n_s_MultipartWriter___init, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__198)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__200);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__199);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_init, __pyx_t_7) < 0) __PYX_ERR(0, 873, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
@@ -35312,7 +35036,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         return self
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_3__enter__, 0, __pyx_n_s_MultipartWriter___enter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__202)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 885, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_3__enter__, 0, __pyx_n_s_MultipartWriter___enter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__201)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 885, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_enter, __pyx_t_7) < 0) __PYX_ERR(0, 885, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35324,7 +35048,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         pass
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_5__exit__, 0, __pyx_n_s_MultipartWriter___exit, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__204)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 888, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_5__exit__, 0, __pyx_n_s_MultipartWriter___exit, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__203)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 888, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_exit, __pyx_t_7) < 0) __PYX_ERR(0, 888, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35336,7 +35060,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         return iter(self.parts)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_7__iter__, 0, __pyx_n_s_MultipartWriter___iter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__206)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 891, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_7__iter__, 0, __pyx_n_s_MultipartWriter___iter, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__205)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 891, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_iter, __pyx_t_7) < 0) __PYX_ERR(0, 891, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35348,7 +35072,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         return len(self.parts)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_9__len__, 0, __pyx_n_s_MultipartWriter___len, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__208)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 894, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_9__len__, 0, __pyx_n_s_MultipartWriter___len, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__207)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 894, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_len, __pyx_t_7) < 0) __PYX_ERR(0, 894, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35360,7 +35084,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         *_, params = parse_mimetype(self.headers.get(CONTENT_TYPE))
  *         return params['boundary'].encode('us-ascii')
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_11boundary, 0, __pyx_n_s_MultipartWriter_boundary, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__210)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 898, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_11boundary, 0, __pyx_n_s_MultipartWriter_boundary, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__209)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 898, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "aiohttp/multipart.py":897
@@ -35388,9 +35112,9 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Adds a new body part to multipart writer."""
  *         if isinstance(obj, self.part_writer_cls):
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_13append, 0, __pyx_n_s_MultipartWriter_append, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__212)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 902, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_13append, 0, __pyx_n_s_MultipartWriter_append, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__211)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 902, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__213);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__212);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_append, __pyx_t_7) < 0) __PYX_ERR(0, 902, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
@@ -35401,9 +35125,9 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Helper to append JSON part."""
  *         if not headers:
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_15append_json, 0, __pyx_n_s_MultipartWriter_append_json, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__215)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 914, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_15append_json, 0, __pyx_n_s_MultipartWriter_append_json, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__214)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 914, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__216);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__215);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_append_json, __pyx_t_7) < 0) __PYX_ERR(0, 914, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
@@ -35414,9 +35138,9 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Helper to append form urlencoded part."""
  *         if not headers:
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_17append_form, 0, __pyx_n_s_MultipartWriter_append_form, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__218)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 921, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_17append_form, 0, __pyx_n_s_MultipartWriter_append_form, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__217)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 921, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__219);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_tuple__218);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_append_form, __pyx_t_7) < 0) __PYX_ERR(0, 921, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
@@ -35427,7 +35151,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *         """Yields multipart byte chunks."""
  *         if not self.parts:
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_19serialize, 0, __pyx_n_s_MultipartWriter_serialize, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__221)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 929, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_9multipart_15MultipartWriter_19serialize, 0, __pyx_n_s_MultipartWriter_serialize, NULL, __pyx_n_s_aiohttp_multipart, __pyx_d, ((PyObject *)__pyx_codeobj__220)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 929, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_serialize, __pyx_t_7) < 0) __PYX_ERR(0, 929, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -35439,7 +35163,7 @@ PyMODINIT_FUNC PyInit_multipart(void)
  *     """Multipart body writer."""
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MultipartWriter, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 867, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MultipartWriter, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 867, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MultipartWriter, __pyx_t_7) < 0) __PYX_ERR(0, 867, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -36741,13 +36465,6 @@ static CYTHON_INLINE void __Pyx_CyFunction_SetAnnotationsDict(PyObject *func, Py
     Py_INCREF(dict);
 }
 
-/* StringJoin */
-          #if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
-}
-#endif
-
 /* RaiseNeedMoreValuesToUnpack */
           static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
     PyErr_Format(PyExc_ValueError,
@@ -36901,6 +36618,309 @@ bad:
     Py_XDECREF(local_value);
     Py_XDECREF(local_tb);
     return -1;
+}
+
+/* PyObjectCallMethod0 */
+            static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
+    PyObject *method, *result = NULL;
+    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
+    if (unlikely(!method)) goto bad;
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (likely(PyMethod_Check(method))) {
+        PyObject *self = PyMethod_GET_SELF(method);
+        if (likely(self)) {
+            PyObject *function = PyMethod_GET_FUNCTION(method);
+            result = __Pyx_PyObject_CallOneArg(function, self);
+            Py_DECREF(method);
+            return result;
+        }
+    }
+#endif
+    result = __Pyx_PyObject_CallNoArg(method);
+    Py_DECREF(method);
+bad:
+    return result;
+}
+
+/* RaiseNoneIterError */
+            static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+}
+
+/* UnpackTupleError */
+            static void __Pyx_UnpackTupleError(PyObject *t, Py_ssize_t index) {
+    if (t == Py_None) {
+      __Pyx_RaiseNoneNotIterableError();
+    } else if (PyTuple_GET_SIZE(t) < index) {
+      __Pyx_RaiseNeedMoreValuesError(PyTuple_GET_SIZE(t));
+    } else {
+      __Pyx_RaiseTooManyValuesError(index);
+    }
+}
+
+/* UnpackTuple2 */
+            static CYTHON_INLINE int __Pyx_unpack_tuple2(PyObject* tuple, PyObject** pvalue1, PyObject** pvalue2,
+                                             int is_tuple, int has_known_size, int decref_tuple) {
+    Py_ssize_t index;
+    PyObject *value1 = NULL, *value2 = NULL, *iter = NULL;
+    if (!is_tuple && unlikely(!PyTuple_Check(tuple))) {
+        iternextfunc iternext;
+        iter = PyObject_GetIter(tuple);
+        if (unlikely(!iter)) goto bad;
+        if (decref_tuple) { Py_DECREF(tuple); tuple = NULL; }
+        iternext = Py_TYPE(iter)->tp_iternext;
+        value1 = iternext(iter); if (unlikely(!value1)) { index = 0; goto unpacking_failed; }
+        value2 = iternext(iter); if (unlikely(!value2)) { index = 1; goto unpacking_failed; }
+        if (!has_known_size && unlikely(__Pyx_IternextUnpackEndCheck(iternext(iter), 2))) goto bad;
+        Py_DECREF(iter);
+    } else {
+        if (!has_known_size && unlikely(PyTuple_GET_SIZE(tuple) != 2)) {
+            __Pyx_UnpackTupleError(tuple, 2);
+            goto bad;
+        }
+#if CYTHON_COMPILING_IN_PYPY
+        value1 = PySequence_ITEM(tuple, 0);
+        if (unlikely(!value1)) goto bad;
+        value2 = PySequence_ITEM(tuple, 1);
+        if (unlikely(!value2)) goto bad;
+#else
+        value1 = PyTuple_GET_ITEM(tuple, 0);
+        value2 = PyTuple_GET_ITEM(tuple, 1);
+        Py_INCREF(value1);
+        Py_INCREF(value2);
+#endif
+        if (decref_tuple) { Py_DECREF(tuple); }
+    }
+    *pvalue1 = value1;
+    *pvalue2 = value2;
+    return 0;
+unpacking_failed:
+    if (!has_known_size && __Pyx_IterFinish() == 0)
+        __Pyx_RaiseNeedMoreValuesError(index);
+bad:
+    Py_XDECREF(iter);
+    Py_XDECREF(value1);
+    Py_XDECREF(value2);
+    if (decref_tuple) { Py_XDECREF(tuple); }
+    return -1;
+}
+
+/* dict_iter */
+            static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* iterable, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_source_is_dict) {
+    is_dict = is_dict || likely(PyDict_CheckExact(iterable));
+    *p_source_is_dict = is_dict;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (is_dict) {
+        *p_orig_length = PyDict_Size(iterable);
+        Py_INCREF(iterable);
+        return iterable;
+    }
+#endif
+    *p_orig_length = 0;
+    if (method_name) {
+        PyObject* iter;
+        iterable = __Pyx_PyObject_CallMethod0(iterable, method_name);
+        if (!iterable)
+            return NULL;
+#if !CYTHON_COMPILING_IN_PYPY
+        if (PyTuple_CheckExact(iterable) || PyList_CheckExact(iterable))
+            return iterable;
+#endif
+        iter = PyObject_GetIter(iterable);
+        Py_DECREF(iterable);
+        return iter;
+    }
+    return PyObject_GetIter(iterable);
+}
+static CYTHON_INLINE int __Pyx_dict_iter_next(
+        PyObject* iter_obj, CYTHON_NCP_UNUSED Py_ssize_t orig_length, CYTHON_NCP_UNUSED Py_ssize_t* ppos,
+        PyObject** pkey, PyObject** pvalue, PyObject** pitem, int source_is_dict) {
+    PyObject* next_item;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (source_is_dict) {
+        PyObject *key, *value;
+        if (unlikely(orig_length != PyDict_Size(iter_obj))) {
+            PyErr_SetString(PyExc_RuntimeError, "dictionary changed size during iteration");
+            return -1;
+        }
+        if (unlikely(!PyDict_Next(iter_obj, ppos, &key, &value))) {
+            return 0;
+        }
+        if (pitem) {
+            PyObject* tuple = PyTuple_New(2);
+            if (unlikely(!tuple)) {
+                return -1;
+            }
+            Py_INCREF(key);
+            Py_INCREF(value);
+            PyTuple_SET_ITEM(tuple, 0, key);
+            PyTuple_SET_ITEM(tuple, 1, value);
+            *pitem = tuple;
+        } else {
+            if (pkey) {
+                Py_INCREF(key);
+                *pkey = key;
+            }
+            if (pvalue) {
+                Py_INCREF(value);
+                *pvalue = value;
+            }
+        }
+        return 1;
+    } else if (PyTuple_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyTuple_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyTuple_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else if (PyList_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyList_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyList_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else
+#endif
+    {
+        next_item = PyIter_Next(iter_obj);
+        if (unlikely(!next_item)) {
+            return __Pyx_IterFinish();
+        }
+    }
+    if (pitem) {
+        *pitem = next_item;
+    } else if (pkey && pvalue) {
+        if (__Pyx_unpack_tuple2(next_item, pkey, pvalue, source_is_dict, source_is_dict, 1))
+            return -1;
+    } else if (pkey) {
+        *pkey = next_item;
+    } else {
+        *pvalue = next_item;
+    }
+    return 1;
+}
+
+/* BytesEquals */
+            static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals) {
+#if CYTHON_COMPILING_IN_PYPY
+    return PyObject_RichCompareBool(s1, s2, equals);
+#else
+    if (s1 == s2) {
+        return (equals == Py_EQ);
+    } else if (PyBytes_CheckExact(s1) & PyBytes_CheckExact(s2)) {
+        const char *ps1, *ps2;
+        Py_ssize_t length = PyBytes_GET_SIZE(s1);
+        if (length != PyBytes_GET_SIZE(s2))
+            return (equals == Py_NE);
+        ps1 = PyBytes_AS_STRING(s1);
+        ps2 = PyBytes_AS_STRING(s2);
+        if (ps1[0] != ps2[0]) {
+            return (equals == Py_NE);
+        } else if (length == 1) {
+            return (equals == Py_EQ);
+        } else {
+            int result = memcmp(ps1, ps2, (size_t)length);
+            return (equals == Py_EQ) ? (result == 0) : (result != 0);
+        }
+    } else if ((s1 == Py_None) & PyBytes_CheckExact(s2)) {
+        return (equals == Py_NE);
+    } else if ((s2 == Py_None) & PyBytes_CheckExact(s1)) {
+        return (equals == Py_NE);
+    } else {
+        int result;
+        PyObject* py_result = PyObject_RichCompare(s1, s2, equals);
+        if (!py_result)
+            return -1;
+        result = __Pyx_PyObject_IsTrue(py_result);
+        Py_DECREF(py_result);
+        return result;
+    }
+#endif
+}
+
+/* UnicodeEquals */
+            static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals) {
+#if CYTHON_COMPILING_IN_PYPY
+    return PyObject_RichCompareBool(s1, s2, equals);
+#else
+#if PY_MAJOR_VERSION < 3
+    PyObject* owned_ref = NULL;
+#endif
+    int s1_is_unicode, s2_is_unicode;
+    if (s1 == s2) {
+        goto return_eq;
+    }
+    s1_is_unicode = PyUnicode_CheckExact(s1);
+    s2_is_unicode = PyUnicode_CheckExact(s2);
+#if PY_MAJOR_VERSION < 3
+    if ((s1_is_unicode & (!s2_is_unicode)) && PyString_CheckExact(s2)) {
+        owned_ref = PyUnicode_FromObject(s2);
+        if (unlikely(!owned_ref))
+            return -1;
+        s2 = owned_ref;
+        s2_is_unicode = 1;
+    } else if ((s2_is_unicode & (!s1_is_unicode)) && PyString_CheckExact(s1)) {
+        owned_ref = PyUnicode_FromObject(s1);
+        if (unlikely(!owned_ref))
+            return -1;
+        s1 = owned_ref;
+        s1_is_unicode = 1;
+    } else if (((!s2_is_unicode) & (!s1_is_unicode))) {
+        return __Pyx_PyBytes_Equals(s1, s2, equals);
+    }
+#endif
+    if (s1_is_unicode & s2_is_unicode) {
+        Py_ssize_t length;
+        int kind;
+        void *data1, *data2;
+        if (unlikely(__Pyx_PyUnicode_READY(s1) < 0) || unlikely(__Pyx_PyUnicode_READY(s2) < 0))
+            return -1;
+        length = __Pyx_PyUnicode_GET_LENGTH(s1);
+        if (length != __Pyx_PyUnicode_GET_LENGTH(s2)) {
+            goto return_ne;
+        }
+        kind = __Pyx_PyUnicode_KIND(s1);
+        if (kind != __Pyx_PyUnicode_KIND(s2)) {
+            goto return_ne;
+        }
+        data1 = __Pyx_PyUnicode_DATA(s1);
+        data2 = __Pyx_PyUnicode_DATA(s2);
+        if (__Pyx_PyUnicode_READ(kind, data1, 0) != __Pyx_PyUnicode_READ(kind, data2, 0)) {
+            goto return_ne;
+        } else if (length == 1) {
+            goto return_eq;
+        } else {
+            int result = memcmp(data1, data2, (size_t)(length * kind));
+            #if PY_MAJOR_VERSION < 3
+            Py_XDECREF(owned_ref);
+            #endif
+            return (equals == Py_EQ) ? (result == 0) : (result != 0);
+        }
+    } else if ((s1 == Py_None) & s2_is_unicode) {
+        goto return_ne;
+    } else if ((s2 == Py_None) & s1_is_unicode) {
+        goto return_ne;
+    } else {
+        int result;
+        PyObject* py_result = PyObject_RichCompare(s1, s2, equals);
+        if (!py_result)
+            return -1;
+        result = __Pyx_PyObject_IsTrue(py_result);
+        Py_DECREF(py_result);
+        return result;
+    }
+return_eq:
+    #if PY_MAJOR_VERSION < 3
+    Py_XDECREF(owned_ref);
+    #endif
+    return (equals == Py_EQ);
+return_ne:
+    #if PY_MAJOR_VERSION < 3
+    Py_XDECREF(owned_ref);
+    #endif
+    return (equals == Py_NE);
+#endif
 }
 
 /* PyErrFetchRestore */
@@ -37927,44 +37947,6 @@ static int __pyx_Generator_init(void) {
     Py_DECREF(exc);
 }
 
-/* BytesEquals */
-                  static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals) {
-#if CYTHON_COMPILING_IN_PYPY
-    return PyObject_RichCompareBool(s1, s2, equals);
-#else
-    if (s1 == s2) {
-        return (equals == Py_EQ);
-    } else if (PyBytes_CheckExact(s1) & PyBytes_CheckExact(s2)) {
-        const char *ps1, *ps2;
-        Py_ssize_t length = PyBytes_GET_SIZE(s1);
-        if (length != PyBytes_GET_SIZE(s2))
-            return (equals == Py_NE);
-        ps1 = PyBytes_AS_STRING(s1);
-        ps2 = PyBytes_AS_STRING(s2);
-        if (ps1[0] != ps2[0]) {
-            return (equals == Py_NE);
-        } else if (length == 1) {
-            return (equals == Py_EQ);
-        } else {
-            int result = memcmp(ps1, ps2, (size_t)length);
-            return (equals == Py_EQ) ? (result == 0) : (result != 0);
-        }
-    } else if ((s1 == Py_None) & PyBytes_CheckExact(s2)) {
-        return (equals == Py_NE);
-    } else if ((s2 == Py_None) & PyBytes_CheckExact(s1)) {
-        return (equals == Py_NE);
-    } else {
-        int result;
-        PyObject* py_result = PyObject_RichCompare(s1, s2, equals);
-        if (!py_result)
-            return -1;
-        result = __Pyx_PyObject_IsTrue(py_result);
-        Py_DECREF(py_result);
-        return result;
-    }
-#endif
-}
-
 /* append */
                   static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x) {
     if (likely(PyList_CheckExact(L))) {
@@ -37976,90 +37958,6 @@ static int __pyx_Generator_init(void) {
         Py_DECREF(retval);
     }
     return 0;
-}
-
-/* UnicodeEquals */
-                  static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals) {
-#if CYTHON_COMPILING_IN_PYPY
-    return PyObject_RichCompareBool(s1, s2, equals);
-#else
-#if PY_MAJOR_VERSION < 3
-    PyObject* owned_ref = NULL;
-#endif
-    int s1_is_unicode, s2_is_unicode;
-    if (s1 == s2) {
-        goto return_eq;
-    }
-    s1_is_unicode = PyUnicode_CheckExact(s1);
-    s2_is_unicode = PyUnicode_CheckExact(s2);
-#if PY_MAJOR_VERSION < 3
-    if ((s1_is_unicode & (!s2_is_unicode)) && PyString_CheckExact(s2)) {
-        owned_ref = PyUnicode_FromObject(s2);
-        if (unlikely(!owned_ref))
-            return -1;
-        s2 = owned_ref;
-        s2_is_unicode = 1;
-    } else if ((s2_is_unicode & (!s1_is_unicode)) && PyString_CheckExact(s1)) {
-        owned_ref = PyUnicode_FromObject(s1);
-        if (unlikely(!owned_ref))
-            return -1;
-        s1 = owned_ref;
-        s1_is_unicode = 1;
-    } else if (((!s2_is_unicode) & (!s1_is_unicode))) {
-        return __Pyx_PyBytes_Equals(s1, s2, equals);
-    }
-#endif
-    if (s1_is_unicode & s2_is_unicode) {
-        Py_ssize_t length;
-        int kind;
-        void *data1, *data2;
-        if (unlikely(__Pyx_PyUnicode_READY(s1) < 0) || unlikely(__Pyx_PyUnicode_READY(s2) < 0))
-            return -1;
-        length = __Pyx_PyUnicode_GET_LENGTH(s1);
-        if (length != __Pyx_PyUnicode_GET_LENGTH(s2)) {
-            goto return_ne;
-        }
-        kind = __Pyx_PyUnicode_KIND(s1);
-        if (kind != __Pyx_PyUnicode_KIND(s2)) {
-            goto return_ne;
-        }
-        data1 = __Pyx_PyUnicode_DATA(s1);
-        data2 = __Pyx_PyUnicode_DATA(s2);
-        if (__Pyx_PyUnicode_READ(kind, data1, 0) != __Pyx_PyUnicode_READ(kind, data2, 0)) {
-            goto return_ne;
-        } else if (length == 1) {
-            goto return_eq;
-        } else {
-            int result = memcmp(data1, data2, (size_t)(length * kind));
-            #if PY_MAJOR_VERSION < 3
-            Py_XDECREF(owned_ref);
-            #endif
-            return (equals == Py_EQ) ? (result == 0) : (result != 0);
-        }
-    } else if ((s1 == Py_None) & s2_is_unicode) {
-        goto return_ne;
-    } else if ((s2 == Py_None) & s1_is_unicode) {
-        goto return_ne;
-    } else {
-        int result;
-        PyObject* py_result = PyObject_RichCompare(s1, s2, equals);
-        if (!py_result)
-            return -1;
-        result = __Pyx_PyObject_IsTrue(py_result);
-        Py_DECREF(py_result);
-        return result;
-    }
-return_eq:
-    #if PY_MAJOR_VERSION < 3
-    Py_XDECREF(owned_ref);
-    #endif
-    return (equals == Py_EQ);
-return_ne:
-    #if PY_MAJOR_VERSION < 3
-    Py_XDECREF(owned_ref);
-    #endif
-    return (equals == Py_NE);
-#endif
 }
 
 /* PyIntBinop */
@@ -38160,28 +38058,6 @@ static PyObject* __Pyx_PyInt_AddCObj(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 }
 #endif
 
-/* PyObjectCallMethod0 */
-                  static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
-    PyObject *method, *result = NULL;
-    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
-    if (unlikely(!method)) goto bad;
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (likely(PyMethod_Check(method))) {
-        PyObject *self = PyMethod_GET_SELF(method);
-        if (likely(self)) {
-            PyObject *function = PyMethod_GET_FUNCTION(method);
-            result = __Pyx_PyObject_CallOneArg(function, self);
-            Py_DECREF(method);
-            return result;
-        }
-    }
-#endif
-    result = __Pyx_PyObject_CallNoArg(method);
-    Py_DECREF(method);
-bad:
-    return result;
-}
-
 /* UnpackUnboundCMethod */
                   static int __Pyx_TryUnpackUnboundCMethod(__Pyx_CachedCFunction* target) {
     PyObject *method;
@@ -38268,6 +38144,13 @@ bad:
     return NULL;
 }
 
+/* StringJoin */
+                  #if !CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
+    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
+}
+#endif
+
 /* IterNext */
                   static CYTHON_INLINE PyObject *__Pyx_PyIter_Next2(PyObject* iterator, PyObject* defval) {
     PyObject* next;
@@ -38304,14 +38187,6 @@ bad:
     if (!PyErr_Occurred())
         PyErr_SetNone(PyExc_StopIteration);
     return NULL;
-}
-
-/* py_dict_items */
-                    static CYTHON_INLINE PyObject* __Pyx_PyDict_Items(PyObject* d) {
-    if (PY_MAJOR_VERSION >= 3)
-        return __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyDict_Type_items, d);
-    else
-        return PyDict_Items(d);
 }
 
 /* Import */

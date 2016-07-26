@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -1117,19 +1117,9 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
 /* ClassMethod.proto */
 #include "descrobject.h"
 static PyObject* __Pyx_Method_ClassMethod(PyObject *method);
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -1164,6 +1154,7 @@ int __pyx_module_is_main_DecoraterBotCore__BotLogs = 0;
 
 /* Implementation of 'DecoraterBotCore.BotLogs' */
 static PyObject *__pyx_builtin_FileNotFoundError;
+static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_PermissionError;
 static const char __pyx_k_a[] = "a";
 static const char __pyx_k_r[] = "r";
@@ -1174,7 +1165,6 @@ static const char __pyx_k_io[] = "io";
 static const char __pyx_k_os[] = "os";
 static const char __pyx_k_bot[] = "bot";
 static const char __pyx_k_doc[] = "__doc__";
-static const char __pyx_k_end[] = "end";
 static const char __pyx_k_new[] = "new";
 static const char __pyx_k_old[] = "old";
 static const char __pyx_k_sys[] = "sys";
@@ -1397,8 +1387,8 @@ static const char __pyx_k_BotLogs_bot_send_delete_logs_cod[] = "BotLogs.bot.send
 static const char __pyx_k_BotLogs_bot_set_up_asyncio_logge[] = "BotLogs.bot.set_up_asyncio_logger_code";
 static const char __pyx_k_BotLogs_bot_set_up_discord_logge[] = "BotLogs.bot.set_up_discord_logger_code";
 static const char __pyx_k_Ignoring_exception_caused_at_0_1[] = "Ignoring exception caused at {0}:\n{1}";
-static PyObject *__pyx_kp_s_153055192873566208;
-static PyObject *__pyx_n_s_Ban_Logs;
+static PyObject *__pyx_kp_u_153055192873566208;
+static PyObject *__pyx_n_u_Ban_Logs;
 static PyObject *__pyx_n_s_BotLogs;
 static PyObject *__pyx_n_s_BotLogs__resolve_embed_logs;
 static PyObject *__pyx_n_s_BotLogs_bot;
@@ -1437,42 +1427,43 @@ static PyObject *__pyx_n_s_BotLogs_send_edit_logs;
 static PyObject *__pyx_n_s_BotLogs_send_logs;
 static PyObject *__pyx_n_s_BotLogs_set_up_asyncio_logger;
 static PyObject *__pyx_n_s_BotLogs_set_up_discord_logger;
-static PyObject *__pyx_kp_s_ConsoleWindow_json_is_not_Found;
+static PyObject *__pyx_kp_u_ConsoleWindow_json_is_not_Found;
 static PyObject *__pyx_n_s_DEBUG;
 static PyObject *__pyx_n_s_DecoraterBotCore_BotLogs;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
-static PyObject *__pyx_n_s_Embed_Logs;
+static PyObject *__pyx_n_u_Embed_Logs;
 static PyObject *__pyx_n_s_FileHandler;
 static PyObject *__pyx_n_s_FileNotFoundError;
 static PyObject *__pyx_n_s_Formatter;
-static PyObject *__pyx_kp_s_Ignoring_exception_caused_at_0_1;
-static PyObject *__pyx_n_s_Kick_Logs;
+static PyObject *__pyx_kp_u_Ignoring_exception_caused_at_0_1;
+static PyObject *__pyx_n_u_Kick_Logs;
 static PyObject *__pyx_n_s_LogData;
 static PyObject *__pyx_n_s_LogDataFile;
 static PyObject *__pyx_n_s_Logs001;
 static PyObject *__pyx_n_s_Logs003;
 static PyObject *__pyx_n_s_LogsPM;
 static PyObject *__pyx_n_s_LogsServers;
-static PyObject *__pyx_n_s_Missing_JSON_Errors;
+static PyObject *__pyx_n_u_Missing_JSON_Errors;
 static PyObject *__pyx_n_s_NotFound;
 static PyObject *__pyx_n_s_Object;
-static PyObject *__pyx_n_s_On_Edit_Logs_Error;
-static PyObject *__pyx_n_s_On_Message_Logs;
-static PyObject *__pyx_n_s_On_Server_Available;
-static PyObject *__pyx_n_s_On_Server_Unavailable;
+static PyObject *__pyx_n_u_On_Edit_Logs_Error;
+static PyObject *__pyx_n_u_On_Message_Logs;
+static PyObject *__pyx_n_u_On_Server_Available;
+static PyObject *__pyx_n_u_On_Server_Unavailable;
 static PyObject *__pyx_n_s_PermissionError;
-static PyObject *__pyx_n_s_Send_On_Message_Delete_Logs;
-static PyObject *__pyx_n_s_Send_On_Message_Edit_Logs;
-static PyObject *__pyx_n_s_Send_On_Message_Logs;
+static PyObject *__pyx_n_u_Send_On_Message_Delete_Logs;
+static PyObject *__pyx_n_u_Send_On_Message_Edit_Logs;
+static PyObject *__pyx_n_u_Send_On_Message_Logs;
 static PyObject *__pyx_kp_s_This_class_is_for_Internal_use;
-static PyObject *__pyx_n_s_Unban_Logs;
-static PyObject *__pyx_kp_s__9;
-static PyObject *__pyx_n_s_a;
+static PyObject *__pyx_n_u_Unban_Logs;
+static PyObject *__pyx_kp_u__9;
+static PyObject *__pyx_n_u_a;
 static PyObject *__pyx_n_s_addHandler;
 static PyObject *__pyx_n_s_after;
 static PyObject *__pyx_n_s_args;
-static PyObject *__pyx_kp_s_asctime_s_levelname_s_name_s_me;
+static PyObject *__pyx_kp_u_asctime_s_levelname_s_name_s_me;
 static PyObject *__pyx_n_s_asyncio;
+static PyObject *__pyx_n_u_asyncio;
 static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_asyncio_tasks;
 static PyObject *__pyx_n_s_asynciologger;
@@ -1498,6 +1489,7 @@ static PyObject *__pyx_n_s_dellogsPM;
 static PyObject *__pyx_n_s_dellogsServers;
 static PyObject *__pyx_n_s_desgame;
 static PyObject *__pyx_n_s_discord;
+static PyObject *__pyx_n_u_discord;
 static PyObject *__pyx_n_s_discriminator;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_edit_log_PM;
@@ -1507,7 +1499,6 @@ static PyObject *__pyx_n_s_editlog001;
 static PyObject *__pyx_n_s_editlog003;
 static PyObject *__pyx_n_s_editlogServers;
 static PyObject *__pyx_n_s_encoding;
-static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_errors;
 static PyObject *__pyx_n_s_exception_data;
 static PyObject *__pyx_n_s_exit;
@@ -1575,24 +1566,24 @@ static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_qualname;
-static PyObject *__pyx_n_s_r;
+static PyObject *__pyx_n_u_r;
 static PyObject *__pyx_n_s_resolve_embed_logs;
 static PyObject *__pyx_n_s_resolve_embed_logs_code;
-static PyObject *__pyx_kp_s_resources_ConfigData_ConsoleWin;
-static PyObject *__pyx_kp_s_resources_ConfigData_LogData_js;
-static PyObject *__pyx_kp_s_resources_Logs_asyncio_log;
-static PyObject *__pyx_kp_s_resources_Logs_available_server;
-static PyObject *__pyx_kp_s_resources_Logs_bans_txt;
-static PyObject *__pyx_kp_s_resources_Logs_delete_log_txt;
-static PyObject *__pyx_kp_s_resources_Logs_discordpy_log;
-static PyObject *__pyx_kp_s_resources_Logs_edit_log_txt;
-static PyObject *__pyx_kp_s_resources_Logs_embeds_txt;
-static PyObject *__pyx_kp_s_resources_Logs_error_log_txt;
-static PyObject *__pyx_kp_s_resources_Logs_gamelog_txt;
-static PyObject *__pyx_kp_s_resources_Logs_kicks_txt;
-static PyObject *__pyx_kp_s_resources_Logs_log_txt;
-static PyObject *__pyx_kp_s_resources_Logs_unavailable_serv;
-static PyObject *__pyx_kp_s_resources_Logs_unbans_txt;
+static PyObject *__pyx_kp_u_resources_ConfigData_ConsoleWin;
+static PyObject *__pyx_kp_u_resources_ConfigData_LogData_js;
+static PyObject *__pyx_kp_u_resources_Logs_asyncio_log;
+static PyObject *__pyx_kp_u_resources_Logs_available_server;
+static PyObject *__pyx_kp_u_resources_Logs_bans_txt;
+static PyObject *__pyx_kp_u_resources_Logs_delete_log_txt;
+static PyObject *__pyx_kp_u_resources_Logs_discordpy_log;
+static PyObject *__pyx_kp_u_resources_Logs_edit_log_txt;
+static PyObject *__pyx_kp_u_resources_Logs_embeds_txt;
+static PyObject *__pyx_kp_u_resources_Logs_error_log_txt;
+static PyObject *__pyx_kp_u_resources_Logs_gamelog_txt;
+static PyObject *__pyx_kp_u_resources_Logs_kicks_txt;
+static PyObject *__pyx_kp_u_resources_Logs_log_txt;
+static PyObject *__pyx_kp_u_resources_Logs_unavailable_serv;
+static PyObject *__pyx_kp_u_resources_Logs_unbans_txt;
 static PyObject *__pyx_n_s_seek;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_send;
@@ -1626,8 +1617,8 @@ static PyObject *__pyx_n_s_unban_log_data;
 static PyObject *__pyx_n_s_user;
 static PyObject *__pyx_n_s_usr_id;
 static PyObject *__pyx_n_s_usr_name;
-static PyObject *__pyx_kp_s_utf_8;
-static PyObject *__pyx_n_s_w;
+static PyObject *__pyx_kp_u_utf_8;
+static PyObject *__pyx_n_u_w;
 static PyObject *__pyx_n_s_write;
 static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_set_up_discord_logger_code(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_2set_up_asyncio_logger_code(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self); /* proto */
@@ -1695,77 +1686,78 @@ static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__14;
-static PyObject *__pyx_tuple__16;
-static PyObject *__pyx_tuple__18;
-static PyObject *__pyx_tuple__20;
-static PyObject *__pyx_tuple__22;
-static PyObject *__pyx_tuple__24;
-static PyObject *__pyx_tuple__26;
-static PyObject *__pyx_tuple__28;
-static PyObject *__pyx_tuple__30;
-static PyObject *__pyx_tuple__32;
-static PyObject *__pyx_tuple__34;
-static PyObject *__pyx_tuple__36;
-static PyObject *__pyx_tuple__38;
-static PyObject *__pyx_tuple__40;
-static PyObject *__pyx_tuple__42;
-static PyObject *__pyx_tuple__44;
-static PyObject *__pyx_tuple__46;
-static PyObject *__pyx_tuple__48;
-static PyObject *__pyx_tuple__50;
-static PyObject *__pyx_tuple__52;
-static PyObject *__pyx_tuple__54;
-static PyObject *__pyx_tuple__56;
-static PyObject *__pyx_tuple__58;
-static PyObject *__pyx_tuple__60;
-static PyObject *__pyx_tuple__62;
-static PyObject *__pyx_tuple__64;
-static PyObject *__pyx_tuple__66;
-static PyObject *__pyx_tuple__68;
-static PyObject *__pyx_tuple__70;
-static PyObject *__pyx_tuple__72;
-static PyObject *__pyx_tuple__74;
-static PyObject *__pyx_tuple__76;
-static PyObject *__pyx_tuple__78;
-static PyObject *__pyx_tuple__80;
-static PyObject *__pyx_tuple__82;
-static PyObject *__pyx_tuple__84;
-static PyObject *__pyx_codeobj__15;
-static PyObject *__pyx_codeobj__17;
-static PyObject *__pyx_codeobj__19;
-static PyObject *__pyx_codeobj__21;
-static PyObject *__pyx_codeobj__23;
-static PyObject *__pyx_codeobj__25;
-static PyObject *__pyx_codeobj__27;
-static PyObject *__pyx_codeobj__29;
-static PyObject *__pyx_codeobj__31;
-static PyObject *__pyx_codeobj__33;
-static PyObject *__pyx_codeobj__35;
-static PyObject *__pyx_codeobj__37;
-static PyObject *__pyx_codeobj__39;
-static PyObject *__pyx_codeobj__41;
-static PyObject *__pyx_codeobj__43;
-static PyObject *__pyx_codeobj__45;
-static PyObject *__pyx_codeobj__47;
-static PyObject *__pyx_codeobj__49;
-static PyObject *__pyx_codeobj__51;
-static PyObject *__pyx_codeobj__53;
-static PyObject *__pyx_codeobj__55;
-static PyObject *__pyx_codeobj__57;
-static PyObject *__pyx_codeobj__59;
-static PyObject *__pyx_codeobj__61;
-static PyObject *__pyx_codeobj__63;
-static PyObject *__pyx_codeobj__65;
-static PyObject *__pyx_codeobj__67;
-static PyObject *__pyx_codeobj__69;
-static PyObject *__pyx_codeobj__71;
-static PyObject *__pyx_codeobj__73;
-static PyObject *__pyx_codeobj__75;
-static PyObject *__pyx_codeobj__77;
-static PyObject *__pyx_codeobj__79;
-static PyObject *__pyx_codeobj__81;
-static PyObject *__pyx_codeobj__83;
-static PyObject *__pyx_codeobj__85;
+static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__17;
+static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__27;
+static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__33;
+static PyObject *__pyx_tuple__35;
+static PyObject *__pyx_tuple__37;
+static PyObject *__pyx_tuple__39;
+static PyObject *__pyx_tuple__41;
+static PyObject *__pyx_tuple__43;
+static PyObject *__pyx_tuple__45;
+static PyObject *__pyx_tuple__47;
+static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__51;
+static PyObject *__pyx_tuple__53;
+static PyObject *__pyx_tuple__55;
+static PyObject *__pyx_tuple__57;
+static PyObject *__pyx_tuple__59;
+static PyObject *__pyx_tuple__61;
+static PyObject *__pyx_tuple__63;
+static PyObject *__pyx_tuple__65;
+static PyObject *__pyx_tuple__67;
+static PyObject *__pyx_tuple__69;
+static PyObject *__pyx_tuple__71;
+static PyObject *__pyx_tuple__73;
+static PyObject *__pyx_tuple__75;
+static PyObject *__pyx_tuple__77;
+static PyObject *__pyx_tuple__79;
+static PyObject *__pyx_tuple__81;
+static PyObject *__pyx_tuple__83;
+static PyObject *__pyx_tuple__85;
+static PyObject *__pyx_codeobj__16;
+static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_codeobj__20;
+static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_codeobj__24;
+static PyObject *__pyx_codeobj__26;
+static PyObject *__pyx_codeobj__28;
+static PyObject *__pyx_codeobj__30;
+static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_codeobj__34;
+static PyObject *__pyx_codeobj__36;
+static PyObject *__pyx_codeobj__38;
+static PyObject *__pyx_codeobj__40;
+static PyObject *__pyx_codeobj__42;
+static PyObject *__pyx_codeobj__44;
+static PyObject *__pyx_codeobj__46;
+static PyObject *__pyx_codeobj__48;
+static PyObject *__pyx_codeobj__50;
+static PyObject *__pyx_codeobj__52;
+static PyObject *__pyx_codeobj__54;
+static PyObject *__pyx_codeobj__56;
+static PyObject *__pyx_codeobj__58;
+static PyObject *__pyx_codeobj__60;
+static PyObject *__pyx_codeobj__62;
+static PyObject *__pyx_codeobj__64;
+static PyObject *__pyx_codeobj__66;
+static PyObject *__pyx_codeobj__68;
+static PyObject *__pyx_codeobj__70;
+static PyObject *__pyx_codeobj__72;
+static PyObject *__pyx_codeobj__74;
+static PyObject *__pyx_codeobj__76;
+static PyObject *__pyx_codeobj__78;
+static PyObject *__pyx_codeobj__80;
+static PyObject *__pyx_codeobj__82;
+static PyObject *__pyx_codeobj__84;
+static PyObject *__pyx_codeobj__86;
 
 /* "DecoraterBotCore/BotLogs.py":32
  * 
@@ -1883,13 +1875,13 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_set_up_discord_logger
   __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_resources_Logs_discordpy_log); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_kp_u_resources_Logs_discordpy_log); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_filename, __pyx_t_4) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mode, __pyx_n_s_w) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mode, __pyx_n_u_w) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2121,13 +2113,13 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_2set_up_asyncio_logge
   __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_resources_Logs_asyncio_log); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_kp_u_resources_Logs_asyncio_log); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_filename, __pyx_t_4) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mode, __pyx_n_s_w) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mode, __pyx_n_u_w) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2358,7 +2350,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
@@ -2369,7 +2361,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
@@ -2400,7 +2392,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_message, __pyx_n_s_content); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L1_error)
@@ -2487,7 +2479,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
  */
     __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_9 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_9, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
@@ -2498,7 +2490,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L1_error)
@@ -2529,7 +2521,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_message, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
@@ -2645,7 +2637,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
     __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_resources_Logs_log_txt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Add(__pyx_t_3, __pyx_kp_u_resources_Logs_log_txt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_logfile = __pyx_t_9;
@@ -2684,12 +2676,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_4logs_code(CYTHON_UNU
         __Pyx_INCREF(__pyx_v_logfile);
         __Pyx_GIVEREF(__pyx_v_logfile);
         PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v_logfile);
-        __Pyx_INCREF(__pyx_n_s_a);
-        __Pyx_GIVEREF(__pyx_n_s_a);
-        PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_n_s_a);
+        __Pyx_INCREF(__pyx_n_u_a);
+        __Pyx_GIVEREF(__pyx_n_u_a);
+        PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_n_u_a);
         __pyx_t_13 = PyDict_New(); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 67, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_13);
-        if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 67, __pyx_L5_error)
+        if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 67, __pyx_L5_error)
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_9, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3171,7 +3163,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_old = __pyx_t_1;
@@ -3191,7 +3183,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_new = __pyx_t_1;
@@ -3212,7 +3204,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_resources_Logs_edit_log_txt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_resources_Logs_edit_log_txt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_logfile = __pyx_t_2;
@@ -3262,7 +3254,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_msg_time = __pyx_t_2;
@@ -3277,7 +3269,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
@@ -3288,7 +3280,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
@@ -3412,7 +3404,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
  */
     __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyObject_GetItem(__pyx_t_3, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_t_3, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
@@ -3423,7 +3415,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
@@ -3534,12 +3526,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
       __Pyx_INCREF(__pyx_v_logfile);
       __Pyx_GIVEREF(__pyx_v_logfile);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_logfile);
-      __Pyx_INCREF(__pyx_n_s_a);
-      __Pyx_GIVEREF(__pyx_n_s_a);
-      PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_a);
+      __Pyx_INCREF(__pyx_n_u_a);
+      __Pyx_GIVEREF(__pyx_n_u_a);
+      PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_a);
       __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 97, __pyx_L4_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 97, __pyx_L4_error)
       __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -3919,7 +3911,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
  */
               __pyx_t_18 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 112, __pyx_L15_except_error)
               __Pyx_GOTREF(__pyx_t_18);
-              __pyx_t_2 = PyObject_GetItem(__pyx_t_18, __pyx_n_s_On_Edit_Logs_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L15_except_error)
+              __pyx_t_2 = PyObject_GetItem(__pyx_t_18, __pyx_n_u_On_Edit_Logs_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L15_except_error)
               __Pyx_GOTREF(__pyx_t_2);
               __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
               __pyx_t_18 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 112, __pyx_L15_except_error)
@@ -3930,10 +3922,17 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_6edit_logs_code(CYTHO
               __Pyx_GIVEREF(__pyx_t_18);
               PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_18);
               __pyx_t_18 = 0;
-              __pyx_t_18 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 112, __pyx_L15_except_error)
+              __pyx_t_18 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 112, __pyx_L15_except_error)
               __Pyx_GOTREF(__pyx_t_18);
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              if (__Pyx_PrintOne(0, __pyx_t_18) < 0) __PYX_ERR(0, 112, __pyx_L15_except_error)
+              __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L15_except_error)
+              __Pyx_GOTREF(__pyx_t_2);
+              __Pyx_GIVEREF(__pyx_t_18);
+              PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_18);
+              __pyx_t_18 = 0;
+              __pyx_t_18 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 112, __pyx_L15_except_error)
+              __Pyx_GOTREF(__pyx_t_18);
+              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
               __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
 
               /* "DecoraterBotCore/BotLogs.py":111
@@ -4340,7 +4339,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
@@ -4351,7 +4350,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
@@ -4382,7 +4381,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_message, __pyx_n_s_content); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 124, __pyx_L1_error)
@@ -4469,7 +4468,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
  */
     __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_9 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_9, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
@@ -4480,7 +4479,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L1_error)
@@ -4511,7 +4510,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
@@ -4651,7 +4650,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
         __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_resources_Logs_delete_log_txt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 135, __pyx_L5_error)
+        __pyx_t_9 = PyNumber_Add(__pyx_t_3, __pyx_kp_u_resources_Logs_delete_log_txt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 135, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_v_logfile = __pyx_t_9;
@@ -4674,12 +4673,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_8delete_logs_code(CYT
         __Pyx_INCREF(__pyx_v_logfile);
         __Pyx_GIVEREF(__pyx_v_logfile);
         PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v_logfile);
-        __Pyx_INCREF(__pyx_n_s_a);
-        __Pyx_GIVEREF(__pyx_n_s_a);
-        PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_n_s_a);
+        __Pyx_INCREF(__pyx_n_u_a);
+        __Pyx_GIVEREF(__pyx_n_u_a);
+        PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_n_u_a);
         __pyx_t_13 = PyDict_New(); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 136, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_13);
-        if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 136, __pyx_L5_error)
+        if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 136, __pyx_L5_error)
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_9, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 136, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5154,7 +5153,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_10_resolve_embed_logs
  */
     __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_Embed_Logs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_Embed_Logs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
@@ -5165,7 +5164,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_10_resolve_embed_logs
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_data = __pyx_t_2;
@@ -5191,7 +5190,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_10_resolve_embed_logs
   /*else*/ {
     __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_Embed_Logs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_Embed_Logs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
@@ -5202,7 +5201,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_10_resolve_embed_logs
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_data = __pyx_t_2;
@@ -5225,7 +5224,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_10_resolve_embed_logs
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_resources_Logs_embeds_txt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_resources_Logs_embeds_txt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_logfile = __pyx_t_1;
@@ -5264,12 +5263,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_10_resolve_embed_logs
       __Pyx_INCREF(__pyx_v_logfile);
       __Pyx_GIVEREF(__pyx_v_logfile);
       PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_logfile);
-      __Pyx_INCREF(__pyx_n_s_a);
-      __Pyx_GIVEREF(__pyx_n_s_a);
-      PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_a);
+      __Pyx_INCREF(__pyx_n_u_a);
+      __Pyx_GIVEREF(__pyx_n_u_a);
+      PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_n_u_a);
       __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 156, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 156, __pyx_L4_error)
+      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 156, __pyx_L4_error)
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 156, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5394,7 +5393,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_10_resolve_embed_logs
  */
       __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_file2, __pyx_n_s_write); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_2 = PyNumber_Add(__pyx_v_data, __pyx_kp_s__9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L4_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_v_data, __pyx_kp_u__9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_1 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_9))) {
@@ -5682,7 +5681,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_14generator(__pyx_Cor
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_Send_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_Send_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
@@ -5693,7 +5692,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_14generator(__pyx_Cor
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
@@ -5724,7 +5723,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_14generator(__pyx_Cor
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
@@ -5844,7 +5843,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_14generator(__pyx_Cor
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 174, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_11);
-      if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_id, __pyx_kp_s_153055192873566208) < 0) __PYX_ERR(0, 174, __pyx_L4_error)
+      if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_id, __pyx_kp_u_153055192873566208) < 0) __PYX_ERR(0, 174, __pyx_L4_error)
       __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_empty_tuple, __pyx_t_11); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 174, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -6201,7 +6200,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_17generator1(__pyx_Co
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6222,7 +6221,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_17generator1(__pyx_Co
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6238,7 +6237,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_17generator1(__pyx_Co
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_Send_On_Message_Edit_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_Send_On_Message_Edit_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
@@ -6249,7 +6248,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_17generator1(__pyx_Co
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
@@ -6280,7 +6279,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_17generator1(__pyx_Co
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
@@ -6419,7 +6418,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_17generator1(__pyx_Co
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_1);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_id, __pyx_kp_s_153055192873566208) < 0) __PYX_ERR(0, 190, __pyx_L5_error)
+        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_id, __pyx_kp_u_153055192873566208) < 0) __PYX_ERR(0, 190, __pyx_L5_error)
         __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 190, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -6766,7 +6765,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_20generator2(__pyx_Co
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_Send_On_Message_Delete_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_Send_On_Message_Delete_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
@@ -6777,7 +6776,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_20generator2(__pyx_Co
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
@@ -6808,7 +6807,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_20generator2(__pyx_Co
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
@@ -6928,7 +6927,7 @@ static PyObject *__pyx_gb_16DecoraterBotCore_7BotLogs_3bot_20generator2(__pyx_Co
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 203, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_11);
-      if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_id, __pyx_kp_s_153055192873566208) < 0) __PYX_ERR(0, 203, __pyx_L4_error)
+      if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_id, __pyx_kp_u_153055192873566208) < 0) __PYX_ERR(0, 203, __pyx_L4_error)
       __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_empty_tuple, __pyx_t_11); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 203, __pyx_L4_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -7236,7 +7235,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_21on_bot_error_code(C
  *                     logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
  *                     try:
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Ignoring_exception_caused_at_0_1, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Ignoring_exception_caused_at_0_1, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = NULL;
       __pyx_t_5 = 0;
@@ -7283,7 +7282,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_21on_bot_error_code(C
       __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_resources_Logs_error_log_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_resources_Logs_error_log_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_logfile = __pyx_t_3;
@@ -7322,12 +7321,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_21on_bot_error_code(C
           __Pyx_INCREF(__pyx_v_logfile);
           __Pyx_GIVEREF(__pyx_v_logfile);
           PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_logfile);
-          __Pyx_INCREF(__pyx_n_s_a);
-          __Pyx_GIVEREF(__pyx_n_s_a);
-          PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_a);
+          __Pyx_INCREF(__pyx_n_u_a);
+          __Pyx_GIVEREF(__pyx_n_u_a);
+          PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_a);
           __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 216, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_6);
-          if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 216, __pyx_L5_error)
+          if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 216, __pyx_L5_error)
           __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7744,7 +7743,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_23gamelog_code(CYTHON
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 231, __pyx_L1_error)
@@ -7755,7 +7754,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_23gamelog_code(CYTHON
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
@@ -7840,7 +7839,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_23gamelog_code(CYTHON
  */
     __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_On_Message_Logs); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 234, __pyx_L1_error)
+    __pyx_t_7 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_On_Message_Logs); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_7, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
@@ -7851,7 +7850,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_23gamelog_code(CYTHON
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 234, __pyx_L1_error)
@@ -7925,7 +7924,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_23gamelog_code(CYTHON
     __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 236, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_resources_Logs_gamelog_txt); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_t_3, __pyx_kp_u_resources_Logs_gamelog_txt); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_logfile = __pyx_t_7;
@@ -7964,12 +7963,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_23gamelog_code(CYTHON
         __Pyx_INCREF(__pyx_v_logfile);
         __Pyx_GIVEREF(__pyx_v_logfile);
         PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_logfile);
-        __Pyx_INCREF(__pyx_n_s_a);
-        __Pyx_GIVEREF(__pyx_n_s_a);
-        PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_n_s_a);
+        __Pyx_INCREF(__pyx_n_u_a);
+        __Pyx_GIVEREF(__pyx_n_u_a);
+        PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_n_u_a);
         __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_2);
-        if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 238, __pyx_L4_error)
+        if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 238, __pyx_L4_error)
         __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8460,7 +8459,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_25onban_code(CYTHON_U
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_Ban_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_Ban_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
@@ -8471,7 +8470,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_25onban_code(CYTHON_U
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 257, __pyx_L1_error)
@@ -8528,7 +8527,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_25onban_code(CYTHON_U
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_resources_Logs_bans_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 258, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_resources_Logs_bans_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_logfile = __pyx_t_3;
@@ -8551,12 +8550,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_25onban_code(CYTHON_U
   __Pyx_INCREF(__pyx_v_logfile);
   __Pyx_GIVEREF(__pyx_v_logfile);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_logfile);
-  __Pyx_INCREF(__pyx_n_s_a);
-  __Pyx_GIVEREF(__pyx_n_s_a);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_a);
+  __Pyx_INCREF(__pyx_n_u_a);
+  __Pyx_GIVEREF(__pyx_n_u_a);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_a);
   __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 259, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 259, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 259, __pyx_L1_error)
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8816,7 +8815,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_27onavailable_code(CY
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_On_Server_Available); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_On_Server_Available); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 268, __pyx_L1_error)
@@ -8827,7 +8826,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_27onavailable_code(CY
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
@@ -8876,7 +8875,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_27onavailable_code(CY
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 269, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_resources_Logs_available_server); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_resources_Logs_available_server); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_logfile = __pyx_t_3;
@@ -8899,12 +8898,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_27onavailable_code(CY
   __Pyx_INCREF(__pyx_v_logfile);
   __Pyx_GIVEREF(__pyx_v_logfile);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_logfile);
-  __Pyx_INCREF(__pyx_n_s_a);
-  __Pyx_GIVEREF(__pyx_n_s_a);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_a);
+  __Pyx_INCREF(__pyx_n_u_a);
+  __Pyx_GIVEREF(__pyx_n_u_a);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_a);
   __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 270, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 270, __pyx_L1_error)
   __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9160,7 +9159,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_29onunavailable_code(
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 279, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_On_Server_Unavailable); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_On_Server_Unavailable); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 279, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 279, __pyx_L1_error)
@@ -9171,7 +9170,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_29onunavailable_code(
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 279, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 279, __pyx_L1_error)
@@ -9220,7 +9219,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_29onunavailable_code(
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_resources_Logs_unavailable_serv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_resources_Logs_unavailable_serv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_logfile = __pyx_t_3;
@@ -9243,12 +9242,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_29onunavailable_code(
   __Pyx_INCREF(__pyx_v_logfile);
   __Pyx_GIVEREF(__pyx_v_logfile);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_logfile);
-  __Pyx_INCREF(__pyx_n_s_a);
-  __Pyx_GIVEREF(__pyx_n_s_a);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_a);
+  __Pyx_INCREF(__pyx_n_u_a);
+  __Pyx_GIVEREF(__pyx_n_u_a);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_a);
   __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
   __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9518,7 +9517,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_31onunban_code(CYTHON
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_Unban_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_2, __pyx_n_u_Unban_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
@@ -9529,7 +9528,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_31onunban_code(CYTHON
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
@@ -9594,7 +9593,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_31onunban_code(CYTHON
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_resources_Logs_unbans_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_kp_u_resources_Logs_unbans_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_logfile = __pyx_t_3;
@@ -9617,12 +9616,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_31onunban_code(CYTHON
   __Pyx_INCREF(__pyx_v_logfile);
   __Pyx_GIVEREF(__pyx_v_logfile);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_logfile);
-  __Pyx_INCREF(__pyx_n_s_a);
-  __Pyx_GIVEREF(__pyx_n_s_a);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_a);
+  __Pyx_INCREF(__pyx_n_u_a);
+  __Pyx_GIVEREF(__pyx_n_u_a);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_a);
   __pyx_t_9 = PyDict_New(); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 292, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 292, __pyx_L1_error)
   __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10123,7 +10122,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_37onkick_code(CYTHON_
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LogData); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_Kick_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_Kick_Logs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 317, __pyx_L1_error)
@@ -10134,7 +10133,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_37onkick_code(CYTHON_
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 317, __pyx_L1_error)
@@ -10191,7 +10190,7 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_37onkick_code(CYTHON_
   __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_s_resources_Logs_kicks_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_u_resources_Logs_kicks_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_logfile = __pyx_t_3;
@@ -10214,12 +10213,12 @@ static PyObject *__pyx_pf_16DecoraterBotCore_7BotLogs_3bot_37onkick_code(CYTHON_
   __Pyx_INCREF(__pyx_v_logfile);
   __Pyx_GIVEREF(__pyx_v_logfile);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_logfile);
-  __Pyx_INCREF(__pyx_n_s_a);
-  __Pyx_GIVEREF(__pyx_n_s_a);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_a);
+  __Pyx_INCREF(__pyx_n_u_a);
+  __Pyx_GIVEREF(__pyx_n_u_a);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_a);
   __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_encoding, __pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_encoding, __pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -15524,8 +15523,8 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_153055192873566208, __pyx_k_153055192873566208, sizeof(__pyx_k_153055192873566208), 0, 0, 1, 0},
-  {&__pyx_n_s_Ban_Logs, __pyx_k_Ban_Logs, sizeof(__pyx_k_Ban_Logs), 0, 0, 1, 1},
+  {&__pyx_kp_u_153055192873566208, __pyx_k_153055192873566208, sizeof(__pyx_k_153055192873566208), 0, 1, 0, 0},
+  {&__pyx_n_u_Ban_Logs, __pyx_k_Ban_Logs, sizeof(__pyx_k_Ban_Logs), 0, 1, 0, 1},
   {&__pyx_n_s_BotLogs, __pyx_k_BotLogs, sizeof(__pyx_k_BotLogs), 0, 0, 1, 1},
   {&__pyx_n_s_BotLogs__resolve_embed_logs, __pyx_k_BotLogs__resolve_embed_logs, sizeof(__pyx_k_BotLogs__resolve_embed_logs), 0, 0, 1, 1},
   {&__pyx_n_s_BotLogs_bot, __pyx_k_BotLogs_bot, sizeof(__pyx_k_BotLogs_bot), 0, 0, 1, 1},
@@ -15564,42 +15563,43 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BotLogs_send_logs, __pyx_k_BotLogs_send_logs, sizeof(__pyx_k_BotLogs_send_logs), 0, 0, 1, 1},
   {&__pyx_n_s_BotLogs_set_up_asyncio_logger, __pyx_k_BotLogs_set_up_asyncio_logger, sizeof(__pyx_k_BotLogs_set_up_asyncio_logger), 0, 0, 1, 1},
   {&__pyx_n_s_BotLogs_set_up_discord_logger, __pyx_k_BotLogs_set_up_discord_logger, sizeof(__pyx_k_BotLogs_set_up_discord_logger), 0, 0, 1, 1},
-  {&__pyx_kp_s_ConsoleWindow_json_is_not_Found, __pyx_k_ConsoleWindow_json_is_not_Found, sizeof(__pyx_k_ConsoleWindow_json_is_not_Found), 0, 0, 1, 0},
+  {&__pyx_kp_u_ConsoleWindow_json_is_not_Found, __pyx_k_ConsoleWindow_json_is_not_Found, sizeof(__pyx_k_ConsoleWindow_json_is_not_Found), 0, 1, 0, 0},
   {&__pyx_n_s_DEBUG, __pyx_k_DEBUG, sizeof(__pyx_k_DEBUG), 0, 0, 1, 1},
   {&__pyx_n_s_DecoraterBotCore_BotLogs, __pyx_k_DecoraterBotCore_BotLogs, sizeof(__pyx_k_DecoraterBotCore_BotLogs), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
-  {&__pyx_n_s_Embed_Logs, __pyx_k_Embed_Logs, sizeof(__pyx_k_Embed_Logs), 0, 0, 1, 1},
+  {&__pyx_n_u_Embed_Logs, __pyx_k_Embed_Logs, sizeof(__pyx_k_Embed_Logs), 0, 1, 0, 1},
   {&__pyx_n_s_FileHandler, __pyx_k_FileHandler, sizeof(__pyx_k_FileHandler), 0, 0, 1, 1},
   {&__pyx_n_s_FileNotFoundError, __pyx_k_FileNotFoundError, sizeof(__pyx_k_FileNotFoundError), 0, 0, 1, 1},
   {&__pyx_n_s_Formatter, __pyx_k_Formatter, sizeof(__pyx_k_Formatter), 0, 0, 1, 1},
-  {&__pyx_kp_s_Ignoring_exception_caused_at_0_1, __pyx_k_Ignoring_exception_caused_at_0_1, sizeof(__pyx_k_Ignoring_exception_caused_at_0_1), 0, 0, 1, 0},
-  {&__pyx_n_s_Kick_Logs, __pyx_k_Kick_Logs, sizeof(__pyx_k_Kick_Logs), 0, 0, 1, 1},
+  {&__pyx_kp_u_Ignoring_exception_caused_at_0_1, __pyx_k_Ignoring_exception_caused_at_0_1, sizeof(__pyx_k_Ignoring_exception_caused_at_0_1), 0, 1, 0, 0},
+  {&__pyx_n_u_Kick_Logs, __pyx_k_Kick_Logs, sizeof(__pyx_k_Kick_Logs), 0, 1, 0, 1},
   {&__pyx_n_s_LogData, __pyx_k_LogData, sizeof(__pyx_k_LogData), 0, 0, 1, 1},
   {&__pyx_n_s_LogDataFile, __pyx_k_LogDataFile, sizeof(__pyx_k_LogDataFile), 0, 0, 1, 1},
   {&__pyx_n_s_Logs001, __pyx_k_Logs001, sizeof(__pyx_k_Logs001), 0, 0, 1, 1},
   {&__pyx_n_s_Logs003, __pyx_k_Logs003, sizeof(__pyx_k_Logs003), 0, 0, 1, 1},
   {&__pyx_n_s_LogsPM, __pyx_k_LogsPM, sizeof(__pyx_k_LogsPM), 0, 0, 1, 1},
   {&__pyx_n_s_LogsServers, __pyx_k_LogsServers, sizeof(__pyx_k_LogsServers), 0, 0, 1, 1},
-  {&__pyx_n_s_Missing_JSON_Errors, __pyx_k_Missing_JSON_Errors, sizeof(__pyx_k_Missing_JSON_Errors), 0, 0, 1, 1},
+  {&__pyx_n_u_Missing_JSON_Errors, __pyx_k_Missing_JSON_Errors, sizeof(__pyx_k_Missing_JSON_Errors), 0, 1, 0, 1},
   {&__pyx_n_s_NotFound, __pyx_k_NotFound, sizeof(__pyx_k_NotFound), 0, 0, 1, 1},
   {&__pyx_n_s_Object, __pyx_k_Object, sizeof(__pyx_k_Object), 0, 0, 1, 1},
-  {&__pyx_n_s_On_Edit_Logs_Error, __pyx_k_On_Edit_Logs_Error, sizeof(__pyx_k_On_Edit_Logs_Error), 0, 0, 1, 1},
-  {&__pyx_n_s_On_Message_Logs, __pyx_k_On_Message_Logs, sizeof(__pyx_k_On_Message_Logs), 0, 0, 1, 1},
-  {&__pyx_n_s_On_Server_Available, __pyx_k_On_Server_Available, sizeof(__pyx_k_On_Server_Available), 0, 0, 1, 1},
-  {&__pyx_n_s_On_Server_Unavailable, __pyx_k_On_Server_Unavailable, sizeof(__pyx_k_On_Server_Unavailable), 0, 0, 1, 1},
+  {&__pyx_n_u_On_Edit_Logs_Error, __pyx_k_On_Edit_Logs_Error, sizeof(__pyx_k_On_Edit_Logs_Error), 0, 1, 0, 1},
+  {&__pyx_n_u_On_Message_Logs, __pyx_k_On_Message_Logs, sizeof(__pyx_k_On_Message_Logs), 0, 1, 0, 1},
+  {&__pyx_n_u_On_Server_Available, __pyx_k_On_Server_Available, sizeof(__pyx_k_On_Server_Available), 0, 1, 0, 1},
+  {&__pyx_n_u_On_Server_Unavailable, __pyx_k_On_Server_Unavailable, sizeof(__pyx_k_On_Server_Unavailable), 0, 1, 0, 1},
   {&__pyx_n_s_PermissionError, __pyx_k_PermissionError, sizeof(__pyx_k_PermissionError), 0, 0, 1, 1},
-  {&__pyx_n_s_Send_On_Message_Delete_Logs, __pyx_k_Send_On_Message_Delete_Logs, sizeof(__pyx_k_Send_On_Message_Delete_Logs), 0, 0, 1, 1},
-  {&__pyx_n_s_Send_On_Message_Edit_Logs, __pyx_k_Send_On_Message_Edit_Logs, sizeof(__pyx_k_Send_On_Message_Edit_Logs), 0, 0, 1, 1},
-  {&__pyx_n_s_Send_On_Message_Logs, __pyx_k_Send_On_Message_Logs, sizeof(__pyx_k_Send_On_Message_Logs), 0, 0, 1, 1},
+  {&__pyx_n_u_Send_On_Message_Delete_Logs, __pyx_k_Send_On_Message_Delete_Logs, sizeof(__pyx_k_Send_On_Message_Delete_Logs), 0, 1, 0, 1},
+  {&__pyx_n_u_Send_On_Message_Edit_Logs, __pyx_k_Send_On_Message_Edit_Logs, sizeof(__pyx_k_Send_On_Message_Edit_Logs), 0, 1, 0, 1},
+  {&__pyx_n_u_Send_On_Message_Logs, __pyx_k_Send_On_Message_Logs, sizeof(__pyx_k_Send_On_Message_Logs), 0, 1, 0, 1},
   {&__pyx_kp_s_This_class_is_for_Internal_use, __pyx_k_This_class_is_for_Internal_use, sizeof(__pyx_k_This_class_is_for_Internal_use), 0, 0, 1, 0},
-  {&__pyx_n_s_Unban_Logs, __pyx_k_Unban_Logs, sizeof(__pyx_k_Unban_Logs), 0, 0, 1, 1},
-  {&__pyx_kp_s__9, __pyx_k__9, sizeof(__pyx_k__9), 0, 0, 1, 0},
-  {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
+  {&__pyx_n_u_Unban_Logs, __pyx_k_Unban_Logs, sizeof(__pyx_k_Unban_Logs), 0, 1, 0, 1},
+  {&__pyx_kp_u__9, __pyx_k__9, sizeof(__pyx_k__9), 0, 1, 0, 0},
+  {&__pyx_n_u_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 1, 0, 1},
   {&__pyx_n_s_addHandler, __pyx_k_addHandler, sizeof(__pyx_k_addHandler), 0, 0, 1, 1},
   {&__pyx_n_s_after, __pyx_k_after, sizeof(__pyx_k_after), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
-  {&__pyx_kp_s_asctime_s_levelname_s_name_s_me, __pyx_k_asctime_s_levelname_s_name_s_me, sizeof(__pyx_k_asctime_s_levelname_s_name_s_me), 0, 0, 1, 0},
+  {&__pyx_kp_u_asctime_s_levelname_s_name_s_me, __pyx_k_asctime_s_levelname_s_name_s_me, sizeof(__pyx_k_asctime_s_levelname_s_name_s_me), 0, 1, 0, 0},
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
+  {&__pyx_n_u_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 1, 0, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_tasks, __pyx_k_asyncio_tasks, sizeof(__pyx_k_asyncio_tasks), 0, 0, 1, 1},
   {&__pyx_n_s_asynciologger, __pyx_k_asynciologger, sizeof(__pyx_k_asynciologger), 0, 0, 1, 1},
@@ -15625,6 +15625,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_dellogsServers, __pyx_k_dellogsServers, sizeof(__pyx_k_dellogsServers), 0, 0, 1, 1},
   {&__pyx_n_s_desgame, __pyx_k_desgame, sizeof(__pyx_k_desgame), 0, 0, 1, 1},
   {&__pyx_n_s_discord, __pyx_k_discord, sizeof(__pyx_k_discord), 0, 0, 1, 1},
+  {&__pyx_n_u_discord, __pyx_k_discord, sizeof(__pyx_k_discord), 0, 1, 0, 1},
   {&__pyx_n_s_discriminator, __pyx_k_discriminator, sizeof(__pyx_k_discriminator), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_edit_log_PM, __pyx_k_edit_log_PM, sizeof(__pyx_k_edit_log_PM), 0, 0, 1, 1},
@@ -15634,7 +15635,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_editlog003, __pyx_k_editlog003, sizeof(__pyx_k_editlog003), 0, 0, 1, 1},
   {&__pyx_n_s_editlogServers, __pyx_k_editlogServers, sizeof(__pyx_k_editlogServers), 0, 0, 1, 1},
   {&__pyx_n_s_encoding, __pyx_k_encoding, sizeof(__pyx_k_encoding), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_errors, __pyx_k_errors, sizeof(__pyx_k_errors), 0, 0, 1, 1},
   {&__pyx_n_s_exception_data, __pyx_k_exception_data, sizeof(__pyx_k_exception_data), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
@@ -15702,24 +15702,24 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
-  {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
+  {&__pyx_n_u_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 1, 0, 1},
   {&__pyx_n_s_resolve_embed_logs, __pyx_k_resolve_embed_logs, sizeof(__pyx_k_resolve_embed_logs), 0, 0, 1, 1},
   {&__pyx_n_s_resolve_embed_logs_code, __pyx_k_resolve_embed_logs_code, sizeof(__pyx_k_resolve_embed_logs_code), 0, 0, 1, 1},
-  {&__pyx_kp_s_resources_ConfigData_ConsoleWin, __pyx_k_resources_ConfigData_ConsoleWin, sizeof(__pyx_k_resources_ConfigData_ConsoleWin), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_ConfigData_LogData_js, __pyx_k_resources_ConfigData_LogData_js, sizeof(__pyx_k_resources_ConfigData_LogData_js), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_asyncio_log, __pyx_k_resources_Logs_asyncio_log, sizeof(__pyx_k_resources_Logs_asyncio_log), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_available_server, __pyx_k_resources_Logs_available_server, sizeof(__pyx_k_resources_Logs_available_server), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_bans_txt, __pyx_k_resources_Logs_bans_txt, sizeof(__pyx_k_resources_Logs_bans_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_delete_log_txt, __pyx_k_resources_Logs_delete_log_txt, sizeof(__pyx_k_resources_Logs_delete_log_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_discordpy_log, __pyx_k_resources_Logs_discordpy_log, sizeof(__pyx_k_resources_Logs_discordpy_log), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_edit_log_txt, __pyx_k_resources_Logs_edit_log_txt, sizeof(__pyx_k_resources_Logs_edit_log_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_embeds_txt, __pyx_k_resources_Logs_embeds_txt, sizeof(__pyx_k_resources_Logs_embeds_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_error_log_txt, __pyx_k_resources_Logs_error_log_txt, sizeof(__pyx_k_resources_Logs_error_log_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_gamelog_txt, __pyx_k_resources_Logs_gamelog_txt, sizeof(__pyx_k_resources_Logs_gamelog_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_kicks_txt, __pyx_k_resources_Logs_kicks_txt, sizeof(__pyx_k_resources_Logs_kicks_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_log_txt, __pyx_k_resources_Logs_log_txt, sizeof(__pyx_k_resources_Logs_log_txt), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_unavailable_serv, __pyx_k_resources_Logs_unavailable_serv, sizeof(__pyx_k_resources_Logs_unavailable_serv), 0, 0, 1, 0},
-  {&__pyx_kp_s_resources_Logs_unbans_txt, __pyx_k_resources_Logs_unbans_txt, sizeof(__pyx_k_resources_Logs_unbans_txt), 0, 0, 1, 0},
+  {&__pyx_kp_u_resources_ConfigData_ConsoleWin, __pyx_k_resources_ConfigData_ConsoleWin, sizeof(__pyx_k_resources_ConfigData_ConsoleWin), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_ConfigData_LogData_js, __pyx_k_resources_ConfigData_LogData_js, sizeof(__pyx_k_resources_ConfigData_LogData_js), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_asyncio_log, __pyx_k_resources_Logs_asyncio_log, sizeof(__pyx_k_resources_Logs_asyncio_log), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_available_server, __pyx_k_resources_Logs_available_server, sizeof(__pyx_k_resources_Logs_available_server), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_bans_txt, __pyx_k_resources_Logs_bans_txt, sizeof(__pyx_k_resources_Logs_bans_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_delete_log_txt, __pyx_k_resources_Logs_delete_log_txt, sizeof(__pyx_k_resources_Logs_delete_log_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_discordpy_log, __pyx_k_resources_Logs_discordpy_log, sizeof(__pyx_k_resources_Logs_discordpy_log), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_edit_log_txt, __pyx_k_resources_Logs_edit_log_txt, sizeof(__pyx_k_resources_Logs_edit_log_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_embeds_txt, __pyx_k_resources_Logs_embeds_txt, sizeof(__pyx_k_resources_Logs_embeds_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_error_log_txt, __pyx_k_resources_Logs_error_log_txt, sizeof(__pyx_k_resources_Logs_error_log_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_gamelog_txt, __pyx_k_resources_Logs_gamelog_txt, sizeof(__pyx_k_resources_Logs_gamelog_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_kicks_txt, __pyx_k_resources_Logs_kicks_txt, sizeof(__pyx_k_resources_Logs_kicks_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_log_txt, __pyx_k_resources_Logs_log_txt, sizeof(__pyx_k_resources_Logs_log_txt), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_unavailable_serv, __pyx_k_resources_Logs_unavailable_serv, sizeof(__pyx_k_resources_Logs_unavailable_serv), 0, 1, 0, 0},
+  {&__pyx_kp_u_resources_Logs_unbans_txt, __pyx_k_resources_Logs_unbans_txt, sizeof(__pyx_k_resources_Logs_unbans_txt), 0, 1, 0, 0},
   {&__pyx_n_s_seek, __pyx_k_seek, sizeof(__pyx_k_seek), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
@@ -15753,13 +15753,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_user, __pyx_k_user, sizeof(__pyx_k_user), 0, 0, 1, 1},
   {&__pyx_n_s_usr_id, __pyx_k_usr_id, sizeof(__pyx_k_usr_id), 0, 0, 1, 1},
   {&__pyx_n_s_usr_name, __pyx_k_usr_name, sizeof(__pyx_k_usr_name), 0, 0, 1, 1},
-  {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
-  {&__pyx_n_s_w, __pyx_k_w, sizeof(__pyx_k_w), 0, 0, 1, 1},
+  {&__pyx_kp_u_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
+  {&__pyx_n_u_w, __pyx_k_w, sizeof(__pyx_k_w), 0, 1, 0, 1},
   {&__pyx_n_s_write, __pyx_k_write, sizeof(__pyx_k_write), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_FileNotFoundError = __Pyx_GetBuiltinName(__pyx_n_s_FileNotFoundError); if (!__pyx_builtin_FileNotFoundError) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 14, __pyx_L1_error)
   __pyx_builtin_PermissionError = __Pyx_GetBuiltinName(__pyx_n_s_PermissionError); if (!__pyx_builtin_PermissionError) __PYX_ERR(0, 76, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -15777,7 +15778,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             logger.setLevel(logging.DEBUG)
  *             handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\discordpy.log', encoding='utf-8',
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_s_discord); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_u_discord); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -15788,7 +15789,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             logger.addHandler(handler)
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_asctime_s_levelname_s_name_s_me); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_asctime_s_levelname_s_name_s_me); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -15799,7 +15800,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             asynciologger.setLevel(logging.DEBUG)
  *             handler = logging.FileHandler(filename=sys.path[0] + '\\resources\\Logs\\asyncio.log', encoding='utf-8',
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_s_asyncio); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_u_asyncio); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -15810,7 +15811,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             asynciologger.addHandler(handler)
  * 
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_asctime_s_levelname_s_name_s_me); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_asctime_s_levelname_s_name_s_me); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -15880,6 +15881,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
+  /* "DecoraterBotCore/BotLogs.py":14
+ *     consoletext = json.load(consoledatafile)
+ * except FileNotFoundError:
+ *     print('ConsoleWindow.json is not Found. Cannot Continue.')             # <<<<<<<<<<<<<<
+ *     sys.exit(2)
+ * try:
+ */
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_ConsoleWindow_json_is_not_Found); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+
   /* "DecoraterBotCore/BotLogs.py":15
  * except FileNotFoundError:
  *     print('ConsoleWindow.json is not Found. Cannot Continue.')
@@ -15887,9 +15899,9 @@ static int __Pyx_InitCachedConstants(void) {
  * try:
  *     LogDataFile = io.open(sys.path[0] + '\\resources\\ConfigData\\LogData.json', 'r')
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "DecoraterBotCore/BotLogs.py":21
  * except FileNotFoundError:
@@ -15898,9 +15910,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 21, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "DecoraterBotCore/BotLogs.py":32
  * 
@@ -15909,10 +15921,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             logger = logging.getLogger('discord')
  *             logger.setLevel(logging.DEBUG)
  */
-  __pyx_tuple__14 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_logger, __pyx_n_s_handler); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 32, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_discord_logger_code, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_logger, __pyx_n_s_handler); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_discord_logger_code, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 32, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":41
  * 
@@ -15921,10 +15933,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             asynciologger = logging.getLogger('asyncio')
  *             asynciologger.setLevel(logging.DEBUG)
  */
-  __pyx_tuple__16 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_asynciologger, __pyx_n_s_handler); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_asyncio_logger_code, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_asynciologger, __pyx_n_s_handler); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_asyncio_logger_code, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 41, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":50
  * 
@@ -15933,10 +15945,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             """
  *                 :type client: Discord.py Client object
  */
-  __pyx_tuple__18 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_Logs001, __pyx_n_s_LogsPM, __pyx_n_s_LogsServers, __pyx_n_s_Logs003, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_logs_code, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_Logs001, __pyx_n_s_LogsPM, __pyx_n_s_LogsServers, __pyx_n_s_Logs003, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_logs_code, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 50, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":80
  * 
@@ -15945,10 +15957,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             old = str(before.content)
  *             new = str(after.content)
  */
-  __pyx_tuple__20 = PyTuple_Pack(18, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after, __pyx_n_s_old, __pyx_n_s_new, __pyx_n_s_logfile, __pyx_n_s_usr_name, __pyx_n_s_usr_id, __pyx_n_s_msg_time, __pyx_n_s_editlog001, __pyx_n_s_edit_log_PM, __pyx_n_s_editlogServers, __pyx_n_s_svr_name, __pyx_n_s_chl_name, __pyx_n_s_editlog003, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 80, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(4, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_edit_logs_code, 80, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(18, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after, __pyx_n_s_old, __pyx_n_s_new, __pyx_n_s_logfile, __pyx_n_s_usr_name, __pyx_n_s_usr_id, __pyx_n_s_msg_time, __pyx_n_s_editlog001, __pyx_n_s_edit_log_PM, __pyx_n_s_editlogServers, __pyx_n_s_svr_name, __pyx_n_s_chl_name, __pyx_n_s_editlog003, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(4, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_edit_logs_code, 80, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 80, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":122
  * 
@@ -15957,10 +15969,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
  *                                                                    str(message.timestamp), message.content)
  */
-  __pyx_tuple__22 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_dellogs001, __pyx_n_s_dellogsPM, __pyx_n_s_dellogsServers, __pyx_n_s_dellogs003, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 122, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_delete_logs_code, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_dellogs001, __pyx_n_s_dellogsPM, __pyx_n_s_dellogsServers, __pyx_n_s_dellogs003, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_delete_logs_code, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 122, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":149
  * 
@@ -15969,10 +15981,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             if before.channel.is_private is True:
  *                 data = str(LogData['Embed_Logs'][0])
  */
-  __pyx_tuple__24 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after, __pyx_n_s_data, __pyx_n_s_logfile, __pyx_n_s_file2, __pyx_n_s_size); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 149, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve_embed_logs_code, 149, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after, __pyx_n_s_data, __pyx_n_s_logfile, __pyx_n_s_file2, __pyx_n_s_size); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve_embed_logs_code, 149, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 149, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":167
  *         @classmethod
@@ -15981,10 +15993,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             Logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
  *                                                                      str(message.timestamp),
  */
-  __pyx_tuple__26 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_Logs001, __pyx_n_s_sndmsglogs); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 167, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
-  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_logs_code, 167, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_Logs001, __pyx_n_s_sndmsglogs); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_logs_code, 167, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 167, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":180
  *         @classmethod
@@ -15993,10 +16005,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             old = str(before.content)
  *             new = str(after.content)
  */
-  __pyx_tuple__28 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after, __pyx_n_s_old, __pyx_n_s_new, __pyx_n_s_editlog001, __pyx_n_s_sendeditlogs); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 180, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_edit_logs_code, 180, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after, __pyx_n_s_old, __pyx_n_s_new, __pyx_n_s_editlog001, __pyx_n_s_sendeditlogs); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_edit_logs_code, 180, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 180, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":196
  *         @classmethod
@@ -16005,10 +16017,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             dellogs001 = str(LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id,
  *                                                                                str(message.timestamp),
  */
-  __pyx_tuple__30 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_dellogs001, __pyx_n_s_senddeletelogs); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 196, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_delete_logs_code, 196, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_dellogs001, __pyx_n_s_senddeletelogs); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_delete_logs_code, 196, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 196, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":210
  *         @classmethod
@@ -16017,10 +16029,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             if bool(funcname):
  *                 if bool(tbinfo):
  */
-  __pyx_tuple__32 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_funcname, __pyx_n_s_tbinfo, __pyx_n_s_exception_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 210, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
-  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_on_bot_error_code, 210, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_funcname, __pyx_n_s_tbinfo, __pyx_n_s_exception_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_on_bot_error_code, 210, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 210, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":230
  * 
@@ -16029,10 +16041,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             gmelogdata01 = str(LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
  *             gmelogsPM = gmelogdata01
  */
-  __pyx_tuple__34 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_desgame, __pyx_n_s_gmelogdata01, __pyx_n_s_gmelogsPM, __pyx_n_s_gmelog001, __pyx_n_s_gmelogsServers, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 230, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
-  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(4, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_gamelog_code, 230, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_desgame, __pyx_n_s_gmelogdata01, __pyx_n_s_gmelogsPM, __pyx_n_s_gmelog001, __pyx_n_s_gmelogsServers, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(4, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_gamelog_code, 230, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 230, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":252
  *         @classmethod
@@ -16041,10 +16053,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             mem_name = member.name
  *             mem_id = member.id
  */
-  __pyx_tuple__36 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member, __pyx_n_s_mem_name, __pyx_n_s_mem_id, __pyx_n_s_mem_dis, __pyx_n_s_mem_svr_name, __pyx_n_s_ban_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
-  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onban_code, 252, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member, __pyx_n_s_mem_name, __pyx_n_s_mem_id, __pyx_n_s_mem_dis, __pyx_n_s_mem_svr_name, __pyx_n_s_ban_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onban_code, 252, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 252, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":267
  *         @classmethod
@@ -16053,10 +16065,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             available_log_data = str(LogData['On_Server_Available'][0]).format(server)
  *             logfile = sys.path[0] + '\\resources\\Logs\\available_servers.txt'
  */
-  __pyx_tuple__38 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_available_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 267, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__38);
-  __Pyx_GIVEREF(__pyx_tuple__38);
-  __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onavailable_code, 267, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_available_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onavailable_code, 267, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 267, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":278
  *         @classmethod
@@ -16065,10 +16077,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             unavailable_log_data = str(LogData['On_Server_Unavailable'][0]).format(server)
  *             logfile = sys.path[0] + '\\resources\\Logs\\unavailable_servers.txt'
  */
-  __pyx_tuple__40 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_unavailable_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 278, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
-  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunavailable_code, 278, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_unavailable_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunavailable_code, 278, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 278, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":289
  *         @classmethod
@@ -16077,10 +16089,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
  *             logfile = sys.path[0] + '\\resources\\Logs\\unbans.txt'
  */
-  __pyx_tuple__42 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_user, __pyx_n_s_unban_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__42);
-  __Pyx_GIVEREF(__pyx_tuple__42);
-  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunban_code, 289, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_user, __pyx_n_s_unban_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunban_code, 289, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 289, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":300
  *         @classmethod
@@ -16089,10 +16101,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             # TODO: Impliment this.
  *             pass
  */
-  __pyx_tuple__44 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupjoin_code, 300, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
+  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupjoin_code, 300, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 300, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":306
  *         @classmethod
@@ -16101,10 +16113,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             # TODO: Impliment this.
  *             pass
  */
-  __pyx_tuple__46 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 306, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__46);
-  __Pyx_GIVEREF(__pyx_tuple__46);
-  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupremove_code, 306, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 306, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 306, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
+  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupremove_code, 306, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 306, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":312
  *         @classmethod
@@ -16113,10 +16125,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             mem_name = member.name
  *             mem_id = member.id
  */
-  __pyx_tuple__48 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member, __pyx_n_s_mem_name, __pyx_n_s_mem_id, __pyx_n_s_mem_dis, __pyx_n_s_mem_svr_name, __pyx_n_s_kick_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 312, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__48);
-  __Pyx_GIVEREF(__pyx_tuple__48);
-  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onkick_code, 312, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_tuple__49 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member, __pyx_n_s_mem_name, __pyx_n_s_mem_id, __pyx_n_s_mem_dis, __pyx_n_s_mem_svr_name, __pyx_n_s_kick_log_data, __pyx_n_s_logfile, __pyx_n_s_file, __pyx_n_s_size); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__49);
+  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_codeobj__50 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onkick_code, 312, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 312, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":326
  * 
@@ -16125,10 +16137,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot.set_up_discord_logger_code()
  * 
  */
-  __pyx_tuple__50 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 326, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__50);
-  __Pyx_GIVEREF(__pyx_tuple__50);
-  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_discord_logger, 326, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__51);
+  __Pyx_GIVEREF(__pyx_tuple__51);
+  __pyx_codeobj__52 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_discord_logger, 326, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__52)) __PYX_ERR(0, 326, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":330
  * 
@@ -16137,10 +16149,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot.set_up_asyncio_logger_code()
  * 
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 330, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
-  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_asyncio_logger, 330, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 330, __pyx_L1_error)
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 330, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__53);
+  __Pyx_GIVEREF(__pyx_tuple__53);
+  __pyx_codeobj__54 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_set_up_asyncio_logger, 330, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__54)) __PYX_ERR(0, 330, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":334
  * 
@@ -16149,10 +16161,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot.logs_code(client, message)
  * 
  */
-  __pyx_tuple__54 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 334, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_logs, 334, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_tuple__55 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__55);
+  __Pyx_GIVEREF(__pyx_tuple__55);
+  __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_logs, 334, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 334, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":338
  * 
@@ -16161,10 +16173,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot.edit_logs_code(client, before, after)
  * 
  */
-  __pyx_tuple__56 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 338, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__56);
-  __Pyx_GIVEREF(__pyx_tuple__56);
-  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_edit_logs, 338, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__57);
+  __Pyx_GIVEREF(__pyx_tuple__57);
+  __pyx_codeobj__58 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_edit_logs, 338, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 338, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":342
  * 
@@ -16173,10 +16185,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot.delete_logs_code(client, message)
  * 
  */
-  __pyx_tuple__58 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 342, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__58);
-  __Pyx_GIVEREF(__pyx_tuple__58);
-  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_delete_logs, 342, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__59);
+  __Pyx_GIVEREF(__pyx_tuple__59);
+  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_delete_logs, 342, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 342, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":346
  * 
@@ -16185,10 +16197,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot._resolve_embed_logs_code(client, before, after)
  * 
  */
-  __pyx_tuple__60 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 346, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__60);
-  __Pyx_GIVEREF(__pyx_tuple__60);
-  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve_embed_logs, 346, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_tuple__61 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__61);
+  __Pyx_GIVEREF(__pyx_tuple__61);
+  __pyx_codeobj__62 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve_embed_logs, 346, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 346, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":351
  *     @classmethod
@@ -16197,10 +16209,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.send_logs_code(client, message)
  * 
  */
-  __pyx_tuple__62 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 351, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__62);
-  __Pyx_GIVEREF(__pyx_tuple__62);
-  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_logs, 351, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 351, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 351, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__63);
+  __Pyx_GIVEREF(__pyx_tuple__63);
+  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_logs, 351, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 351, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":356
  *     @classmethod
@@ -16209,10 +16221,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.send_edit_logs_code(client, before, after)
  * 
  */
-  __pyx_tuple__64 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 356, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__64);
-  __Pyx_GIVEREF(__pyx_tuple__64);
-  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_edit_logs, 356, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_before, __pyx_n_s_after); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__65);
+  __Pyx_GIVEREF(__pyx_tuple__65);
+  __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_edit_logs, 356, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) __PYX_ERR(0, 356, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":361
  *     @classmethod
@@ -16221,10 +16233,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.send_delete_logs_code(client, message)
  * 
  */
-  __pyx_tuple__66 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 361, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__66);
-  __Pyx_GIVEREF(__pyx_tuple__66);
-  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_delete_logs, 361, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 361, __pyx_L1_error)
+  __pyx_tuple__67 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 361, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__67);
+  __Pyx_GIVEREF(__pyx_tuple__67);
+  __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_send_delete_logs, 361, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) __PYX_ERR(0, 361, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":366
  *     @classmethod
@@ -16233,10 +16245,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *             This Function is for Internal Bot use only.
  */
-  __pyx_tuple__68 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_funcname, __pyx_n_s_tbinfo); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 366, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__68);
-  __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_on_bot_error, 366, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 366, __pyx_L1_error)
+  __pyx_tuple__69 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_funcname, __pyx_n_s_tbinfo); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 366, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__69);
+  __Pyx_GIVEREF(__pyx_tuple__69);
+  __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_on_bot_error, 366, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) __PYX_ERR(0, 366, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":381
  * 
@@ -16245,10 +16257,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.bot.gamelog_code(client, message, desgame)
  * 
  */
-  __pyx_tuple__70 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_desgame); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 381, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__70);
-  __Pyx_GIVEREF(__pyx_tuple__70);
-  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_gamelog, 381, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_message, __pyx_n_s_desgame); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__71);
+  __Pyx_GIVEREF(__pyx_tuple__71);
+  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_gamelog, 381, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 381, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":386
  *     @classmethod
@@ -16257,10 +16269,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.onban_code(client, member)
  * 
  */
-  __pyx_tuple__72 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 386, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__72);
-  __Pyx_GIVEREF(__pyx_tuple__72);
-  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onban, 386, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __pyx_tuple__73 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__73);
+  __Pyx_GIVEREF(__pyx_tuple__73);
+  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onban, 386, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 386, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":391
  *     @classmethod
@@ -16269,10 +16281,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.onavailable_code(server)
  * 
  */
-  __pyx_tuple__74 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_server); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 391, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__74);
-  __Pyx_GIVEREF(__pyx_tuple__74);
-  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onavailable, 391, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_tuple__75 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_server); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__75);
+  __Pyx_GIVEREF(__pyx_tuple__75);
+  __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onavailable, 391, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) __PYX_ERR(0, 391, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":396
  *     @classmethod
@@ -16281,10 +16293,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.onunavailable_code(server)
  * 
  */
-  __pyx_tuple__76 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_server); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 396, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__76);
-  __Pyx_GIVEREF(__pyx_tuple__76);
-  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunavailable, 396, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_tuple__77 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_server); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__77);
+  __Pyx_GIVEREF(__pyx_tuple__77);
+  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunavailable, 396, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 396, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":401
  *     @classmethod
@@ -16293,10 +16305,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.onunban_code(server, user)
  * 
  */
-  __pyx_tuple__78 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_user); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 401, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__78);
-  __Pyx_GIVEREF(__pyx_tuple__78);
-  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunban, 401, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 401, __pyx_L1_error)
+  __pyx_tuple__79 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_server, __pyx_n_s_user); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 401, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__79);
+  __Pyx_GIVEREF(__pyx_tuple__79);
+  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onunban, 401, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 401, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":406
  *     @classmethod
@@ -16305,10 +16317,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.ongroupjoin_code(channel, user)
  * 
  */
-  __pyx_tuple__80 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 406, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__80);
-  __Pyx_GIVEREF(__pyx_tuple__80);
-  __pyx_codeobj__81 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__80, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupjoin, 406, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__81)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __pyx_tuple__81 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__81);
+  __Pyx_GIVEREF(__pyx_tuple__81);
+  __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupjoin, 406, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) __PYX_ERR(0, 406, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":411
  *     @classmethod
@@ -16317,10 +16329,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self.bot.ongroupremove_code(channel, user)
  * 
  */
-  __pyx_tuple__82 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 411, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__82);
-  __Pyx_GIVEREF(__pyx_tuple__82);
-  __pyx_codeobj__83 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__82, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupremove, 411, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__83)) __PYX_ERR(0, 411, __pyx_L1_error)
+  __pyx_tuple__83 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_channel, __pyx_n_s_user); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 411, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__83);
+  __Pyx_GIVEREF(__pyx_tuple__83);
+  __pyx_codeobj__84 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__83, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_ongroupremove, 411, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__84)) __PYX_ERR(0, 411, __pyx_L1_error)
 
   /* "DecoraterBotCore/BotLogs.py":416
  *     @classmethod
@@ -16328,10 +16340,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     def onkick(self, client, member):             # <<<<<<<<<<<<<<
  *         yield from self.bot.onkick_code(client, member)
  */
-  __pyx_tuple__84 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 416, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__84);
-  __Pyx_GIVEREF(__pyx_tuple__84);
-  __pyx_codeobj__85 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__84, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onkick, 416, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__85)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_tuple__85 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_client, __pyx_n_s_member); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__85);
+  __Pyx_GIVEREF(__pyx_tuple__85);
+  __pyx_codeobj__86 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__85, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_onkick, 416, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__86)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -16500,7 +16512,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  * import io
  * import sys
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_discord, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16512,7 +16524,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  * import sys
  * import os.path
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_io, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16524,7 +16536,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  * import os.path
  * import asyncio
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16536,7 +16548,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  * import asyncio
  * import logging
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os_path, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os_path, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16548,7 +16560,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  * import logging
  * import json
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16560,7 +16572,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  * import json
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_logging, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_logging, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_logging, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16572,7 +16584,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  * 
  * try:
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16613,7 +16625,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
       __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 11, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_resources_ConfigData_ConsoleWin); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 11, __pyx_L2_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_t_5, __pyx_kp_u_resources_ConfigData_ConsoleWin); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 11, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_5 = NULL;
@@ -16635,9 +16647,9 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
       }
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_8, __pyx_t_7);
-      __Pyx_INCREF(__pyx_n_s_r);
-      __Pyx_GIVEREF(__pyx_n_s_r);
-      PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_n_s_r);
+      __Pyx_INCREF(__pyx_n_u_r);
+      __Pyx_GIVEREF(__pyx_n_u_r);
+      PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_n_u_r);
       __pyx_t_7 = 0;
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_1);
@@ -16731,7 +16743,9 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *     sys.exit(2)
  * try:
  */
-      if (__Pyx_PrintOne(0, __pyx_kp_s_ConsoleWindow_json_is_not_Found) < 0) __PYX_ERR(0, 14, __pyx_L4_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 14, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
       /* "DecoraterBotCore/BotLogs.py":15
  * except FileNotFoundError:
@@ -16745,7 +16759,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
       __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_exit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 15, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 15, __pyx_L4_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 15, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -16815,7 +16829,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
       __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 17, __pyx_L12_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Add(__pyx_t_9, __pyx_kp_s_resources_ConfigData_LogData_js); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 17, __pyx_L12_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_t_9, __pyx_kp_u_resources_ConfigData_LogData_js); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 17, __pyx_L12_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __pyx_t_9 = NULL;
@@ -16837,9 +16851,9 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
       }
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
-      __Pyx_INCREF(__pyx_n_s_r);
-      __Pyx_GIVEREF(__pyx_n_s_r);
-      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_r);
+      __Pyx_INCREF(__pyx_n_u_r);
+      __Pyx_GIVEREF(__pyx_n_u_r);
+      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_u_r);
       __pyx_t_6 = 0;
       __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L12_error)
       __Pyx_GOTREF(__pyx_t_5);
@@ -16935,7 +16949,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  */
       __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_consoletext); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_Missing_JSON_Errors); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L14_except_error)
+      __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_Missing_JSON_Errors); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L14_except_error)
@@ -16946,10 +16960,17 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
       __Pyx_GIVEREF(__pyx_t_1);
       PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
       __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L14_except_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 20, __pyx_L14_except_error)
+      __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L14_except_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
+      __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L14_except_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
       /* "DecoraterBotCore/BotLogs.py":21
@@ -16964,7 +16985,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
       __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 21, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L14_except_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17025,7 +17046,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             logger = logging.getLogger('discord')
  *             logger.setLevel(logging.DEBUG)
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_1set_up_discord_logger_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_set_up_discord_logge, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_1set_up_discord_logger_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_set_up_discord_logge, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "DecoraterBotCore/BotLogs.py":31
@@ -17048,7 +17069,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             asynciologger = logging.getLogger('asyncio')
  *             asynciologger.setLevel(logging.DEBUG)
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_3set_up_asyncio_logger_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_set_up_asyncio_logge, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_3set_up_asyncio_logger_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_set_up_asyncio_logge, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "DecoraterBotCore/BotLogs.py":40
@@ -17071,7 +17092,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             """
  *                 :type client: Discord.py Client object
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_5logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_5logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "DecoraterBotCore/BotLogs.py":49
@@ -17094,7 +17115,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             old = str(before.content)
  *             new = str(after.content)
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_7edit_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_edit_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_7edit_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_edit_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "DecoraterBotCore/BotLogs.py":79
@@ -17117,7 +17138,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
  *                                                                    str(message.timestamp), message.content)
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_9delete_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_delete_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_9delete_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_delete_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "DecoraterBotCore/BotLogs.py":121
@@ -17140,7 +17161,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             if before.channel.is_private is True:
  *                 data = str(LogData['Embed_Logs'][0])
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_11_resolve_embed_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot__resolve_embed_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_11_resolve_embed_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot__resolve_embed_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "DecoraterBotCore/BotLogs.py":148
@@ -17176,7 +17197,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             Logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
  *                                                                      str(message.timestamp),
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_13send_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_send_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_13send_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_send_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_11 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -17238,7 +17259,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             old = str(before.content)
  *             new = str(after.content)
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_16send_edit_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_send_edit_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_16send_edit_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_send_edit_logs_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_1 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -17300,7 +17321,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             dellogs001 = str(LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id,
  *                                                                                str(message.timestamp),
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_19send_delete_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_send_delete_logs_cod, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__31)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_19send_delete_logs_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_send_delete_logs_cod, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_11))) {
@@ -17362,7 +17383,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             if bool(funcname):
  *                 if bool(tbinfo):
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_22on_bot_error_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_on_bot_error_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__33)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_22on_bot_error_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_on_bot_error_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -17411,7 +17432,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             gmelogdata01 = str(LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
  *             gmelogsPM = gmelogdata01
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_24gamelog_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_gamelog_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__35)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_24gamelog_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_gamelog_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__36)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "DecoraterBotCore/BotLogs.py":229
@@ -17447,7 +17468,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             mem_name = member.name
  *             mem_id = member.id
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_26onban_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onban_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__37)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_26onban_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onban_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_12 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -17509,7 +17530,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             available_log_data = str(LogData['On_Server_Available'][0]).format(server)
  *             logfile = sys.path[0] + '\\resources\\Logs\\available_servers.txt'
  */
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_28onavailable_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onavailable_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__39)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_28onavailable_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onavailable_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_1 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -17571,7 +17592,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             unavailable_log_data = str(LogData['On_Server_Unavailable'][0]).format(server)
  *             logfile = sys.path[0] + '\\resources\\Logs\\unavailable_servers.txt'
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_30onunavailable_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onunavailable_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__41)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_30onunavailable_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onunavailable_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_11 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -17633,7 +17654,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
  *             logfile = sys.path[0] + '\\resources\\Logs\\unbans.txt'
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_32onunban_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onunban_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__43)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_32onunban_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onunban_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -17695,7 +17716,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             # TODO: Impliment this.
  *             pass
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_34ongroupjoin_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_ongroupjoin_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_34ongroupjoin_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_ongroupjoin_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 300, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_11))) {
@@ -17757,7 +17778,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             # TODO: Impliment this.
  *             pass
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_36ongroupremove_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_ongroupremove_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_36ongroupremove_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_ongroupremove_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_12 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -17819,7 +17840,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *             mem_name = member.name
  *             mem_id = member.id
  */
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_38onkick_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onkick_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__49)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_3bot_38onkick_code, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_bot_onkick_code, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__50)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_1 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -17868,7 +17889,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         """
  *             This class is for Internal use only!!!
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_bot, __pyx_empty_tuple, __pyx_t_7, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_bot, __pyx_empty_tuple, __pyx_t_7, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyObject_SetItem(__pyx_t_9, __pyx_n_s_bot, __pyx_t_6) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -17881,7 +17902,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         self.bot.set_up_discord_logger_code()
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_1set_up_discord_logger, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_set_up_discord_logger, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__51)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_1set_up_discord_logger, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_set_up_discord_logger, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__52)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "DecoraterBotCore/BotLogs.py":325
@@ -17904,7 +17925,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         self.bot.set_up_asyncio_logger_code()
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_3set_up_asyncio_logger, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_set_up_asyncio_logger, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 330, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_3set_up_asyncio_logger, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_set_up_asyncio_logger, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__54)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
   /* "DecoraterBotCore/BotLogs.py":329
@@ -17927,7 +17948,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         self.bot.logs_code(client, message)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_5logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__55)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_5logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__56)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "DecoraterBotCore/BotLogs.py":333
@@ -17950,7 +17971,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         self.bot.edit_logs_code(client, before, after)
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_7edit_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_edit_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__57)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_7edit_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_edit_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__58)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
   /* "DecoraterBotCore/BotLogs.py":337
@@ -17973,7 +17994,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         self.bot.delete_logs_code(client, message)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_9delete_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_delete_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__59)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_9delete_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_delete_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__60)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 342, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "DecoraterBotCore/BotLogs.py":341
@@ -17996,7 +18017,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         self.bot._resolve_embed_logs_code(client, before, after)
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_11_resolve_embed_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs__resolve_embed_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_11_resolve_embed_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs__resolve_embed_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__62)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
   /* "DecoraterBotCore/BotLogs.py":345
@@ -18032,7 +18053,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.send_logs_code(client, message)
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_13send_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_send_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__63)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 351, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_13send_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_send_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__64)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_12 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -18094,7 +18115,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.send_edit_logs_code(client, before, after)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_16send_edit_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_send_edit_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__65)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_16send_edit_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_send_edit_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__66)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_11))) {
@@ -18156,7 +18177,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.send_delete_logs_code(client, message)
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_19send_delete_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_send_delete_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 361, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_19send_delete_logs, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_send_delete_logs, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -18218,7 +18239,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         """
  *             This Function is for Internal Bot use only.
  */
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_22on_bot_error, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_on_bot_error, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 366, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_22on_bot_error, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_on_bot_error, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__70)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 366, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -18267,7 +18288,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         self.bot.gamelog_code(client, message, desgame)
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_25gamelog, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_gamelog, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__71)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_25gamelog, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_gamelog, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
   /* "DecoraterBotCore/BotLogs.py":380
@@ -18303,7 +18324,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.onban_code(client, member)
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_27onban, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onban, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__73)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_27onban, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onban, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__74)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 386, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_11 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -18365,7 +18386,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.onavailable_code(server)
  * 
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_30onavailable, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onavailable, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__75)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_30onavailable, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onavailable, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__76)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 391, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -18427,7 +18448,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.onunavailable_code(server)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_33onunavailable, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onunavailable, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__77)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_33onunavailable, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onunavailable, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__78)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 396, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_12 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_11))) {
@@ -18489,7 +18510,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.onunban_code(server, user)
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_36onunban, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onunban, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__79)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 401, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_36onunban, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onunban, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -18551,7 +18572,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.ongroupjoin_code(channel, user)
  * 
  */
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_39ongroupjoin, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_ongroupjoin, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__81)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_39ongroupjoin, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_ongroupjoin, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 406, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -18613,7 +18634,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *         yield from self.bot.ongroupremove_code(channel, user)
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_42ongroupremove, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_ongroupremove, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__83)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 411, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_42ongroupremove, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_ongroupremove, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__84)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 411, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_11 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -18674,7 +18695,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *     def onkick(self, client, member):             # <<<<<<<<<<<<<<
  *         yield from self.bot.onkick_code(client, member)
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_45onkick, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onkick, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__85)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_16DecoraterBotCore_7BotLogs_7BotLogs_45onkick, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_BotLogs_onkick, NULL, __pyx_n_s_DecoraterBotCore_BotLogs, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -18723,7 +18744,7 @@ PyMODINIT_FUNC PyInit_BotLogs(void)
  *     # noinspection PyUnusedLocal,PyPep8Naming
  *     class bot:
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_BotLogs, __pyx_empty_tuple, __pyx_t_9, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_BotLogs, __pyx_empty_tuple, __pyx_t_9, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_BotLogs, __pyx_t_5) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -21302,112 +21323,6 @@ bad:
     }
 }
 
-/* Print */
-                  #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
 /* ClassMethod */
                   static PyObject* __Pyx_Method_ClassMethod(PyObject *method) {
 #if CYTHON_COMPILING_IN_PYPY
@@ -21448,43 +21363,6 @@ bad:
                    "a method_descriptor or instance method.");
     return NULL;
 }
-
-/* PrintOne */
-                  #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntFromPyVerify */
                   #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\

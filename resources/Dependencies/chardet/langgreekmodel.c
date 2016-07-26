@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -636,19 +636,19 @@ static const char __pyx_k_Latin7_CharToOrderMap[] = "Latin7_CharToOrderMap";
 static const char __pyx_k_mTypicalPositiveRatio[] = "mTypicalPositiveRatio";
 static const char __pyx_k_win1253_CharToOrderMap[] = "win1253_CharToOrderMap";
 static PyObject *__pyx_n_s_GreekLangModel;
-static PyObject *__pyx_kp_s_ISO_8859_7;
+static PyObject *__pyx_kp_u_ISO_8859_7;
 static PyObject *__pyx_n_s_Latin7GreekModel;
 static PyObject *__pyx_n_s_Latin7_CharToOrderMap;
 static PyObject *__pyx_n_s_Win1253GreekModel;
-static PyObject *__pyx_n_s_charToOrderMap;
-static PyObject *__pyx_n_s_charsetName;
-static PyObject *__pyx_n_s_keepEnglishLetter;
-static PyObject *__pyx_n_s_mTypicalPositiveRatio;
+static PyObject *__pyx_n_u_charToOrderMap;
+static PyObject *__pyx_n_u_charsetName;
+static PyObject *__pyx_n_u_keepEnglishLetter;
+static PyObject *__pyx_n_u_mTypicalPositiveRatio;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_n_s_precedenceMatrix;
+static PyObject *__pyx_n_u_precedenceMatrix;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_win1253_CharToOrderMap;
-static PyObject *__pyx_kp_s_windows_1253;
+static PyObject *__pyx_kp_u_windows_1253;
 static PyObject *__pyx_float_0_982851;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -810,19 +810,19 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_GreekLangModel, __pyx_k_GreekLangModel, sizeof(__pyx_k_GreekLangModel), 0, 0, 1, 1},
-  {&__pyx_kp_s_ISO_8859_7, __pyx_k_ISO_8859_7, sizeof(__pyx_k_ISO_8859_7), 0, 0, 1, 0},
+  {&__pyx_kp_u_ISO_8859_7, __pyx_k_ISO_8859_7, sizeof(__pyx_k_ISO_8859_7), 0, 1, 0, 0},
   {&__pyx_n_s_Latin7GreekModel, __pyx_k_Latin7GreekModel, sizeof(__pyx_k_Latin7GreekModel), 0, 0, 1, 1},
   {&__pyx_n_s_Latin7_CharToOrderMap, __pyx_k_Latin7_CharToOrderMap, sizeof(__pyx_k_Latin7_CharToOrderMap), 0, 0, 1, 1},
   {&__pyx_n_s_Win1253GreekModel, __pyx_k_Win1253GreekModel, sizeof(__pyx_k_Win1253GreekModel), 0, 0, 1, 1},
-  {&__pyx_n_s_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 0, 1, 1},
-  {&__pyx_n_s_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 0, 1, 1},
-  {&__pyx_n_s_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 0, 1, 1},
-  {&__pyx_n_s_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 0, 1, 1},
+  {&__pyx_n_u_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 1, 0, 1},
+  {&__pyx_n_u_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 1, 0, 1},
+  {&__pyx_n_u_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 1, 0, 1},
+  {&__pyx_n_u_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_n_s_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 0, 1, 1},
+  {&__pyx_n_u_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_win1253_CharToOrderMap, __pyx_k_win1253_CharToOrderMap, sizeof(__pyx_k_win1253_CharToOrderMap), 0, 0, 1, 1},
-  {&__pyx_kp_s_windows_1253, __pyx_k_windows_1253, sizeof(__pyx_k_windows_1253), 0, 0, 1, 0},
+  {&__pyx_kp_u_windows_1253, __pyx_k_windows_1253, sizeof(__pyx_k_windows_1253), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1143,7 +1143,7 @@ PyMODINIT_FUNC PyInit_langgreekmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Latin7_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langgreekmodel.py":213
@@ -1155,9 +1155,9 @@ PyMODINIT_FUNC PyInit_langgreekmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_GreekLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_982851) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_982851) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
 
   /* "chardet/langgreekmodel.py":215
  *     'precedenceMatrix': GreekLangModel,
@@ -1166,8 +1166,8 @@ PyMODINIT_FUNC PyInit_langgreekmodel(void)
  *     'charsetName': "ISO-8859-7"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_kp_s_ISO_8859_7) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_kp_u_ISO_8859_7) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Latin7GreekModel, __pyx_t_1) < 0) __PYX_ERR(0, 211, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1182,7 +1182,7 @@ PyMODINIT_FUNC PyInit_langgreekmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_win1253_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langgreekmodel.py":221
@@ -1194,9 +1194,9 @@ PyMODINIT_FUNC PyInit_langgreekmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_GreekLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_982851) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_982851) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
 
   /* "chardet/langgreekmodel.py":223
  *     'precedenceMatrix': GreekLangModel,
@@ -1205,8 +1205,8 @@ PyMODINIT_FUNC PyInit_langgreekmodel(void)
  *     'charsetName': "windows-1253"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_kp_s_windows_1253) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_kp_u_windows_1253) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Win1253GreekModel, __pyx_t_1) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 

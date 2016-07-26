@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -647,32 +647,32 @@ static const char __pyx_k_latin5_CharToOrderMap[] = "latin5_CharToOrderMap";
 static const char __pyx_k_mTypicalPositiveRatio[] = "mTypicalPositiveRatio";
 static const char __pyx_k_win1251_CharToOrderMap[] = "win1251_CharToOrderMap";
 static const char __pyx_k_macCyrillic_CharToOrderMap[] = "macCyrillic_CharToOrderMap";
-static PyObject *__pyx_n_s_IBM855;
+static PyObject *__pyx_n_u_IBM855;
 static PyObject *__pyx_n_s_IBM855_CharToOrderMap;
-static PyObject *__pyx_n_s_IBM866;
+static PyObject *__pyx_n_u_IBM866;
 static PyObject *__pyx_n_s_IBM866_CharToOrderMap;
-static PyObject *__pyx_kp_s_ISO_8859_5;
+static PyObject *__pyx_kp_u_ISO_8859_5;
 static PyObject *__pyx_n_s_Ibm855Model;
 static PyObject *__pyx_n_s_Ibm866Model;
 static PyObject *__pyx_n_s_KOI8R_CharToOrderMap;
-static PyObject *__pyx_kp_s_KOI8_R;
+static PyObject *__pyx_kp_u_KOI8_R;
 static PyObject *__pyx_n_s_Koi8rModel;
 static PyObject *__pyx_n_s_Latin5CyrillicModel;
-static PyObject *__pyx_n_s_MacCyrillic;
+static PyObject *__pyx_n_u_MacCyrillic;
 static PyObject *__pyx_n_s_MacCyrillicModel;
 static PyObject *__pyx_n_s_RussianLangModel;
 static PyObject *__pyx_n_s_Win1251CyrillicModel;
-static PyObject *__pyx_n_s_charToOrderMap;
-static PyObject *__pyx_n_s_charsetName;
-static PyObject *__pyx_n_s_keepEnglishLetter;
+static PyObject *__pyx_n_u_charToOrderMap;
+static PyObject *__pyx_n_u_charsetName;
+static PyObject *__pyx_n_u_keepEnglishLetter;
 static PyObject *__pyx_n_s_latin5_CharToOrderMap;
-static PyObject *__pyx_n_s_mTypicalPositiveRatio;
+static PyObject *__pyx_n_u_mTypicalPositiveRatio;
 static PyObject *__pyx_n_s_macCyrillic_CharToOrderMap;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_n_s_precedenceMatrix;
+static PyObject *__pyx_n_u_precedenceMatrix;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_win1251_CharToOrderMap;
-static PyObject *__pyx_kp_s_windows_1251;
+static PyObject *__pyx_kp_u_windows_1251;
 static PyObject *__pyx_float_0_976601;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -888,32 +888,32 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_IBM855, __pyx_k_IBM855, sizeof(__pyx_k_IBM855), 0, 0, 1, 1},
+  {&__pyx_n_u_IBM855, __pyx_k_IBM855, sizeof(__pyx_k_IBM855), 0, 1, 0, 1},
   {&__pyx_n_s_IBM855_CharToOrderMap, __pyx_k_IBM855_CharToOrderMap, sizeof(__pyx_k_IBM855_CharToOrderMap), 0, 0, 1, 1},
-  {&__pyx_n_s_IBM866, __pyx_k_IBM866, sizeof(__pyx_k_IBM866), 0, 0, 1, 1},
+  {&__pyx_n_u_IBM866, __pyx_k_IBM866, sizeof(__pyx_k_IBM866), 0, 1, 0, 1},
   {&__pyx_n_s_IBM866_CharToOrderMap, __pyx_k_IBM866_CharToOrderMap, sizeof(__pyx_k_IBM866_CharToOrderMap), 0, 0, 1, 1},
-  {&__pyx_kp_s_ISO_8859_5, __pyx_k_ISO_8859_5, sizeof(__pyx_k_ISO_8859_5), 0, 0, 1, 0},
+  {&__pyx_kp_u_ISO_8859_5, __pyx_k_ISO_8859_5, sizeof(__pyx_k_ISO_8859_5), 0, 1, 0, 0},
   {&__pyx_n_s_Ibm855Model, __pyx_k_Ibm855Model, sizeof(__pyx_k_Ibm855Model), 0, 0, 1, 1},
   {&__pyx_n_s_Ibm866Model, __pyx_k_Ibm866Model, sizeof(__pyx_k_Ibm866Model), 0, 0, 1, 1},
   {&__pyx_n_s_KOI8R_CharToOrderMap, __pyx_k_KOI8R_CharToOrderMap, sizeof(__pyx_k_KOI8R_CharToOrderMap), 0, 0, 1, 1},
-  {&__pyx_kp_s_KOI8_R, __pyx_k_KOI8_R, sizeof(__pyx_k_KOI8_R), 0, 0, 1, 0},
+  {&__pyx_kp_u_KOI8_R, __pyx_k_KOI8_R, sizeof(__pyx_k_KOI8_R), 0, 1, 0, 0},
   {&__pyx_n_s_Koi8rModel, __pyx_k_Koi8rModel, sizeof(__pyx_k_Koi8rModel), 0, 0, 1, 1},
   {&__pyx_n_s_Latin5CyrillicModel, __pyx_k_Latin5CyrillicModel, sizeof(__pyx_k_Latin5CyrillicModel), 0, 0, 1, 1},
-  {&__pyx_n_s_MacCyrillic, __pyx_k_MacCyrillic, sizeof(__pyx_k_MacCyrillic), 0, 0, 1, 1},
+  {&__pyx_n_u_MacCyrillic, __pyx_k_MacCyrillic, sizeof(__pyx_k_MacCyrillic), 0, 1, 0, 1},
   {&__pyx_n_s_MacCyrillicModel, __pyx_k_MacCyrillicModel, sizeof(__pyx_k_MacCyrillicModel), 0, 0, 1, 1},
   {&__pyx_n_s_RussianLangModel, __pyx_k_RussianLangModel, sizeof(__pyx_k_RussianLangModel), 0, 0, 1, 1},
   {&__pyx_n_s_Win1251CyrillicModel, __pyx_k_Win1251CyrillicModel, sizeof(__pyx_k_Win1251CyrillicModel), 0, 0, 1, 1},
-  {&__pyx_n_s_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 0, 1, 1},
-  {&__pyx_n_s_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 0, 1, 1},
-  {&__pyx_n_s_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 0, 1, 1},
+  {&__pyx_n_u_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 1, 0, 1},
+  {&__pyx_n_u_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 1, 0, 1},
+  {&__pyx_n_u_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 1, 0, 1},
   {&__pyx_n_s_latin5_CharToOrderMap, __pyx_k_latin5_CharToOrderMap, sizeof(__pyx_k_latin5_CharToOrderMap), 0, 0, 1, 1},
-  {&__pyx_n_s_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 0, 1, 1},
+  {&__pyx_n_u_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 1, 0, 1},
   {&__pyx_n_s_macCyrillic_CharToOrderMap, __pyx_k_macCyrillic_CharToOrderMap, sizeof(__pyx_k_macCyrillic_CharToOrderMap), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_n_s_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 0, 1, 1},
+  {&__pyx_n_u_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_win1251_CharToOrderMap, __pyx_k_win1251_CharToOrderMap, sizeof(__pyx_k_win1251_CharToOrderMap), 0, 0, 1, 1},
-  {&__pyx_kp_s_windows_1251, __pyx_k_windows_1251, sizeof(__pyx_k_windows_1251), 0, 0, 1, 0},
+  {&__pyx_kp_u_windows_1251, __pyx_k_windows_1251, sizeof(__pyx_k_windows_1251), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1365,7 +1365,7 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_KOI8R_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langcyrillicmodel.py":284
@@ -1377,9 +1377,9 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_RussianLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
 
   /* "chardet/langcyrillicmodel.py":286
  *     'precedenceMatrix': RussianLangModel,
@@ -1388,8 +1388,8 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  *     'charsetName': "KOI8-R"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_kp_s_KOI8_R) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_kp_u_KOI8_R) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Koi8rModel, __pyx_t_1) < 0) __PYX_ERR(0, 282, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1404,7 +1404,7 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_win1251_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langcyrillicmodel.py":292
@@ -1416,9 +1416,9 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_RussianLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
 
   /* "chardet/langcyrillicmodel.py":294
  *     'precedenceMatrix': RussianLangModel,
@@ -1427,8 +1427,8 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  *     'charsetName': "windows-1251"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_kp_s_windows_1251) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_kp_u_windows_1251) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Win1251CyrillicModel, __pyx_t_1) < 0) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1443,7 +1443,7 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_latin5_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langcyrillicmodel.py":300
@@ -1455,9 +1455,9 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_RussianLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 300, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
 
   /* "chardet/langcyrillicmodel.py":302
  *     'precedenceMatrix': RussianLangModel,
@@ -1466,8 +1466,8 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  *     'charsetName': "ISO-8859-5"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_kp_s_ISO_8859_5) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_kp_u_ISO_8859_5) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Latin5CyrillicModel, __pyx_t_1) < 0) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1482,7 +1482,7 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_macCyrillic_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langcyrillicmodel.py":308
@@ -1494,9 +1494,9 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_RussianLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
 
   /* "chardet/langcyrillicmodel.py":310
  *     'precedenceMatrix': RussianLangModel,
@@ -1505,8 +1505,8 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  *     'charsetName': "MacCyrillic"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_n_s_MacCyrillic) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_n_u_MacCyrillic) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MacCyrillicModel, __pyx_t_1) < 0) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1521,7 +1521,7 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IBM866_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langcyrillicmodel.py":316
@@ -1533,9 +1533,9 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_RussianLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
 
   /* "chardet/langcyrillicmodel.py":318
  *     'precedenceMatrix': RussianLangModel,
@@ -1544,8 +1544,8 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  *     'charsetName': "IBM866"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_n_s_IBM866) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_n_u_IBM866) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Ibm866Model, __pyx_t_1) < 0) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -1560,7 +1560,7 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IBM855_CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langcyrillicmodel.py":324
@@ -1572,9 +1572,9 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_RussianLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_976601) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
 
   /* "chardet/langcyrillicmodel.py":326
  *     'precedenceMatrix': RussianLangModel,
@@ -1583,8 +1583,8 @@ PyMODINIT_FUNC PyInit_langcyrillicmodel(void)
  *     'charsetName': "IBM855"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_n_s_IBM855) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_n_u_IBM855) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Ibm855Model, __pyx_t_1) < 0) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 

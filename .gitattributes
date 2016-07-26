@@ -3,6 +3,9 @@
 
 # Custom for Visual Studio
 *.cs     diff=csharp
+*.c      diff=c
+*.cpp    diff=cplusplus
+*.h      diff=cplusplus
 
 # Standard to msysgit
 *.doc	 diff=astextplain

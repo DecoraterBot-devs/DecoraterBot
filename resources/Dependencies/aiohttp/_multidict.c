@@ -481,7 +481,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "aiohttp/_multidict.pyx",
+  "aiohttp\\_multidict.pyx",
 };
 
 /*--- Type declarations ---*/
@@ -1306,13 +1306,14 @@ static const char __pyx_k_empty_multidict[] = "empty multidict";
 static const char __pyx_k_aiohttp__multidict[] = "aiohttp._multidict";
 static const char __pyx_k_getdefaultencoding[] = "getdefaultencoding";
 static const char __pyx_k_Case_insensitive_str[] = "Case insensitive str.";
-static const char __pyx_k_home_travis_build_KeepSafe_aioh[] = "/home/travis/build/KeepSafe/aiohttp/aiohttp/_multidict.pyx";
 static const char __pyx_k_takes_at_most_1_positional_argu[] = "{} takes at most 1 positional argument ({} given)";
 static const char __pyx_k_takes_either_dict_or_list_of_ke[] = "{} takes either dict or list of (key, value) tuples";
 static const char __pyx_k_CIMultiDictProxy_requires_CIMult[] = "CIMultiDictProxy requires CIMultiDict instance, not {}";
+static const char __pyx_k_C_projects_aiohttp_aiohttp__mult[] = "C:\\projects\\aiohttp\\aiohttp\\_multidict.pyx";
 static const char __pyx_k_MultiDictProxy_requires_MultiDic[] = "MultiDictProxy requires MultiDict instance, not {}";
 static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_kp_s_CIMultiDictProxy_requires_CIMult;
+static PyObject *__pyx_kp_s_C_projects_aiohttp_aiohttp__mult;
 static PyObject *__pyx_kp_s_Case_insensitive_str;
 static PyObject *__pyx_n_s_ItemsView;
 static PyObject *__pyx_n_s_Iterable;
@@ -1347,7 +1348,6 @@ static PyObject *__pyx_n_s_extend;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_getdefaultencoding;
-static PyObject *__pyx_kp_s_home_travis_build_KeepSafe_aioh;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_itemgetter;
 static PyObject *__pyx_n_s_items;
@@ -13569,6 +13569,7 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
   {&__pyx_kp_s_CIMultiDictProxy_requires_CIMult, __pyx_k_CIMultiDictProxy_requires_CIMult, sizeof(__pyx_k_CIMultiDictProxy_requires_CIMult), 0, 0, 1, 0},
+  {&__pyx_kp_s_C_projects_aiohttp_aiohttp__mult, __pyx_k_C_projects_aiohttp_aiohttp__mult, sizeof(__pyx_k_C_projects_aiohttp_aiohttp__mult), 0, 0, 1, 0},
   {&__pyx_kp_s_Case_insensitive_str, __pyx_k_Case_insensitive_str, sizeof(__pyx_k_Case_insensitive_str), 0, 0, 1, 0},
   {&__pyx_n_s_ItemsView, __pyx_k_ItemsView, sizeof(__pyx_k_ItemsView), 0, 0, 1, 1},
   {&__pyx_n_s_Iterable, __pyx_k_Iterable, sizeof(__pyx_k_Iterable), 0, 0, 1, 1},
@@ -13603,7 +13604,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
   {&__pyx_n_s_getdefaultencoding, __pyx_k_getdefaultencoding, sizeof(__pyx_k_getdefaultencoding), 0, 0, 1, 1},
-  {&__pyx_kp_s_home_travis_build_KeepSafe_aioh, __pyx_k_home_travis_build_KeepSafe_aioh, sizeof(__pyx_k_home_travis_build_KeepSafe_aioh), 0, 0, 1, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_itemgetter, __pyx_k_itemgetter, sizeof(__pyx_k_itemgetter), 0, 0, 1, 1},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
@@ -13681,7 +13681,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__9 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_val, __pyx_n_s_encoding, __pyx_n_s_errors); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_travis_build_KeepSafe_aioh, __pyx_n_s_new, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_C_projects_aiohttp_aiohttp__mult, __pyx_n_s_new, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 14, __pyx_L1_error)
 
   /* "aiohttp/_multidict.pyx":25
  *         return str.__new__(cls, val)
@@ -13693,7 +13693,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_travis_build_KeepSafe_aioh, __pyx_n_s_upper, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_C_projects_aiohttp_aiohttp__mult, __pyx_n_s_upper, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

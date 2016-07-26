@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -1116,24 +1116,6 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
 
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
-#endif
-
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -1181,6 +1163,24 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, 
 #else
 #define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace)\
     (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
+/* StringJoin.proto */
+#if PY_MAJOR_VERSION < 3
+#define __Pyx_PyString_Join __Pyx_PyBytes_Join
+#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
+#else
+#define __Pyx_PyString_Join PyUnicode_Join
+#define __Pyx_PyBaseString_Join PyUnicode_Join
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+    #if PY_MAJOR_VERSION < 3
+    #define __Pyx_PyBytes_Join _PyString_Join
+    #else
+    #define __Pyx_PyBytes_Join _PyBytes_Join
+    #endif
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
 #endif
 
 /* GetAttr.proto */
@@ -1505,7 +1505,7 @@ static const char __pyx_k_FlowControlStreamReader_readexac[] = "FlowControlStrea
 static const char __pyx_k_FlowControlStreamReader_readline[] = "FlowControlStreamReader.readline";
 static const char __pyx_k_Like_a_class_DataQueue_but_for_b[] = "Like a :class:`DataQueue`, but for binary chunked data transfer.";
 static const char __pyx_k_AsyncStreamReaderMixin_iter_chun_2[] = "AsyncStreamReaderMixin.iter_chunked";
-static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_kp_s_An_enhancement_of_class_asyncio;
 static PyObject *__pyx_n_s_AsyncStreamIterator;
 static PyObject *__pyx_n_s_AsyncStreamIterator___aiter;
@@ -1517,12 +1517,14 @@ static PyObject *__pyx_n_s_AsyncStreamReaderMixin_iter_any;
 static PyObject *__pyx_n_s_AsyncStreamReaderMixin_iter_chun;
 static PyObject *__pyx_n_s_AsyncStreamReaderMixin_iter_chun_2;
 static PyObject *__pyx_n_s_AttributeError;
-static PyObject *__pyx_kp_s_Called_while_some_coroutine_is_w;
+static PyObject *__pyx_kp_u_Called_while_some_coroutine_is_w;
 static PyObject *__pyx_n_s_CancelledError;
 static PyObject *__pyx_n_s_ChunksQueue;
+static PyObject *__pyx_n_u_ChunksQueue;
 static PyObject *__pyx_n_s_ChunksQueue_read;
 static PyObject *__pyx_n_s_DEFAULT_LIMIT;
 static PyObject *__pyx_n_s_DataQueue;
+static PyObject *__pyx_n_u_DataQueue;
 static PyObject *__pyx_n_s_DataQueue___aiter;
 static PyObject *__pyx_n_s_DataQueue___init;
 static PyObject *__pyx_n_s_DataQueue_at_eof;
@@ -1549,15 +1551,19 @@ static PyObject *__pyx_n_s_EmptyStreamReader_readline;
 static PyObject *__pyx_n_s_EmptyStreamReader_set_exception;
 static PyObject *__pyx_n_s_EmptyStreamReader_wait_eof;
 static PyObject *__pyx_n_s_EofStream;
+static PyObject *__pyx_n_u_EofStream;
 static PyObject *__pyx_n_s_Exception;
 static PyObject *__pyx_n_s_FlowControlChunksQueue;
+static PyObject *__pyx_n_u_FlowControlChunksQueue;
 static PyObject *__pyx_n_s_FlowControlChunksQueue_read;
 static PyObject *__pyx_n_s_FlowControlDataQueue;
+static PyObject *__pyx_n_u_FlowControlDataQueue;
 static PyObject *__pyx_n_s_FlowControlDataQueue___init;
 static PyObject *__pyx_n_s_FlowControlDataQueue_feed_data;
 static PyObject *__pyx_n_s_FlowControlDataQueue_read;
 static PyObject *__pyx_kp_s_FlowControlDataQueue_resumes_and;
 static PyObject *__pyx_n_s_FlowControlStreamReader;
+static PyObject *__pyx_n_u_FlowControlStreamReader;
 static PyObject *__pyx_n_s_FlowControlStreamReader___init;
 static PyObject *__pyx_n_s_FlowControlStreamReader_feed_dat;
 static PyObject *__pyx_n_s_FlowControlStreamReader_read;
@@ -1567,12 +1573,13 @@ static PyObject *__pyx_n_s_FlowControlStreamReader_readline;
 static PyObject *__pyx_n_s_Future;
 static PyObject *__pyx_n_s_IncompleteReadError;
 static PyObject *__pyx_kp_s_Like_a_class_DataQueue_but_for_b;
-static PyObject *__pyx_kp_s_Line_is_too_long;
-static PyObject *__pyx_kp_s_Multiple_access_to_StreamReader;
+static PyObject *__pyx_kp_u_Line_is_too_long;
+static PyObject *__pyx_kp_u_Multiple_access_to_StreamReader;
 static PyObject *__pyx_n_s_NotImplementedError;
 static PyObject *__pyx_n_s_PY_35;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_StreamReader;
+static PyObject *__pyx_n_u_StreamReader;
 static PyObject *__pyx_n_s_StreamReader___init;
 static PyObject *__pyx_n_s_StreamReader___repr;
 static PyObject *__pyx_n_s_StreamReader__create_waiter;
@@ -1616,22 +1623,23 @@ static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_collections;
 static PyObject *__pyx_n_s_coroutine;
 static PyObject *__pyx_n_s_create_waiter;
-static PyObject *__pyx_kp_s_d_bytes;
+static PyObject *__pyx_kp_u_d_bytes;
 static PyObject *__pyx_n_s_data;
 static PyObject *__pyx_n_s_deque;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_done;
-static PyObject *__pyx_kp_s_e_r;
+static PyObject *__pyx_kp_u_e_r;
 static PyObject *__pyx_n_s_eof;
-static PyObject *__pyx_n_s_eof_2;
+static PyObject *__pyx_n_u_eof_2;
 static PyObject *__pyx_n_s_eof_counter;
+static PyObject *__pyx_n_u_eof_counter;
 static PyObject *__pyx_kp_s_eof_stream_indication;
 static PyObject *__pyx_n_s_eof_waiter;
 static PyObject *__pyx_n_s_exc;
 static PyObject *__pyx_n_s_exception;
 static PyObject *__pyx_n_s_exception_2;
 static PyObject *__pyx_n_s_feed_data;
-static PyObject *__pyx_kp_s_feed_data_after_feed_eof;
+static PyObject *__pyx_kp_u_feed_data_after_feed_eof;
 static PyObject *__pyx_n_s_feed_eof;
 static PyObject *__pyx_n_s_find;
 static PyObject *__pyx_n_s_first_buffer;
@@ -1653,7 +1661,7 @@ static PyObject *__pyx_n_s_iter_chunked;
 static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_kw;
 static PyObject *__pyx_n_s_kwargs;
-static PyObject *__pyx_kp_s_l_d;
+static PyObject *__pyx_kp_u_l_d;
 static PyObject *__pyx_n_s_limit;
 static PyObject *__pyx_n_s_limit_2;
 static PyObject *__pyx_n_s_line;
@@ -1676,18 +1684,21 @@ static PyObject *__pyx_n_s_popleft;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_read;
+static PyObject *__pyx_n_u_read;
 static PyObject *__pyx_n_s_read_func;
 static PyObject *__pyx_n_s_read_nowait;
 static PyObject *__pyx_n_s_read_nowait_2;
 static PyObject *__pyx_n_s_readany;
+static PyObject *__pyx_n_u_readany;
 static PyObject *__pyx_n_s_readexactly;
 static PyObject *__pyx_n_s_readline;
+static PyObject *__pyx_n_u_readline;
 static PyObject *__pyx_n_s_repr;
 static PyObject *__pyx_n_s_result;
 static PyObject *__pyx_n_s_resume_reading;
 static PyObject *__pyx_n_s_rv;
-static PyObject *__pyx_kp_s_s;
-static PyObject *__pyx_kp_s_s_called_while_another_coroutin;
+static PyObject *__pyx_kp_u_s;
+static PyObject *__pyx_kp_u_s_called_while_another_coroutin;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_set_exception;
@@ -1707,7 +1718,7 @@ static PyObject *__pyx_n_s_traceback;
 static PyObject *__pyx_n_s_transport;
 static PyObject *__pyx_n_s_unread_data;
 static PyObject *__pyx_n_s_version_info;
-static PyObject *__pyx_kp_s_w_r;
+static PyObject *__pyx_kp_u_w_r;
 static PyObject *__pyx_n_s_wait_eof;
 static PyObject *__pyx_n_s_waiter;
 static PyObject *__pyx_n_s_waiter_2;
@@ -3174,9 +3185,9 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_2__repr__(CYTHON_UNUS
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_StreamReader);
-  __Pyx_GIVEREF(__pyx_n_s_StreamReader);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_StreamReader);
+  __Pyx_INCREF(__pyx_n_u_StreamReader);
+  __Pyx_GIVEREF(__pyx_n_u_StreamReader);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_u_StreamReader);
   __pyx_v_info = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
@@ -3202,7 +3213,7 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_2__repr__(CYTHON_UNUS
  */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buffer_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_d_bytes, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_d_bytes, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_info, __pyx_t_3); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 101, __pyx_L1_error)
@@ -3237,7 +3248,7 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_2__repr__(CYTHON_UNUS
  *         if self._limit != DEFAULT_LIMIT:
  *             info.append('l=%d' % self._limit)
  */
-    __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_info, __pyx_n_s_eof_2); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_info, __pyx_n_u_eof_2); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 103, __pyx_L1_error)
 
     /* "aiohttp/streams.py":102
  *         if self._buffer_size:
@@ -3275,7 +3286,7 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_2__repr__(CYTHON_UNUS
  */
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_limit_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_l_d, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_l_d, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_info, __pyx_t_1); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 105, __pyx_L1_error)
@@ -3312,7 +3323,7 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_2__repr__(CYTHON_UNUS
  */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_waiter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_w_r, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_5 = PyUnicode_Format(__pyx_kp_u_w_r, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_info, __pyx_t_5); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 107, __pyx_L1_error)
@@ -3349,7 +3360,7 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_2__repr__(CYTHON_UNUS
  */
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_exception); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_e_r, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_e_r, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_info, __pyx_t_1); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 109, __pyx_L1_error)
@@ -3372,9 +3383,9 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_2__repr__(CYTHON_UNUS
  *     def exception(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_v_info); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Join(__pyx_kp_u_, __pyx_v_info); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_s, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_5 = PyUnicode_Format(__pyx_kp_u_s, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_5;
@@ -4728,7 +4739,7 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_19feed_data(CYTHON_UN
     __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!((!__pyx_t_2) != 0))) {
-      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_s_feed_data_after_feed_eof);
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_feed_data_after_feed_eof);
       __PYX_ERR(0, 172, __pyx_L1_error)
     }
   }
@@ -5033,7 +5044,7 @@ static PyObject *__pyx_pf_7aiohttp_7streams_12StreamReader_21_create_waiter(CYTH
  *         return asyncio.Future(loop=self._loop)
  * 
  */
-    __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_s_called_while_another_coroutin, __pyx_v_func_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
+    __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_called_while_another_coroutin, __pyx_v_func_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
 
     /* "aiohttp/streams.py":193
@@ -5936,7 +5947,7 @@ static PyObject *__pyx_gb_7aiohttp_7streams_12StreamReader_28generator3(__pyx_Co
  *                 if self._eof_counter > 5:
  *                     stack = traceback.format_stack()
  */
-      __pyx_t_1 = __Pyx_GetAttr3(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_eof_counter, __pyx_int_0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 243, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetAttr3(__pyx_cur_scope->__pyx_v_self, __pyx_n_u_eof_counter, __pyx_int_0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
@@ -6030,9 +6041,9 @@ static PyObject *__pyx_gb_7aiohttp_7streams_12StreamReader_28generator3(__pyx_Co
         if (__pyx_t_6) {
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
         }
-        __Pyx_INCREF(__pyx_kp_s_Multiple_access_to_StreamReader);
-        __Pyx_GIVEREF(__pyx_kp_s_Multiple_access_to_StreamReader);
-        PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_kp_s_Multiple_access_to_StreamReader);
+        __Pyx_INCREF(__pyx_kp_u_Multiple_access_to_StreamReader);
+        __Pyx_GIVEREF(__pyx_kp_u_Multiple_access_to_StreamReader);
+        PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_kp_u_Multiple_access_to_StreamReader);
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_stack);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_stack);
         PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_cur_scope->__pyx_v_stack);
@@ -16484,7 +16495,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_kp_s_An_enhancement_of_class_asyncio, __pyx_k_An_enhancement_of_class_asyncio, sizeof(__pyx_k_An_enhancement_of_class_asyncio), 0, 0, 1, 0},
   {&__pyx_n_s_AsyncStreamIterator, __pyx_k_AsyncStreamIterator, sizeof(__pyx_k_AsyncStreamIterator), 0, 0, 1, 1},
   {&__pyx_n_s_AsyncStreamIterator___aiter, __pyx_k_AsyncStreamIterator___aiter, sizeof(__pyx_k_AsyncStreamIterator___aiter), 0, 0, 1, 1},
@@ -16496,12 +16507,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_AsyncStreamReaderMixin_iter_chun, __pyx_k_AsyncStreamReaderMixin_iter_chun, sizeof(__pyx_k_AsyncStreamReaderMixin_iter_chun), 0, 0, 1, 1},
   {&__pyx_n_s_AsyncStreamReaderMixin_iter_chun_2, __pyx_k_AsyncStreamReaderMixin_iter_chun_2, sizeof(__pyx_k_AsyncStreamReaderMixin_iter_chun_2), 0, 0, 1, 1},
   {&__pyx_n_s_AttributeError, __pyx_k_AttributeError, sizeof(__pyx_k_AttributeError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Called_while_some_coroutine_is_w, __pyx_k_Called_while_some_coroutine_is_w, sizeof(__pyx_k_Called_while_some_coroutine_is_w), 0, 0, 1, 0},
+  {&__pyx_kp_u_Called_while_some_coroutine_is_w, __pyx_k_Called_while_some_coroutine_is_w, sizeof(__pyx_k_Called_while_some_coroutine_is_w), 0, 1, 0, 0},
   {&__pyx_n_s_CancelledError, __pyx_k_CancelledError, sizeof(__pyx_k_CancelledError), 0, 0, 1, 1},
   {&__pyx_n_s_ChunksQueue, __pyx_k_ChunksQueue, sizeof(__pyx_k_ChunksQueue), 0, 0, 1, 1},
+  {&__pyx_n_u_ChunksQueue, __pyx_k_ChunksQueue, sizeof(__pyx_k_ChunksQueue), 0, 1, 0, 1},
   {&__pyx_n_s_ChunksQueue_read, __pyx_k_ChunksQueue_read, sizeof(__pyx_k_ChunksQueue_read), 0, 0, 1, 1},
   {&__pyx_n_s_DEFAULT_LIMIT, __pyx_k_DEFAULT_LIMIT, sizeof(__pyx_k_DEFAULT_LIMIT), 0, 0, 1, 1},
   {&__pyx_n_s_DataQueue, __pyx_k_DataQueue, sizeof(__pyx_k_DataQueue), 0, 0, 1, 1},
+  {&__pyx_n_u_DataQueue, __pyx_k_DataQueue, sizeof(__pyx_k_DataQueue), 0, 1, 0, 1},
   {&__pyx_n_s_DataQueue___aiter, __pyx_k_DataQueue___aiter, sizeof(__pyx_k_DataQueue___aiter), 0, 0, 1, 1},
   {&__pyx_n_s_DataQueue___init, __pyx_k_DataQueue___init, sizeof(__pyx_k_DataQueue___init), 0, 0, 1, 1},
   {&__pyx_n_s_DataQueue_at_eof, __pyx_k_DataQueue_at_eof, sizeof(__pyx_k_DataQueue_at_eof), 0, 0, 1, 1},
@@ -16528,15 +16541,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_EmptyStreamReader_set_exception, __pyx_k_EmptyStreamReader_set_exception, sizeof(__pyx_k_EmptyStreamReader_set_exception), 0, 0, 1, 1},
   {&__pyx_n_s_EmptyStreamReader_wait_eof, __pyx_k_EmptyStreamReader_wait_eof, sizeof(__pyx_k_EmptyStreamReader_wait_eof), 0, 0, 1, 1},
   {&__pyx_n_s_EofStream, __pyx_k_EofStream, sizeof(__pyx_k_EofStream), 0, 0, 1, 1},
+  {&__pyx_n_u_EofStream, __pyx_k_EofStream, sizeof(__pyx_k_EofStream), 0, 1, 0, 1},
   {&__pyx_n_s_Exception, __pyx_k_Exception, sizeof(__pyx_k_Exception), 0, 0, 1, 1},
   {&__pyx_n_s_FlowControlChunksQueue, __pyx_k_FlowControlChunksQueue, sizeof(__pyx_k_FlowControlChunksQueue), 0, 0, 1, 1},
+  {&__pyx_n_u_FlowControlChunksQueue, __pyx_k_FlowControlChunksQueue, sizeof(__pyx_k_FlowControlChunksQueue), 0, 1, 0, 1},
   {&__pyx_n_s_FlowControlChunksQueue_read, __pyx_k_FlowControlChunksQueue_read, sizeof(__pyx_k_FlowControlChunksQueue_read), 0, 0, 1, 1},
   {&__pyx_n_s_FlowControlDataQueue, __pyx_k_FlowControlDataQueue, sizeof(__pyx_k_FlowControlDataQueue), 0, 0, 1, 1},
+  {&__pyx_n_u_FlowControlDataQueue, __pyx_k_FlowControlDataQueue, sizeof(__pyx_k_FlowControlDataQueue), 0, 1, 0, 1},
   {&__pyx_n_s_FlowControlDataQueue___init, __pyx_k_FlowControlDataQueue___init, sizeof(__pyx_k_FlowControlDataQueue___init), 0, 0, 1, 1},
   {&__pyx_n_s_FlowControlDataQueue_feed_data, __pyx_k_FlowControlDataQueue_feed_data, sizeof(__pyx_k_FlowControlDataQueue_feed_data), 0, 0, 1, 1},
   {&__pyx_n_s_FlowControlDataQueue_read, __pyx_k_FlowControlDataQueue_read, sizeof(__pyx_k_FlowControlDataQueue_read), 0, 0, 1, 1},
   {&__pyx_kp_s_FlowControlDataQueue_resumes_and, __pyx_k_FlowControlDataQueue_resumes_and, sizeof(__pyx_k_FlowControlDataQueue_resumes_and), 0, 0, 1, 0},
   {&__pyx_n_s_FlowControlStreamReader, __pyx_k_FlowControlStreamReader, sizeof(__pyx_k_FlowControlStreamReader), 0, 0, 1, 1},
+  {&__pyx_n_u_FlowControlStreamReader, __pyx_k_FlowControlStreamReader, sizeof(__pyx_k_FlowControlStreamReader), 0, 1, 0, 1},
   {&__pyx_n_s_FlowControlStreamReader___init, __pyx_k_FlowControlStreamReader___init, sizeof(__pyx_k_FlowControlStreamReader___init), 0, 0, 1, 1},
   {&__pyx_n_s_FlowControlStreamReader_feed_dat, __pyx_k_FlowControlStreamReader_feed_dat, sizeof(__pyx_k_FlowControlStreamReader_feed_dat), 0, 0, 1, 1},
   {&__pyx_n_s_FlowControlStreamReader_read, __pyx_k_FlowControlStreamReader_read, sizeof(__pyx_k_FlowControlStreamReader_read), 0, 0, 1, 1},
@@ -16546,12 +16563,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Future, __pyx_k_Future, sizeof(__pyx_k_Future), 0, 0, 1, 1},
   {&__pyx_n_s_IncompleteReadError, __pyx_k_IncompleteReadError, sizeof(__pyx_k_IncompleteReadError), 0, 0, 1, 1},
   {&__pyx_kp_s_Like_a_class_DataQueue_but_for_b, __pyx_k_Like_a_class_DataQueue_but_for_b, sizeof(__pyx_k_Like_a_class_DataQueue_but_for_b), 0, 0, 1, 0},
-  {&__pyx_kp_s_Line_is_too_long, __pyx_k_Line_is_too_long, sizeof(__pyx_k_Line_is_too_long), 0, 0, 1, 0},
-  {&__pyx_kp_s_Multiple_access_to_StreamReader, __pyx_k_Multiple_access_to_StreamReader, sizeof(__pyx_k_Multiple_access_to_StreamReader), 0, 0, 1, 0},
+  {&__pyx_kp_u_Line_is_too_long, __pyx_k_Line_is_too_long, sizeof(__pyx_k_Line_is_too_long), 0, 1, 0, 0},
+  {&__pyx_kp_u_Multiple_access_to_StreamReader, __pyx_k_Multiple_access_to_StreamReader, sizeof(__pyx_k_Multiple_access_to_StreamReader), 0, 1, 0, 0},
   {&__pyx_n_s_NotImplementedError, __pyx_k_NotImplementedError, sizeof(__pyx_k_NotImplementedError), 0, 0, 1, 1},
   {&__pyx_n_s_PY_35, __pyx_k_PY_35, sizeof(__pyx_k_PY_35), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_StreamReader, __pyx_k_StreamReader, sizeof(__pyx_k_StreamReader), 0, 0, 1, 1},
+  {&__pyx_n_u_StreamReader, __pyx_k_StreamReader, sizeof(__pyx_k_StreamReader), 0, 1, 0, 1},
   {&__pyx_n_s_StreamReader___init, __pyx_k_StreamReader___init, sizeof(__pyx_k_StreamReader___init), 0, 0, 1, 1},
   {&__pyx_n_s_StreamReader___repr, __pyx_k_StreamReader___repr, sizeof(__pyx_k_StreamReader___repr), 0, 0, 1, 1},
   {&__pyx_n_s_StreamReader__create_waiter, __pyx_k_StreamReader__create_waiter, sizeof(__pyx_k_StreamReader__create_waiter), 0, 0, 1, 1},
@@ -16595,22 +16613,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
   {&__pyx_n_s_coroutine, __pyx_k_coroutine, sizeof(__pyx_k_coroutine), 0, 0, 1, 1},
   {&__pyx_n_s_create_waiter, __pyx_k_create_waiter, sizeof(__pyx_k_create_waiter), 0, 0, 1, 1},
-  {&__pyx_kp_s_d_bytes, __pyx_k_d_bytes, sizeof(__pyx_k_d_bytes), 0, 0, 1, 0},
+  {&__pyx_kp_u_d_bytes, __pyx_k_d_bytes, sizeof(__pyx_k_d_bytes), 0, 1, 0, 0},
   {&__pyx_n_s_data, __pyx_k_data, sizeof(__pyx_k_data), 0, 0, 1, 1},
   {&__pyx_n_s_deque, __pyx_k_deque, sizeof(__pyx_k_deque), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_done, __pyx_k_done, sizeof(__pyx_k_done), 0, 0, 1, 1},
-  {&__pyx_kp_s_e_r, __pyx_k_e_r, sizeof(__pyx_k_e_r), 0, 0, 1, 0},
+  {&__pyx_kp_u_e_r, __pyx_k_e_r, sizeof(__pyx_k_e_r), 0, 1, 0, 0},
   {&__pyx_n_s_eof, __pyx_k_eof, sizeof(__pyx_k_eof), 0, 0, 1, 1},
-  {&__pyx_n_s_eof_2, __pyx_k_eof_2, sizeof(__pyx_k_eof_2), 0, 0, 1, 1},
+  {&__pyx_n_u_eof_2, __pyx_k_eof_2, sizeof(__pyx_k_eof_2), 0, 1, 0, 1},
   {&__pyx_n_s_eof_counter, __pyx_k_eof_counter, sizeof(__pyx_k_eof_counter), 0, 0, 1, 1},
+  {&__pyx_n_u_eof_counter, __pyx_k_eof_counter, sizeof(__pyx_k_eof_counter), 0, 1, 0, 1},
   {&__pyx_kp_s_eof_stream_indication, __pyx_k_eof_stream_indication, sizeof(__pyx_k_eof_stream_indication), 0, 0, 1, 0},
   {&__pyx_n_s_eof_waiter, __pyx_k_eof_waiter, sizeof(__pyx_k_eof_waiter), 0, 0, 1, 1},
   {&__pyx_n_s_exc, __pyx_k_exc, sizeof(__pyx_k_exc), 0, 0, 1, 1},
   {&__pyx_n_s_exception, __pyx_k_exception, sizeof(__pyx_k_exception), 0, 0, 1, 1},
   {&__pyx_n_s_exception_2, __pyx_k_exception_2, sizeof(__pyx_k_exception_2), 0, 0, 1, 1},
   {&__pyx_n_s_feed_data, __pyx_k_feed_data, sizeof(__pyx_k_feed_data), 0, 0, 1, 1},
-  {&__pyx_kp_s_feed_data_after_feed_eof, __pyx_k_feed_data_after_feed_eof, sizeof(__pyx_k_feed_data_after_feed_eof), 0, 0, 1, 0},
+  {&__pyx_kp_u_feed_data_after_feed_eof, __pyx_k_feed_data_after_feed_eof, sizeof(__pyx_k_feed_data_after_feed_eof), 0, 1, 0, 0},
   {&__pyx_n_s_feed_eof, __pyx_k_feed_eof, sizeof(__pyx_k_feed_eof), 0, 0, 1, 1},
   {&__pyx_n_s_find, __pyx_k_find, sizeof(__pyx_k_find), 0, 0, 1, 1},
   {&__pyx_n_s_first_buffer, __pyx_k_first_buffer, sizeof(__pyx_k_first_buffer), 0, 0, 1, 1},
@@ -16632,7 +16651,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_kw, __pyx_k_kw, sizeof(__pyx_k_kw), 0, 0, 1, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
-  {&__pyx_kp_s_l_d, __pyx_k_l_d, sizeof(__pyx_k_l_d), 0, 0, 1, 0},
+  {&__pyx_kp_u_l_d, __pyx_k_l_d, sizeof(__pyx_k_l_d), 0, 1, 0, 0},
   {&__pyx_n_s_limit, __pyx_k_limit, sizeof(__pyx_k_limit), 0, 0, 1, 1},
   {&__pyx_n_s_limit_2, __pyx_k_limit_2, sizeof(__pyx_k_limit_2), 0, 0, 1, 1},
   {&__pyx_n_s_line, __pyx_k_line, sizeof(__pyx_k_line), 0, 0, 1, 1},
@@ -16655,18 +16674,21 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_read, __pyx_k_read, sizeof(__pyx_k_read), 0, 0, 1, 1},
+  {&__pyx_n_u_read, __pyx_k_read, sizeof(__pyx_k_read), 0, 1, 0, 1},
   {&__pyx_n_s_read_func, __pyx_k_read_func, sizeof(__pyx_k_read_func), 0, 0, 1, 1},
   {&__pyx_n_s_read_nowait, __pyx_k_read_nowait, sizeof(__pyx_k_read_nowait), 0, 0, 1, 1},
   {&__pyx_n_s_read_nowait_2, __pyx_k_read_nowait_2, sizeof(__pyx_k_read_nowait_2), 0, 0, 1, 1},
   {&__pyx_n_s_readany, __pyx_k_readany, sizeof(__pyx_k_readany), 0, 0, 1, 1},
+  {&__pyx_n_u_readany, __pyx_k_readany, sizeof(__pyx_k_readany), 0, 1, 0, 1},
   {&__pyx_n_s_readexactly, __pyx_k_readexactly, sizeof(__pyx_k_readexactly), 0, 0, 1, 1},
   {&__pyx_n_s_readline, __pyx_k_readline, sizeof(__pyx_k_readline), 0, 0, 1, 1},
+  {&__pyx_n_u_readline, __pyx_k_readline, sizeof(__pyx_k_readline), 0, 1, 0, 1},
   {&__pyx_n_s_repr, __pyx_k_repr, sizeof(__pyx_k_repr), 0, 0, 1, 1},
   {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
   {&__pyx_n_s_resume_reading, __pyx_k_resume_reading, sizeof(__pyx_k_resume_reading), 0, 0, 1, 1},
   {&__pyx_n_s_rv, __pyx_k_rv, sizeof(__pyx_k_rv), 0, 0, 1, 1},
-  {&__pyx_kp_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 0},
-  {&__pyx_kp_s_s_called_while_another_coroutin, __pyx_k_s_called_while_another_coroutin, sizeof(__pyx_k_s_called_while_another_coroutin), 0, 0, 1, 0},
+  {&__pyx_kp_u_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 1, 0, 0},
+  {&__pyx_kp_u_s_called_while_another_coroutin, __pyx_k_s_called_while_another_coroutin, sizeof(__pyx_k_s_called_while_another_coroutin), 0, 1, 0, 0},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
   {&__pyx_n_s_set_exception, __pyx_k_set_exception, sizeof(__pyx_k_set_exception), 0, 0, 1, 1},
@@ -16686,7 +16708,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_transport, __pyx_k_transport, sizeof(__pyx_k_transport), 0, 0, 1, 1},
   {&__pyx_n_s_unread_data, __pyx_k_unread_data, sizeof(__pyx_k_unread_data), 0, 0, 1, 1},
   {&__pyx_n_s_version_info, __pyx_k_version_info, sizeof(__pyx_k_version_info), 0, 0, 1, 1},
-  {&__pyx_kp_s_w_r, __pyx_k_w_r, sizeof(__pyx_k_w_r), 0, 0, 1, 0},
+  {&__pyx_kp_u_w_r, __pyx_k_w_r, sizeof(__pyx_k_w_r), 0, 1, 0, 0},
   {&__pyx_n_s_wait_eof, __pyx_k_wait_eof, sizeof(__pyx_k_wait_eof), 0, 0, 1, 1},
   {&__pyx_n_s_waiter, __pyx_k_waiter, sizeof(__pyx_k_waiter), 0, 0, 1, 1},
   {&__pyx_n_s_waiter_2, __pyx_k_waiter_2, sizeof(__pyx_k_waiter_2), 0, 0, 1, 1},
@@ -16751,7 +16773,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if self._eof:
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Line_is_too_long); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Line_is_too_long); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -16762,7 +16784,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 try:
  *                     yield from self._waiter
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_readline); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_u_readline); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -16773,7 +16795,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             try:
  *                 yield from self._waiter
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_s_read); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_u_read); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -16784,7 +16806,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             try:
  *                 yield from self._waiter
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_s_readany); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_u_readany); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
@@ -16795,7 +16817,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 'Called while some coroutine is waiting for incoming data.')
  * 
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Called_while_some_coroutine_is_w); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Called_while_some_coroutine_is_w); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -16840,7 +16862,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     'FlowControlStreamReader',
  *     'FlowControlDataQueue', 'FlowControlChunksQueue')
  */
-  __pyx_tuple__16 = PyTuple_Pack(7, __pyx_n_s_EofStream, __pyx_n_s_StreamReader, __pyx_n_s_DataQueue, __pyx_n_s_ChunksQueue, __pyx_n_s_FlowControlStreamReader, __pyx_n_s_FlowControlDataQueue, __pyx_n_s_FlowControlChunksQueue); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(7, __pyx_n_u_EofStream, __pyx_n_u_StreamReader, __pyx_n_u_DataQueue, __pyx_n_u_ChunksQueue, __pyx_n_u_FlowControlStreamReader, __pyx_n_u_FlowControlDataQueue, __pyx_n_u_FlowControlChunksQueue); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
 
@@ -17728,7 +17750,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * import asyncio
  * import collections
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17739,7 +17761,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * import collections
  * import functools
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17751,7 +17773,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * import functools
  * import traceback
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_collections, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17763,7 +17785,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * import traceback
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17775,7 +17797,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * 
  * from .log import internal_logger
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_traceback, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_traceback, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_traceback, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17861,7 +17883,7 @@ PyMODINIT_FUNC PyInit_streams(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_EofStream, __pyx_n_s_EofStream, (PyObject *) NULL, __pyx_n_s_aiohttp_streams, __pyx_kp_s_eof_stream_indication); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EofStream, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_EofStream, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EofStream, __pyx_t_4) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -18000,7 +18022,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * 
  *     def __init__(self, read_func):
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_AsyncStreamIterator, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_AsyncStreamIterator, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_AsyncStreamIterator, __pyx_t_1) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18120,7 +18142,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * 
  *     if PY_35:
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_AsyncStreamReaderMixin, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_AsyncStreamReaderMixin, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_AsyncStreamReaderMixin, __pyx_t_1) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18578,7 +18600,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  *     """An enhancement of :class:`asyncio.StreamReader`.
  * 
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_StreamReader, __pyx_t_5, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_StreamReader, __pyx_t_5, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_StreamReader, __pyx_t_3) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -18952,7 +18974,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * 
  *     def exception(self):
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_5, __pyx_n_s_EmptyStreamReader, __pyx_t_2, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_5, __pyx_n_s_EmptyStreamReader, __pyx_t_2, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EmptyStreamReader, __pyx_t_3) < 0) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -19191,7 +19213,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  *     """DataQueue is a general-purpose blocking queue with one reader."""
  * 
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_DataQueue, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_DataQueue, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DataQueue, __pyx_t_1) < 0) __PYX_ERR(0, 389, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19296,7 +19318,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  *     """Like a :class:`DataQueue`, but for binary chunked data transfer."""
  * 
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ChunksQueue, __pyx_t_1, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ChunksQueue, __pyx_t_1, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_9, __pyx_t_3) < 0) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -19589,7 +19611,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * 
  *     def __init__(self, stream, limit=DEFAULT_LIMIT, *args, **kwargs):
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_FlowControlStreamReader, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_FlowControlStreamReader, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 509, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_3, __pyx_t_4) < 0) __PYX_ERR(0, 509, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -19718,7 +19740,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  *     """FlowControlDataQueue resumes and pauses an underlying stream.
  * 
  */
-  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_FlowControlDataQueue, __pyx_t_1, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 555, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_FlowControlDataQueue, __pyx_t_1, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_10) < 0) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -19825,7 +19847,7 @@ PyMODINIT_FUNC PyInit_streams(void)
  * 
  *     @asyncio.coroutine
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_FlowControlChunksQueue, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 613, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_FlowControlChunksQueue, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 613, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_10, __pyx_t_5) < 0) __PYX_ERR(0, 613, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -21891,13 +21913,6 @@ static CYTHON_INLINE void __Pyx_CyFunction_SetAnnotationsDict(PyObject *func, Py
     Py_INCREF(dict);
 }
 
-/* StringJoin */
-                  #if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
-}
-#endif
-
 /* GetItemInt */
                   static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
     PyObject *r;
@@ -22232,6 +22247,13 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
             return PyFloat_FromDouble(result);
     }
     return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
+
+/* StringJoin */
+                    #if !CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
+    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
 }
 #endif
 

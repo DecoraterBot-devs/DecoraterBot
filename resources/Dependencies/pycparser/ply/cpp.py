@@ -604,7 +604,7 @@ class Preprocessor(object):
         expr = expr.replace("!", " not ")
         try:
             result = eval(expr)
-        except StandardError:
+        except Exception as e:
             self.error(self.source, tokens[0].lineno, "Couldn't evaluate expression")
             result = 0
         return result

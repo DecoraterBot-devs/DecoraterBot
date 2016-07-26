@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -935,7 +935,7 @@ static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_wrap;
-static PyObject *__pyx_kp_s_wrap_False_conflicts_with_any_ot;
+static PyObject *__pyx_kp_u_wrap_False_conflicts_with_any_ot;
 static PyObject *__pyx_n_s_wrap_stream;
 static PyObject *__pyx_n_s_wrapped_stderr;
 static PyObject *__pyx_n_s_wrapped_stdout;
@@ -2530,7 +2530,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_wrap, __pyx_k_wrap, sizeof(__pyx_k_wrap), 0, 0, 1, 1},
-  {&__pyx_kp_s_wrap_False_conflicts_with_any_ot, __pyx_k_wrap_False_conflicts_with_any_ot, sizeof(__pyx_k_wrap_False_conflicts_with_any_ot), 0, 0, 1, 0},
+  {&__pyx_kp_u_wrap_False_conflicts_with_any_ot, __pyx_k_wrap_False_conflicts_with_any_ot, sizeof(__pyx_k_wrap_False_conflicts_with_any_ot), 0, 1, 0, 0},
   {&__pyx_n_s_wrap_stream, __pyx_k_wrap_stream, sizeof(__pyx_k_wrap_stream), 0, 0, 1, 1},
   {&__pyx_n_s_wrapped_stderr, __pyx_k_wrapped_stderr, sizeof(__pyx_k_wrapped_stderr), 0, 0, 1, 1},
   {&__pyx_n_s_wrapped_stdout, __pyx_k_wrapped_stdout, sizeof(__pyx_k_wrapped_stdout), 0, 0, 1, 1},
@@ -2556,7 +2556,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     global wrapped_stdout, wrapped_stderr
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_wrap_False_conflicts_with_any_ot); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_wrap_False_conflicts_with_any_ot); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -2745,7 +2745,7 @@ PyMODINIT_FUNC PyInit_initialise(void)
  * import contextlib
  * import sys
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_atexit, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_atexit, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_atexit, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2757,7 +2757,7 @@ PyMODINIT_FUNC PyInit_initialise(void)
  * import sys
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_contextlib, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_contextlib, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_contextlib, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2769,7 +2769,7 @@ PyMODINIT_FUNC PyInit_initialise(void)
  * 
  * from .ansitowin32 import AnsiToWin32
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;

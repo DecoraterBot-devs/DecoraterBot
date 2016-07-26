@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -701,24 +701,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
-#endif
-
 /* IncludeStringH.proto */
 #include <string.h>
 
@@ -727,13 +709,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
-
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
 
 /* ListAppend.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -876,7 +851,6 @@ static const char __pyx_k_eof[] = "eof";
 static const char __pyx_k_get[] = "get";
 static const char __pyx_k_pos[] = "pos";
 static const char __pyx_k_init[] = "__init__";
-static const char __pyx_k_join[] = "join";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_read[] = "read";
 static const char __pyx_k_repr[] = "__repr__";
@@ -929,11 +903,11 @@ static const char __pyx_k_StringView_pos_0_index_prev_0_p[] = "<StringView pos: 
 static const char __pyx_k_The_MIT_License_MIT_Copyright_c[] = "\nThe MIT License (MIT)\n\nCopyright (c) 2015-2016 Rapptz\n\nPermission is hereby granted, free of charge, to any person obtaining a\ncopy of this software and associated documentation files (the \"Software\"),\nto deal in the Software without restriction, including without limitation\nthe rights to use, copy, modify, merge, publish, distribute, sublicense,\nand/or sell copies of the Software, and to permit persons to whom the\nSoftware is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS\nOR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\nFROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER\nDEALINGS IN THE SOFTWARE.\n";
 static const char __pyx_k_Expected_space_after_closing_quo[] = "Expected space after closing quotation";
 static const char __pyx_k_Unexpected_quote_mark_in_non_quo[] = "Unexpected quote mark in non-quoted string";
-static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_BadArgument;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
-static PyObject *__pyx_kp_s_Expected_closing;
-static PyObject *__pyx_kp_s_Expected_space_after_closing_quo;
+static PyObject *__pyx_kp_u_Expected_closing;
+static PyObject *__pyx_kp_u_Expected_space_after_closing_quo;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_n_s_StringView;
 static PyObject *__pyx_n_s_StringView___init;
@@ -942,15 +916,15 @@ static PyObject *__pyx_n_s_StringView_current;
 static PyObject *__pyx_n_s_StringView_eof;
 static PyObject *__pyx_n_s_StringView_get;
 static PyObject *__pyx_n_s_StringView_get_word;
-static PyObject *__pyx_kp_s_StringView_pos_0_index_prev_0_p;
+static PyObject *__pyx_kp_u_StringView_pos_0_index_prev_0_p;
 static PyObject *__pyx_n_s_StringView_read;
 static PyObject *__pyx_n_s_StringView_read_rest;
 static PyObject *__pyx_n_s_StringView_skip_string;
 static PyObject *__pyx_n_s_StringView_skip_ws;
 static PyObject *__pyx_n_s_StringView_undo;
-static PyObject *__pyx_kp_s_Unexpected_quote_mark_in_non_quo;
-static PyObject *__pyx_kp_s__3;
-static PyObject *__pyx_kp_s__4;
+static PyObject *__pyx_kp_u_Unexpected_quote_mark_in_non_quo;
+static PyObject *__pyx_kp_u__3;
+static PyObject *__pyx_kp_u__4;
 static PyObject *__pyx_n_s_buffer;
 static PyObject *__pyx_n_s_current;
 static PyObject *__pyx_n_s_discord_ext_commands_view;
@@ -966,7 +940,6 @@ static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_is_quoted;
 static PyObject *__pyx_n_s_isspace;
-static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
@@ -2733,7 +2706,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_10StringView_20__repr__(
  * # Parser
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_StringView_pos_0_index_prev_0_p, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_StringView_pos_0_index_prev_0_p, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2877,7 +2850,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *     result = [] if is_quoted else [current]
  * 
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_current, __pyx_kp_s_, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_current, __pyx_kp_u_, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
   __pyx_v_is_quoted = __pyx_t_1;
   __pyx_t_1 = 0;
 
@@ -3005,7 +2978,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *         # currently we accept strings in the format of "hello world"
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_4 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_v_result); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
+      __pyx_t_4 = PyUnicode_Join(__pyx_kp_u__3, __pyx_v_result); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_r = __pyx_t_4;
       __pyx_t_4 = 0;
@@ -3027,7 +3000,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *             next_char = view.get()
  *             if not next_char:
  */
-    __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_current, __pyx_kp_s__4, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_current, __pyx_kp_u__4, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 130, __pyx_L1_error)
     if (__pyx_t_3) {
 
       /* "discord/ext/commands/view.py":131
@@ -3114,7 +3087,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *             if next_char == '"':
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_v_result); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
+        __pyx_t_1 = PyUnicode_Join(__pyx_kp_u__3, __pyx_v_result); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_r = __pyx_t_1;
         __pyx_t_1 = 0;
@@ -3136,7 +3109,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *                 # escaped quote
  *                 result.append('"')
  */
-      __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_v_next_char, __pyx_kp_s_, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
+      __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_next_char, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
       if (__pyx_t_2) {
 
         /* "discord/ext/commands/view.py":142
@@ -3150,7 +3123,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
           __PYX_ERR(0, 142, __pyx_L1_error)
         }
-        __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_result, __pyx_kp_s_); if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(0, 142, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_result, __pyx_kp_u_); if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(0, 142, __pyx_L1_error)
 
         /* "discord/ext/commands/view.py":140
  *                 return ''.join(result)
@@ -3232,7 +3205,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *             next_char = view.get()
  *             valid_eof = not next_char or next_char.isspace()
  */
-    __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_v_current, __pyx_kp_s_, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 150, __pyx_L1_error)
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_current, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 150, __pyx_L1_error)
     if (__pyx_t_2) {
 
       /* "discord/ext/commands/view.py":151
@@ -3363,7 +3336,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *                 # we aren't quoted
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_4 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_v_result); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 158, __pyx_L1_error)
+        __pyx_t_4 = PyUnicode_Join(__pyx_kp_u__3, __pyx_v_result); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 158, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_r = __pyx_t_4;
         __pyx_t_4 = 0;
@@ -3453,7 +3426,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_4view_quoted_word(CYTHON_UNUSE
  *         result.append(current)
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_v_result); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+      __pyx_t_1 = PyUnicode_Join(__pyx_kp_u__3, __pyx_v_result); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_r = __pyx_t_1;
       __pyx_t_1 = 0;
@@ -3533,11 +3506,11 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_BadArgument, __pyx_k_BadArgument, sizeof(__pyx_k_BadArgument), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
-  {&__pyx_kp_s_Expected_closing, __pyx_k_Expected_closing, sizeof(__pyx_k_Expected_closing), 0, 0, 1, 0},
-  {&__pyx_kp_s_Expected_space_after_closing_quo, __pyx_k_Expected_space_after_closing_quo, sizeof(__pyx_k_Expected_space_after_closing_quo), 0, 0, 1, 0},
+  {&__pyx_kp_u_Expected_closing, __pyx_k_Expected_closing, sizeof(__pyx_k_Expected_closing), 0, 1, 0, 0},
+  {&__pyx_kp_u_Expected_space_after_closing_quo, __pyx_k_Expected_space_after_closing_quo, sizeof(__pyx_k_Expected_space_after_closing_quo), 0, 1, 0, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_n_s_StringView, __pyx_k_StringView, sizeof(__pyx_k_StringView), 0, 0, 1, 1},
   {&__pyx_n_s_StringView___init, __pyx_k_StringView___init, sizeof(__pyx_k_StringView___init), 0, 0, 1, 1},
@@ -3546,15 +3519,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_StringView_eof, __pyx_k_StringView_eof, sizeof(__pyx_k_StringView_eof), 0, 0, 1, 1},
   {&__pyx_n_s_StringView_get, __pyx_k_StringView_get, sizeof(__pyx_k_StringView_get), 0, 0, 1, 1},
   {&__pyx_n_s_StringView_get_word, __pyx_k_StringView_get_word, sizeof(__pyx_k_StringView_get_word), 0, 0, 1, 1},
-  {&__pyx_kp_s_StringView_pos_0_index_prev_0_p, __pyx_k_StringView_pos_0_index_prev_0_p, sizeof(__pyx_k_StringView_pos_0_index_prev_0_p), 0, 0, 1, 0},
+  {&__pyx_kp_u_StringView_pos_0_index_prev_0_p, __pyx_k_StringView_pos_0_index_prev_0_p, sizeof(__pyx_k_StringView_pos_0_index_prev_0_p), 0, 1, 0, 0},
   {&__pyx_n_s_StringView_read, __pyx_k_StringView_read, sizeof(__pyx_k_StringView_read), 0, 0, 1, 1},
   {&__pyx_n_s_StringView_read_rest, __pyx_k_StringView_read_rest, sizeof(__pyx_k_StringView_read_rest), 0, 0, 1, 1},
   {&__pyx_n_s_StringView_skip_string, __pyx_k_StringView_skip_string, sizeof(__pyx_k_StringView_skip_string), 0, 0, 1, 1},
   {&__pyx_n_s_StringView_skip_ws, __pyx_k_StringView_skip_ws, sizeof(__pyx_k_StringView_skip_ws), 0, 0, 1, 1},
   {&__pyx_n_s_StringView_undo, __pyx_k_StringView_undo, sizeof(__pyx_k_StringView_undo), 0, 0, 1, 1},
-  {&__pyx_kp_s_Unexpected_quote_mark_in_non_quo, __pyx_k_Unexpected_quote_mark_in_non_quo, sizeof(__pyx_k_Unexpected_quote_mark_in_non_quo), 0, 0, 1, 0},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
-  {&__pyx_kp_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 0},
+  {&__pyx_kp_u_Unexpected_quote_mark_in_non_quo, __pyx_k_Unexpected_quote_mark_in_non_quo, sizeof(__pyx_k_Unexpected_quote_mark_in_non_quo), 0, 1, 0, 0},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
+  {&__pyx_kp_u__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 1, 0, 0},
   {&__pyx_n_s_buffer, __pyx_k_buffer, sizeof(__pyx_k_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_current, __pyx_k_current, sizeof(__pyx_k_current), 0, 0, 1, 1},
   {&__pyx_n_s_discord_ext_commands_view, __pyx_k_discord_ext_commands_view, sizeof(__pyx_k_discord_ext_commands_view), 0, 0, 1, 1},
@@ -3570,7 +3543,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_is_quoted, __pyx_k_is_quoted, sizeof(__pyx_k_is_quoted), 0, 0, 1, 1},
   {&__pyx_n_s_isspace, __pyx_k_isspace, sizeof(__pyx_k_isspace), 0, 0, 1, 1},
-  {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
@@ -3616,7 +3588,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             return ''.join(result)
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Expected_closing); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Expected_closing); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 125, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -3627,7 +3599,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 # if we aren't then we just let it through
  *                 return ''.join(result)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_Expected_closing); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Expected_closing); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -3638,7 +3610,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *                 # we're quoted so it's okay
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Expected_space_after_closing_quo); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Expected_space_after_closing_quo); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -3649,7 +3621,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if current.isspace() and not is_quoted:
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Unexpected_quote_mark_in_non_quo); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Unexpected_quote_mark_in_non_quo); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 161, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -4108,7 +4080,7 @@ PyMODINIT_FUNC PyInit_view(void)
  *     def __init__(self, buffer):
  *         self.index = 0
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_StringView, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_StringView, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_StringView, __pyx_t_1) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4917,13 +4889,6 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 bad:
     Py_XDECREF(owned_instance);
     return;
-}
-#endif
-
-/* StringJoin */
-          #if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
 }
 #endif
 

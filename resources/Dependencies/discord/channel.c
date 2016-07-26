@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -718,13 +718,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -868,24 +861,6 @@ static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname);
 
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
-#endif
-
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
@@ -946,7 +921,6 @@ static PyObject *__pyx_builtin_property;
 static PyObject *__pyx_builtin_enumerate;
 static PyObject *__pyx_builtin_filter;
 static PyObject *__pyx_builtin_map;
-static const char __pyx_k_u[] = "u";
 static const char __pyx_k__2[] = ", ";
 static const char __pyx_k__3[] = "";
 static const char __pyx_k_id[] = "id";
@@ -968,7 +942,6 @@ static const char __pyx_k_deny[] = "deny";
 static const char __pyx_k_find[] = "find";
 static const char __pyx_k_icon[] = "icon";
 static const char __pyx_k_init[] = "__init__";
-static const char __pyx_k_join[] = "join";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "name";
 static const char __pyx_k_role[] = "role";
@@ -1086,7 +1059,7 @@ static const char __pyx_k_PrivateChannel__update_group_loc[] = "PrivateChannel._
 static const char __pyx_k_Represents_a_Discord_private_cha[] = "Represents a Discord private channel.\n\n    Supported Operations:\n\n    +-----------+-------------------------------------------------+\n    | Operation |                   Description                   |\n    +===========+=================================================+\n    | x == y    | Checks if two channels are equal.               |\n    +-----------+-------------------------------------------------+\n    | x != y    | Checks if two channels are not equal.           |\n    +-----------+-------------------------------------------------+\n    | hash(x)   | Returns the channel's hash.                     |\n    +-----------+-------------------------------------------------+\n    | str(x)    | Returns a string representation of the channel  |\n    +-----------+-------------------------------------------------+\n\n    Attributes\n    ----------\n    recipients: list of :class:`User`\n        The users you are participating with in the private channel.\n    me: :class:`User`\n        The user presenting yourself.\n    id: str\n        The private channel ID.\n    is_private: bool\n        ``True`` if the channel is a private channel (i.e. PM). ``True`` in this case.\n    type: :class:`ChannelType`\n        The type of private channel.\n    owner: Optional[:class:`User`]\n        The user that owns the private channel. If the channel type is not\n        :attr:`ChannelType.group` then this is always ``None``.\n    icon: Optional[str]\n        The private channel's icon hash. If the channel type is not\n        :attr:`ChannelType.group` then this is always ``None``.\n    name: Optional[str]\n        The private channel's name. If the channel type is not\n        :attr:`ChannelType.group` then this is always ``None``.\n    ";
 static const char __pyx_k_Represents_a_Discord_server_chan[] = "Represents a Discord server channel.\n\n    Supported Operations:\n\n    +-----------+---------------------------------------+\n    | Operation |              Description              |\n    +===========+=======================================+\n    | x == y    | Checks if two channels are equal.     |\n    +-----------+---------------------------------------+\n    | x != y    | Checks if two channels are not equal. |\n    +-----------+---------------------------------------+\n    | hash(x)   | Returns the channel's hash.           |\n    +-----------+---------------------------------------+\n    | str(x)    | Returns the channel's name.           |\n    +-----------+---------------------------------------+\n\n    Attributes\n    -----------\n    name : str\n        The channel name.\n    server : :class:`Server`\n        The server the channel belongs to.\n    id : str\n        The channel ID.\n    topic : Optional[str]\n        The channel's topic. None if it doesn't exist.\n    is_private : bool\n        ``True`` if the channel is a private channel (i.e. PM). ``False`` in this case.\n    position : int\n        The position in the channel list. This is a number that starts at 0. e.g. the\n        top channel is position 0. The position varies depending on being a voice channel\n        or a text channel, so a 0 position voice channel is on top of the voice channel\n        list.\n    type : :class:`ChannelType`\n        The channel type. There is a chance that the type will be ``str`` if\n        the channel type is not within the ones recognised by the enumerator.\n    bitrate : int\n        The channel's preferred audio bitrate in bits per second.\n    voice_members\n        A list of :class:`Members` that are currently inside this voice channel.\n        If :attr:`type` is not :attr:`ChannelType.voice` then this is always an empty array.\n    user_limit : int\n        The channel's limit for number of members that can be in a voice channel.\n    ";
 static const char __pyx_k_https_cdn_discordapp_com_channel[] = "https://cdn.discordapp.com/channel-icons/{0.id}/{0.icon}.jpg";
-static PyObject *__pyx_kp_s_0_id;
+static PyObject *__pyx_kp_u_0_id;
 static PyObject *__pyx_n_s_Channel;
 static PyObject *__pyx_n_s_ChannelType;
 static PyObject *__pyx_n_s_Channel___init;
@@ -1101,11 +1074,12 @@ static PyObject *__pyx_n_s_Channel_overwrites_for;
 static PyObject *__pyx_n_s_Channel_overwrites_for_locals_la;
 static PyObject *__pyx_n_s_Channel_permissions_for;
 static PyObject *__pyx_n_s_Channel_permissions_for_locals_l;
-static PyObject *__pyx_kp_s_Direct_Message_with_0_name;
+static PyObject *__pyx_kp_u_Direct_Message_with_0_name;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Hashable;
 static PyObject *__pyx_n_s_Member;
 static PyObject *__pyx_n_s_Overwrites;
+static PyObject *__pyx_n_u_Overwrites;
 static PyObject *__pyx_n_s_PermissionOverwrite;
 static PyObject *__pyx_n_s_Permissions;
 static PyObject *__pyx_n_s_PrivateChannel;
@@ -1122,10 +1096,11 @@ static PyObject *__pyx_n_s_PrivateChannel_user;
 static PyObject *__pyx_kp_s_Represents_a_Discord_private_cha;
 static PyObject *__pyx_kp_s_Represents_a_Discord_server_chan;
 static PyObject *__pyx_n_s_Role;
-static PyObject *__pyx_n_s_Unnamed;
+static PyObject *__pyx_n_u_Unnamed;
 static PyObject *__pyx_n_s_User;
-static PyObject *__pyx_kp_s__2;
-static PyObject *__pyx_kp_s__3;
+static PyObject *__pyx_kp_u__2;
+static PyObject *__pyx_n_s__3;
+static PyObject *__pyx_kp_u__3;
 static PyObject *__pyx_n_s_administrator;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_all_channel;
@@ -1134,6 +1109,7 @@ static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_attach_files;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_bitrate;
+static PyObject *__pyx_n_u_bitrate;
 static PyObject *__pyx_n_s_changed_roles;
 static PyObject *__pyx_n_s_collections;
 static PyObject *__pyx_n_s_copy;
@@ -1156,24 +1132,28 @@ static PyObject *__pyx_n_s_from_pair;
 static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_group;
 static PyObject *__pyx_n_s_handle_overwrite;
-static PyObject *__pyx_kp_s_https_cdn_discordapp_com_channel;
+static PyObject *__pyx_kp_u_https_cdn_discordapp_com_channel;
 static PyObject *__pyx_n_s_icon;
+static PyObject *__pyx_n_u_icon;
 static PyObject *__pyx_n_s_icon_url;
 static PyObject *__pyx_n_s_id;
-static PyObject *__pyx_kp_s_id_allow_deny_type;
+static PyObject *__pyx_n_u_id;
+static PyObject *__pyx_kp_u_id_allow_deny_type;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_is_default;
 static PyObject *__pyx_n_s_is_private;
-static PyObject *__pyx_n_s_join;
+static PyObject *__pyx_n_u_is_private;
 static PyObject *__pyx_n_s_kick_members;
 static PyObject *__pyx_n_s_kwargs;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_manage_messages;
 static PyObject *__pyx_n_s_map;
 static PyObject *__pyx_n_s_me;
+static PyObject *__pyx_n_u_me;
 static PyObject *__pyx_n_s_member;
+static PyObject *__pyx_n_u_member;
 static PyObject *__pyx_n_s_member_role_ids;
 static PyObject *__pyx_n_s_mention;
 static PyObject *__pyx_n_s_mention_everyone;
@@ -1181,6 +1161,7 @@ static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_mixins;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_n_u_name;
 static PyObject *__pyx_n_s_namedtuple;
 static PyObject *__pyx_n_s_obj;
 static PyObject *__pyx_n_s_overridden;
@@ -1188,12 +1169,16 @@ static PyObject *__pyx_n_s_overridden_id;
 static PyObject *__pyx_n_s_overwrite;
 static PyObject *__pyx_n_s_overwrites_for;
 static PyObject *__pyx_n_s_owner;
+static PyObject *__pyx_n_u_owner;
 static PyObject *__pyx_n_s_owner_id;
+static PyObject *__pyx_n_u_owner_id;
 static PyObject *__pyx_n_s_permission_overwrites;
-static PyObject *__pyx_n_s_permission_overwrites_2;
+static PyObject *__pyx_n_u_permission_overwrites;
+static PyObject *__pyx_n_u_permission_overwrites_2;
 static PyObject *__pyx_n_s_permissions;
 static PyObject *__pyx_n_s_permissions_for;
 static PyObject *__pyx_n_s_position;
+static PyObject *__pyx_n_u_position;
 static PyObject *__pyx_n_s_predicate;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_private;
@@ -1201,13 +1186,16 @@ static PyObject *__pyx_n_s_property;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_read_messages;
 static PyObject *__pyx_n_s_recipients;
+static PyObject *__pyx_n_u_recipients;
 static PyObject *__pyx_n_s_ret;
 static PyObject *__pyx_n_s_role;
+static PyObject *__pyx_n_u_role;
 static PyObject *__pyx_n_s_roles;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_send_messages;
 static PyObject *__pyx_n_s_send_tts_messages;
 static PyObject *__pyx_n_s_server;
+static PyObject *__pyx_n_u_server;
 static PyObject *__pyx_n_s_slots;
 static PyObject *__pyx_n_s_snowflake_time;
 static PyObject *__pyx_n_s_str;
@@ -1215,16 +1203,19 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_text;
 static PyObject *__pyx_n_s_tmp;
 static PyObject *__pyx_n_s_topic;
+static PyObject *__pyx_n_u_topic;
 static PyObject *__pyx_n_s_type;
-static PyObject *__pyx_n_s_u;
+static PyObject *__pyx_n_u_type;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_update_group;
 static PyObject *__pyx_n_s_user;
 static PyObject *__pyx_n_s_user_limit;
+static PyObject *__pyx_n_u_user_limit;
 static PyObject *__pyx_n_s_utils;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_voice;
 static PyObject *__pyx_n_s_voice_members;
+static PyObject *__pyx_n_u_voice_members;
 static PyObject *__pyx_pf_7discord_7channel_7Channel___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_pf_7discord_7channel_7Channel_2__str__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_kwargs); /* proto */
@@ -1562,7 +1553,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         self.server = kwargs.get('server')
  *         self.id = kwargs.get('id')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_name, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_name, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_t_1) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1574,7 +1565,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         self.id = kwargs.get('id')
  *         self.topic = kwargs.get('topic')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_server, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_server, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_server, __pyx_t_1) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1586,7 +1577,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         self.topic = kwargs.get('topic')
  *         self.is_private = False
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_id, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_id, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_id, __pyx_t_1) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1598,7 +1589,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         self.is_private = False
  *         self.position = kwargs.get('position')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_topic, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_topic, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_topic, __pyx_t_1) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1619,7 +1610,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         self.bitrate = kwargs.get('bitrate')
  *         self.type = kwargs.get('type')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_position, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_position, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_position, __pyx_t_1) < 0) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1631,7 +1622,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         self.type = kwargs.get('type')
  *         self.user_limit = kwargs.get('user_limit')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_bitrate, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_bitrate, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_bitrate, __pyx_t_1) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1643,7 +1634,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         self.user_limit = kwargs.get('user_limit')
  *         try:
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_type, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_type, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_type, __pyx_t_1) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1655,7 +1646,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *         try:
  *             self.type = ChannelType(self.type)
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_user_limit, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_user_limit, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_user_limit, __pyx_t_1) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1804,7 +1795,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
   __pyx_t_5 = __pyx_int_0;
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_permission_overwrites_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_permission_overwrites_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (likely(PyList_CheckExact(__pyx_t_8)) || PyTuple_CheckExact(__pyx_t_8)) {
@@ -1864,7 +1855,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
  *             self._permission_overwrites.append(Overwrites(**overridden))
  * 
  */
-    __pyx_t_8 = PyObject_GetItem(__pyx_v_overridden, __pyx_n_s_id); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_8 = PyObject_GetItem(__pyx_v_overridden, __pyx_n_u_id); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_XDECREF_SET(__pyx_v_overridden_id, __pyx_t_8);
     __pyx_t_8 = 0;
@@ -1911,7 +1902,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_4_update(CYTHON_UNUSED PyOb
     __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_13 = (__Pyx_PyString_Equals(__pyx_t_8, __pyx_n_s_member, Py_EQ)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_13 = (__Pyx_PyUnicode_Equals(__pyx_t_8, __pyx_n_u_member, Py_EQ)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (__pyx_t_13) {
 
@@ -2109,7 +2100,7 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self,
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_o, __pyx_n_s_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_n_s_role, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_n_u_role, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -2557,7 +2548,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_10mention(CYTHON_UNUSED PyO
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_id, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_0_id, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2810,7 +2801,7 @@ static PyObject *__pyx_lambda_funcdef_lambda1(CYTHON_UNUSED PyObject *__pyx_self
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_n_s_member, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_n_u_member, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -2859,7 +2850,7 @@ static PyObject *__pyx_lambda_funcdef_lambda2(CYTHON_UNUSED PyObject *__pyx_self
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_n_s_role, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_n_u_role, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -3812,7 +3803,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_16permissions_for(CYTHON_UN
  */
     __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_overwrite, __pyx_n_s_type); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_t_6, __pyx_n_s_role, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 251, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_t_6, __pyx_n_u_role, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_9) {
     } else {
@@ -3933,7 +3924,7 @@ static PyObject *__pyx_pf_7discord_7channel_7Channel_16permissions_for(CYTHON_UN
  */
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_overwrite, __pyx_n_s_type); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_10 = (__Pyx_PyString_Equals(__pyx_t_5, __pyx_n_s_member, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 256, __pyx_L1_error)
+    __pyx_t_10 = (__Pyx_PyUnicode_Equals(__pyx_t_5, __pyx_n_u_member, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_10) {
     } else {
@@ -4361,7 +4352,6 @@ static PyObject *__pyx_pw_7discord_7channel_14PrivateChannel_1__init__(PyObject 
 }
 
 static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_me, PyObject *__pyx_v_kwargs) {
-  PyObject *__pyx_v_u = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4380,73 +4370,82 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel___init__(CYTHON_UNU
  *         self.id = kwargs['id']
  *         self.me = me
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_recipients); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
-    __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-  } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 326, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 326, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_3))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 326, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 326, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      }
-    } else {
-      __pyx_t_2 = __pyx_t_5(__pyx_t_3);
-      if (unlikely(!__pyx_t_2)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 326, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_2);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_u, __pyx_t_2);
-    __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_User); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
+  { /* enter inner scope */
+    PyObject *__pyx_7genexpr__pyx_v_u = NULL;
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L5_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_u_recipients); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(__pyx_v_u == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-      __PYX_ERR(0, 326, __pyx_L1_error)
-    }
-    if (likely(PyDict_CheckExact(__pyx_v_u))) {
-      __pyx_t_6 = PyDict_Copy(__pyx_v_u); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+    if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
+      __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
+      __pyx_t_5 = NULL;
     } else {
-      __pyx_t_6 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_v_u, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 326, __pyx_L5_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 326, __pyx_L5_error)
     }
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 326, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 326, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    for (;;) {
+      if (likely(!__pyx_t_5)) {
+        if (likely(PyList_CheckExact(__pyx_t_3))) {
+          if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_COMPILING_IN_CPYTHON
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 326, __pyx_L5_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L5_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        } else {
+          if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_COMPILING_IN_CPYTHON
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 326, __pyx_L5_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L5_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        }
+      } else {
+        __pyx_t_2 = __pyx_t_5(__pyx_t_3);
+        if (unlikely(!__pyx_t_2)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 326, __pyx_L5_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_2);
+      }
+      __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_u, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_User); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L5_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      if (unlikely(__pyx_7genexpr__pyx_v_u == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
+        __PYX_ERR(0, 326, __pyx_L5_error)
+      }
+      if (likely(PyDict_CheckExact(__pyx_7genexpr__pyx_v_u))) {
+        __pyx_t_6 = PyDict_Copy(__pyx_7genexpr__pyx_v_u); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L5_error)
+        __Pyx_GOTREF(__pyx_t_6);
+      } else {
+        __pyx_t_6 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_7genexpr__pyx_v_u, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L5_error)
+        __Pyx_GOTREF(__pyx_t_6);
+      }
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 326, __pyx_L5_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 326, __pyx_L5_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_7genexpr__pyx_v_u);
+    goto __pyx_L8_exit_scope;
+    __pyx_L5_error:;
+    __Pyx_XDECREF(__pyx_7genexpr__pyx_v_u);
+    goto __pyx_L1_error;
+    __pyx_L8_exit_scope:;
+  } /* exit inner scope */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_recipients, __pyx_t_1) < 0) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -4457,7 +4456,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel___init__(CYTHON_UNU
  *         self.me = me
  *         self.type = ChannelType(kwargs['type'])
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_u_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_id, __pyx_t_1) < 0) __PYX_ERR(0, 327, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4480,7 +4479,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel___init__(CYTHON_UNU
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_ChannelType); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_type); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_u_type); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -4545,7 +4544,6 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel___init__(CYTHON_UNU
   __Pyx_AddTraceback("discord.channel.PrivateChannel.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_u);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -4702,7 +4700,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_2_update_group(CYTH
  *         self.icon = kwargs.get('icon')
  *         self.name = kwargs.get('name')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_owner_id, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_owner_id, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_owner_id = __pyx_t_1;
@@ -4715,7 +4713,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_2_update_group(CYTH
  *         self.name = kwargs.get('name')
  *         self.owner = utils.find(lambda u: u.id == owner_id, self.recipients)
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_icon, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_icon, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_icon, __pyx_t_1) < 0) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4727,7 +4725,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_2_update_group(CYTH
  *         self.owner = utils.find(lambda u: u.id == owner_id, self.recipients)
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_name, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_name, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_t_1) < 0) __PYX_ERR(0, 335, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4975,7 +4973,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_6__str__(CYTHON_UNU
  *         if self.name:
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Direct_Message_with_0_name, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Direct_Message_with_0_name, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_user); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -5076,8 +5074,8 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_6__str__(CYTHON_UNU
  *         return ', '.join(map(lambda x: x.name, self.recipients))
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_n_s_Unnamed);
-    __pyx_r = __pyx_n_s_Unnamed;
+    __Pyx_INCREF(__pyx_n_u_Unnamed);
+    __pyx_r = __pyx_n_u_Unnamed;
     goto __pyx_L0;
 
     /* "discord/channel.py":349
@@ -5112,7 +5110,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_6__str__(CYTHON_UNU
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyString_Join(__pyx_kp_s__2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_7 = PyUnicode_Join(__pyx_kp_u__2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_7;
@@ -5265,8 +5263,8 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_10icon_url(CYTHON_U
  *         return 'https://cdn.discordapp.com/channel-icons/{0.id}/{0.icon}.jpg'.format(self)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_kp_s__3);
-    __pyx_r = __pyx_kp_s__3;
+    __Pyx_INCREF(__pyx_kp_u__3);
+    __pyx_r = __pyx_kp_u__3;
     goto __pyx_L0;
 
     /* "discord/channel.py":366
@@ -5286,7 +5284,7 @@ static PyObject *__pyx_pf_7discord_7channel_14PrivateChannel_10icon_url(CYTHON_U
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_https_cdn_discordapp_com_channel, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_https_cdn_discordapp_com_channel, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5785,7 +5783,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_0_id, __pyx_k_0_id, sizeof(__pyx_k_0_id), 0, 0, 1, 0},
+  {&__pyx_kp_u_0_id, __pyx_k_0_id, sizeof(__pyx_k_0_id), 0, 1, 0, 0},
   {&__pyx_n_s_Channel, __pyx_k_Channel, sizeof(__pyx_k_Channel), 0, 0, 1, 1},
   {&__pyx_n_s_ChannelType, __pyx_k_ChannelType, sizeof(__pyx_k_ChannelType), 0, 0, 1, 1},
   {&__pyx_n_s_Channel___init, __pyx_k_Channel___init, sizeof(__pyx_k_Channel___init), 0, 0, 1, 1},
@@ -5800,11 +5798,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Channel_overwrites_for_locals_la, __pyx_k_Channel_overwrites_for_locals_la, sizeof(__pyx_k_Channel_overwrites_for_locals_la), 0, 0, 1, 1},
   {&__pyx_n_s_Channel_permissions_for, __pyx_k_Channel_permissions_for, sizeof(__pyx_k_Channel_permissions_for), 0, 0, 1, 1},
   {&__pyx_n_s_Channel_permissions_for_locals_l, __pyx_k_Channel_permissions_for_locals_l, sizeof(__pyx_k_Channel_permissions_for_locals_l), 0, 0, 1, 1},
-  {&__pyx_kp_s_Direct_Message_with_0_name, __pyx_k_Direct_Message_with_0_name, sizeof(__pyx_k_Direct_Message_with_0_name), 0, 0, 1, 0},
+  {&__pyx_kp_u_Direct_Message_with_0_name, __pyx_k_Direct_Message_with_0_name, sizeof(__pyx_k_Direct_Message_with_0_name), 0, 1, 0, 0},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Hashable, __pyx_k_Hashable, sizeof(__pyx_k_Hashable), 0, 0, 1, 1},
   {&__pyx_n_s_Member, __pyx_k_Member, sizeof(__pyx_k_Member), 0, 0, 1, 1},
   {&__pyx_n_s_Overwrites, __pyx_k_Overwrites, sizeof(__pyx_k_Overwrites), 0, 0, 1, 1},
+  {&__pyx_n_u_Overwrites, __pyx_k_Overwrites, sizeof(__pyx_k_Overwrites), 0, 1, 0, 1},
   {&__pyx_n_s_PermissionOverwrite, __pyx_k_PermissionOverwrite, sizeof(__pyx_k_PermissionOverwrite), 0, 0, 1, 1},
   {&__pyx_n_s_Permissions, __pyx_k_Permissions, sizeof(__pyx_k_Permissions), 0, 0, 1, 1},
   {&__pyx_n_s_PrivateChannel, __pyx_k_PrivateChannel, sizeof(__pyx_k_PrivateChannel), 0, 0, 1, 1},
@@ -5821,10 +5820,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Represents_a_Discord_private_cha, __pyx_k_Represents_a_Discord_private_cha, sizeof(__pyx_k_Represents_a_Discord_private_cha), 0, 0, 1, 0},
   {&__pyx_kp_s_Represents_a_Discord_server_chan, __pyx_k_Represents_a_Discord_server_chan, sizeof(__pyx_k_Represents_a_Discord_server_chan), 0, 0, 1, 0},
   {&__pyx_n_s_Role, __pyx_k_Role, sizeof(__pyx_k_Role), 0, 0, 1, 1},
-  {&__pyx_n_s_Unnamed, __pyx_k_Unnamed, sizeof(__pyx_k_Unnamed), 0, 0, 1, 1},
+  {&__pyx_n_u_Unnamed, __pyx_k_Unnamed, sizeof(__pyx_k_Unnamed), 0, 1, 0, 1},
   {&__pyx_n_s_User, __pyx_k_User, sizeof(__pyx_k_User), 0, 0, 1, 1},
-  {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
+  {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
+  {&__pyx_n_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
   {&__pyx_n_s_administrator, __pyx_k_administrator, sizeof(__pyx_k_administrator), 0, 0, 1, 1},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_all_channel, __pyx_k_all_channel, sizeof(__pyx_k_all_channel), 0, 0, 1, 1},
@@ -5833,6 +5833,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_attach_files, __pyx_k_attach_files, sizeof(__pyx_k_attach_files), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_bitrate, __pyx_k_bitrate, sizeof(__pyx_k_bitrate), 0, 0, 1, 1},
+  {&__pyx_n_u_bitrate, __pyx_k_bitrate, sizeof(__pyx_k_bitrate), 0, 1, 0, 1},
   {&__pyx_n_s_changed_roles, __pyx_k_changed_roles, sizeof(__pyx_k_changed_roles), 0, 0, 1, 1},
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
@@ -5855,24 +5856,28 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
   {&__pyx_n_s_group, __pyx_k_group, sizeof(__pyx_k_group), 0, 0, 1, 1},
   {&__pyx_n_s_handle_overwrite, __pyx_k_handle_overwrite, sizeof(__pyx_k_handle_overwrite), 0, 0, 1, 1},
-  {&__pyx_kp_s_https_cdn_discordapp_com_channel, __pyx_k_https_cdn_discordapp_com_channel, sizeof(__pyx_k_https_cdn_discordapp_com_channel), 0, 0, 1, 0},
+  {&__pyx_kp_u_https_cdn_discordapp_com_channel, __pyx_k_https_cdn_discordapp_com_channel, sizeof(__pyx_k_https_cdn_discordapp_com_channel), 0, 1, 0, 0},
   {&__pyx_n_s_icon, __pyx_k_icon, sizeof(__pyx_k_icon), 0, 0, 1, 1},
+  {&__pyx_n_u_icon, __pyx_k_icon, sizeof(__pyx_k_icon), 0, 1, 0, 1},
   {&__pyx_n_s_icon_url, __pyx_k_icon_url, sizeof(__pyx_k_icon_url), 0, 0, 1, 1},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
-  {&__pyx_kp_s_id_allow_deny_type, __pyx_k_id_allow_deny_type, sizeof(__pyx_k_id_allow_deny_type), 0, 0, 1, 0},
+  {&__pyx_n_u_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 1, 0, 1},
+  {&__pyx_kp_u_id_allow_deny_type, __pyx_k_id_allow_deny_type, sizeof(__pyx_k_id_allow_deny_type), 0, 1, 0, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_is_default, __pyx_k_is_default, sizeof(__pyx_k_is_default), 0, 0, 1, 1},
   {&__pyx_n_s_is_private, __pyx_k_is_private, sizeof(__pyx_k_is_private), 0, 0, 1, 1},
-  {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
+  {&__pyx_n_u_is_private, __pyx_k_is_private, sizeof(__pyx_k_is_private), 0, 1, 0, 1},
   {&__pyx_n_s_kick_members, __pyx_k_kick_members, sizeof(__pyx_k_kick_members), 0, 0, 1, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_manage_messages, __pyx_k_manage_messages, sizeof(__pyx_k_manage_messages), 0, 0, 1, 1},
   {&__pyx_n_s_map, __pyx_k_map, sizeof(__pyx_k_map), 0, 0, 1, 1},
   {&__pyx_n_s_me, __pyx_k_me, sizeof(__pyx_k_me), 0, 0, 1, 1},
+  {&__pyx_n_u_me, __pyx_k_me, sizeof(__pyx_k_me), 0, 1, 0, 1},
   {&__pyx_n_s_member, __pyx_k_member, sizeof(__pyx_k_member), 0, 0, 1, 1},
+  {&__pyx_n_u_member, __pyx_k_member, sizeof(__pyx_k_member), 0, 1, 0, 1},
   {&__pyx_n_s_member_role_ids, __pyx_k_member_role_ids, sizeof(__pyx_k_member_role_ids), 0, 0, 1, 1},
   {&__pyx_n_s_mention, __pyx_k_mention, sizeof(__pyx_k_mention), 0, 0, 1, 1},
   {&__pyx_n_s_mention_everyone, __pyx_k_mention_everyone, sizeof(__pyx_k_mention_everyone), 0, 0, 1, 1},
@@ -5880,6 +5885,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_mixins, __pyx_k_mixins, sizeof(__pyx_k_mixins), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_n_u_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 1, 0, 1},
   {&__pyx_n_s_namedtuple, __pyx_k_namedtuple, sizeof(__pyx_k_namedtuple), 0, 0, 1, 1},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
   {&__pyx_n_s_overridden, __pyx_k_overridden, sizeof(__pyx_k_overridden), 0, 0, 1, 1},
@@ -5887,12 +5893,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_overwrite, __pyx_k_overwrite, sizeof(__pyx_k_overwrite), 0, 0, 1, 1},
   {&__pyx_n_s_overwrites_for, __pyx_k_overwrites_for, sizeof(__pyx_k_overwrites_for), 0, 0, 1, 1},
   {&__pyx_n_s_owner, __pyx_k_owner, sizeof(__pyx_k_owner), 0, 0, 1, 1},
+  {&__pyx_n_u_owner, __pyx_k_owner, sizeof(__pyx_k_owner), 0, 1, 0, 1},
   {&__pyx_n_s_owner_id, __pyx_k_owner_id, sizeof(__pyx_k_owner_id), 0, 0, 1, 1},
+  {&__pyx_n_u_owner_id, __pyx_k_owner_id, sizeof(__pyx_k_owner_id), 0, 1, 0, 1},
   {&__pyx_n_s_permission_overwrites, __pyx_k_permission_overwrites, sizeof(__pyx_k_permission_overwrites), 0, 0, 1, 1},
-  {&__pyx_n_s_permission_overwrites_2, __pyx_k_permission_overwrites_2, sizeof(__pyx_k_permission_overwrites_2), 0, 0, 1, 1},
+  {&__pyx_n_u_permission_overwrites, __pyx_k_permission_overwrites, sizeof(__pyx_k_permission_overwrites), 0, 1, 0, 1},
+  {&__pyx_n_u_permission_overwrites_2, __pyx_k_permission_overwrites_2, sizeof(__pyx_k_permission_overwrites_2), 0, 1, 0, 1},
   {&__pyx_n_s_permissions, __pyx_k_permissions, sizeof(__pyx_k_permissions), 0, 0, 1, 1},
   {&__pyx_n_s_permissions_for, __pyx_k_permissions_for, sizeof(__pyx_k_permissions_for), 0, 0, 1, 1},
   {&__pyx_n_s_position, __pyx_k_position, sizeof(__pyx_k_position), 0, 0, 1, 1},
+  {&__pyx_n_u_position, __pyx_k_position, sizeof(__pyx_k_position), 0, 1, 0, 1},
   {&__pyx_n_s_predicate, __pyx_k_predicate, sizeof(__pyx_k_predicate), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_private, __pyx_k_private, sizeof(__pyx_k_private), 0, 0, 1, 1},
@@ -5900,13 +5910,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_read_messages, __pyx_k_read_messages, sizeof(__pyx_k_read_messages), 0, 0, 1, 1},
   {&__pyx_n_s_recipients, __pyx_k_recipients, sizeof(__pyx_k_recipients), 0, 0, 1, 1},
+  {&__pyx_n_u_recipients, __pyx_k_recipients, sizeof(__pyx_k_recipients), 0, 1, 0, 1},
   {&__pyx_n_s_ret, __pyx_k_ret, sizeof(__pyx_k_ret), 0, 0, 1, 1},
   {&__pyx_n_s_role, __pyx_k_role, sizeof(__pyx_k_role), 0, 0, 1, 1},
+  {&__pyx_n_u_role, __pyx_k_role, sizeof(__pyx_k_role), 0, 1, 0, 1},
   {&__pyx_n_s_roles, __pyx_k_roles, sizeof(__pyx_k_roles), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_send_messages, __pyx_k_send_messages, sizeof(__pyx_k_send_messages), 0, 0, 1, 1},
   {&__pyx_n_s_send_tts_messages, __pyx_k_send_tts_messages, sizeof(__pyx_k_send_tts_messages), 0, 0, 1, 1},
   {&__pyx_n_s_server, __pyx_k_server, sizeof(__pyx_k_server), 0, 0, 1, 1},
+  {&__pyx_n_u_server, __pyx_k_server, sizeof(__pyx_k_server), 0, 1, 0, 1},
   {&__pyx_n_s_slots, __pyx_k_slots, sizeof(__pyx_k_slots), 0, 0, 1, 1},
   {&__pyx_n_s_snowflake_time, __pyx_k_snowflake_time, sizeof(__pyx_k_snowflake_time), 0, 0, 1, 1},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
@@ -5914,16 +5927,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_text, __pyx_k_text, sizeof(__pyx_k_text), 0, 0, 1, 1},
   {&__pyx_n_s_tmp, __pyx_k_tmp, sizeof(__pyx_k_tmp), 0, 0, 1, 1},
   {&__pyx_n_s_topic, __pyx_k_topic, sizeof(__pyx_k_topic), 0, 0, 1, 1},
+  {&__pyx_n_u_topic, __pyx_k_topic, sizeof(__pyx_k_topic), 0, 1, 0, 1},
   {&__pyx_n_s_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 0, 1, 1},
-  {&__pyx_n_s_u, __pyx_k_u, sizeof(__pyx_k_u), 0, 0, 1, 1},
+  {&__pyx_n_u_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 1, 0, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_update_group, __pyx_k_update_group, sizeof(__pyx_k_update_group), 0, 0, 1, 1},
   {&__pyx_n_s_user, __pyx_k_user, sizeof(__pyx_k_user), 0, 0, 1, 1},
   {&__pyx_n_s_user_limit, __pyx_k_user_limit, sizeof(__pyx_k_user_limit), 0, 0, 1, 1},
+  {&__pyx_n_u_user_limit, __pyx_k_user_limit, sizeof(__pyx_k_user_limit), 0, 1, 0, 1},
   {&__pyx_n_s_utils, __pyx_k_utils, sizeof(__pyx_k_utils), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_n_s_voice, __pyx_k_voice, sizeof(__pyx_k_voice), 0, 0, 1, 1},
   {&__pyx_n_s_voice_members, __pyx_k_voice_members, sizeof(__pyx_k_voice_members), 0, 0, 1, 1},
+  {&__pyx_n_u_voice_members, __pyx_k_voice_members, sizeof(__pyx_k_voice_members), 0, 1, 0, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -5947,7 +5963,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 continue
  * 
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_s_type); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_u_type); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -5958,7 +5974,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * class Channel(Hashable):
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_Overwrites, __pyx_kp_s_id_allow_deny_type); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_u_Overwrites, __pyx_kp_u_id_allow_deny_type); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -6077,10 +6093,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.recipients = [User(**u) for u in kwargs['recipients']]
  *         self.id = kwargs['id']
  */
-  __pyx_tuple__23 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_me, __pyx_n_s_kwargs, __pyx_n_s_u); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_me, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 325, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 325, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 325, __pyx_L1_error)
 
   /* "discord/channel.py":332
  *         self._update_group(**kwargs)
@@ -6287,7 +6303,7 @@ PyMODINIT_FUNC PyInit_channel(void)
  * from . import utils
  * from .permissions import Permissions, PermissionOverwrite
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_copy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_copy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_copy, __pyx_t_1) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6304,7 +6320,7 @@ PyMODINIT_FUNC PyInit_channel(void)
   __Pyx_INCREF(__pyx_n_s_utils);
   __Pyx_GIVEREF(__pyx_n_s_utils);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_utils);
-  __pyx_t_2 = __Pyx_Import(__pyx_kp_s__3, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s__3, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_utils); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
@@ -6374,7 +6390,7 @@ PyMODINIT_FUNC PyInit_channel(void)
   __Pyx_INCREF(__pyx_n_s_namedtuple);
   __Pyx_GIVEREF(__pyx_n_s_namedtuple);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_namedtuple);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_namedtuple); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
@@ -6510,39 +6526,39 @@ PyMODINIT_FUNC PyInit_channel(void)
  */
   __pyx_t_4 = PyList_New(11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(__pyx_n_s_voice_members);
-  __Pyx_GIVEREF(__pyx_n_s_voice_members);
-  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_n_s_voice_members);
-  __Pyx_INCREF(__pyx_n_s_name);
-  __Pyx_GIVEREF(__pyx_n_s_name);
-  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_n_s_name);
-  __Pyx_INCREF(__pyx_n_s_id);
-  __Pyx_GIVEREF(__pyx_n_s_id);
-  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_n_s_id);
-  __Pyx_INCREF(__pyx_n_s_server);
-  __Pyx_GIVEREF(__pyx_n_s_server);
-  PyList_SET_ITEM(__pyx_t_4, 3, __pyx_n_s_server);
-  __Pyx_INCREF(__pyx_n_s_topic);
-  __Pyx_GIVEREF(__pyx_n_s_topic);
-  PyList_SET_ITEM(__pyx_t_4, 4, __pyx_n_s_topic);
-  __Pyx_INCREF(__pyx_n_s_position);
-  __Pyx_GIVEREF(__pyx_n_s_position);
-  PyList_SET_ITEM(__pyx_t_4, 5, __pyx_n_s_position);
-  __Pyx_INCREF(__pyx_n_s_is_private);
-  __Pyx_GIVEREF(__pyx_n_s_is_private);
-  PyList_SET_ITEM(__pyx_t_4, 6, __pyx_n_s_is_private);
-  __Pyx_INCREF(__pyx_n_s_type);
-  __Pyx_GIVEREF(__pyx_n_s_type);
-  PyList_SET_ITEM(__pyx_t_4, 7, __pyx_n_s_type);
-  __Pyx_INCREF(__pyx_n_s_bitrate);
-  __Pyx_GIVEREF(__pyx_n_s_bitrate);
-  PyList_SET_ITEM(__pyx_t_4, 8, __pyx_n_s_bitrate);
-  __Pyx_INCREF(__pyx_n_s_user_limit);
-  __Pyx_GIVEREF(__pyx_n_s_user_limit);
-  PyList_SET_ITEM(__pyx_t_4, 9, __pyx_n_s_user_limit);
-  __Pyx_INCREF(__pyx_n_s_permission_overwrites);
-  __Pyx_GIVEREF(__pyx_n_s_permission_overwrites);
-  PyList_SET_ITEM(__pyx_t_4, 10, __pyx_n_s_permission_overwrites);
+  __Pyx_INCREF(__pyx_n_u_voice_members);
+  __Pyx_GIVEREF(__pyx_n_u_voice_members);
+  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_n_u_voice_members);
+  __Pyx_INCREF(__pyx_n_u_name);
+  __Pyx_GIVEREF(__pyx_n_u_name);
+  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_n_u_name);
+  __Pyx_INCREF(__pyx_n_u_id);
+  __Pyx_GIVEREF(__pyx_n_u_id);
+  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_n_u_id);
+  __Pyx_INCREF(__pyx_n_u_server);
+  __Pyx_GIVEREF(__pyx_n_u_server);
+  PyList_SET_ITEM(__pyx_t_4, 3, __pyx_n_u_server);
+  __Pyx_INCREF(__pyx_n_u_topic);
+  __Pyx_GIVEREF(__pyx_n_u_topic);
+  PyList_SET_ITEM(__pyx_t_4, 4, __pyx_n_u_topic);
+  __Pyx_INCREF(__pyx_n_u_position);
+  __Pyx_GIVEREF(__pyx_n_u_position);
+  PyList_SET_ITEM(__pyx_t_4, 5, __pyx_n_u_position);
+  __Pyx_INCREF(__pyx_n_u_is_private);
+  __Pyx_GIVEREF(__pyx_n_u_is_private);
+  PyList_SET_ITEM(__pyx_t_4, 6, __pyx_n_u_is_private);
+  __Pyx_INCREF(__pyx_n_u_type);
+  __Pyx_GIVEREF(__pyx_n_u_type);
+  PyList_SET_ITEM(__pyx_t_4, 7, __pyx_n_u_type);
+  __Pyx_INCREF(__pyx_n_u_bitrate);
+  __Pyx_GIVEREF(__pyx_n_u_bitrate);
+  PyList_SET_ITEM(__pyx_t_4, 8, __pyx_n_u_bitrate);
+  __Pyx_INCREF(__pyx_n_u_user_limit);
+  __Pyx_GIVEREF(__pyx_n_u_user_limit);
+  PyList_SET_ITEM(__pyx_t_4, 9, __pyx_n_u_user_limit);
+  __Pyx_INCREF(__pyx_n_u_permission_overwrites);
+  __Pyx_GIVEREF(__pyx_n_u_permission_overwrites);
+  PyList_SET_ITEM(__pyx_t_4, 10, __pyx_n_u_permission_overwrites);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_slots, __pyx_t_4) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -6725,7 +6741,7 @@ PyMODINIT_FUNC PyInit_channel(void)
  *     """Represents a Discord server channel.
  * 
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Channel, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Channel, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Channel, __pyx_t_4) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -6761,27 +6777,27 @@ PyMODINIT_FUNC PyInit_channel(void)
  */
   __pyx_t_4 = PyList_New(7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(__pyx_n_s_id);
-  __Pyx_GIVEREF(__pyx_n_s_id);
-  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_n_s_id);
-  __Pyx_INCREF(__pyx_n_s_recipients);
-  __Pyx_GIVEREF(__pyx_n_s_recipients);
-  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_n_s_recipients);
-  __Pyx_INCREF(__pyx_n_s_type);
-  __Pyx_GIVEREF(__pyx_n_s_type);
-  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_n_s_type);
-  __Pyx_INCREF(__pyx_n_s_owner);
-  __Pyx_GIVEREF(__pyx_n_s_owner);
-  PyList_SET_ITEM(__pyx_t_4, 3, __pyx_n_s_owner);
-  __Pyx_INCREF(__pyx_n_s_icon);
-  __Pyx_GIVEREF(__pyx_n_s_icon);
-  PyList_SET_ITEM(__pyx_t_4, 4, __pyx_n_s_icon);
-  __Pyx_INCREF(__pyx_n_s_name);
-  __Pyx_GIVEREF(__pyx_n_s_name);
-  PyList_SET_ITEM(__pyx_t_4, 5, __pyx_n_s_name);
-  __Pyx_INCREF(__pyx_n_s_me);
-  __Pyx_GIVEREF(__pyx_n_s_me);
-  PyList_SET_ITEM(__pyx_t_4, 6, __pyx_n_s_me);
+  __Pyx_INCREF(__pyx_n_u_id);
+  __Pyx_GIVEREF(__pyx_n_u_id);
+  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_n_u_id);
+  __Pyx_INCREF(__pyx_n_u_recipients);
+  __Pyx_GIVEREF(__pyx_n_u_recipients);
+  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_n_u_recipients);
+  __Pyx_INCREF(__pyx_n_u_type);
+  __Pyx_GIVEREF(__pyx_n_u_type);
+  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_n_u_type);
+  __Pyx_INCREF(__pyx_n_u_owner);
+  __Pyx_GIVEREF(__pyx_n_u_owner);
+  PyList_SET_ITEM(__pyx_t_4, 3, __pyx_n_u_owner);
+  __Pyx_INCREF(__pyx_n_u_icon);
+  __Pyx_GIVEREF(__pyx_n_u_icon);
+  PyList_SET_ITEM(__pyx_t_4, 4, __pyx_n_u_icon);
+  __Pyx_INCREF(__pyx_n_u_name);
+  __Pyx_GIVEREF(__pyx_n_u_name);
+  PyList_SET_ITEM(__pyx_t_4, 5, __pyx_n_u_name);
+  __Pyx_INCREF(__pyx_n_u_me);
+  __Pyx_GIVEREF(__pyx_n_u_me);
+  PyList_SET_ITEM(__pyx_t_4, 6, __pyx_n_u_me);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_slots, __pyx_t_4) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -6952,7 +6968,7 @@ PyMODINIT_FUNC PyInit_channel(void)
  *     """Represents a Discord private channel.
  * 
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_PrivateChannel, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_PrivateChannel, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_PrivateChannel, __pyx_t_4) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8359,13 +8375,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
             static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname) {
     PyErr_Format(PyExc_NameError, "free variable '%s' referenced before assignment in enclosing scope", varname);
 }
-
-/* StringJoin */
-            #if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
-}
-#endif
 
 /* Import */
             static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {

@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -863,23 +863,23 @@ static const char __pyx_k_S[] = "\202\204S\315\342\211\026\252\205\372";
 static const char __pyx_k_a[] = "a";
 static const char __pyx_k_d[] = "\201\205d\276\356~\007\337\210\275\315";
 static const char __pyx_k_OK[] = "\003\350OK";
-static const char __pyx_k__4[] = "\210\000";
-static const char __pyx_k__5[] = "";
-static const char __pyx_k__6[] = "\202~\000~";
-static const char __pyx_k__7[] = "\202\000\000\000\000\000\001\000\000";
-static const char __pyx_k__8[] = "\202~\004\001";
-static const char __pyx_k__10[] = "\300\000";
-static const char __pyx_k__13[] = "\240\000";
-static const char __pyx_k__16[] = "\220\000";
-static const char __pyx_k__24[] = "\200\200\000\000\000\000";
-static const char __pyx_k__28[] = "\200\000";
-static const char __pyx_k__32[] = "\210~\000~";
-static const char __pyx_k__34[] = "\010\000";
-static const char __pyx_k__37[] = "\003\350";
-static const char __pyx_k__42[] = "\003";
-static const char __pyx_k__45[] = "\003\347";
-static const char __pyx_k__48[] = "\003\350\377\377";
-static const char __pyx_k__51[] = "*";
+static const char __pyx_k__2[] = "\210\000";
+static const char __pyx_k__3[] = "";
+static const char __pyx_k__4[] = "\202~\000~";
+static const char __pyx_k__5[] = "\202\000\000\000\000\000\001\000\000";
+static const char __pyx_k__6[] = "\202~\004\001";
+static const char __pyx_k__8[] = "\300\000";
+static const char __pyx_k__11[] = "\240\000";
+static const char __pyx_k__14[] = "\220\000";
+static const char __pyx_k__22[] = "\200\200\000\000\000\000";
+static const char __pyx_k__26[] = "\200\000";
+static const char __pyx_k__30[] = "\210~\000~";
+static const char __pyx_k__32[] = "\010\000";
+static const char __pyx_k__35[] = "\003\350";
+static const char __pyx_k__40[] = "\003";
+static const char __pyx_k__43[] = "\003\347";
+static const char __pyx_k__46[] = "\003\350\377\377";
+static const char __pyx_k__49[] = "*";
 static const char __pyx_k_caf[] = "\201\005caf\303\251";
 static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_Eggs[] = "\202\004Eggs";
@@ -904,7 +904,6 @@ static const char __pyx_k_enter[] = "__enter__";
 static const char __pyx_k_frame[] = "frame";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_setUp[] = "setUp";
-static const char __pyx_k_utf_8[] = "utf-8";
 static const char __pyx_k_Eggs_2[] = "Eggs";
 static const char __pyx_k_Spam_2[] = "Spam";
 static const char __pyx_k_at_eof[] = "at_eof";
@@ -1047,7 +1046,7 @@ static PyObject *__pyx_n_s_FramingTests_test_text_masked;
 static PyObject *__pyx_n_s_FramingTests_test_very_long;
 static PyObject *__pyx_n_s_Mock;
 static PyObject *__pyx_kp_b_OK;
-static PyObject *__pyx_n_s_OK_2;
+static PyObject *__pyx_n_u_OK_2;
 static PyObject *__pyx_n_s_OP_BINARY;
 static PyObject *__pyx_n_s_OP_CLOSE;
 static PyObject *__pyx_n_s_OP_PING;
@@ -1061,23 +1060,23 @@ static PyObject *__pyx_n_s_StreamReader;
 static PyObject *__pyx_n_s_TestCase;
 static PyObject *__pyx_n_s_UnicodeDecodeError;
 static PyObject *__pyx_n_s_WebSocketProtocolError;
-static PyObject *__pyx_kp_b__10;
-static PyObject *__pyx_kp_b__13;
-static PyObject *__pyx_kp_b__16;
-static PyObject *__pyx_kp_b__24;
-static PyObject *__pyx_kp_b__28;
+static PyObject *__pyx_kp_b__11;
+static PyObject *__pyx_kp_b__14;
+static PyObject *__pyx_kp_b__2;
+static PyObject *__pyx_kp_b__22;
+static PyObject *__pyx_kp_b__26;
+static PyObject *__pyx_kp_b__3;
+static PyObject *__pyx_kp_u__3;
+static PyObject *__pyx_kp_b__30;
 static PyObject *__pyx_kp_b__32;
-static PyObject *__pyx_kp_b__34;
-static PyObject *__pyx_kp_b__37;
+static PyObject *__pyx_kp_b__35;
 static PyObject *__pyx_kp_b__4;
-static PyObject *__pyx_kp_b__42;
-static PyObject *__pyx_kp_b__45;
-static PyObject *__pyx_kp_b__48;
+static PyObject *__pyx_kp_b__40;
+static PyObject *__pyx_kp_b__43;
+static PyObject *__pyx_kp_b__46;
+static PyObject *__pyx_n_s__49;
 static PyObject *__pyx_kp_b__5;
-static PyObject *__pyx_kp_s__5;
-static PyObject *__pyx_n_s__51;
 static PyObject *__pyx_kp_b__6;
-static PyObject *__pyx_kp_b__7;
 static PyObject *__pyx_kp_b__8;
 static PyObject *__pyx_n_b_a;
 static PyObject *__pyx_n_s_assertEqual;
@@ -1088,7 +1087,7 @@ static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_asyncio_tasks;
 static PyObject *__pyx_n_s_at_eof;
 static PyObject *__pyx_kp_b_caf;
-static PyObject *__pyx_kp_s_caf_2;
+static PyObject *__pyx_kp_b_caf_2;
 static PyObject *__pyx_n_s_call_args;
 static PyObject *__pyx_n_s_call_count;
 static PyObject *__pyx_n_s_close;
@@ -1165,7 +1164,6 @@ static PyObject *__pyx_n_s_test_text_masked;
 static PyObject *__pyx_n_s_test_very_long;
 static PyObject *__pyx_n_s_unittest;
 static PyObject *__pyx_n_s_unittest_mock;
-static PyObject *__pyx_kp_s_utf_8;
 static PyObject *__pyx_n_s_websockets_test_framing;
 static PyObject *__pyx_n_s_write_frame;
 static PyObject *__pyx_n_s_writer;
@@ -1208,47 +1206,46 @@ static PyObject *__pyx_int_1005;
 static PyObject *__pyx_int_1024;
 static PyObject *__pyx_int_1025;
 static PyObject *__pyx_int_65536;
-static PyObject *__pyx_tuple__2;
-static PyObject *__pyx_tuple__3;
+static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_tuple__11;
+static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__12;
-static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__16;
 static PyObject *__pyx_tuple__17;
 static PyObject *__pyx_tuple__18;
 static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__20;
 static PyObject *__pyx_tuple__21;
-static PyObject *__pyx_tuple__22;
 static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_tuple__25;
-static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__27;
+static PyObject *__pyx_tuple__28;
 static PyObject *__pyx_tuple__29;
-static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__31;
 static PyObject *__pyx_tuple__33;
-static PyObject *__pyx_tuple__35;
+static PyObject *__pyx_tuple__34;
 static PyObject *__pyx_tuple__36;
+static PyObject *__pyx_tuple__37;
 static PyObject *__pyx_tuple__38;
 static PyObject *__pyx_tuple__39;
-static PyObject *__pyx_tuple__40;
 static PyObject *__pyx_tuple__41;
-static PyObject *__pyx_tuple__43;
+static PyObject *__pyx_tuple__42;
 static PyObject *__pyx_tuple__44;
-static PyObject *__pyx_tuple__46;
+static PyObject *__pyx_tuple__45;
 static PyObject *__pyx_tuple__47;
-static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__48;
 static PyObject *__pyx_tuple__50;
 static PyObject *__pyx_tuple__52;
 static PyObject *__pyx_tuple__54;
 static PyObject *__pyx_tuple__56;
-static PyObject *__pyx_tuple__58;
+static PyObject *__pyx_tuple__57;
 static PyObject *__pyx_tuple__59;
-static PyObject *__pyx_tuple__61;
+static PyObject *__pyx_tuple__60;
 static PyObject *__pyx_tuple__62;
-static PyObject *__pyx_tuple__64;
+static PyObject *__pyx_tuple__63;
 static PyObject *__pyx_tuple__65;
 static PyObject *__pyx_tuple__67;
 static PyObject *__pyx_tuple__69;
@@ -1269,12 +1266,12 @@ static PyObject *__pyx_tuple__97;
 static PyObject *__pyx_tuple__99;
 static PyObject *__pyx_tuple__101;
 static PyObject *__pyx_tuple__103;
-static PyObject *__pyx_tuple__105;
+static PyObject *__pyx_codeobj__51;
 static PyObject *__pyx_codeobj__53;
 static PyObject *__pyx_codeobj__55;
-static PyObject *__pyx_codeobj__57;
-static PyObject *__pyx_codeobj__60;
-static PyObject *__pyx_codeobj__63;
+static PyObject *__pyx_codeobj__58;
+static PyObject *__pyx_codeobj__61;
+static PyObject *__pyx_codeobj__64;
 static PyObject *__pyx_codeobj__66;
 static PyObject *__pyx_codeobj__68;
 static PyObject *__pyx_codeobj__70;
@@ -1295,7 +1292,6 @@ static PyObject *__pyx_codeobj__98;
 static PyObject *__pyx_codeobj__100;
 static PyObject *__pyx_codeobj__102;
 static PyObject *__pyx_codeobj__104;
-static PyObject *__pyx_codeobj__106;
 
 /* "websockets/test_framing.py":12
  * class FramingTests(unittest.TestCase):
@@ -3427,9 +3423,8 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_20test_non_
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  Py_ssize_t __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
+  Py_ssize_t __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("test_non_ascii_text", 0);
 
   /* "websockets/test_framing.py":71
@@ -3453,13 +3448,8 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_20test_non_
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_OP_TEXT); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_caf_2, __pyx_n_s_encode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 73, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 73, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
-  __pyx_t_8 = 0;
+  __pyx_t_7 = 0;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
     __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
     if (likely(__pyx_t_6)) {
@@ -3467,29 +3457,29 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_20test_non_
       __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
-      __pyx_t_8 = 1;
+      __pyx_t_7 = 1;
     }
   }
-  __pyx_t_9 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 73, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
   if (__pyx_t_6) {
-    __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_6); __pyx_t_6 = NULL;
+    __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
   }
   __Pyx_INCREF(Py_True);
   __Pyx_GIVEREF(Py_True);
-  PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_8, Py_True);
+  PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, Py_True);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_9, 2+__pyx_t_8, __pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_5);
+  __Pyx_INCREF(__pyx_kp_b_caf_2);
+  __Pyx_GIVEREF(__pyx_kp_b_caf_2);
+  PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_7, __pyx_kp_b_caf_2);
   __pyx_t_5 = 0;
-  __pyx_t_7 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
-  __pyx_t_8 = 0;
+  __pyx_t_7 = 0;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
     __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
     if (likely(__pyx_t_4)) {
@@ -3497,23 +3487,23 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_20test_non_
       __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
-      __pyx_t_8 = 1;
+      __pyx_t_7 = 1;
     }
   }
-  __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 71, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
   if (__pyx_t_4) {
-    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
   }
   __Pyx_INCREF(__pyx_kp_b_caf);
   __Pyx_GIVEREF(__pyx_kp_b_caf);
-  PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_8, __pyx_kp_b_caf);
+  PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_kp_b_caf);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -3535,8 +3525,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_20test_non_
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("websockets.test_framing.FramingTests.test_non_ascii_text", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3575,9 +3564,8 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_22test_non_
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  Py_ssize_t __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
+  Py_ssize_t __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("test_non_ascii_text_masked", 0);
 
   /* "websockets/test_framing.py":76
@@ -3601,13 +3589,8 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_22test_non_
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_OP_TEXT); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_caf_2, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
-  __pyx_t_7 = 0;
+  __pyx_t_6 = 0;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
     __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
     if (likely(__pyx_t_5)) {
@@ -3615,26 +3598,26 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_22test_non_
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_3, function);
-      __pyx_t_7 = 1;
+      __pyx_t_6 = 1;
     }
   }
-  __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
   if (__pyx_t_5) {
-    __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __pyx_t_5 = NULL;
+    __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
   }
   __Pyx_INCREF(Py_True);
   __Pyx_GIVEREF(Py_True);
-  PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, Py_True);
+  PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, Py_True);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_7, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_4);
+  __Pyx_INCREF(__pyx_kp_b_caf_2);
+  __Pyx_GIVEREF(__pyx_kp_b_caf_2);
+  PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_kp_b_caf_2);
   __pyx_t_4 = 0;
-  __pyx_t_6 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "websockets/test_framing.py":76
@@ -3671,12 +3654,12 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_22test_non_
  *             b'\x81\x85\x64\xbe\xee\x7e\x07\xdf\x88\xbd\xcd',
  *             Frame(True, OP_TEXT, 'caf'.encode('utf-8')), mask=True)
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 76, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "websockets/test_framing.py":75
  *             Frame(True, OP_TEXT, 'caf'.encode('utf-8')))
@@ -3695,8 +3678,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_22test_non_
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("websockets.test_framing.FramingTests.test_non_ascii_text_masked", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3775,9 +3757,9 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_24test_clos
   PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, Py_True);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_5);
-  __Pyx_INCREF(__pyx_kp_b__5);
-  __Pyx_GIVEREF(__pyx_kp_b__5);
-  PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_7, __pyx_kp_b__5);
+  __Pyx_INCREF(__pyx_kp_b__3);
+  __Pyx_GIVEREF(__pyx_kp_b__3);
+  PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_7, __pyx_kp_b__3);
   __pyx_t_5 = 0;
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3800,9 +3782,9 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_24test_clos
   if (__pyx_t_4) {
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_b__4);
-  __Pyx_GIVEREF(__pyx_kp_b__4);
-  PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_kp_b__4);
+  __Pyx_INCREF(__pyx_kp_b__2);
+  __Pyx_GIVEREF(__pyx_kp_b__2);
+  PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_kp_b__2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_3);
   __pyx_t_3 = 0;
@@ -4163,7 +4145,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_30test_long
  */
   __pyx_t_3 = PyNumber_Multiply(__pyx_int_126, __pyx_n_b_a); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Add(__pyx_kp_b__6, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_kp_b__4, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
@@ -4324,7 +4306,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_32test_very
  */
   __pyx_t_3 = PyNumber_Multiply(__pyx_int_65536, __pyx_n_b_a); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Add(__pyx_kp_b__7, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_kp_b__5, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
@@ -4551,7 +4533,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_34test_payl
           __Pyx_GOTREF(__pyx_t_1);
           __pyx_t_2 = PyNumber_Multiply(__pyx_int_1025, __pyx_n_b_a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_5 = PyNumber_Add(__pyx_kp_b__8, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L7_error)
+          __pyx_t_5 = PyNumber_Add(__pyx_kp_b__6, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L7_error)
@@ -4637,7 +4619,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_34test_payl
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__9, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__7, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 100, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -4799,7 +4781,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_36test_bad_
  */
           __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_decode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4872,7 +4854,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_36test_bad_
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__12, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__10, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 104, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -4970,7 +4952,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_36test_bad_
  */
           __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_decode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L23_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L23_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L23_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5043,7 +5025,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_36test_bad_
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__15, NULL);
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__13, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 106, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
@@ -5141,7 +5123,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_36test_bad_
  */
           __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_decode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L39_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 109, __pyx_L39_error)
+          __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 109, __pyx_L39_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5214,7 +5196,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_36test_bad_
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__18, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__16, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 108, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -5305,12 +5287,12 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_38test_bad_
  *             self.decode(bytes([0x80 | opcode, 0]))
  *         for opcode in list(range(0x03, 0x08)) + list(range(0x0b, 0x10)):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5404,12 +5386,12 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_38test_bad_
  *             with self.assertRaises(WebSocketProtocolError):
  *                 self.decode(bytes([0x80 | opcode, 0]))
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = PySequence_List(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PySequence_List(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -5626,7 +5608,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_38test_bad_
       /*finally:*/ {
         /*normal exit:*/{
           if (__pyx_t_8) {
-            __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__23, NULL);
+            __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__21, NULL);
             __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
             if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 115, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_11);
@@ -5731,7 +5713,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_40test_bad_
   __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_mask, Py_True) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__25, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__23, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5818,7 +5800,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_40test_bad_
  */
           __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_decode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5891,7 +5873,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_40test_bad_
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__27, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__25, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 120, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -5917,7 +5899,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_40test_bad_
  */
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_decode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6006,7 +5988,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_40test_bad_
           __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 124, __pyx_L23_error)
           __Pyx_GOTREF(__pyx_t_5);
           if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_mask, Py_True) < 0) __PYX_ERR(0, 124, __pyx_L23_error)
-          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__30, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L23_error)
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__28, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L23_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6080,7 +6062,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_40test_bad_
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__31, NULL);
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__29, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 123, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
@@ -6244,7 +6226,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_42test_cont
           __Pyx_GOTREF(__pyx_t_2);
           __pyx_t_5 = PyNumber_Multiply(__pyx_int_126, __pyx_n_b_a); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 128, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_3 = PyNumber_Add(__pyx_kp_b__32, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L7_error)
+          __pyx_t_3 = PyNumber_Add(__pyx_kp_b__30, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __pyx_t_5 = NULL;
@@ -6343,7 +6325,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_42test_cont
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__33, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__31, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 127, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -6505,7 +6487,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_44test_frag
  */
           __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_decode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6578,7 +6560,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_44test_frag
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__36, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__34, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 131, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -6658,7 +6640,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_46test_pars
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_round_trip_close); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6672,7 +6654,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_46test_pars
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_round_trip_close); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6743,7 +6725,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_48test_pars
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_parse_close); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -6765,9 +6747,9 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_48test_pars
   }
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_4);
-  __Pyx_INCREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
-  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_tuple__41);
+  __Pyx_INCREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
+  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_tuple__39);
   __pyx_t_4 = 0;
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -6920,7 +6902,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_50test_pars
  */
           __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_parse_close); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6993,7 +6975,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_50test_pars
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__44, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__42, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 142, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -7091,7 +7073,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_50test_pars
  */
           __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_parse_close); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L23_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L23_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L23_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7164,7 +7146,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_50test_pars
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__47, NULL);
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__45, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
@@ -7256,7 +7238,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_50test_pars
  */
           __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_parse_close); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 147, __pyx_L39_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__49, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L39_error)
+          __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L39_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -7328,7 +7310,7 @@ static PyObject *__pyx_pf_10websockets_12test_framing_12FramingTests_50test_pars
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__50, NULL);
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__48, NULL);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 146, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
@@ -7684,7 +7666,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_FramingTests_test_very_long, __pyx_k_FramingTests_test_very_long, sizeof(__pyx_k_FramingTests_test_very_long), 0, 0, 1, 1},
   {&__pyx_n_s_Mock, __pyx_k_Mock, sizeof(__pyx_k_Mock), 0, 0, 1, 1},
   {&__pyx_kp_b_OK, __pyx_k_OK, sizeof(__pyx_k_OK), 0, 0, 0, 0},
-  {&__pyx_n_s_OK_2, __pyx_k_OK_2, sizeof(__pyx_k_OK_2), 0, 0, 1, 1},
+  {&__pyx_n_u_OK_2, __pyx_k_OK_2, sizeof(__pyx_k_OK_2), 0, 1, 0, 1},
   {&__pyx_n_s_OP_BINARY, __pyx_k_OP_BINARY, sizeof(__pyx_k_OP_BINARY), 0, 0, 1, 1},
   {&__pyx_n_s_OP_CLOSE, __pyx_k_OP_CLOSE, sizeof(__pyx_k_OP_CLOSE), 0, 0, 1, 1},
   {&__pyx_n_s_OP_PING, __pyx_k_OP_PING, sizeof(__pyx_k_OP_PING), 0, 0, 1, 1},
@@ -7698,23 +7680,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_TestCase, __pyx_k_TestCase, sizeof(__pyx_k_TestCase), 0, 0, 1, 1},
   {&__pyx_n_s_UnicodeDecodeError, __pyx_k_UnicodeDecodeError, sizeof(__pyx_k_UnicodeDecodeError), 0, 0, 1, 1},
   {&__pyx_n_s_WebSocketProtocolError, __pyx_k_WebSocketProtocolError, sizeof(__pyx_k_WebSocketProtocolError), 0, 0, 1, 1},
-  {&__pyx_kp_b__10, __pyx_k__10, sizeof(__pyx_k__10), 0, 0, 0, 0},
-  {&__pyx_kp_b__13, __pyx_k__13, sizeof(__pyx_k__13), 0, 0, 0, 0},
-  {&__pyx_kp_b__16, __pyx_k__16, sizeof(__pyx_k__16), 0, 0, 0, 0},
-  {&__pyx_kp_b__24, __pyx_k__24, sizeof(__pyx_k__24), 0, 0, 0, 0},
-  {&__pyx_kp_b__28, __pyx_k__28, sizeof(__pyx_k__28), 0, 0, 0, 0},
+  {&__pyx_kp_b__11, __pyx_k__11, sizeof(__pyx_k__11), 0, 0, 0, 0},
+  {&__pyx_kp_b__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 0, 0, 0},
+  {&__pyx_kp_b__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 0, 0},
+  {&__pyx_kp_b__22, __pyx_k__22, sizeof(__pyx_k__22), 0, 0, 0, 0},
+  {&__pyx_kp_b__26, __pyx_k__26, sizeof(__pyx_k__26), 0, 0, 0, 0},
+  {&__pyx_kp_b__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 0, 0},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
+  {&__pyx_kp_b__30, __pyx_k__30, sizeof(__pyx_k__30), 0, 0, 0, 0},
   {&__pyx_kp_b__32, __pyx_k__32, sizeof(__pyx_k__32), 0, 0, 0, 0},
-  {&__pyx_kp_b__34, __pyx_k__34, sizeof(__pyx_k__34), 0, 0, 0, 0},
-  {&__pyx_kp_b__37, __pyx_k__37, sizeof(__pyx_k__37), 0, 0, 0, 0},
+  {&__pyx_kp_b__35, __pyx_k__35, sizeof(__pyx_k__35), 0, 0, 0, 0},
   {&__pyx_kp_b__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 0, 0},
-  {&__pyx_kp_b__42, __pyx_k__42, sizeof(__pyx_k__42), 0, 0, 0, 0},
-  {&__pyx_kp_b__45, __pyx_k__45, sizeof(__pyx_k__45), 0, 0, 0, 0},
-  {&__pyx_kp_b__48, __pyx_k__48, sizeof(__pyx_k__48), 0, 0, 0, 0},
+  {&__pyx_kp_b__40, __pyx_k__40, sizeof(__pyx_k__40), 0, 0, 0, 0},
+  {&__pyx_kp_b__43, __pyx_k__43, sizeof(__pyx_k__43), 0, 0, 0, 0},
+  {&__pyx_kp_b__46, __pyx_k__46, sizeof(__pyx_k__46), 0, 0, 0, 0},
+  {&__pyx_n_s__49, __pyx_k__49, sizeof(__pyx_k__49), 0, 0, 1, 1},
   {&__pyx_kp_b__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 0, 0},
-  {&__pyx_kp_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 0},
-  {&__pyx_n_s__51, __pyx_k__51, sizeof(__pyx_k__51), 0, 0, 1, 1},
   {&__pyx_kp_b__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 0, 0, 0},
-  {&__pyx_kp_b__7, __pyx_k__7, sizeof(__pyx_k__7), 0, 0, 0, 0},
   {&__pyx_kp_b__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 0, 0},
   {&__pyx_n_b_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 0, 1},
   {&__pyx_n_s_assertEqual, __pyx_k_assertEqual, sizeof(__pyx_k_assertEqual), 0, 0, 1, 1},
@@ -7725,7 +7707,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_asyncio_tasks, __pyx_k_asyncio_tasks, sizeof(__pyx_k_asyncio_tasks), 0, 0, 1, 1},
   {&__pyx_n_s_at_eof, __pyx_k_at_eof, sizeof(__pyx_k_at_eof), 0, 0, 1, 1},
   {&__pyx_kp_b_caf, __pyx_k_caf, sizeof(__pyx_k_caf), 0, 0, 0, 0},
-  {&__pyx_kp_s_caf_2, __pyx_k_caf_2, sizeof(__pyx_k_caf_2), 0, 0, 1, 0},
+  {&__pyx_kp_b_caf_2, __pyx_k_caf_2, sizeof(__pyx_k_caf_2), 0, 0, 0, 0},
   {&__pyx_n_s_call_args, __pyx_k_call_args, sizeof(__pyx_k_call_args), 0, 0, 1, 1},
   {&__pyx_n_s_call_count, __pyx_k_call_count, sizeof(__pyx_k_call_count), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
@@ -7802,7 +7784,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test_very_long, __pyx_k_test_very_long, sizeof(__pyx_k_test_very_long), 0, 0, 1, 1},
   {&__pyx_n_s_unittest, __pyx_k_unittest, sizeof(__pyx_k_unittest), 0, 0, 1, 1},
   {&__pyx_n_s_unittest_mock, __pyx_k_unittest_mock, sizeof(__pyx_k_unittest_mock), 0, 0, 1, 1},
-  {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
   {&__pyx_n_s_websockets_test_framing, __pyx_k_websockets_test_framing, sizeof(__pyx_k_websockets_test_framing), 0, 0, 1, 1},
   {&__pyx_n_s_write_frame, __pyx_k_write_frame, sizeof(__pyx_k_write_frame), 0, 0, 1, 1},
   {&__pyx_n_s_writer, __pyx_k_writer, sizeof(__pyx_k_writer), 0, 0, 1, 1},
@@ -7820,28 +7801,6 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "websockets/test_framing.py":73
- *         self.round_trip(
- *             b'\x81\x05caf\xc3\xa9',
- *             Frame(True, OP_TEXT, 'caf'.encode('utf-8')))             # <<<<<<<<<<<<<<
- * 
- *     def test_non_ascii_text_masked(self):
- */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_utf_8); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 73, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
-
-  /* "websockets/test_framing.py":78
- *         self.round_trip(
- *             b'\x81\x85\x64\xbe\xee\x7e\x07\xdf\x88\xbd\xcd',
- *             Frame(True, OP_TEXT, 'caf'.encode('utf-8')), mask=True)             # <<<<<<<<<<<<<<
- * 
- *     def test_close(self):
- */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_utf_8); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
-
   /* "websockets/test_framing.py":100
  * 
  *     def test_payload_too_big(self):
@@ -7849,9 +7808,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\x82\x7e\x04\x01' + 1025 * b'a', max_size=1024)
  * 
  */
-  __pyx_tuple__9 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 100, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__7 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "websockets/test_framing.py":105
  *     def test_bad_reserved_bits(self):
@@ -7860,9 +7819,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\xa0\x00')
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_b__10); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 105, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_b__8); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "websockets/test_framing.py":104
  * 
@@ -7871,9 +7830,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\xc0\x00')
  *         with self.assertRaises(WebSocketProtocolError):
  */
-  __pyx_tuple__12 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 104, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__10 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "websockets/test_framing.py":107
  *             self.decode(b'\xc0\x00')
@@ -7882,9 +7841,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\x90\x00')
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_b__13); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_b__11); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "websockets/test_framing.py":106
  *         with self.assertRaises(WebSocketProtocolError):
@@ -7893,9 +7852,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\xa0\x00')
  *         with self.assertRaises(WebSocketProtocolError):
  */
-  __pyx_tuple__15 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 106, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__13 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "websockets/test_framing.py":109
  *             self.decode(b'\xa0\x00')
@@ -7904,9 +7863,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def test_bad_opcode(self):
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_b__16); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_b__14); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* "websockets/test_framing.py":108
  *         with self.assertRaises(WebSocketProtocolError):
@@ -7915,9 +7874,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\x90\x00')
  * 
  */
-  __pyx_tuple__18 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 108, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__16 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "websockets/test_framing.py":112
  * 
@@ -7926,12 +7885,12 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(bytes([0x80 | opcode, 0]))
  *         for opcode in list(range(0x03, 0x08)) + list(range(0x0b, 0x10)):
  */
-  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 112, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_int_8, __pyx_int_11); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 112, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__17 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__18 = PyTuple_Pack(2, __pyx_int_8, __pyx_int_11); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "websockets/test_framing.py":114
  *         for opcode in list(range(0x00, 0x03)) + list(range(0x08, 0x0b)):
@@ -7940,12 +7899,12 @@ static int __Pyx_InitCachedConstants(void) {
  *             with self.assertRaises(WebSocketProtocolError):
  *                 self.decode(bytes([0x80 | opcode, 0]))
  */
-  __pyx_tuple__21 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_8); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 114, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_tuple__22 = PyTuple_Pack(2, __pyx_int_11, __pyx_int_16); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 114, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_8); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_int_11, __pyx_int_16); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "websockets/test_framing.py":115
  *             self.decode(bytes([0x80 | opcode, 0]))
@@ -7954,9 +7913,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 self.decode(bytes([0x80 | opcode, 0]))
  * 
  */
-  __pyx_tuple__23 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 115, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__21 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "websockets/test_framing.py":119
  * 
@@ -7965,9 +7924,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\x80\x80\x00\x00\x00\x00')
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_b__24); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 119, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_b__22); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "websockets/test_framing.py":121
  *         self.decode(b'\x80\x80\x00\x00\x00\x00', mask=True)
@@ -7976,9 +7935,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.decode(b'\x80\x00')
  *         with self.assertRaises(WebSocketProtocolError):
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_b__24); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 121, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_b__22); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "websockets/test_framing.py":120
  *     def test_bad_mask_flag(self):
@@ -7987,9 +7946,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\x80\x80\x00\x00\x00\x00')
  *         self.decode(b'\x80\x00')
  */
-  __pyx_tuple__27 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 120, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__25 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
   /* "websockets/test_framing.py":122
  *         with self.assertRaises(WebSocketProtocolError):
@@ -7998,9 +7957,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\x80\x00', mask=True)
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_b__28); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 122, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_b__26); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "websockets/test_framing.py":124
  *         self.decode(b'\x80\x00')
@@ -8009,9 +7968,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def test_control_frame_too_long(self):
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_b__28); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 124, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_b__26); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "websockets/test_framing.py":123
  *             self.decode(b'\x80\x80\x00\x00\x00\x00')
@@ -8020,9 +7979,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\x80\x00', mask=True)
  * 
  */
-  __pyx_tuple__31 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 123, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_tuple__29 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "websockets/test_framing.py":127
  * 
@@ -8031,9 +7990,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\x88\x7e\x00\x7e' + 126 * b'a')
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 127, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__31 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "websockets/test_framing.py":132
  *     def test_fragmented_control_frame(self):
@@ -8042,9 +8001,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def test_parse_close(self):
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_b__34); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 132, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_b__32); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "websockets/test_framing.py":131
  * 
@@ -8053,9 +8012,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.decode(b'\x08\x00')
  * 
  */
-  __pyx_tuple__36 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 131, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_tuple__34 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
 
   /* "websockets/test_framing.py":135
  * 
@@ -8064,9 +8023,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip_close(b'\x03\xe8OK', 1000, 'OK')
  * 
  */
-  __pyx_tuple__38 = PyTuple_Pack(3, __pyx_kp_b__37, __pyx_int_1000, __pyx_kp_s__5); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__38);
-  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_tuple__36 = PyTuple_Pack(3, __pyx_kp_b__35, __pyx_int_1000, __pyx_kp_u__3); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
 
   /* "websockets/test_framing.py":136
  *     def test_parse_close(self):
@@ -8075,9 +8034,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def test_parse_close_empty(self):
  */
-  __pyx_tuple__39 = PyTuple_Pack(3, __pyx_kp_b_OK, __pyx_int_1000, __pyx_n_s_OK_2); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_tuple__37 = PyTuple_Pack(3, __pyx_kp_b_OK, __pyx_int_1000, __pyx_n_u_OK_2); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
 
   /* "websockets/test_framing.py":139
  * 
@@ -8086,12 +8045,12 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def test_parse_close_errors(self):
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_b__5); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 139, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
-  __pyx_tuple__41 = PyTuple_Pack(2, __pyx_int_1005, __pyx_kp_s__5); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 139, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_b__3); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__38);
+  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_tuple__39 = PyTuple_Pack(2, __pyx_int_1005, __pyx_kp_u__3); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
 
   /* "websockets/test_framing.py":143
  *     def test_parse_close_errors(self):
@@ -8100,9 +8059,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             parse_close(b'\x03\xe7')
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_b__42); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 143, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_b__40); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
 
   /* "websockets/test_framing.py":142
  * 
@@ -8111,9 +8070,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             parse_close(b'\x03')
  *         with self.assertRaises(WebSocketProtocolError):
  */
-  __pyx_tuple__44 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 142, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
+  __pyx_tuple__42 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
 
   /* "websockets/test_framing.py":145
  *             parse_close(b'\x03')
@@ -8122,9 +8081,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(UnicodeDecodeError):
  *             parse_close(b'\x03\xe8\xff\xff')
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_b__45); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 145, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__46);
-  __Pyx_GIVEREF(__pyx_tuple__46);
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_b__43); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
 
   /* "websockets/test_framing.py":144
  *         with self.assertRaises(WebSocketProtocolError):
@@ -8133,18 +8092,18 @@ static int __Pyx_InitCachedConstants(void) {
  *             parse_close(b'\x03\xe7')
  *         with self.assertRaises(UnicodeDecodeError):
  */
-  __pyx_tuple__47 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__47);
-  __Pyx_GIVEREF(__pyx_tuple__47);
+  __pyx_tuple__45 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
 
   /* "websockets/test_framing.py":147
  *             parse_close(b'\x03\xe7')
  *         with self.assertRaises(UnicodeDecodeError):
  *             parse_close(b'\x03\xe8\xff\xff')             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__49 = PyTuple_Pack(1, __pyx_kp_b__48); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 147, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__49);
-  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_b__46); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
 
   /* "websockets/test_framing.py":146
  *         with self.assertRaises(WebSocketProtocolError):
@@ -8152,9 +8111,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(UnicodeDecodeError):             # <<<<<<<<<<<<<<
  *             parse_close(b'\x03\xe8\xff\xff')
  */
-  __pyx_tuple__50 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 146, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__50);
-  __Pyx_GIVEREF(__pyx_tuple__50);
+  __pyx_tuple__48 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__48);
+  __Pyx_GIVEREF(__pyx_tuple__48);
 
   /* "websockets/test_framing.py":12
  * class FramingTests(unittest.TestCase):
@@ -8163,10 +8122,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.loop = asyncio.new_event_loop()
  *         asyncio.set_event_loop(self.loop)
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
-  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_setUp, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_tuple__50 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__50);
+  __Pyx_GIVEREF(__pyx_tuple__50);
+  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_setUp, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(0, 12, __pyx_L1_error)
 
   /* "websockets/test_framing.py":16
  *         asyncio.set_event_loop(self.loop)
@@ -8175,10 +8134,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.loop.close()
  * 
  */
-  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_tearDown, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_tearDown, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 16, __pyx_L1_error)
 
   /* "websockets/test_framing.py":19
  *         self.loop.close()
@@ -8187,13 +8146,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.stream = asyncio.StreamReader(loop=self.loop)
  *         self.stream.feed_data(message)
  */
-  __pyx_tuple__56 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_message, __pyx_n_s_mask, __pyx_n_s_max_size, __pyx_n_s_frame); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple__54 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_message, __pyx_n_s_mask, __pyx_n_s_max_size, __pyx_n_s_frame); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__54);
+  __Pyx_GIVEREF(__pyx_tuple__54);
+  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple__56 = PyTuple_Pack(2, ((PyObject *)Py_False), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__56);
   __Pyx_GIVEREF(__pyx_tuple__56);
-  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_decode, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __pyx_tuple__58 = PyTuple_Pack(2, ((PyObject *)Py_False), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__58);
-  __Pyx_GIVEREF(__pyx_tuple__58);
 
   /* "websockets/test_framing.py":29
  *         return frame
@@ -8202,13 +8161,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         writer = unittest.mock.Mock()
  *         write_frame(frame, writer, mask)
  */
-  __pyx_tuple__59 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_frame, __pyx_n_s_mask, __pyx_n_s_writer); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_frame, __pyx_n_s_mask, __pyx_n_s_writer); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__57);
+  __Pyx_GIVEREF(__pyx_tuple__57);
+  __pyx_codeobj__58 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_encode, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__59);
   __Pyx_GIVEREF(__pyx_tuple__59);
-  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_encode, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 29, __pyx_L1_error)
-  __pyx_tuple__61 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 29, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__61);
-  __Pyx_GIVEREF(__pyx_tuple__61);
 
   /* "websockets/test_framing.py":38
  *         return writer.call_args[0][0]
@@ -8217,13 +8176,13 @@ static int __Pyx_InitCachedConstants(void) {
  *         decoded = self.decode(message, mask)
  *         self.assertEqual(decoded, expected)
  */
-  __pyx_tuple__62 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_message, __pyx_n_s_expected, __pyx_n_s_mask, __pyx_n_s_decoded, __pyx_n_s_encoded); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_message, __pyx_n_s_expected, __pyx_n_s_mask, __pyx_n_s_decoded, __pyx_n_s_encoded); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__60);
+  __Pyx_GIVEREF(__pyx_tuple__60);
+  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_round_trip, 38, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
-  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_round_trip, 38, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __pyx_tuple__64 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__64);
-  __Pyx_GIVEREF(__pyx_tuple__64);
 
   /* "websockets/test_framing.py":48
  *             self.assertEqual(encoded, message)
@@ -8232,10 +8191,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         parsed = parse_close(data)
  *         self.assertEqual(parsed, (code, reason))
  */
-  __pyx_tuple__65 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_data, __pyx_n_s_code, __pyx_n_s_reason, __pyx_n_s_parsed, __pyx_n_s_serialized); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 48, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__65);
-  __Pyx_GIVEREF(__pyx_tuple__65);
-  __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_round_trip_close, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_data, __pyx_n_s_code, __pyx_n_s_reason, __pyx_n_s_parsed, __pyx_n_s_serialized); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__63);
+  __Pyx_GIVEREF(__pyx_tuple__63);
+  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_round_trip_close, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 48, __pyx_L1_error)
 
   /* "websockets/test_framing.py":54
  *         self.assertEqual(serialized, data)
@@ -8244,10 +8203,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(b'\x81\x04Spam', Frame(True, OP_TEXT, b'Spam'))
  * 
  */
-  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__67);
-  __Pyx_GIVEREF(__pyx_tuple__67);
-  __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_text, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__65);
+  __Pyx_GIVEREF(__pyx_tuple__65);
+  __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_text, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) __PYX_ERR(0, 54, __pyx_L1_error)
 
   /* "websockets/test_framing.py":57
  *         self.round_trip(b'\x81\x04Spam', Frame(True, OP_TEXT, b'Spam'))
@@ -8256,10 +8215,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(
  *             b'\x81\x84\x5b\xfb\xe1\xa8\x08\x8b\x80\xc5',
  */
-  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 57, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__69);
-  __Pyx_GIVEREF(__pyx_tuple__69);
-  __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_text_masked, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__67);
+  __Pyx_GIVEREF(__pyx_tuple__67);
+  __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_text_masked, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) __PYX_ERR(0, 57, __pyx_L1_error)
 
   /* "websockets/test_framing.py":62
  *             Frame(True, OP_TEXT, b'Spam'), mask=True)
@@ -8268,10 +8227,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(b'\x82\x04Eggs', Frame(True, OP_BINARY, b'Eggs'))
  * 
  */
-  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 62, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__71);
-  __Pyx_GIVEREF(__pyx_tuple__71);
-  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_binary, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__69);
+  __Pyx_GIVEREF(__pyx_tuple__69);
+  __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_binary, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) __PYX_ERR(0, 62, __pyx_L1_error)
 
   /* "websockets/test_framing.py":65
  *         self.round_trip(b'\x82\x04Eggs', Frame(True, OP_BINARY, b'Eggs'))
@@ -8280,10 +8239,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(
  *             b'\x82\x84\x53\xcd\xe2\x89\x16\xaa\x85\xfa',
  */
-  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 65, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__73);
-  __Pyx_GIVEREF(__pyx_tuple__73);
-  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_binary_masked, 65, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__71);
+  __Pyx_GIVEREF(__pyx_tuple__71);
+  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_binary_masked, 65, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 65, __pyx_L1_error)
 
   /* "websockets/test_framing.py":70
  *             Frame(True, OP_BINARY, b'Eggs'), mask=True)
@@ -8292,10 +8251,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(
  *             b'\x81\x05caf\xc3\xa9',
  */
-  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 70, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__75);
-  __Pyx_GIVEREF(__pyx_tuple__75);
-  __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_non_ascii_text, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__73);
+  __Pyx_GIVEREF(__pyx_tuple__73);
+  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_non_ascii_text, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 70, __pyx_L1_error)
 
   /* "websockets/test_framing.py":75
  *             Frame(True, OP_TEXT, 'caf'.encode('utf-8')))
@@ -8304,10 +8263,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(
  *             b'\x81\x85\x64\xbe\xee\x7e\x07\xdf\x88\xbd\xcd',
  */
-  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 75, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__77);
-  __Pyx_GIVEREF(__pyx_tuple__77);
-  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_non_ascii_text_masked, 75, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__75);
+  __Pyx_GIVEREF(__pyx_tuple__75);
+  __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_non_ascii_text_masked, 75, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) __PYX_ERR(0, 75, __pyx_L1_error)
 
   /* "websockets/test_framing.py":80
  *             Frame(True, OP_TEXT, 'caf'.encode('utf-8')), mask=True)
@@ -8316,10 +8275,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(b'\x88\x00', Frame(True, OP_CLOSE, b''))
  * 
  */
-  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 80, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__79);
-  __Pyx_GIVEREF(__pyx_tuple__79);
-  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_close, 80, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__77);
+  __Pyx_GIVEREF(__pyx_tuple__77);
+  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_close, 80, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 80, __pyx_L1_error)
 
   /* "websockets/test_framing.py":83
  *         self.round_trip(b'\x88\x00', Frame(True, OP_CLOSE, b''))
@@ -8328,10 +8287,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(b'\x89\x04ping', Frame(True, OP_PING, b'ping'))
  * 
  */
-  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 83, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__81);
-  __Pyx_GIVEREF(__pyx_tuple__81);
-  __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_ping, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__79);
+  __Pyx_GIVEREF(__pyx_tuple__79);
+  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_ping, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 83, __pyx_L1_error)
 
   /* "websockets/test_framing.py":86
  *         self.round_trip(b'\x89\x04ping', Frame(True, OP_PING, b'ping'))
@@ -8340,10 +8299,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(b'\x8a\x04pong', Frame(True, OP_PONG, b'pong'))
  * 
  */
-  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 86, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__83);
-  __Pyx_GIVEREF(__pyx_tuple__83);
-  __pyx_codeobj__84 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__83, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_pong, 86, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__84)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__81);
+  __Pyx_GIVEREF(__pyx_tuple__81);
+  __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_pong, 86, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) __PYX_ERR(0, 86, __pyx_L1_error)
 
   /* "websockets/test_framing.py":89
  *         self.round_trip(b'\x8a\x04pong', Frame(True, OP_PONG, b'pong'))
@@ -8352,10 +8311,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(
  *             b'\x82\x7e\x00\x7e' + 126 * b'a',
  */
-  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(0, 89, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__85);
-  __Pyx_GIVEREF(__pyx_tuple__85);
-  __pyx_codeobj__86 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__85, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_long, 89, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__86)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__83);
+  __Pyx_GIVEREF(__pyx_tuple__83);
+  __pyx_codeobj__84 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__83, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_long, 89, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__84)) __PYX_ERR(0, 89, __pyx_L1_error)
 
   /* "websockets/test_framing.py":94
  *             Frame(True, OP_BINARY, 126 * b'a'))
@@ -8364,10 +8323,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip(
  *             b'\x82\x7f\x00\x00\x00\x00\x00\x01\x00\x00' + 65536 * b'a',
  */
-  __pyx_tuple__87 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(0, 94, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__87);
-  __Pyx_GIVEREF(__pyx_tuple__87);
-  __pyx_codeobj__88 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__87, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_very_long, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__88)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__85);
+  __Pyx_GIVEREF(__pyx_tuple__85);
+  __pyx_codeobj__86 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__85, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_very_long, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__86)) __PYX_ERR(0, 94, __pyx_L1_error)
 
   /* "websockets/test_framing.py":99
  *             Frame(True, OP_BINARY, 65536 * b'a'))
@@ -8376,10 +8335,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(PayloadTooBig):
  *             self.decode(b'\x82\x7e\x04\x01' + 1025 * b'a', max_size=1024)
  */
-  __pyx_tuple__89 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(0, 99, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__89);
-  __Pyx_GIVEREF(__pyx_tuple__89);
-  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_payload_too_big, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_tuple__87 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__87);
+  __Pyx_GIVEREF(__pyx_tuple__87);
+  __pyx_codeobj__88 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__87, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_payload_too_big, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__88)) __PYX_ERR(0, 99, __pyx_L1_error)
 
   /* "websockets/test_framing.py":103
  *             self.decode(b'\x82\x7e\x04\x01' + 1025 * b'a', max_size=1024)
@@ -8388,10 +8347,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\xc0\x00')
  */
-  __pyx_tuple__91 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(0, 103, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__91);
-  __Pyx_GIVEREF(__pyx_tuple__91);
-  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_bad_reserved_bits, 103, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_tuple__89 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__89);
+  __Pyx_GIVEREF(__pyx_tuple__89);
+  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_bad_reserved_bits, 103, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(0, 103, __pyx_L1_error)
 
   /* "websockets/test_framing.py":111
  *             self.decode(b'\x90\x00')
@@ -8400,10 +8359,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         for opcode in list(range(0x00, 0x03)) + list(range(0x08, 0x0b)):
  *             self.decode(bytes([0x80 | opcode, 0]))
  */
-  __pyx_tuple__93 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_opcode); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(0, 111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__93);
-  __Pyx_GIVEREF(__pyx_tuple__93);
-  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_bad_opcode, 111, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_tuple__91 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_opcode); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__91);
+  __Pyx_GIVEREF(__pyx_tuple__91);
+  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_bad_opcode, 111, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(0, 111, __pyx_L1_error)
 
   /* "websockets/test_framing.py":118
  *                 self.decode(bytes([0x80 | opcode, 0]))
@@ -8412,10 +8371,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.decode(b'\x80\x80\x00\x00\x00\x00', mask=True)
  *         with self.assertRaises(WebSocketProtocolError):
  */
-  __pyx_tuple__95 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(0, 118, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__95);
-  __Pyx_GIVEREF(__pyx_tuple__95);
-  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_bad_mask_flag, 118, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__93);
+  __Pyx_GIVEREF(__pyx_tuple__93);
+  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_bad_mask_flag, 118, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(0, 118, __pyx_L1_error)
 
   /* "websockets/test_framing.py":126
  *             self.decode(b'\x80\x00', mask=True)
@@ -8424,10 +8383,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\x88\x7e\x00\x7e' + 126 * b'a')
  */
-  __pyx_tuple__97 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(0, 126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__97);
-  __Pyx_GIVEREF(__pyx_tuple__97);
-  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_control_frame_too_long, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_tuple__95 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__95);
+  __Pyx_GIVEREF(__pyx_tuple__95);
+  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_control_frame_too_long, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(0, 126, __pyx_L1_error)
 
   /* "websockets/test_framing.py":130
  *             self.decode(b'\x88\x7e\x00\x7e' + 126 * b'a')
@@ -8436,10 +8395,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\x08\x00')
  */
-  __pyx_tuple__99 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(0, 130, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__99);
-  __Pyx_GIVEREF(__pyx_tuple__99);
-  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_fragmented_control_frame, 130, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_tuple__97 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__97);
+  __Pyx_GIVEREF(__pyx_tuple__97);
+  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_fragmented_control_frame, 130, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(0, 130, __pyx_L1_error)
 
   /* "websockets/test_framing.py":134
  *             self.decode(b'\x08\x00')
@@ -8448,10 +8407,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.round_trip_close(b'\x03\xe8', 1000, '')
  *         self.round_trip_close(b'\x03\xe8OK', 1000, 'OK')
  */
-  __pyx_tuple__101 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(0, 134, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__101);
-  __Pyx_GIVEREF(__pyx_tuple__101);
-  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_parse_close, 134, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_tuple__99 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__99);
+  __Pyx_GIVEREF(__pyx_tuple__99);
+  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_parse_close, 134, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(0, 134, __pyx_L1_error)
 
   /* "websockets/test_framing.py":138
  *         self.round_trip_close(b'\x03\xe8OK', 1000, 'OK')
@@ -8460,10 +8419,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.assertEqual(parse_close(b''), (1005, ''))
  * 
  */
-  __pyx_tuple__103 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(0, 138, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__103);
-  __Pyx_GIVEREF(__pyx_tuple__103);
-  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_parse_close_empty, 138, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_tuple__101 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__101);
+  __Pyx_GIVEREF(__pyx_tuple__101);
+  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_parse_close_empty, 138, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(0, 138, __pyx_L1_error)
 
   /* "websockets/test_framing.py":141
  *         self.assertEqual(parse_close(b''), (1005, ''))
@@ -8472,10 +8431,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         with self.assertRaises(WebSocketProtocolError):
  *             parse_close(b'\x03')
  */
-  __pyx_tuple__105 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__105)) __PYX_ERR(0, 141, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__105);
-  __Pyx_GIVEREF(__pyx_tuple__105);
-  __pyx_codeobj__106 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__105, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_parse_close_errors, 141, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__106)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_tuple__103 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__103);
+  __Pyx_GIVEREF(__pyx_tuple__103);
+  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_test_parse_close_errors, 141, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -8604,7 +8563,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  * import unittest
  * import unittest.mock
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8616,7 +8575,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  * import unittest.mock
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_unittest, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8628,7 +8587,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  * 
  * from .exceptions import PayloadTooBig, WebSocketProtocolError
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest_mock, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest_mock, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_unittest, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8670,9 +8629,9 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s__51);
-  __Pyx_GIVEREF(__pyx_n_s__51);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__51);
+  __Pyx_INCREF(__pyx_n_s__49);
+  __Pyx_GIVEREF(__pyx_n_s__49);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__49);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_framing, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8708,7 +8667,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.loop = asyncio.new_event_loop()
  *         asyncio.set_event_loop(self.loop)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_1setUp, 0, __pyx_n_s_FramingTests_setUp, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_1setUp, 0, __pyx_n_s_FramingTests_setUp, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__51)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_setUp, __pyx_t_4) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8720,7 +8679,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.loop.close()
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_3tearDown, 0, __pyx_n_s_FramingTests_tearDown, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__55)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_3tearDown, 0, __pyx_n_s_FramingTests_tearDown, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_tearDown, __pyx_t_4) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8732,9 +8691,9 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.stream = asyncio.StreamReader(loop=self.loop)
  *         self.stream.feed_data(message)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_5decode, 0, __pyx_n_s_FramingTests_decode, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__57)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_5decode, 0, __pyx_n_s_FramingTests_decode, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__55)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__58);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__56);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_decode, __pyx_t_4) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -8745,9 +8704,9 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         writer = unittest.mock.Mock()
  *         write_frame(frame, writer, mask)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_7encode, 0, __pyx_n_s_FramingTests_encode, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__60)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_7encode, 0, __pyx_n_s_FramingTests_encode, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__58)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__61);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__59);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_encode, __pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -8758,9 +8717,9 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         decoded = self.decode(message, mask)
  *         self.assertEqual(decoded, expected)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_9round_trip, 0, __pyx_n_s_FramingTests_round_trip, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__63)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_9round_trip, 0, __pyx_n_s_FramingTests_round_trip, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__64);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__62);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_round_trip, __pyx_t_4) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -8771,7 +8730,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         parsed = parse_close(data)
  *         self.assertEqual(parsed, (code, reason))
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_11round_trip_close, 0, __pyx_n_s_FramingTests_round_trip_close, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__66)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_11round_trip_close, 0, __pyx_n_s_FramingTests_round_trip_close, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__64)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_round_trip_close, __pyx_t_4) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8783,7 +8742,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(b'\x81\x04Spam', Frame(True, OP_TEXT, b'Spam'))
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_13test_text, 0, __pyx_n_s_FramingTests_test_text, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_13test_text, 0, __pyx_n_s_FramingTests_test_text, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__66)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_text, __pyx_t_4) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8795,7 +8754,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(
  *             b'\x81\x84\x5b\xfb\xe1\xa8\x08\x8b\x80\xc5',
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_15test_text_masked, 0, __pyx_n_s_FramingTests_test_text_masked, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__70)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_15test_text_masked, 0, __pyx_n_s_FramingTests_test_text_masked, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_text_masked, __pyx_t_4) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8807,7 +8766,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(b'\x82\x04Eggs', Frame(True, OP_BINARY, b'Eggs'))
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_17test_binary, 0, __pyx_n_s_FramingTests_test_binary, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_17test_binary, 0, __pyx_n_s_FramingTests_test_binary, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__70)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_binary, __pyx_t_4) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8819,7 +8778,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(
  *             b'\x82\x84\x53\xcd\xe2\x89\x16\xaa\x85\xfa',
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_19test_binary_masked, 0, __pyx_n_s_FramingTests_test_binary_masked, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__74)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_19test_binary_masked, 0, __pyx_n_s_FramingTests_test_binary_masked, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_binary_masked, __pyx_t_4) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8831,7 +8790,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(
  *             b'\x81\x05caf\xc3\xa9',
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_21test_non_ascii_text, 0, __pyx_n_s_FramingTests_test_non_ascii_text, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__76)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_21test_non_ascii_text, 0, __pyx_n_s_FramingTests_test_non_ascii_text, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__74)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_non_ascii_text, __pyx_t_4) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8843,7 +8802,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(
  *             b'\x81\x85\x64\xbe\xee\x7e\x07\xdf\x88\xbd\xcd',
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_23test_non_ascii_text_masked, 0, __pyx_n_s_FramingTests_test_non_ascii_text_2, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__78)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_23test_non_ascii_text_masked, 0, __pyx_n_s_FramingTests_test_non_ascii_text_2, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__76)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_non_ascii_text_masked, __pyx_t_4) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8855,7 +8814,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(b'\x88\x00', Frame(True, OP_CLOSE, b''))
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_25test_close, 0, __pyx_n_s_FramingTests_test_close, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_25test_close, 0, __pyx_n_s_FramingTests_test_close, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__78)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_close, __pyx_t_4) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8867,7 +8826,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(b'\x89\x04ping', Frame(True, OP_PING, b'ping'))
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_27test_ping, 0, __pyx_n_s_FramingTests_test_ping, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_27test_ping, 0, __pyx_n_s_FramingTests_test_ping, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_ping, __pyx_t_4) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8879,7 +8838,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(b'\x8a\x04pong', Frame(True, OP_PONG, b'pong'))
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_29test_pong, 0, __pyx_n_s_FramingTests_test_pong, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__84)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_29test_pong, 0, __pyx_n_s_FramingTests_test_pong, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_pong, __pyx_t_4) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8891,7 +8850,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(
  *             b'\x82\x7e\x00\x7e' + 126 * b'a',
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_31test_long, 0, __pyx_n_s_FramingTests_test_long, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_31test_long, 0, __pyx_n_s_FramingTests_test_long, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__84)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_long, __pyx_t_4) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8903,7 +8862,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip(
  *             b'\x82\x7f\x00\x00\x00\x00\x00\x01\x00\x00' + 65536 * b'a',
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_33test_very_long, 0, __pyx_n_s_FramingTests_test_very_long, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__88)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_33test_very_long, 0, __pyx_n_s_FramingTests_test_very_long, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_very_long, __pyx_t_4) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8915,7 +8874,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         with self.assertRaises(PayloadTooBig):
  *             self.decode(b'\x82\x7e\x04\x01' + 1025 * b'a', max_size=1024)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_35test_payload_too_big, 0, __pyx_n_s_FramingTests_test_payload_too_bi, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__90)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_35test_payload_too_big, 0, __pyx_n_s_FramingTests_test_payload_too_bi, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__88)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_payload_too_big, __pyx_t_4) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8927,7 +8886,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\xc0\x00')
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_37test_bad_reserved_bits, 0, __pyx_n_s_FramingTests_test_bad_reserved_b, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__92)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_37test_bad_reserved_bits, 0, __pyx_n_s_FramingTests_test_bad_reserved_b, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__90)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_bad_reserved_bits, __pyx_t_4) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8939,7 +8898,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         for opcode in list(range(0x00, 0x03)) + list(range(0x08, 0x0b)):
  *             self.decode(bytes([0x80 | opcode, 0]))
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_39test_bad_opcode, 0, __pyx_n_s_FramingTests_test_bad_opcode, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__94)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_39test_bad_opcode, 0, __pyx_n_s_FramingTests_test_bad_opcode, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__92)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_bad_opcode, __pyx_t_4) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8951,7 +8910,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.decode(b'\x80\x80\x00\x00\x00\x00', mask=True)
  *         with self.assertRaises(WebSocketProtocolError):
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_41test_bad_mask_flag, 0, __pyx_n_s_FramingTests_test_bad_mask_flag, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__96)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_41test_bad_mask_flag, 0, __pyx_n_s_FramingTests_test_bad_mask_flag, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__94)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_bad_mask_flag, __pyx_t_4) < 0) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8963,7 +8922,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\x88\x7e\x00\x7e' + 126 * b'a')
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_43test_control_frame_too_long, 0, __pyx_n_s_FramingTests_test_control_frame, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__98)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_43test_control_frame_too_long, 0, __pyx_n_s_FramingTests_test_control_frame, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__96)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_control_frame_too_long, __pyx_t_4) < 0) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8975,7 +8934,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         with self.assertRaises(WebSocketProtocolError):
  *             self.decode(b'\x08\x00')
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_45test_fragmented_control_frame, 0, __pyx_n_s_FramingTests_test_fragmented_con, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__100)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_45test_fragmented_control_frame, 0, __pyx_n_s_FramingTests_test_fragmented_con, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__98)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_fragmented_control_frame, __pyx_t_4) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8987,7 +8946,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.round_trip_close(b'\x03\xe8', 1000, '')
  *         self.round_trip_close(b'\x03\xe8OK', 1000, 'OK')
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_47test_parse_close, 0, __pyx_n_s_FramingTests_test_parse_close, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__102)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_47test_parse_close, 0, __pyx_n_s_FramingTests_test_parse_close, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__100)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_parse_close, __pyx_t_4) < 0) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8999,7 +8958,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         self.assertEqual(parse_close(b''), (1005, ''))
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_49test_parse_close_empty, 0, __pyx_n_s_FramingTests_test_parse_close_em, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__104)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_49test_parse_close_empty, 0, __pyx_n_s_FramingTests_test_parse_close_em, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__102)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_parse_close_empty, __pyx_t_4) < 0) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -9011,7 +8970,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  *         with self.assertRaises(WebSocketProtocolError):
  *             parse_close(b'\x03')
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_51test_parse_close_errors, 0, __pyx_n_s_FramingTests_test_parse_close_er, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__106)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_10websockets_12test_framing_12FramingTests_51test_parse_close_errors, 0, __pyx_n_s_FramingTests_test_parse_close_er, NULL, __pyx_n_s_websockets_test_framing, __pyx_d, ((PyObject *)__pyx_codeobj__104)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_test_parse_close_errors, __pyx_t_4) < 0) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -9023,7 +8982,7 @@ PyMODINIT_FUNC PyInit_test_framing(void)
  * 
  *     def setUp(self):
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_FramingTests, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_FramingTests, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_FramingTests, __pyx_t_4) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -688,13 +688,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* PyThreadStateGet.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 #define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
@@ -748,6 +741,14 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
+
+/* SwapException.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_ExceptionSwap(type, value, tb)  __Pyx__ExceptionSwap(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#else
+static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value, PyObject **tb);
+#endif
 
 /* RaiseArgTupleInvalid.proto */
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
@@ -851,14 +852,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
-
-/* SwapException.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_ExceptionSwap(type, value, tb)  __Pyx__ExceptionSwap(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
-#else
-static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value, PyObject **tb);
-#endif
 
 /* PyObjectCallMethod1.proto */
 static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
@@ -982,21 +975,21 @@ static const char __pyx_k_check_response_locals_genexpr[] = "check_response.<loc
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\websockets\\handshake.py";
 static const char __pyx_k_The_mod_websockets_handshake_mo[] = "\nThe :mod:`websockets.handshake` module deals with the WebSocket opening\nhandshake according to `section 4 of RFC 6455`_.\n\n.. _section 4 of RFC 6455: http://tools.ietf.org/html/rfc6455#section-4\n\nIt provides functions to implement the handshake with any existing HTTP\nlibrary. You must pass to these functions:\n\n- A ``set_header`` function accepting a header name and a header value,\n- A ``get_header`` function accepting a header name and returning the header\n  value.\n\nThe inputs and outputs of ``get_header`` and ``set_header`` are :class:`str`\nobjects containing only ASCII characters.\n\nSome checks cannot be performed because they depend too much on the\ncontext; instead, they're documented below.\n\nTo accept a connection, a server must:\n\n- Read the request, check that the method is GET, and check the headers with\n  :func:`check_request`,\n- Send a 101 response to the client with the headers created by\n  :func:`build_response` if the request is valid; otherwise, send an\n  appropriate HTTP error code.\n\nTo open a connection, a client must:\n\n- Send a GET request to the server with the headers created by\n  :func:`build_request`,\n- Read the response, check that the status code is 101, and check the headers\n  with :func:`check_response`.\n\n";
 static const char __pyx_k_258EAFA5_E914_47DA_95CA_C5AB0DC8[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-static PyObject *__pyx_kp_s_13;
-static PyObject *__pyx_kp_s_258EAFA5_E914_47DA_95CA_C5AB0DC8;
-static PyObject *__pyx_n_s_Connection;
+static PyObject *__pyx_kp_u_13;
+static PyObject *__pyx_kp_u_258EAFA5_E914_47DA_95CA_C5AB0DC8;
+static PyObject *__pyx_n_u_Connection;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Exception;
 static PyObject *__pyx_n_s_GUID;
 static PyObject *__pyx_n_s_InvalidHandshake;
-static PyObject *__pyx_kp_s_Invalid_request;
-static PyObject *__pyx_kp_s_Invalid_response;
-static PyObject *__pyx_kp_s_Sec_WebSocket_Accept;
-static PyObject *__pyx_kp_s_Sec_WebSocket_Key;
-static PyObject *__pyx_kp_s_Sec_WebSocket_Version;
-static PyObject *__pyx_n_s_Upgrade;
-static PyObject *__pyx_n_s_WebSocket;
-static PyObject *__pyx_kp_s__6;
+static PyObject *__pyx_kp_u_Invalid_request;
+static PyObject *__pyx_kp_u_Invalid_response;
+static PyObject *__pyx_kp_u_Sec_WebSocket_Accept;
+static PyObject *__pyx_kp_u_Sec_WebSocket_Key;
+static PyObject *__pyx_kp_u_Sec_WebSocket_Version;
+static PyObject *__pyx_n_u_Upgrade;
+static PyObject *__pyx_n_u_WebSocket;
+static PyObject *__pyx_kp_u__6;
 static PyObject *__pyx_n_s_accept;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_args;
@@ -1004,11 +997,15 @@ static PyObject *__pyx_n_s_b64decode;
 static PyObject *__pyx_n_s_b64encode;
 static PyObject *__pyx_n_s_base64;
 static PyObject *__pyx_n_s_build_request;
+static PyObject *__pyx_n_u_build_request;
 static PyObject *__pyx_n_s_build_request_locals_genexpr;
 static PyObject *__pyx_n_s_build_response;
+static PyObject *__pyx_n_u_build_response;
 static PyObject *__pyx_n_s_check_request;
+static PyObject *__pyx_n_u_check_request;
 static PyObject *__pyx_n_s_check_request_locals_genexpr;
 static PyObject *__pyx_n_s_check_response;
+static PyObject *__pyx_n_u_check_response;
 static PyObject *__pyx_n_s_check_response_locals_genexpr;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_decode;
@@ -1034,9 +1031,9 @@ static PyObject *__pyx_n_s_split;
 static PyObject *__pyx_n_s_strip;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
-static PyObject *__pyx_n_s_upgrade;
+static PyObject *__pyx_n_u_upgrade;
 static PyObject *__pyx_n_s_validate;
-static PyObject *__pyx_n_s_websocket;
+static PyObject *__pyx_n_u_websocket;
 static PyObject *__pyx_n_s_websockets_handshake;
 static PyObject *__pyx_pf_10websockets_9handshake_13build_request_genexpr(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_10websockets_9handshake_build_request(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_set_header); /* proto */
@@ -1345,9 +1342,9 @@ static PyObject *__pyx_pf_10websockets_9handshake_build_request(CYTHON_UNUSED Py
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_Sec_WebSocket_Key);
-  __Pyx_GIVEREF(__pyx_kp_s_Sec_WebSocket_Key);
-  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_6, __pyx_kp_s_Sec_WebSocket_Key);
+  __Pyx_INCREF(__pyx_kp_u_Sec_WebSocket_Key);
+  __Pyx_GIVEREF(__pyx_kp_u_Sec_WebSocket_Key);
+  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_6, __pyx_kp_u_Sec_WebSocket_Key);
   __Pyx_INCREF(__pyx_v_key);
   __Pyx_GIVEREF(__pyx_v_key);
   PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_6, __pyx_v_key);
@@ -1599,7 +1596,7 @@ static PyObject *__pyx_gb_10websockets_9handshake_13check_request_2generator1(__
     }
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_upgrade, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_upgrade, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_7) {
 
@@ -1715,6 +1712,14 @@ static PyObject *__pyx_pf_10websockets_9handshake_2check_request(CYTHON_UNUSED P
   Py_ssize_t __pyx_t_9;
   int __pyx_t_10;
   PyObject *__pyx_t_11 = NULL;
+  int __pyx_t_12;
+  char const *__pyx_t_13;
+  PyObject *__pyx_t_14 = NULL;
+  PyObject *__pyx_t_15 = NULL;
+  PyObject *__pyx_t_16 = NULL;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
+  PyObject *__pyx_t_19 = NULL;
   __Pyx_RefNannySetupContext("check_request", 0);
   __pyx_cur_scope = (struct __pyx_obj_10websockets_9handshake___pyx_scope_struct_1_check_request *)__pyx_tp_new_10websockets_9handshake___pyx_scope_struct_1_check_request(__pyx_ptype_10websockets_9handshake___pyx_scope_struct_1_check_request, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
@@ -1774,7 +1779,7 @@ static PyObject *__pyx_pf_10websockets_9handshake_2check_request(CYTHON_UNUSED P
         }
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_n_s_websocket, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 88, __pyx_L3_error)
+        __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_t_4, __pyx_n_u_websocket, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 88, __pyx_L3_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         if (unlikely(!__pyx_t_7)) {
           PyErr_SetNone(PyExc_AssertionError);
@@ -1893,7 +1898,7 @@ static PyObject *__pyx_pf_10websockets_9handshake_2check_request(CYTHON_UNUSED P
       if (unlikely(!Py_OptimizeFlag)) {
         __pyx_t_8 = __Pyx_PyObject_Call(__pyx_cur_scope->__pyx_v_get_header, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 94, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_8, __pyx_kp_s_13, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 94, __pyx_L3_error)
+        __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_t_8, __pyx_kp_u_13, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 94, __pyx_L3_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         if (unlikely(!__pyx_t_7)) {
           PyErr_SetNone(PyExc_AssertionError);
@@ -1947,22 +1952,69 @@ static PyObject *__pyx_pf_10websockets_9handshake_2check_request(CYTHON_UNUSED P
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_6);
       __pyx_v_exc = __pyx_t_6;
+      /*try:*/ {
 
-      /* "websockets/handshake.py":96
+        /* "websockets/handshake.py":96
  *         assert get_header('Sec-WebSocket-Version') == '13'
  *     except Exception as exc:
  *         raise InvalidHandshake("Invalid request") from exc             # <<<<<<<<<<<<<<
  *     else:
  *         return key
  */
-      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_InvalidHandshake); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 96, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_Raise(__pyx_t_11, 0, 0, __pyx_v_exc);
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __PYX_ERR(0, 96, __pyx_L5_except_error)
+        __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_InvalidHandshake); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L16_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 96, __pyx_L16_error)
+        __Pyx_GOTREF(__pyx_t_11);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_Raise(__pyx_t_11, 0, 0, __pyx_v_exc);
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        __PYX_ERR(0, 96, __pyx_L16_error)
+      }
+
+      /* "websockets/handshake.py":95
+ *         assert len(base64.b64decode(key.encode(), validate=True)) == 16
+ *         assert get_header('Sec-WebSocket-Version') == '13'
+ *     except Exception as exc:             # <<<<<<<<<<<<<<
+ *         raise InvalidHandshake("Invalid request") from exc
+ *     else:
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L16_error:;
+          __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_17, &__pyx_t_18, &__pyx_t_19);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_14, &__pyx_t_15, &__pyx_t_16) < 0)) __Pyx_ErrFetch(&__pyx_t_14, &__pyx_t_15, &__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_14);
+          __Pyx_XGOTREF(__pyx_t_15);
+          __Pyx_XGOTREF(__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_17);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_19);
+          __pyx_t_10 = __pyx_lineno; __pyx_t_12 = __pyx_clineno; __pyx_t_13 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_exc);
+            __pyx_v_exc = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_17);
+            __Pyx_XGIVEREF(__pyx_t_18);
+            __Pyx_XGIVEREF(__pyx_t_19);
+            __Pyx_ExceptionReset(__pyx_t_17, __pyx_t_18, __pyx_t_19);
+          }
+          __Pyx_XGIVEREF(__pyx_t_14);
+          __Pyx_XGIVEREF(__pyx_t_15);
+          __Pyx_XGIVEREF(__pyx_t_16);
+          __Pyx_ErrRestore(__pyx_t_14, __pyx_t_15, __pyx_t_16);
+          __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0;
+          __pyx_lineno = __pyx_t_10; __pyx_clineno = __pyx_t_12; __pyx_filename = __pyx_t_13;
+          goto __pyx_L5_except_error;
+        }
+      }
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -2168,9 +2220,9 @@ static PyObject *__pyx_pf_10websockets_9handshake_4build_response(CYTHON_UNUSED 
   if (__pyx_t_5) {
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_Sec_WebSocket_Accept);
-  __Pyx_GIVEREF(__pyx_kp_s_Sec_WebSocket_Accept);
-  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_6, __pyx_kp_s_Sec_WebSocket_Accept);
+  __Pyx_INCREF(__pyx_kp_u_Sec_WebSocket_Accept);
+  __Pyx_GIVEREF(__pyx_kp_u_Sec_WebSocket_Accept);
+  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_6, __pyx_kp_u_Sec_WebSocket_Accept);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_6, __pyx_t_2);
   __pyx_t_2 = 0;
@@ -2444,7 +2496,7 @@ static PyObject *__pyx_gb_10websockets_9handshake_14check_response_2generator2(_
     }
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_upgrade, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_upgrade, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_7) {
 
@@ -2558,6 +2610,14 @@ static PyObject *__pyx_pf_10websockets_9handshake_6check_response(CYTHON_UNUSED 
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
   int __pyx_t_10;
+  int __pyx_t_11;
+  char const *__pyx_t_12;
+  PyObject *__pyx_t_13 = NULL;
+  PyObject *__pyx_t_14 = NULL;
+  PyObject *__pyx_t_15 = NULL;
+  PyObject *__pyx_t_16 = NULL;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
   __Pyx_RefNannySetupContext("check_response", 0);
   __pyx_cur_scope = (struct __pyx_obj_10websockets_9handshake___pyx_scope_struct_3_check_response *)__pyx_tp_new_10websockets_9handshake___pyx_scope_struct_3_check_response(__pyx_ptype_10websockets_9handshake___pyx_scope_struct_3_check_response, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
@@ -2617,7 +2677,7 @@ static PyObject *__pyx_pf_10websockets_9handshake_6check_response(CYTHON_UNUSED 
         }
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_n_s_websocket, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 132, __pyx_L3_error)
+        __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_t_4, __pyx_n_u_websocket, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 132, __pyx_L3_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         if (unlikely(!__pyx_t_7)) {
           PyErr_SetNone(PyExc_AssertionError);
@@ -2743,22 +2803,69 @@ static PyObject *__pyx_pf_10websockets_9handshake_6check_response(CYTHON_UNUSED 
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_4);
       __pyx_v_exc = __pyx_t_4;
+      /*try:*/ {
 
-      /* "websockets/handshake.py":138
+        /* "websockets/handshake.py":138
  *         assert get_header('Sec-WebSocket-Accept') == accept(key)
  *     except Exception as exc:
  *         raise InvalidHandshake("Invalid response") from exc             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_InvalidHandshake); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 138, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 138, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __Pyx_Raise(__pyx_t_8, 0, 0, __pyx_v_exc);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(0, 138, __pyx_L5_except_error)
+        __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_InvalidHandshake); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 138, __pyx_L16_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 138, __pyx_L16_error)
+        __Pyx_GOTREF(__pyx_t_8);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __Pyx_Raise(__pyx_t_8, 0, 0, __pyx_v_exc);
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __PYX_ERR(0, 138, __pyx_L16_error)
+      }
+
+      /* "websockets/handshake.py":137
+ *             for token in get_header('Connection').lower().split(','))
+ *         assert get_header('Sec-WebSocket-Accept') == accept(key)
+ *     except Exception as exc:             # <<<<<<<<<<<<<<
+ *         raise InvalidHandshake("Invalid response") from exc
+ * 
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L16_error:;
+          __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+          __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15) < 0)) __Pyx_ErrFetch(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15);
+          __Pyx_XGOTREF(__pyx_t_13);
+          __Pyx_XGOTREF(__pyx_t_14);
+          __Pyx_XGOTREF(__pyx_t_15);
+          __Pyx_XGOTREF(__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_17);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __pyx_t_10 = __pyx_lineno; __pyx_t_11 = __pyx_clineno; __pyx_t_12 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_exc);
+            __pyx_v_exc = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_16);
+            __Pyx_XGIVEREF(__pyx_t_17);
+            __Pyx_XGIVEREF(__pyx_t_18);
+            __Pyx_ExceptionReset(__pyx_t_16, __pyx_t_17, __pyx_t_18);
+          }
+          __Pyx_XGIVEREF(__pyx_t_13);
+          __Pyx_XGIVEREF(__pyx_t_14);
+          __Pyx_XGIVEREF(__pyx_t_15);
+          __Pyx_ErrRestore(__pyx_t_13, __pyx_t_14, __pyx_t_15);
+          __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+          __pyx_lineno = __pyx_t_10; __pyx_clineno = __pyx_t_11; __pyx_filename = __pyx_t_12;
+          goto __pyx_L5_except_error;
+        }
+      }
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -3548,21 +3655,21 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_13, __pyx_k_13, sizeof(__pyx_k_13), 0, 0, 1, 0},
-  {&__pyx_kp_s_258EAFA5_E914_47DA_95CA_C5AB0DC8, __pyx_k_258EAFA5_E914_47DA_95CA_C5AB0DC8, sizeof(__pyx_k_258EAFA5_E914_47DA_95CA_C5AB0DC8), 0, 0, 1, 0},
-  {&__pyx_n_s_Connection, __pyx_k_Connection, sizeof(__pyx_k_Connection), 0, 0, 1, 1},
+  {&__pyx_kp_u_13, __pyx_k_13, sizeof(__pyx_k_13), 0, 1, 0, 0},
+  {&__pyx_kp_u_258EAFA5_E914_47DA_95CA_C5AB0DC8, __pyx_k_258EAFA5_E914_47DA_95CA_C5AB0DC8, sizeof(__pyx_k_258EAFA5_E914_47DA_95CA_C5AB0DC8), 0, 1, 0, 0},
+  {&__pyx_n_u_Connection, __pyx_k_Connection, sizeof(__pyx_k_Connection), 0, 1, 0, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Exception, __pyx_k_Exception, sizeof(__pyx_k_Exception), 0, 0, 1, 1},
   {&__pyx_n_s_GUID, __pyx_k_GUID, sizeof(__pyx_k_GUID), 0, 0, 1, 1},
   {&__pyx_n_s_InvalidHandshake, __pyx_k_InvalidHandshake, sizeof(__pyx_k_InvalidHandshake), 0, 0, 1, 1},
-  {&__pyx_kp_s_Invalid_request, __pyx_k_Invalid_request, sizeof(__pyx_k_Invalid_request), 0, 0, 1, 0},
-  {&__pyx_kp_s_Invalid_response, __pyx_k_Invalid_response, sizeof(__pyx_k_Invalid_response), 0, 0, 1, 0},
-  {&__pyx_kp_s_Sec_WebSocket_Accept, __pyx_k_Sec_WebSocket_Accept, sizeof(__pyx_k_Sec_WebSocket_Accept), 0, 0, 1, 0},
-  {&__pyx_kp_s_Sec_WebSocket_Key, __pyx_k_Sec_WebSocket_Key, sizeof(__pyx_k_Sec_WebSocket_Key), 0, 0, 1, 0},
-  {&__pyx_kp_s_Sec_WebSocket_Version, __pyx_k_Sec_WebSocket_Version, sizeof(__pyx_k_Sec_WebSocket_Version), 0, 0, 1, 0},
-  {&__pyx_n_s_Upgrade, __pyx_k_Upgrade, sizeof(__pyx_k_Upgrade), 0, 0, 1, 1},
-  {&__pyx_n_s_WebSocket, __pyx_k_WebSocket, sizeof(__pyx_k_WebSocket), 0, 0, 1, 1},
-  {&__pyx_kp_s__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 0, 1, 0},
+  {&__pyx_kp_u_Invalid_request, __pyx_k_Invalid_request, sizeof(__pyx_k_Invalid_request), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_response, __pyx_k_Invalid_response, sizeof(__pyx_k_Invalid_response), 0, 1, 0, 0},
+  {&__pyx_kp_u_Sec_WebSocket_Accept, __pyx_k_Sec_WebSocket_Accept, sizeof(__pyx_k_Sec_WebSocket_Accept), 0, 1, 0, 0},
+  {&__pyx_kp_u_Sec_WebSocket_Key, __pyx_k_Sec_WebSocket_Key, sizeof(__pyx_k_Sec_WebSocket_Key), 0, 1, 0, 0},
+  {&__pyx_kp_u_Sec_WebSocket_Version, __pyx_k_Sec_WebSocket_Version, sizeof(__pyx_k_Sec_WebSocket_Version), 0, 1, 0, 0},
+  {&__pyx_n_u_Upgrade, __pyx_k_Upgrade, sizeof(__pyx_k_Upgrade), 0, 1, 0, 1},
+  {&__pyx_n_u_WebSocket, __pyx_k_WebSocket, sizeof(__pyx_k_WebSocket), 0, 1, 0, 1},
+  {&__pyx_kp_u__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 1, 0, 0},
   {&__pyx_n_s_accept, __pyx_k_accept, sizeof(__pyx_k_accept), 0, 0, 1, 1},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
@@ -3570,11 +3677,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_b64encode, __pyx_k_b64encode, sizeof(__pyx_k_b64encode), 0, 0, 1, 1},
   {&__pyx_n_s_base64, __pyx_k_base64, sizeof(__pyx_k_base64), 0, 0, 1, 1},
   {&__pyx_n_s_build_request, __pyx_k_build_request, sizeof(__pyx_k_build_request), 0, 0, 1, 1},
+  {&__pyx_n_u_build_request, __pyx_k_build_request, sizeof(__pyx_k_build_request), 0, 1, 0, 1},
   {&__pyx_n_s_build_request_locals_genexpr, __pyx_k_build_request_locals_genexpr, sizeof(__pyx_k_build_request_locals_genexpr), 0, 0, 1, 1},
   {&__pyx_n_s_build_response, __pyx_k_build_response, sizeof(__pyx_k_build_response), 0, 0, 1, 1},
+  {&__pyx_n_u_build_response, __pyx_k_build_response, sizeof(__pyx_k_build_response), 0, 1, 0, 1},
   {&__pyx_n_s_check_request, __pyx_k_check_request, sizeof(__pyx_k_check_request), 0, 0, 1, 1},
+  {&__pyx_n_u_check_request, __pyx_k_check_request, sizeof(__pyx_k_check_request), 0, 1, 0, 1},
   {&__pyx_n_s_check_request_locals_genexpr, __pyx_k_check_request_locals_genexpr, sizeof(__pyx_k_check_request_locals_genexpr), 0, 0, 1, 1},
   {&__pyx_n_s_check_response, __pyx_k_check_response, sizeof(__pyx_k_check_response), 0, 0, 1, 1},
+  {&__pyx_n_u_check_response, __pyx_k_check_response, sizeof(__pyx_k_check_response), 0, 1, 0, 1},
   {&__pyx_n_s_check_response_locals_genexpr, __pyx_k_check_response_locals_genexpr, sizeof(__pyx_k_check_response_locals_genexpr), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_decode, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
@@ -3600,9 +3711,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_strip, __pyx_k_strip, sizeof(__pyx_k_strip), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
-  {&__pyx_n_s_upgrade, __pyx_k_upgrade, sizeof(__pyx_k_upgrade), 0, 0, 1, 1},
+  {&__pyx_n_u_upgrade, __pyx_k_upgrade, sizeof(__pyx_k_upgrade), 0, 1, 0, 1},
   {&__pyx_n_s_validate, __pyx_k_validate, sizeof(__pyx_k_validate), 0, 0, 1, 1},
-  {&__pyx_n_s_websocket, __pyx_k_websocket, sizeof(__pyx_k_websocket), 0, 0, 1, 1},
+  {&__pyx_n_u_websocket, __pyx_k_websocket, sizeof(__pyx_k_websocket), 0, 1, 0, 1},
   {&__pyx_n_s_websockets_handshake, __pyx_k_websockets_handshake, sizeof(__pyx_k_websockets_handshake), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -3636,7 +3747,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     set_header('Connection', 'Upgrade')
  *     set_header('Sec-WebSocket-Key', key)
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_Upgrade, __pyx_n_s_WebSocket); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_Upgrade, __pyx_n_u_WebSocket); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -3647,7 +3758,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     set_header('Sec-WebSocket-Key', key)
  *     set_header('Sec-WebSocket-Version', '13')
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_s_Connection, __pyx_n_s_Upgrade); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_u_Connection, __pyx_n_u_Upgrade); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -3658,7 +3769,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     return key
  * 
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_kp_s_Sec_WebSocket_Version, __pyx_kp_s_13); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_kp_u_Sec_WebSocket_Version, __pyx_kp_u_13); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -3669,10 +3780,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         key = get_header('Sec-WebSocket-Key')
  *         assert len(base64.b64decode(key.encode(), validate=True)) == 16
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_Connection); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_u_Connection); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -3683,7 +3794,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert any(
  *             token.strip() == 'upgrade'
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_n_s_Upgrade); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_n_u_Upgrade); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -3694,7 +3805,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert len(base64.b64decode(key.encode(), validate=True)) == 16
  *         assert get_header('Sec-WebSocket-Version') == '13'
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Sec_WebSocket_Key); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Sec_WebSocket_Key); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -3705,7 +3816,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     except Exception as exc:
  *         raise InvalidHandshake("Invalid request") from exc
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Sec_WebSocket_Version); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Sec_WebSocket_Version); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
@@ -3716,7 +3827,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     else:
  *         return key
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Invalid_request); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Invalid_request); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -3727,7 +3838,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     set_header('Connection', 'Upgrade')
  *     set_header('Sec-WebSocket-Accept', accept(key))
  */
-  __pyx_tuple__12 = PyTuple_Pack(2, __pyx_n_s_Upgrade, __pyx_n_s_WebSocket); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(2, __pyx_n_u_Upgrade, __pyx_n_u_WebSocket); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
@@ -3738,7 +3849,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     set_header('Sec-WebSocket-Accept', accept(key))
  * 
  */
-  __pyx_tuple__13 = PyTuple_Pack(2, __pyx_n_s_Connection, __pyx_n_s_Upgrade); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(2, __pyx_n_u_Connection, __pyx_n_u_Upgrade); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
@@ -3749,10 +3860,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert get_header('Sec-WebSocket-Accept') == accept(key)
  *     except Exception as exc:
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_s_Connection); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_u_Connection); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
 
@@ -3763,7 +3874,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert any(
  *             token.strip() == 'upgrade'
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_n_s_Upgrade); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_n_u_Upgrade); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
 
@@ -3774,7 +3885,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     except Exception as exc:
  *         raise InvalidHandshake("Invalid response") from exc
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_Sec_WebSocket_Accept); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_Sec_WebSocket_Accept); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
@@ -3785,7 +3896,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_Invalid_response); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_Invalid_response); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
@@ -3978,7 +4089,7 @@ PyMODINIT_FUNC PyInit_handshake(void)
  * import hashlib
  * import random
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_base64, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_base64, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_base64, __pyx_t_1) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3990,7 +4101,7 @@ PyMODINIT_FUNC PyInit_handshake(void)
  * import random
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_hashlib, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_hashlib, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_hashlib, __pyx_t_1) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4002,7 +4113,7 @@ PyMODINIT_FUNC PyInit_handshake(void)
  * 
  * from .exceptions import InvalidHandshake
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_random, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_random, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_random, __pyx_t_1) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4037,18 +4148,18 @@ PyMODINIT_FUNC PyInit_handshake(void)
  */
   __pyx_t_2 = PyList_New(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_build_request);
-  __Pyx_GIVEREF(__pyx_n_s_build_request);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_build_request);
-  __Pyx_INCREF(__pyx_n_s_check_request);
-  __Pyx_GIVEREF(__pyx_n_s_check_request);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_check_request);
-  __Pyx_INCREF(__pyx_n_s_build_response);
-  __Pyx_GIVEREF(__pyx_n_s_build_response);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_build_response);
-  __Pyx_INCREF(__pyx_n_s_check_response);
-  __Pyx_GIVEREF(__pyx_n_s_check_response);
-  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_s_check_response);
+  __Pyx_INCREF(__pyx_n_u_build_request);
+  __Pyx_GIVEREF(__pyx_n_u_build_request);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_u_build_request);
+  __Pyx_INCREF(__pyx_n_u_check_request);
+  __Pyx_GIVEREF(__pyx_n_u_check_request);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_check_request);
+  __Pyx_INCREF(__pyx_n_u_build_response);
+  __Pyx_GIVEREF(__pyx_n_u_build_response);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_u_build_response);
+  __Pyx_INCREF(__pyx_n_u_check_response);
+  __Pyx_GIVEREF(__pyx_n_u_check_response);
+  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_u_check_response);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_2) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -4059,7 +4170,7 @@ PyMODINIT_FUNC PyInit_handshake(void)
  * 
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_GUID, __pyx_kp_s_258EAFA5_E914_47DA_95CA_C5AB0DC8) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_GUID, __pyx_kp_u_258EAFA5_E914_47DA_95CA_C5AB0DC8) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
 
   /* "websockets/handshake.py":54
  * 
@@ -4701,6 +4812,31 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 bad:
     Py_XDECREF(owned_instance);
     return;
+}
+#endif
+
+/* SwapException */
+          #if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->exc_type;
+    tmp_value = tstate->exc_value;
+    tmp_tb = tstate->exc_traceback;
+    tstate->exc_type = *type;
+    tstate->exc_value = *value;
+    tstate->exc_traceback = *tb;
+    *type = tmp_type;
+    *value = tmp_value;
+    *tb = tmp_tb;
+}
+#else
+static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value, PyObject **tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    PyErr_GetExcInfo(&tmp_type, &tmp_value, &tmp_tb);
+    PyErr_SetExcInfo(*type, *value, *tb);
+    *type = tmp_type;
+    *value = tmp_value;
+    *tb = tmp_tb;
 }
 #endif
 
@@ -6119,31 +6255,6 @@ raise_neg_overflow:
         "can't convert negative value to int");
     return (int) -1;
 }
-
-/* SwapException */
-              #if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->exc_type;
-    tmp_value = tstate->exc_value;
-    tmp_tb = tstate->exc_traceback;
-    tstate->exc_type = *type;
-    tstate->exc_value = *value;
-    tstate->exc_traceback = *tb;
-    *type = tmp_type;
-    *value = tmp_value;
-    *tb = tmp_tb;
-}
-#else
-static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value, PyObject **tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    PyErr_GetExcInfo(&tmp_type, &tmp_value, &tmp_tb);
-    PyErr_SetExcInfo(*type, *value, *tb);
-    *type = tmp_type;
-    *value = tmp_value;
-    *tb = tmp_tb;
-}
-#endif
 
 /* PyObjectCallMethod1 */
               static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg) {

@@ -744,7 +744,7 @@ static const char __pyx_k_nacl_exceptions[] = "nacl.exceptions";
 static const char __pyx_k_nacl_bindings_sodium_core[] = "nacl.bindings.sodium_core";
 static const char __pyx_k_Could_not_initialize_sodium[] = "Could not initialize sodium";
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\nacl\\bindings\\sodium_core.py";
-static PyObject *__pyx_kp_s_Could_not_initialize_sodium;
+static PyObject *__pyx_kp_u_Could_not_initialize_sodium;
 static PyObject *__pyx_n_s_CryptoError;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_import;
@@ -895,7 +895,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_Could_not_initialize_sodium, __pyx_k_Could_not_initialize_sodium, sizeof(__pyx_k_Could_not_initialize_sodium), 0, 0, 1, 0},
+  {&__pyx_kp_u_Could_not_initialize_sodium, __pyx_k_Could_not_initialize_sodium, sizeof(__pyx_k_Could_not_initialize_sodium), 0, 1, 0, 0},
   {&__pyx_n_s_CryptoError, __pyx_k_CryptoError, sizeof(__pyx_k_CryptoError), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -921,7 +921,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     if lib.sodium_init() != 0:
  *         raise CryptoError("Could not initialize sodium")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Could_not_initialize_sodium); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Could_not_initialize_sodium); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 

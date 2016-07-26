@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -917,7 +917,7 @@ static PyObject *__pyx_n_s_WinTerm_style;
 static PyObject *__pyx_n_s_X;
 static PyObject *__pyx_n_s_Y;
 static PyObject *__pyx_n_s_YELLOW;
-static PyObject *__pyx_kp_s__3;
+static PyObject *__pyx_kp_u__3;
 static PyObject *__pyx_n_s__5;
 static PyObject *__pyx_n_s_adjust;
 static PyObject *__pyx_n_s_adjusted_position;
@@ -3694,9 +3694,9 @@ static PyObject *__pyx_pf_8colorama_7winterm_7WinTerm_22erase_screen(CYTHON_UNUS
   __Pyx_INCREF(__pyx_v_handle);
   __Pyx_GIVEREF(__pyx_v_handle);
   PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_6, __pyx_v_handle);
-  __Pyx_INCREF(__pyx_kp_s__3);
-  __Pyx_GIVEREF(__pyx_kp_s__3);
-  PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_kp_s__3);
+  __Pyx_INCREF(__pyx_kp_u__3);
+  __Pyx_GIVEREF(__pyx_kp_u__3);
+  PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_kp_u__3);
   __Pyx_INCREF(__pyx_v_cells_to_erase);
   __Pyx_GIVEREF(__pyx_v_cells_to_erase);
   PyTuple_SET_ITEM(__pyx_t_2, 2+__pyx_t_6, __pyx_v_cells_to_erase);
@@ -4319,9 +4319,9 @@ static PyObject *__pyx_pf_8colorama_7winterm_7WinTerm_24erase_line(CYTHON_UNUSED
   __Pyx_INCREF(__pyx_v_handle);
   __Pyx_GIVEREF(__pyx_v_handle);
   PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_6, __pyx_v_handle);
-  __Pyx_INCREF(__pyx_kp_s__3);
-  __Pyx_GIVEREF(__pyx_kp_s__3);
-  PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_kp_s__3);
+  __Pyx_INCREF(__pyx_kp_u__3);
+  __Pyx_GIVEREF(__pyx_kp_u__3);
+  PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_kp_u__3);
   __Pyx_INCREF(__pyx_v_cells_to_erase);
   __Pyx_GIVEREF(__pyx_v_cells_to_erase);
   PyTuple_SET_ITEM(__pyx_t_2, 2+__pyx_t_6, __pyx_v_cells_to_erase);
@@ -4630,7 +4630,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_X, __pyx_k_X, sizeof(__pyx_k_X), 0, 0, 1, 1},
   {&__pyx_n_s_Y, __pyx_k_Y, sizeof(__pyx_k_Y), 0, 0, 1, 1},
   {&__pyx_n_s_YELLOW, __pyx_k_YELLOW, sizeof(__pyx_k_YELLOW), 0, 0, 1, 1},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
   {&__pyx_n_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 1},
   {&__pyx_n_s_adjust, __pyx_k_adjust, sizeof(__pyx_k_adjust), 0, 0, 1, 1},
   {&__pyx_n_s_adjusted_position, __pyx_k_adjusted_position, sizeof(__pyx_k_adjusted_position), 0, 0, 1, 1},
@@ -5162,7 +5162,7 @@ PyMODINIT_FUNC PyInit_winterm(void)
  *     BLACK = 0
  *     BLUE = 1
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_WinColor, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_WinColor, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_WinColor, __pyx_t_4) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5221,7 +5221,7 @@ PyMODINIT_FUNC PyInit_winterm(void)
  *     NORMAL = 0x00  # dim text, dim background
  *     BRIGHT = 0x08  # bright text, dim background
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_WinStyle, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_WinStyle, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_WinStyle, __pyx_t_4) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5429,7 +5429,7 @@ PyMODINIT_FUNC PyInit_winterm(void)
  * 
  *     def __init__(self):
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_WinTerm, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_WinTerm, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_WinTerm, __pyx_t_4) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -634,14 +634,14 @@ static const char __pyx_k_TIS620CharToOrderMap[] = "TIS620CharToOrderMap";
 static const char __pyx_k_mTypicalPositiveRatio[] = "mTypicalPositiveRatio";
 static PyObject *__pyx_n_s_TIS620CharToOrderMap;
 static PyObject *__pyx_n_s_TIS620ThaiModel;
-static PyObject *__pyx_kp_s_TIS_620;
+static PyObject *__pyx_kp_u_TIS_620;
 static PyObject *__pyx_n_s_ThaiLangModel;
-static PyObject *__pyx_n_s_charToOrderMap;
-static PyObject *__pyx_n_s_charsetName;
-static PyObject *__pyx_n_s_keepEnglishLetter;
-static PyObject *__pyx_n_s_mTypicalPositiveRatio;
+static PyObject *__pyx_n_u_charToOrderMap;
+static PyObject *__pyx_n_u_charsetName;
+static PyObject *__pyx_n_u_keepEnglishLetter;
+static PyObject *__pyx_n_u_mTypicalPositiveRatio;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_n_s_precedenceMatrix;
+static PyObject *__pyx_n_u_precedenceMatrix;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_float_0_926386;
 static PyObject *__pyx_int_0;
@@ -855,14 +855,14 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_TIS620CharToOrderMap, __pyx_k_TIS620CharToOrderMap, sizeof(__pyx_k_TIS620CharToOrderMap), 0, 0, 1, 1},
   {&__pyx_n_s_TIS620ThaiModel, __pyx_k_TIS620ThaiModel, sizeof(__pyx_k_TIS620ThaiModel), 0, 0, 1, 1},
-  {&__pyx_kp_s_TIS_620, __pyx_k_TIS_620, sizeof(__pyx_k_TIS_620), 0, 0, 1, 0},
+  {&__pyx_kp_u_TIS_620, __pyx_k_TIS_620, sizeof(__pyx_k_TIS_620), 0, 1, 0, 0},
   {&__pyx_n_s_ThaiLangModel, __pyx_k_ThaiLangModel, sizeof(__pyx_k_ThaiLangModel), 0, 0, 1, 1},
-  {&__pyx_n_s_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 0, 1, 1},
-  {&__pyx_n_s_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 0, 1, 1},
-  {&__pyx_n_s_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 0, 1, 1},
-  {&__pyx_n_s_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 0, 1, 1},
+  {&__pyx_n_u_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 1, 0, 1},
+  {&__pyx_n_u_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 1, 0, 1},
+  {&__pyx_n_u_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 1, 0, 1},
+  {&__pyx_n_u_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_n_s_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 0, 1, 1},
+  {&__pyx_n_u_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -1215,7 +1215,7 @@ PyMODINIT_FUNC PyInit_langthaimodel(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_TIS620CharToOrderMap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charToOrderMap, __pyx_t_2) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "chardet/langthaimodel.py":195
@@ -1227,9 +1227,9 @@ PyMODINIT_FUNC PyInit_langthaimodel(void)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_ThaiLangModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix, __pyx_t_2) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_mTypicalPositiveRatio, __pyx_float_0_926386) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_mTypicalPositiveRatio, __pyx_float_0_926386) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
 
   /* "chardet/langthaimodel.py":197
  *     'precedenceMatrix': ThaiLangModel,
@@ -1238,8 +1238,8 @@ PyMODINIT_FUNC PyInit_langthaimodel(void)
  *     'charsetName': "TIS-620"
  * }
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charsetName, __pyx_kp_s_TIS_620) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter, Py_False) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charsetName, __pyx_kp_u_TIS_620) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_TIS620ThaiModel, __pyx_t_1) < 0) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 

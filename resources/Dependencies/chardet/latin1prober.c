@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -888,7 +888,7 @@ static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_total;
-static PyObject *__pyx_kp_s_windows_1252;
+static PyObject *__pyx_kp_u_windows_1252;
 static PyObject *__pyx_n_s_wrap_ord;
 static PyObject *__pyx_pf_7chardet_12latin1prober_12Latin1Prober___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_7chardet_12latin1prober_12Latin1Prober_2reset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
@@ -1207,8 +1207,8 @@ static PyObject *__pyx_pf_7chardet_12latin1prober_12Latin1Prober_4get_charset_na
  *     def feed(self, aBuf):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_kp_s_windows_1252);
-  __pyx_r = __pyx_kp_s_windows_1252;
+  __Pyx_INCREF(__pyx_kp_u_windows_1252);
+  __pyx_r = __pyx_kp_u_windows_1252;
   goto __pyx_L0;
 
   /* "chardet/latin1prober.py":109
@@ -1959,7 +1959,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sum, __pyx_k_sum, sizeof(__pyx_k_sum), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_total, __pyx_k_total, sizeof(__pyx_k_total), 0, 0, 1, 1},
-  {&__pyx_kp_s_windows_1252, __pyx_k_windows_1252, sizeof(__pyx_k_windows_1252), 0, 0, 1, 0},
+  {&__pyx_kp_u_windows_1252, __pyx_k_windows_1252, sizeof(__pyx_k_windows_1252), 0, 1, 0, 0},
   {&__pyx_n_s_wrap_ord, __pyx_k_wrap_ord, sizeof(__pyx_k_wrap_ord), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -4215,7 +4215,7 @@ PyMODINIT_FUNC PyInit_latin1prober(void)
  *     def __init__(self):
  *         CharSetProber.__init__(self)
  */
-  __pyx_t_254 = __Pyx_Py3ClassCreate(__pyx_t_257, __pyx_n_s_Latin1Prober, __pyx_t_256, __pyx_t_255, NULL, 0, 1); if (unlikely(!__pyx_t_254)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_254 = __Pyx_Py3ClassCreate(__pyx_t_257, __pyx_n_s_Latin1Prober, __pyx_t_256, __pyx_t_255, NULL, 0, 0); if (unlikely(!__pyx_t_254)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_254);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Latin1Prober, __pyx_t_254) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_254); __pyx_t_254 = 0;

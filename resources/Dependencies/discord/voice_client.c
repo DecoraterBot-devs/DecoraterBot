@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -723,11 +723,11 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 
 /* PyFloatBinop.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyFloat_DivideObjC(PyObject *op1, PyObject *op2, double floatval, int inplace);
+static PyObject* __Pyx_PyFloat_TrueDivideObjC(PyObject *op1, PyObject *op2, double floatval, int inplace);
 #else
-#define __Pyx_PyFloat_DivideObjC(op1, op2, floatval, inplace)\
-    ((inplace ? __Pyx_PyNumber_InPlaceDivide(op1, op2) : __Pyx_PyNumber_Divide(op1, op2)))
-    #endif
+#define __Pyx_PyFloat_TrueDivideObjC(op1, op2, floatval, inplace)\
+    (inplace ? PyNumber_InPlaceTrueDivide(op1, op2) : PyNumber_TrueDivide(op1, op2))
+#endif
 
 /* CallableCheck.proto */
 #if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
@@ -881,13 +881,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* SetItemIntByteArray.proto */
 #define __Pyx_SetItemInt_ByteArray(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -904,17 +897,36 @@ static CYTHON_INLINE int __Pyx_PyObject_SetSlice(
         PyObject** py_start, PyObject** py_stop, PyObject** py_slice,
         int has_cstart, int has_cstop, int wraparound);
 
-/* RaiseTooManyValuesToUnpack.proto */
-static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
+/* IterFinish.proto */
+static CYTHON_INLINE int __Pyx_IterFinish(void);
+
+/* PyObjectCallMethod0.proto */
+static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
 
 /* RaiseNeedMoreValuesToUnpack.proto */
 static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
 
-/* IterFinish.proto */
-static CYTHON_INLINE int __Pyx_IterFinish(void);
+/* RaiseTooManyValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
 
 /* UnpackItemEndCheck.proto */
 static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
+
+/* RaiseNoneIterError.proto */
+static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
+
+/* UnpackTupleError.proto */
+static void __Pyx_UnpackTupleError(PyObject *, Py_ssize_t index);
+
+/* UnpackTuple2.proto */
+static CYTHON_INLINE int __Pyx_unpack_tuple2(PyObject* tuple, PyObject** value1, PyObject** value2,
+                                             int is_tuple, int has_known_size, int decref_tuple);
+
+/* dict_iter.proto */
+static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* dict, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_is_dict);
+static CYTHON_INLINE int __Pyx_dict_iter_next(PyObject* dict_or_iter, Py_ssize_t orig_length, Py_ssize_t* ppos,
+                                              PyObject** pkey, PyObject** pvalue, PyObject** pitem, int is_dict);
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -1367,35 +1379,35 @@ static const char __pyx_k_VoiceClient_create_ffmpeg_player[] = "VoiceClient.crea
 static const char __pyx_k_VoiceClient_create_stream_player[] = "VoiceClient.create_stream_player";
 static const char __pyx_k_created_opus_encoder_with_0___di[] = "created opus encoder with {0.__dict__}";
 static const char __pyx_k_ffmpeg_avconv_was_not_found_in_y[] = "ffmpeg/avconv was not found in your PATH environment variable";
-static PyObject *__pyx_kp_s_80;
+static PyObject *__pyx_kp_u_80;
 static PyObject *__pyx_n_s_AF_INET;
-static PyObject *__pyx_kp_s_A_packet_has_been_dropped_seq_0;
+static PyObject *__pyx_kp_u_A_packet_has_been_dropped_seq_0;
 static PyObject *__pyx_n_s_BlockingIOError;
-static PyObject *__pyx_kp_s_Channels_must_be_either_1_or_2;
+static PyObject *__pyx_kp_u_Channels_must_be_either_1_or_2;
 static PyObject *__pyx_n_s_ClientException;
 static PyObject *__pyx_n_s_ConnectionClosed;
 static PyObject *__pyx_n_s_DiscordVoiceWebSocket;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Encoder;
 static PyObject *__pyx_n_s_Event;
-static PyObject *__pyx_kp_s_Expected_a_callable_for_the_afte;
+static PyObject *__pyx_kp_u_Expected_a_callable_for_the_afte;
 static PyObject *__pyx_n_s_FileNotFoundError;
-static PyObject *__pyx_kp_s_H;
-static PyObject *__pyx_kp_s_I;
+static PyObject *__pyx_kp_u_H;
+static PyObject *__pyx_kp_u_I;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_n_s_InvalidArgument;
-static PyObject *__pyx_kp_s_Must_be_a_voice_channel;
+static PyObject *__pyx_kp_u_Must_be_a_voice_channel;
 static PyObject *__pyx_n_s_PIPE;
 static PyObject *__pyx_n_s_Popen;
-static PyObject *__pyx_kp_s_Popen_failed_0___name___1;
+static PyObject *__pyx_kp_u_Popen_failed_0___name___1;
 static PyObject *__pyx_n_s_ProcessPlayer;
 static PyObject *__pyx_n_s_ProcessPlayer___init;
 static PyObject *__pyx_n_s_ProcessPlayer_run;
-static PyObject *__pyx_kp_s_PyNaCl_library_needed_in_order_t;
+static PyObject *__pyx_kp_u_PyNaCl_library_needed_in_order_t;
 static PyObject *__pyx_kp_s_Represents_a_Discord_voice_conne;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_SOCK_DGRAM;
-static PyObject *__pyx_kp_s_Sample_rate_out_of_range_Valid_8;
+static PyObject *__pyx_kp_u_Sample_rate_out_of_range_Valid_8;
 static PyObject *__pyx_n_s_SecretBox;
 static PyObject *__pyx_n_s_StreamPlayer;
 static PyObject *__pyx_n_s_StreamPlayer___init;
@@ -1426,14 +1438,15 @@ static PyObject *__pyx_n_s_VoiceClient_play_audio;
 static PyObject *__pyx_n_s_VoiceClient_poll_voice_ws;
 static PyObject *__pyx_n_s_VoiceClient_server;
 static PyObject *__pyx_n_s_VoiceWSTimeoutError;
-static PyObject *__pyx_kp_s_Voice_endpoint_found_0_endpoint;
-static PyObject *__pyx_kp_s_Y_M_d;
+static PyObject *__pyx_kp_u_Voice_endpoint_found_0_endpoint;
+static PyObject *__pyx_kp_u_Y_M_d;
 static PyObject *__pyx_n_s_YoutubeDL;
-static PyObject *__pyx_kp_s__14;
-static PyObject *__pyx_kp_s__15;
-static PyObject *__pyx_kp_s__16;
+static PyObject *__pyx_kp_u__14;
+static PyObject *__pyx_kp_u__15;
+static PyObject *__pyx_kp_u__16;
 static PyObject *__pyx_n_s__31;
-static PyObject *__pyx_kp_s__8;
+static PyObject *__pyx_n_s__8;
+static PyObject *__pyx_kp_u__8;
 static PyObject *__pyx_n_s_after;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asyncio;
@@ -1441,7 +1454,7 @@ static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_asyncio_tasks;
 static PyObject *__pyx_n_s_attr;
 static PyObject *__pyx_n_s_audioop;
-static PyObject *__pyx_n_s_avconv;
+static PyObject *__pyx_n_u_avconv;
 static PyObject *__pyx_n_s_before_args;
 static PyObject *__pyx_n_s_before_options;
 static PyObject *__pyx_n_s_box;
@@ -1465,21 +1478,23 @@ static PyObject *__pyx_n_s_create_ffmpeg_player;
 static PyObject *__pyx_n_s_create_stream_player;
 static PyObject *__pyx_n_s_create_task;
 static PyObject *__pyx_n_s_create_ytdl_player;
-static PyObject *__pyx_kp_s_created_opus_encoder_with_0___di;
+static PyObject *__pyx_kp_u_created_opus_encoder_with_0___di;
 static PyObject *__pyx_n_s_daemon;
 static PyObject *__pyx_n_s_data;
 static PyObject *__pyx_n_s_date;
 static PyObject *__pyx_n_s_datetime;
 static PyObject *__pyx_n_s_delay;
 static PyObject *__pyx_n_s_description;
+static PyObject *__pyx_n_u_description;
 static PyObject *__pyx_n_s_disconnect;
 static PyObject *__pyx_n_s_discord_voice_client;
-static PyObject *__pyx_n_s_dislike_count;
+static PyObject *__pyx_n_u_dislike_count;
 static PyObject *__pyx_n_s_dislikes;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_download;
 static PyObject *__pyx_n_s_download_url;
 static PyObject *__pyx_n_s_duration;
+static PyObject *__pyx_n_u_duration;
 static PyObject *__pyx_n_s_e;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_encoded_data;
@@ -1488,14 +1503,16 @@ static PyObject *__pyx_n_s_encoder_options;
 static PyObject *__pyx_n_s_encrypt;
 static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_endpoint;
+static PyObject *__pyx_n_u_endpoint;
 static PyObject *__pyx_n_s_endpoint_ip;
-static PyObject *__pyx_n_s_entries;
+static PyObject *__pyx_n_u_entries;
 static PyObject *__pyx_n_s_errors;
 static PyObject *__pyx_n_s_extract_info;
-static PyObject *__pyx_n_s_ffmpeg;
-static PyObject *__pyx_kp_s_ffmpeg_avconv_was_not_found_in_y;
+static PyObject *__pyx_n_u_ffmpeg;
+static PyObject *__pyx_kp_u_ffmpeg_avconv_was_not_found_in_y;
 static PyObject *__pyx_n_s_filename;
 static PyObject *__pyx_n_s_format;
+static PyObject *__pyx_n_u_format;
 static PyObject *__pyx_n_s_frame_length;
 static PyObject *__pyx_n_s_frame_size;
 static PyObject *__pyx_n_s_from_client;
@@ -1507,11 +1524,12 @@ static PyObject *__pyx_n_s_getLogger;
 static PyObject *__pyx_n_s_get_voice_packet;
 static PyObject *__pyx_n_s_gethostbyname;
 static PyObject *__pyx_n_s_guild_id;
+static PyObject *__pyx_n_u_guild_id;
 static PyObject *__pyx_n_s_has_nacl;
 static PyObject *__pyx_n_s_header;
 static PyObject *__pyx_n_s_headers;
-static PyObject *__pyx_kp_s_headers_2;
-static PyObject *__pyx_kp_s_i_f_s16le_ar_ac_loglevel_warnin;
+static PyObject *__pyx_kp_u_headers_2;
+static PyObject *__pyx_kp_u_i_f_s16le_ar_ac_loglevel_warnin;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_info;
@@ -1521,6 +1539,7 @@ static PyObject *__pyx_n_s_inspect;
 static PyObject *__pyx_n_s_is_connected;
 static PyObject *__pyx_n_s_is_done;
 static PyObject *__pyx_n_s_is_live;
+static PyObject *__pyx_n_u_is_live;
 static PyObject *__pyx_n_s_is_playing;
 static PyObject *__pyx_n_s_is_set;
 static PyObject *__pyx_n_s_is_twitch;
@@ -1529,7 +1548,7 @@ static PyObject *__pyx_n_s_json;
 static PyObject *__pyx_n_s_key;
 static PyObject *__pyx_n_s_kill;
 static PyObject *__pyx_n_s_kwargs;
-static PyObject *__pyx_n_s_like_count;
+static PyObject *__pyx_n_u_like_count;
 static PyObject *__pyx_n_s_likes;
 static PyObject *__pyx_n_s_limit;
 static PyObject *__pyx_n_s_log;
@@ -1557,14 +1576,14 @@ static PyObject *__pyx_n_s_packet;
 static PyObject *__pyx_n_s_partial;
 static PyObject *__pyx_n_s_pause;
 static PyObject *__pyx_n_s_pipe;
-static PyObject *__pyx_kp_s_pipe_1;
+static PyObject *__pyx_kp_u_pipe_1;
 static PyObject *__pyx_n_s_play_audio;
 static PyObject *__pyx_n_s_player;
-static PyObject *__pyx_kp_s_playing_URL;
+static PyObject *__pyx_kp_u_playing_URL;
 static PyObject *__pyx_n_s_poll;
 static PyObject *__pyx_n_s_poll_event;
 static PyObject *__pyx_n_s_poll_voice_ws;
-static PyObject *__pyx_n_s_prefer_ffmpeg;
+static PyObject *__pyx_n_u_prefer_ffmpeg;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_process;
 static PyObject *__pyx_n_s_property;
@@ -1581,12 +1600,14 @@ static PyObject *__pyx_n_s_samples_per_frame;
 static PyObject *__pyx_n_s_sampling_rate;
 static PyObject *__pyx_n_s_secret;
 static PyObject *__pyx_n_s_secret_key;
+static PyObject *__pyx_n_u_secret_key;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_self_mute;
 static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_sendto;
 static PyObject *__pyx_n_s_sent;
 static PyObject *__pyx_n_s_sequence;
+static PyObject *__pyx_n_u_sequence;
 static PyObject *__pyx_n_s_server;
 static PyObject *__pyx_n_s_session_id;
 static PyObject *__pyx_n_s_set;
@@ -1608,28 +1629,35 @@ static PyObject *__pyx_n_s_struct;
 static PyObject *__pyx_n_s_subprocess;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_text;
+static PyObject *__pyx_n_u_text;
 static PyObject *__pyx_n_s_threading;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_timestamp;
+static PyObject *__pyx_n_u_timestamp;
 static PyObject *__pyx_n_s_title;
+static PyObject *__pyx_n_u_title;
 static PyObject *__pyx_n_s_token;
-static PyObject *__pyx_n_s_twitch;
-static PyObject *__pyx_n_s_type;
+static PyObject *__pyx_n_u_token;
+static PyObject *__pyx_n_u_twitch;
+static PyObject *__pyx_n_u_type;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_upload_date;
+static PyObject *__pyx_n_u_upload_date;
 static PyObject *__pyx_n_s_uploader;
+static PyObject *__pyx_n_u_uploader;
 static PyObject *__pyx_n_s_url;
+static PyObject *__pyx_n_u_url;
 static PyObject *__pyx_n_s_use_avconv;
+static PyObject *__pyx_n_u_use_avconv;
 static PyObject *__pyx_n_s_user;
 static PyObject *__pyx_n_s_utils;
 static PyObject *__pyx_n_s_val;
 static PyObject *__pyx_n_s_value;
-static PyObject *__pyx_n_s_view_count;
+static PyObject *__pyx_n_u_view_count;
 static PyObject *__pyx_n_s_views;
-static PyObject *__pyx_n_s_voice;
-static PyObject *__pyx_kp_s_voice_connection_is_connecting;
+static PyObject *__pyx_n_u_voice;
+static PyObject *__pyx_kp_u_voice_connection_is_connecting;
 static PyObject *__pyx_n_s_voice_port;
 static PyObject *__pyx_n_s_voice_state;
 static PyObject *__pyx_n_s_volume;
@@ -1637,7 +1665,7 @@ static PyObject *__pyx_n_s_volume_2;
 static PyObject *__pyx_n_s_wait;
 static PyObject *__pyx_n_s_warn_nacl;
 static PyObject *__pyx_n_s_warning;
-static PyObject *__pyx_kp_s_webm_abr_0_bestaudio_best;
+static PyObject *__pyx_kp_u_webm_abr_0_bestaudio_best;
 static PyObject *__pyx_n_s_websockets;
 static PyObject *__pyx_n_s_ws;
 static PyObject *__pyx_n_s_ydl;
@@ -2079,7 +2107,7 @@ static PyObject *__pyx_pf_7discord_12voice_client_12StreamPlayer___init__(CYTHON
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_encoder, __pyx_n_s_frame_length); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyFloat_DivideObjC(__pyx_t_3, __pyx_float_1000_0, 1000.0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyFloat_TrueDivideObjC(__pyx_t_3, __pyx_float_1000_0, 1000.0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_delay, __pyx_t_1) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -4446,7 +4474,7 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient___init__(CYTHON_
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_info); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_created_opus_encoder_with_0___di, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_created_opus_encoder_with_0___di, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_encoder); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -5015,7 +5043,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_8generator(__pyx
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_info); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Voice_endpoint_found_0_endpoint, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Voice_endpoint_found_0_endpoint, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_2 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5219,7 +5247,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_8generator(__pyx
  *                 # we have a secret key, so we don't need to poll
  *                 # websocket events anymore
  */
-    __pyx_t_9 = PyObject_HasAttr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_secret_key); if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __pyx_t_9 = PyObject_HasAttr(__pyx_cur_scope->__pyx_v_self, __pyx_n_u_secret_key); if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 235, __pyx_L1_error)
     __pyx_t_8 = (__pyx_t_9 != 0);
     if (__pyx_t_8) {
 
@@ -5431,6 +5459,14 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_11generator1(__p
   int __pyx_t_8;
   PyObject *__pyx_t_9 = NULL;
   PyObject *__pyx_t_10 = NULL;
+  int __pyx_t_11;
+  char const *__pyx_t_12;
+  PyObject *__pyx_t_13 = NULL;
+  PyObject *__pyx_t_14 = NULL;
+  PyObject *__pyx_t_15 = NULL;
+  PyObject *__pyx_t_16 = NULL;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("None", 0);
   switch (__pyx_generator->resume_label) {
@@ -5594,34 +5630,9 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_11generator1(__p
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_2);
-        __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_e);
-        __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_e, __pyx_t_2);
         __Pyx_GIVEREF(__pyx_t_2);
-
-        /* "discord/voice_client.py":252
- *                 yield from self.ws.poll_event()
- *             except ConnectionClosed as e:
- *                 if e.code == 1000:             # <<<<<<<<<<<<<<
- *                     break
- *                 elif e.code == 1006:
- */
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_code); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 252, __pyx_L8_except_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_10 = __Pyx_PyInt_EqObjC(__pyx_t_9, __pyx_int_1000, 0x3E8, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 252, __pyx_L8_except_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 252, __pyx_L8_except_error)
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        if (__pyx_t_4) {
-
-          /* "discord/voice_client.py":253
- *             except ConnectionClosed as e:
- *                 if e.code == 1000:
- *                     break             # <<<<<<<<<<<<<<
- *                 elif e.code == 1006:
- *                     pass
- */
-          goto __pyx_L15_except_break;
+        __pyx_cur_scope->__pyx_v_e = __pyx_t_2;
+        /*try:*/ {
 
           /* "discord/voice_client.py":252
  *                 yield from self.ws.poll_event()
@@ -5630,60 +5641,145 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_11generator1(__p
  *                     break
  *                 elif e.code == 1006:
  */
-        }
+          __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_code); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 252, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __pyx_t_10 = __Pyx_PyInt_EqObjC(__pyx_t_9, __pyx_int_1000, 0x3E8, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 252, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_10);
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+          __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 252, __pyx_L20_error)
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+          if (__pyx_t_4) {
 
-        /* "discord/voice_client.py":254
+            /* "discord/voice_client.py":253
+ *             except ConnectionClosed as e:
+ *                 if e.code == 1000:
+ *                     break             # <<<<<<<<<<<<<<
+ *                 elif e.code == 1006:
+ *                     pass
+ */
+            goto __pyx_L18_break;
+
+            /* "discord/voice_client.py":252
+ *                 yield from self.ws.poll_event()
+ *             except ConnectionClosed as e:
+ *                 if e.code == 1000:             # <<<<<<<<<<<<<<
+ *                     break
+ *                 elif e.code == 1006:
+ */
+          }
+
+          /* "discord/voice_client.py":254
  *                 if e.code == 1000:
  *                     break
  *                 elif e.code == 1006:             # <<<<<<<<<<<<<<
  *                     pass
  *                 elif e.code == 4003:
  */
-        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_code); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 254, __pyx_L8_except_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_9 = __Pyx_PyInt_EqObjC(__pyx_t_10, __pyx_int_1006, 0x3EE, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 254, __pyx_L8_except_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 254, __pyx_L8_except_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        if (__pyx_t_4) {
-          goto __pyx_L17;
-        }
+          __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_code); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 254, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_10);
+          __pyx_t_9 = __Pyx_PyInt_EqObjC(__pyx_t_10, __pyx_int_1006, 0x3EE, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 254, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+          __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 254, __pyx_L20_error)
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+          if (__pyx_t_4) {
+            goto __pyx_L22;
+          }
 
-        /* "discord/voice_client.py":256
+          /* "discord/voice_client.py":256
  *                 elif e.code == 1006:
  *                     pass
  *                 elif e.code == 4003:             # <<<<<<<<<<<<<<
  *                     # server seems to have crashed.
  *                     pass
  */
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_code); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 256, __pyx_L8_except_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_10 = __Pyx_PyInt_EqObjC(__pyx_t_9, __pyx_int_4003, 0xFA3, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 256, __pyx_L8_except_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 256, __pyx_L8_except_error)
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        if (__pyx_t_4) {
-          goto __pyx_L17;
-        }
+          __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_code); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 256, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __pyx_t_10 = __Pyx_PyInt_EqObjC(__pyx_t_9, __pyx_int_4003, 0xFA3, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 256, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_10);
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+          __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 256, __pyx_L20_error)
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+          if (__pyx_t_4) {
+            goto __pyx_L22;
+          }
 
-        /* "discord/voice_client.py":260
+          /* "discord/voice_client.py":260
  *                     pass
  *                 else:
  *                     raise             # <<<<<<<<<<<<<<
  *             except VoiceWSTimeoutError:
  *                 # The goal with the internal exception from this is to suppress it.
  */
-        /*else*/ {
-          __Pyx_GIVEREF(__pyx_t_1);
-          __Pyx_GIVEREF(__pyx_t_2);
-          __Pyx_XGIVEREF(__pyx_t_3);
-          __Pyx_ErrRestoreWithState(__pyx_t_1, __pyx_t_2, __pyx_t_3);
-          __pyx_t_1 = 0; __pyx_t_2 = 0; __pyx_t_3 = 0; 
-          __PYX_ERR(0, 260, __pyx_L8_except_error)
+          /*else*/ {
+            __Pyx_GIVEREF(__pyx_t_1);
+            __Pyx_GIVEREF(__pyx_t_2);
+            __Pyx_XGIVEREF(__pyx_t_3);
+            __Pyx_ErrRestoreWithState(__pyx_t_1, __pyx_t_2, __pyx_t_3);
+            __pyx_t_1 = 0; __pyx_t_2 = 0; __pyx_t_3 = 0; 
+            __PYX_ERR(0, 260, __pyx_L20_error)
+          }
+          __pyx_L22:;
         }
-        __pyx_L17:;
+
+        /* "discord/voice_client.py":251
+ *             try:
+ *                 yield from self.ws.poll_event()
+ *             except ConnectionClosed as e:             # <<<<<<<<<<<<<<
+ *                 if e.code == 1000:
+ *                     break
+ */
+        /*finally:*/ {
+          /*normal exit:*/{
+            __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_e);
+            __Pyx_DECREF(__pyx_cur_scope->__pyx_v_e);
+            __pyx_cur_scope->__pyx_v_e = NULL;
+            goto __pyx_L21;
+          }
+          /*exception exit:*/{
+            __Pyx_PyThreadState_declare
+            __pyx_L20_error:;
+            __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+            __Pyx_PyThreadState_assign
+            __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+            __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+            if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18);
+            if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15) < 0)) __Pyx_ErrFetch(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15);
+            __Pyx_XGOTREF(__pyx_t_13);
+            __Pyx_XGOTREF(__pyx_t_14);
+            __Pyx_XGOTREF(__pyx_t_15);
+            __Pyx_XGOTREF(__pyx_t_16);
+            __Pyx_XGOTREF(__pyx_t_17);
+            __Pyx_XGOTREF(__pyx_t_18);
+            __pyx_t_8 = __pyx_lineno; __pyx_t_11 = __pyx_clineno; __pyx_t_12 = __pyx_filename;
+            {
+              __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_e);
+              __Pyx_DECREF(__pyx_cur_scope->__pyx_v_e);
+              __pyx_cur_scope->__pyx_v_e = NULL;
+            }
+            __Pyx_PyThreadState_assign
+            if (PY_MAJOR_VERSION >= 3) {
+              __Pyx_XGIVEREF(__pyx_t_16);
+              __Pyx_XGIVEREF(__pyx_t_17);
+              __Pyx_XGIVEREF(__pyx_t_18);
+              __Pyx_ExceptionReset(__pyx_t_16, __pyx_t_17, __pyx_t_18);
+            }
+            __Pyx_XGIVEREF(__pyx_t_13);
+            __Pyx_XGIVEREF(__pyx_t_14);
+            __Pyx_XGIVEREF(__pyx_t_15);
+            __Pyx_ErrRestore(__pyx_t_13, __pyx_t_14, __pyx_t_15);
+            __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+            __pyx_lineno = __pyx_t_8; __pyx_clineno = __pyx_t_11; __pyx_filename = __pyx_t_12;
+            goto __pyx_L8_except_error;
+          }
+          __pyx_L18_break: {
+            __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_e);
+            __Pyx_DECREF(__pyx_cur_scope->__pyx_v_e);
+            __pyx_cur_scope->__pyx_v_e = NULL;
+            goto __pyx_L15_except_break;
+          }
+          __pyx_L21:;
+        }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5704,9 +5800,9 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_11generator1(__p
  */
       __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_VoiceWSTimeoutError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L8_except_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyErr_ExceptionMatches(__pyx_t_3);
+      __pyx_t_11 = __Pyx_PyErr_ExceptionMatches(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (__pyx_t_8) {
+      if (__pyx_t_11) {
         __Pyx_ErrRestore(0,0,0);
         goto __pyx_L7_exception_handled;
       }
@@ -6297,11 +6393,12 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_17generator3(__p
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  Py_ssize_t __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  Py_ssize_t __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("None", 0);
   switch (__pyx_generator->resume_label) {
@@ -6321,19 +6418,20 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_17generator3(__p
  *             raise InvalidArgument('Must be a voice channel.')
  * 
  */
-  __pyx_t_1 = __Pyx_GetAttr3(__pyx_cur_scope->__pyx_v_channel, __pyx_n_s_type, __pyx_n_s_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetAttr3(__pyx_cur_scope->__pyx_v_channel, __pyx_n_u_type, __pyx_n_u_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_voice, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_voice, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_3) {
+  __pyx_t_4 = (__pyx_t_3 != 0);
+  if (__pyx_t_4) {
 
     /* "discord/voice_client.py":306
  * 
@@ -6369,40 +6467,40 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_17generator3(__p
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_main_ws); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_voice_state); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 308, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_voice_state); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_guild_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_channel, __pyx_n_s_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 308, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = NULL;
-  __pyx_t_7 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_6);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_channel, __pyx_n_s_id); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = NULL;
+  __pyx_t_8 = 0;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-      __pyx_t_7 = 1;
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_8 = 1;
     }
   }
-  __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 308, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  if (__pyx_t_6) {
-    __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
+  __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  if (__pyx_t_7) {
+    __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
   }
   __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_8, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_t_6);
   __pyx_t_1 = 0;
-  __pyx_t_5 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __pyx_t_6 = 0;
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_r = __Pyx_Generator_Yield_From(__pyx_generator, __pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_XGOTREF(__pyx_r);
@@ -6436,10 +6534,10 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_17generator3(__p
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("move_to", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
@@ -6745,9 +6843,9 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_20_get_voice_pac
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_H);
-  __Pyx_GIVEREF(__pyx_kp_s_H);
-  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_6, __pyx_kp_s_H);
+  __Pyx_INCREF(__pyx_kp_u_H);
+  __Pyx_GIVEREF(__pyx_kp_u_H);
+  PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_6, __pyx_kp_u_H);
   __Pyx_INCREF(__pyx_v_header);
   __Pyx_GIVEREF(__pyx_v_header);
   PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_6, __pyx_v_header);
@@ -6794,9 +6892,9 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_20_get_voice_pac
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_I);
-  __Pyx_GIVEREF(__pyx_kp_s_I);
-  PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_6, __pyx_kp_s_I);
+  __Pyx_INCREF(__pyx_kp_u_I);
+  __Pyx_GIVEREF(__pyx_kp_u_I);
+  PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_6, __pyx_kp_u_I);
   __Pyx_INCREF(__pyx_v_header);
   __Pyx_GIVEREF(__pyx_v_header);
   PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_v_header);
@@ -6843,9 +6941,9 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_20_get_voice_pac
   if (__pyx_t_5) {
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_5); __pyx_t_5 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_I);
-  __Pyx_GIVEREF(__pyx_kp_s_I);
-  PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_6, __pyx_kp_s_I);
+  __Pyx_INCREF(__pyx_kp_u_I);
+  __Pyx_GIVEREF(__pyx_kp_u_I);
+  PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_6, __pyx_kp_u_I);
   __Pyx_INCREF(__pyx_v_header);
   __Pyx_GIVEREF(__pyx_v_header);
   PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_v_header);
@@ -7081,18 +7179,26 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
   PyObject *__pyx_t_6 = NULL;
   int __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  PyObject *(*__pyx_t_9)(PyObject *);
-  PyObject *(*__pyx_t_10)(PyObject *);
-  Py_ssize_t __pyx_t_11;
-  PyObject *__pyx_t_12 = NULL;
+  Py_ssize_t __pyx_t_9;
+  int __pyx_t_10;
+  int __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
   PyObject *__pyx_t_13 = NULL;
   PyObject *__pyx_t_14 = NULL;
   PyObject *__pyx_t_15 = NULL;
-  int __pyx_t_16;
-  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_16 = NULL;
+  char const *__pyx_t_17;
   PyObject *__pyx_t_18 = NULL;
   PyObject *__pyx_t_19 = NULL;
   PyObject *__pyx_t_20 = NULL;
+  PyObject *__pyx_t_21 = NULL;
+  PyObject *__pyx_t_22 = NULL;
+  PyObject *__pyx_t_23 = NULL;
+  PyObject *__pyx_t_24 = NULL;
+  PyObject *__pyx_t_25 = NULL;
+  PyObject *__pyx_t_26 = NULL;
+  PyObject *__pyx_t_27 = NULL;
+  char const *__pyx_t_28;
   __Pyx_RefNannySetupContext("create_ffmpeg_player", 0);
 
   /* "discord/voice_client.py":394
@@ -7104,13 +7210,13 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  */
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_use_avconv); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 394, __pyx_L1_error)
   if (((!__pyx_t_2) != 0)) {
-    __Pyx_INCREF(__pyx_n_s_ffmpeg);
-    __pyx_t_1 = __pyx_n_s_ffmpeg;
+    __Pyx_INCREF(__pyx_n_u_ffmpeg);
+    __pyx_t_1 = __pyx_n_u_ffmpeg;
   } else {
-    __Pyx_INCREF(__pyx_n_s_avconv);
-    __pyx_t_1 = __pyx_n_s_avconv;
+    __Pyx_INCREF(__pyx_n_u_avconv);
+    __pyx_t_1 = __pyx_n_u_avconv;
   }
-  __pyx_v_command = __pyx_t_1;
+  __pyx_v_command = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "discord/voice_client.py":395
@@ -7122,8 +7228,8 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  */
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_pipe); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 395, __pyx_L1_error)
   if (__pyx_t_2) {
-    __Pyx_INCREF(__pyx_kp_s__14);
-    __pyx_t_1 = __pyx_kp_s__14;
+    __Pyx_INCREF(__pyx_kp_u__14);
+    __pyx_t_1 = __pyx_kp_u__14;
   } else {
     __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_shlex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
@@ -7168,8 +7274,8 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *         if isinstance(headers, dict):
  *             for key, value in headers.items():
  */
-  __Pyx_INCREF(__pyx_kp_s__8);
-  __pyx_v_before_args = __pyx_kp_s__8;
+  __Pyx_INCREF(__pyx_kp_u__8);
+  __pyx_v_before_args = __pyx_kp_u__8;
 
   /* "discord/voice_client.py":397
  *         input_name = '-' if pipe else shlex.quote(filename)
@@ -7189,120 +7295,26 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *                 before_args += "{}: {}\r\n".format(key, value)
  *             before_args = ' -headers ' + shlex.quote(before_args)
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_headers, __pyx_n_s_items); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_8 = 0;
+    if (unlikely(__pyx_v_headers == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
+      __PYX_ERR(0, 398, __pyx_L1_error)
+    }
+    __pyx_t_3 = __Pyx_dict_iterator(__pyx_v_headers, 0, __pyx_n_s_items, (&__pyx_t_9), (&__pyx_t_10)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    if (__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 398, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 398, __pyx_L1_error)
-    }
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
-      __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_8 = 0;
-      __pyx_t_9 = NULL;
-    } else {
-      __pyx_t_8 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_1);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_t_3 = 0;
+    while (1) {
+      __pyx_t_11 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_9, &__pyx_t_8, &__pyx_t_3, &__pyx_t_5, NULL, __pyx_t_10);
+      if (unlikely(__pyx_t_11 == 0)) break;
+      if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 398, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_9 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 398, __pyx_L1_error)
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    for (;;) {
-      if (likely(!__pyx_t_9)) {
-        if (likely(PyList_CheckExact(__pyx_t_3))) {
-          if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_3)) break;
-          #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
-          #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 398, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          #endif
-        } else {
-          if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
-          #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
-          #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 398, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          #endif
-        }
-      } else {
-        __pyx_t_1 = __pyx_t_9(__pyx_t_3);
-        if (unlikely(!__pyx_t_1)) {
-          PyObject* exc_type = PyErr_Occurred();
-          if (exc_type) {
-            if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 398, __pyx_L1_error)
-          }
-          break;
-        }
-        __Pyx_GOTREF(__pyx_t_1);
-      }
-      if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
-        PyObject* sequence = __pyx_t_1;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        Py_ssize_t size = Py_SIZE(sequence);
-        #else
-        Py_ssize_t size = PySequence_Size(sequence);
-        #endif
-        if (unlikely(size != 2)) {
-          if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 398, __pyx_L1_error)
-        }
-        #if CYTHON_COMPILING_IN_CPYTHON
-        if (likely(PyTuple_CheckExact(sequence))) {
-          __pyx_t_5 = PyTuple_GET_ITEM(sequence, 0); 
-          __pyx_t_6 = PyTuple_GET_ITEM(sequence, 1); 
-        } else {
-          __pyx_t_5 = PyList_GET_ITEM(sequence, 0); 
-          __pyx_t_6 = PyList_GET_ITEM(sequence, 1); 
-        }
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_6);
-        #else
-        __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 398, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 398, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        #endif
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      } else {
-        Py_ssize_t index = -1;
-        __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_10 = Py_TYPE(__pyx_t_4)->tp_iternext;
-        index = 0; __pyx_t_5 = __pyx_t_10(__pyx_t_4); if (unlikely(!__pyx_t_5)) goto __pyx_L6_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_5);
-        index = 1; __pyx_t_6 = __pyx_t_10(__pyx_t_4); if (unlikely(!__pyx_t_6)) goto __pyx_L6_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_6);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_4), 2) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
-        __pyx_t_10 = NULL;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        goto __pyx_L7_unpacking_done;
-        __pyx_L6_unpacking_failed:;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_10 = NULL;
-        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 398, __pyx_L1_error)
-        __pyx_L7_unpacking_done:;
-      }
-      __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_5);
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_3);
+      __pyx_t_3 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_5);
       __pyx_t_5 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_6);
-      __pyx_t_6 = 0;
 
       /* "discord/voice_client.py":399
  *         if isinstance(headers, dict):
@@ -7311,50 +7323,42 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             before_args = ' -headers ' + shlex.quote(before_args)
  * 
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__15, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = NULL;
-      __pyx_t_11 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_5)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_5);
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u__15, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_6 = NULL;
+      __pyx_t_12 = 0;
+      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_6)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_6);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
-          __pyx_t_11 = 1;
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+          __pyx_t_12 = 1;
         }
       }
-      __pyx_t_4 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 399, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (__pyx_t_5) {
-        __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      if (__pyx_t_6) {
+        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6); __pyx_t_6 = NULL;
       }
       __Pyx_INCREF(__pyx_v_key);
       __Pyx_GIVEREF(__pyx_v_key);
-      PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_11, __pyx_v_key);
+      PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_12, __pyx_v_key);
       __Pyx_INCREF(__pyx_v_value);
       __Pyx_GIVEREF(__pyx_v_value);
-      PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_11, __pyx_v_value);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_12, __pyx_v_value);
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_before_args, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF_SET(__pyx_v_before_args, __pyx_t_6);
-      __pyx_t_6 = 0;
-
-      /* "discord/voice_client.py":398
- *         before_args = ""
- *         if isinstance(headers, dict):
- *             for key, value in headers.items():             # <<<<<<<<<<<<<<
- *                 before_args += "{}: {}\r\n".format(key, value)
- *             before_args = ' -headers ' + shlex.quote(before_args)
- */
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_before_args, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF_SET(__pyx_v_before_args, __pyx_t_3);
+      __pyx_t_3 = 0;
     }
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "discord/voice_client.py":400
  *             for key, value in headers.items():
@@ -7363,41 +7367,41 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  * 
  *         if isinstance(before_options, str):
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_shlex); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 400, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_quote); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_1))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_1);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-        __Pyx_INCREF(__pyx_t_6);
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_shlex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_quote); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_3)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_3);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_1, function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    if (!__pyx_t_6) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_before_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
+    if (!__pyx_t_3) {
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_before_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
     } else {
       __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_before_args);
       __Pyx_GIVEREF(__pyx_v_before_args);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_before_args);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Add(__pyx_kp_u_headers_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Add(__pyx_kp_s_headers_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF_SET(__pyx_v_before_args, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __Pyx_DECREF_SET(__pyx_v_before_args, __pyx_t_5);
+    __pyx_t_5 = 0;
 
     /* "discord/voice_client.py":397
  *         input_name = '-' if pipe else shlex.quote(filename)
@@ -7415,7 +7419,7 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             before_args += ' ' + before_options
  * 
  */
-  __pyx_t_7 = PyString_Check(__pyx_v_before_options); 
+  __pyx_t_7 = PyUnicode_Check(__pyx_v_before_options); 
   __pyx_t_2 = (__pyx_t_7 != 0);
   if (__pyx_t_2) {
 
@@ -7426,13 +7430,13 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  * 
  *         cmd = command + '{} -i {} -f s16le -ar {} -ac {} -loglevel warning'
  */
-    __pyx_t_1 = PyNumber_Add(__pyx_kp_s__16, __pyx_v_before_options); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Add(__pyx_kp_u__16, __pyx_v_before_options); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 403, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_before_args, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_before_args, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 403, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF_SET(__pyx_v_before_args, __pyx_t_3);
-    __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF_SET(__pyx_v_before_args, __pyx_t_1);
+    __pyx_t_1 = 0;
 
     /* "discord/voice_client.py":402
  *             before_args = ' -headers ' + shlex.quote(before_args)
@@ -7450,10 +7454,10 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *         cmd = cmd.format(before_args, input_name, self.encoder.sampling_rate, self.encoder.channels)
  * 
  */
-  __pyx_t_3 = PyNumber_Add(__pyx_v_command, __pyx_kp_s_i_f_s16le_ar_ac_loglevel_warnin); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_cmd = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_t_1 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_command, __pyx_kp_u_i_f_s16le_ar_ac_loglevel_warnin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 405, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_cmd = __pyx_t_1;
+  __pyx_t_1 = 0;
 
   /* "discord/voice_client.py":406
  * 
@@ -7462,53 +7466,53 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  * 
  *         if isinstance(options, str):
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cmd, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 406, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_cmd, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_encoder); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 406, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sampling_rate); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sampling_rate); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_encoder); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_channels); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 406, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_encoder); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 406, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_channels); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 406, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
-  __pyx_t_8 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_1);
+  __pyx_t_9 = 0;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
     if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-      __pyx_t_8 = 1;
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_9 = 1;
     }
   }
-  __pyx_t_12 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 406, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_13 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
   if (__pyx_t_4) {
-    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_4); __pyx_t_4 = NULL;
   }
   __Pyx_INCREF(__pyx_v_before_args);
   __Pyx_GIVEREF(__pyx_v_before_args);
-  PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_8, __pyx_v_before_args);
+  PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_9, __pyx_v_before_args);
   __Pyx_INCREF(__pyx_v_input_name);
   __Pyx_GIVEREF(__pyx_v_input_name);
-  PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_8, __pyx_v_input_name);
+  PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_9, __pyx_v_input_name);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_13, 2+__pyx_t_9, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_12, 2+__pyx_t_8, __pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_12, 3+__pyx_t_8, __pyx_t_5);
-  __pyx_t_6 = 0;
-  __pyx_t_5 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 406, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF_SET(__pyx_v_cmd, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_13, 3+__pyx_t_9, __pyx_t_6);
   __pyx_t_3 = 0;
+  __pyx_t_6 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF_SET(__pyx_v_cmd, __pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "discord/voice_client.py":408
  *         cmd = cmd.format(before_args, input_name, self.encoder.sampling_rate, self.encoder.channels)
@@ -7517,7 +7521,7 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             cmd = cmd + ' ' + options
  * 
  */
-  __pyx_t_2 = PyString_Check(__pyx_v_options); 
+  __pyx_t_2 = PyUnicode_Check(__pyx_v_options); 
   __pyx_t_7 = (__pyx_t_2 != 0);
   if (__pyx_t_7) {
 
@@ -7528,13 +7532,13 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  * 
  *         cmd += ' pipe:1'
  */
-    __pyx_t_3 = PyNumber_Add(__pyx_v_cmd, __pyx_kp_s__16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = PyNumber_Add(__pyx_t_3, __pyx_v_options); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 409, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_v_cmd, __pyx_kp_u__16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 409, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF_SET(__pyx_v_cmd, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_v_options); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 409, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF_SET(__pyx_v_cmd, __pyx_t_5);
+    __pyx_t_5 = 0;
 
     /* "discord/voice_client.py":408
  *         cmd = cmd.format(before_args, input_name, self.encoder.sampling_rate, self.encoder.channels)
@@ -7552,10 +7556,10 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  * 
  *         stdin = None if not pipe else filename
  */
-  __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_cmd, __pyx_kp_s_pipe_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 411, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF_SET(__pyx_v_cmd, __pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_cmd, __pyx_kp_u_pipe_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 411, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF_SET(__pyx_v_cmd, __pyx_t_5);
+  __pyx_t_5 = 0;
 
   /* "discord/voice_client.py":413
  *         cmd += ' pipe:1'
@@ -7567,13 +7571,13 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
   __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_pipe); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 413, __pyx_L1_error)
   if (((!__pyx_t_7) != 0)) {
     __Pyx_INCREF(Py_None);
-    __pyx_t_1 = Py_None;
+    __pyx_t_5 = Py_None;
   } else {
     __Pyx_INCREF(__pyx_v_filename);
-    __pyx_t_1 = __pyx_v_filename;
+    __pyx_t_5 = __pyx_v_filename;
   }
-  __pyx_v_stdin = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_v_stdin = __pyx_t_5;
+  __pyx_t_5 = 0;
 
   /* "discord/voice_client.py":414
  * 
@@ -7582,38 +7586,38 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *         stdout = None if not output else subprocess.PIPE
  *         try:
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_shlex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 414, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_split); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 414, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_12);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_12))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_12);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_12);
-      __Pyx_INCREF(__pyx_t_3);
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_shlex); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 414, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_split); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 414, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_13))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_13);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+      __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_12, function);
+      __Pyx_DECREF_SET(__pyx_t_13, function);
     }
   }
-  if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_v_cmd); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 414, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-  } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 414, __pyx_L1_error)
+  if (!__pyx_t_1) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_cmd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 414, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
+  } else {
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 414, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1); __pyx_t_1 = NULL;
     __Pyx_INCREF(__pyx_v_cmd);
     __Pyx_GIVEREF(__pyx_v_cmd);
-    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_cmd);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 414, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_cmd);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 414, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
-  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_v_args = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+  __pyx_v_args = __pyx_t_5;
+  __pyx_t_5 = 0;
 
   /* "discord/voice_client.py":415
  *         stdin = None if not pipe else filename
@@ -7625,18 +7629,18 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
   __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_output); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 415, __pyx_L1_error)
   if (((!__pyx_t_7) != 0)) {
     __Pyx_INCREF(Py_None);
-    __pyx_t_1 = Py_None;
+    __pyx_t_5 = Py_None;
   } else {
-    __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_subprocess); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_PIPE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_1 = __pyx_t_5;
-    __pyx_t_5 = 0;
+    __pyx_t_13 = __Pyx_GetModuleGlobalName(__pyx_n_s_subprocess); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_PIPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_5 = __pyx_t_6;
+    __pyx_t_6 = 0;
   }
-  __pyx_v_stdout = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_v_stdout = __pyx_t_5;
+  __pyx_t_5 = 0;
 
   /* "discord/voice_client.py":416
  *         args = shlex.split(cmd)
@@ -7648,10 +7652,10 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
   {
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
-    __Pyx_ExceptionSave(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15);
-    __Pyx_XGOTREF(__pyx_t_13);
+    __Pyx_ExceptionSave(&__pyx_t_14, &__pyx_t_15, &__pyx_t_16);
     __Pyx_XGOTREF(__pyx_t_14);
     __Pyx_XGOTREF(__pyx_t_15);
+    __Pyx_XGOTREF(__pyx_t_16);
     /*try:*/ {
 
       /* "discord/voice_client.py":417
@@ -7661,28 +7665,28 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             return ProcessPlayer(p, self, after)
  *         except FileNotFoundError as e:
  */
-      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_subprocess); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L10_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_Popen); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 417, __pyx_L10_error)
+      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_subprocess); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 417, __pyx_L8_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L10_error)
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_Popen); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 417, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 417, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_v_args);
       __Pyx_GIVEREF(__pyx_v_args);
-      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_args);
-      __pyx_t_12 = PyDict_New(); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 417, __pyx_L10_error)
-      __Pyx_GOTREF(__pyx_t_12);
-      if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_stdin, __pyx_v_stdin) < 0) __PYX_ERR(0, 417, __pyx_L10_error)
-      if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_stdout, __pyx_v_stdout) < 0) __PYX_ERR(0, 417, __pyx_L10_error)
-      if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_stderr, __pyx_v_stderr) < 0) __PYX_ERR(0, 417, __pyx_L10_error)
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, __pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 417, __pyx_L10_error)
-      __Pyx_GOTREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_args);
+      __pyx_t_13 = PyDict_New(); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 417, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_stdin, __pyx_v_stdin) < 0) __PYX_ERR(0, 417, __pyx_L8_error)
+      if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_stdout, __pyx_v_stdout) < 0) __PYX_ERR(0, 417, __pyx_L8_error)
+      if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_stderr, __pyx_v_stderr) < 0) __PYX_ERR(0, 417, __pyx_L8_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_v_p = __pyx_t_3;
-      __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __pyx_v_p = __pyx_t_1;
+      __pyx_t_1 = 0;
 
       /* "discord/voice_client.py":418
  *         try:
@@ -7692,41 +7696,41 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_ProcessPlayer); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 418, __pyx_L10_error)
-      __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_1 = NULL;
-      __pyx_t_8 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_12))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_12);
-        if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_12);
-          __Pyx_INCREF(__pyx_t_1);
+      __pyx_t_13 = __Pyx_GetModuleGlobalName(__pyx_n_s_ProcessPlayer); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 418, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __pyx_t_5 = NULL;
+      __pyx_t_9 = 0;
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_13))) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_13);
+        if (likely(__pyx_t_5)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+          __Pyx_INCREF(__pyx_t_5);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_12, function);
-          __pyx_t_8 = 1;
+          __Pyx_DECREF_SET(__pyx_t_13, function);
+          __pyx_t_9 = 1;
         }
       }
-      __pyx_t_5 = PyTuple_New(3+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 418, __pyx_L10_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      if (__pyx_t_1) {
-        __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __pyx_t_6 = PyTuple_New(3+__pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 418, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      if (__pyx_t_5) {
+        __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
       }
       __Pyx_INCREF(__pyx_v_p);
       __Pyx_GIVEREF(__pyx_v_p);
-      PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_8, __pyx_v_p);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_9, __pyx_v_p);
       __Pyx_INCREF(__pyx_v_self);
       __Pyx_GIVEREF(__pyx_v_self);
-      PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_8, __pyx_v_self);
+      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_9, __pyx_v_self);
       __Pyx_INCREF(__pyx_v_after);
       __Pyx_GIVEREF(__pyx_v_after);
-      PyTuple_SET_ITEM(__pyx_t_5, 2+__pyx_t_8, __pyx_v_after);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 418, __pyx_L10_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_r = __pyx_t_3;
-      __pyx_t_3 = 0;
-      goto __pyx_L14_try_return;
+      PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_9, __pyx_v_after);
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 418, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __pyx_r = __pyx_t_1;
+      __pyx_t_1 = 0;
+      goto __pyx_L12_try_return;
 
       /* "discord/voice_client.py":416
  *         args = shlex.split(cmd)
@@ -7736,14 +7740,14 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             return ProcessPlayer(p, self, after)
  */
     }
-    __pyx_L10_error:;
+    __pyx_L8_error:;
     __Pyx_PyThreadState_assign
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "discord/voice_client.py":419
  *             p = subprocess.Popen(args, stdin=stdin, stdout=stdout, stderr=stderr)
@@ -7752,31 +7756,79 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e
  *         except subprocess.SubprocessError as e:
  */
-    __pyx_t_16 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_FileNotFoundError);
-    if (__pyx_t_16) {
+    __pyx_t_10 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_FileNotFoundError);
+    if (__pyx_t_10) {
       __Pyx_AddTraceback("discord.voice_client.VoiceClient.create_ffmpeg_player", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_3, &__pyx_t_12, &__pyx_t_5) < 0) __PYX_ERR(0, 419, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_GOTREF(__pyx_t_12);
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_12);
-      __pyx_v_e = __pyx_t_12;
+      if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_13, &__pyx_t_6) < 0) __PYX_ERR(0, 419, __pyx_L10_except_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_13);
+      __pyx_v_e = __pyx_t_13;
+      /*try:*/ {
 
-      /* "discord/voice_client.py":420
+        /* "discord/voice_client.py":420
  *             return ProcessPlayer(p, self, after)
  *         except FileNotFoundError as e:
  *             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e             # <<<<<<<<<<<<<<
  *         except subprocess.SubprocessError as e:
  *             raise ClientException('Popen failed: {0.__name__} {1}'.format(type(e), str(e))) from e
  */
-      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_ClientException); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 420, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 420, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_Raise(__pyx_t_6, 0, 0, __pyx_v_e);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __PYX_ERR(0, 420, __pyx_L12_except_error)
+        __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_ClientException); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 420, __pyx_L21_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 420, __pyx_L21_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_Raise(__pyx_t_3, 0, 0, __pyx_v_e);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __PYX_ERR(0, 420, __pyx_L21_error)
+      }
+
+      /* "discord/voice_client.py":419
+ *             p = subprocess.Popen(args, stdin=stdin, stdout=stdout, stderr=stderr)
+ *             return ProcessPlayer(p, self, after)
+ *         except FileNotFoundError as e:             # <<<<<<<<<<<<<<
+ *             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e
+ *         except subprocess.SubprocessError as e:
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L21_error:;
+          __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0; __pyx_t_22 = 0; __pyx_t_23 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_21, &__pyx_t_22, &__pyx_t_23);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_18, &__pyx_t_19, &__pyx_t_20) < 0)) __Pyx_ErrFetch(&__pyx_t_18, &__pyx_t_19, &__pyx_t_20);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_19);
+          __Pyx_XGOTREF(__pyx_t_20);
+          __Pyx_XGOTREF(__pyx_t_21);
+          __Pyx_XGOTREF(__pyx_t_22);
+          __Pyx_XGOTREF(__pyx_t_23);
+          __pyx_t_10 = __pyx_lineno; __pyx_t_11 = __pyx_clineno; __pyx_t_17 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_e);
+            __pyx_v_e = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_21);
+            __Pyx_XGIVEREF(__pyx_t_22);
+            __Pyx_XGIVEREF(__pyx_t_23);
+            __Pyx_ExceptionReset(__pyx_t_21, __pyx_t_22, __pyx_t_23);
+          }
+          __Pyx_XGIVEREF(__pyx_t_18);
+          __Pyx_XGIVEREF(__pyx_t_19);
+          __Pyx_XGIVEREF(__pyx_t_20);
+          __Pyx_ErrRestore(__pyx_t_18, __pyx_t_19, __pyx_t_20);
+          __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0; __pyx_t_22 = 0; __pyx_t_23 = 0;
+          __pyx_lineno = __pyx_t_10; __pyx_clineno = __pyx_t_11; __pyx_filename = __pyx_t_17;
+          goto __pyx_L10_except_error;
+        }
+      }
     }
 
     /* "discord/voice_client.py":421
@@ -7786,100 +7838,152 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             raise ClientException('Popen failed: {0.__name__} {1}'.format(type(e), str(e))) from e
  * 
  */
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_subprocess); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 421, __pyx_L12_except_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_SubprocessError); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 421, __pyx_L12_except_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_16 = __Pyx_PyErr_ExceptionMatches(__pyx_t_12);
-    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    if (__pyx_t_16) {
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_subprocess); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 421, __pyx_L10_except_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_SubprocessError); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 421, __pyx_L10_except_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_11 = __Pyx_PyErr_ExceptionMatches(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    if (__pyx_t_11) {
       __Pyx_AddTraceback("discord.voice_client.VoiceClient.create_ffmpeg_player", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_12, &__pyx_t_5, &__pyx_t_3) < 0) __PYX_ERR(0, 421, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_12);
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_5);
-      __pyx_v_e = __pyx_t_5;
+      if (__Pyx_GetException(&__pyx_t_13, &__pyx_t_6, &__pyx_t_1) < 0) __PYX_ERR(0, 421, __pyx_L10_except_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_INCREF(__pyx_t_6);
+      __pyx_v_e = __pyx_t_6;
+      /*try:*/ {
 
-      /* "discord/voice_client.py":422
+        /* "discord/voice_client.py":422
  *             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e
  *         except subprocess.SubprocessError as e:
  *             raise ClientException('Popen failed: {0.__name__} {1}'.format(type(e), str(e))) from e             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_ClientException); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Popen_failed_0___name___1, __pyx_n_s_format); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_17);
-      __pyx_t_18 = PyTuple_New(1); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_18);
-      __Pyx_INCREF(__pyx_v_e);
-      __Pyx_GIVEREF(__pyx_v_e);
-      PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_v_e);
-      __pyx_t_19 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_18, NULL); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_19);
-      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-      __pyx_t_18 = NULL;
-      __pyx_t_8 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_17))) {
-        __pyx_t_18 = PyMethod_GET_SELF(__pyx_t_17);
-        if (likely(__pyx_t_18)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_17);
-          __Pyx_INCREF(__pyx_t_18);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_17, function);
-          __pyx_t_8 = 1;
+        __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_ClientException); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 422, __pyx_L32_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Popen_failed_0___name___1, __pyx_n_s_format); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 422, __pyx_L32_error)
+        __Pyx_GOTREF(__pyx_t_24);
+        __pyx_t_25 = PyTuple_New(1); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 422, __pyx_L32_error)
+        __Pyx_GOTREF(__pyx_t_25);
+        __Pyx_INCREF(__pyx_v_e);
+        __Pyx_GIVEREF(__pyx_v_e);
+        PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_v_e);
+        __pyx_t_26 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_25, NULL); if (unlikely(!__pyx_t_26)) __PYX_ERR(0, 422, __pyx_L32_error)
+        __Pyx_GOTREF(__pyx_t_26);
+        __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
+        __pyx_t_25 = NULL;
+        __pyx_t_9 = 0;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_24))) {
+          __pyx_t_25 = PyMethod_GET_SELF(__pyx_t_24);
+          if (likely(__pyx_t_25)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_24);
+            __Pyx_INCREF(__pyx_t_25);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_24, function);
+            __pyx_t_9 = 1;
+          }
+        }
+        __pyx_t_27 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_27)) __PYX_ERR(0, 422, __pyx_L32_error)
+        __Pyx_GOTREF(__pyx_t_27);
+        if (__pyx_t_25) {
+          __Pyx_GIVEREF(__pyx_t_25); PyTuple_SET_ITEM(__pyx_t_27, 0, __pyx_t_25); __pyx_t_25 = NULL;
+        }
+        __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_e)));
+        __Pyx_GIVEREF(((PyObject *)Py_TYPE(__pyx_v_e)));
+        PyTuple_SET_ITEM(__pyx_t_27, 0+__pyx_t_9, ((PyObject *)Py_TYPE(__pyx_v_e)));
+        __Pyx_GIVEREF(__pyx_t_26);
+        PyTuple_SET_ITEM(__pyx_t_27, 1+__pyx_t_9, __pyx_t_26);
+        __pyx_t_26 = 0;
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_24, __pyx_t_27, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 422, __pyx_L32_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_27); __pyx_t_27 = 0;
+        __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
+        __pyx_t_24 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+          __pyx_t_24 = PyMethod_GET_SELF(__pyx_t_5);
+          if (likely(__pyx_t_24)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+            __Pyx_INCREF(__pyx_t_24);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_5, function);
+          }
+        }
+        if (!__pyx_t_24) {
+          __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 422, __pyx_L32_error)
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_3);
+        } else {
+          __pyx_t_27 = PyTuple_New(1+1); if (unlikely(!__pyx_t_27)) __PYX_ERR(0, 422, __pyx_L32_error)
+          __Pyx_GOTREF(__pyx_t_27);
+          __Pyx_GIVEREF(__pyx_t_24); PyTuple_SET_ITEM(__pyx_t_27, 0, __pyx_t_24); __pyx_t_24 = NULL;
+          __Pyx_GIVEREF(__pyx_t_4);
+          PyTuple_SET_ITEM(__pyx_t_27, 0+1, __pyx_t_4);
+          __pyx_t_4 = 0;
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_27, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 422, __pyx_L32_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_27); __pyx_t_27 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_Raise(__pyx_t_3, 0, 0, __pyx_v_e);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __PYX_ERR(0, 422, __pyx_L32_error)
+      }
+
+      /* "discord/voice_client.py":421
+ *         except FileNotFoundError as e:
+ *             raise ClientException('ffmpeg/avconv was not found in your PATH environment variable') from e
+ *         except subprocess.SubprocessError as e:             # <<<<<<<<<<<<<<
+ *             raise ClientException('Popen failed: {0.__name__} {1}'.format(type(e), str(e))) from e
+ * 
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L32_error:;
+          __pyx_t_23 = 0; __pyx_t_22 = 0; __pyx_t_21 = 0; __pyx_t_20 = 0; __pyx_t_19 = 0; __pyx_t_18 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_25); __pyx_t_25 = 0;
+          __Pyx_XDECREF(__pyx_t_26); __pyx_t_26 = 0;
+          __Pyx_XDECREF(__pyx_t_24); __pyx_t_24 = 0;
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_XDECREF(__pyx_t_27); __pyx_t_27 = 0;
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_20, &__pyx_t_19, &__pyx_t_18);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_23, &__pyx_t_22, &__pyx_t_21) < 0)) __Pyx_ErrFetch(&__pyx_t_23, &__pyx_t_22, &__pyx_t_21);
+          __Pyx_XGOTREF(__pyx_t_23);
+          __Pyx_XGOTREF(__pyx_t_22);
+          __Pyx_XGOTREF(__pyx_t_21);
+          __Pyx_XGOTREF(__pyx_t_20);
+          __Pyx_XGOTREF(__pyx_t_19);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __pyx_t_11 = __pyx_lineno; __pyx_t_10 = __pyx_clineno; __pyx_t_28 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_e);
+            __pyx_v_e = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_20);
+            __Pyx_XGIVEREF(__pyx_t_19);
+            __Pyx_XGIVEREF(__pyx_t_18);
+            __Pyx_ExceptionReset(__pyx_t_20, __pyx_t_19, __pyx_t_18);
+          }
+          __Pyx_XGIVEREF(__pyx_t_23);
+          __Pyx_XGIVEREF(__pyx_t_22);
+          __Pyx_XGIVEREF(__pyx_t_21);
+          __Pyx_ErrRestore(__pyx_t_23, __pyx_t_22, __pyx_t_21);
+          __pyx_t_23 = 0; __pyx_t_22 = 0; __pyx_t_21 = 0; __pyx_t_20 = 0; __pyx_t_19 = 0; __pyx_t_18 = 0;
+          __pyx_lineno = __pyx_t_11; __pyx_clineno = __pyx_t_10; __pyx_filename = __pyx_t_28;
+          goto __pyx_L10_except_error;
         }
       }
-      __pyx_t_20 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_20);
-      if (__pyx_t_18) {
-        __Pyx_GIVEREF(__pyx_t_18); PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_t_18); __pyx_t_18 = NULL;
-      }
-      __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_e)));
-      __Pyx_GIVEREF(((PyObject *)Py_TYPE(__pyx_v_e)));
-      PyTuple_SET_ITEM(__pyx_t_20, 0+__pyx_t_8, ((PyObject *)Py_TYPE(__pyx_v_e)));
-      __Pyx_GIVEREF(__pyx_t_19);
-      PyTuple_SET_ITEM(__pyx_t_20, 1+__pyx_t_8, __pyx_t_19);
-      __pyx_t_19 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_t_20, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-      __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-      __pyx_t_17 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_1))) {
-        __pyx_t_17 = PyMethod_GET_SELF(__pyx_t_1);
-        if (likely(__pyx_t_17)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-          __Pyx_INCREF(__pyx_t_17);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_1, function);
-        }
-      }
-      if (!__pyx_t_17) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_GOTREF(__pyx_t_6);
-      } else {
-        __pyx_t_20 = PyTuple_New(1+1); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-        __Pyx_GOTREF(__pyx_t_20);
-        __Pyx_GIVEREF(__pyx_t_17); PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_t_17); __pyx_t_17 = NULL;
-        __Pyx_GIVEREF(__pyx_t_4);
-        PyTuple_SET_ITEM(__pyx_t_20, 0+1, __pyx_t_4);
-        __pyx_t_4 = 0;
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_20, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 422, __pyx_L12_except_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_Raise(__pyx_t_6, 0, 0, __pyx_v_e);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __PYX_ERR(0, 422, __pyx_L12_except_error)
     }
-    goto __pyx_L12_except_error;
-    __pyx_L12_except_error:;
+    goto __pyx_L10_except_error;
+    __pyx_L10_except_error:;
 
     /* "discord/voice_client.py":416
  *         args = shlex.split(cmd)
@@ -7889,17 +7993,17 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
  *             return ProcessPlayer(p, self, after)
  */
     __Pyx_PyThreadState_assign
-    __Pyx_XGIVEREF(__pyx_t_13);
     __Pyx_XGIVEREF(__pyx_t_14);
     __Pyx_XGIVEREF(__pyx_t_15);
-    __Pyx_ExceptionReset(__pyx_t_13, __pyx_t_14, __pyx_t_15);
+    __Pyx_XGIVEREF(__pyx_t_16);
+    __Pyx_ExceptionReset(__pyx_t_14, __pyx_t_15, __pyx_t_16);
     goto __pyx_L1_error;
-    __pyx_L14_try_return:;
+    __pyx_L12_try_return:;
     __Pyx_PyThreadState_assign
-    __Pyx_XGIVEREF(__pyx_t_13);
     __Pyx_XGIVEREF(__pyx_t_14);
     __Pyx_XGIVEREF(__pyx_t_15);
-    __Pyx_ExceptionReset(__pyx_t_13, __pyx_t_14, __pyx_t_15);
+    __Pyx_XGIVEREF(__pyx_t_16);
+    __Pyx_ExceptionReset(__pyx_t_14, __pyx_t_15, __pyx_t_16);
     goto __pyx_L0;
   }
 
@@ -7918,11 +8022,11 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_22create_ffmpeg_
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_XDECREF(__pyx_t_17);
-  __Pyx_XDECREF(__pyx_t_18);
-  __Pyx_XDECREF(__pyx_t_19);
-  __Pyx_XDECREF(__pyx_t_20);
+  __Pyx_XDECREF(__pyx_t_13);
+  __Pyx_XDECREF(__pyx_t_24);
+  __Pyx_XDECREF(__pyx_t_25);
+  __Pyx_XDECREF(__pyx_t_26);
+  __Pyx_XDECREF(__pyx_t_27);
   __Pyx_AddTraceback("discord.voice_client.VoiceClient.create_ffmpeg_player", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -8101,7 +8205,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  * 
  *         use_avconv = kwargs.get('use_avconv', False)
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_youtube_dl, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_youtube_dl, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 508, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_youtube_dl = __pyx_t_1;
@@ -8114,7 +8218,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  *         opts = {
  *             'format': 'webm[abr>0]/bestaudio/best',
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_cur_scope->__pyx_v_kwargs, __pyx_n_s_use_avconv, Py_False); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 510, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_cur_scope->__pyx_v_kwargs, __pyx_n_u_use_avconv, Py_False); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_use_avconv = __pyx_t_1;
@@ -8129,7 +8233,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 512, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_format, __pyx_kp_s_webm_abr_0_bestaudio_best) < 0) __PYX_ERR(0, 512, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_format, __pyx_kp_u_webm_abr_0_bestaudio_best) < 0) __PYX_ERR(0, 512, __pyx_L1_error)
 
   /* "discord/voice_client.py":514
  *             'format': 'webm[abr>0]/bestaudio/best',
@@ -8149,7 +8253,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  */
   __pyx_t_3 = __Pyx_PyBool_FromLong((!__pyx_t_2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 513, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_prefer_ffmpeg, __pyx_t_3) < 0) __PYX_ERR(0, 512, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_prefer_ffmpeg, __pyx_t_3) < 0) __PYX_ERR(0, 512, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_opts = ((PyObject*)__pyx_t_1);
@@ -8359,7 +8463,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  *             info = info['entries'][0]
  * 
  */
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_entries, __pyx_cur_scope->__pyx_v_info, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 522, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_entries, __pyx_cur_scope->__pyx_v_info, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 522, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_2 != 0);
   if (__pyx_t_4) {
 
@@ -8370,7 +8474,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  * 
  *         log.info('playing URL {}'.format(url))
  */
-    __pyx_t_7 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_info, __pyx_n_s_entries); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 523, __pyx_L1_error)
+    __pyx_t_7 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_info, __pyx_n_u_entries); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 523, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 523, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
@@ -8401,7 +8505,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_info); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_playing_URL, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 525, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_playing_URL, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -8463,7 +8567,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  *         player = self.create_ffmpeg_player(download_url, **kwargs)
  * 
  */
-  __pyx_t_6 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_info, __pyx_n_s_url); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_6 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_info, __pyx_n_u_url); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_6);
   __pyx_cur_scope->__pyx_v_download_url = __pyx_t_6;
@@ -8619,7 +8723,7 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
  *         if is_twitch:
  *             # twitch has 'title' and 'description' sort of mixed up.
  */
-  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_twitch, __pyx_cur_scope->__pyx_v_url, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 540, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_twitch, __pyx_cur_scope->__pyx_v_url, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 540, __pyx_L1_error)
   __pyx_t_10 = __Pyx_PyBool_FromLong(__pyx_t_4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 540, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_10);
@@ -8780,9 +8884,9 @@ static PyObject *__pyx_gb_7discord_12voice_client_11VoiceClient_26generator4(__p
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_date);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_date);
         PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_8, __pyx_cur_scope->__pyx_v_date);
-        __Pyx_INCREF(__pyx_kp_s_Y_M_d);
-        __Pyx_GIVEREF(__pyx_kp_s_Y_M_d);
-        PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_8, __pyx_kp_s_Y_M_d);
+        __Pyx_INCREF(__pyx_kp_u_Y_M_d);
+        __Pyx_GIVEREF(__pyx_kp_u_Y_M_d);
+        PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_8, __pyx_kp_u_Y_M_d);
         __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 553, __pyx_L11_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9213,7 +9317,7 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_27encoder_option
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_info); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 586, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_created_opus_encoder_with_0___di, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 586, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_created_opus_encoder_with_0___di, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 586, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_encoder); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 586, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
@@ -9815,7 +9919,7 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_31play_audio(CYT
       __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_warning); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 669, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_A_packet_has_been_dropped_seq_0, __pyx_n_s_format); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 669, __pyx_L6_except_error)
+      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_A_packet_has_been_dropped_seq_0, __pyx_n_s_format); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 669, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_13);
       __pyx_t_14 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_13))) {
@@ -9928,9 +10032,9 @@ static PyObject *__pyx_pf_7discord_12voice_client_11VoiceClient_31play_audio(CYT
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_2); __pyx_t_2 = NULL;
   }
-  __Pyx_INCREF(__pyx_n_s_timestamp);
-  __Pyx_GIVEREF(__pyx_n_s_timestamp);
-  PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_6, __pyx_n_s_timestamp);
+  __Pyx_INCREF(__pyx_n_u_timestamp);
+  __Pyx_GIVEREF(__pyx_n_u_timestamp);
+  PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_6, __pyx_n_u_timestamp);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_6, __pyx_t_1);
   __Pyx_INCREF(__pyx_int_4294967295);
@@ -10910,35 +11014,35 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_80, __pyx_k_80, sizeof(__pyx_k_80), 0, 0, 1, 0},
+  {&__pyx_kp_u_80, __pyx_k_80, sizeof(__pyx_k_80), 0, 1, 0, 0},
   {&__pyx_n_s_AF_INET, __pyx_k_AF_INET, sizeof(__pyx_k_AF_INET), 0, 0, 1, 1},
-  {&__pyx_kp_s_A_packet_has_been_dropped_seq_0, __pyx_k_A_packet_has_been_dropped_seq_0, sizeof(__pyx_k_A_packet_has_been_dropped_seq_0), 0, 0, 1, 0},
+  {&__pyx_kp_u_A_packet_has_been_dropped_seq_0, __pyx_k_A_packet_has_been_dropped_seq_0, sizeof(__pyx_k_A_packet_has_been_dropped_seq_0), 0, 1, 0, 0},
   {&__pyx_n_s_BlockingIOError, __pyx_k_BlockingIOError, sizeof(__pyx_k_BlockingIOError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Channels_must_be_either_1_or_2, __pyx_k_Channels_must_be_either_1_or_2, sizeof(__pyx_k_Channels_must_be_either_1_or_2), 0, 0, 1, 0},
+  {&__pyx_kp_u_Channels_must_be_either_1_or_2, __pyx_k_Channels_must_be_either_1_or_2, sizeof(__pyx_k_Channels_must_be_either_1_or_2), 0, 1, 0, 0},
   {&__pyx_n_s_ClientException, __pyx_k_ClientException, sizeof(__pyx_k_ClientException), 0, 0, 1, 1},
   {&__pyx_n_s_ConnectionClosed, __pyx_k_ConnectionClosed, sizeof(__pyx_k_ConnectionClosed), 0, 0, 1, 1},
   {&__pyx_n_s_DiscordVoiceWebSocket, __pyx_k_DiscordVoiceWebSocket, sizeof(__pyx_k_DiscordVoiceWebSocket), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Encoder, __pyx_k_Encoder, sizeof(__pyx_k_Encoder), 0, 0, 1, 1},
   {&__pyx_n_s_Event, __pyx_k_Event, sizeof(__pyx_k_Event), 0, 0, 1, 1},
-  {&__pyx_kp_s_Expected_a_callable_for_the_afte, __pyx_k_Expected_a_callable_for_the_afte, sizeof(__pyx_k_Expected_a_callable_for_the_afte), 0, 0, 1, 0},
+  {&__pyx_kp_u_Expected_a_callable_for_the_afte, __pyx_k_Expected_a_callable_for_the_afte, sizeof(__pyx_k_Expected_a_callable_for_the_afte), 0, 1, 0, 0},
   {&__pyx_n_s_FileNotFoundError, __pyx_k_FileNotFoundError, sizeof(__pyx_k_FileNotFoundError), 0, 0, 1, 1},
-  {&__pyx_kp_s_H, __pyx_k_H, sizeof(__pyx_k_H), 0, 0, 1, 0},
-  {&__pyx_kp_s_I, __pyx_k_I, sizeof(__pyx_k_I), 0, 0, 1, 0},
+  {&__pyx_kp_u_H, __pyx_k_H, sizeof(__pyx_k_H), 0, 1, 0, 0},
+  {&__pyx_kp_u_I, __pyx_k_I, sizeof(__pyx_k_I), 0, 1, 0, 0},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_n_s_InvalidArgument, __pyx_k_InvalidArgument, sizeof(__pyx_k_InvalidArgument), 0, 0, 1, 1},
-  {&__pyx_kp_s_Must_be_a_voice_channel, __pyx_k_Must_be_a_voice_channel, sizeof(__pyx_k_Must_be_a_voice_channel), 0, 0, 1, 0},
+  {&__pyx_kp_u_Must_be_a_voice_channel, __pyx_k_Must_be_a_voice_channel, sizeof(__pyx_k_Must_be_a_voice_channel), 0, 1, 0, 0},
   {&__pyx_n_s_PIPE, __pyx_k_PIPE, sizeof(__pyx_k_PIPE), 0, 0, 1, 1},
   {&__pyx_n_s_Popen, __pyx_k_Popen, sizeof(__pyx_k_Popen), 0, 0, 1, 1},
-  {&__pyx_kp_s_Popen_failed_0___name___1, __pyx_k_Popen_failed_0___name___1, sizeof(__pyx_k_Popen_failed_0___name___1), 0, 0, 1, 0},
+  {&__pyx_kp_u_Popen_failed_0___name___1, __pyx_k_Popen_failed_0___name___1, sizeof(__pyx_k_Popen_failed_0___name___1), 0, 1, 0, 0},
   {&__pyx_n_s_ProcessPlayer, __pyx_k_ProcessPlayer, sizeof(__pyx_k_ProcessPlayer), 0, 0, 1, 1},
   {&__pyx_n_s_ProcessPlayer___init, __pyx_k_ProcessPlayer___init, sizeof(__pyx_k_ProcessPlayer___init), 0, 0, 1, 1},
   {&__pyx_n_s_ProcessPlayer_run, __pyx_k_ProcessPlayer_run, sizeof(__pyx_k_ProcessPlayer_run), 0, 0, 1, 1},
-  {&__pyx_kp_s_PyNaCl_library_needed_in_order_t, __pyx_k_PyNaCl_library_needed_in_order_t, sizeof(__pyx_k_PyNaCl_library_needed_in_order_t), 0, 0, 1, 0},
+  {&__pyx_kp_u_PyNaCl_library_needed_in_order_t, __pyx_k_PyNaCl_library_needed_in_order_t, sizeof(__pyx_k_PyNaCl_library_needed_in_order_t), 0, 1, 0, 0},
   {&__pyx_kp_s_Represents_a_Discord_voice_conne, __pyx_k_Represents_a_Discord_voice_conne, sizeof(__pyx_k_Represents_a_Discord_voice_conne), 0, 0, 1, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_SOCK_DGRAM, __pyx_k_SOCK_DGRAM, sizeof(__pyx_k_SOCK_DGRAM), 0, 0, 1, 1},
-  {&__pyx_kp_s_Sample_rate_out_of_range_Valid_8, __pyx_k_Sample_rate_out_of_range_Valid_8, sizeof(__pyx_k_Sample_rate_out_of_range_Valid_8), 0, 0, 1, 0},
+  {&__pyx_kp_u_Sample_rate_out_of_range_Valid_8, __pyx_k_Sample_rate_out_of_range_Valid_8, sizeof(__pyx_k_Sample_rate_out_of_range_Valid_8), 0, 1, 0, 0},
   {&__pyx_n_s_SecretBox, __pyx_k_SecretBox, sizeof(__pyx_k_SecretBox), 0, 0, 1, 1},
   {&__pyx_n_s_StreamPlayer, __pyx_k_StreamPlayer, sizeof(__pyx_k_StreamPlayer), 0, 0, 1, 1},
   {&__pyx_n_s_StreamPlayer___init, __pyx_k_StreamPlayer___init, sizeof(__pyx_k_StreamPlayer___init), 0, 0, 1, 1},
@@ -10969,14 +11073,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_VoiceClient_poll_voice_ws, __pyx_k_VoiceClient_poll_voice_ws, sizeof(__pyx_k_VoiceClient_poll_voice_ws), 0, 0, 1, 1},
   {&__pyx_n_s_VoiceClient_server, __pyx_k_VoiceClient_server, sizeof(__pyx_k_VoiceClient_server), 0, 0, 1, 1},
   {&__pyx_n_s_VoiceWSTimeoutError, __pyx_k_VoiceWSTimeoutError, sizeof(__pyx_k_VoiceWSTimeoutError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Voice_endpoint_found_0_endpoint, __pyx_k_Voice_endpoint_found_0_endpoint, sizeof(__pyx_k_Voice_endpoint_found_0_endpoint), 0, 0, 1, 0},
-  {&__pyx_kp_s_Y_M_d, __pyx_k_Y_M_d, sizeof(__pyx_k_Y_M_d), 0, 0, 1, 0},
+  {&__pyx_kp_u_Voice_endpoint_found_0_endpoint, __pyx_k_Voice_endpoint_found_0_endpoint, sizeof(__pyx_k_Voice_endpoint_found_0_endpoint), 0, 1, 0, 0},
+  {&__pyx_kp_u_Y_M_d, __pyx_k_Y_M_d, sizeof(__pyx_k_Y_M_d), 0, 1, 0, 0},
   {&__pyx_n_s_YoutubeDL, __pyx_k_YoutubeDL, sizeof(__pyx_k_YoutubeDL), 0, 0, 1, 1},
-  {&__pyx_kp_s__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 0, 1, 0},
-  {&__pyx_kp_s__15, __pyx_k__15, sizeof(__pyx_k__15), 0, 0, 1, 0},
-  {&__pyx_kp_s__16, __pyx_k__16, sizeof(__pyx_k__16), 0, 0, 1, 0},
+  {&__pyx_kp_u__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 1, 0, 0},
+  {&__pyx_kp_u__15, __pyx_k__15, sizeof(__pyx_k__15), 0, 1, 0, 0},
+  {&__pyx_kp_u__16, __pyx_k__16, sizeof(__pyx_k__16), 0, 1, 0, 0},
   {&__pyx_n_s__31, __pyx_k__31, sizeof(__pyx_k__31), 0, 0, 1, 1},
-  {&__pyx_kp_s__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 0},
+  {&__pyx_n_s__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 1},
+  {&__pyx_kp_u__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 1, 0, 0},
   {&__pyx_n_s_after, __pyx_k_after, sizeof(__pyx_k_after), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
@@ -10984,7 +11089,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_asyncio_tasks, __pyx_k_asyncio_tasks, sizeof(__pyx_k_asyncio_tasks), 0, 0, 1, 1},
   {&__pyx_n_s_attr, __pyx_k_attr, sizeof(__pyx_k_attr), 0, 0, 1, 1},
   {&__pyx_n_s_audioop, __pyx_k_audioop, sizeof(__pyx_k_audioop), 0, 0, 1, 1},
-  {&__pyx_n_s_avconv, __pyx_k_avconv, sizeof(__pyx_k_avconv), 0, 0, 1, 1},
+  {&__pyx_n_u_avconv, __pyx_k_avconv, sizeof(__pyx_k_avconv), 0, 1, 0, 1},
   {&__pyx_n_s_before_args, __pyx_k_before_args, sizeof(__pyx_k_before_args), 0, 0, 1, 1},
   {&__pyx_n_s_before_options, __pyx_k_before_options, sizeof(__pyx_k_before_options), 0, 0, 1, 1},
   {&__pyx_n_s_box, __pyx_k_box, sizeof(__pyx_k_box), 0, 0, 1, 1},
@@ -11008,21 +11113,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_create_stream_player, __pyx_k_create_stream_player, sizeof(__pyx_k_create_stream_player), 0, 0, 1, 1},
   {&__pyx_n_s_create_task, __pyx_k_create_task, sizeof(__pyx_k_create_task), 0, 0, 1, 1},
   {&__pyx_n_s_create_ytdl_player, __pyx_k_create_ytdl_player, sizeof(__pyx_k_create_ytdl_player), 0, 0, 1, 1},
-  {&__pyx_kp_s_created_opus_encoder_with_0___di, __pyx_k_created_opus_encoder_with_0___di, sizeof(__pyx_k_created_opus_encoder_with_0___di), 0, 0, 1, 0},
+  {&__pyx_kp_u_created_opus_encoder_with_0___di, __pyx_k_created_opus_encoder_with_0___di, sizeof(__pyx_k_created_opus_encoder_with_0___di), 0, 1, 0, 0},
   {&__pyx_n_s_daemon, __pyx_k_daemon, sizeof(__pyx_k_daemon), 0, 0, 1, 1},
   {&__pyx_n_s_data, __pyx_k_data, sizeof(__pyx_k_data), 0, 0, 1, 1},
   {&__pyx_n_s_date, __pyx_k_date, sizeof(__pyx_k_date), 0, 0, 1, 1},
   {&__pyx_n_s_datetime, __pyx_k_datetime, sizeof(__pyx_k_datetime), 0, 0, 1, 1},
   {&__pyx_n_s_delay, __pyx_k_delay, sizeof(__pyx_k_delay), 0, 0, 1, 1},
   {&__pyx_n_s_description, __pyx_k_description, sizeof(__pyx_k_description), 0, 0, 1, 1},
+  {&__pyx_n_u_description, __pyx_k_description, sizeof(__pyx_k_description), 0, 1, 0, 1},
   {&__pyx_n_s_disconnect, __pyx_k_disconnect, sizeof(__pyx_k_disconnect), 0, 0, 1, 1},
   {&__pyx_n_s_discord_voice_client, __pyx_k_discord_voice_client, sizeof(__pyx_k_discord_voice_client), 0, 0, 1, 1},
-  {&__pyx_n_s_dislike_count, __pyx_k_dislike_count, sizeof(__pyx_k_dislike_count), 0, 0, 1, 1},
+  {&__pyx_n_u_dislike_count, __pyx_k_dislike_count, sizeof(__pyx_k_dislike_count), 0, 1, 0, 1},
   {&__pyx_n_s_dislikes, __pyx_k_dislikes, sizeof(__pyx_k_dislikes), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_download, __pyx_k_download, sizeof(__pyx_k_download), 0, 0, 1, 1},
   {&__pyx_n_s_download_url, __pyx_k_download_url, sizeof(__pyx_k_download_url), 0, 0, 1, 1},
   {&__pyx_n_s_duration, __pyx_k_duration, sizeof(__pyx_k_duration), 0, 0, 1, 1},
+  {&__pyx_n_u_duration, __pyx_k_duration, sizeof(__pyx_k_duration), 0, 1, 0, 1},
   {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_encoded_data, __pyx_k_encoded_data, sizeof(__pyx_k_encoded_data), 0, 0, 1, 1},
@@ -11031,14 +11138,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_encrypt, __pyx_k_encrypt, sizeof(__pyx_k_encrypt), 0, 0, 1, 1},
   {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_endpoint, __pyx_k_endpoint, sizeof(__pyx_k_endpoint), 0, 0, 1, 1},
+  {&__pyx_n_u_endpoint, __pyx_k_endpoint, sizeof(__pyx_k_endpoint), 0, 1, 0, 1},
   {&__pyx_n_s_endpoint_ip, __pyx_k_endpoint_ip, sizeof(__pyx_k_endpoint_ip), 0, 0, 1, 1},
-  {&__pyx_n_s_entries, __pyx_k_entries, sizeof(__pyx_k_entries), 0, 0, 1, 1},
+  {&__pyx_n_u_entries, __pyx_k_entries, sizeof(__pyx_k_entries), 0, 1, 0, 1},
   {&__pyx_n_s_errors, __pyx_k_errors, sizeof(__pyx_k_errors), 0, 0, 1, 1},
   {&__pyx_n_s_extract_info, __pyx_k_extract_info, sizeof(__pyx_k_extract_info), 0, 0, 1, 1},
-  {&__pyx_n_s_ffmpeg, __pyx_k_ffmpeg, sizeof(__pyx_k_ffmpeg), 0, 0, 1, 1},
-  {&__pyx_kp_s_ffmpeg_avconv_was_not_found_in_y, __pyx_k_ffmpeg_avconv_was_not_found_in_y, sizeof(__pyx_k_ffmpeg_avconv_was_not_found_in_y), 0, 0, 1, 0},
+  {&__pyx_n_u_ffmpeg, __pyx_k_ffmpeg, sizeof(__pyx_k_ffmpeg), 0, 1, 0, 1},
+  {&__pyx_kp_u_ffmpeg_avconv_was_not_found_in_y, __pyx_k_ffmpeg_avconv_was_not_found_in_y, sizeof(__pyx_k_ffmpeg_avconv_was_not_found_in_y), 0, 1, 0, 0},
   {&__pyx_n_s_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
+  {&__pyx_n_u_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 1, 0, 1},
   {&__pyx_n_s_frame_length, __pyx_k_frame_length, sizeof(__pyx_k_frame_length), 0, 0, 1, 1},
   {&__pyx_n_s_frame_size, __pyx_k_frame_size, sizeof(__pyx_k_frame_size), 0, 0, 1, 1},
   {&__pyx_n_s_from_client, __pyx_k_from_client, sizeof(__pyx_k_from_client), 0, 0, 1, 1},
@@ -11050,11 +11159,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_voice_packet, __pyx_k_get_voice_packet, sizeof(__pyx_k_get_voice_packet), 0, 0, 1, 1},
   {&__pyx_n_s_gethostbyname, __pyx_k_gethostbyname, sizeof(__pyx_k_gethostbyname), 0, 0, 1, 1},
   {&__pyx_n_s_guild_id, __pyx_k_guild_id, sizeof(__pyx_k_guild_id), 0, 0, 1, 1},
+  {&__pyx_n_u_guild_id, __pyx_k_guild_id, sizeof(__pyx_k_guild_id), 0, 1, 0, 1},
   {&__pyx_n_s_has_nacl, __pyx_k_has_nacl, sizeof(__pyx_k_has_nacl), 0, 0, 1, 1},
   {&__pyx_n_s_header, __pyx_k_header, sizeof(__pyx_k_header), 0, 0, 1, 1},
   {&__pyx_n_s_headers, __pyx_k_headers, sizeof(__pyx_k_headers), 0, 0, 1, 1},
-  {&__pyx_kp_s_headers_2, __pyx_k_headers_2, sizeof(__pyx_k_headers_2), 0, 0, 1, 0},
-  {&__pyx_kp_s_i_f_s16le_ar_ac_loglevel_warnin, __pyx_k_i_f_s16le_ar_ac_loglevel_warnin, sizeof(__pyx_k_i_f_s16le_ar_ac_loglevel_warnin), 0, 0, 1, 0},
+  {&__pyx_kp_u_headers_2, __pyx_k_headers_2, sizeof(__pyx_k_headers_2), 0, 1, 0, 0},
+  {&__pyx_kp_u_i_f_s16le_ar_ac_loglevel_warnin, __pyx_k_i_f_s16le_ar_ac_loglevel_warnin, sizeof(__pyx_k_i_f_s16le_ar_ac_loglevel_warnin), 0, 1, 0, 0},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_info, __pyx_k_info, sizeof(__pyx_k_info), 0, 0, 1, 1},
@@ -11064,6 +11174,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_is_connected, __pyx_k_is_connected, sizeof(__pyx_k_is_connected), 0, 0, 1, 1},
   {&__pyx_n_s_is_done, __pyx_k_is_done, sizeof(__pyx_k_is_done), 0, 0, 1, 1},
   {&__pyx_n_s_is_live, __pyx_k_is_live, sizeof(__pyx_k_is_live), 0, 0, 1, 1},
+  {&__pyx_n_u_is_live, __pyx_k_is_live, sizeof(__pyx_k_is_live), 0, 1, 0, 1},
   {&__pyx_n_s_is_playing, __pyx_k_is_playing, sizeof(__pyx_k_is_playing), 0, 0, 1, 1},
   {&__pyx_n_s_is_set, __pyx_k_is_set, sizeof(__pyx_k_is_set), 0, 0, 1, 1},
   {&__pyx_n_s_is_twitch, __pyx_k_is_twitch, sizeof(__pyx_k_is_twitch), 0, 0, 1, 1},
@@ -11072,7 +11183,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
   {&__pyx_n_s_kill, __pyx_k_kill, sizeof(__pyx_k_kill), 0, 0, 1, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
-  {&__pyx_n_s_like_count, __pyx_k_like_count, sizeof(__pyx_k_like_count), 0, 0, 1, 1},
+  {&__pyx_n_u_like_count, __pyx_k_like_count, sizeof(__pyx_k_like_count), 0, 1, 0, 1},
   {&__pyx_n_s_likes, __pyx_k_likes, sizeof(__pyx_k_likes), 0, 0, 1, 1},
   {&__pyx_n_s_limit, __pyx_k_limit, sizeof(__pyx_k_limit), 0, 0, 1, 1},
   {&__pyx_n_s_log, __pyx_k_log, sizeof(__pyx_k_log), 0, 0, 1, 1},
@@ -11100,14 +11211,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_partial, __pyx_k_partial, sizeof(__pyx_k_partial), 0, 0, 1, 1},
   {&__pyx_n_s_pause, __pyx_k_pause, sizeof(__pyx_k_pause), 0, 0, 1, 1},
   {&__pyx_n_s_pipe, __pyx_k_pipe, sizeof(__pyx_k_pipe), 0, 0, 1, 1},
-  {&__pyx_kp_s_pipe_1, __pyx_k_pipe_1, sizeof(__pyx_k_pipe_1), 0, 0, 1, 0},
+  {&__pyx_kp_u_pipe_1, __pyx_k_pipe_1, sizeof(__pyx_k_pipe_1), 0, 1, 0, 0},
   {&__pyx_n_s_play_audio, __pyx_k_play_audio, sizeof(__pyx_k_play_audio), 0, 0, 1, 1},
   {&__pyx_n_s_player, __pyx_k_player, sizeof(__pyx_k_player), 0, 0, 1, 1},
-  {&__pyx_kp_s_playing_URL, __pyx_k_playing_URL, sizeof(__pyx_k_playing_URL), 0, 0, 1, 0},
+  {&__pyx_kp_u_playing_URL, __pyx_k_playing_URL, sizeof(__pyx_k_playing_URL), 0, 1, 0, 0},
   {&__pyx_n_s_poll, __pyx_k_poll, sizeof(__pyx_k_poll), 0, 0, 1, 1},
   {&__pyx_n_s_poll_event, __pyx_k_poll_event, sizeof(__pyx_k_poll_event), 0, 0, 1, 1},
   {&__pyx_n_s_poll_voice_ws, __pyx_k_poll_voice_ws, sizeof(__pyx_k_poll_voice_ws), 0, 0, 1, 1},
-  {&__pyx_n_s_prefer_ffmpeg, __pyx_k_prefer_ffmpeg, sizeof(__pyx_k_prefer_ffmpeg), 0, 0, 1, 1},
+  {&__pyx_n_u_prefer_ffmpeg, __pyx_k_prefer_ffmpeg, sizeof(__pyx_k_prefer_ffmpeg), 0, 1, 0, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_process, __pyx_k_process, sizeof(__pyx_k_process), 0, 0, 1, 1},
   {&__pyx_n_s_property, __pyx_k_property, sizeof(__pyx_k_property), 0, 0, 1, 1},
@@ -11124,12 +11235,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sampling_rate, __pyx_k_sampling_rate, sizeof(__pyx_k_sampling_rate), 0, 0, 1, 1},
   {&__pyx_n_s_secret, __pyx_k_secret, sizeof(__pyx_k_secret), 0, 0, 1, 1},
   {&__pyx_n_s_secret_key, __pyx_k_secret_key, sizeof(__pyx_k_secret_key), 0, 0, 1, 1},
+  {&__pyx_n_u_secret_key, __pyx_k_secret_key, sizeof(__pyx_k_secret_key), 0, 1, 0, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_self_mute, __pyx_k_self_mute, sizeof(__pyx_k_self_mute), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
   {&__pyx_n_s_sendto, __pyx_k_sendto, sizeof(__pyx_k_sendto), 0, 0, 1, 1},
   {&__pyx_n_s_sent, __pyx_k_sent, sizeof(__pyx_k_sent), 0, 0, 1, 1},
   {&__pyx_n_s_sequence, __pyx_k_sequence, sizeof(__pyx_k_sequence), 0, 0, 1, 1},
+  {&__pyx_n_u_sequence, __pyx_k_sequence, sizeof(__pyx_k_sequence), 0, 1, 0, 1},
   {&__pyx_n_s_server, __pyx_k_server, sizeof(__pyx_k_server), 0, 0, 1, 1},
   {&__pyx_n_s_session_id, __pyx_k_session_id, sizeof(__pyx_k_session_id), 0, 0, 1, 1},
   {&__pyx_n_s_set, __pyx_k_set, sizeof(__pyx_k_set), 0, 0, 1, 1},
@@ -11151,28 +11264,35 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_subprocess, __pyx_k_subprocess, sizeof(__pyx_k_subprocess), 0, 0, 1, 1},
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_text, __pyx_k_text, sizeof(__pyx_k_text), 0, 0, 1, 1},
+  {&__pyx_n_u_text, __pyx_k_text, sizeof(__pyx_k_text), 0, 1, 0, 1},
   {&__pyx_n_s_threading, __pyx_k_threading, sizeof(__pyx_k_threading), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
   {&__pyx_n_s_timestamp, __pyx_k_timestamp, sizeof(__pyx_k_timestamp), 0, 0, 1, 1},
+  {&__pyx_n_u_timestamp, __pyx_k_timestamp, sizeof(__pyx_k_timestamp), 0, 1, 0, 1},
   {&__pyx_n_s_title, __pyx_k_title, sizeof(__pyx_k_title), 0, 0, 1, 1},
+  {&__pyx_n_u_title, __pyx_k_title, sizeof(__pyx_k_title), 0, 1, 0, 1},
   {&__pyx_n_s_token, __pyx_k_token, sizeof(__pyx_k_token), 0, 0, 1, 1},
-  {&__pyx_n_s_twitch, __pyx_k_twitch, sizeof(__pyx_k_twitch), 0, 0, 1, 1},
-  {&__pyx_n_s_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 0, 1, 1},
+  {&__pyx_n_u_token, __pyx_k_token, sizeof(__pyx_k_token), 0, 1, 0, 1},
+  {&__pyx_n_u_twitch, __pyx_k_twitch, sizeof(__pyx_k_twitch), 0, 1, 0, 1},
+  {&__pyx_n_u_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 1, 0, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_upload_date, __pyx_k_upload_date, sizeof(__pyx_k_upload_date), 0, 0, 1, 1},
+  {&__pyx_n_u_upload_date, __pyx_k_upload_date, sizeof(__pyx_k_upload_date), 0, 1, 0, 1},
   {&__pyx_n_s_uploader, __pyx_k_uploader, sizeof(__pyx_k_uploader), 0, 0, 1, 1},
+  {&__pyx_n_u_uploader, __pyx_k_uploader, sizeof(__pyx_k_uploader), 0, 1, 0, 1},
   {&__pyx_n_s_url, __pyx_k_url, sizeof(__pyx_k_url), 0, 0, 1, 1},
+  {&__pyx_n_u_url, __pyx_k_url, sizeof(__pyx_k_url), 0, 1, 0, 1},
   {&__pyx_n_s_use_avconv, __pyx_k_use_avconv, sizeof(__pyx_k_use_avconv), 0, 0, 1, 1},
+  {&__pyx_n_u_use_avconv, __pyx_k_use_avconv, sizeof(__pyx_k_use_avconv), 0, 1, 0, 1},
   {&__pyx_n_s_user, __pyx_k_user, sizeof(__pyx_k_user), 0, 0, 1, 1},
   {&__pyx_n_s_utils, __pyx_k_utils, sizeof(__pyx_k_utils), 0, 0, 1, 1},
   {&__pyx_n_s_val, __pyx_k_val, sizeof(__pyx_k_val), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
-  {&__pyx_n_s_view_count, __pyx_k_view_count, sizeof(__pyx_k_view_count), 0, 0, 1, 1},
+  {&__pyx_n_u_view_count, __pyx_k_view_count, sizeof(__pyx_k_view_count), 0, 1, 0, 1},
   {&__pyx_n_s_views, __pyx_k_views, sizeof(__pyx_k_views), 0, 0, 1, 1},
-  {&__pyx_n_s_voice, __pyx_k_voice, sizeof(__pyx_k_voice), 0, 0, 1, 1},
-  {&__pyx_kp_s_voice_connection_is_connecting, __pyx_k_voice_connection_is_connecting, sizeof(__pyx_k_voice_connection_is_connecting), 0, 0, 1, 0},
+  {&__pyx_n_u_voice, __pyx_k_voice, sizeof(__pyx_k_voice), 0, 1, 0, 1},
+  {&__pyx_kp_u_voice_connection_is_connecting, __pyx_k_voice_connection_is_connecting, sizeof(__pyx_k_voice_connection_is_connecting), 0, 1, 0, 0},
   {&__pyx_n_s_voice_port, __pyx_k_voice_port, sizeof(__pyx_k_voice_port), 0, 0, 1, 1},
   {&__pyx_n_s_voice_state, __pyx_k_voice_state, sizeof(__pyx_k_voice_state), 0, 0, 1, 1},
   {&__pyx_n_s_volume, __pyx_k_volume, sizeof(__pyx_k_volume), 0, 0, 1, 1},
@@ -11180,7 +11300,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_wait, __pyx_k_wait, sizeof(__pyx_k_wait), 0, 0, 1, 1},
   {&__pyx_n_s_warn_nacl, __pyx_k_warn_nacl, sizeof(__pyx_k_warn_nacl), 0, 0, 1, 1},
   {&__pyx_n_s_warning, __pyx_k_warning, sizeof(__pyx_k_warning), 0, 0, 1, 1},
-  {&__pyx_kp_s_webm_abr_0_bestaudio_best, __pyx_k_webm_abr_0_bestaudio_best, sizeof(__pyx_k_webm_abr_0_bestaudio_best), 0, 0, 1, 0},
+  {&__pyx_kp_u_webm_abr_0_bestaudio_best, __pyx_k_webm_abr_0_bestaudio_best, sizeof(__pyx_k_webm_abr_0_bestaudio_best), 0, 1, 0, 0},
   {&__pyx_n_s_websockets, __pyx_k_websockets, sizeof(__pyx_k_websockets), 0, 0, 1, 1},
   {&__pyx_n_s_ws, __pyx_k_ws, sizeof(__pyx_k_ws), 0, 0, 1, 1},
   {&__pyx_n_s_ydl, __pyx_k_ydl, sizeof(__pyx_k_ydl), 0, 0, 1, 1},
@@ -11214,7 +11334,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def run(self):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Expected_a_callable_for_the_afte); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Expected_a_callable_for_the_afte); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -11225,7 +11345,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         self.user = user
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_PyNaCl_library_needed_in_order_t); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_PyNaCl_library_needed_in_order_t); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -11236,7 +11356,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.guild_id = data.get('guild_id')
  *         self.endpoint = data.get('endpoint')
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_s_token); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_u_token); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -11247,7 +11367,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.endpoint = data.get('endpoint')
  *         self.sequence = 0
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_guild_id); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_u_guild_id); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -11258,7 +11378,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.sequence = 0
  *         self.timestamp = 0
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_endpoint); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_u_endpoint); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -11280,7 +11400,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.endpoint = self.endpoint.replace(':80', '')
  *         self.endpoint_ip = socket.gethostbyname(self.endpoint)
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_voice_connection_is_connecting); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_voice_connection_is_connecting); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -11291,7 +11411,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         self.endpoint_ip = socket.gethostbyname(self.endpoint)
  *         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
  */
-  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_kp_s_80, __pyx_kp_s__8); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_kp_u_80, __pyx_kp_u__8); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -11313,7 +11433,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         yield from self.main_ws.voice_state(self.guild_id, channel.id)
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Must_be_a_voice_channel); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 306, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Must_be_a_voice_channel); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -11346,7 +11466,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         except subprocess.SubprocessError as e:
  *             raise ClientException('Popen failed: {0.__name__} {1}'.format(type(e), str(e))) from e
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_ffmpeg_avconv_was_not_found_in_y); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 420, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_ffmpeg_avconv_was_not_found_in_y); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 420, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
@@ -11357,7 +11477,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         player.is_live = bool(info.get('is_live'))
  *         player.likes = info.get('like_count')
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_n_s_view_count); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_n_u_view_count); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
@@ -11368,7 +11488,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         player.likes = info.get('like_count')
  *         player.dislikes = info.get('dislike_count')
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_n_s_is_live); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_n_u_is_live); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
@@ -11379,7 +11499,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         player.dislikes = info.get('dislike_count')
  *         player.duration = info.get('duration')
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_s_like_count); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 535, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_u_like_count); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 535, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
@@ -11390,7 +11510,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         player.duration = info.get('duration')
  *         player.uploader = info.get('uploader')
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_dislike_count); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 536, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_u_dislike_count); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
 
@@ -11401,7 +11521,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         player.uploader = info.get('uploader')
  * 
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_n_s_duration); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 537, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_n_u_duration); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
@@ -11412,7 +11532,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         is_twitch = 'twitch' in url
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_n_s_uploader); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 538, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_n_u_uploader); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 538, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
@@ -11423,7 +11543,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             player.description = None
  *         else:
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_n_s_description); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 543, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_n_u_description); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 543, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
 
@@ -11434,7 +11554,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             player.description = info.get('description')
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_s_title); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 546, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_u_title); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 546, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
 
@@ -11445,7 +11565,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         # upload date handling
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_n_s_description); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_n_u_description); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 547, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__26);
   __Pyx_GIVEREF(__pyx_tuple__26);
 
@@ -11456,7 +11576,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         if date:
  *             try:
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_n_s_upload_date); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_n_u_upload_date); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 550, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
 
@@ -11467,7 +11587,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         if channels not in (1, 2):
  *             raise InvalidArgument('Channels must be either 1 or 2.')
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_Sample_rate_out_of_range_Valid_8); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Sample_rate_out_of_range_Valid_8); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 581, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
@@ -11478,7 +11598,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         self.encoder = opus.Encoder(sample_rate, channels)
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_Channels_must_be_either_1_or_2); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 583, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_u_Channels_must_be_either_1_or_2); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 583, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
 
@@ -11489,7 +11609,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         if encode:
  *             encoded_data = self.encoder.encode(data, self.encoder.samples_per_frame)
  */
-  __pyx_tuple__30 = PyTuple_Pack(3, __pyx_n_s_sequence, __pyx_int_1, __pyx_int_65535); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 660, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(3, __pyx_n_u_sequence, __pyx_int_1, __pyx_int_65535); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 660, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
@@ -11951,7 +12071,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import websockets
  * import socket
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -11963,7 +12083,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import socket
  * import json, time
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_websockets, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_websockets, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_websockets, __pyx_t_1) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -11975,7 +12095,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import json, time
  * import logging
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_socket, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_socket, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_socket, __pyx_t_1) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -11987,11 +12107,11 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import logging
  * import struct
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_json, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_1) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12003,7 +12123,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import struct
  * import threading
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_logging, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_logging, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_logging, __pyx_t_1) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12015,7 +12135,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import threading
  * import subprocess
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_struct, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_struct, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_struct, __pyx_t_1) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12027,7 +12147,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import subprocess
  * import shlex
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_threading, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_threading, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_threading, __pyx_t_1) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12039,7 +12159,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import shlex
  * import functools
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_subprocess, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_subprocess, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_subprocess, __pyx_t_1) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12051,7 +12171,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import functools
  * import datetime
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_shlex, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_shlex, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_shlex, __pyx_t_1) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12063,7 +12183,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import datetime
  * import audioop
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_1) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12075,7 +12195,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * import audioop
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_datetime, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_datetime, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_datetime, __pyx_t_1) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12087,7 +12207,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  * 
  * log = logging.getLogger(__name__)
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_audioop, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_audioop, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_audioop, __pyx_t_1) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12158,7 +12278,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  *     has_nacl = True
  * except ImportError:
  */
-      __pyx_t_1 = __Pyx_Import(__pyx_n_s_nacl_secret, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L2_error)
+      __pyx_t_1 = __Pyx_Import(__pyx_n_s_nacl_secret, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (PyDict_SetItem(__pyx_d, __pyx_n_s_nacl, __pyx_t_1) < 0) __PYX_ERR(0, 58, __pyx_L2_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12260,7 +12380,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
   __Pyx_INCREF(__pyx_n_s_opus);
   __Pyx_GIVEREF(__pyx_n_s_opus);
   PyList_SET_ITEM(__pyx_t_5, 1, __pyx_n_s_opus);
-  __pyx_t_3 = __Pyx_Import(__pyx_kp_s__8, __pyx_t_5, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Import(__pyx_n_s__8, __pyx_t_5, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_utils); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
@@ -12530,7 +12650,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  *     def __init__(self, stream, encoder, connected, player, after, **kwargs):
  *         threading.Thread.__init__(self, **kwargs)
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(__pyx_t_5, __pyx_n_s_StreamPlayer, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(__pyx_t_5, __pyx_n_s_StreamPlayer, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_StreamPlayer, __pyx_t_2) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -12596,7 +12716,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  *     def __init__(self, process, client, after, **kwargs):
  *         super().__init__(process.stdout, client.encoder,
  */
-  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_ProcessPlayer, __pyx_t_5, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_ProcessPlayer, __pyx_t_5, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_2, __pyx_t_10) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -13050,7 +13170,7 @@ PyMODINIT_FUNC PyInit_voice_client(void)
  *     """Represents a Discord voice connection.
  * 
  */
-  __pyx_t_10 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_VoiceClient, __pyx_empty_tuple, __pyx_t_5, NULL, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_VoiceClient, __pyx_empty_tuple, __pyx_t_5, NULL, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_VoiceClient, __pyx_t_10) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -13380,7 +13500,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
 
 /* PyFloatBinop */
       #if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyFloat_DivideObjC(PyObject *op1, PyObject *op2, double floatval, CYTHON_UNUSED int inplace) {
+static PyObject* __Pyx_PyFloat_TrueDivideObjC(PyObject *op1, PyObject *op2, double floatval, CYTHON_UNUSED int inplace) {
     const double b = floatval;
     double a, result;
     if (likely(PyFloat_CheckExact(op1))) {
@@ -13437,7 +13557,7 @@ static PyObject* __Pyx_PyFloat_DivideObjC(PyObject *op1, PyObject *op2, double f
             if (unlikely(a == -1.0 && PyErr_Occurred())) return NULL;
         }
     } else {
-        return (inplace ? __Pyx_PyNumber_InPlaceDivide(op1, op2) : __Pyx_PyNumber_Divide(op1, op2));
+        return (inplace ? PyNumber_InPlaceTrueDivide : PyNumber_TrueDivide)(op1, op2);
     }
         PyFPE_START_PROTECT("divide", return NULL)
         result = a / b;
@@ -15021,19 +15141,6 @@ bad:
     return -1;
 }
 
-/* RaiseTooManyValuesToUnpack */
-                static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
-    PyErr_Format(PyExc_ValueError,
-                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
-}
-
-/* RaiseNeedMoreValuesToUnpack */
-                static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
-    PyErr_Format(PyExc_ValueError,
-                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
-                 index, (index == 1) ? "" : "s");
-}
-
 /* IterFinish */
                 static CYTHON_INLINE int __Pyx_IterFinish(void) {
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -15069,6 +15176,41 @@ bad:
 #endif
 }
 
+/* PyObjectCallMethod0 */
+                static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
+    PyObject *method, *result = NULL;
+    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
+    if (unlikely(!method)) goto bad;
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (likely(PyMethod_Check(method))) {
+        PyObject *self = PyMethod_GET_SELF(method);
+        if (likely(self)) {
+            PyObject *function = PyMethod_GET_FUNCTION(method);
+            result = __Pyx_PyObject_CallOneArg(function, self);
+            Py_DECREF(method);
+            return result;
+        }
+    }
+#endif
+    result = __Pyx_PyObject_CallNoArg(method);
+    Py_DECREF(method);
+bad:
+    return result;
+}
+
+/* RaiseNeedMoreValuesToUnpack */
+                static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
+    PyErr_Format(PyExc_ValueError,
+                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
+                 index, (index == 1) ? "" : "s");
+}
+
+/* RaiseTooManyValuesToUnpack */
+                static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
+    PyErr_Format(PyExc_ValueError,
+                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
+}
+
 /* UnpackItemEndCheck */
                 static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
     if (unlikely(retval)) {
@@ -15079,6 +15221,165 @@ bad:
         return __Pyx_IterFinish();
     }
     return 0;
+}
+
+/* RaiseNoneIterError */
+                static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+}
+
+/* UnpackTupleError */
+                static void __Pyx_UnpackTupleError(PyObject *t, Py_ssize_t index) {
+    if (t == Py_None) {
+      __Pyx_RaiseNoneNotIterableError();
+    } else if (PyTuple_GET_SIZE(t) < index) {
+      __Pyx_RaiseNeedMoreValuesError(PyTuple_GET_SIZE(t));
+    } else {
+      __Pyx_RaiseTooManyValuesError(index);
+    }
+}
+
+/* UnpackTuple2 */
+                static CYTHON_INLINE int __Pyx_unpack_tuple2(PyObject* tuple, PyObject** pvalue1, PyObject** pvalue2,
+                                             int is_tuple, int has_known_size, int decref_tuple) {
+    Py_ssize_t index;
+    PyObject *value1 = NULL, *value2 = NULL, *iter = NULL;
+    if (!is_tuple && unlikely(!PyTuple_Check(tuple))) {
+        iternextfunc iternext;
+        iter = PyObject_GetIter(tuple);
+        if (unlikely(!iter)) goto bad;
+        if (decref_tuple) { Py_DECREF(tuple); tuple = NULL; }
+        iternext = Py_TYPE(iter)->tp_iternext;
+        value1 = iternext(iter); if (unlikely(!value1)) { index = 0; goto unpacking_failed; }
+        value2 = iternext(iter); if (unlikely(!value2)) { index = 1; goto unpacking_failed; }
+        if (!has_known_size && unlikely(__Pyx_IternextUnpackEndCheck(iternext(iter), 2))) goto bad;
+        Py_DECREF(iter);
+    } else {
+        if (!has_known_size && unlikely(PyTuple_GET_SIZE(tuple) != 2)) {
+            __Pyx_UnpackTupleError(tuple, 2);
+            goto bad;
+        }
+#if CYTHON_COMPILING_IN_PYPY
+        value1 = PySequence_ITEM(tuple, 0);
+        if (unlikely(!value1)) goto bad;
+        value2 = PySequence_ITEM(tuple, 1);
+        if (unlikely(!value2)) goto bad;
+#else
+        value1 = PyTuple_GET_ITEM(tuple, 0);
+        value2 = PyTuple_GET_ITEM(tuple, 1);
+        Py_INCREF(value1);
+        Py_INCREF(value2);
+#endif
+        if (decref_tuple) { Py_DECREF(tuple); }
+    }
+    *pvalue1 = value1;
+    *pvalue2 = value2;
+    return 0;
+unpacking_failed:
+    if (!has_known_size && __Pyx_IterFinish() == 0)
+        __Pyx_RaiseNeedMoreValuesError(index);
+bad:
+    Py_XDECREF(iter);
+    Py_XDECREF(value1);
+    Py_XDECREF(value2);
+    if (decref_tuple) { Py_XDECREF(tuple); }
+    return -1;
+}
+
+/* dict_iter */
+                static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* iterable, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_source_is_dict) {
+    is_dict = is_dict || likely(PyDict_CheckExact(iterable));
+    *p_source_is_dict = is_dict;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (is_dict) {
+        *p_orig_length = PyDict_Size(iterable);
+        Py_INCREF(iterable);
+        return iterable;
+    }
+#endif
+    *p_orig_length = 0;
+    if (method_name) {
+        PyObject* iter;
+        iterable = __Pyx_PyObject_CallMethod0(iterable, method_name);
+        if (!iterable)
+            return NULL;
+#if !CYTHON_COMPILING_IN_PYPY
+        if (PyTuple_CheckExact(iterable) || PyList_CheckExact(iterable))
+            return iterable;
+#endif
+        iter = PyObject_GetIter(iterable);
+        Py_DECREF(iterable);
+        return iter;
+    }
+    return PyObject_GetIter(iterable);
+}
+static CYTHON_INLINE int __Pyx_dict_iter_next(
+        PyObject* iter_obj, CYTHON_NCP_UNUSED Py_ssize_t orig_length, CYTHON_NCP_UNUSED Py_ssize_t* ppos,
+        PyObject** pkey, PyObject** pvalue, PyObject** pitem, int source_is_dict) {
+    PyObject* next_item;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (source_is_dict) {
+        PyObject *key, *value;
+        if (unlikely(orig_length != PyDict_Size(iter_obj))) {
+            PyErr_SetString(PyExc_RuntimeError, "dictionary changed size during iteration");
+            return -1;
+        }
+        if (unlikely(!PyDict_Next(iter_obj, ppos, &key, &value))) {
+            return 0;
+        }
+        if (pitem) {
+            PyObject* tuple = PyTuple_New(2);
+            if (unlikely(!tuple)) {
+                return -1;
+            }
+            Py_INCREF(key);
+            Py_INCREF(value);
+            PyTuple_SET_ITEM(tuple, 0, key);
+            PyTuple_SET_ITEM(tuple, 1, value);
+            *pitem = tuple;
+        } else {
+            if (pkey) {
+                Py_INCREF(key);
+                *pkey = key;
+            }
+            if (pvalue) {
+                Py_INCREF(value);
+                *pvalue = value;
+            }
+        }
+        return 1;
+    } else if (PyTuple_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyTuple_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyTuple_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else if (PyList_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyList_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyList_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else
+#endif
+    {
+        next_item = PyIter_Next(iter_obj);
+        if (unlikely(!next_item)) {
+            return __Pyx_IterFinish();
+        }
+    }
+    if (pitem) {
+        *pitem = next_item;
+    } else if (pkey && pvalue) {
+        if (__Pyx_unpack_tuple2(next_item, pkey, pvalue, source_is_dict, source_is_dict, 1))
+            return -1;
+    } else if (pkey) {
+        *pkey = next_item;
+    } else {
+        *pvalue = next_item;
+    }
+    return 1;
 }
 
 /* Import */

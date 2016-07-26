@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -821,9 +821,9 @@ static const char __pyx_k_The_MIT_License_MIT_Copyright_c[] = "\nThe MIT License
 static const char __pyx_k_Represents_a_Discord_user_Suppor[] = "Represents a Discord user.\n\n    Supported Operations:\n\n    +-----------+---------------------------------------------+\n    | Operation |                 Description                 |\n    +===========+=============================================+\n    | x == y    | Checks if two users are equal.              |\n    +-----------+---------------------------------------------+\n    | x != y    | Checks if two users are not equal.          |\n    +-----------+---------------------------------------------+\n    | hash(x)   | Return the user's hash.                     |\n    +-----------+---------------------------------------------+\n    | str(x)    | Returns the user's name with discriminator. |\n    +-----------+---------------------------------------------+\n\n    Attributes\n    -----------\n    name : str\n        The user's username.\n    id : str\n        The user's unique ID.\n    discriminator : str or int\n        The user's discriminator. This is given when the username has conflicts.\n    avatar : str\n        The avatar hash the user has. Could be None.\n    bot : bool\n        Specifies if the user is a bot account.\n    ";
 static const char __pyx_k_https_discordapp_com_api_users_0[] = "https://discordapp.com/api/users/{0.id}/avatars/{0.avatar}.jpg";
 static const char __pyx_k_https_discordapp_com_assets_0_ur[] = "https://discordapp.com/assets/{0.url}.png";
-static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_kp_s_0_id;
-static PyObject *__pyx_kp_s_0_name_0_discriminator;
+static PyObject *__pyx_kp_u_;
+static PyObject *__pyx_kp_u_0_id;
+static PyObject *__pyx_kp_u_0_name_0_discriminator;
 static PyObject *__pyx_n_s_DefaultAvatar;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_kp_s_Represents_a_Discord_user_Suppor;
@@ -842,14 +842,17 @@ static PyObject *__pyx_n_s_User_mention;
 static PyObject *__pyx_n_s_User_mentioned_in;
 static PyObject *__pyx_n_s_User_permissions_in;
 static PyObject *__pyx_n_s_avatar;
+static PyObject *__pyx_n_u_avatar;
 static PyObject *__pyx_n_s_avatar_url;
 static PyObject *__pyx_n_s_bot;
+static PyObject *__pyx_n_u_bot;
 static PyObject *__pyx_n_s_channel;
 static PyObject *__pyx_n_s_created_at;
 static PyObject *__pyx_n_s_default_avatar;
 static PyObject *__pyx_n_s_default_avatar_url;
 static PyObject *__pyx_n_s_discord_user;
 static PyObject *__pyx_n_s_discriminator;
+static PyObject *__pyx_n_u_discriminator;
 static PyObject *__pyx_n_s_display_name;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_enums;
@@ -857,9 +860,10 @@ static PyObject *__pyx_n_s_eq;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_hash;
-static PyObject *__pyx_kp_s_https_discordapp_com_api_users_0;
-static PyObject *__pyx_kp_s_https_discordapp_com_assets_0_ur;
+static PyObject *__pyx_kp_u_https_discordapp_com_api_users_0;
+static PyObject *__pyx_kp_u_https_discordapp_com_assets_0_ur;
 static PyObject *__pyx_n_s_id;
+static PyObject *__pyx_n_u_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_kwargs;
@@ -872,8 +876,9 @@ static PyObject *__pyx_n_s_message;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_n_u_name;
 static PyObject *__pyx_n_s_ne;
-static PyObject *__pyx_n_s_nick;
+static PyObject *__pyx_n_u_nick;
 static PyObject *__pyx_n_s_other;
 static PyObject *__pyx_n_s_permissions_for;
 static PyObject *__pyx_n_s_permissions_in;
@@ -885,7 +890,7 @@ static PyObject *__pyx_n_s_slots;
 static PyObject *__pyx_n_s_snowflake_time;
 static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_username;
+static PyObject *__pyx_n_u_username;
 static PyObject *__pyx_n_s_utils;
 static PyObject *__pyx_pf_7discord_4user_4User___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_pf_7discord_4user_4User_2__str__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
@@ -1003,7 +1008,7 @@ static PyObject *__pyx_pf_7discord_4user_4User___init__(CYTHON_UNUSED PyObject *
  *         self.id = kwargs.get('id')
  *         self.discriminator = kwargs.get('discriminator')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_username, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_username, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_t_1) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1015,7 +1020,7 @@ static PyObject *__pyx_pf_7discord_4user_4User___init__(CYTHON_UNUSED PyObject *
  *         self.discriminator = kwargs.get('discriminator')
  *         self.avatar = kwargs.get('avatar')
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_id, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_id, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_id, __pyx_t_1) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1027,7 +1032,7 @@ static PyObject *__pyx_pf_7discord_4user_4User___init__(CYTHON_UNUSED PyObject *
  *         self.avatar = kwargs.get('avatar')
  *         self.bot = kwargs.get('bot', False)
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_discriminator, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_discriminator, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_discriminator, __pyx_t_1) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1039,7 +1044,7 @@ static PyObject *__pyx_pf_7discord_4user_4User___init__(CYTHON_UNUSED PyObject *
  *         self.bot = kwargs.get('bot', False)
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_avatar, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_avatar, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_avatar, __pyx_t_1) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1051,7 +1056,7 @@ static PyObject *__pyx_pf_7discord_4user_4User___init__(CYTHON_UNUSED PyObject *
  * 
  *     def __str__(self):
  */
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_s_bot, Py_False); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_kwargs, __pyx_n_u_bot, Py_False); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_bot, __pyx_t_1) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1116,7 +1121,7 @@ static PyObject *__pyx_pf_7discord_4user_4User_2__str__(CYTHON_UNUSED PyObject *
  *     def __eq__(self, other):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_name_0_discriminator, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_0_name_0_discriminator, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -1567,8 +1572,8 @@ static PyObject *__pyx_pf_7discord_4user_4User_10avatar_url(CYTHON_UNUSED PyObje
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_kp_s_);
-    __pyx_r = __pyx_kp_s_;
+    __Pyx_INCREF(__pyx_kp_u_);
+    __pyx_r = __pyx_kp_u_;
     goto __pyx_L0;
 
     /* "discord/user.py":86
@@ -1588,7 +1593,7 @@ static PyObject *__pyx_pf_7discord_4user_4User_10avatar_url(CYTHON_UNUSED PyObje
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_https_discordapp_com_api_users_0, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_https_discordapp_com_api_users_0, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1794,7 +1799,7 @@ static PyObject *__pyx_pf_7discord_4user_4User_14default_avatar_url(CYTHON_UNUSE
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_https_discordapp_com_assets_0_ur, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_https_discordapp_com_assets_0_ur, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_default_avatar); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -1891,7 +1896,7 @@ static PyObject *__pyx_pf_7discord_4user_4User_16mention(CYTHON_UNUSED PyObject 
  *     def permissions_in(self, channel):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_id, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_0_id, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2219,7 +2224,7 @@ static PyObject *__pyx_pf_7discord_4user_4User_22display_name(CYTHON_UNUSED PyOb
  *     def mentioned_in(self, message):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_self, __pyx_n_s_nick, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_self, __pyx_n_u_nick, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
   if (!__pyx_t_3) {
@@ -2457,9 +2462,9 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_kp_s_0_id, __pyx_k_0_id, sizeof(__pyx_k_0_id), 0, 0, 1, 0},
-  {&__pyx_kp_s_0_name_0_discriminator, __pyx_k_0_name_0_discriminator, sizeof(__pyx_k_0_name_0_discriminator), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
+  {&__pyx_kp_u_0_id, __pyx_k_0_id, sizeof(__pyx_k_0_id), 0, 1, 0, 0},
+  {&__pyx_kp_u_0_name_0_discriminator, __pyx_k_0_name_0_discriminator, sizeof(__pyx_k_0_name_0_discriminator), 0, 1, 0, 0},
   {&__pyx_n_s_DefaultAvatar, __pyx_k_DefaultAvatar, sizeof(__pyx_k_DefaultAvatar), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_kp_s_Represents_a_Discord_user_Suppor, __pyx_k_Represents_a_Discord_user_Suppor, sizeof(__pyx_k_Represents_a_Discord_user_Suppor), 0, 0, 1, 0},
@@ -2478,14 +2483,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_User_mentioned_in, __pyx_k_User_mentioned_in, sizeof(__pyx_k_User_mentioned_in), 0, 0, 1, 1},
   {&__pyx_n_s_User_permissions_in, __pyx_k_User_permissions_in, sizeof(__pyx_k_User_permissions_in), 0, 0, 1, 1},
   {&__pyx_n_s_avatar, __pyx_k_avatar, sizeof(__pyx_k_avatar), 0, 0, 1, 1},
+  {&__pyx_n_u_avatar, __pyx_k_avatar, sizeof(__pyx_k_avatar), 0, 1, 0, 1},
   {&__pyx_n_s_avatar_url, __pyx_k_avatar_url, sizeof(__pyx_k_avatar_url), 0, 0, 1, 1},
   {&__pyx_n_s_bot, __pyx_k_bot, sizeof(__pyx_k_bot), 0, 0, 1, 1},
+  {&__pyx_n_u_bot, __pyx_k_bot, sizeof(__pyx_k_bot), 0, 1, 0, 1},
   {&__pyx_n_s_channel, __pyx_k_channel, sizeof(__pyx_k_channel), 0, 0, 1, 1},
   {&__pyx_n_s_created_at, __pyx_k_created_at, sizeof(__pyx_k_created_at), 0, 0, 1, 1},
   {&__pyx_n_s_default_avatar, __pyx_k_default_avatar, sizeof(__pyx_k_default_avatar), 0, 0, 1, 1},
   {&__pyx_n_s_default_avatar_url, __pyx_k_default_avatar_url, sizeof(__pyx_k_default_avatar_url), 0, 0, 1, 1},
   {&__pyx_n_s_discord_user, __pyx_k_discord_user, sizeof(__pyx_k_discord_user), 0, 0, 1, 1},
   {&__pyx_n_s_discriminator, __pyx_k_discriminator, sizeof(__pyx_k_discriminator), 0, 0, 1, 1},
+  {&__pyx_n_u_discriminator, __pyx_k_discriminator, sizeof(__pyx_k_discriminator), 0, 1, 0, 1},
   {&__pyx_n_s_display_name, __pyx_k_display_name, sizeof(__pyx_k_display_name), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_enums, __pyx_k_enums, sizeof(__pyx_k_enums), 0, 0, 1, 1},
@@ -2493,9 +2501,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
   {&__pyx_n_s_hash, __pyx_k_hash, sizeof(__pyx_k_hash), 0, 0, 1, 1},
-  {&__pyx_kp_s_https_discordapp_com_api_users_0, __pyx_k_https_discordapp_com_api_users_0, sizeof(__pyx_k_https_discordapp_com_api_users_0), 0, 0, 1, 0},
-  {&__pyx_kp_s_https_discordapp_com_assets_0_ur, __pyx_k_https_discordapp_com_assets_0_ur, sizeof(__pyx_k_https_discordapp_com_assets_0_ur), 0, 0, 1, 0},
+  {&__pyx_kp_u_https_discordapp_com_api_users_0, __pyx_k_https_discordapp_com_api_users_0, sizeof(__pyx_k_https_discordapp_com_api_users_0), 0, 1, 0, 0},
+  {&__pyx_kp_u_https_discordapp_com_assets_0_ur, __pyx_k_https_discordapp_com_assets_0_ur, sizeof(__pyx_k_https_discordapp_com_assets_0_ur), 0, 1, 0, 0},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
+  {&__pyx_n_u_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 1, 0, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
@@ -2508,8 +2517,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_n_u_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 1, 0, 1},
   {&__pyx_n_s_ne, __pyx_k_ne, sizeof(__pyx_k_ne), 0, 0, 1, 1},
-  {&__pyx_n_s_nick, __pyx_k_nick, sizeof(__pyx_k_nick), 0, 0, 1, 1},
+  {&__pyx_n_u_nick, __pyx_k_nick, sizeof(__pyx_k_nick), 0, 1, 0, 1},
   {&__pyx_n_s_other, __pyx_k_other, sizeof(__pyx_k_other), 0, 0, 1, 1},
   {&__pyx_n_s_permissions_for, __pyx_k_permissions_for, sizeof(__pyx_k_permissions_for), 0, 0, 1, 1},
   {&__pyx_n_s_permissions_in, __pyx_k_permissions_in, sizeof(__pyx_k_permissions_in), 0, 0, 1, 1},
@@ -2521,7 +2531,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_snowflake_time, __pyx_k_snowflake_time, sizeof(__pyx_k_snowflake_time), 0, 0, 1, 1},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_username, __pyx_k_username, sizeof(__pyx_k_username), 0, 0, 1, 1},
+  {&__pyx_n_u_username, __pyx_k_username, sizeof(__pyx_k_username), 0, 1, 0, 1},
   {&__pyx_n_s_utils, __pyx_k_utils, sizeof(__pyx_k_utils), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -2860,21 +2870,21 @@ PyMODINIT_FUNC PyInit_user(void)
  */
   __pyx_t_2 = PyList_New(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_name);
-  __Pyx_GIVEREF(__pyx_n_s_name);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_name);
-  __Pyx_INCREF(__pyx_n_s_id);
-  __Pyx_GIVEREF(__pyx_n_s_id);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_id);
-  __Pyx_INCREF(__pyx_n_s_discriminator);
-  __Pyx_GIVEREF(__pyx_n_s_discriminator);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_discriminator);
-  __Pyx_INCREF(__pyx_n_s_avatar);
-  __Pyx_GIVEREF(__pyx_n_s_avatar);
-  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_s_avatar);
-  __Pyx_INCREF(__pyx_n_s_bot);
-  __Pyx_GIVEREF(__pyx_n_s_bot);
-  PyList_SET_ITEM(__pyx_t_2, 4, __pyx_n_s_bot);
+  __Pyx_INCREF(__pyx_n_u_name);
+  __Pyx_GIVEREF(__pyx_n_u_name);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_u_name);
+  __Pyx_INCREF(__pyx_n_u_id);
+  __Pyx_GIVEREF(__pyx_n_u_id);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_id);
+  __Pyx_INCREF(__pyx_n_u_discriminator);
+  __Pyx_GIVEREF(__pyx_n_u_discriminator);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_u_discriminator);
+  __Pyx_INCREF(__pyx_n_u_avatar);
+  __Pyx_GIVEREF(__pyx_n_u_avatar);
+  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_u_avatar);
+  __Pyx_INCREF(__pyx_n_u_bot);
+  __Pyx_GIVEREF(__pyx_n_u_bot);
+  PyList_SET_ITEM(__pyx_t_2, 4, __pyx_n_u_bot);
   if (PyObject_SetItem(__pyx_t_1, __pyx_n_s_slots, __pyx_t_2) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -3137,7 +3147,7 @@ PyMODINIT_FUNC PyInit_user(void)
  *     """Represents a Discord user.
  * 
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_User, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_User, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_User, __pyx_t_2) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;

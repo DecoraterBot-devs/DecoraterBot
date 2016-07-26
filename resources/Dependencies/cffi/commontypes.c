@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -659,13 +659,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* PyErrFetchRestore.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 #define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
@@ -891,44 +884,44 @@ static const char __pyx_k_The_Windows_type_r_is_only_avail[] = "The Windows type
 static const char __pyx_k_Unsupported_type_r_Please_look_a[] = "Unsupported type: %r.  Please look at http://cffi.readthedocs.io/en/latest/cdef.html#ffi-cdef-limitations and file an issue if you think this type should really be supported.";
 static PyObject *__pyx_n_s_ALL_PRIMITIVE_TYPES;
 static PyObject *__pyx_n_s_BaseTypeByIdentity;
-static PyObject *__pyx_n_s_Bool;
-static PyObject *__pyx_n_s_Buffer;
+static PyObject *__pyx_n_u_Bool;
+static PyObject *__pyx_n_u_Buffer;
 static PyObject *__pyx_n_s_CACHE;
 static PyObject *__pyx_n_s_COMMON_TYPES;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_FFIError;
-static PyObject *__pyx_n_s_FILE;
-static PyObject *__pyx_n_s_IO_FILE;
+static PyObject *__pyx_n_u_FILE;
+static PyObject *__pyx_n_u_IO_FILE;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_n_s_KeyError;
-static PyObject *__pyx_n_s_LPCTSTR;
-static PyObject *__pyx_n_s_LPTSTR;
-static PyObject *__pyx_n_s_Length;
-static PyObject *__pyx_n_s_MaximumLength;
-static PyObject *__pyx_n_s_PCTSTR;
-static PyObject *__pyx_n_s_PCUNICODE_STRING;
-static PyObject *__pyx_n_s_PTBYTE;
-static PyObject *__pyx_n_s_PTCHAR;
-static PyObject *__pyx_n_s_PTSTR;
-static PyObject *__pyx_n_s_PUNICODE_STRING;
+static PyObject *__pyx_n_u_LPCTSTR;
+static PyObject *__pyx_n_u_LPTSTR;
+static PyObject *__pyx_n_u_Length;
+static PyObject *__pyx_n_u_MaximumLength;
+static PyObject *__pyx_n_u_PCTSTR;
+static PyObject *__pyx_n_u_PCUNICODE_STRING;
+static PyObject *__pyx_n_u_PTBYTE;
+static PyObject *__pyx_n_u_PTCHAR;
+static PyObject *__pyx_n_u_PTSTR;
+static PyObject *__pyx_n_u_PUNICODE_STRING;
 static PyObject *__pyx_n_s_PointerType;
 static PyObject *__pyx_n_s_PrimitiveType;
 static PyObject *__pyx_n_s_StructType;
-static PyObject *__pyx_n_s_TBYTE;
-static PyObject *__pyx_n_s_TCHAR;
-static PyObject *__pyx_kp_s_The_Windows_type_r_is_only_avail;
-static PyObject *__pyx_n_s_UNICODE_STRING;
-static PyObject *__pyx_n_s_UNICODE_STRING_2;
-static PyObject *__pyx_kp_s_UNICODE_STRING_3;
-static PyObject *__pyx_kp_s_Unsupported_type_r_Please_look_a;
+static PyObject *__pyx_n_u_TBYTE;
+static PyObject *__pyx_n_u_TCHAR;
+static PyObject *__pyx_kp_u_The_Windows_type_r_is_only_avail;
+static PyObject *__pyx_n_u_UNICODE_STRING;
+static PyObject *__pyx_n_u_UNICODE_STRING_2;
+static PyObject *__pyx_kp_u_UNICODE_STRING_3;
+static PyObject *__pyx_kp_u_Unsupported_type_r_Please_look_a;
 static PyObject *__pyx_n_s__4;
 static PyObject *__pyx_n_s_api;
-static PyObject *__pyx_n_s_bool;
+static PyObject *__pyx_n_u_bool;
 static PyObject *__pyx_n_s_cdecl;
 static PyObject *__pyx_n_s_cffi_backend;
 static PyObject *__pyx_n_s_cffi_commontypes;
 static PyObject *__pyx_n_s_commontype;
-static PyObject *__pyx_kp_s_const_UNICODE_STRING;
+static PyObject *__pyx_kp_u_const_UNICODE_STRING;
 static PyObject *__pyx_n_s_endswith;
 static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_get_common_types;
@@ -941,16 +934,16 @@ static PyObject *__pyx_n_s_platform;
 static PyObject *__pyx_n_s_quals;
 static PyObject *__pyx_n_s_resolve_common_type;
 static PyObject *__pyx_n_s_result;
-static PyObject *__pyx_kp_s_set_unicode_needed;
+static PyObject *__pyx_kp_u_set_unicode_needed;
 static PyObject *__pyx_n_s_sys;
-static PyObject *__pyx_n_s_t;
+static PyObject *__pyx_n_u_t;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_type;
 static PyObject *__pyx_n_s_unknown_type;
-static PyObject *__pyx_kp_s_unsigned_short;
+static PyObject *__pyx_kp_u_unsigned_short;
 static PyObject *__pyx_n_s_update;
-static PyObject *__pyx_n_s_wchar_t;
-static PyObject *__pyx_n_s_win32;
+static PyObject *__pyx_n_u_wchar_t;
+static PyObject *__pyx_n_u_win32;
 static PyObject *__pyx_n_s_win_common_types;
 static PyObject *__pyx_pf_4cffi_11commontypes_resolve_common_type(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_parser, PyObject *__pyx_v_commontype); /* proto */
 static PyObject *__pyx_pf_4cffi_11commontypes_2win_common_types(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
@@ -1166,7 +1159,7 @@ static PyObject *__pyx_pf_4cffi_11commontypes_resolve_common_type(CYTHON_UNUSED 
  *             result, quals = cdecl, 0    # cdecl is already a BaseType
  *         elif cdecl in model.PrimitiveType.ALL_PRIMITIVE_TYPES:
  */
-      __pyx_t_13 = PyString_Check(__pyx_v_cdecl); 
+      __pyx_t_13 = PyUnicode_Check(__pyx_v_cdecl); 
       __pyx_t_14 = ((!(__pyx_t_13 != 0)) != 0);
       if (__pyx_t_14) {
 
@@ -1277,7 +1270,7 @@ static PyObject *__pyx_pf_4cffi_11commontypes_resolve_common_type(CYTHON_UNUSED 
  *             raise api.FFIError("The Windows type %r is only available after "
  *                                "you call ffi.set_unicode()" % (commontype,))
  */
-      __pyx_t_13 = (__Pyx_PyString_Equals(__pyx_v_cdecl, __pyx_kp_s_set_unicode_needed, Py_EQ)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 33, __pyx_L5_except_error)
+      __pyx_t_13 = (__Pyx_PyUnicode_Equals(__pyx_v_cdecl, __pyx_kp_u_set_unicode_needed, Py_EQ)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 33, __pyx_L5_except_error)
       if (__pyx_t_13) {
 
         /* "cffi/commontypes.py":34
@@ -1305,7 +1298,7 @@ static PyObject *__pyx_pf_4cffi_11commontypes_resolve_common_type(CYTHON_UNUSED 
         __Pyx_INCREF(__pyx_v_commontype);
         __Pyx_GIVEREF(__pyx_v_commontype);
         PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_v_commontype);
-        __pyx_t_8 = __Pyx_PyString_Format(__pyx_kp_s_The_Windows_type_r_is_only_avail, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 35, __pyx_L5_except_error)
+        __pyx_t_8 = PyUnicode_Format(__pyx_kp_u_The_Windows_type_r_is_only_avail, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 35, __pyx_L5_except_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_t_10 = NULL;
@@ -1385,7 +1378,7 @@ static PyObject *__pyx_pf_4cffi_11commontypes_resolve_common_type(CYTHON_UNUSED 
           __Pyx_INCREF(__pyx_v_commontype);
           __Pyx_GIVEREF(__pyx_v_commontype);
           PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v_commontype);
-          __pyx_t_8 = __Pyx_PyString_Format(__pyx_kp_s_Unsupported_type_r_Please_look_a, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 42, __pyx_L5_except_error)
+          __pyx_t_8 = PyUnicode_Format(__pyx_kp_u_Unsupported_type_r_Please_look_a, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 42, __pyx_L5_except_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __pyx_t_9 = NULL;
@@ -1718,15 +1711,15 @@ static PyObject *__pyx_pf_4cffi_11commontypes_2win_common_types(CYTHON_UNUSED Py
  */
   __pyx_t_3 = PyList_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_n_s_Length);
-  __Pyx_GIVEREF(__pyx_n_s_Length);
-  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_Length);
-  __Pyx_INCREF(__pyx_n_s_MaximumLength);
-  __Pyx_GIVEREF(__pyx_n_s_MaximumLength);
-  PyList_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_MaximumLength);
-  __Pyx_INCREF(__pyx_n_s_Buffer);
-  __Pyx_GIVEREF(__pyx_n_s_Buffer);
-  PyList_SET_ITEM(__pyx_t_3, 2, __pyx_n_s_Buffer);
+  __Pyx_INCREF(__pyx_n_u_Length);
+  __Pyx_GIVEREF(__pyx_n_u_Length);
+  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_n_u_Length);
+  __Pyx_INCREF(__pyx_n_u_MaximumLength);
+  __Pyx_GIVEREF(__pyx_n_u_MaximumLength);
+  PyList_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_MaximumLength);
+  __Pyx_INCREF(__pyx_n_u_Buffer);
+  __Pyx_GIVEREF(__pyx_n_u_Buffer);
+  PyList_SET_ITEM(__pyx_t_3, 2, __pyx_n_u_Buffer);
 
   /* "cffi/commontypes.py":61
  *              "MaximumLength",
@@ -1861,9 +1854,9 @@ static PyObject *__pyx_pf_4cffi_11commontypes_2win_common_types(CYTHON_UNUSED Py
   if (__pyx_t_6) {
     __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6); __pyx_t_6 = NULL;
   }
-  __Pyx_INCREF(__pyx_n_s_UNICODE_STRING_2);
-  __Pyx_GIVEREF(__pyx_n_s_UNICODE_STRING_2);
-  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_12, __pyx_n_s_UNICODE_STRING_2);
+  __Pyx_INCREF(__pyx_n_u_UNICODE_STRING_2);
+  __Pyx_GIVEREF(__pyx_n_u_UNICODE_STRING_2);
+  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_12, __pyx_n_u_UNICODE_STRING_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_12, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_9);
@@ -1877,18 +1870,18 @@ static PyObject *__pyx_pf_4cffi_11commontypes_2win_common_types(CYTHON_UNUSED Py
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_UNICODE_STRING, __pyx_t_2) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_UNICODE_STRING, __pyx_t_2) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_PUNICODE_STRING, __pyx_kp_s_UNICODE_STRING_3) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_PCUNICODE_STRING, __pyx_kp_s_const_UNICODE_STRING) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_TBYTE, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_TCHAR, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_LPCTSTR, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_PCTSTR, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_LPTSTR, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_PTSTR, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_PTBYTE, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_PTCHAR, __pyx_kp_s_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_PUNICODE_STRING, __pyx_kp_u_UNICODE_STRING_3) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_PCUNICODE_STRING, __pyx_kp_u_const_UNICODE_STRING) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_TBYTE, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_TCHAR, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_LPCTSTR, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_PCTSTR, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_LPTSTR, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_PTSTR, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_PTBYTE, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_PTCHAR, __pyx_kp_u_set_unicode_needed) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -1947,44 +1940,44 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ALL_PRIMITIVE_TYPES, __pyx_k_ALL_PRIMITIVE_TYPES, sizeof(__pyx_k_ALL_PRIMITIVE_TYPES), 0, 0, 1, 1},
   {&__pyx_n_s_BaseTypeByIdentity, __pyx_k_BaseTypeByIdentity, sizeof(__pyx_k_BaseTypeByIdentity), 0, 0, 1, 1},
-  {&__pyx_n_s_Bool, __pyx_k_Bool, sizeof(__pyx_k_Bool), 0, 0, 1, 1},
-  {&__pyx_n_s_Buffer, __pyx_k_Buffer, sizeof(__pyx_k_Buffer), 0, 0, 1, 1},
+  {&__pyx_n_u_Bool, __pyx_k_Bool, sizeof(__pyx_k_Bool), 0, 1, 0, 1},
+  {&__pyx_n_u_Buffer, __pyx_k_Buffer, sizeof(__pyx_k_Buffer), 0, 1, 0, 1},
   {&__pyx_n_s_CACHE, __pyx_k_CACHE, sizeof(__pyx_k_CACHE), 0, 0, 1, 1},
   {&__pyx_n_s_COMMON_TYPES, __pyx_k_COMMON_TYPES, sizeof(__pyx_k_COMMON_TYPES), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_FFIError, __pyx_k_FFIError, sizeof(__pyx_k_FFIError), 0, 0, 1, 1},
-  {&__pyx_n_s_FILE, __pyx_k_FILE, sizeof(__pyx_k_FILE), 0, 0, 1, 1},
-  {&__pyx_n_s_IO_FILE, __pyx_k_IO_FILE, sizeof(__pyx_k_IO_FILE), 0, 0, 1, 1},
+  {&__pyx_n_u_FILE, __pyx_k_FILE, sizeof(__pyx_k_FILE), 0, 1, 0, 1},
+  {&__pyx_n_u_IO_FILE, __pyx_k_IO_FILE, sizeof(__pyx_k_IO_FILE), 0, 1, 0, 1},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_n_s_KeyError, __pyx_k_KeyError, sizeof(__pyx_k_KeyError), 0, 0, 1, 1},
-  {&__pyx_n_s_LPCTSTR, __pyx_k_LPCTSTR, sizeof(__pyx_k_LPCTSTR), 0, 0, 1, 1},
-  {&__pyx_n_s_LPTSTR, __pyx_k_LPTSTR, sizeof(__pyx_k_LPTSTR), 0, 0, 1, 1},
-  {&__pyx_n_s_Length, __pyx_k_Length, sizeof(__pyx_k_Length), 0, 0, 1, 1},
-  {&__pyx_n_s_MaximumLength, __pyx_k_MaximumLength, sizeof(__pyx_k_MaximumLength), 0, 0, 1, 1},
-  {&__pyx_n_s_PCTSTR, __pyx_k_PCTSTR, sizeof(__pyx_k_PCTSTR), 0, 0, 1, 1},
-  {&__pyx_n_s_PCUNICODE_STRING, __pyx_k_PCUNICODE_STRING, sizeof(__pyx_k_PCUNICODE_STRING), 0, 0, 1, 1},
-  {&__pyx_n_s_PTBYTE, __pyx_k_PTBYTE, sizeof(__pyx_k_PTBYTE), 0, 0, 1, 1},
-  {&__pyx_n_s_PTCHAR, __pyx_k_PTCHAR, sizeof(__pyx_k_PTCHAR), 0, 0, 1, 1},
-  {&__pyx_n_s_PTSTR, __pyx_k_PTSTR, sizeof(__pyx_k_PTSTR), 0, 0, 1, 1},
-  {&__pyx_n_s_PUNICODE_STRING, __pyx_k_PUNICODE_STRING, sizeof(__pyx_k_PUNICODE_STRING), 0, 0, 1, 1},
+  {&__pyx_n_u_LPCTSTR, __pyx_k_LPCTSTR, sizeof(__pyx_k_LPCTSTR), 0, 1, 0, 1},
+  {&__pyx_n_u_LPTSTR, __pyx_k_LPTSTR, sizeof(__pyx_k_LPTSTR), 0, 1, 0, 1},
+  {&__pyx_n_u_Length, __pyx_k_Length, sizeof(__pyx_k_Length), 0, 1, 0, 1},
+  {&__pyx_n_u_MaximumLength, __pyx_k_MaximumLength, sizeof(__pyx_k_MaximumLength), 0, 1, 0, 1},
+  {&__pyx_n_u_PCTSTR, __pyx_k_PCTSTR, sizeof(__pyx_k_PCTSTR), 0, 1, 0, 1},
+  {&__pyx_n_u_PCUNICODE_STRING, __pyx_k_PCUNICODE_STRING, sizeof(__pyx_k_PCUNICODE_STRING), 0, 1, 0, 1},
+  {&__pyx_n_u_PTBYTE, __pyx_k_PTBYTE, sizeof(__pyx_k_PTBYTE), 0, 1, 0, 1},
+  {&__pyx_n_u_PTCHAR, __pyx_k_PTCHAR, sizeof(__pyx_k_PTCHAR), 0, 1, 0, 1},
+  {&__pyx_n_u_PTSTR, __pyx_k_PTSTR, sizeof(__pyx_k_PTSTR), 0, 1, 0, 1},
+  {&__pyx_n_u_PUNICODE_STRING, __pyx_k_PUNICODE_STRING, sizeof(__pyx_k_PUNICODE_STRING), 0, 1, 0, 1},
   {&__pyx_n_s_PointerType, __pyx_k_PointerType, sizeof(__pyx_k_PointerType), 0, 0, 1, 1},
   {&__pyx_n_s_PrimitiveType, __pyx_k_PrimitiveType, sizeof(__pyx_k_PrimitiveType), 0, 0, 1, 1},
   {&__pyx_n_s_StructType, __pyx_k_StructType, sizeof(__pyx_k_StructType), 0, 0, 1, 1},
-  {&__pyx_n_s_TBYTE, __pyx_k_TBYTE, sizeof(__pyx_k_TBYTE), 0, 0, 1, 1},
-  {&__pyx_n_s_TCHAR, __pyx_k_TCHAR, sizeof(__pyx_k_TCHAR), 0, 0, 1, 1},
-  {&__pyx_kp_s_The_Windows_type_r_is_only_avail, __pyx_k_The_Windows_type_r_is_only_avail, sizeof(__pyx_k_The_Windows_type_r_is_only_avail), 0, 0, 1, 0},
-  {&__pyx_n_s_UNICODE_STRING, __pyx_k_UNICODE_STRING, sizeof(__pyx_k_UNICODE_STRING), 0, 0, 1, 1},
-  {&__pyx_n_s_UNICODE_STRING_2, __pyx_k_UNICODE_STRING_2, sizeof(__pyx_k_UNICODE_STRING_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_UNICODE_STRING_3, __pyx_k_UNICODE_STRING_3, sizeof(__pyx_k_UNICODE_STRING_3), 0, 0, 1, 0},
-  {&__pyx_kp_s_Unsupported_type_r_Please_look_a, __pyx_k_Unsupported_type_r_Please_look_a, sizeof(__pyx_k_Unsupported_type_r_Please_look_a), 0, 0, 1, 0},
+  {&__pyx_n_u_TBYTE, __pyx_k_TBYTE, sizeof(__pyx_k_TBYTE), 0, 1, 0, 1},
+  {&__pyx_n_u_TCHAR, __pyx_k_TCHAR, sizeof(__pyx_k_TCHAR), 0, 1, 0, 1},
+  {&__pyx_kp_u_The_Windows_type_r_is_only_avail, __pyx_k_The_Windows_type_r_is_only_avail, sizeof(__pyx_k_The_Windows_type_r_is_only_avail), 0, 1, 0, 0},
+  {&__pyx_n_u_UNICODE_STRING, __pyx_k_UNICODE_STRING, sizeof(__pyx_k_UNICODE_STRING), 0, 1, 0, 1},
+  {&__pyx_n_u_UNICODE_STRING_2, __pyx_k_UNICODE_STRING_2, sizeof(__pyx_k_UNICODE_STRING_2), 0, 1, 0, 1},
+  {&__pyx_kp_u_UNICODE_STRING_3, __pyx_k_UNICODE_STRING_3, sizeof(__pyx_k_UNICODE_STRING_3), 0, 1, 0, 0},
+  {&__pyx_kp_u_Unsupported_type_r_Please_look_a, __pyx_k_Unsupported_type_r_Please_look_a, sizeof(__pyx_k_Unsupported_type_r_Please_look_a), 0, 1, 0, 0},
   {&__pyx_n_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 1},
   {&__pyx_n_s_api, __pyx_k_api, sizeof(__pyx_k_api), 0, 0, 1, 1},
-  {&__pyx_n_s_bool, __pyx_k_bool, sizeof(__pyx_k_bool), 0, 0, 1, 1},
+  {&__pyx_n_u_bool, __pyx_k_bool, sizeof(__pyx_k_bool), 0, 1, 0, 1},
   {&__pyx_n_s_cdecl, __pyx_k_cdecl, sizeof(__pyx_k_cdecl), 0, 0, 1, 1},
   {&__pyx_n_s_cffi_backend, __pyx_k_cffi_backend, sizeof(__pyx_k_cffi_backend), 0, 0, 1, 1},
   {&__pyx_n_s_cffi_commontypes, __pyx_k_cffi_commontypes, sizeof(__pyx_k_cffi_commontypes), 0, 0, 1, 1},
   {&__pyx_n_s_commontype, __pyx_k_commontype, sizeof(__pyx_k_commontype), 0, 0, 1, 1},
-  {&__pyx_kp_s_const_UNICODE_STRING, __pyx_k_const_UNICODE_STRING, sizeof(__pyx_k_const_UNICODE_STRING), 0, 0, 1, 0},
+  {&__pyx_kp_u_const_UNICODE_STRING, __pyx_k_const_UNICODE_STRING, sizeof(__pyx_k_const_UNICODE_STRING), 0, 1, 0, 0},
   {&__pyx_n_s_endswith, __pyx_k_endswith, sizeof(__pyx_k_endswith), 0, 0, 1, 1},
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
   {&__pyx_n_s_get_common_types, __pyx_k_get_common_types, sizeof(__pyx_k_get_common_types), 0, 0, 1, 1},
@@ -1997,16 +1990,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_quals, __pyx_k_quals, sizeof(__pyx_k_quals), 0, 0, 1, 1},
   {&__pyx_n_s_resolve_common_type, __pyx_k_resolve_common_type, sizeof(__pyx_k_resolve_common_type), 0, 0, 1, 1},
   {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
-  {&__pyx_kp_s_set_unicode_needed, __pyx_k_set_unicode_needed, sizeof(__pyx_k_set_unicode_needed), 0, 0, 1, 0},
+  {&__pyx_kp_u_set_unicode_needed, __pyx_k_set_unicode_needed, sizeof(__pyx_k_set_unicode_needed), 0, 1, 0, 0},
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
-  {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
+  {&__pyx_n_u_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 0, 1, 1},
   {&__pyx_n_s_unknown_type, __pyx_k_unknown_type, sizeof(__pyx_k_unknown_type), 0, 0, 1, 1},
-  {&__pyx_kp_s_unsigned_short, __pyx_k_unsigned_short, sizeof(__pyx_k_unsigned_short), 0, 0, 1, 0},
+  {&__pyx_kp_u_unsigned_short, __pyx_k_unsigned_short, sizeof(__pyx_k_unsigned_short), 0, 1, 0, 0},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
-  {&__pyx_n_s_wchar_t, __pyx_k_wchar_t, sizeof(__pyx_k_wchar_t), 0, 0, 1, 1},
-  {&__pyx_n_s_win32, __pyx_k_win32, sizeof(__pyx_k_win32), 0, 0, 1, 1},
+  {&__pyx_n_u_wchar_t, __pyx_k_wchar_t, sizeof(__pyx_k_wchar_t), 0, 1, 0, 1},
+  {&__pyx_n_u_win32, __pyx_k_win32, sizeof(__pyx_k_win32), 0, 1, 0, 1},
   {&__pyx_n_s_win_common_types, __pyx_k_win_common_types, sizeof(__pyx_k_win_common_types), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -2029,7 +2022,7 @@ static int __Pyx_InitCachedConstants(void) {
  *              model.PrimitiveType("unsigned short"),
  *              model.PointerType(model.PrimitiveType("wchar_t"))],
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_unsigned_short); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_unsigned_short); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -2040,7 +2033,7 @@ static int __Pyx_InitCachedConstants(void) {
  *              model.PointerType(model.PrimitiveType("wchar_t"))],
  *             [-1, -1, -1]),
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_unsigned_short); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_unsigned_short); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -2051,7 +2044,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             [-1, -1, -1]),
  *         "PUNICODE_STRING": "UNICODE_STRING *",
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_s_wchar_t); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_u_wchar_t); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -2062,7 +2055,7 @@ static int __Pyx_InitCachedConstants(void) {
  * COMMON_TYPES['bool'] = '_Bool'    # in case we got ImportError above
  * 
  */
-  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_s_FILE, __pyx_n_s_IO_FILE); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_u_FILE, __pyx_n_u_IO_FILE); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -2073,7 +2066,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         COMMON_TYPES[_type] = _type
  * del _type
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_s_t); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_u_t); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -2221,7 +2214,7 @@ PyMODINIT_FUNC PyInit_commontypes(void)
  * from . import api, model
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2293,7 +2286,7 @@ PyMODINIT_FUNC PyInit_commontypes(void)
       __Pyx_INCREF(__pyx_n_s_get_common_types);
       __Pyx_GIVEREF(__pyx_n_s_get_common_types);
       PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_get_common_types);
-      __pyx_t_1 = __Pyx_Import(__pyx_n_s_cffi_backend, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L2_error)
+      __pyx_t_1 = __Pyx_Import(__pyx_n_s_cffi_backend, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_get_common_types); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L2_error)
@@ -2415,7 +2408,7 @@ PyMODINIT_FUNC PyInit_commontypes(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_COMMON_TYPES); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_s_FILE, __pyx_t_1) < 0)) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_FILE, __pyx_t_1) < 0)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -2428,7 +2421,7 @@ PyMODINIT_FUNC PyInit_commontypes(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_COMMON_TYPES); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_s_bool, __pyx_n_s_Bool) < 0)) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_u_bool, __pyx_n_u_Bool) < 0)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "cffi/commontypes.py":17
@@ -2601,7 +2594,7 @@ PyMODINIT_FUNC PyInit_commontypes(void)
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_platform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_12 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_win32, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_12 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_win32, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_12) {
 

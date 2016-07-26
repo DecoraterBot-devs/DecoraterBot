@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -603,7 +603,7 @@ static const char __pyx_k_3_1[] = "3.1";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_version[] = "version";
-static PyObject *__pyx_kp_s_3_1;
+static PyObject *__pyx_kp_u_3_1;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_version;
@@ -631,7 +631,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_3_1, __pyx_k_3_1, sizeof(__pyx_k_3_1), 0, 0, 1, 0},
+  {&__pyx_kp_u_3_1, __pyx_k_3_1, sizeof(__pyx_k_3_1), 0, 1, 0, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_version, __pyx_k_version, sizeof(__pyx_k_version), 0, 0, 1, 1},
@@ -751,7 +751,7 @@ PyMODINIT_FUNC PyInit_version(void)
  * # coding=utf-8
  * version = '3.1'             # <<<<<<<<<<<<<<
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_3_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_3_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
 
   /* "websockets/version.py":1
  * # coding=utf-8             # <<<<<<<<<<<<<<

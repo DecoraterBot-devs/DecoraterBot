@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -649,12 +649,12 @@ static const char __pyx_k_internal_logger[] = "internal_logger";
 static const char __pyx_k_aiohttp_internal[] = "aiohttp.internal";
 static const char __pyx_k_aiohttp_websocket[] = "aiohttp.websocket";
 static PyObject *__pyx_n_s_access_logger;
-static PyObject *__pyx_kp_s_aiohttp_access;
-static PyObject *__pyx_kp_s_aiohttp_client;
-static PyObject *__pyx_kp_s_aiohttp_internal;
-static PyObject *__pyx_kp_s_aiohttp_server;
-static PyObject *__pyx_kp_s_aiohttp_web;
-static PyObject *__pyx_kp_s_aiohttp_websocket;
+static PyObject *__pyx_kp_u_aiohttp_access;
+static PyObject *__pyx_kp_u_aiohttp_client;
+static PyObject *__pyx_kp_u_aiohttp_internal;
+static PyObject *__pyx_kp_u_aiohttp_server;
+static PyObject *__pyx_kp_u_aiohttp_web;
+static PyObject *__pyx_kp_u_aiohttp_websocket;
 static PyObject *__pyx_n_s_client_logger;
 static PyObject *__pyx_n_s_getLogger;
 static PyObject *__pyx_n_s_import;
@@ -696,12 +696,12 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_access_logger, __pyx_k_access_logger, sizeof(__pyx_k_access_logger), 0, 0, 1, 1},
-  {&__pyx_kp_s_aiohttp_access, __pyx_k_aiohttp_access, sizeof(__pyx_k_aiohttp_access), 0, 0, 1, 0},
-  {&__pyx_kp_s_aiohttp_client, __pyx_k_aiohttp_client, sizeof(__pyx_k_aiohttp_client), 0, 0, 1, 0},
-  {&__pyx_kp_s_aiohttp_internal, __pyx_k_aiohttp_internal, sizeof(__pyx_k_aiohttp_internal), 0, 0, 1, 0},
-  {&__pyx_kp_s_aiohttp_server, __pyx_k_aiohttp_server, sizeof(__pyx_k_aiohttp_server), 0, 0, 1, 0},
-  {&__pyx_kp_s_aiohttp_web, __pyx_k_aiohttp_web, sizeof(__pyx_k_aiohttp_web), 0, 0, 1, 0},
-  {&__pyx_kp_s_aiohttp_websocket, __pyx_k_aiohttp_websocket, sizeof(__pyx_k_aiohttp_websocket), 0, 0, 1, 0},
+  {&__pyx_kp_u_aiohttp_access, __pyx_k_aiohttp_access, sizeof(__pyx_k_aiohttp_access), 0, 1, 0, 0},
+  {&__pyx_kp_u_aiohttp_client, __pyx_k_aiohttp_client, sizeof(__pyx_k_aiohttp_client), 0, 1, 0, 0},
+  {&__pyx_kp_u_aiohttp_internal, __pyx_k_aiohttp_internal, sizeof(__pyx_k_aiohttp_internal), 0, 1, 0, 0},
+  {&__pyx_kp_u_aiohttp_server, __pyx_k_aiohttp_server, sizeof(__pyx_k_aiohttp_server), 0, 1, 0, 0},
+  {&__pyx_kp_u_aiohttp_web, __pyx_k_aiohttp_web, sizeof(__pyx_k_aiohttp_web), 0, 1, 0, 0},
+  {&__pyx_kp_u_aiohttp_websocket, __pyx_k_aiohttp_websocket, sizeof(__pyx_k_aiohttp_websocket), 0, 1, 0, 0},
   {&__pyx_n_s_client_logger, __pyx_k_client_logger, sizeof(__pyx_k_client_logger), 0, 0, 1, 1},
   {&__pyx_n_s_getLogger, __pyx_k_getLogger, sizeof(__pyx_k_getLogger), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -729,7 +729,7 @@ static int __Pyx_InitCachedConstants(void) {
  * client_logger = logging.getLogger('aiohttp.client')
  * internal_logger = logging.getLogger('aiohttp.internal')
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_aiohttp_access); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_aiohttp_access); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -740,7 +740,7 @@ static int __Pyx_InitCachedConstants(void) {
  * internal_logger = logging.getLogger('aiohttp.internal')
  * server_logger = logging.getLogger('aiohttp.server')
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_aiohttp_client); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_aiohttp_client); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -751,7 +751,7 @@ static int __Pyx_InitCachedConstants(void) {
  * server_logger = logging.getLogger('aiohttp.server')
  * web_logger = logging.getLogger('aiohttp.web')
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_aiohttp_internal); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_aiohttp_internal); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -762,7 +762,7 @@ static int __Pyx_InitCachedConstants(void) {
  * web_logger = logging.getLogger('aiohttp.web')
  * ws_logger = logging.getLogger('aiohttp.websocket')
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_aiohttp_server); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_aiohttp_server); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -772,7 +772,7 @@ static int __Pyx_InitCachedConstants(void) {
  * web_logger = logging.getLogger('aiohttp.web')             # <<<<<<<<<<<<<<
  * ws_logger = logging.getLogger('aiohttp.websocket')
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_aiohttp_web); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_aiohttp_web); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -781,7 +781,7 @@ static int __Pyx_InitCachedConstants(void) {
  * web_logger = logging.getLogger('aiohttp.web')
  * ws_logger = logging.getLogger('aiohttp.websocket')             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_aiohttp_websocket); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_aiohttp_websocket); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
   __Pyx_RefNannyFinishContext();
@@ -896,7 +896,7 @@ PyMODINIT_FUNC PyInit_log(void)
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_logging, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_logging, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_logging, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;

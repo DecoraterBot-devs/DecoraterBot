@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -918,8 +918,8 @@ static const char __pyx_k_Sorry_Commands_was_unloaded_by_m[] = "Sorry, Commands 
 static PyObject *__pyx_n_s_DecoraterBotCore_BotPMError;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Forbidden;
-static PyObject *__pyx_kp_s_Missing_the_Send_Message_Permssi;
-static PyObject *__pyx_kp_s_Sorry_Commands_was_unloaded_by_m;
+static PyObject *__pyx_kp_u_Missing_the_Send_Message_Permssi;
+static PyObject *__pyx_kp_u_Sorry_Commands_was_unloaded_by_m;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asyncio;
 static PyObject *__pyx_n_s_asyncio_coroutines;
@@ -1135,9 +1135,9 @@ static PyObject *__pyx_gb_16DecoraterBotCore_10BotPMError_2generator(__pyx_Corou
  *     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
  *     try:
  */
-  __Pyx_INCREF(__pyx_kp_s_Missing_the_Send_Message_Permssi);
-  __Pyx_GIVEREF(__pyx_kp_s_Missing_the_Send_Message_Permssi);
-  __pyx_cur_scope->__pyx_v_msginfo = __pyx_kp_s_Missing_the_Send_Message_Permssi;
+  __Pyx_INCREF(__pyx_kp_u_Missing_the_Send_Message_Permssi);
+  __Pyx_GIVEREF(__pyx_kp_u_Missing_the_Send_Message_Permssi);
+  __pyx_cur_scope->__pyx_v_msginfo = __pyx_kp_u_Missing_the_Send_Message_Permssi;
 
   /* "DecoraterBotCore/BotPMError.py":17
  *     cnl_name = message.channel.name
@@ -1520,9 +1520,9 @@ static PyObject *__pyx_gb_16DecoraterBotCore_10BotPMError_5generator1(__pyx_Coro
  *     try:
  *         yield from client.send_message(message.channel, msgdata)
  */
-  __Pyx_INCREF(__pyx_kp_s_Sorry_Commands_was_unloaded_by_m);
-  __Pyx_GIVEREF(__pyx_kp_s_Sorry_Commands_was_unloaded_by_m);
-  __pyx_cur_scope->__pyx_v_msgdata = __pyx_kp_s_Sorry_Commands_was_unloaded_by_m;
+  __Pyx_INCREF(__pyx_kp_u_Sorry_Commands_was_unloaded_by_m);
+  __Pyx_GIVEREF(__pyx_kp_u_Sorry_Commands_was_unloaded_by_m);
+  __pyx_cur_scope->__pyx_v_msgdata = __pyx_kp_u_Sorry_Commands_was_unloaded_by_m;
 
   /* "DecoraterBotCore/BotPMError.py":27
  * def _resolve_unloaded_commands_error(client, message):
@@ -1796,9 +1796,6 @@ static int __pyx_tp_traverse_16DecoraterBotCore_10BotPMError___pyx_scope_struct_
   if (p->__pyx_v_message) {
     e = (*v)(p->__pyx_v_message, a); if (e) return e;
   }
-  if (p->__pyx_v_msginfo) {
-    e = (*v)(p->__pyx_v_msginfo, a); if (e) return e;
-  }
   if (p->__pyx_v_svr_name) {
     e = (*v)(p->__pyx_v_svr_name, a); if (e) return e;
   }
@@ -1828,9 +1825,6 @@ static int __pyx_tp_clear_16DecoraterBotCore_10BotPMError___pyx_scope_struct___r
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_v_message);
   p->__pyx_v_message = Py_None; Py_INCREF(Py_None);
-  Py_XDECREF(tmp);
-  tmp = ((PyObject*)p->__pyx_v_msginfo);
-  p->__pyx_v_msginfo = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_v_svr_name);
   p->__pyx_v_svr_name = Py_None; Py_INCREF(Py_None);
@@ -1950,9 +1944,6 @@ static int __pyx_tp_traverse_16DecoraterBotCore_10BotPMError___pyx_scope_struct_
   if (p->__pyx_v_message) {
     e = (*v)(p->__pyx_v_message, a); if (e) return e;
   }
-  if (p->__pyx_v_msgdata) {
-    e = (*v)(p->__pyx_v_msgdata, a); if (e) return e;
-  }
   if (p->__pyx_t_0) {
     e = (*v)(p->__pyx_t_0, a); if (e) return e;
   }
@@ -1973,9 +1964,6 @@ static int __pyx_tp_clear_16DecoraterBotCore_10BotPMError___pyx_scope_struct_1__
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_v_message);
   p->__pyx_v_message = Py_None; Py_INCREF(Py_None);
-  Py_XDECREF(tmp);
-  tmp = ((PyObject*)p->__pyx_v_msgdata);
-  p->__pyx_v_msgdata = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_t_0);
   p->__pyx_t_0 = Py_None; Py_INCREF(Py_None);
@@ -2073,8 +2061,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_DecoraterBotCore_BotPMError, __pyx_k_DecoraterBotCore_BotPMError, sizeof(__pyx_k_DecoraterBotCore_BotPMError), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Forbidden, __pyx_k_Forbidden, sizeof(__pyx_k_Forbidden), 0, 0, 1, 1},
-  {&__pyx_kp_s_Missing_the_Send_Message_Permssi, __pyx_k_Missing_the_Send_Message_Permssi, sizeof(__pyx_k_Missing_the_Send_Message_Permssi), 0, 0, 1, 0},
-  {&__pyx_kp_s_Sorry_Commands_was_unloaded_by_m, __pyx_k_Sorry_Commands_was_unloaded_by_m, sizeof(__pyx_k_Sorry_Commands_was_unloaded_by_m), 0, 0, 1, 0},
+  {&__pyx_kp_u_Missing_the_Send_Message_Permssi, __pyx_k_Missing_the_Send_Message_Permssi, sizeof(__pyx_k_Missing_the_Send_Message_Permssi), 0, 1, 0, 0},
+  {&__pyx_kp_u_Sorry_Commands_was_unloaded_by_m, __pyx_k_Sorry_Commands_was_unloaded_by_m, sizeof(__pyx_k_Sorry_Commands_was_unloaded_by_m), 0, 1, 0, 0},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
@@ -2266,7 +2254,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
  * import asyncio
  * import io
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_discord, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_discord, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2278,7 +2266,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
  * import io
  * import sys
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2290,7 +2278,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
  * import sys
  * import subprocess
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_io, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2302,7 +2290,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
  * import subprocess
  * import os
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2314,7 +2302,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
  * import os
  * import traceback
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_subprocess, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_subprocess, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_subprocess, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2326,7 +2314,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
  * import traceback
  * from discord.ext import commands
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2338,7 +2326,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
  * from discord.ext import commands
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_traceback, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_traceback, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_traceback, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2355,7 +2343,7 @@ PyMODINIT_FUNC PyInit_BotPMError(void)
   __Pyx_INCREF(__pyx_n_s_commands);
   __Pyx_GIVEREF(__pyx_n_s_commands);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_commands);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_discord_ext, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_discord_ext, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_commands); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)

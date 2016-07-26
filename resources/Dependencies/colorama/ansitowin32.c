@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -707,9 +707,9 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname);
 
-/* PySequenceContains.proto */
-static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
-    int result = PySequence_Contains(seq, item);
+/* PyUnicodeContains.proto */
+static CYTHON_INLINE int __Pyx_PyUnicode_ContainsTF(PyObject* substring, PyObject* text, int eq) {
+    int result = PyUnicode_Contains(text, substring);
     return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
 }
 
@@ -722,12 +722,11 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
+/* PySequenceContains.proto */
+static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
+    int result = PySequence_Contains(seq, item);
+    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
+}
 
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
@@ -1119,9 +1118,9 @@ static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elswor
 static const char __pyx_k_Implements_a_write_method_which[] = "\n        Implements a 'write()' method which, on Windows, will strip ANSI character\n        sequences from the text, and if outputting to a tty, will convert them into\n        win32 function calls.\n    ";
 static const char __pyx_k_Wraps_a_stream_such_as_stdout_a[] = "\n        Wraps a stream (such as stdout), acting as a transparent proxy for all\n        attribute access apart from method 'write()', which is delegated to our\n        Converter instance.\n    ";
 static const char __pyx_k_AnsiToWin32_extract_params_local[] = "AnsiToWin32.extract_params.<locals>.genexpr";
-static PyObject *__pyx_kp_s_02;
-static PyObject *__pyx_n_s_A;
-static PyObject *__pyx_n_s_ABCD;
+static PyObject *__pyx_kp_u_02;
+static PyObject *__pyx_n_u_A;
+static PyObject *__pyx_n_u_ABCD;
 static PyObject *__pyx_n_s_ANSI_CSI_RE;
 static PyObject *__pyx_n_s_ANSI_OSC_RE;
 static PyObject *__pyx_n_s_AnsiBack;
@@ -1140,22 +1139,22 @@ static PyObject *__pyx_n_s_AnsiToWin32_should_wrap;
 static PyObject *__pyx_n_s_AnsiToWin32_write;
 static PyObject *__pyx_n_s_AnsiToWin32_write_and_convert;
 static PyObject *__pyx_n_s_AnsiToWin32_write_plain_text;
-static PyObject *__pyx_n_s_B;
+static PyObject *__pyx_n_u_B;
 static PyObject *__pyx_n_s_BLACK;
 static PyObject *__pyx_n_s_BLUE;
 static PyObject *__pyx_n_s_BRIGHT;
-static PyObject *__pyx_n_s_C;
+static PyObject *__pyx_n_u_C;
 static PyObject *__pyx_n_s_CYAN;
-static PyObject *__pyx_n_s_D;
+static PyObject *__pyx_n_u_D;
 static PyObject *__pyx_n_s_DIM;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_GREEN;
 static PyObject *__pyx_n_s_GREY;
-static PyObject *__pyx_n_s_Hf;
+static PyObject *__pyx_n_u_Hf;
 static PyObject *__pyx_kp_s_Implements_a_write_method_which;
-static PyObject *__pyx_n_s_J;
-static PyObject *__pyx_n_s_JKm;
-static PyObject *__pyx_n_s_K;
+static PyObject *__pyx_n_u_J;
+static PyObject *__pyx_n_u_JKm;
+static PyObject *__pyx_n_u_K;
 static PyObject *__pyx_n_s_LIGHTBLACK_EX;
 static PyObject *__pyx_n_s_LIGHTBLUE_EX;
 static PyObject *__pyx_n_s_LIGHTCYAN_EX;
@@ -1182,9 +1181,9 @@ static PyObject *__pyx_n_s_WinStyle;
 static PyObject *__pyx_n_s_WinTerm;
 static PyObject *__pyx_kp_s_Wraps_a_stream_such_as_stdout_a;
 static PyObject *__pyx_n_s_YELLOW;
-static PyObject *__pyx_kp_s__10;
-static PyObject *__pyx_kp_s__23;
-static PyObject *__pyx_kp_s__3;
+static PyObject *__pyx_kp_u__10;
+static PyObject *__pyx_kp_u__23;
+static PyObject *__pyx_kp_u__3;
 static PyObject *__pyx_n_s_ansi;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_autoreset;
@@ -1192,6 +1191,7 @@ static PyObject *__pyx_n_s_back;
 static PyObject *__pyx_n_s_call_win32;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_closed;
+static PyObject *__pyx_n_u_closed;
 static PyObject *__pyx_n_s_colorama_ansitowin32;
 static PyObject *__pyx_n_s_command;
 static PyObject *__pyx_n_s_compile;
@@ -1202,7 +1202,7 @@ static PyObject *__pyx_n_s_convert_osc;
 static PyObject *__pyx_n_s_converter;
 static PyObject *__pyx_n_s_cursor;
 static PyObject *__pyx_n_s_cursor_adjust;
-static PyObject *__pyx_kp_s_d_a_zA_Z;
+static PyObject *__pyx_kp_u_d_a_zA_Z;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_erase_line;
@@ -1222,15 +1222,16 @@ static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_is_a_tty;
 static PyObject *__pyx_n_s_is_stream_closed;
 static PyObject *__pyx_n_s_isatty;
+static PyObject *__pyx_n_u_isatty;
 static PyObject *__pyx_n_s_kwargs;
-static PyObject *__pyx_n_s_m;
+static PyObject *__pyx_n_u_m;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_match;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_n;
 static PyObject *__pyx_n_s_name;
-static PyObject *__pyx_n_s_nt;
+static PyObject *__pyx_n_u_nt;
 static PyObject *__pyx_n_s_object;
 static PyObject *__pyx_n_s_on_stderr;
 static PyObject *__pyx_n_s_on_windows;
@@ -1376,7 +1377,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_is_stream_closed(CYTHON_UNUSED
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyObject_HasAttr(__pyx_v_stream, __pyx_n_s_closed); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_2 = PyObject_HasAttr(__pyx_v_stream, __pyx_n_u_closed); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 18, __pyx_L1_error)
   __pyx_t_3 = (!(__pyx_t_2 != 0));
   if (!__pyx_t_3) {
   } else {
@@ -1456,7 +1457,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_2is_a_tty(CYTHON_UNUSED PyObje
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyObject_HasAttr(__pyx_v_stream, __pyx_n_s_isatty); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = PyObject_HasAttr(__pyx_v_stream, __pyx_n_u_isatty); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 22, __pyx_L1_error)
   if (__pyx_t_2) {
   } else {
     __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
@@ -2069,7 +2070,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32___init__(CYTHON_
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_n_s_nt, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_n_u_nt, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_on_windows = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5778,7 +5779,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_16extract_params
  *             params = tuple(int(p) if len(p) != 0 else 1 for p in paramstring.split(';'))
  *             while len(params) < 2:
  */
-  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_n_s_Hf, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_n_u_Hf, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
@@ -5866,7 +5867,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_16extract_params
  *                     params = (0,)
  *                 elif command in 'ABCD':
  */
-      __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_n_s_JKm, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_2 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_n_u_JKm, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
       __pyx_t_1 = (__pyx_t_2 != 0);
       if (__pyx_t_1) {
 
@@ -5897,7 +5898,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_16extract_params
  *                     params = (1,)
  * 
  */
-      __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_n_s_ABCD, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
+      __pyx_t_1 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_n_u_ABCD, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
       __pyx_t_2 = (__pyx_t_1 != 0);
       if (__pyx_t_2) {
 
@@ -6071,7 +6072,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
  *             for param in params:
  *                 if param in self.win32_calls:
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_command, __pyx_n_s_m, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_command, __pyx_n_u_m, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
   if (__pyx_t_1) {
 
     /* "colorama/ansitowin32.py":202
@@ -6242,7 +6243,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
  *             winterm.erase_screen(params[0], on_stderr=self.on_stderr)
  *         elif command in 'K':
  */
-  __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_n_s_J, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_n_u_J, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
   __pyx_t_1 = (__pyx_t_6 != 0);
   if (__pyx_t_1) {
 
@@ -6295,7 +6296,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
  *             winterm.erase_line(params[0], on_stderr=self.on_stderr)
  *         elif command in 'Hf':     # cursor position - absolute
  */
-  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_n_s_K, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_n_u_K, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 211, __pyx_L1_error)
   __pyx_t_6 = (__pyx_t_1 != 0);
   if (__pyx_t_6) {
 
@@ -6348,7 +6349,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
  *             winterm.set_cursor_position(params, on_stderr=self.on_stderr)
  *         elif command in 'ABCD':   # cursor position - relative
  */
-  __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_n_s_Hf, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_n_u_Hf, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
   __pyx_t_1 = (__pyx_t_6 != 0);
   if (__pyx_t_1) {
 
@@ -6399,7 +6400,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
  *             n = params[0]
  *             # A - up, B - down, C - forward, D - back
  */
-  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_n_s_ABCD, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_n_u_ABCD, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 215, __pyx_L1_error)
   __pyx_t_6 = (__pyx_t_1 != 0);
   if (__pyx_t_6) {
 
@@ -6434,7 +6435,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
     __Pyx_GIVEREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_7);
     __pyx_t_7 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_A, __pyx_t_5) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_A, __pyx_t_5) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6444,7 +6445,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
     __Pyx_INCREF(__pyx_v_n);
     __Pyx_GIVEREF(__pyx_v_n);
     PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_n);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_B, __pyx_t_5) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_B, __pyx_t_5) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6454,7 +6455,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
     PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_0);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_C, __pyx_t_5) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_C, __pyx_t_5) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = PyNumber_Negative(__pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6466,7 +6467,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_18call_win32(CYT
     __Pyx_GIVEREF(__pyx_int_0);
     PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_int_0);
     __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_D, __pyx_t_7) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_D, __pyx_t_7) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_t_2, __pyx_v_command); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
@@ -6960,7 +6961,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_20convert_osc(CY
  *                 params = paramstring.split(";")
  *                 # 0 - change title and icon (we will only change title)
  */
-    __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_v_command, __pyx_kp_s__10, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PyUnicode_ContainsTF(__pyx_v_command, __pyx_kp_u__10, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 226, __pyx_L1_error)
     __pyx_t_10 = (__pyx_t_9 != 0);
     if (__pyx_t_10) {
 
@@ -6988,7 +6989,7 @@ static PyObject *__pyx_pf_8colorama_11ansitowin32_11AnsiToWin32_20convert_osc(CY
  */
       __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_params, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = (__Pyx_PySequence_ContainsTF(__pyx_t_1, __pyx_kp_s_02, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 231, __pyx_L1_error)
+      __pyx_t_10 = (__Pyx_PyUnicode_ContainsTF(__pyx_t_1, __pyx_kp_u_02, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 231, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_9 = (__pyx_t_10 != 0);
       if (__pyx_t_9) {
@@ -7466,9 +7467,9 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_02, __pyx_k_02, sizeof(__pyx_k_02), 0, 0, 1, 0},
-  {&__pyx_n_s_A, __pyx_k_A, sizeof(__pyx_k_A), 0, 0, 1, 1},
-  {&__pyx_n_s_ABCD, __pyx_k_ABCD, sizeof(__pyx_k_ABCD), 0, 0, 1, 1},
+  {&__pyx_kp_u_02, __pyx_k_02, sizeof(__pyx_k_02), 0, 1, 0, 0},
+  {&__pyx_n_u_A, __pyx_k_A, sizeof(__pyx_k_A), 0, 1, 0, 1},
+  {&__pyx_n_u_ABCD, __pyx_k_ABCD, sizeof(__pyx_k_ABCD), 0, 1, 0, 1},
   {&__pyx_n_s_ANSI_CSI_RE, __pyx_k_ANSI_CSI_RE, sizeof(__pyx_k_ANSI_CSI_RE), 0, 0, 1, 1},
   {&__pyx_n_s_ANSI_OSC_RE, __pyx_k_ANSI_OSC_RE, sizeof(__pyx_k_ANSI_OSC_RE), 0, 0, 1, 1},
   {&__pyx_n_s_AnsiBack, __pyx_k_AnsiBack, sizeof(__pyx_k_AnsiBack), 0, 0, 1, 1},
@@ -7487,22 +7488,22 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_AnsiToWin32_write, __pyx_k_AnsiToWin32_write, sizeof(__pyx_k_AnsiToWin32_write), 0, 0, 1, 1},
   {&__pyx_n_s_AnsiToWin32_write_and_convert, __pyx_k_AnsiToWin32_write_and_convert, sizeof(__pyx_k_AnsiToWin32_write_and_convert), 0, 0, 1, 1},
   {&__pyx_n_s_AnsiToWin32_write_plain_text, __pyx_k_AnsiToWin32_write_plain_text, sizeof(__pyx_k_AnsiToWin32_write_plain_text), 0, 0, 1, 1},
-  {&__pyx_n_s_B, __pyx_k_B, sizeof(__pyx_k_B), 0, 0, 1, 1},
+  {&__pyx_n_u_B, __pyx_k_B, sizeof(__pyx_k_B), 0, 1, 0, 1},
   {&__pyx_n_s_BLACK, __pyx_k_BLACK, sizeof(__pyx_k_BLACK), 0, 0, 1, 1},
   {&__pyx_n_s_BLUE, __pyx_k_BLUE, sizeof(__pyx_k_BLUE), 0, 0, 1, 1},
   {&__pyx_n_s_BRIGHT, __pyx_k_BRIGHT, sizeof(__pyx_k_BRIGHT), 0, 0, 1, 1},
-  {&__pyx_n_s_C, __pyx_k_C, sizeof(__pyx_k_C), 0, 0, 1, 1},
+  {&__pyx_n_u_C, __pyx_k_C, sizeof(__pyx_k_C), 0, 1, 0, 1},
   {&__pyx_n_s_CYAN, __pyx_k_CYAN, sizeof(__pyx_k_CYAN), 0, 0, 1, 1},
-  {&__pyx_n_s_D, __pyx_k_D, sizeof(__pyx_k_D), 0, 0, 1, 1},
+  {&__pyx_n_u_D, __pyx_k_D, sizeof(__pyx_k_D), 0, 1, 0, 1},
   {&__pyx_n_s_DIM, __pyx_k_DIM, sizeof(__pyx_k_DIM), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_GREEN, __pyx_k_GREEN, sizeof(__pyx_k_GREEN), 0, 0, 1, 1},
   {&__pyx_n_s_GREY, __pyx_k_GREY, sizeof(__pyx_k_GREY), 0, 0, 1, 1},
-  {&__pyx_n_s_Hf, __pyx_k_Hf, sizeof(__pyx_k_Hf), 0, 0, 1, 1},
+  {&__pyx_n_u_Hf, __pyx_k_Hf, sizeof(__pyx_k_Hf), 0, 1, 0, 1},
   {&__pyx_kp_s_Implements_a_write_method_which, __pyx_k_Implements_a_write_method_which, sizeof(__pyx_k_Implements_a_write_method_which), 0, 0, 1, 0},
-  {&__pyx_n_s_J, __pyx_k_J, sizeof(__pyx_k_J), 0, 0, 1, 1},
-  {&__pyx_n_s_JKm, __pyx_k_JKm, sizeof(__pyx_k_JKm), 0, 0, 1, 1},
-  {&__pyx_n_s_K, __pyx_k_K, sizeof(__pyx_k_K), 0, 0, 1, 1},
+  {&__pyx_n_u_J, __pyx_k_J, sizeof(__pyx_k_J), 0, 1, 0, 1},
+  {&__pyx_n_u_JKm, __pyx_k_JKm, sizeof(__pyx_k_JKm), 0, 1, 0, 1},
+  {&__pyx_n_u_K, __pyx_k_K, sizeof(__pyx_k_K), 0, 1, 0, 1},
   {&__pyx_n_s_LIGHTBLACK_EX, __pyx_k_LIGHTBLACK_EX, sizeof(__pyx_k_LIGHTBLACK_EX), 0, 0, 1, 1},
   {&__pyx_n_s_LIGHTBLUE_EX, __pyx_k_LIGHTBLUE_EX, sizeof(__pyx_k_LIGHTBLUE_EX), 0, 0, 1, 1},
   {&__pyx_n_s_LIGHTCYAN_EX, __pyx_k_LIGHTCYAN_EX, sizeof(__pyx_k_LIGHTCYAN_EX), 0, 0, 1, 1},
@@ -7529,9 +7530,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_WinTerm, __pyx_k_WinTerm, sizeof(__pyx_k_WinTerm), 0, 0, 1, 1},
   {&__pyx_kp_s_Wraps_a_stream_such_as_stdout_a, __pyx_k_Wraps_a_stream_such_as_stdout_a, sizeof(__pyx_k_Wraps_a_stream_such_as_stdout_a), 0, 0, 1, 0},
   {&__pyx_n_s_YELLOW, __pyx_k_YELLOW, sizeof(__pyx_k_YELLOW), 0, 0, 1, 1},
-  {&__pyx_kp_s__10, __pyx_k__10, sizeof(__pyx_k__10), 0, 0, 1, 0},
-  {&__pyx_kp_s__23, __pyx_k__23, sizeof(__pyx_k__23), 0, 0, 1, 0},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
+  {&__pyx_kp_u__10, __pyx_k__10, sizeof(__pyx_k__10), 0, 1, 0, 0},
+  {&__pyx_kp_u__23, __pyx_k__23, sizeof(__pyx_k__23), 0, 1, 0, 0},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
   {&__pyx_n_s_ansi, __pyx_k_ansi, sizeof(__pyx_k_ansi), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_autoreset, __pyx_k_autoreset, sizeof(__pyx_k_autoreset), 0, 0, 1, 1},
@@ -7539,6 +7540,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_call_win32, __pyx_k_call_win32, sizeof(__pyx_k_call_win32), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_closed, __pyx_k_closed, sizeof(__pyx_k_closed), 0, 0, 1, 1},
+  {&__pyx_n_u_closed, __pyx_k_closed, sizeof(__pyx_k_closed), 0, 1, 0, 1},
   {&__pyx_n_s_colorama_ansitowin32, __pyx_k_colorama_ansitowin32, sizeof(__pyx_k_colorama_ansitowin32), 0, 0, 1, 1},
   {&__pyx_n_s_command, __pyx_k_command, sizeof(__pyx_k_command), 0, 0, 1, 1},
   {&__pyx_n_s_compile, __pyx_k_compile, sizeof(__pyx_k_compile), 0, 0, 1, 1},
@@ -7549,7 +7551,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_converter, __pyx_k_converter, sizeof(__pyx_k_converter), 0, 0, 1, 1},
   {&__pyx_n_s_cursor, __pyx_k_cursor, sizeof(__pyx_k_cursor), 0, 0, 1, 1},
   {&__pyx_n_s_cursor_adjust, __pyx_k_cursor_adjust, sizeof(__pyx_k_cursor_adjust), 0, 0, 1, 1},
-  {&__pyx_kp_s_d_a_zA_Z, __pyx_k_d_a_zA_Z, sizeof(__pyx_k_d_a_zA_Z), 0, 0, 1, 0},
+  {&__pyx_kp_u_d_a_zA_Z, __pyx_k_d_a_zA_Z, sizeof(__pyx_k_d_a_zA_Z), 0, 1, 0, 0},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_erase_line, __pyx_k_erase_line, sizeof(__pyx_k_erase_line), 0, 0, 1, 1},
@@ -7569,15 +7571,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_is_a_tty, __pyx_k_is_a_tty, sizeof(__pyx_k_is_a_tty), 0, 0, 1, 1},
   {&__pyx_n_s_is_stream_closed, __pyx_k_is_stream_closed, sizeof(__pyx_k_is_stream_closed), 0, 0, 1, 1},
   {&__pyx_n_s_isatty, __pyx_k_isatty, sizeof(__pyx_k_isatty), 0, 0, 1, 1},
+  {&__pyx_n_u_isatty, __pyx_k_isatty, sizeof(__pyx_k_isatty), 0, 1, 0, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
-  {&__pyx_n_s_m, __pyx_k_m, sizeof(__pyx_k_m), 0, 0, 1, 1},
+  {&__pyx_n_u_m, __pyx_k_m, sizeof(__pyx_k_m), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_match, __pyx_k_match, sizeof(__pyx_k_match), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_n, __pyx_k_n, sizeof(__pyx_k_n), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
-  {&__pyx_n_s_nt, __pyx_k_nt, sizeof(__pyx_k_nt), 0, 0, 1, 1},
+  {&__pyx_n_u_nt, __pyx_k_nt, sizeof(__pyx_k_nt), 0, 1, 0, 1},
   {&__pyx_n_s_object, __pyx_k_object, sizeof(__pyx_k_object), 0, 0, 1, 1},
   {&__pyx_n_s_on_stderr, __pyx_k_on_stderr, sizeof(__pyx_k_on_stderr), 0, 0, 1, 1},
   {&__pyx_n_s_on_windows, __pyx_k_on_windows, sizeof(__pyx_k_on_windows), 0, 0, 1, 1},
@@ -7639,7 +7642,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_0); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_m, __pyx_tuple_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_m, __pyx_tuple_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -7650,7 +7653,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             while len(params) < 2:
  *                 # defaults:
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u__3); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -7661,7 +7664,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             if len(params) == 0:
  *                 # defaults:
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u__3); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -7716,7 +7719,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 # 0 - change title and icon (we will only change title)
  *                 # 1 - change icon (we don't support this)
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u__3); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -7787,7 +7790,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     ANSI_OSC_RE = re.compile('\001?\033\]((?:.|;)*?)(\x07)\002?')         # Operating System Command
  * 
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_d_a_zA_Z); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_d_a_zA_Z); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
@@ -7798,7 +7801,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def __init__(self, wrapped, convert=None, strip=None, autoreset=False):
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s__23); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u__23); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
 
@@ -8066,7 +8069,7 @@ PyMODINIT_FUNC PyInit_ansitowin32(void)
  * import sys
  * import os
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_re, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_re, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_re, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8078,7 +8081,7 @@ PyMODINIT_FUNC PyInit_ansitowin32(void)
  * import os
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8090,7 +8093,7 @@ PyMODINIT_FUNC PyInit_ansitowin32(void)
  * 
  * from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8346,7 +8349,7 @@ PyMODINIT_FUNC PyInit_ansitowin32(void)
  *     '''
  *         Wraps a stream (such as stdout), acting as a transparent proxy for all
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_StreamWrapper, __pyx_t_2, __pyx_t_5, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_StreamWrapper, __pyx_t_2, __pyx_t_5, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_StreamWrapper, __pyx_t_6) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -8547,7 +8550,7 @@ PyMODINIT_FUNC PyInit_ansitowin32(void)
  *     '''
  *         Implements a 'write()' method which, on Windows, will strip ANSI character
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_AnsiToWin32, __pyx_t_2, __pyx_t_5, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_AnsiToWin32, __pyx_t_2, __pyx_t_5, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_AnsiToWin32, __pyx_t_6) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;

@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -754,9 +754,7 @@ static const char __pyx_k_self[] = "self";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_super[] = "super";
 static const char __pyx_k_format[] = "format";
-#if PY_MAJOR_VERSION >= 3
 static const char __pyx_k_here_2[] = "@\342\200\213here";
-#endif
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_module[] = "__module__";
 static const char __pyx_k_message[] = "message";
@@ -767,19 +765,11 @@ static const char __pyx_k_everyone[] = "@everyone";
 static const char __pyx_k_original[] = "original";
 static const char __pyx_k_qualname[] = "__qualname__";
 static const char __pyx_k_metaclass[] = "__metaclass__";
-#if PY_MAJOR_VERSION < 3
-static const char __pyx_k_u200bhere[] = "@\\u200bhere";
-#endif
-#if PY_MAJOR_VERSION >= 3
 static const char __pyx_k_everyone_2[] = "@\342\200\213everyone";
-#endif
 static const char __pyx_k_BadArgument[] = "BadArgument";
 static const char __pyx_k_retry_after[] = "retry_after";
 static const char __pyx_k_CheckFailure[] = "CheckFailure";
 static const char __pyx_k_CommandError[] = "CommandError";
-#if PY_MAJOR_VERSION < 3
-static const char __pyx_k_u200beveryone[] = "@\\u200beveryone";
-#endif
 static const char __pyx_k_UserInputError[] = "UserInputError";
 static const char __pyx_k_discord_errors[] = "discord.errors";
 static const char __pyx_k_CommandNotFound[] = "CommandNotFound";
@@ -810,16 +800,23 @@ static const char __pyx_k_Exception_raised_when_the_comman_2[] = "Exception rais
 static const char __pyx_k_Exception_raised_when_the_comman_3[] = "Exception raised when the command being invoked raised an exception.\n\n    Attributes\n    -----------\n    original\n        The original exception that was raised. You can also get this via\n        the ``__cause__`` attribute.\n    ";
 static const char __pyx_k_Exception_raised_when_the_comman_4[] = "Exception raised when the command being invoked is on cooldown.\n\n    Attributes\n    -----------\n    cooldown: Cooldown\n        A class with attributes ``rate``, ``per``, and ``type`` similar to\n        the :func:`cooldown` decorator.\n    retry_after: float\n        The amount of seconds to wait before you can retry again.\n    ";
 static PyObject *__pyx_n_s_BadArgument;
+static PyObject *__pyx_n_u_BadArgument;
 static PyObject *__pyx_n_s_CheckFailure;
+static PyObject *__pyx_n_u_CheckFailure;
 static PyObject *__pyx_n_s_CommandError;
+static PyObject *__pyx_n_u_CommandError;
 static PyObject *__pyx_n_s_CommandError___init;
 static PyObject *__pyx_n_s_CommandInvokeError;
+static PyObject *__pyx_n_u_CommandInvokeError;
 static PyObject *__pyx_n_s_CommandInvokeError___init;
 static PyObject *__pyx_n_s_CommandNotFound;
+static PyObject *__pyx_n_u_CommandNotFound;
 static PyObject *__pyx_n_s_CommandOnCooldown;
+static PyObject *__pyx_n_u_CommandOnCooldown;
 static PyObject *__pyx_n_s_CommandOnCooldown___init;
-static PyObject *__pyx_kp_s_Command_raised_an_exception_0;
+static PyObject *__pyx_kp_u_Command_raised_an_exception_0;
 static PyObject *__pyx_n_s_DisabledCommand;
+static PyObject *__pyx_n_u_DisabledCommand;
 static PyObject *__pyx_n_s_DiscordException;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_kp_s_Exception_raised_when_a_command;
@@ -832,12 +829,16 @@ static PyObject *__pyx_kp_s_Exception_raised_when_the_comman_3;
 static PyObject *__pyx_kp_s_Exception_raised_when_the_comman_4;
 static PyObject *__pyx_kp_s_Exception_raised_when_the_predic;
 static PyObject *__pyx_n_s_MissingRequiredArgument;
+static PyObject *__pyx_n_u_MissingRequiredArgument;
 static PyObject *__pyx_n_s_NoPrivateMessage;
+static PyObject *__pyx_n_u_NoPrivateMessage;
 static PyObject *__pyx_kp_s_The_base_exception_type_for_all;
 static PyObject *__pyx_kp_s_The_base_exception_type_for_erro;
 static PyObject *__pyx_n_s_TooManyArguments;
+static PyObject *__pyx_n_u_TooManyArguments;
 static PyObject *__pyx_n_s_UserInputError;
-static PyObject *__pyx_kp_s_You_are_on_cooldown_Try_again_in;
+static PyObject *__pyx_n_u_UserInputError;
+static PyObject *__pyx_kp_u_You_are_on_cooldown_Try_again_in;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_cooldown;
@@ -845,9 +846,11 @@ static PyObject *__pyx_n_s_discord_errors;
 static PyObject *__pyx_n_s_discord_ext_commands_errors;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_e;
-static PyObject *__pyx_kp_s_everyone;
+static PyObject *__pyx_kp_u_everyone;
+static PyObject *__pyx_kp_u_everyone_2;
 static PyObject *__pyx_n_s_format;
-static PyObject *__pyx_kp_s_here;
+static PyObject *__pyx_kp_u_here;
+static PyObject *__pyx_kp_u_here_2;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_m;
@@ -863,8 +866,6 @@ static PyObject *__pyx_n_s_retry_after;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_kp_s_u200beveryone;
-static PyObject *__pyx_kp_s_u200bhere;
 static PyObject *__pyx_pf_7discord_3ext_8commands_6errors_12CommandError___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_message, PyObject *__pyx_v_args); /* proto */
 static PyObject *__pyx_pf_7discord_3ext_8commands_6errors_18CommandInvokeError___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_e); /* proto */
 static PyObject *__pyx_pf_7discord_3ext_8commands_6errors_17CommandOnCooldown___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_cooldown, PyObject *__pyx_v_retry_after); /* proto */
@@ -1222,7 +1223,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_6errors_18CommandInvokeError__
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Command_raised_an_exception_0, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Command_raised_an_exception_0, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1429,7 +1430,7 @@ static PyObject *__pyx_pf_7discord_3ext_8commands_6errors_17CommandOnCooldown___
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_You_are_on_cooldown_Try_again_in, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_You_are_on_cooldown_Try_again_in, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1534,16 +1535,23 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BadArgument, __pyx_k_BadArgument, sizeof(__pyx_k_BadArgument), 0, 0, 1, 1},
+  {&__pyx_n_u_BadArgument, __pyx_k_BadArgument, sizeof(__pyx_k_BadArgument), 0, 1, 0, 1},
   {&__pyx_n_s_CheckFailure, __pyx_k_CheckFailure, sizeof(__pyx_k_CheckFailure), 0, 0, 1, 1},
+  {&__pyx_n_u_CheckFailure, __pyx_k_CheckFailure, sizeof(__pyx_k_CheckFailure), 0, 1, 0, 1},
   {&__pyx_n_s_CommandError, __pyx_k_CommandError, sizeof(__pyx_k_CommandError), 0, 0, 1, 1},
+  {&__pyx_n_u_CommandError, __pyx_k_CommandError, sizeof(__pyx_k_CommandError), 0, 1, 0, 1},
   {&__pyx_n_s_CommandError___init, __pyx_k_CommandError___init, sizeof(__pyx_k_CommandError___init), 0, 0, 1, 1},
   {&__pyx_n_s_CommandInvokeError, __pyx_k_CommandInvokeError, sizeof(__pyx_k_CommandInvokeError), 0, 0, 1, 1},
+  {&__pyx_n_u_CommandInvokeError, __pyx_k_CommandInvokeError, sizeof(__pyx_k_CommandInvokeError), 0, 1, 0, 1},
   {&__pyx_n_s_CommandInvokeError___init, __pyx_k_CommandInvokeError___init, sizeof(__pyx_k_CommandInvokeError___init), 0, 0, 1, 1},
   {&__pyx_n_s_CommandNotFound, __pyx_k_CommandNotFound, sizeof(__pyx_k_CommandNotFound), 0, 0, 1, 1},
+  {&__pyx_n_u_CommandNotFound, __pyx_k_CommandNotFound, sizeof(__pyx_k_CommandNotFound), 0, 1, 0, 1},
   {&__pyx_n_s_CommandOnCooldown, __pyx_k_CommandOnCooldown, sizeof(__pyx_k_CommandOnCooldown), 0, 0, 1, 1},
+  {&__pyx_n_u_CommandOnCooldown, __pyx_k_CommandOnCooldown, sizeof(__pyx_k_CommandOnCooldown), 0, 1, 0, 1},
   {&__pyx_n_s_CommandOnCooldown___init, __pyx_k_CommandOnCooldown___init, sizeof(__pyx_k_CommandOnCooldown___init), 0, 0, 1, 1},
-  {&__pyx_kp_s_Command_raised_an_exception_0, __pyx_k_Command_raised_an_exception_0, sizeof(__pyx_k_Command_raised_an_exception_0), 0, 0, 1, 0},
+  {&__pyx_kp_u_Command_raised_an_exception_0, __pyx_k_Command_raised_an_exception_0, sizeof(__pyx_k_Command_raised_an_exception_0), 0, 1, 0, 0},
   {&__pyx_n_s_DisabledCommand, __pyx_k_DisabledCommand, sizeof(__pyx_k_DisabledCommand), 0, 0, 1, 1},
+  {&__pyx_n_u_DisabledCommand, __pyx_k_DisabledCommand, sizeof(__pyx_k_DisabledCommand), 0, 1, 0, 1},
   {&__pyx_n_s_DiscordException, __pyx_k_DiscordException, sizeof(__pyx_k_DiscordException), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_kp_s_Exception_raised_when_a_command, __pyx_k_Exception_raised_when_a_command, sizeof(__pyx_k_Exception_raised_when_a_command), 0, 0, 1, 0},
@@ -1556,12 +1564,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Exception_raised_when_the_comman_4, __pyx_k_Exception_raised_when_the_comman_4, sizeof(__pyx_k_Exception_raised_when_the_comman_4), 0, 0, 1, 0},
   {&__pyx_kp_s_Exception_raised_when_the_predic, __pyx_k_Exception_raised_when_the_predic, sizeof(__pyx_k_Exception_raised_when_the_predic), 0, 0, 1, 0},
   {&__pyx_n_s_MissingRequiredArgument, __pyx_k_MissingRequiredArgument, sizeof(__pyx_k_MissingRequiredArgument), 0, 0, 1, 1},
+  {&__pyx_n_u_MissingRequiredArgument, __pyx_k_MissingRequiredArgument, sizeof(__pyx_k_MissingRequiredArgument), 0, 1, 0, 1},
   {&__pyx_n_s_NoPrivateMessage, __pyx_k_NoPrivateMessage, sizeof(__pyx_k_NoPrivateMessage), 0, 0, 1, 1},
+  {&__pyx_n_u_NoPrivateMessage, __pyx_k_NoPrivateMessage, sizeof(__pyx_k_NoPrivateMessage), 0, 1, 0, 1},
   {&__pyx_kp_s_The_base_exception_type_for_all, __pyx_k_The_base_exception_type_for_all, sizeof(__pyx_k_The_base_exception_type_for_all), 0, 0, 1, 0},
   {&__pyx_kp_s_The_base_exception_type_for_erro, __pyx_k_The_base_exception_type_for_erro, sizeof(__pyx_k_The_base_exception_type_for_erro), 0, 0, 1, 0},
   {&__pyx_n_s_TooManyArguments, __pyx_k_TooManyArguments, sizeof(__pyx_k_TooManyArguments), 0, 0, 1, 1},
+  {&__pyx_n_u_TooManyArguments, __pyx_k_TooManyArguments, sizeof(__pyx_k_TooManyArguments), 0, 1, 0, 1},
   {&__pyx_n_s_UserInputError, __pyx_k_UserInputError, sizeof(__pyx_k_UserInputError), 0, 0, 1, 1},
-  {&__pyx_kp_s_You_are_on_cooldown_Try_again_in, __pyx_k_You_are_on_cooldown_Try_again_in, sizeof(__pyx_k_You_are_on_cooldown_Try_again_in), 0, 0, 1, 0},
+  {&__pyx_n_u_UserInputError, __pyx_k_UserInputError, sizeof(__pyx_k_UserInputError), 0, 1, 0, 1},
+  {&__pyx_kp_u_You_are_on_cooldown_Try_again_in, __pyx_k_You_are_on_cooldown_Try_again_in, sizeof(__pyx_k_You_are_on_cooldown_Try_again_in), 0, 1, 0, 0},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_cooldown, __pyx_k_cooldown, sizeof(__pyx_k_cooldown), 0, 0, 1, 1},
@@ -1569,9 +1581,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_discord_ext_commands_errors, __pyx_k_discord_ext_commands_errors, sizeof(__pyx_k_discord_ext_commands_errors), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
-  {&__pyx_kp_s_everyone, __pyx_k_everyone, sizeof(__pyx_k_everyone), 0, 0, 1, 0},
+  {&__pyx_kp_u_everyone, __pyx_k_everyone, sizeof(__pyx_k_everyone), 0, 1, 0, 0},
+  {&__pyx_kp_u_everyone_2, __pyx_k_everyone_2, sizeof(__pyx_k_everyone_2), 0, 1, 0, 0},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
-  {&__pyx_kp_s_here, __pyx_k_here, sizeof(__pyx_k_here), 0, 0, 1, 0},
+  {&__pyx_kp_u_here, __pyx_k_here, sizeof(__pyx_k_here), 0, 1, 0, 0},
+  {&__pyx_kp_u_here_2, __pyx_k_here_2, sizeof(__pyx_k_here_2), 0, 1, 0, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_m, __pyx_k_m, sizeof(__pyx_k_m), 0, 0, 1, 1},
@@ -1587,16 +1601,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  #if PY_MAJOR_VERSION >= 3
-  {&__pyx_kp_s_u200beveryone, __pyx_k_everyone_2, sizeof(__pyx_k_everyone_2), 0, 1, 0, 0},
-  #else
-  {&__pyx_kp_s_u200beveryone, __pyx_k_u200beveryone, sizeof(__pyx_k_u200beveryone), 0, 0, 1, 0},
-  #endif
-  #if PY_MAJOR_VERSION >= 3
-  {&__pyx_kp_s_u200bhere, __pyx_k_here_2, sizeof(__pyx_k_here_2), 0, 1, 0, 0},
-  #else
-  {&__pyx_kp_s_u200bhere, __pyx_k_u200bhere, sizeof(__pyx_k_u200bhere), 0, 0, 1, 0},
-  #endif
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1617,10 +1621,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             super().__init__(m, *args)
  *         else:
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_kp_s_everyone, __pyx_kp_s_u200beveryone); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_kp_u_everyone, __pyx_kp_u_everyone_2); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_kp_s_here, __pyx_kp_s_u200bhere); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_kp_u_here, __pyx_kp_u_here_2); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -1786,7 +1790,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_INCREF(__pyx_n_s_DiscordException);
   __Pyx_GIVEREF(__pyx_n_s_DiscordException);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_DiscordException);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_discord_errors, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_discord_errors, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DiscordException); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
@@ -1804,39 +1808,39 @@ PyMODINIT_FUNC PyInit_errors(void)
  */
   __pyx_t_2 = PyList_New(11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_CommandError);
-  __Pyx_GIVEREF(__pyx_n_s_CommandError);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_CommandError);
-  __Pyx_INCREF(__pyx_n_s_MissingRequiredArgument);
-  __Pyx_GIVEREF(__pyx_n_s_MissingRequiredArgument);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_MissingRequiredArgument);
-  __Pyx_INCREF(__pyx_n_s_BadArgument);
-  __Pyx_GIVEREF(__pyx_n_s_BadArgument);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_BadArgument);
-  __Pyx_INCREF(__pyx_n_s_NoPrivateMessage);
-  __Pyx_GIVEREF(__pyx_n_s_NoPrivateMessage);
-  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_s_NoPrivateMessage);
-  __Pyx_INCREF(__pyx_n_s_CheckFailure);
-  __Pyx_GIVEREF(__pyx_n_s_CheckFailure);
-  PyList_SET_ITEM(__pyx_t_2, 4, __pyx_n_s_CheckFailure);
-  __Pyx_INCREF(__pyx_n_s_CommandNotFound);
-  __Pyx_GIVEREF(__pyx_n_s_CommandNotFound);
-  PyList_SET_ITEM(__pyx_t_2, 5, __pyx_n_s_CommandNotFound);
-  __Pyx_INCREF(__pyx_n_s_DisabledCommand);
-  __Pyx_GIVEREF(__pyx_n_s_DisabledCommand);
-  PyList_SET_ITEM(__pyx_t_2, 6, __pyx_n_s_DisabledCommand);
-  __Pyx_INCREF(__pyx_n_s_CommandInvokeError);
-  __Pyx_GIVEREF(__pyx_n_s_CommandInvokeError);
-  PyList_SET_ITEM(__pyx_t_2, 7, __pyx_n_s_CommandInvokeError);
-  __Pyx_INCREF(__pyx_n_s_TooManyArguments);
-  __Pyx_GIVEREF(__pyx_n_s_TooManyArguments);
-  PyList_SET_ITEM(__pyx_t_2, 8, __pyx_n_s_TooManyArguments);
-  __Pyx_INCREF(__pyx_n_s_UserInputError);
-  __Pyx_GIVEREF(__pyx_n_s_UserInputError);
-  PyList_SET_ITEM(__pyx_t_2, 9, __pyx_n_s_UserInputError);
-  __Pyx_INCREF(__pyx_n_s_CommandOnCooldown);
-  __Pyx_GIVEREF(__pyx_n_s_CommandOnCooldown);
-  PyList_SET_ITEM(__pyx_t_2, 10, __pyx_n_s_CommandOnCooldown);
+  __Pyx_INCREF(__pyx_n_u_CommandError);
+  __Pyx_GIVEREF(__pyx_n_u_CommandError);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_u_CommandError);
+  __Pyx_INCREF(__pyx_n_u_MissingRequiredArgument);
+  __Pyx_GIVEREF(__pyx_n_u_MissingRequiredArgument);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_MissingRequiredArgument);
+  __Pyx_INCREF(__pyx_n_u_BadArgument);
+  __Pyx_GIVEREF(__pyx_n_u_BadArgument);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_u_BadArgument);
+  __Pyx_INCREF(__pyx_n_u_NoPrivateMessage);
+  __Pyx_GIVEREF(__pyx_n_u_NoPrivateMessage);
+  PyList_SET_ITEM(__pyx_t_2, 3, __pyx_n_u_NoPrivateMessage);
+  __Pyx_INCREF(__pyx_n_u_CheckFailure);
+  __Pyx_GIVEREF(__pyx_n_u_CheckFailure);
+  PyList_SET_ITEM(__pyx_t_2, 4, __pyx_n_u_CheckFailure);
+  __Pyx_INCREF(__pyx_n_u_CommandNotFound);
+  __Pyx_GIVEREF(__pyx_n_u_CommandNotFound);
+  PyList_SET_ITEM(__pyx_t_2, 5, __pyx_n_u_CommandNotFound);
+  __Pyx_INCREF(__pyx_n_u_DisabledCommand);
+  __Pyx_GIVEREF(__pyx_n_u_DisabledCommand);
+  PyList_SET_ITEM(__pyx_t_2, 6, __pyx_n_u_DisabledCommand);
+  __Pyx_INCREF(__pyx_n_u_CommandInvokeError);
+  __Pyx_GIVEREF(__pyx_n_u_CommandInvokeError);
+  PyList_SET_ITEM(__pyx_t_2, 7, __pyx_n_u_CommandInvokeError);
+  __Pyx_INCREF(__pyx_n_u_TooManyArguments);
+  __Pyx_GIVEREF(__pyx_n_u_TooManyArguments);
+  PyList_SET_ITEM(__pyx_t_2, 8, __pyx_n_u_TooManyArguments);
+  __Pyx_INCREF(__pyx_n_u_UserInputError);
+  __Pyx_GIVEREF(__pyx_n_u_UserInputError);
+  PyList_SET_ITEM(__pyx_t_2, 9, __pyx_n_u_UserInputError);
+  __Pyx_INCREF(__pyx_n_u_CommandOnCooldown);
+  __Pyx_GIVEREF(__pyx_n_u_CommandOnCooldown);
+  PyList_SET_ITEM(__pyx_t_2, 10, __pyx_n_u_CommandOnCooldown);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_2) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -1884,7 +1888,7 @@ PyMODINIT_FUNC PyInit_errors(void)
  *     """The base exception type for all command related errors.
  * 
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_CommandError, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_CommandError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_5) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1912,7 +1916,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_UserInputError, __pyx_n_s_UserInputError, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_The_base_exception_type_for_erro); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_UserInputError, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_UserInputError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_UserInputError, __pyx_t_5) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1938,7 +1942,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_CommandNotFound, __pyx_n_s_CommandNotFound, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_Exception_raised_when_a_command); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_CommandNotFound, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_CommandNotFound, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CommandNotFound, __pyx_t_5) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1964,7 +1968,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_MissingRequiredArgument, __pyx_n_s_MissingRequiredArgument, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_Exception_raised_when_parsing_a); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MissingRequiredArgument, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MissingRequiredArgument, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MissingRequiredArgument, __pyx_t_5) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1990,7 +1994,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_TooManyArguments, __pyx_n_s_TooManyArguments, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_Exception_raised_when_the_comman); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_TooManyArguments, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_TooManyArguments, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_TooManyArguments, __pyx_t_5) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2016,7 +2020,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_BadArgument, __pyx_n_s_BadArgument, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_Exception_raised_when_a_parsing); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BadArgument, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_BadArgument, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_BadArgument, __pyx_t_5) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2042,7 +2046,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_NoPrivateMessage, __pyx_n_s_NoPrivateMessage, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_Exception_raised_when_an_operati); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_NoPrivateMessage, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_NoPrivateMessage, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_NoPrivateMessage, __pyx_t_5) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2068,7 +2072,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_CheckFailure, __pyx_n_s_CheckFailure, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_Exception_raised_when_the_predic); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_CheckFailure, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_CheckFailure, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CheckFailure, __pyx_t_5) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2094,7 +2098,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_DisabledCommand, __pyx_n_s_DisabledCommand, (PyObject *) NULL, __pyx_n_s_discord_ext_commands_errors, __pyx_kp_s_Exception_raised_when_the_comman_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DisabledCommand, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DisabledCommand, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DisabledCommand, __pyx_t_5) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2145,7 +2149,7 @@ PyMODINIT_FUNC PyInit_errors(void)
  *     """Exception raised when the command being invoked raised an exception.
  * 
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_CommandInvokeError, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_CommandInvokeError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_5, __pyx_t_6) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2198,7 +2202,7 @@ PyMODINIT_FUNC PyInit_errors(void)
  *     """Exception raised when the command being invoked is on cooldown.
  * 
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_CommandOnCooldown, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_CommandOnCooldown, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_6, __pyx_t_7) < 0) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;

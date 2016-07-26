@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -940,13 +940,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* ListAppend.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
@@ -967,20 +960,43 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 /* append.proto */
 static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
 
-/* RaiseTooManyValuesToUnpack.proto */
-static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
+/* IterFinish.proto */
+static CYTHON_INLINE int __Pyx_IterFinish(void);
+
+/* PyObjectCallMethod0.proto */
+static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
 
 /* RaiseNeedMoreValuesToUnpack.proto */
 static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
 
-/* IterFinish.proto */
-static CYTHON_INLINE int __Pyx_IterFinish(void);
+/* RaiseTooManyValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
 
 /* UnpackItemEndCheck.proto */
 static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
 
+/* RaiseNoneIterError.proto */
+static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
+
+/* UnpackTupleError.proto */
+static void __Pyx_UnpackTupleError(PyObject *, Py_ssize_t index);
+
+/* UnpackTuple2.proto */
+static CYTHON_INLINE int __Pyx_unpack_tuple2(PyObject* tuple, PyObject** value1, PyObject** value2,
+                                             int is_tuple, int has_known_size, int decref_tuple);
+
+/* dict_iter.proto */
+static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* dict, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_is_dict);
+static CYTHON_INLINE int __Pyx_dict_iter_next(PyObject* dict_or_iter, Py_ssize_t orig_length, Py_ssize_t* ppos,
+                                              PyObject** pkey, PyObject** pvalue, PyObject** pitem, int is_dict);
+
 /* RaiseKeywordRequired.proto */
 static CYTHON_INLINE void __Pyx_RaiseKeywordRequired(const char* func_name, PyObject* kw_name);
+
+/* unicode_tailmatch.proto */
+static int __Pyx_PyUnicode_Tailmatch(PyObject* s, PyObject* substr,
+                                     Py_ssize_t start, Py_ssize_t end, int direction);
 
 /* SaveResetException.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1209,10 +1225,10 @@ static const char __pyx_k_re[] = "re";
 static const char __pyx_k_st[] = "st";
 static const char __pyx_k_DYN[] = "DYN";
 static const char __pyx_k_GET[] = "GET";
-static const char __pyx_k__26[] = "{";
-static const char __pyx_k__27[] = "}";
-static const char __pyx_k__31[] = "^";
-static const char __pyx_k__32[] = "$";
+static const char __pyx_k__25[] = "{";
+static const char __pyx_k__26[] = "}";
+static const char __pyx_k__30[] = "^";
+static const char __pyx_k__31[] = "$";
 static const char __pyx_k_abc[] = "abc";
 static const char __pyx_k_all[] = "__all__";
 static const char __pyx_k_app[] = "app";
@@ -1228,8 +1244,8 @@ static const char __pyx_k_var[] = "var";
 static const char __pyx_k_GOOD[] = "GOOD";
 static const char __pyx_k_Path[] = "Path";
 static const char __pyx_k_View[] = "View";
-static const char __pyx_k__225[] = "[^{}/]+";
-static const char __pyx_k__227[] = "[.:-]";
+static const char __pyx_k__224[] = "[^{}/]+";
+static const char __pyx_k__226[] = "[.:-]";
 static const char __pyx_k_args[] = "args";
 static const char __pyx_k_exit[] = "__exit__";
 static const char __pyx_k_fobj[] = "fobj";
@@ -1609,13 +1625,14 @@ static const char __pyx_k_Instance_of_AbstractResource_cla[] = "Instance of Abst
 static const char __pyx_k_Instance_of_Route_class_is_requi[] = "Instance of Route class is required, got {!r}";
 static const char __pyx_k_UrlMappingMatchInfo_expect_handl[] = "UrlMappingMatchInfo.expect_handler";
 static const char __pyx_k_UrlMappingMatchInfo_http_excepti[] = "UrlMappingMatchInfo.http_exception";
-static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_kp_s_100_continue;
+static PyObject *__pyx_kp_u_;
+static PyObject *__pyx_kp_u_100_continue;
 static PyObject *__pyx_n_s_ABCMeta;
-static PyObject *__pyx_n_s_AIOHTTP_NOSENDFILE;
+static PyObject *__pyx_n_u_AIOHTTP_NOSENDFILE;
 static PyObject *__pyx_kp_s_A_route_with_resource;
 static PyObject *__pyx_n_s_AbstractMatchInfo;
 static PyObject *__pyx_n_s_AbstractResource;
+static PyObject *__pyx_n_u_AbstractResource;
 static PyObject *__pyx_n_s_AbstractResource___init;
 static PyObject *__pyx_n_s_AbstractResource__append_query;
 static PyObject *__pyx_n_s_AbstractResource_get_info;
@@ -1623,6 +1640,7 @@ static PyObject *__pyx_n_s_AbstractResource_name;
 static PyObject *__pyx_n_s_AbstractResource_resolve;
 static PyObject *__pyx_n_s_AbstractResource_url;
 static PyObject *__pyx_n_s_AbstractRoute;
+static PyObject *__pyx_n_u_AbstractRoute;
 static PyObject *__pyx_n_s_AbstractRoute___init;
 static PyObject *__pyx_n_s_AbstractRoute_get_info;
 static PyObject *__pyx_n_s_AbstractRoute_handle_expect_head;
@@ -1633,37 +1651,39 @@ static PyObject *__pyx_n_s_AbstractRoute_resource;
 static PyObject *__pyx_n_s_AbstractRoute_url;
 static PyObject *__pyx_n_s_AbstractRouter;
 static PyObject *__pyx_n_s_AbstractView;
-static PyObject *__pyx_kp_s_Added_route_will_never_be_execut;
-static PyObject *__pyx_kp_s_Bad_pattern;
-static PyObject *__pyx_kp_s_Bare_generators_are_deprecated_u;
+static PyObject *__pyx_kp_u_Added_route_will_never_be_execut;
+static PyObject *__pyx_kp_u_Bad_pattern;
+static PyObject *__pyx_kp_u_Bare_generators_are_deprecated_u;
 static PyObject *__pyx_n_s_BlockingIOError;
 static PyObject *__pyx_n_s_CONTENT_ENCODING;
 static PyObject *__pyx_n_s_Container;
-static PyObject *__pyx_kp_s_Coroutine_is_expected_got_r;
+static PyObject *__pyx_kp_u_Coroutine_is_expected_got_r;
 static PyObject *__pyx_n_s_DYN;
 static PyObject *__pyx_n_s_DYN_WITH_RE;
 static PyObject *__pyx_n_s_DeprecationWarning;
-static PyObject *__pyx_kp_s_Duplicate_r_already_handled_by_r;
+static PyObject *__pyx_kp_u_Duplicate_r_already_handled_by_r;
 static PyObject *__pyx_n_s_DynamicResource;
+static PyObject *__pyx_n_u_DynamicResource;
 static PyObject *__pyx_n_s_DynamicResource___init;
 static PyObject *__pyx_n_s_DynamicResource___repr;
 static PyObject *__pyx_n_s_DynamicResource__match;
 static PyObject *__pyx_n_s_DynamicResource_get_info;
-static PyObject *__pyx_kp_s_DynamicResource_name_formatter;
+static PyObject *__pyx_kp_u_DynamicResource_name_formatter;
 static PyObject *__pyx_n_s_DynamicResource_url;
 static PyObject *__pyx_n_s_DynamicRoute;
+static PyObject *__pyx_n_u_DynamicRoute;
 static PyObject *__pyx_n_s_DynamicRoute___init;
 static PyObject *__pyx_n_s_DynamicRoute___repr;
 static PyObject *__pyx_n_s_DynamicRoute_get_info;
 static PyObject *__pyx_n_s_DynamicRoute_match;
-static PyObject *__pyx_kp_s_DynamicRoute_name_method_format;
+static PyObject *__pyx_kp_u_DynamicRoute_name_method_format;
 static PyObject *__pyx_n_s_DynamicRoute_url;
 static PyObject *__pyx_n_s_EXPECT;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
 static PyObject *__pyx_n_s_Exception;
 static PyObject *__pyx_n_s_FileNotFoundError;
 static PyObject *__pyx_n_s_Future;
-static PyObject *__pyx_n_s_GET;
+static PyObject *__pyx_n_u_GET;
 static PyObject *__pyx_n_s_GOOD;
 static PyObject *__pyx_n_s_HTTPExpectationFailed;
 static PyObject *__pyx_n_s_HTTPMethodNotAllowed;
@@ -1671,50 +1691,54 @@ static PyObject *__pyx_n_s_HTTPNotFound;
 static PyObject *__pyx_n_s_HTTPNotModified;
 static PyObject *__pyx_kp_b_HTTP_1_1_100_Continue;
 static PyObject *__pyx_n_s_HttpVersion11;
-static PyObject *__pyx_kp_s_Incorrect_route_name_r_the_name;
-static PyObject *__pyx_kp_s_Instance_of_AbstractResource_cla;
-static PyObject *__pyx_kp_s_Instance_of_Route_class_is_requi;
+static PyObject *__pyx_kp_u_Incorrect_route_name_r_the_name;
+static PyObject *__pyx_kp_u_Instance_of_AbstractResource_cla;
+static PyObject *__pyx_kp_u_Instance_of_Route_class_is_requi;
 static PyObject *__pyx_n_s_InterruptedError;
-static PyObject *__pyx_kp_s_Invalid_path;
+static PyObject *__pyx_kp_u_Invalid_path;
 static PyObject *__pyx_n_s_Iterable;
 static PyObject *__pyx_n_s_METHODS;
 static PyObject *__pyx_n_s_METH_ALL;
 static PyObject *__pyx_n_s_METH_ANY;
 static PyObject *__pyx_n_s_Mapping;
 static PyObject *__pyx_n_s_MappingProxyType;
-static PyObject *__pyx_kp_s_MatchInfo;
-static PyObject *__pyx_kp_s_MatchInfoError;
+static PyObject *__pyx_kp_u_MatchInfo;
+static PyObject *__pyx_kp_u_MatchInfoError;
 static PyObject *__pyx_n_s_MatchInfoError_2;
 static PyObject *__pyx_n_s_MatchInfoError___init;
 static PyObject *__pyx_n_s_MatchInfoError___repr;
 static PyObject *__pyx_n_s_MatchInfoError_http_exception;
 static PyObject *__pyx_n_s_NAME_SPLIT_RE;
-static PyObject *__pyx_kp_s_No_directory_exists_at;
-static PyObject *__pyx_kp_s_Not_a_directory;
+static PyObject *__pyx_kp_u_No_directory_exists_at;
+static PyObject *__pyx_kp_u_Not_a_directory;
 static PyObject *__pyx_kp_s_Old_fashion_route;
-static PyObject *__pyx_kp_s_P;
+static PyObject *__pyx_kp_u_P;
 static PyObject *__pyx_n_s_PY_35;
-static PyObject *__pyx_kp_s_P_var_a_zA_Z__a_zA_Z0_9;
-static PyObject *__pyx_kp_s_P_var_a_zA_Z__a_zA_Z0_9_P_re;
-static PyObject *__pyx_kp_s_P_var_re;
+static PyObject *__pyx_kp_u_P_var_a_zA_Z__a_zA_Z0_9;
+static PyObject *__pyx_kp_u_P_var_a_zA_Z__a_zA_Z0_9_P_re;
+static PyObject *__pyx_kp_u_P_var_re;
 static PyObject *__pyx_n_s_Path;
 static PyObject *__pyx_n_s_PlainResource;
+static PyObject *__pyx_n_u_PlainResource;
 static PyObject *__pyx_n_s_PlainResource___init;
 static PyObject *__pyx_n_s_PlainResource___repr;
 static PyObject *__pyx_n_s_PlainResource__match;
 static PyObject *__pyx_n_s_PlainResource_get_info;
-static PyObject *__pyx_kp_s_PlainResource_name_path;
+static PyObject *__pyx_kp_u_PlainResource_name_path;
 static PyObject *__pyx_n_s_PlainResource_url;
 static PyObject *__pyx_n_s_PlainRoute;
+static PyObject *__pyx_n_u_PlainRoute;
 static PyObject *__pyx_n_s_PlainRoute___init;
 static PyObject *__pyx_n_s_PlainRoute___repr;
 static PyObject *__pyx_n_s_PlainRoute_get_info;
 static PyObject *__pyx_n_s_PlainRoute_match;
-static PyObject *__pyx_kp_s_PlainRoute_name_method_path_han;
+static PyObject *__pyx_kp_u_PlainRoute_name_method_path_han;
 static PyObject *__pyx_n_s_PlainRoute_url;
 static PyObject *__pyx_n_s_ROUTE_RE;
 static PyObject *__pyx_n_s_Resource;
+static PyObject *__pyx_n_u_Resource;
 static PyObject *__pyx_n_s_ResourceAdapter;
+static PyObject *__pyx_n_u_ResourceAdapter;
 static PyObject *__pyx_n_s_ResourceAdapter___init;
 static PyObject *__pyx_n_s_ResourceAdapter___iter;
 static PyObject *__pyx_n_s_ResourceAdapter___len;
@@ -1722,10 +1746,11 @@ static PyObject *__pyx_n_s_ResourceAdapter_get_info;
 static PyObject *__pyx_n_s_ResourceAdapter_resolve;
 static PyObject *__pyx_n_s_ResourceAdapter_url;
 static PyObject *__pyx_n_s_ResourceRoute;
+static PyObject *__pyx_n_u_ResourceRoute;
 static PyObject *__pyx_n_s_ResourceRoute___init;
 static PyObject *__pyx_n_s_ResourceRoute___repr;
 static PyObject *__pyx_n_s_ResourceRoute_get_info;
-static PyObject *__pyx_kp_s_ResourceRoute_method_resource_h;
+static PyObject *__pyx_kp_u_ResourceRoute_method_resource_h;
 static PyObject *__pyx_n_s_ResourceRoute_name;
 static PyObject *__pyx_n_s_ResourceRoute_url;
 static PyObject *__pyx_n_s_Resource___init;
@@ -1740,6 +1765,7 @@ static PyObject *__pyx_n_s_ResourcesView___init;
 static PyObject *__pyx_n_s_ResourcesView___iter;
 static PyObject *__pyx_n_s_ResourcesView___len;
 static PyObject *__pyx_n_s_Route;
+static PyObject *__pyx_n_u_Route;
 static PyObject *__pyx_n_s_Route___init;
 static PyObject *__pyx_n_s_Route_match;
 static PyObject *__pyx_n_s_Route_name;
@@ -1751,6 +1777,7 @@ static PyObject *__pyx_n_s_RoutesView___len;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_Sized;
 static PyObject *__pyx_n_s_StaticRoute;
+static PyObject *__pyx_n_u_StaticRoute;
 static PyObject *__pyx_n_s_StaticRoute___init;
 static PyObject *__pyx_n_s_StaticRoute___repr;
 static PyObject *__pyx_n_s_StaticRoute__sendfile_cb;
@@ -1759,7 +1786,7 @@ static PyObject *__pyx_n_s_StaticRoute__sendfile_system;
 static PyObject *__pyx_n_s_StaticRoute_get_info;
 static PyObject *__pyx_n_s_StaticRoute_handle;
 static PyObject *__pyx_n_s_StaticRoute_match;
-static PyObject *__pyx_kp_s_StaticRoute_name_method_path_di;
+static PyObject *__pyx_kp_u_StaticRoute_name_method_path_di;
 static PyObject *__pyx_n_s_StaticRoute_url;
 static PyObject *__pyx_n_s_StreamResponse;
 static PyObject *__pyx_n_s_SystemRoute;
@@ -1769,11 +1796,12 @@ static PyObject *__pyx_n_s_SystemRoute__handler;
 static PyObject *__pyx_n_s_SystemRoute_get_info;
 static PyObject *__pyx_n_s_SystemRoute_match;
 static PyObject *__pyx_n_s_SystemRoute_reason;
-static PyObject *__pyx_kp_s_SystemRoute_self_status_self_re;
+static PyObject *__pyx_kp_u_SystemRoute_self_status_self_re;
 static PyObject *__pyx_n_s_SystemRoute_status;
 static PyObject *__pyx_n_s_SystemRoute_url;
-static PyObject *__pyx_kp_s_Unknown_Expect_s;
+static PyObject *__pyx_kp_u_Unknown_Expect_s;
 static PyObject *__pyx_n_s_UrlDispatcher;
+static PyObject *__pyx_n_u_UrlDispatcher;
 static PyObject *__pyx_n_s_UrlDispatcher___contains;
 static PyObject *__pyx_n_s_UrlDispatcher___getitem;
 static PyObject *__pyx_n_s_UrlDispatcher___init;
@@ -1790,6 +1818,7 @@ static PyObject *__pyx_n_s_UrlDispatcher_resolve;
 static PyObject *__pyx_n_s_UrlDispatcher_resources;
 static PyObject *__pyx_n_s_UrlDispatcher_routes;
 static PyObject *__pyx_n_s_UrlMappingMatchInfo;
+static PyObject *__pyx_n_u_UrlMappingMatchInfo;
 static PyObject *__pyx_n_s_UrlMappingMatchInfo___init;
 static PyObject *__pyx_n_s_UrlMappingMatchInfo___repr;
 static PyObject *__pyx_n_s_UrlMappingMatchInfo_expect_handl;
@@ -1797,25 +1826,27 @@ static PyObject *__pyx_n_s_UrlMappingMatchInfo_get_info;
 static PyObject *__pyx_n_s_UrlMappingMatchInfo_handler;
 static PyObject *__pyx_n_s_UrlMappingMatchInfo_http_excepti;
 static PyObject *__pyx_n_s_UrlMappingMatchInfo_route;
-static PyObject *__pyx_kp_s_Use_named_resources_instead;
-static PyObject *__pyx_kp_s_Use_resource_based_interface;
+static PyObject *__pyx_kp_u_Use_named_resources_instead;
+static PyObject *__pyx_kp_u_Use_resource_based_interface;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View;
+static PyObject *__pyx_n_u_View;
 static PyObject *__pyx_n_s_View___await;
 static PyObject *__pyx_n_s_View___iter;
 static PyObject *__pyx_n_s_View__raise_allowed_methods;
-static PyObject *__pyx_kp_s__225;
-static PyObject *__pyx_kp_s__227;
-static PyObject *__pyx_kp_s__26;
-static PyObject *__pyx_kp_s__27;
-static PyObject *__pyx_kp_s__3;
-static PyObject *__pyx_kp_s__31;
-static PyObject *__pyx_kp_s__32;
-static PyObject *__pyx_kp_s__4;
-static PyObject *__pyx_kp_s__5;
-static PyObject *__pyx_kp_s__6;
-static PyObject *__pyx_kp_s__9;
-static PyObject *__pyx_kp_s_a_zA_Z;
+static PyObject *__pyx_kp_u__224;
+static PyObject *__pyx_kp_u__226;
+static PyObject *__pyx_kp_u__25;
+static PyObject *__pyx_kp_u__26;
+static PyObject *__pyx_kp_u__3;
+static PyObject *__pyx_kp_u__30;
+static PyObject *__pyx_kp_u__31;
+static PyObject *__pyx_kp_u__4;
+static PyObject *__pyx_n_s__5;
+static PyObject *__pyx_kp_u__5;
+static PyObject *__pyx_kp_u__6;
+static PyObject *__pyx_kp_u__9;
+static PyObject *__pyx_kp_u_a_zA_Z;
 static PyObject *__pyx_n_s_abc;
 static PyObject *__pyx_n_s_abstractmethod;
 static PyObject *__pyx_n_s_add_resource;
@@ -1829,7 +1860,7 @@ static PyObject *__pyx_n_s_allowed_methods;
 static PyObject *__pyx_n_s_app;
 static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_append_query;
-static PyObject *__pyx_kp_s_application_octet_stream;
+static PyObject *__pyx_kp_u_application_octet_stream;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asyncio;
 static PyObject *__pyx_n_s_asyncio_coroutines;
@@ -1851,6 +1882,7 @@ static PyObject *__pyx_n_s_count;
 static PyObject *__pyx_n_s_ct;
 static PyObject *__pyx_n_s_defaultExpectHandler;
 static PyObject *__pyx_n_s_directory;
+static PyObject *__pyx_n_u_directory;
 static PyObject *__pyx_n_s_directory_2;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_drain;
@@ -1871,12 +1903,14 @@ static PyObject *__pyx_n_s_expect_handler_2;
 static PyObject *__pyx_n_s_f;
 static PyObject *__pyx_n_s_file_size;
 static PyObject *__pyx_n_s_filename;
+static PyObject *__pyx_n_u_filename;
 static PyObject *__pyx_n_s_fileno;
 static PyObject *__pyx_n_s_filepath;
 static PyObject *__pyx_n_s_fobj;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_format_map;
 static PyObject *__pyx_n_s_formatter;
+static PyObject *__pyx_n_u_formatter;
 static PyObject *__pyx_n_s_formatter_2;
 static PyObject *__pyx_n_s_fut;
 static PyObject *__pyx_n_s_get;
@@ -1893,6 +1927,7 @@ static PyObject *__pyx_n_s_handler_2;
 static PyObject *__pyx_n_s_hdrs;
 static PyObject *__pyx_n_s_headers;
 static PyObject *__pyx_n_s_http_exception;
+static PyObject *__pyx_n_u_http_exception;
 static PyObject *__pyx_n_s_http_exception_2;
 static PyObject *__pyx_n_s_if_modified_since;
 static PyObject *__pyx_n_s_import;
@@ -1900,7 +1935,7 @@ static PyObject *__pyx_n_s_in_fd;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_inspect;
 static PyObject *__pyx_n_s_is_dir;
-static PyObject *__pyx_kp_s_is_not_allowed_HTTP_method;
+static PyObject *__pyx_kp_u_is_not_allowed_HTTP_method;
 static PyObject *__pyx_n_s_iscoroutinefunction;
 static PyObject *__pyx_n_s_isgeneratorfunction;
 static PyObject *__pyx_n_s_isidentifier;
@@ -1940,12 +1975,15 @@ static PyObject *__pyx_n_s_out_fd;
 static PyObject *__pyx_n_s_part;
 static PyObject *__pyx_n_s_parts;
 static PyObject *__pyx_n_s_path;
+static PyObject *__pyx_n_u_path;
 static PyObject *__pyx_n_s_path_2;
-static PyObject *__pyx_kp_s_path_should_be_started_with;
+static PyObject *__pyx_kp_u_path_should_be_started_with;
 static PyObject *__pyx_n_s_pathlib;
 static PyObject *__pyx_n_s_pattern;
+static PyObject *__pyx_n_u_pattern;
 static PyObject *__pyx_n_s_pattern_2;
 static PyObject *__pyx_n_s_prefix;
+static PyObject *__pyx_n_u_prefix;
 static PyObject *__pyx_n_s_prefix_2;
 static PyObject *__pyx_n_s_prefix_len;
 static PyObject *__pyx_n_s_prepare;
@@ -1956,7 +1994,7 @@ static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_query;
 static PyObject *__pyx_n_s_raise_allowed_methods;
 static PyObject *__pyx_n_s_raw_path;
-static PyObject *__pyx_n_s_rb;
+static PyObject *__pyx_n_u_rb;
 static PyObject *__pyx_n_s_re;
 static PyObject *__pyx_n_s_read;
 static PyObject *__pyx_n_s_reason;
@@ -1986,6 +2024,7 @@ static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_sendfile;
 static PyObject *__pyx_n_s_sendfile_2;
+static PyObject *__pyx_n_u_sendfile_2;
 static PyObject *__pyx_n_s_sendfile_cb;
 static PyObject *__pyx_n_s_sendfile_fallback;
 static PyObject *__pyx_n_s_sendfile_system;
@@ -1993,9 +2032,9 @@ static PyObject *__pyx_n_s_set_exception;
 static PyObject *__pyx_n_s_set_result;
 static PyObject *__pyx_n_s_set_tcp_cork;
 static PyObject *__pyx_n_s_set_tcp_nodelay;
-static PyObject *__pyx_n_s_socket;
+static PyObject *__pyx_n_u_socket;
 static PyObject *__pyx_n_s_split;
-static PyObject *__pyx_n_s_sslcontext;
+static PyObject *__pyx_n_u_sslcontext;
 static PyObject *__pyx_n_s_st;
 static PyObject *__pyx_n_s_st_mtime;
 static PyObject *__pyx_n_s_st_size;
@@ -2014,10 +2053,10 @@ static PyObject *__pyx_n_s_types;
 static PyObject *__pyx_n_s_unquote;
 static PyObject *__pyx_n_s_upstr;
 static PyObject *__pyx_n_s_url;
-static PyObject *__pyx_kp_s_url_is_not_allowed_for_SystemRo;
+static PyObject *__pyx_kp_u_url_is_not_allowed_for_SystemRo;
 static PyObject *__pyx_n_s_urlencode;
 static PyObject *__pyx_n_s_urllib_parse;
-static PyObject *__pyx_n_s_var;
+static PyObject *__pyx_n_u_var;
 static PyObject *__pyx_n_s_version;
 static PyObject *__pyx_n_s_version_info;
 static PyObject *__pyx_n_s_warn;
@@ -2153,11 +2192,11 @@ static PyObject *__pyx_int_262144;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
-static PyObject *__pyx_slice__14;
+static PyObject *__pyx_slice__13;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
-static PyObject *__pyx_tuple__13;
+static PyObject *__pyx_tuple__14;
 static PyObject *__pyx_tuple__15;
 static PyObject *__pyx_tuple__16;
 static PyObject *__pyx_tuple__17;
@@ -2168,234 +2207,233 @@ static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__22;
 static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_tuple__24;
-static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__27;
 static PyObject *__pyx_tuple__28;
 static PyObject *__pyx_tuple__29;
-static PyObject *__pyx_tuple__30;
+static PyObject *__pyx_tuple__32;
 static PyObject *__pyx_tuple__33;
 static PyObject *__pyx_tuple__34;
 static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__36;
-static PyObject *__pyx_tuple__37;
-static PyObject *__pyx_tuple__39;
-static PyObject *__pyx_tuple__41;
-static PyObject *__pyx_tuple__43;
-static PyObject *__pyx_tuple__45;
-static PyObject *__pyx_tuple__47;
-static PyObject *__pyx_tuple__49;
-static PyObject *__pyx_tuple__51;
-static PyObject *__pyx_tuple__53;
-static PyObject *__pyx_tuple__55;
-static PyObject *__pyx_tuple__57;
-static PyObject *__pyx_tuple__59;
-static PyObject *__pyx_tuple__61;
-static PyObject *__pyx_tuple__63;
-static PyObject *__pyx_tuple__65;
-static PyObject *__pyx_tuple__67;
-static PyObject *__pyx_tuple__69;
-static PyObject *__pyx_tuple__71;
-static PyObject *__pyx_tuple__73;
-static PyObject *__pyx_tuple__75;
-static PyObject *__pyx_tuple__77;
-static PyObject *__pyx_tuple__79;
-static PyObject *__pyx_tuple__81;
-static PyObject *__pyx_tuple__83;
-static PyObject *__pyx_tuple__85;
-static PyObject *__pyx_tuple__87;
-static PyObject *__pyx_tuple__89;
-static PyObject *__pyx_tuple__91;
-static PyObject *__pyx_tuple__93;
-static PyObject *__pyx_tuple__95;
-static PyObject *__pyx_tuple__97;
-static PyObject *__pyx_tuple__99;
-static PyObject *__pyx_tuple__101;
-static PyObject *__pyx_tuple__103;
-static PyObject *__pyx_tuple__105;
-static PyObject *__pyx_tuple__107;
-static PyObject *__pyx_tuple__109;
-static PyObject *__pyx_tuple__111;
-static PyObject *__pyx_tuple__113;
-static PyObject *__pyx_tuple__115;
-static PyObject *__pyx_tuple__117;
-static PyObject *__pyx_tuple__119;
-static PyObject *__pyx_tuple__121;
-static PyObject *__pyx_tuple__123;
-static PyObject *__pyx_tuple__125;
-static PyObject *__pyx_tuple__127;
-static PyObject *__pyx_tuple__129;
-static PyObject *__pyx_tuple__131;
-static PyObject *__pyx_tuple__133;
-static PyObject *__pyx_tuple__135;
-static PyObject *__pyx_tuple__137;
-static PyObject *__pyx_tuple__139;
-static PyObject *__pyx_tuple__141;
-static PyObject *__pyx_tuple__143;
-static PyObject *__pyx_tuple__145;
-static PyObject *__pyx_tuple__147;
-static PyObject *__pyx_tuple__149;
-static PyObject *__pyx_tuple__151;
-static PyObject *__pyx_tuple__153;
-static PyObject *__pyx_tuple__155;
-static PyObject *__pyx_tuple__157;
-static PyObject *__pyx_tuple__159;
-static PyObject *__pyx_tuple__161;
-static PyObject *__pyx_tuple__163;
-static PyObject *__pyx_tuple__165;
-static PyObject *__pyx_tuple__167;
-static PyObject *__pyx_tuple__169;
-static PyObject *__pyx_tuple__171;
-static PyObject *__pyx_tuple__173;
-static PyObject *__pyx_tuple__175;
-static PyObject *__pyx_tuple__177;
-static PyObject *__pyx_tuple__179;
-static PyObject *__pyx_tuple__181;
-static PyObject *__pyx_tuple__183;
-static PyObject *__pyx_tuple__185;
-static PyObject *__pyx_tuple__187;
-static PyObject *__pyx_tuple__189;
-static PyObject *__pyx_tuple__191;
-static PyObject *__pyx_tuple__193;
-static PyObject *__pyx_tuple__195;
-static PyObject *__pyx_tuple__197;
-static PyObject *__pyx_tuple__199;
-static PyObject *__pyx_tuple__201;
-static PyObject *__pyx_tuple__203;
-static PyObject *__pyx_tuple__205;
-static PyObject *__pyx_tuple__207;
-static PyObject *__pyx_tuple__209;
-static PyObject *__pyx_tuple__211;
-static PyObject *__pyx_tuple__213;
-static PyObject *__pyx_tuple__215;
-static PyObject *__pyx_tuple__217;
-static PyObject *__pyx_tuple__219;
-static PyObject *__pyx_tuple__221;
+static PyObject *__pyx_tuple__38;
+static PyObject *__pyx_tuple__40;
+static PyObject *__pyx_tuple__42;
+static PyObject *__pyx_tuple__44;
+static PyObject *__pyx_tuple__46;
+static PyObject *__pyx_tuple__48;
+static PyObject *__pyx_tuple__50;
+static PyObject *__pyx_tuple__52;
+static PyObject *__pyx_tuple__54;
+static PyObject *__pyx_tuple__56;
+static PyObject *__pyx_tuple__58;
+static PyObject *__pyx_tuple__60;
+static PyObject *__pyx_tuple__62;
+static PyObject *__pyx_tuple__64;
+static PyObject *__pyx_tuple__66;
+static PyObject *__pyx_tuple__68;
+static PyObject *__pyx_tuple__70;
+static PyObject *__pyx_tuple__72;
+static PyObject *__pyx_tuple__74;
+static PyObject *__pyx_tuple__76;
+static PyObject *__pyx_tuple__78;
+static PyObject *__pyx_tuple__80;
+static PyObject *__pyx_tuple__82;
+static PyObject *__pyx_tuple__84;
+static PyObject *__pyx_tuple__86;
+static PyObject *__pyx_tuple__88;
+static PyObject *__pyx_tuple__90;
+static PyObject *__pyx_tuple__92;
+static PyObject *__pyx_tuple__94;
+static PyObject *__pyx_tuple__96;
+static PyObject *__pyx_tuple__98;
+static PyObject *__pyx_tuple__100;
+static PyObject *__pyx_tuple__102;
+static PyObject *__pyx_tuple__104;
+static PyObject *__pyx_tuple__106;
+static PyObject *__pyx_tuple__108;
+static PyObject *__pyx_tuple__110;
+static PyObject *__pyx_tuple__112;
+static PyObject *__pyx_tuple__114;
+static PyObject *__pyx_tuple__116;
+static PyObject *__pyx_tuple__118;
+static PyObject *__pyx_tuple__120;
+static PyObject *__pyx_tuple__122;
+static PyObject *__pyx_tuple__124;
+static PyObject *__pyx_tuple__126;
+static PyObject *__pyx_tuple__128;
+static PyObject *__pyx_tuple__130;
+static PyObject *__pyx_tuple__132;
+static PyObject *__pyx_tuple__134;
+static PyObject *__pyx_tuple__136;
+static PyObject *__pyx_tuple__138;
+static PyObject *__pyx_tuple__140;
+static PyObject *__pyx_tuple__142;
+static PyObject *__pyx_tuple__144;
+static PyObject *__pyx_tuple__146;
+static PyObject *__pyx_tuple__148;
+static PyObject *__pyx_tuple__150;
+static PyObject *__pyx_tuple__152;
+static PyObject *__pyx_tuple__154;
+static PyObject *__pyx_tuple__156;
+static PyObject *__pyx_tuple__158;
+static PyObject *__pyx_tuple__160;
+static PyObject *__pyx_tuple__162;
+static PyObject *__pyx_tuple__164;
+static PyObject *__pyx_tuple__166;
+static PyObject *__pyx_tuple__168;
+static PyObject *__pyx_tuple__170;
+static PyObject *__pyx_tuple__172;
+static PyObject *__pyx_tuple__174;
+static PyObject *__pyx_tuple__176;
+static PyObject *__pyx_tuple__178;
+static PyObject *__pyx_tuple__180;
+static PyObject *__pyx_tuple__182;
+static PyObject *__pyx_tuple__184;
+static PyObject *__pyx_tuple__186;
+static PyObject *__pyx_tuple__188;
+static PyObject *__pyx_tuple__190;
+static PyObject *__pyx_tuple__192;
+static PyObject *__pyx_tuple__194;
+static PyObject *__pyx_tuple__196;
+static PyObject *__pyx_tuple__198;
+static PyObject *__pyx_tuple__200;
+static PyObject *__pyx_tuple__202;
+static PyObject *__pyx_tuple__204;
+static PyObject *__pyx_tuple__206;
+static PyObject *__pyx_tuple__208;
+static PyObject *__pyx_tuple__210;
+static PyObject *__pyx_tuple__212;
+static PyObject *__pyx_tuple__214;
+static PyObject *__pyx_tuple__216;
+static PyObject *__pyx_tuple__218;
+static PyObject *__pyx_tuple__220;
+static PyObject *__pyx_tuple__222;
 static PyObject *__pyx_tuple__223;
-static PyObject *__pyx_tuple__224;
-static PyObject *__pyx_tuple__226;
+static PyObject *__pyx_tuple__225;
+static PyObject *__pyx_tuple__227;
 static PyObject *__pyx_tuple__228;
-static PyObject *__pyx_tuple__229;
-static PyObject *__pyx_tuple__231;
-static PyObject *__pyx_tuple__233;
-static PyObject *__pyx_tuple__235;
-static PyObject *__pyx_tuple__237;
-static PyObject *__pyx_tuple__239;
-static PyObject *__pyx_tuple__241;
-static PyObject *__pyx_tuple__243;
-static PyObject *__pyx_tuple__245;
-static PyObject *__pyx_tuple__247;
-static PyObject *__pyx_tuple__249;
-static PyObject *__pyx_tuple__251;
-static PyObject *__pyx_tuple__253;
-static PyObject *__pyx_tuple__255;
-static PyObject *__pyx_tuple__257;
-static PyObject *__pyx_codeobj__38;
-static PyObject *__pyx_codeobj__40;
-static PyObject *__pyx_codeobj__42;
-static PyObject *__pyx_codeobj__44;
-static PyObject *__pyx_codeobj__46;
-static PyObject *__pyx_codeobj__48;
-static PyObject *__pyx_codeobj__50;
-static PyObject *__pyx_codeobj__52;
-static PyObject *__pyx_codeobj__54;
-static PyObject *__pyx_codeobj__56;
-static PyObject *__pyx_codeobj__58;
-static PyObject *__pyx_codeobj__60;
-static PyObject *__pyx_codeobj__62;
-static PyObject *__pyx_codeobj__64;
-static PyObject *__pyx_codeobj__66;
-static PyObject *__pyx_codeobj__68;
-static PyObject *__pyx_codeobj__70;
-static PyObject *__pyx_codeobj__72;
-static PyObject *__pyx_codeobj__74;
-static PyObject *__pyx_codeobj__76;
-static PyObject *__pyx_codeobj__78;
-static PyObject *__pyx_codeobj__80;
-static PyObject *__pyx_codeobj__82;
-static PyObject *__pyx_codeobj__84;
-static PyObject *__pyx_codeobj__86;
-static PyObject *__pyx_codeobj__88;
-static PyObject *__pyx_codeobj__90;
-static PyObject *__pyx_codeobj__92;
-static PyObject *__pyx_codeobj__94;
-static PyObject *__pyx_codeobj__96;
-static PyObject *__pyx_codeobj__98;
-static PyObject *__pyx_codeobj__100;
-static PyObject *__pyx_codeobj__102;
-static PyObject *__pyx_codeobj__104;
-static PyObject *__pyx_codeobj__106;
-static PyObject *__pyx_codeobj__108;
-static PyObject *__pyx_codeobj__110;
-static PyObject *__pyx_codeobj__112;
-static PyObject *__pyx_codeobj__114;
-static PyObject *__pyx_codeobj__116;
-static PyObject *__pyx_codeobj__118;
-static PyObject *__pyx_codeobj__120;
-static PyObject *__pyx_codeobj__122;
-static PyObject *__pyx_codeobj__124;
-static PyObject *__pyx_codeobj__126;
-static PyObject *__pyx_codeobj__128;
-static PyObject *__pyx_codeobj__130;
-static PyObject *__pyx_codeobj__132;
-static PyObject *__pyx_codeobj__134;
-static PyObject *__pyx_codeobj__136;
-static PyObject *__pyx_codeobj__138;
-static PyObject *__pyx_codeobj__140;
-static PyObject *__pyx_codeobj__142;
-static PyObject *__pyx_codeobj__144;
-static PyObject *__pyx_codeobj__146;
-static PyObject *__pyx_codeobj__148;
-static PyObject *__pyx_codeobj__150;
-static PyObject *__pyx_codeobj__152;
-static PyObject *__pyx_codeobj__154;
-static PyObject *__pyx_codeobj__156;
-static PyObject *__pyx_codeobj__158;
-static PyObject *__pyx_codeobj__160;
-static PyObject *__pyx_codeobj__162;
-static PyObject *__pyx_codeobj__164;
-static PyObject *__pyx_codeobj__166;
-static PyObject *__pyx_codeobj__168;
-static PyObject *__pyx_codeobj__170;
-static PyObject *__pyx_codeobj__172;
-static PyObject *__pyx_codeobj__174;
-static PyObject *__pyx_codeobj__176;
-static PyObject *__pyx_codeobj__178;
-static PyObject *__pyx_codeobj__180;
-static PyObject *__pyx_codeobj__182;
-static PyObject *__pyx_codeobj__184;
-static PyObject *__pyx_codeobj__186;
-static PyObject *__pyx_codeobj__188;
-static PyObject *__pyx_codeobj__190;
-static PyObject *__pyx_codeobj__192;
-static PyObject *__pyx_codeobj__194;
-static PyObject *__pyx_codeobj__196;
-static PyObject *__pyx_codeobj__198;
-static PyObject *__pyx_codeobj__200;
-static PyObject *__pyx_codeobj__202;
-static PyObject *__pyx_codeobj__204;
-static PyObject *__pyx_codeobj__206;
-static PyObject *__pyx_codeobj__208;
-static PyObject *__pyx_codeobj__210;
-static PyObject *__pyx_codeobj__212;
-static PyObject *__pyx_codeobj__214;
-static PyObject *__pyx_codeobj__216;
-static PyObject *__pyx_codeobj__218;
-static PyObject *__pyx_codeobj__220;
-static PyObject *__pyx_codeobj__222;
-static PyObject *__pyx_codeobj__230;
-static PyObject *__pyx_codeobj__232;
-static PyObject *__pyx_codeobj__234;
-static PyObject *__pyx_codeobj__236;
-static PyObject *__pyx_codeobj__238;
-static PyObject *__pyx_codeobj__240;
-static PyObject *__pyx_codeobj__242;
-static PyObject *__pyx_codeobj__244;
-static PyObject *__pyx_codeobj__246;
-static PyObject *__pyx_codeobj__248;
-static PyObject *__pyx_codeobj__250;
-static PyObject *__pyx_codeobj__252;
-static PyObject *__pyx_codeobj__254;
-static PyObject *__pyx_codeobj__256;
-static PyObject *__pyx_codeobj__258;
+static PyObject *__pyx_tuple__230;
+static PyObject *__pyx_tuple__232;
+static PyObject *__pyx_tuple__234;
+static PyObject *__pyx_tuple__236;
+static PyObject *__pyx_tuple__238;
+static PyObject *__pyx_tuple__240;
+static PyObject *__pyx_tuple__242;
+static PyObject *__pyx_tuple__244;
+static PyObject *__pyx_tuple__246;
+static PyObject *__pyx_tuple__248;
+static PyObject *__pyx_tuple__250;
+static PyObject *__pyx_tuple__252;
+static PyObject *__pyx_tuple__254;
+static PyObject *__pyx_tuple__256;
+static PyObject *__pyx_codeobj__37;
+static PyObject *__pyx_codeobj__39;
+static PyObject *__pyx_codeobj__41;
+static PyObject *__pyx_codeobj__43;
+static PyObject *__pyx_codeobj__45;
+static PyObject *__pyx_codeobj__47;
+static PyObject *__pyx_codeobj__49;
+static PyObject *__pyx_codeobj__51;
+static PyObject *__pyx_codeobj__53;
+static PyObject *__pyx_codeobj__55;
+static PyObject *__pyx_codeobj__57;
+static PyObject *__pyx_codeobj__59;
+static PyObject *__pyx_codeobj__61;
+static PyObject *__pyx_codeobj__63;
+static PyObject *__pyx_codeobj__65;
+static PyObject *__pyx_codeobj__67;
+static PyObject *__pyx_codeobj__69;
+static PyObject *__pyx_codeobj__71;
+static PyObject *__pyx_codeobj__73;
+static PyObject *__pyx_codeobj__75;
+static PyObject *__pyx_codeobj__77;
+static PyObject *__pyx_codeobj__79;
+static PyObject *__pyx_codeobj__81;
+static PyObject *__pyx_codeobj__83;
+static PyObject *__pyx_codeobj__85;
+static PyObject *__pyx_codeobj__87;
+static PyObject *__pyx_codeobj__89;
+static PyObject *__pyx_codeobj__91;
+static PyObject *__pyx_codeobj__93;
+static PyObject *__pyx_codeobj__95;
+static PyObject *__pyx_codeobj__97;
+static PyObject *__pyx_codeobj__99;
+static PyObject *__pyx_codeobj__101;
+static PyObject *__pyx_codeobj__103;
+static PyObject *__pyx_codeobj__105;
+static PyObject *__pyx_codeobj__107;
+static PyObject *__pyx_codeobj__109;
+static PyObject *__pyx_codeobj__111;
+static PyObject *__pyx_codeobj__113;
+static PyObject *__pyx_codeobj__115;
+static PyObject *__pyx_codeobj__117;
+static PyObject *__pyx_codeobj__119;
+static PyObject *__pyx_codeobj__121;
+static PyObject *__pyx_codeobj__123;
+static PyObject *__pyx_codeobj__125;
+static PyObject *__pyx_codeobj__127;
+static PyObject *__pyx_codeobj__129;
+static PyObject *__pyx_codeobj__131;
+static PyObject *__pyx_codeobj__133;
+static PyObject *__pyx_codeobj__135;
+static PyObject *__pyx_codeobj__137;
+static PyObject *__pyx_codeobj__139;
+static PyObject *__pyx_codeobj__141;
+static PyObject *__pyx_codeobj__143;
+static PyObject *__pyx_codeobj__145;
+static PyObject *__pyx_codeobj__147;
+static PyObject *__pyx_codeobj__149;
+static PyObject *__pyx_codeobj__151;
+static PyObject *__pyx_codeobj__153;
+static PyObject *__pyx_codeobj__155;
+static PyObject *__pyx_codeobj__157;
+static PyObject *__pyx_codeobj__159;
+static PyObject *__pyx_codeobj__161;
+static PyObject *__pyx_codeobj__163;
+static PyObject *__pyx_codeobj__165;
+static PyObject *__pyx_codeobj__167;
+static PyObject *__pyx_codeobj__169;
+static PyObject *__pyx_codeobj__171;
+static PyObject *__pyx_codeobj__173;
+static PyObject *__pyx_codeobj__175;
+static PyObject *__pyx_codeobj__177;
+static PyObject *__pyx_codeobj__179;
+static PyObject *__pyx_codeobj__181;
+static PyObject *__pyx_codeobj__183;
+static PyObject *__pyx_codeobj__185;
+static PyObject *__pyx_codeobj__187;
+static PyObject *__pyx_codeobj__189;
+static PyObject *__pyx_codeobj__191;
+static PyObject *__pyx_codeobj__193;
+static PyObject *__pyx_codeobj__195;
+static PyObject *__pyx_codeobj__197;
+static PyObject *__pyx_codeobj__199;
+static PyObject *__pyx_codeobj__201;
+static PyObject *__pyx_codeobj__203;
+static PyObject *__pyx_codeobj__205;
+static PyObject *__pyx_codeobj__207;
+static PyObject *__pyx_codeobj__209;
+static PyObject *__pyx_codeobj__211;
+static PyObject *__pyx_codeobj__213;
+static PyObject *__pyx_codeobj__215;
+static PyObject *__pyx_codeobj__217;
+static PyObject *__pyx_codeobj__219;
+static PyObject *__pyx_codeobj__221;
+static PyObject *__pyx_codeobj__229;
+static PyObject *__pyx_codeobj__231;
+static PyObject *__pyx_codeobj__233;
+static PyObject *__pyx_codeobj__235;
+static PyObject *__pyx_codeobj__237;
+static PyObject *__pyx_codeobj__239;
+static PyObject *__pyx_codeobj__241;
+static PyObject *__pyx_codeobj__243;
+static PyObject *__pyx_codeobj__245;
+static PyObject *__pyx_codeobj__247;
+static PyObject *__pyx_codeobj__249;
+static PyObject *__pyx_codeobj__251;
+static PyObject *__pyx_codeobj__253;
+static PyObject *__pyx_codeobj__255;
+static PyObject *__pyx_codeobj__257;
 
 /* "aiohttp/web_urldispatcher.py":39
  * class AbstractResource(Sized, Iterable):
@@ -2856,7 +2894,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_16AbstractResource_10_app
  *             return url
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyNumber_Add(__pyx_v_url, __pyx_kp_s_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_v_url, __pyx_kp_u_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_urlencode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -3150,7 +3188,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13AbstractRoute___init__(
  * 
  *         method = upstr(method)
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Coroutine_is_expected_got_r, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Coroutine_is_expected_got_r, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_6 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3245,7 +3283,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13AbstractRoute___init__(
  * 
  *         assert callable(handler), handler
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_is_not_allowed_HTTP_method, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_is_not_allowed_HTTP_method, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_6 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3434,9 +3472,9 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13AbstractRoute___init__(
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_INCREF(__pyx_kp_s_Bare_generators_are_deprecated_u);
-    __Pyx_GIVEREF(__pyx_kp_s_Bare_generators_are_deprecated_u);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx_kp_s_Bare_generators_are_deprecated_u);
+    __Pyx_INCREF(__pyx_kp_u_Bare_generators_are_deprecated_u);
+    __Pyx_GIVEREF(__pyx_kp_u_Bare_generators_are_deprecated_u);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx_kp_u_Bare_generators_are_deprecated_u);
     __Pyx_INCREF(__pyx_builtin_DeprecationWarning);
     __Pyx_GIVEREF(__pyx_builtin_DeprecationWarning);
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_builtin_DeprecationWarning);
@@ -4678,7 +4716,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_12_
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_MatchInfo, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_MatchInfo, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = __Pyx_CyFunction_GetClassObj(__pyx_self);
   if (!__pyx_t_4) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 159, __pyx_L1_error) }
@@ -5078,7 +5116,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_14MatchInfoError_4__repr_
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_MatchInfoError, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_MatchInfoError, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_exception); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5279,7 +5317,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher__defaultExpectHandler(CYT
     }
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_t_5, __pyx_kp_s_100_continue, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 186, __pyx_L1_error)
+    __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_t_5, __pyx_kp_u_100_continue, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_6) {
 
@@ -5322,7 +5360,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher__defaultExpectHandler(CYT
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_Unknown_Expect_s, __pyx_v_expect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
+      __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_Unknown_Expect_s, __pyx_v_expect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_text, __pyx_t_1) < 0) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5470,7 +5508,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15ResourceAdapter___init_
  *         super().__init__(name=route.name)
  *         self._route = route
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Instance_of_Route_class_is_requi, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Instance_of_Route_class_is_requi, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -6627,7 +6665,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_8Resource_2add_route(CYTH
  * 
  *         route = ResourceRoute(method, handler, self,
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Added_route_will_never_be_execut, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Added_route_will_never_be_execut, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -6893,7 +6931,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_8Resource_4register_route
  *         self._routes.append(route)
  * 
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Instance_of_Route_class_is_requi, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Instance_of_Route_class_is_requi, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7847,7 +7885,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13PlainResource_4get_info
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_path_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_path, __pyx_t_2) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_path, __pyx_t_2) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8062,17 +8100,17 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13PlainResource_8__repr__
   if ((__pyx_t_3 != 0)) {
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyNumber_Add(__pyx_kp_s__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 295, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_kp_u__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 295, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_u__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s__5);
-    __pyx_t_1 = __pyx_kp_s__5;
+    __Pyx_INCREF(__pyx_kp_u__5);
+    __pyx_t_1 = __pyx_kp_u__5;
   }
   __pyx_v_name = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8085,7 +8123,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13PlainResource_8__repr__
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_PlainResource_name_path, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_PlainResource_name_path, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 296, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -8383,11 +8421,12 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_2_match
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
+  Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  PyObject *(*__pyx_t_9)(PyObject *);
+  int __pyx_t_9;
   PyObject *__pyx_t_10 = NULL;
-  PyObject *(*__pyx_t_11)(PyObject *);
+  int __pyx_t_11;
+  PyObject *__pyx_t_12 = NULL;
   __Pyx_RefNannySetupContext("_match", 0);
 
   /* "aiohttp/web_urldispatcher.py":308
@@ -8476,6 +8515,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_2_match
       PyObject *__pyx_7genexpr__pyx_v_value = NULL;
       __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 312, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = 0;
 
       /* "aiohttp/web_urldispatcher.py":313
  *         else:
@@ -8486,135 +8526,56 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_2_match
  */
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_match, __pyx_n_s_groupdict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = NULL;
+      __pyx_t_10 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_7)) {
+        __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_10)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_7);
+          __Pyx_INCREF(__pyx_t_10);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_2, function);
         }
       }
-      if (__pyx_t_7) {
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L6_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (__pyx_t_10) {
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L6_error)
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       } else {
         __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L6_error)
       }
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_items); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L6_error)
+      if (unlikely(__pyx_t_4 == Py_None)) {
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "items");
+        __PYX_ERR(0, 313, __pyx_L6_error)
+      }
+
+      /* "aiohttp/web_urldispatcher.py":312
+ *             return None
+ *         else:
+ *             return {key: unquote(value) for key, value in             # <<<<<<<<<<<<<<
+ *                     match.groupdict().items()}
+ * 
+ */
+      __pyx_t_2 = __Pyx_dict_iterator(__pyx_t_4, 0, __pyx_n_s_items, (&__pyx_t_8), (&__pyx_t_9)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
-        }
-      }
-      if (__pyx_t_4) {
-        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 313, __pyx_L6_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      } else {
-        __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 313, __pyx_L6_error)
-      }
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
-        __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_8 = 0;
-        __pyx_t_9 = NULL;
-      } else {
-        __pyx_t_8 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L6_error)
+      __Pyx_XDECREF(__pyx_t_3);
+      __pyx_t_3 = __pyx_t_2;
+      __pyx_t_2 = 0;
+      while (1) {
+
+        /* "aiohttp/web_urldispatcher.py":313
+ *         else:
+ *             return {key: unquote(value) for key, value in
+ *                     match.groupdict().items()}             # <<<<<<<<<<<<<<
+ * 
+ *     def get_info(self):
+ */
+        __pyx_t_11 = __Pyx_dict_iter_next(__pyx_t_3, __pyx_t_8, &__pyx_t_7, &__pyx_t_2, &__pyx_t_4, NULL, __pyx_t_9);
+        if (unlikely(__pyx_t_11 == 0)) break;
+        if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 313, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_9 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 313, __pyx_L6_error)
-      }
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      for (;;) {
-        if (likely(!__pyx_t_9)) {
-          if (likely(PyList_CheckExact(__pyx_t_2))) {
-            if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_2)) break;
-            #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_8); __Pyx_INCREF(__pyx_t_3); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 313, __pyx_L6_error)
-            #else
-            __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 313, __pyx_L6_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            #endif
-          } else {
-            if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
-            #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_8); __Pyx_INCREF(__pyx_t_3); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 313, __pyx_L6_error)
-            #else
-            __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 313, __pyx_L6_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            #endif
-          }
-        } else {
-          __pyx_t_3 = __pyx_t_9(__pyx_t_2);
-          if (unlikely(!__pyx_t_3)) {
-            PyObject* exc_type = PyErr_Occurred();
-            if (exc_type) {
-              if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 313, __pyx_L6_error)
-            }
-            break;
-          }
-          __Pyx_GOTREF(__pyx_t_3);
-        }
-        if ((likely(PyTuple_CheckExact(__pyx_t_3))) || (PyList_CheckExact(__pyx_t_3))) {
-          PyObject* sequence = __pyx_t_3;
-          #if CYTHON_COMPILING_IN_CPYTHON
-          Py_ssize_t size = Py_SIZE(sequence);
-          #else
-          Py_ssize_t size = PySequence_Size(sequence);
-          #endif
-          if (unlikely(size != 2)) {
-            if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-            else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-            __PYX_ERR(0, 312, __pyx_L6_error)
-          }
-          #if CYTHON_COMPILING_IN_CPYTHON
-          if (likely(PyTuple_CheckExact(sequence))) {
-            __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
-            __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
-          } else {
-            __pyx_t_4 = PyList_GET_ITEM(sequence, 0); 
-            __pyx_t_7 = PyList_GET_ITEM(sequence, 1); 
-          }
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_7);
-          #else
-          __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 312, __pyx_L6_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 312, __pyx_L6_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          #endif
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        } else {
-          Py_ssize_t index = -1;
-          __pyx_t_10 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 312, __pyx_L6_error)
-          __Pyx_GOTREF(__pyx_t_10);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
-          index = 0; __pyx_t_4 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_4)) goto __pyx_L9_unpacking_failed;
-          __Pyx_GOTREF(__pyx_t_4);
-          index = 1; __pyx_t_7 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_7)) goto __pyx_L9_unpacking_failed;
-          __Pyx_GOTREF(__pyx_t_7);
-          if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(0, 312, __pyx_L6_error)
-          __pyx_t_11 = NULL;
-          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          goto __pyx_L10_unpacking_done;
-          __pyx_L9_unpacking_failed:;
-          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_11 = NULL;
-          if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-          __PYX_ERR(0, 312, __pyx_L6_error)
-          __pyx_L10_unpacking_done:;
-        }
+        __Pyx_GOTREF(__pyx_t_4);
 
         /* "aiohttp/web_urldispatcher.py":312
  *             return None
@@ -8623,49 +8584,49 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_2_match
  *                     match.groupdict().items()}
  * 
  */
-        __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_key, __pyx_t_4);
+        __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_key, __pyx_t_2);
+        __pyx_t_2 = 0;
+        __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_value, __pyx_t_4);
         __pyx_t_4 = 0;
-        __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_value, __pyx_t_7);
-        __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_unquote); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 312, __pyx_L6_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_4 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_7);
-          if (likely(__pyx_t_4)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-            __Pyx_INCREF(__pyx_t_4);
+        __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_unquote); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L6_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_10 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
+          __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_2);
+          if (likely(__pyx_t_10)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+            __Pyx_INCREF(__pyx_t_10);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_7, function);
+            __Pyx_DECREF_SET(__pyx_t_2, function);
           }
         }
-        if (!__pyx_t_4) {
-          __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_7genexpr__pyx_v_value); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 312, __pyx_L6_error)
-          __Pyx_GOTREF(__pyx_t_3);
+        if (!__pyx_t_10) {
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_7genexpr__pyx_v_value); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 312, __pyx_L6_error)
+          __Pyx_GOTREF(__pyx_t_4);
         } else {
-          __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 312, __pyx_L6_error)
-          __Pyx_GOTREF(__pyx_t_10);
-          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_4); __pyx_t_4 = NULL;
+          __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 312, __pyx_L6_error)
+          __Pyx_GOTREF(__pyx_t_12);
+          __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10); __pyx_t_10 = NULL;
           __Pyx_INCREF(__pyx_7genexpr__pyx_v_value);
           __Pyx_GIVEREF(__pyx_7genexpr__pyx_v_value);
-          PyTuple_SET_ITEM(__pyx_t_10, 0+1, __pyx_7genexpr__pyx_v_value);
-          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 312, __pyx_L6_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+          PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_7genexpr__pyx_v_value);
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_12, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 312, __pyx_L6_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         }
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_7genexpr__pyx_v_key, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 312, __pyx_L6_error)
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_7genexpr__pyx_v_key, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 312, __pyx_L6_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_XDECREF(__pyx_7genexpr__pyx_v_key);
       __Pyx_XDECREF(__pyx_7genexpr__pyx_v_value);
-      goto __pyx_L11_exit_scope;
+      goto __pyx_L9_exit_scope;
       __pyx_L6_error:;
       __Pyx_XDECREF(__pyx_7genexpr__pyx_v_key);
       __Pyx_XDECREF(__pyx_7genexpr__pyx_v_value);
       goto __pyx_L1_error;
-      __pyx_L11_exit_scope:;
+      __pyx_L9_exit_scope:;
     } /* exit inner scope */
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
@@ -8686,8 +8647,8 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_2_match
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_12);
   __Pyx_AddTraceback("aiohttp.web_urldispatcher.DynamicResource._match", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -8738,7 +8699,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_4get_in
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_formatter_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_formatter, __pyx_t_2) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_formatter, __pyx_t_2) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "aiohttp/web_urldispatcher.py":317
@@ -8750,7 +8711,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_4get_in
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pattern_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_pattern, __pyx_t_2) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_pattern, __pyx_t_2) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9010,17 +8971,17 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_8__repr
   if ((__pyx_t_3 != 0)) {
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyNumber_Add(__pyx_kp_s__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 324, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_kp_u__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 324, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_u__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s__5);
-    __pyx_t_1 = __pyx_kp_s__5;
+    __Pyx_INCREF(__pyx_kp_u__5);
+    __pyx_t_1 = __pyx_kp_u__5;
   }
   __pyx_v_name = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9041,7 +9002,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_15DynamicResource_8__repr
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_DynamicResource_name_formatter, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_DynamicResource_name_formatter, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -9319,7 +9280,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13ResourceRoute_2__repr__
  *             handler=self.handler)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_ResourceRoute_method_resource_h, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_ResourceRoute_method_resource_h, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "aiohttp/web_urldispatcher.py":339
@@ -10489,7 +10450,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_10PlainRoute_6get_info(CY
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_path_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 392, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_path, __pyx_t_2) < 0) __PYX_ERR(0, 392, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_path, __pyx_t_2) < 0) __PYX_ERR(0, 392, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10561,17 +10522,17 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_10PlainRoute_8__repr__(CY
   if ((__pyx_t_3 != 0)) {
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyNumber_Add(__pyx_kp_s__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_kp_u__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_u__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s__5);
-    __pyx_t_1 = __pyx_kp_s__5;
+    __Pyx_INCREF(__pyx_kp_u__5);
+    __pyx_t_1 = __pyx_kp_u__5;
   }
   __pyx_v_name = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10584,7 +10545,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_10PlainRoute_8__repr__(CY
  *             handler=self.handler)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_PlainRoute_name_method_path_han, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_PlainRoute_name_method_path_han, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "aiohttp/web_urldispatcher.py":397
@@ -11315,7 +11276,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_12DynamicRoute_6get_info(
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_formatter_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 421, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_formatter, __pyx_t_2) < 0) __PYX_ERR(0, 421, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_formatter, __pyx_t_2) < 0) __PYX_ERR(0, 421, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "aiohttp/web_urldispatcher.py":422
@@ -11327,7 +11288,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_12DynamicRoute_6get_info(
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pattern_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_pattern, __pyx_t_2) < 0) __PYX_ERR(0, 421, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_pattern, __pyx_t_2) < 0) __PYX_ERR(0, 421, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11399,17 +11360,17 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_12DynamicRoute_8__repr__(
   if ((__pyx_t_3 != 0)) {
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyNumber_Add(__pyx_kp_s__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 425, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_kp_u__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 425, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_u__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s__5);
-    __pyx_t_1 = __pyx_kp_s__5;
+    __Pyx_INCREF(__pyx_kp_u__5);
+    __pyx_t_1 = __pyx_kp_u__5;
   }
   __pyx_v_name = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11430,7 +11391,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_12DynamicRoute_8__repr__(
  *                         formatter=self._formatter, handler=self.handler))
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_DynamicRoute_name_method_format, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 427, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_DynamicRoute_name_method_format, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -11665,6 +11626,14 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute___init__(CY
   PyObject *__pyx_t_12 = NULL;
   int __pyx_t_13;
   int __pyx_t_14;
+  int __pyx_t_15;
+  char const *__pyx_t_16;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
+  PyObject *__pyx_t_19 = NULL;
+  PyObject *__pyx_t_20 = NULL;
+  PyObject *__pyx_t_21 = NULL;
+  PyObject *__pyx_t_22 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
   __Pyx_INCREF(__pyx_v_directory);
 
@@ -11764,9 +11733,9 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute___init__(CY
  */
   __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 438, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(__pyx_n_s_GET);
-  __Pyx_GIVEREF(__pyx_n_s_GET);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_n_s_GET);
+  __Pyx_INCREF(__pyx_n_u_GET);
+  __Pyx_GIVEREF(__pyx_n_u_GET);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_n_u_GET);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
   __Pyx_INCREF(__pyx_v_name);
@@ -11889,18 +11858,12 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute___init__(CY
       __Pyx_INCREF(__pyx_v_directory);
       __Pyx_GIVEREF(__pyx_v_directory);
       PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_directory);
-      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L3_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L3_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_startswith); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 444, __pyx_L3_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_3 = __Pyx_PyUnicode_Tailmatch(__pyx_t_1, __pyx_kp_u__9, 0, PY_SSIZE_T_MAX, -1); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 444, __pyx_L3_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L3_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 444, __pyx_L3_error)
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (__pyx_t_3) {
+      if ((__pyx_t_3 != 0)) {
 
         /* "aiohttp/web_urldispatcher.py":445
  *             directory = Path(directory)
@@ -11924,7 +11887,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute___init__(CY
         __Pyx_INCREF(__pyx_v_directory);
         __Pyx_GIVEREF(__pyx_v_directory);
         PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_v_directory);
-        __pyx_t_11 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_10, NULL); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 445, __pyx_L3_error)
+        __pyx_t_11 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_10, NULL); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 445, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_t_10 = NULL;
@@ -12060,7 +12023,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute___init__(CY
  *         except (FileNotFoundError, ValueError) as error:
  *             raise ValueError(
  */
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L3_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_Raise(__pyx_t_1, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12113,68 +12076,117 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute___init__(CY
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_INCREF(__pyx_t_5);
       __pyx_v_error = __pyx_t_5;
+      /*try:*/ {
 
-      /* "aiohttp/web_urldispatcher.py":451
+        /* "aiohttp/web_urldispatcher.py":451
  *         except (FileNotFoundError, ValueError) as error:
  *             raise ValueError(
  *                 "No directory exists at '{}'".format(directory)) from error             # <<<<<<<<<<<<<<
  *         self._directory = directory
  *         self._chunk_size = chunk_size
  */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_No_directory_exists_at, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 451, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_11 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_11)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_11);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_No_directory_exists_at, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 451, __pyx_L18_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_11 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
+          __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_4);
+          if (likely(__pyx_t_11)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+            __Pyx_INCREF(__pyx_t_11);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_4, function);
+          }
         }
-      }
-      if (!__pyx_t_11) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_directory); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L5_except_error)
-        __Pyx_GOTREF(__pyx_t_2);
-      } else {
-        __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 451, __pyx_L5_except_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_11); __pyx_t_11 = NULL;
-        __Pyx_INCREF(__pyx_v_directory);
-        __Pyx_GIVEREF(__pyx_v_directory);
-        PyTuple_SET_ITEM(__pyx_t_10, 0+1, __pyx_v_directory);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L5_except_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (!__pyx_t_11) {
+          __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_directory); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L18_error)
+          __Pyx_GOTREF(__pyx_t_2);
+        } else {
+          __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 451, __pyx_L18_error)
+          __Pyx_GOTREF(__pyx_t_10);
+          __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_11); __pyx_t_11 = NULL;
+          __Pyx_INCREF(__pyx_v_directory);
+          __Pyx_GIVEREF(__pyx_v_directory);
+          PyTuple_SET_ITEM(__pyx_t_10, 0+1, __pyx_v_directory);
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L18_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "aiohttp/web_urldispatcher.py":450
+        /* "aiohttp/web_urldispatcher.py":450
  *                 raise ValueError('Not a directory')
  *         except (FileNotFoundError, ValueError) as error:
  *             raise ValueError(             # <<<<<<<<<<<<<<
  *                 "No directory exists at '{}'".format(directory)) from error
  *         self._directory = directory
  */
-      __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 450, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
-      __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L5_except_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 450, __pyx_L18_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_GIVEREF(__pyx_t_2);
+        PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
+        __pyx_t_2 = 0;
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L18_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "aiohttp/web_urldispatcher.py":451
+        /* "aiohttp/web_urldispatcher.py":451
  *         except (FileNotFoundError, ValueError) as error:
  *             raise ValueError(
  *                 "No directory exists at '{}'".format(directory)) from error             # <<<<<<<<<<<<<<
  *         self._directory = directory
  *         self._chunk_size = chunk_size
  */
-      __Pyx_Raise(__pyx_t_2, 0, 0, __pyx_v_error);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __PYX_ERR(0, 450, __pyx_L5_except_error)
+        __Pyx_Raise(__pyx_t_2, 0, 0, __pyx_v_error);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __PYX_ERR(0, 450, __pyx_L18_error)
+      }
+
+      /* "aiohttp/web_urldispatcher.py":449
+ *             if not directory.is_dir():
+ *                 raise ValueError('Not a directory')
+ *         except (FileNotFoundError, ValueError) as error:             # <<<<<<<<<<<<<<
+ *             raise ValueError(
+ *                 "No directory exists at '{}'".format(directory)) from error
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L18_error:;
+          __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0; __pyx_t_22 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+          __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_20, &__pyx_t_21, &__pyx_t_22);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_17, &__pyx_t_18, &__pyx_t_19) < 0)) __Pyx_ErrFetch(&__pyx_t_17, &__pyx_t_18, &__pyx_t_19);
+          __Pyx_XGOTREF(__pyx_t_17);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_19);
+          __Pyx_XGOTREF(__pyx_t_20);
+          __Pyx_XGOTREF(__pyx_t_21);
+          __Pyx_XGOTREF(__pyx_t_22);
+          __pyx_t_14 = __pyx_lineno; __pyx_t_15 = __pyx_clineno; __pyx_t_16 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_error);
+            __pyx_v_error = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_20);
+            __Pyx_XGIVEREF(__pyx_t_21);
+            __Pyx_XGIVEREF(__pyx_t_22);
+            __Pyx_ExceptionReset(__pyx_t_20, __pyx_t_21, __pyx_t_22);
+          }
+          __Pyx_XGIVEREF(__pyx_t_17);
+          __Pyx_XGIVEREF(__pyx_t_18);
+          __Pyx_XGIVEREF(__pyx_t_19);
+          __Pyx_ErrRestore(__pyx_t_17, __pyx_t_18, __pyx_t_19);
+          __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0; __pyx_t_22 = 0;
+          __pyx_lineno = __pyx_t_14; __pyx_clineno = __pyx_t_15; __pyx_filename = __pyx_t_16;
+          goto __pyx_L5_except_error;
+        }
+      }
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -12237,7 +12249,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute___init__(CY
   __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_get); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 456, __pyx_L1_error)
@@ -12451,7 +12463,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_2match(CYTH
   __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_path, 0, 0, &__pyx_t_2, NULL, NULL, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 462, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_filename, __pyx_t_5) < 0) __PYX_ERR(0, 462, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_filename, __pyx_t_5) < 0) __PYX_ERR(0, 462, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -12593,7 +12605,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_4url(CYTHON
     __Pyx_INCREF(__pyx_v_filename);
     __Pyx_GIVEREF(__pyx_v_filename);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_filename);
-    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 466, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 466, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_filename, __pyx_t_4);
@@ -12618,7 +12630,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_4url(CYTHON
   while (1) {
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_filename, __pyx_n_s_startswith); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 467, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 467, __pyx_L1_error)
@@ -12632,7 +12644,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_4url(CYTHON
  *         url = self._prefix + filename
  *         return self._append_query(url, query)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_filename, 1, 0, NULL, NULL, &__pyx_slice__14, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 468, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_filename, 1, 0, NULL, NULL, &__pyx_slice__13, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_filename, __pyx_t_1);
     __pyx_t_1 = 0;
@@ -12759,7 +12771,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_6get_info(C
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_directory_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 473, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_directory, __pyx_t_2) < 0) __PYX_ERR(0, 473, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_directory, __pyx_t_2) < 0) __PYX_ERR(0, 473, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "aiohttp/web_urldispatcher.py":474
@@ -12771,7 +12783,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_6get_info(C
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_prefix_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_prefix, __pyx_t_2) < 0) __PYX_ERR(0, 473, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_prefix, __pyx_t_2) < 0) __PYX_ERR(0, 473, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -12936,6 +12948,14 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_8_sendfile_
   PyObject *__pyx_t_11 = NULL;
   PyObject *__pyx_t_12 = NULL;
   PyObject *__pyx_t_13 = NULL;
+  int __pyx_t_14;
+  char const *__pyx_t_15;
+  PyObject *__pyx_t_16 = NULL;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
+  PyObject *__pyx_t_19 = NULL;
+  PyObject *__pyx_t_20 = NULL;
+  PyObject *__pyx_t_21 = NULL;
   __Pyx_RefNannySetupContext("_sendfile_cb", 0);
 
   /* "aiohttp/web_urldispatcher.py":478
@@ -13154,56 +13174,114 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_8_sendfile_
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_t_5);
       __pyx_v_exc = __pyx_t_5;
+      /*try:*/ {
 
-      /* "aiohttp/web_urldispatcher.py":487
+        /* "aiohttp/web_urldispatcher.py":487
  *             n = 0
  *         except Exception as exc:
  *             fut.set_exception(exc)             # <<<<<<<<<<<<<<
  *             return
  * 
  */
-      __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_fut, __pyx_n_s_set_exception); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 487, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_12 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_11))) {
-        __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_11);
-        if (likely(__pyx_t_12)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
-          __Pyx_INCREF(__pyx_t_12);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_11, function);
+        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_fut, __pyx_n_s_set_exception); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 487, __pyx_L20_error)
+        __Pyx_GOTREF(__pyx_t_11);
+        __pyx_t_12 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_11))) {
+          __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_11);
+          if (likely(__pyx_t_12)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
+            __Pyx_INCREF(__pyx_t_12);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_11, function);
+          }
         }
-      }
-      if (!__pyx_t_12) {
-        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_v_exc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 487, __pyx_L6_except_error)
-        __Pyx_GOTREF(__pyx_t_3);
-      } else {
-        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 487, __pyx_L6_except_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_12); __pyx_t_12 = NULL;
-        __Pyx_INCREF(__pyx_v_exc);
-        __Pyx_GIVEREF(__pyx_v_exc);
-        PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_v_exc);
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 487, __pyx_L6_except_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (!__pyx_t_12) {
+          __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_v_exc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 487, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_3);
+        } else {
+          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 487, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_12); __pyx_t_12 = NULL;
+          __Pyx_INCREF(__pyx_v_exc);
+          __Pyx_GIVEREF(__pyx_v_exc);
+          PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_v_exc);
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 487, __pyx_L20_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "aiohttp/web_urldispatcher.py":488
+        /* "aiohttp/web_urldispatcher.py":488
  *         except Exception as exc:
  *             fut.set_exception(exc)
  *             return             # <<<<<<<<<<<<<<
  * 
  *         if n < count:
  */
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      goto __pyx_L7_except_return;
+        __Pyx_XDECREF(__pyx_r);
+        __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        goto __pyx_L19_return;
+      }
+
+      /* "aiohttp/web_urldispatcher.py":486
+ *         except (BlockingIOError, InterruptedError):
+ *             n = 0
+ *         except Exception as exc:             # <<<<<<<<<<<<<<
+ *             fut.set_exception(exc)
+ *             return
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L20_error:;
+          __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+          __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_19, &__pyx_t_20, &__pyx_t_21);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18) < 0)) __Pyx_ErrFetch(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_17);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_19);
+          __Pyx_XGOTREF(__pyx_t_20);
+          __Pyx_XGOTREF(__pyx_t_21);
+          __pyx_t_10 = __pyx_lineno; __pyx_t_14 = __pyx_clineno; __pyx_t_15 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_exc);
+            __pyx_v_exc = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_19);
+            __Pyx_XGIVEREF(__pyx_t_20);
+            __Pyx_XGIVEREF(__pyx_t_21);
+            __Pyx_ExceptionReset(__pyx_t_19, __pyx_t_20, __pyx_t_21);
+          }
+          __Pyx_XGIVEREF(__pyx_t_16);
+          __Pyx_XGIVEREF(__pyx_t_17);
+          __Pyx_XGIVEREF(__pyx_t_18);
+          __Pyx_ErrRestore(__pyx_t_16, __pyx_t_17, __pyx_t_18);
+          __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0;
+          __pyx_lineno = __pyx_t_10; __pyx_clineno = __pyx_t_14; __pyx_filename = __pyx_t_15;
+          goto __pyx_L6_except_error;
+        }
+        __pyx_L19_return: {
+          __pyx_t_21 = __pyx_r;
+          __pyx_r = 0;
+          __Pyx_DECREF(__pyx_v_exc);
+          __pyx_v_exc = NULL;
+          __pyx_r = __pyx_t_21;
+          __pyx_t_21 = 0;
+          goto __pyx_L7_except_return;
+        }
+      }
     }
     goto __pyx_L6_except_error;
     __pyx_L6_except_error:;
@@ -13329,7 +13407,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_8_sendfile_
  *             loop.add_writer(out_fd, self._sendfile_cb, fut, out_fd, in_fd,
  *                             offset + n, count - n, loop, True)
  */
-    goto __pyx_L17;
+    goto __pyx_L26;
   }
 
   /* "aiohttp/web_urldispatcher.py":494
@@ -13342,12 +13420,12 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_8_sendfile_
   /*else*/ {
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_fut, __pyx_n_s_set_result); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 494, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 494, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 494, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
-  __pyx_L17:;
+  __pyx_L26:;
 
   /* "aiohttp/web_urldispatcher.py":476
  *                 'prefix': self._prefix}
@@ -13563,7 +13641,7 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_12generator
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_transport, __pyx_n_s_get_extra_info); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 514, __pyx_L1_error)
@@ -13722,7 +13800,7 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_12generator
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_transport, __pyx_n_s_get_extra_info); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 521, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 521, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_fileno); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 521, __pyx_L1_error)
@@ -14524,23 +14602,28 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
   PyObject *__pyx_t_8 = NULL;
   int __pyx_t_9;
   PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  int __pyx_t_12;
-  int __pyx_t_13;
-  int __pyx_t_14;
-  PyObject *(*__pyx_t_15)(PyObject *);
+  int __pyx_t_11;
+  char const *__pyx_t_12;
+  PyObject *__pyx_t_13 = NULL;
+  PyObject *__pyx_t_14 = NULL;
+  PyObject *__pyx_t_15 = NULL;
   PyObject *__pyx_t_16 = NULL;
-  Py_ssize_t __pyx_t_17;
+  PyObject *__pyx_t_17 = NULL;
   PyObject *__pyx_t_18 = NULL;
-  int __pyx_t_19;
+  PyObject *__pyx_t_19 = NULL;
   char const *__pyx_t_20;
-  PyObject *__pyx_t_21 = NULL;
+  int __pyx_t_21;
+  int __pyx_t_22;
+  int __pyx_t_23;
+  PyObject *(*__pyx_t_24)(PyObject *);
+  Py_ssize_t __pyx_t_25;
+  char const *__pyx_t_26;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("None", 0);
   switch (__pyx_generator->resume_label) {
     case 0: goto __pyx_L3_first_run;
-    case 1: goto __pyx_L26_resume_from_yield;
-    case 2: goto __pyx_L39_resume_from_yield;
+    case 1: goto __pyx_L44_resume_from_yield;
+    case 2: goto __pyx_L57_resume_from_yield;
     default: /* CPython raises the right error here */
     __Pyx_RefNannyFinishContext();
     return NULL;
@@ -14557,7 +14640,7 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_request, __pyx_n_s_match_info); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_filename); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 560, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_filename); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -14718,37 +14801,86 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_7);
       __pyx_cur_scope->__pyx_v_error = __pyx_t_7;
+      /*try:*/ {
 
-      /* "aiohttp/web_urldispatcher.py":566
+        /* "aiohttp/web_urldispatcher.py":566
  *         except (ValueError, FileNotFoundError) as error:
  *             # relatively safe
  *             raise HTTPNotFound() from error             # <<<<<<<<<<<<<<
  *         except Exception as error:
  *             # perm error or other kind!
  */
-      __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_HTTPNotFound); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 566, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_10 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
-        __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_8);
-        if (likely(__pyx_t_10)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-          __Pyx_INCREF(__pyx_t_10);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_8, function);
+        __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_HTTPNotFound); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 566, __pyx_L17_error)
+        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_10 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+          __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_8);
+          if (likely(__pyx_t_10)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+            __Pyx_INCREF(__pyx_t_10);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_8, function);
+          }
+        }
+        if (__pyx_t_10) {
+          __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 566, __pyx_L17_error)
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        } else {
+          __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 566, __pyx_L17_error)
+        }
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __Pyx_Raise(__pyx_t_1, 0, 0, __pyx_cur_scope->__pyx_v_error);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __PYX_ERR(0, 566, __pyx_L17_error)
+      }
+
+      /* "aiohttp/web_urldispatcher.py":564
+ *             filepath = self._directory.joinpath(filename).resolve()
+ *             filepath.relative_to(self._directory)
+ *         except (ValueError, FileNotFoundError) as error:             # <<<<<<<<<<<<<<
+ *             # relatively safe
+ *             raise HTTPNotFound() from error
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L17_error:;
+          __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+          __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15) < 0)) __Pyx_ErrFetch(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15);
+          __Pyx_XGOTREF(__pyx_t_13);
+          __Pyx_XGOTREF(__pyx_t_14);
+          __Pyx_XGOTREF(__pyx_t_15);
+          __Pyx_XGOTREF(__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_17);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __pyx_t_9 = __pyx_lineno; __pyx_t_11 = __pyx_clineno; __pyx_t_12 = __pyx_filename;
+          {
+            __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_error);
+            __Pyx_DECREF(__pyx_cur_scope->__pyx_v_error);
+            __pyx_cur_scope->__pyx_v_error = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_16);
+            __Pyx_XGIVEREF(__pyx_t_17);
+            __Pyx_XGIVEREF(__pyx_t_18);
+            __Pyx_ExceptionReset(__pyx_t_16, __pyx_t_17, __pyx_t_18);
+          }
+          __Pyx_XGIVEREF(__pyx_t_13);
+          __Pyx_XGIVEREF(__pyx_t_14);
+          __Pyx_XGIVEREF(__pyx_t_15);
+          __Pyx_ErrRestore(__pyx_t_13, __pyx_t_14, __pyx_t_15);
+          __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+          __pyx_lineno = __pyx_t_9; __pyx_clineno = __pyx_t_11; __pyx_filename = __pyx_t_12;
+          goto __pyx_L6_except_error;
         }
       }
-      if (__pyx_t_10) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 566, __pyx_L6_except_error)
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      } else {
-        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 566, __pyx_L6_except_error)
-      }
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_Raise(__pyx_t_1, 0, 0, __pyx_cur_scope->__pyx_v_error);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __PYX_ERR(0, 566, __pyx_L6_except_error)
     }
 
     /* "aiohttp/web_urldispatcher.py":567
@@ -14758,8 +14890,8 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  *             # perm error or other kind!
  *             request.logger.exception(error)
  */
-    __pyx_t_9 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_Exception);
-    if (__pyx_t_9) {
+    __pyx_t_11 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_Exception);
+    if (__pyx_t_11) {
       __Pyx_AddTraceback("aiohttp.web_urldispatcher.StaticRoute.handle", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(0, 567, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_6);
@@ -14768,76 +14900,126 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_7);
       __pyx_cur_scope->__pyx_v_error = __pyx_t_7;
+      /*try:*/ {
 
-      /* "aiohttp/web_urldispatcher.py":569
+        /* "aiohttp/web_urldispatcher.py":569
  *         except Exception as error:
  *             # perm error or other kind!
  *             request.logger.exception(error)             # <<<<<<<<<<<<<<
  *             raise HTTPNotFound() from error
  * 
  */
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_request, __pyx_n_s_logger); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 569, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_exception_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 569, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_8)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_8);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_request, __pyx_n_s_logger); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 569, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_exception_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 569, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_8 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_10))) {
+          __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_10);
+          if (likely(__pyx_t_8)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+            __Pyx_INCREF(__pyx_t_8);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_10, function);
+          }
         }
-      }
-      if (!__pyx_t_8) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_cur_scope->__pyx_v_error); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 569, __pyx_L6_except_error)
-        __Pyx_GOTREF(__pyx_t_1);
-      } else {
-        __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 569, __pyx_L6_except_error)
-        __Pyx_GOTREF(__pyx_t_11);
-        __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_8); __pyx_t_8 = NULL;
-        __Pyx_INCREF(__pyx_cur_scope->__pyx_v_error);
-        __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_error);
-        PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_cur_scope->__pyx_v_error);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 569, __pyx_L6_except_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        if (!__pyx_t_8) {
+          __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_cur_scope->__pyx_v_error); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 569, __pyx_L28_error)
+          __Pyx_GOTREF(__pyx_t_1);
+        } else {
+          __pyx_t_19 = PyTuple_New(1+1); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 569, __pyx_L28_error)
+          __Pyx_GOTREF(__pyx_t_19);
+          __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_t_8); __pyx_t_8 = NULL;
+          __Pyx_INCREF(__pyx_cur_scope->__pyx_v_error);
+          __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_error);
+          PyTuple_SET_ITEM(__pyx_t_19, 0+1, __pyx_cur_scope->__pyx_v_error);
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 569, __pyx_L28_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "aiohttp/web_urldispatcher.py":570
+        /* "aiohttp/web_urldispatcher.py":570
  *             # perm error or other kind!
  *             request.logger.exception(error)
  *             raise HTTPNotFound() from error             # <<<<<<<<<<<<<<
  * 
  *         st = filepath.stat()
  */
-      __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_HTTPNotFound); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 570, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_11)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_11);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
+        __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_HTTPNotFound); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 570, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_19 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+          __pyx_t_19 = PyMethod_GET_SELF(__pyx_t_10);
+          if (likely(__pyx_t_19)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+            __Pyx_INCREF(__pyx_t_19);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_10, function);
+          }
+        }
+        if (__pyx_t_19) {
+          __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_19); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 570, __pyx_L28_error)
+          __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        } else {
+          __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 570, __pyx_L28_error)
+        }
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_Raise(__pyx_t_1, 0, 0, __pyx_cur_scope->__pyx_v_error);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __PYX_ERR(0, 570, __pyx_L28_error)
+      }
+
+      /* "aiohttp/web_urldispatcher.py":567
+ *             # relatively safe
+ *             raise HTTPNotFound() from error
+ *         except Exception as error:             # <<<<<<<<<<<<<<
+ *             # perm error or other kind!
+ *             request.logger.exception(error)
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L28_error:;
+          __pyx_t_18 = 0; __pyx_t_17 = 0; __pyx_t_16 = 0; __pyx_t_15 = 0; __pyx_t_14 = 0; __pyx_t_13 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
+          __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_15, &__pyx_t_14, &__pyx_t_13);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_18, &__pyx_t_17, &__pyx_t_16) < 0)) __Pyx_ErrFetch(&__pyx_t_18, &__pyx_t_17, &__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_18);
+          __Pyx_XGOTREF(__pyx_t_17);
+          __Pyx_XGOTREF(__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_15);
+          __Pyx_XGOTREF(__pyx_t_14);
+          __Pyx_XGOTREF(__pyx_t_13);
+          __pyx_t_11 = __pyx_lineno; __pyx_t_9 = __pyx_clineno; __pyx_t_20 = __pyx_filename;
+          {
+            __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_error);
+            __Pyx_DECREF(__pyx_cur_scope->__pyx_v_error);
+            __pyx_cur_scope->__pyx_v_error = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_15);
+            __Pyx_XGIVEREF(__pyx_t_14);
+            __Pyx_XGIVEREF(__pyx_t_13);
+            __Pyx_ExceptionReset(__pyx_t_15, __pyx_t_14, __pyx_t_13);
+          }
+          __Pyx_XGIVEREF(__pyx_t_18);
+          __Pyx_XGIVEREF(__pyx_t_17);
+          __Pyx_XGIVEREF(__pyx_t_16);
+          __Pyx_ErrRestore(__pyx_t_18, __pyx_t_17, __pyx_t_16);
+          __pyx_t_18 = 0; __pyx_t_17 = 0; __pyx_t_16 = 0; __pyx_t_15 = 0; __pyx_t_14 = 0; __pyx_t_13 = 0;
+          __pyx_lineno = __pyx_t_11; __pyx_clineno = __pyx_t_9; __pyx_filename = __pyx_t_20;
+          goto __pyx_L6_except_error;
         }
       }
-      if (__pyx_t_11) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 570, __pyx_L6_except_error)
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      } else {
-        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 570, __pyx_L6_except_error)
-      }
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_Raise(__pyx_t_1, 0, 0, __pyx_cur_scope->__pyx_v_error);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __PYX_ERR(0, 570, __pyx_L6_except_error)
     }
     goto __pyx_L6_except_error;
     __pyx_L6_except_error:;
@@ -14909,12 +15091,12 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  *             raise HTTPNotModified()
  * 
  */
-  __pyx_t_13 = (__pyx_cur_scope->__pyx_v_modsince != Py_None);
-  __pyx_t_14 = (__pyx_t_13 != 0);
-  if (__pyx_t_14) {
+  __pyx_t_22 = (__pyx_cur_scope->__pyx_v_modsince != Py_None);
+  __pyx_t_23 = (__pyx_t_22 != 0);
+  if (__pyx_t_23) {
   } else {
-    __pyx_t_12 = __pyx_t_14;
-    goto __pyx_L17_bool_binop_done;
+    __pyx_t_21 = __pyx_t_23;
+    goto __pyx_L35_bool_binop_done;
   }
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_st, __pyx_n_s_st_mtime); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 575, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -14941,11 +15123,11 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
   __pyx_t_6 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 575, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_14 < 0)) __PYX_ERR(0, 575, __pyx_L1_error)
+  __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 575, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_12 = __pyx_t_14;
-  __pyx_L17_bool_binop_done:;
-  if (__pyx_t_12) {
+  __pyx_t_21 = __pyx_t_23;
+  __pyx_L35_bool_binop_done:;
+  if (__pyx_t_21) {
 
     /* "aiohttp/web_urldispatcher.py":576
  *         modsince = request.if_modified_since
@@ -15004,7 +15186,7 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_filepath);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_filepath);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_cur_scope->__pyx_v_filepath);
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 578, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 578, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = NULL;
@@ -15067,21 +15249,21 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
     __pyx_t_1 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 578, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_15 = Py_TYPE(__pyx_t_1)->tp_iternext;
-    index = 0; __pyx_t_2 = __pyx_t_15(__pyx_t_1); if (unlikely(!__pyx_t_2)) goto __pyx_L19_unpacking_failed;
+    __pyx_t_24 = Py_TYPE(__pyx_t_1)->tp_iternext;
+    index = 0; __pyx_t_2 = __pyx_t_24(__pyx_t_1); if (unlikely(!__pyx_t_2)) goto __pyx_L37_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_2);
-    index = 1; __pyx_t_10 = __pyx_t_15(__pyx_t_1); if (unlikely(!__pyx_t_10)) goto __pyx_L19_unpacking_failed;
+    index = 1; __pyx_t_10 = __pyx_t_24(__pyx_t_1); if (unlikely(!__pyx_t_10)) goto __pyx_L37_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_15(__pyx_t_1), 2) < 0) __PYX_ERR(0, 578, __pyx_L1_error)
-    __pyx_t_15 = NULL;
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_24(__pyx_t_1), 2) < 0) __PYX_ERR(0, 578, __pyx_L1_error)
+    __pyx_t_24 = NULL;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    goto __pyx_L20_unpacking_done;
-    __pyx_L19_unpacking_failed:;
+    goto __pyx_L38_unpacking_done;
+    __pyx_L37_unpacking_failed:;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_15 = NULL;
+    __pyx_t_24 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
     __PYX_ERR(0, 578, __pyx_L1_error)
-    __pyx_L20_unpacking_done:;
+    __pyx_L38_unpacking_done:;
   }
   __Pyx_GIVEREF(__pyx_t_2);
   __pyx_cur_scope->__pyx_v_ct = __pyx_t_2;
@@ -15097,9 +15279,9 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  *             ct = 'application/octet-stream'
  * 
  */
-  __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_ct); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 579, __pyx_L1_error)
-  __pyx_t_14 = ((!__pyx_t_12) != 0);
-  if (__pyx_t_14) {
+  __pyx_t_21 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_ct); if (unlikely(__pyx_t_21 < 0)) __PYX_ERR(0, 579, __pyx_L1_error)
+  __pyx_t_23 = ((!__pyx_t_21) != 0);
+  if (__pyx_t_23) {
 
     /* "aiohttp/web_urldispatcher.py":580
  *         ct, encoding = mimetypes.guess_type(str(filepath))
@@ -15108,10 +15290,10 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  * 
  *         resp = self._response_factory()
  */
-    __Pyx_INCREF(__pyx_kp_s_application_octet_stream);
+    __Pyx_INCREF(__pyx_kp_u_application_octet_stream);
     __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_ct);
-    __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_ct, __pyx_kp_s_application_octet_stream);
-    __Pyx_GIVEREF(__pyx_kp_s_application_octet_stream);
+    __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_ct, __pyx_kp_u_application_octet_stream);
+    __Pyx_GIVEREF(__pyx_kp_u_application_octet_stream);
 
     /* "aiohttp/web_urldispatcher.py":579
  * 
@@ -15169,8 +15351,8 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  *             resp.headers[hdrs.CONTENT_ENCODING] = encoding
  *         resp.last_modified = st.st_mtime
  */
-  __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_encoding); if (unlikely(__pyx_t_14 < 0)) __PYX_ERR(0, 584, __pyx_L1_error)
-  if (__pyx_t_14) {
+  __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_encoding); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 584, __pyx_L1_error)
+  if (__pyx_t_23) {
 
     /* "aiohttp/web_urldispatcher.py":585
  *         resp.content_type = ct
@@ -15242,7 +15424,7 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_resp, __pyx_n_s_set_tcp_cork); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 591, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -15263,7 +15445,7 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  * 
  *             with filepath.open('rb') as f:
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_resp, __pyx_n_s_prepare); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 593, __pyx_L24_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_resp, __pyx_n_s_prepare); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 593, __pyx_L42_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_10 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -15276,16 +15458,16 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
       }
     }
     if (!__pyx_t_10) {
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_request); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 593, __pyx_L24_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_request); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 593, __pyx_L42_error)
       __Pyx_GOTREF(__pyx_t_6);
     } else {
-      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 593, __pyx_L24_error)
+      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 593, __pyx_L42_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_10); __pyx_t_10 = NULL;
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_request);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_request);
       PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_cur_scope->__pyx_v_request);
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 593, __pyx_L24_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 593, __pyx_L42_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
@@ -15299,13 +15481,13 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 1;
       return __pyx_r;
-      __pyx_L26_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 593, __pyx_L24_error)
+      __pyx_L44_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 593, __pyx_L42_error)
     } else {
       PyObject* exc_type = PyErr_Occurred();
       if (exc_type) {
         if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-        else __PYX_ERR(0, 593, __pyx_L24_error)
+        else __PYX_ERR(0, 593, __pyx_L42_error)
       }
     }
 
@@ -15317,14 +15499,14 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  * 
  */
     /*with:*/ {
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_filepath, __pyx_n_s_open); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L24_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_filepath, __pyx_n_s_open); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L42_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 595, __pyx_L24_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 595, __pyx_L42_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L24_error)
+      __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L42_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 595, __pyx_L27_error)
+      __pyx_t_1 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 595, __pyx_L45_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_10 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -15337,10 +15519,10 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
         }
       }
       if (__pyx_t_10) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L27_error)
+        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L45_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       } else {
-        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L27_error)
+        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L45_error)
       }
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15351,10 +15533,10 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
         {
           __Pyx_PyThreadState_declare
           __Pyx_PyThreadState_assign
-          __Pyx_ExceptionSave(&__pyx_t_4, &__pyx_t_3, &__pyx_t_16);
+          __Pyx_ExceptionSave(&__pyx_t_4, &__pyx_t_3, &__pyx_t_13);
           __Pyx_XGOTREF(__pyx_t_4);
           __Pyx_XGOTREF(__pyx_t_3);
-          __Pyx_XGOTREF(__pyx_t_16);
+          __Pyx_XGOTREF(__pyx_t_13);
           /*try:*/ {
             __Pyx_GIVEREF(__pyx_t_1);
             __pyx_cur_scope->__pyx_v_f = __pyx_t_1;
@@ -15367,10 +15549,10 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
  * 
  *         finally:
  */
-            __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_sendfile); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 596, __pyx_L31_error)
+            __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_sendfile); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 596, __pyx_L49_error)
             __Pyx_GOTREF(__pyx_t_2);
             __pyx_t_6 = NULL;
-            __pyx_t_17 = 0;
+            __pyx_t_25 = 0;
             if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
               __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_2);
               if (likely(__pyx_t_6)) {
@@ -15378,27 +15560,27 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
                 __Pyx_INCREF(__pyx_t_6);
                 __Pyx_INCREF(function);
                 __Pyx_DECREF_SET(__pyx_t_2, function);
-                __pyx_t_17 = 1;
+                __pyx_t_25 = 1;
               }
             }
-            __pyx_t_10 = PyTuple_New(4+__pyx_t_17); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 596, __pyx_L31_error)
+            __pyx_t_10 = PyTuple_New(4+__pyx_t_25); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 596, __pyx_L49_error)
             __Pyx_GOTREF(__pyx_t_10);
             if (__pyx_t_6) {
               __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_6); __pyx_t_6 = NULL;
             }
             __Pyx_INCREF(__pyx_cur_scope->__pyx_v_request);
             __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_request);
-            PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_17, __pyx_cur_scope->__pyx_v_request);
+            PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_25, __pyx_cur_scope->__pyx_v_request);
             __Pyx_INCREF(__pyx_cur_scope->__pyx_v_resp);
             __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_resp);
-            PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_17, __pyx_cur_scope->__pyx_v_resp);
+            PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_25, __pyx_cur_scope->__pyx_v_resp);
             __Pyx_INCREF(__pyx_cur_scope->__pyx_v_f);
             __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_f);
-            PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_17, __pyx_cur_scope->__pyx_v_f);
+            PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_25, __pyx_cur_scope->__pyx_v_f);
             __Pyx_INCREF(__pyx_cur_scope->__pyx_v_file_size);
             __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_file_size);
-            PyTuple_SET_ITEM(__pyx_t_10, 3+__pyx_t_17, __pyx_cur_scope->__pyx_v_file_size);
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 596, __pyx_L31_error)
+            PyTuple_SET_ITEM(__pyx_t_10, 3+__pyx_t_25, __pyx_cur_scope->__pyx_v_file_size);
+            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 596, __pyx_L49_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -15412,14 +15594,14 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
               __pyx_cur_scope->__pyx_t_1 = __pyx_t_4;
               __Pyx_XGIVEREF(__pyx_t_5);
               __pyx_cur_scope->__pyx_t_2 = __pyx_t_5;
-              __Pyx_XGIVEREF(__pyx_t_16);
-              __pyx_cur_scope->__pyx_t_3 = __pyx_t_16;
+              __Pyx_XGIVEREF(__pyx_t_13);
+              __pyx_cur_scope->__pyx_t_3 = __pyx_t_13;
               __Pyx_XGIVEREF(__pyx_r);
               __Pyx_RefNannyFinishContext();
               /* return from generator, yielding value */
               __pyx_generator->resume_label = 2;
               return __pyx_r;
-              __pyx_L39_resume_from_yield:;
+              __pyx_L57_resume_from_yield:;
               __pyx_t_3 = __pyx_cur_scope->__pyx_t_0;
               __pyx_cur_scope->__pyx_t_0 = 0;
               __Pyx_XGOTREF(__pyx_t_3);
@@ -15429,15 +15611,15 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
               __pyx_t_5 = __pyx_cur_scope->__pyx_t_2;
               __pyx_cur_scope->__pyx_t_2 = 0;
               __Pyx_XGOTREF(__pyx_t_5);
-              __pyx_t_16 = __pyx_cur_scope->__pyx_t_3;
+              __pyx_t_13 = __pyx_cur_scope->__pyx_t_3;
               __pyx_cur_scope->__pyx_t_3 = 0;
-              __Pyx_XGOTREF(__pyx_t_16);
-              if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 596, __pyx_L31_error)
+              __Pyx_XGOTREF(__pyx_t_13);
+              if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 596, __pyx_L49_error)
             } else {
               PyObject* exc_type = PyErr_Occurred();
               if (exc_type) {
                 if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                else __PYX_ERR(0, 596, __pyx_L31_error)
+                else __PYX_ERR(0, 596, __pyx_L49_error)
               }
             }
 
@@ -15451,12 +15633,12 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
           }
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
-          goto __pyx_L38_try_end;
-          __pyx_L31_error:;
+          __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+          goto __pyx_L56_try_end;
+          __pyx_L49_error:;
           __Pyx_PyThreadState_assign
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-          __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+          __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -15464,68 +15646,68 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
           /*except:*/ {
             __Pyx_AddTraceback("aiohttp.web_urldispatcher.StaticRoute.handle", __pyx_clineno, __pyx_lineno, __pyx_filename);
-            if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_10) < 0) __PYX_ERR(0, 595, __pyx_L33_except_error)
+            if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_10) < 0) __PYX_ERR(0, 595, __pyx_L51_except_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_6 = PyTuple_Pack(3, __pyx_t_1, __pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L33_except_error)
+            __pyx_t_6 = PyTuple_Pack(3, __pyx_t_1, __pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L51_except_error)
             __Pyx_GOTREF(__pyx_t_6);
-            __pyx_t_18 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL);
+            __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-            if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 595, __pyx_L33_except_error)
-            __Pyx_GOTREF(__pyx_t_18);
-            __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_18);
-            __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-            if (__pyx_t_14 < 0) __PYX_ERR(0, 595, __pyx_L33_except_error)
-            __pyx_t_12 = ((!(__pyx_t_14 != 0)) != 0);
-            if (__pyx_t_12) {
+            if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 595, __pyx_L51_except_error)
+            __Pyx_GOTREF(__pyx_t_14);
+            __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_14);
+            __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+            if (__pyx_t_23 < 0) __PYX_ERR(0, 595, __pyx_L51_except_error)
+            __pyx_t_21 = ((!(__pyx_t_23 != 0)) != 0);
+            if (__pyx_t_21) {
               __Pyx_GIVEREF(__pyx_t_1);
               __Pyx_GIVEREF(__pyx_t_2);
               __Pyx_XGIVEREF(__pyx_t_10);
               __Pyx_ErrRestoreWithState(__pyx_t_1, __pyx_t_2, __pyx_t_10);
               __pyx_t_1 = 0; __pyx_t_2 = 0; __pyx_t_10 = 0; 
-              __PYX_ERR(0, 595, __pyx_L33_except_error)
+              __PYX_ERR(0, 595, __pyx_L51_except_error)
             }
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            goto __pyx_L32_exception_handled;
+            goto __pyx_L50_exception_handled;
           }
-          __pyx_L33_except_error:;
+          __pyx_L51_except_error:;
           __Pyx_PyThreadState_assign
           __Pyx_XGIVEREF(__pyx_t_4);
           __Pyx_XGIVEREF(__pyx_t_3);
-          __Pyx_XGIVEREF(__pyx_t_16);
-          __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_3, __pyx_t_16);
-          goto __pyx_L24_error;
-          __pyx_L32_exception_handled:;
+          __Pyx_XGIVEREF(__pyx_t_13);
+          __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_3, __pyx_t_13);
+          goto __pyx_L42_error;
+          __pyx_L50_exception_handled:;
           __Pyx_PyThreadState_assign
           __Pyx_XGIVEREF(__pyx_t_4);
           __Pyx_XGIVEREF(__pyx_t_3);
-          __Pyx_XGIVEREF(__pyx_t_16);
-          __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_3, __pyx_t_16);
-          __pyx_L38_try_end:;
+          __Pyx_XGIVEREF(__pyx_t_13);
+          __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_3, __pyx_t_13);
+          __pyx_L56_try_end:;
         }
       }
       /*finally:*/ {
         /*normal exit:*/{
           if (__pyx_t_5) {
-            __pyx_t_16 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__20, NULL);
+            __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__19, NULL);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 595, __pyx_L24_error)
-            __Pyx_GOTREF(__pyx_t_16);
-            __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+            if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 595, __pyx_L42_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           }
-          goto __pyx_L30;
+          goto __pyx_L48;
         }
-        __pyx_L30:;
+        __pyx_L48:;
       }
-      goto __pyx_L43;
-      __pyx_L27_error:;
+      goto __pyx_L61;
+      __pyx_L45_error:;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      goto __pyx_L24_error;
-      __pyx_L43:;
+      goto __pyx_L42_error;
+      __pyx_L61:;
     }
   }
 
@@ -15540,37 +15722,37 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
     /*normal exit:*/{
       __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_resp, __pyx_n_s_set_tcp_nodelay); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 599, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 599, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 599, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      goto __pyx_L25;
+      goto __pyx_L43;
     }
     /*exception exit:*/{
       __Pyx_PyThreadState_declare
-      __pyx_L24_error:;
-      __pyx_t_5 = 0; __pyx_t_16 = 0; __pyx_t_3 = 0; __pyx_t_4 = 0; __pyx_t_18 = 0; __pyx_t_21 = 0;
+      __pyx_L42_error:;
+      __pyx_t_5 = 0; __pyx_t_13 = 0; __pyx_t_3 = 0; __pyx_t_4 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0;
       __Pyx_PyThreadState_assign
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_4, &__pyx_t_18, &__pyx_t_21);
-      if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_5, &__pyx_t_16, &__pyx_t_3) < 0)) __Pyx_ErrFetch(&__pyx_t_5, &__pyx_t_16, &__pyx_t_3);
+      if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_4, &__pyx_t_14, &__pyx_t_15);
+      if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_5, &__pyx_t_13, &__pyx_t_3) < 0)) __Pyx_ErrFetch(&__pyx_t_5, &__pyx_t_13, &__pyx_t_3);
       __Pyx_XGOTREF(__pyx_t_5);
-      __Pyx_XGOTREF(__pyx_t_16);
+      __Pyx_XGOTREF(__pyx_t_13);
       __Pyx_XGOTREF(__pyx_t_3);
       __Pyx_XGOTREF(__pyx_t_4);
-      __Pyx_XGOTREF(__pyx_t_18);
-      __Pyx_XGOTREF(__pyx_t_21);
-      __pyx_t_9 = __pyx_lineno; __pyx_t_19 = __pyx_clineno; __pyx_t_20 = __pyx_filename;
+      __Pyx_XGOTREF(__pyx_t_14);
+      __Pyx_XGOTREF(__pyx_t_15);
+      __pyx_t_9 = __pyx_lineno; __pyx_t_11 = __pyx_clineno; __pyx_t_26 = __pyx_filename;
       {
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_resp, __pyx_n_s_set_tcp_nodelay); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 599, __pyx_L45_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_resp, __pyx_n_s_set_tcp_nodelay); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 599, __pyx_L63_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 599, __pyx_L45_error)
+        __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 599, __pyx_L63_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -15578,32 +15760,32 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
       __Pyx_PyThreadState_assign
       if (PY_MAJOR_VERSION >= 3) {
         __Pyx_XGIVEREF(__pyx_t_4);
-        __Pyx_XGIVEREF(__pyx_t_18);
-        __Pyx_XGIVEREF(__pyx_t_21);
-        __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_18, __pyx_t_21);
+        __Pyx_XGIVEREF(__pyx_t_14);
+        __Pyx_XGIVEREF(__pyx_t_15);
+        __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_14, __pyx_t_15);
       }
       __Pyx_XGIVEREF(__pyx_t_5);
-      __Pyx_XGIVEREF(__pyx_t_16);
+      __Pyx_XGIVEREF(__pyx_t_13);
       __Pyx_XGIVEREF(__pyx_t_3);
-      __Pyx_ErrRestore(__pyx_t_5, __pyx_t_16, __pyx_t_3);
-      __pyx_t_5 = 0; __pyx_t_16 = 0; __pyx_t_3 = 0; __pyx_t_4 = 0; __pyx_t_18 = 0; __pyx_t_21 = 0;
-      __pyx_lineno = __pyx_t_9; __pyx_clineno = __pyx_t_19; __pyx_filename = __pyx_t_20;
+      __Pyx_ErrRestore(__pyx_t_5, __pyx_t_13, __pyx_t_3);
+      __pyx_t_5 = 0; __pyx_t_13 = 0; __pyx_t_3 = 0; __pyx_t_4 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0;
+      __pyx_lineno = __pyx_t_9; __pyx_clineno = __pyx_t_11; __pyx_filename = __pyx_t_26;
       goto __pyx_L1_error;
-      __pyx_L45_error:;
+      __pyx_L63_error:;
       __Pyx_PyThreadState_assign
       if (PY_MAJOR_VERSION >= 3) {
         __Pyx_XGIVEREF(__pyx_t_4);
-        __Pyx_XGIVEREF(__pyx_t_18);
-        __Pyx_XGIVEREF(__pyx_t_21);
-        __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_18, __pyx_t_21);
+        __Pyx_XGIVEREF(__pyx_t_14);
+        __Pyx_XGIVEREF(__pyx_t_15);
+        __Pyx_ExceptionReset(__pyx_t_4, __pyx_t_14, __pyx_t_15);
       }
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_4 = 0; __pyx_t_18 = 0; __pyx_t_21 = 0;
+      __pyx_t_4 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0;
       goto __pyx_L1_error;
     }
-    __pyx_L25:;
+    __pyx_L43:;
   }
 
   /* "aiohttp/web_urldispatcher.py":601
@@ -15633,7 +15815,7 @@ static PyObject *__pyx_gb_7aiohttp_17web_urldispatcher_11StaticRoute_18generator
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_19);
   __Pyx_AddTraceback("handle", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
@@ -15689,17 +15871,17 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_19__repr__(
   if ((__pyx_t_3 != 0)) {
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyNumber_Add(__pyx_kp_s__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 604, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_kp_u__3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 604, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_kp_u__4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s__5);
-    __pyx_t_1 = __pyx_kp_s__5;
+    __Pyx_INCREF(__pyx_kp_u__5);
+    __pyx_t_1 = __pyx_kp_u__5;
   }
   __pyx_v_name = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -15712,7 +15894,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11StaticRoute_19__repr__(
  *             directory=self._directory)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_StaticRoute_name_method_path_di, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 605, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_StaticRoute_name_method_path_di, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "aiohttp/web_urldispatcher.py":606
@@ -16036,7 +16218,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11SystemRoute_2url(CYTHON
  * 
  *     def match(self, path):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 617, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 617, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16200,7 +16382,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11SystemRoute_6get_info(C
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_http_exception_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 623, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_http_exception, __pyx_t_2) < 0) __PYX_ERR(0, 623, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_http_exception, __pyx_t_2) < 0) __PYX_ERR(0, 623, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -16500,7 +16682,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_11SystemRoute_14__repr__(
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_SystemRoute_self_status_self_re, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 638, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_SystemRoute_self_status_self_re, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 638, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 638, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -19538,9 +19720,9 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_19named_r
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_Use_named_resources_instead);
-  __Pyx_GIVEREF(__pyx_kp_s_Use_named_resources_instead);
-  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_4, __pyx_kp_s_Use_named_resources_instead);
+  __Pyx_INCREF(__pyx_kp_u_Use_named_resources_instead);
+  __Pyx_GIVEREF(__pyx_kp_u_Use_named_resources_instead);
+  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_4, __pyx_kp_u_Use_named_resources_instead);
   __Pyx_INCREF(__pyx_builtin_DeprecationWarning);
   __Pyx_GIVEREF(__pyx_builtin_DeprecationWarning);
   PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_builtin_DeprecationWarning);
@@ -19711,9 +19893,9 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_21registe
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
   }
-  __Pyx_INCREF(__pyx_kp_s_Use_resource_based_interface);
-  __Pyx_GIVEREF(__pyx_kp_s_Use_resource_based_interface);
-  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_4, __pyx_kp_s_Use_resource_based_interface);
+  __Pyx_INCREF(__pyx_kp_u_Use_resource_based_interface);
+  __Pyx_GIVEREF(__pyx_kp_u_Use_resource_based_interface);
+  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_4, __pyx_kp_u_Use_resource_based_interface);
   __Pyx_INCREF(__pyx_builtin_DeprecationWarning);
   __Pyx_GIVEREF(__pyx_builtin_DeprecationWarning);
   PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_builtin_DeprecationWarning);
@@ -19929,7 +20111,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_23_reg_re
  *                 resource)
  * 
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Instance_of_AbstractResource_cla, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 761, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Instance_of_AbstractResource_cla, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 761, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
 
       /* "aiohttp/web_urldispatcher.py":762
@@ -20172,7 +20354,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_23_reg_re
  *             if name in self._named_resources:
  *                 raise ValueError('Duplicate {!r}, '
  */
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Incorrect_route_name_r_the_name, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 773, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Incorrect_route_name_r_the_name, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 773, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_t_10 = NULL;
         if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -20259,7 +20441,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_23_reg_re
  *             self._named_resources[name] = resource
  *         self._resources.append(resource)
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Duplicate_r_already_handled_by_r, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 777, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Duplicate_r_already_handled_by_r, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 777, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_named_resources); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 777, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
@@ -20485,6 +20667,14 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
   PyObject *__pyx_t_15 = NULL;
   PyObject *__pyx_t_16 = NULL;
   int __pyx_t_17;
+  int __pyx_t_18;
+  char const *__pyx_t_19;
+  PyObject *__pyx_t_20 = NULL;
+  PyObject *__pyx_t_21 = NULL;
+  PyObject *__pyx_t_22 = NULL;
+  PyObject *__pyx_t_23 = NULL;
+  PyObject *__pyx_t_24 = NULL;
+  PyObject *__pyx_t_25 = NULL;
   __Pyx_RefNannySetupContext("add_resource", 0);
 
   /* "aiohttp/web_urldispatcher.py":782
@@ -20496,7 +20686,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_path, __pyx_n_s_startswith); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 782, __pyx_L1_error)
@@ -20511,7 +20701,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  *         if not ('{' in path or '}' in path or self.ROUTE_RE.search(path)):
  *             resource = PlainResource(path, name=name)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 783, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 783, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -20533,14 +20723,14 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  *             resource = PlainResource(path, name=name)
  *             self._reg_resource(resource)
  */
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_kp_s__26, __pyx_v_path, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 784, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__25, __pyx_v_path, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 784, __pyx_L1_error)
   __pyx_t_5 = (__pyx_t_3 != 0);
   if (!__pyx_t_5) {
   } else {
     __pyx_t_4 = __pyx_t_5;
     goto __pyx_L5_bool_binop_done;
   }
-  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_s__27, __pyx_v_path, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 784, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__26, __pyx_v_path, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 784, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_5 != 0);
   if (!__pyx_t_3) {
   } else {
@@ -20673,8 +20863,8 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  *         formatter = ''
  *         for part in self.ROUTE_RE.split(path):
  */
-  __Pyx_INCREF(__pyx_kp_s__5);
-  __pyx_v_pattern = __pyx_kp_s__5;
+  __Pyx_INCREF(__pyx_kp_u__5);
+  __pyx_v_pattern = __pyx_kp_u__5;
 
   /* "aiohttp/web_urldispatcher.py":790
  * 
@@ -20683,8 +20873,8 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  *         for part in self.ROUTE_RE.split(path):
  *             match = self.DYN.match(part)
  */
-  __Pyx_INCREF(__pyx_kp_s__5);
-  __pyx_v_formatter = __pyx_kp_s__5;
+  __Pyx_INCREF(__pyx_kp_u__5);
+  __pyx_v_formatter = __pyx_kp_u__5;
 
   /* "aiohttp/web_urldispatcher.py":791
  *         pattern = ''
@@ -20823,11 +21013,11 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  *                 formatter += '{' + match.group('var') + '}'
  *                 continue
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_P, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 794, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_P, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 794, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_match, __pyx_n_s_group); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 794, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 794, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 794, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_GOOD); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 794, __pyx_L1_error)
@@ -20874,13 +21064,13 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  */
       __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_match, __pyx_n_s_group); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 795, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_kp_s__26, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 795, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_kp_u__25, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_kp_s__27); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 795, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_kp_u__26); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_formatter, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 795, __pyx_L1_error)
@@ -20964,7 +21154,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  *                 formatter += '{' + match.group('var') + '}'
  *                 continue
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_P_var_re, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 800, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_P_var_re, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 800, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_match, __pyx_n_s_groupdict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 800, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
@@ -21018,13 +21208,13 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  */
       __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_match, __pyx_n_s_group); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 801, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __pyx_t_13 = PyNumber_Add(__pyx_kp_s__26, __pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 801, __pyx_L1_error)
+      __pyx_t_13 = PyNumber_Add(__pyx_kp_u__25, __pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyNumber_Add(__pyx_t_13, __pyx_kp_s__27); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 801, __pyx_L1_error)
+      __pyx_t_10 = PyNumber_Add(__pyx_t_13, __pyx_kp_u__26); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       __pyx_t_13 = PyNumber_InPlaceAdd(__pyx_v_formatter, __pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 801, __pyx_L1_error)
@@ -21058,14 +21248,14 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  *                 raise ValueError("Invalid path '{}'['{}']".format(path, part))
  * 
  */
-    __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_kp_s__26, __pyx_v_part, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__25, __pyx_v_part, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 804, __pyx_L1_error)
     __pyx_t_5 = (__pyx_t_4 != 0);
     if (!__pyx_t_5) {
     } else {
       __pyx_t_3 = __pyx_t_5;
       goto __pyx_L13_bool_binop_done;
     }
-    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_s__27, __pyx_v_part, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__26, __pyx_v_part, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 804, __pyx_L1_error)
     __pyx_t_4 = (__pyx_t_5 != 0);
     __pyx_t_3 = __pyx_t_4;
     __pyx_L13_bool_binop_done:;
@@ -21078,7 +21268,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
  * 
  *             formatter += part
  */
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Invalid_path, __pyx_n_s_format); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 805, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Invalid_path, __pyx_n_s_format); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 805, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __pyx_t_7 = NULL;
       __pyx_t_12 = 0;
@@ -21222,9 +21412,9 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
       __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_compile); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 811, __pyx_L15_error)
       __Pyx_GOTREF(__pyx_t_13);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Add(__pyx_kp_s__31, __pyx_v_pattern); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 811, __pyx_L15_error)
+      __pyx_t_1 = PyNumber_Add(__pyx_kp_u__30, __pyx_v_pattern); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 811, __pyx_L15_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_kp_s__32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 811, __pyx_L15_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_kp_u__31); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 811, __pyx_L15_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_1 = NULL;
@@ -21300,70 +21490,119 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_25add_res
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_INCREF(__pyx_t_2);
       __pyx_v_exc = __pyx_t_2;
+      /*try:*/ {
 
-      /* "aiohttp/web_urldispatcher.py":814
+        /* "aiohttp/web_urldispatcher.py":814
  *         except re.error as exc:
  *             raise ValueError(
  *                 "Bad pattern '{}': {}".format(pattern, exc)) from None             # <<<<<<<<<<<<<<
  *         resource = DynamicResource(compiled, formatter, name=name)
  *         self._reg_resource(resource)
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Bad_pattern, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 814, __pyx_L17_except_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = NULL;
-      __pyx_t_8 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_1);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_1, function);
-          __pyx_t_8 = 1;
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Bad_pattern, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 814, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_6 = NULL;
+        __pyx_t_8 = 0;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
+          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_1);
+          if (likely(__pyx_t_6)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+            __Pyx_INCREF(__pyx_t_6);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_1, function);
+            __pyx_t_8 = 1;
+          }
         }
-      }
-      __pyx_t_11 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 814, __pyx_L17_except_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      if (__pyx_t_6) {
-        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_6); __pyx_t_6 = NULL;
-      }
-      __Pyx_INCREF(__pyx_v_pattern);
-      __Pyx_GIVEREF(__pyx_v_pattern);
-      PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_8, __pyx_v_pattern);
-      __Pyx_INCREF(__pyx_v_exc);
-      __Pyx_GIVEREF(__pyx_v_exc);
-      PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_8, __pyx_v_exc);
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_11, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 814, __pyx_L17_except_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_11 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 814, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_11);
+        if (__pyx_t_6) {
+          __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_6); __pyx_t_6 = NULL;
+        }
+        __Pyx_INCREF(__pyx_v_pattern);
+        __Pyx_GIVEREF(__pyx_v_pattern);
+        PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_8, __pyx_v_pattern);
+        __Pyx_INCREF(__pyx_v_exc);
+        __Pyx_GIVEREF(__pyx_v_exc);
+        PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_8, __pyx_v_exc);
+        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_11, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 814, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "aiohttp/web_urldispatcher.py":813
+        /* "aiohttp/web_urldispatcher.py":813
  *             compiled = re.compile('^' + pattern + '$')
  *         except re.error as exc:
  *             raise ValueError(             # <<<<<<<<<<<<<<
  *                 "Bad pattern '{}': {}".format(pattern, exc)) from None
  *         resource = DynamicResource(compiled, formatter, name=name)
  */
-      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 813, __pyx_L17_except_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 813, __pyx_L17_except_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 813, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_GIVEREF(__pyx_t_7);
+        PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_7);
+        __pyx_t_7 = 0;
+        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 813, __pyx_L28_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "aiohttp/web_urldispatcher.py":814
+        /* "aiohttp/web_urldispatcher.py":814
  *         except re.error as exc:
  *             raise ValueError(
  *                 "Bad pattern '{}': {}".format(pattern, exc)) from None             # <<<<<<<<<<<<<<
  *         resource = DynamicResource(compiled, formatter, name=name)
  *         self._reg_resource(resource)
  */
-      __Pyx_Raise(__pyx_t_7, 0, 0, Py_None);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __PYX_ERR(0, 813, __pyx_L17_except_error)
+        __Pyx_Raise(__pyx_t_7, 0, 0, Py_None);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __PYX_ERR(0, 813, __pyx_L28_error)
+      }
+
+      /* "aiohttp/web_urldispatcher.py":812
+ *         try:
+ *             compiled = re.compile('^' + pattern + '$')
+ *         except re.error as exc:             # <<<<<<<<<<<<<<
+ *             raise ValueError(
+ *                 "Bad pattern '{}': {}".format(pattern, exc)) from None
+ */
+      /*finally:*/ {
+        /*exception exit:*/{
+          __Pyx_PyThreadState_declare
+          __pyx_L28_error:;
+          __pyx_t_20 = 0; __pyx_t_21 = 0; __pyx_t_22 = 0; __pyx_t_23 = 0; __pyx_t_24 = 0; __pyx_t_25 = 0;
+          __Pyx_PyThreadState_assign
+          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+          if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_23, &__pyx_t_24, &__pyx_t_25);
+          if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_20, &__pyx_t_21, &__pyx_t_22) < 0)) __Pyx_ErrFetch(&__pyx_t_20, &__pyx_t_21, &__pyx_t_22);
+          __Pyx_XGOTREF(__pyx_t_20);
+          __Pyx_XGOTREF(__pyx_t_21);
+          __Pyx_XGOTREF(__pyx_t_22);
+          __Pyx_XGOTREF(__pyx_t_23);
+          __Pyx_XGOTREF(__pyx_t_24);
+          __Pyx_XGOTREF(__pyx_t_25);
+          __pyx_t_17 = __pyx_lineno; __pyx_t_18 = __pyx_clineno; __pyx_t_19 = __pyx_filename;
+          {
+            __Pyx_DECREF(__pyx_v_exc);
+            __pyx_v_exc = NULL;
+          }
+          __Pyx_PyThreadState_assign
+          if (PY_MAJOR_VERSION >= 3) {
+            __Pyx_XGIVEREF(__pyx_t_23);
+            __Pyx_XGIVEREF(__pyx_t_24);
+            __Pyx_XGIVEREF(__pyx_t_25);
+            __Pyx_ExceptionReset(__pyx_t_23, __pyx_t_24, __pyx_t_25);
+          }
+          __Pyx_XGIVEREF(__pyx_t_20);
+          __Pyx_XGIVEREF(__pyx_t_21);
+          __Pyx_XGIVEREF(__pyx_t_22);
+          __Pyx_ErrRestore(__pyx_t_20, __pyx_t_21, __pyx_t_22);
+          __pyx_t_20 = 0; __pyx_t_21 = 0; __pyx_t_22 = 0; __pyx_t_23 = 0; __pyx_t_24 = 0; __pyx_t_25 = 0;
+          __pyx_lineno = __pyx_t_17; __pyx_clineno = __pyx_t_18; __pyx_filename = __pyx_t_19;
+          goto __pyx_L17_except_error;
+        }
+      }
     }
     goto __pyx_L17_except_error;
     __pyx_L17_except_error:;
@@ -21868,7 +22107,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_29add_sta
   if (unlikely(!Py_OptimizeFlag)) {
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_prefix, __pyx_n_s_startswith); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 832, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 832, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 832, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 832, __pyx_L1_error)
@@ -21889,7 +22128,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_29add_sta
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_prefix, __pyx_n_s_endswith); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 833, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 833, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 833, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 833, __pyx_L1_error)
@@ -21904,7 +22143,7 @@ static PyObject *__pyx_pf_7aiohttp_17web_urldispatcher_13UrlDispatcher_29add_sta
  *         route = StaticRoute(name, prefix, path,
  *                             expect_handler=expect_handler,
  */
-    __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_prefix, __pyx_kp_s__6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 834, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_prefix, __pyx_kp_u__6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 834, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_prefix, __pyx_t_1);
     __pyx_t_1 = 0;
@@ -23402,13 +23641,14 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_kp_s_100_continue, __pyx_k_100_continue, sizeof(__pyx_k_100_continue), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
+  {&__pyx_kp_u_100_continue, __pyx_k_100_continue, sizeof(__pyx_k_100_continue), 0, 1, 0, 0},
   {&__pyx_n_s_ABCMeta, __pyx_k_ABCMeta, sizeof(__pyx_k_ABCMeta), 0, 0, 1, 1},
-  {&__pyx_n_s_AIOHTTP_NOSENDFILE, __pyx_k_AIOHTTP_NOSENDFILE, sizeof(__pyx_k_AIOHTTP_NOSENDFILE), 0, 0, 1, 1},
+  {&__pyx_n_u_AIOHTTP_NOSENDFILE, __pyx_k_AIOHTTP_NOSENDFILE, sizeof(__pyx_k_AIOHTTP_NOSENDFILE), 0, 1, 0, 1},
   {&__pyx_kp_s_A_route_with_resource, __pyx_k_A_route_with_resource, sizeof(__pyx_k_A_route_with_resource), 0, 0, 1, 0},
   {&__pyx_n_s_AbstractMatchInfo, __pyx_k_AbstractMatchInfo, sizeof(__pyx_k_AbstractMatchInfo), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractResource, __pyx_k_AbstractResource, sizeof(__pyx_k_AbstractResource), 0, 0, 1, 1},
+  {&__pyx_n_u_AbstractResource, __pyx_k_AbstractResource, sizeof(__pyx_k_AbstractResource), 0, 1, 0, 1},
   {&__pyx_n_s_AbstractResource___init, __pyx_k_AbstractResource___init, sizeof(__pyx_k_AbstractResource___init), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractResource__append_query, __pyx_k_AbstractResource__append_query, sizeof(__pyx_k_AbstractResource__append_query), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractResource_get_info, __pyx_k_AbstractResource_get_info, sizeof(__pyx_k_AbstractResource_get_info), 0, 0, 1, 1},
@@ -23416,6 +23656,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_AbstractResource_resolve, __pyx_k_AbstractResource_resolve, sizeof(__pyx_k_AbstractResource_resolve), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractResource_url, __pyx_k_AbstractResource_url, sizeof(__pyx_k_AbstractResource_url), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractRoute, __pyx_k_AbstractRoute, sizeof(__pyx_k_AbstractRoute), 0, 0, 1, 1},
+  {&__pyx_n_u_AbstractRoute, __pyx_k_AbstractRoute, sizeof(__pyx_k_AbstractRoute), 0, 1, 0, 1},
   {&__pyx_n_s_AbstractRoute___init, __pyx_k_AbstractRoute___init, sizeof(__pyx_k_AbstractRoute___init), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractRoute_get_info, __pyx_k_AbstractRoute_get_info, sizeof(__pyx_k_AbstractRoute_get_info), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractRoute_handle_expect_head, __pyx_k_AbstractRoute_handle_expect_head, sizeof(__pyx_k_AbstractRoute_handle_expect_head), 0, 0, 1, 1},
@@ -23426,37 +23667,39 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_AbstractRoute_url, __pyx_k_AbstractRoute_url, sizeof(__pyx_k_AbstractRoute_url), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractRouter, __pyx_k_AbstractRouter, sizeof(__pyx_k_AbstractRouter), 0, 0, 1, 1},
   {&__pyx_n_s_AbstractView, __pyx_k_AbstractView, sizeof(__pyx_k_AbstractView), 0, 0, 1, 1},
-  {&__pyx_kp_s_Added_route_will_never_be_execut, __pyx_k_Added_route_will_never_be_execut, sizeof(__pyx_k_Added_route_will_never_be_execut), 0, 0, 1, 0},
-  {&__pyx_kp_s_Bad_pattern, __pyx_k_Bad_pattern, sizeof(__pyx_k_Bad_pattern), 0, 0, 1, 0},
-  {&__pyx_kp_s_Bare_generators_are_deprecated_u, __pyx_k_Bare_generators_are_deprecated_u, sizeof(__pyx_k_Bare_generators_are_deprecated_u), 0, 0, 1, 0},
+  {&__pyx_kp_u_Added_route_will_never_be_execut, __pyx_k_Added_route_will_never_be_execut, sizeof(__pyx_k_Added_route_will_never_be_execut), 0, 1, 0, 0},
+  {&__pyx_kp_u_Bad_pattern, __pyx_k_Bad_pattern, sizeof(__pyx_k_Bad_pattern), 0, 1, 0, 0},
+  {&__pyx_kp_u_Bare_generators_are_deprecated_u, __pyx_k_Bare_generators_are_deprecated_u, sizeof(__pyx_k_Bare_generators_are_deprecated_u), 0, 1, 0, 0},
   {&__pyx_n_s_BlockingIOError, __pyx_k_BlockingIOError, sizeof(__pyx_k_BlockingIOError), 0, 0, 1, 1},
   {&__pyx_n_s_CONTENT_ENCODING, __pyx_k_CONTENT_ENCODING, sizeof(__pyx_k_CONTENT_ENCODING), 0, 0, 1, 1},
   {&__pyx_n_s_Container, __pyx_k_Container, sizeof(__pyx_k_Container), 0, 0, 1, 1},
-  {&__pyx_kp_s_Coroutine_is_expected_got_r, __pyx_k_Coroutine_is_expected_got_r, sizeof(__pyx_k_Coroutine_is_expected_got_r), 0, 0, 1, 0},
+  {&__pyx_kp_u_Coroutine_is_expected_got_r, __pyx_k_Coroutine_is_expected_got_r, sizeof(__pyx_k_Coroutine_is_expected_got_r), 0, 1, 0, 0},
   {&__pyx_n_s_DYN, __pyx_k_DYN, sizeof(__pyx_k_DYN), 0, 0, 1, 1},
   {&__pyx_n_s_DYN_WITH_RE, __pyx_k_DYN_WITH_RE, sizeof(__pyx_k_DYN_WITH_RE), 0, 0, 1, 1},
   {&__pyx_n_s_DeprecationWarning, __pyx_k_DeprecationWarning, sizeof(__pyx_k_DeprecationWarning), 0, 0, 1, 1},
-  {&__pyx_kp_s_Duplicate_r_already_handled_by_r, __pyx_k_Duplicate_r_already_handled_by_r, sizeof(__pyx_k_Duplicate_r_already_handled_by_r), 0, 0, 1, 0},
+  {&__pyx_kp_u_Duplicate_r_already_handled_by_r, __pyx_k_Duplicate_r_already_handled_by_r, sizeof(__pyx_k_Duplicate_r_already_handled_by_r), 0, 1, 0, 0},
   {&__pyx_n_s_DynamicResource, __pyx_k_DynamicResource, sizeof(__pyx_k_DynamicResource), 0, 0, 1, 1},
+  {&__pyx_n_u_DynamicResource, __pyx_k_DynamicResource, sizeof(__pyx_k_DynamicResource), 0, 1, 0, 1},
   {&__pyx_n_s_DynamicResource___init, __pyx_k_DynamicResource___init, sizeof(__pyx_k_DynamicResource___init), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicResource___repr, __pyx_k_DynamicResource___repr, sizeof(__pyx_k_DynamicResource___repr), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicResource__match, __pyx_k_DynamicResource__match, sizeof(__pyx_k_DynamicResource__match), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicResource_get_info, __pyx_k_DynamicResource_get_info, sizeof(__pyx_k_DynamicResource_get_info), 0, 0, 1, 1},
-  {&__pyx_kp_s_DynamicResource_name_formatter, __pyx_k_DynamicResource_name_formatter, sizeof(__pyx_k_DynamicResource_name_formatter), 0, 0, 1, 0},
+  {&__pyx_kp_u_DynamicResource_name_formatter, __pyx_k_DynamicResource_name_formatter, sizeof(__pyx_k_DynamicResource_name_formatter), 0, 1, 0, 0},
   {&__pyx_n_s_DynamicResource_url, __pyx_k_DynamicResource_url, sizeof(__pyx_k_DynamicResource_url), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicRoute, __pyx_k_DynamicRoute, sizeof(__pyx_k_DynamicRoute), 0, 0, 1, 1},
+  {&__pyx_n_u_DynamicRoute, __pyx_k_DynamicRoute, sizeof(__pyx_k_DynamicRoute), 0, 1, 0, 1},
   {&__pyx_n_s_DynamicRoute___init, __pyx_k_DynamicRoute___init, sizeof(__pyx_k_DynamicRoute___init), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicRoute___repr, __pyx_k_DynamicRoute___repr, sizeof(__pyx_k_DynamicRoute___repr), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicRoute_get_info, __pyx_k_DynamicRoute_get_info, sizeof(__pyx_k_DynamicRoute_get_info), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicRoute_match, __pyx_k_DynamicRoute_match, sizeof(__pyx_k_DynamicRoute_match), 0, 0, 1, 1},
-  {&__pyx_kp_s_DynamicRoute_name_method_format, __pyx_k_DynamicRoute_name_method_format, sizeof(__pyx_k_DynamicRoute_name_method_format), 0, 0, 1, 0},
+  {&__pyx_kp_u_DynamicRoute_name_method_format, __pyx_k_DynamicRoute_name_method_format, sizeof(__pyx_k_DynamicRoute_name_method_format), 0, 1, 0, 0},
   {&__pyx_n_s_DynamicRoute_url, __pyx_k_DynamicRoute_url, sizeof(__pyx_k_DynamicRoute_url), 0, 0, 1, 1},
   {&__pyx_n_s_EXPECT, __pyx_k_EXPECT, sizeof(__pyx_k_EXPECT), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
   {&__pyx_n_s_Exception, __pyx_k_Exception, sizeof(__pyx_k_Exception), 0, 0, 1, 1},
   {&__pyx_n_s_FileNotFoundError, __pyx_k_FileNotFoundError, sizeof(__pyx_k_FileNotFoundError), 0, 0, 1, 1},
   {&__pyx_n_s_Future, __pyx_k_Future, sizeof(__pyx_k_Future), 0, 0, 1, 1},
-  {&__pyx_n_s_GET, __pyx_k_GET, sizeof(__pyx_k_GET), 0, 0, 1, 1},
+  {&__pyx_n_u_GET, __pyx_k_GET, sizeof(__pyx_k_GET), 0, 1, 0, 1},
   {&__pyx_n_s_GOOD, __pyx_k_GOOD, sizeof(__pyx_k_GOOD), 0, 0, 1, 1},
   {&__pyx_n_s_HTTPExpectationFailed, __pyx_k_HTTPExpectationFailed, sizeof(__pyx_k_HTTPExpectationFailed), 0, 0, 1, 1},
   {&__pyx_n_s_HTTPMethodNotAllowed, __pyx_k_HTTPMethodNotAllowed, sizeof(__pyx_k_HTTPMethodNotAllowed), 0, 0, 1, 1},
@@ -23464,50 +23707,54 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_HTTPNotModified, __pyx_k_HTTPNotModified, sizeof(__pyx_k_HTTPNotModified), 0, 0, 1, 1},
   {&__pyx_kp_b_HTTP_1_1_100_Continue, __pyx_k_HTTP_1_1_100_Continue, sizeof(__pyx_k_HTTP_1_1_100_Continue), 0, 0, 0, 0},
   {&__pyx_n_s_HttpVersion11, __pyx_k_HttpVersion11, sizeof(__pyx_k_HttpVersion11), 0, 0, 1, 1},
-  {&__pyx_kp_s_Incorrect_route_name_r_the_name, __pyx_k_Incorrect_route_name_r_the_name, sizeof(__pyx_k_Incorrect_route_name_r_the_name), 0, 0, 1, 0},
-  {&__pyx_kp_s_Instance_of_AbstractResource_cla, __pyx_k_Instance_of_AbstractResource_cla, sizeof(__pyx_k_Instance_of_AbstractResource_cla), 0, 0, 1, 0},
-  {&__pyx_kp_s_Instance_of_Route_class_is_requi, __pyx_k_Instance_of_Route_class_is_requi, sizeof(__pyx_k_Instance_of_Route_class_is_requi), 0, 0, 1, 0},
+  {&__pyx_kp_u_Incorrect_route_name_r_the_name, __pyx_k_Incorrect_route_name_r_the_name, sizeof(__pyx_k_Incorrect_route_name_r_the_name), 0, 1, 0, 0},
+  {&__pyx_kp_u_Instance_of_AbstractResource_cla, __pyx_k_Instance_of_AbstractResource_cla, sizeof(__pyx_k_Instance_of_AbstractResource_cla), 0, 1, 0, 0},
+  {&__pyx_kp_u_Instance_of_Route_class_is_requi, __pyx_k_Instance_of_Route_class_is_requi, sizeof(__pyx_k_Instance_of_Route_class_is_requi), 0, 1, 0, 0},
   {&__pyx_n_s_InterruptedError, __pyx_k_InterruptedError, sizeof(__pyx_k_InterruptedError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Invalid_path, __pyx_k_Invalid_path, sizeof(__pyx_k_Invalid_path), 0, 0, 1, 0},
+  {&__pyx_kp_u_Invalid_path, __pyx_k_Invalid_path, sizeof(__pyx_k_Invalid_path), 0, 1, 0, 0},
   {&__pyx_n_s_Iterable, __pyx_k_Iterable, sizeof(__pyx_k_Iterable), 0, 0, 1, 1},
   {&__pyx_n_s_METHODS, __pyx_k_METHODS, sizeof(__pyx_k_METHODS), 0, 0, 1, 1},
   {&__pyx_n_s_METH_ALL, __pyx_k_METH_ALL, sizeof(__pyx_k_METH_ALL), 0, 0, 1, 1},
   {&__pyx_n_s_METH_ANY, __pyx_k_METH_ANY, sizeof(__pyx_k_METH_ANY), 0, 0, 1, 1},
   {&__pyx_n_s_Mapping, __pyx_k_Mapping, sizeof(__pyx_k_Mapping), 0, 0, 1, 1},
   {&__pyx_n_s_MappingProxyType, __pyx_k_MappingProxyType, sizeof(__pyx_k_MappingProxyType), 0, 0, 1, 1},
-  {&__pyx_kp_s_MatchInfo, __pyx_k_MatchInfo, sizeof(__pyx_k_MatchInfo), 0, 0, 1, 0},
-  {&__pyx_kp_s_MatchInfoError, __pyx_k_MatchInfoError, sizeof(__pyx_k_MatchInfoError), 0, 0, 1, 0},
+  {&__pyx_kp_u_MatchInfo, __pyx_k_MatchInfo, sizeof(__pyx_k_MatchInfo), 0, 1, 0, 0},
+  {&__pyx_kp_u_MatchInfoError, __pyx_k_MatchInfoError, sizeof(__pyx_k_MatchInfoError), 0, 1, 0, 0},
   {&__pyx_n_s_MatchInfoError_2, __pyx_k_MatchInfoError_2, sizeof(__pyx_k_MatchInfoError_2), 0, 0, 1, 1},
   {&__pyx_n_s_MatchInfoError___init, __pyx_k_MatchInfoError___init, sizeof(__pyx_k_MatchInfoError___init), 0, 0, 1, 1},
   {&__pyx_n_s_MatchInfoError___repr, __pyx_k_MatchInfoError___repr, sizeof(__pyx_k_MatchInfoError___repr), 0, 0, 1, 1},
   {&__pyx_n_s_MatchInfoError_http_exception, __pyx_k_MatchInfoError_http_exception, sizeof(__pyx_k_MatchInfoError_http_exception), 0, 0, 1, 1},
   {&__pyx_n_s_NAME_SPLIT_RE, __pyx_k_NAME_SPLIT_RE, sizeof(__pyx_k_NAME_SPLIT_RE), 0, 0, 1, 1},
-  {&__pyx_kp_s_No_directory_exists_at, __pyx_k_No_directory_exists_at, sizeof(__pyx_k_No_directory_exists_at), 0, 0, 1, 0},
-  {&__pyx_kp_s_Not_a_directory, __pyx_k_Not_a_directory, sizeof(__pyx_k_Not_a_directory), 0, 0, 1, 0},
+  {&__pyx_kp_u_No_directory_exists_at, __pyx_k_No_directory_exists_at, sizeof(__pyx_k_No_directory_exists_at), 0, 1, 0, 0},
+  {&__pyx_kp_u_Not_a_directory, __pyx_k_Not_a_directory, sizeof(__pyx_k_Not_a_directory), 0, 1, 0, 0},
   {&__pyx_kp_s_Old_fashion_route, __pyx_k_Old_fashion_route, sizeof(__pyx_k_Old_fashion_route), 0, 0, 1, 0},
-  {&__pyx_kp_s_P, __pyx_k_P, sizeof(__pyx_k_P), 0, 0, 1, 0},
+  {&__pyx_kp_u_P, __pyx_k_P, sizeof(__pyx_k_P), 0, 1, 0, 0},
   {&__pyx_n_s_PY_35, __pyx_k_PY_35, sizeof(__pyx_k_PY_35), 0, 0, 1, 1},
-  {&__pyx_kp_s_P_var_a_zA_Z__a_zA_Z0_9, __pyx_k_P_var_a_zA_Z__a_zA_Z0_9, sizeof(__pyx_k_P_var_a_zA_Z__a_zA_Z0_9), 0, 0, 1, 0},
-  {&__pyx_kp_s_P_var_a_zA_Z__a_zA_Z0_9_P_re, __pyx_k_P_var_a_zA_Z__a_zA_Z0_9_P_re, sizeof(__pyx_k_P_var_a_zA_Z__a_zA_Z0_9_P_re), 0, 0, 1, 0},
-  {&__pyx_kp_s_P_var_re, __pyx_k_P_var_re, sizeof(__pyx_k_P_var_re), 0, 0, 1, 0},
+  {&__pyx_kp_u_P_var_a_zA_Z__a_zA_Z0_9, __pyx_k_P_var_a_zA_Z__a_zA_Z0_9, sizeof(__pyx_k_P_var_a_zA_Z__a_zA_Z0_9), 0, 1, 0, 0},
+  {&__pyx_kp_u_P_var_a_zA_Z__a_zA_Z0_9_P_re, __pyx_k_P_var_a_zA_Z__a_zA_Z0_9_P_re, sizeof(__pyx_k_P_var_a_zA_Z__a_zA_Z0_9_P_re), 0, 1, 0, 0},
+  {&__pyx_kp_u_P_var_re, __pyx_k_P_var_re, sizeof(__pyx_k_P_var_re), 0, 1, 0, 0},
   {&__pyx_n_s_Path, __pyx_k_Path, sizeof(__pyx_k_Path), 0, 0, 1, 1},
   {&__pyx_n_s_PlainResource, __pyx_k_PlainResource, sizeof(__pyx_k_PlainResource), 0, 0, 1, 1},
+  {&__pyx_n_u_PlainResource, __pyx_k_PlainResource, sizeof(__pyx_k_PlainResource), 0, 1, 0, 1},
   {&__pyx_n_s_PlainResource___init, __pyx_k_PlainResource___init, sizeof(__pyx_k_PlainResource___init), 0, 0, 1, 1},
   {&__pyx_n_s_PlainResource___repr, __pyx_k_PlainResource___repr, sizeof(__pyx_k_PlainResource___repr), 0, 0, 1, 1},
   {&__pyx_n_s_PlainResource__match, __pyx_k_PlainResource__match, sizeof(__pyx_k_PlainResource__match), 0, 0, 1, 1},
   {&__pyx_n_s_PlainResource_get_info, __pyx_k_PlainResource_get_info, sizeof(__pyx_k_PlainResource_get_info), 0, 0, 1, 1},
-  {&__pyx_kp_s_PlainResource_name_path, __pyx_k_PlainResource_name_path, sizeof(__pyx_k_PlainResource_name_path), 0, 0, 1, 0},
+  {&__pyx_kp_u_PlainResource_name_path, __pyx_k_PlainResource_name_path, sizeof(__pyx_k_PlainResource_name_path), 0, 1, 0, 0},
   {&__pyx_n_s_PlainResource_url, __pyx_k_PlainResource_url, sizeof(__pyx_k_PlainResource_url), 0, 0, 1, 1},
   {&__pyx_n_s_PlainRoute, __pyx_k_PlainRoute, sizeof(__pyx_k_PlainRoute), 0, 0, 1, 1},
+  {&__pyx_n_u_PlainRoute, __pyx_k_PlainRoute, sizeof(__pyx_k_PlainRoute), 0, 1, 0, 1},
   {&__pyx_n_s_PlainRoute___init, __pyx_k_PlainRoute___init, sizeof(__pyx_k_PlainRoute___init), 0, 0, 1, 1},
   {&__pyx_n_s_PlainRoute___repr, __pyx_k_PlainRoute___repr, sizeof(__pyx_k_PlainRoute___repr), 0, 0, 1, 1},
   {&__pyx_n_s_PlainRoute_get_info, __pyx_k_PlainRoute_get_info, sizeof(__pyx_k_PlainRoute_get_info), 0, 0, 1, 1},
   {&__pyx_n_s_PlainRoute_match, __pyx_k_PlainRoute_match, sizeof(__pyx_k_PlainRoute_match), 0, 0, 1, 1},
-  {&__pyx_kp_s_PlainRoute_name_method_path_han, __pyx_k_PlainRoute_name_method_path_han, sizeof(__pyx_k_PlainRoute_name_method_path_han), 0, 0, 1, 0},
+  {&__pyx_kp_u_PlainRoute_name_method_path_han, __pyx_k_PlainRoute_name_method_path_han, sizeof(__pyx_k_PlainRoute_name_method_path_han), 0, 1, 0, 0},
   {&__pyx_n_s_PlainRoute_url, __pyx_k_PlainRoute_url, sizeof(__pyx_k_PlainRoute_url), 0, 0, 1, 1},
   {&__pyx_n_s_ROUTE_RE, __pyx_k_ROUTE_RE, sizeof(__pyx_k_ROUTE_RE), 0, 0, 1, 1},
   {&__pyx_n_s_Resource, __pyx_k_Resource, sizeof(__pyx_k_Resource), 0, 0, 1, 1},
+  {&__pyx_n_u_Resource, __pyx_k_Resource, sizeof(__pyx_k_Resource), 0, 1, 0, 1},
   {&__pyx_n_s_ResourceAdapter, __pyx_k_ResourceAdapter, sizeof(__pyx_k_ResourceAdapter), 0, 0, 1, 1},
+  {&__pyx_n_u_ResourceAdapter, __pyx_k_ResourceAdapter, sizeof(__pyx_k_ResourceAdapter), 0, 1, 0, 1},
   {&__pyx_n_s_ResourceAdapter___init, __pyx_k_ResourceAdapter___init, sizeof(__pyx_k_ResourceAdapter___init), 0, 0, 1, 1},
   {&__pyx_n_s_ResourceAdapter___iter, __pyx_k_ResourceAdapter___iter, sizeof(__pyx_k_ResourceAdapter___iter), 0, 0, 1, 1},
   {&__pyx_n_s_ResourceAdapter___len, __pyx_k_ResourceAdapter___len, sizeof(__pyx_k_ResourceAdapter___len), 0, 0, 1, 1},
@@ -23515,10 +23762,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ResourceAdapter_resolve, __pyx_k_ResourceAdapter_resolve, sizeof(__pyx_k_ResourceAdapter_resolve), 0, 0, 1, 1},
   {&__pyx_n_s_ResourceAdapter_url, __pyx_k_ResourceAdapter_url, sizeof(__pyx_k_ResourceAdapter_url), 0, 0, 1, 1},
   {&__pyx_n_s_ResourceRoute, __pyx_k_ResourceRoute, sizeof(__pyx_k_ResourceRoute), 0, 0, 1, 1},
+  {&__pyx_n_u_ResourceRoute, __pyx_k_ResourceRoute, sizeof(__pyx_k_ResourceRoute), 0, 1, 0, 1},
   {&__pyx_n_s_ResourceRoute___init, __pyx_k_ResourceRoute___init, sizeof(__pyx_k_ResourceRoute___init), 0, 0, 1, 1},
   {&__pyx_n_s_ResourceRoute___repr, __pyx_k_ResourceRoute___repr, sizeof(__pyx_k_ResourceRoute___repr), 0, 0, 1, 1},
   {&__pyx_n_s_ResourceRoute_get_info, __pyx_k_ResourceRoute_get_info, sizeof(__pyx_k_ResourceRoute_get_info), 0, 0, 1, 1},
-  {&__pyx_kp_s_ResourceRoute_method_resource_h, __pyx_k_ResourceRoute_method_resource_h, sizeof(__pyx_k_ResourceRoute_method_resource_h), 0, 0, 1, 0},
+  {&__pyx_kp_u_ResourceRoute_method_resource_h, __pyx_k_ResourceRoute_method_resource_h, sizeof(__pyx_k_ResourceRoute_method_resource_h), 0, 1, 0, 0},
   {&__pyx_n_s_ResourceRoute_name, __pyx_k_ResourceRoute_name, sizeof(__pyx_k_ResourceRoute_name), 0, 0, 1, 1},
   {&__pyx_n_s_ResourceRoute_url, __pyx_k_ResourceRoute_url, sizeof(__pyx_k_ResourceRoute_url), 0, 0, 1, 1},
   {&__pyx_n_s_Resource___init, __pyx_k_Resource___init, sizeof(__pyx_k_Resource___init), 0, 0, 1, 1},
@@ -23533,6 +23781,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ResourcesView___iter, __pyx_k_ResourcesView___iter, sizeof(__pyx_k_ResourcesView___iter), 0, 0, 1, 1},
   {&__pyx_n_s_ResourcesView___len, __pyx_k_ResourcesView___len, sizeof(__pyx_k_ResourcesView___len), 0, 0, 1, 1},
   {&__pyx_n_s_Route, __pyx_k_Route, sizeof(__pyx_k_Route), 0, 0, 1, 1},
+  {&__pyx_n_u_Route, __pyx_k_Route, sizeof(__pyx_k_Route), 0, 1, 0, 1},
   {&__pyx_n_s_Route___init, __pyx_k_Route___init, sizeof(__pyx_k_Route___init), 0, 0, 1, 1},
   {&__pyx_n_s_Route_match, __pyx_k_Route_match, sizeof(__pyx_k_Route_match), 0, 0, 1, 1},
   {&__pyx_n_s_Route_name, __pyx_k_Route_name, sizeof(__pyx_k_Route_name), 0, 0, 1, 1},
@@ -23544,6 +23793,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_Sized, __pyx_k_Sized, sizeof(__pyx_k_Sized), 0, 0, 1, 1},
   {&__pyx_n_s_StaticRoute, __pyx_k_StaticRoute, sizeof(__pyx_k_StaticRoute), 0, 0, 1, 1},
+  {&__pyx_n_u_StaticRoute, __pyx_k_StaticRoute, sizeof(__pyx_k_StaticRoute), 0, 1, 0, 1},
   {&__pyx_n_s_StaticRoute___init, __pyx_k_StaticRoute___init, sizeof(__pyx_k_StaticRoute___init), 0, 0, 1, 1},
   {&__pyx_n_s_StaticRoute___repr, __pyx_k_StaticRoute___repr, sizeof(__pyx_k_StaticRoute___repr), 0, 0, 1, 1},
   {&__pyx_n_s_StaticRoute__sendfile_cb, __pyx_k_StaticRoute__sendfile_cb, sizeof(__pyx_k_StaticRoute__sendfile_cb), 0, 0, 1, 1},
@@ -23552,7 +23802,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_StaticRoute_get_info, __pyx_k_StaticRoute_get_info, sizeof(__pyx_k_StaticRoute_get_info), 0, 0, 1, 1},
   {&__pyx_n_s_StaticRoute_handle, __pyx_k_StaticRoute_handle, sizeof(__pyx_k_StaticRoute_handle), 0, 0, 1, 1},
   {&__pyx_n_s_StaticRoute_match, __pyx_k_StaticRoute_match, sizeof(__pyx_k_StaticRoute_match), 0, 0, 1, 1},
-  {&__pyx_kp_s_StaticRoute_name_method_path_di, __pyx_k_StaticRoute_name_method_path_di, sizeof(__pyx_k_StaticRoute_name_method_path_di), 0, 0, 1, 0},
+  {&__pyx_kp_u_StaticRoute_name_method_path_di, __pyx_k_StaticRoute_name_method_path_di, sizeof(__pyx_k_StaticRoute_name_method_path_di), 0, 1, 0, 0},
   {&__pyx_n_s_StaticRoute_url, __pyx_k_StaticRoute_url, sizeof(__pyx_k_StaticRoute_url), 0, 0, 1, 1},
   {&__pyx_n_s_StreamResponse, __pyx_k_StreamResponse, sizeof(__pyx_k_StreamResponse), 0, 0, 1, 1},
   {&__pyx_n_s_SystemRoute, __pyx_k_SystemRoute, sizeof(__pyx_k_SystemRoute), 0, 0, 1, 1},
@@ -23562,11 +23812,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SystemRoute_get_info, __pyx_k_SystemRoute_get_info, sizeof(__pyx_k_SystemRoute_get_info), 0, 0, 1, 1},
   {&__pyx_n_s_SystemRoute_match, __pyx_k_SystemRoute_match, sizeof(__pyx_k_SystemRoute_match), 0, 0, 1, 1},
   {&__pyx_n_s_SystemRoute_reason, __pyx_k_SystemRoute_reason, sizeof(__pyx_k_SystemRoute_reason), 0, 0, 1, 1},
-  {&__pyx_kp_s_SystemRoute_self_status_self_re, __pyx_k_SystemRoute_self_status_self_re, sizeof(__pyx_k_SystemRoute_self_status_self_re), 0, 0, 1, 0},
+  {&__pyx_kp_u_SystemRoute_self_status_self_re, __pyx_k_SystemRoute_self_status_self_re, sizeof(__pyx_k_SystemRoute_self_status_self_re), 0, 1, 0, 0},
   {&__pyx_n_s_SystemRoute_status, __pyx_k_SystemRoute_status, sizeof(__pyx_k_SystemRoute_status), 0, 0, 1, 1},
   {&__pyx_n_s_SystemRoute_url, __pyx_k_SystemRoute_url, sizeof(__pyx_k_SystemRoute_url), 0, 0, 1, 1},
-  {&__pyx_kp_s_Unknown_Expect_s, __pyx_k_Unknown_Expect_s, sizeof(__pyx_k_Unknown_Expect_s), 0, 0, 1, 0},
+  {&__pyx_kp_u_Unknown_Expect_s, __pyx_k_Unknown_Expect_s, sizeof(__pyx_k_Unknown_Expect_s), 0, 1, 0, 0},
   {&__pyx_n_s_UrlDispatcher, __pyx_k_UrlDispatcher, sizeof(__pyx_k_UrlDispatcher), 0, 0, 1, 1},
+  {&__pyx_n_u_UrlDispatcher, __pyx_k_UrlDispatcher, sizeof(__pyx_k_UrlDispatcher), 0, 1, 0, 1},
   {&__pyx_n_s_UrlDispatcher___contains, __pyx_k_UrlDispatcher___contains, sizeof(__pyx_k_UrlDispatcher___contains), 0, 0, 1, 1},
   {&__pyx_n_s_UrlDispatcher___getitem, __pyx_k_UrlDispatcher___getitem, sizeof(__pyx_k_UrlDispatcher___getitem), 0, 0, 1, 1},
   {&__pyx_n_s_UrlDispatcher___init, __pyx_k_UrlDispatcher___init, sizeof(__pyx_k_UrlDispatcher___init), 0, 0, 1, 1},
@@ -23583,6 +23834,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_UrlDispatcher_resources, __pyx_k_UrlDispatcher_resources, sizeof(__pyx_k_UrlDispatcher_resources), 0, 0, 1, 1},
   {&__pyx_n_s_UrlDispatcher_routes, __pyx_k_UrlDispatcher_routes, sizeof(__pyx_k_UrlDispatcher_routes), 0, 0, 1, 1},
   {&__pyx_n_s_UrlMappingMatchInfo, __pyx_k_UrlMappingMatchInfo, sizeof(__pyx_k_UrlMappingMatchInfo), 0, 0, 1, 1},
+  {&__pyx_n_u_UrlMappingMatchInfo, __pyx_k_UrlMappingMatchInfo, sizeof(__pyx_k_UrlMappingMatchInfo), 0, 1, 0, 1},
   {&__pyx_n_s_UrlMappingMatchInfo___init, __pyx_k_UrlMappingMatchInfo___init, sizeof(__pyx_k_UrlMappingMatchInfo___init), 0, 0, 1, 1},
   {&__pyx_n_s_UrlMappingMatchInfo___repr, __pyx_k_UrlMappingMatchInfo___repr, sizeof(__pyx_k_UrlMappingMatchInfo___repr), 0, 0, 1, 1},
   {&__pyx_n_s_UrlMappingMatchInfo_expect_handl, __pyx_k_UrlMappingMatchInfo_expect_handl, sizeof(__pyx_k_UrlMappingMatchInfo_expect_handl), 0, 0, 1, 1},
@@ -23590,25 +23842,27 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_UrlMappingMatchInfo_handler, __pyx_k_UrlMappingMatchInfo_handler, sizeof(__pyx_k_UrlMappingMatchInfo_handler), 0, 0, 1, 1},
   {&__pyx_n_s_UrlMappingMatchInfo_http_excepti, __pyx_k_UrlMappingMatchInfo_http_excepti, sizeof(__pyx_k_UrlMappingMatchInfo_http_excepti), 0, 0, 1, 1},
   {&__pyx_n_s_UrlMappingMatchInfo_route, __pyx_k_UrlMappingMatchInfo_route, sizeof(__pyx_k_UrlMappingMatchInfo_route), 0, 0, 1, 1},
-  {&__pyx_kp_s_Use_named_resources_instead, __pyx_k_Use_named_resources_instead, sizeof(__pyx_k_Use_named_resources_instead), 0, 0, 1, 0},
-  {&__pyx_kp_s_Use_resource_based_interface, __pyx_k_Use_resource_based_interface, sizeof(__pyx_k_Use_resource_based_interface), 0, 0, 1, 0},
+  {&__pyx_kp_u_Use_named_resources_instead, __pyx_k_Use_named_resources_instead, sizeof(__pyx_k_Use_named_resources_instead), 0, 1, 0, 0},
+  {&__pyx_kp_u_Use_resource_based_interface, __pyx_k_Use_resource_based_interface, sizeof(__pyx_k_Use_resource_based_interface), 0, 1, 0, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View, __pyx_k_View, sizeof(__pyx_k_View), 0, 0, 1, 1},
+  {&__pyx_n_u_View, __pyx_k_View, sizeof(__pyx_k_View), 0, 1, 0, 1},
   {&__pyx_n_s_View___await, __pyx_k_View___await, sizeof(__pyx_k_View___await), 0, 0, 1, 1},
   {&__pyx_n_s_View___iter, __pyx_k_View___iter, sizeof(__pyx_k_View___iter), 0, 0, 1, 1},
   {&__pyx_n_s_View__raise_allowed_methods, __pyx_k_View__raise_allowed_methods, sizeof(__pyx_k_View__raise_allowed_methods), 0, 0, 1, 1},
-  {&__pyx_kp_s__225, __pyx_k__225, sizeof(__pyx_k__225), 0, 0, 1, 0},
-  {&__pyx_kp_s__227, __pyx_k__227, sizeof(__pyx_k__227), 0, 0, 1, 0},
-  {&__pyx_kp_s__26, __pyx_k__26, sizeof(__pyx_k__26), 0, 0, 1, 0},
-  {&__pyx_kp_s__27, __pyx_k__27, sizeof(__pyx_k__27), 0, 0, 1, 0},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
-  {&__pyx_kp_s__31, __pyx_k__31, sizeof(__pyx_k__31), 0, 0, 1, 0},
-  {&__pyx_kp_s__32, __pyx_k__32, sizeof(__pyx_k__32), 0, 0, 1, 0},
-  {&__pyx_kp_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 0},
-  {&__pyx_kp_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 0},
-  {&__pyx_kp_s__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 0, 1, 0},
-  {&__pyx_kp_s__9, __pyx_k__9, sizeof(__pyx_k__9), 0, 0, 1, 0},
-  {&__pyx_kp_s_a_zA_Z, __pyx_k_a_zA_Z, sizeof(__pyx_k_a_zA_Z), 0, 0, 1, 0},
+  {&__pyx_kp_u__224, __pyx_k__224, sizeof(__pyx_k__224), 0, 1, 0, 0},
+  {&__pyx_kp_u__226, __pyx_k__226, sizeof(__pyx_k__226), 0, 1, 0, 0},
+  {&__pyx_kp_u__25, __pyx_k__25, sizeof(__pyx_k__25), 0, 1, 0, 0},
+  {&__pyx_kp_u__26, __pyx_k__26, sizeof(__pyx_k__26), 0, 1, 0, 0},
+  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
+  {&__pyx_kp_u__30, __pyx_k__30, sizeof(__pyx_k__30), 0, 1, 0, 0},
+  {&__pyx_kp_u__31, __pyx_k__31, sizeof(__pyx_k__31), 0, 1, 0, 0},
+  {&__pyx_kp_u__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 1, 0, 0},
+  {&__pyx_n_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 1},
+  {&__pyx_kp_u__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 1, 0, 0},
+  {&__pyx_kp_u__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 1, 0, 0},
+  {&__pyx_kp_u__9, __pyx_k__9, sizeof(__pyx_k__9), 0, 1, 0, 0},
+  {&__pyx_kp_u_a_zA_Z, __pyx_k_a_zA_Z, sizeof(__pyx_k_a_zA_Z), 0, 1, 0, 0},
   {&__pyx_n_s_abc, __pyx_k_abc, sizeof(__pyx_k_abc), 0, 0, 1, 1},
   {&__pyx_n_s_abstractmethod, __pyx_k_abstractmethod, sizeof(__pyx_k_abstractmethod), 0, 0, 1, 1},
   {&__pyx_n_s_add_resource, __pyx_k_add_resource, sizeof(__pyx_k_add_resource), 0, 0, 1, 1},
@@ -23622,7 +23876,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_app, __pyx_k_app, sizeof(__pyx_k_app), 0, 0, 1, 1},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_append_query, __pyx_k_append_query, sizeof(__pyx_k_append_query), 0, 0, 1, 1},
-  {&__pyx_kp_s_application_octet_stream, __pyx_k_application_octet_stream, sizeof(__pyx_k_application_octet_stream), 0, 0, 1, 0},
+  {&__pyx_kp_u_application_octet_stream, __pyx_k_application_octet_stream, sizeof(__pyx_k_application_octet_stream), 0, 1, 0, 0},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
@@ -23644,6 +23898,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ct, __pyx_k_ct, sizeof(__pyx_k_ct), 0, 0, 1, 1},
   {&__pyx_n_s_defaultExpectHandler, __pyx_k_defaultExpectHandler, sizeof(__pyx_k_defaultExpectHandler), 0, 0, 1, 1},
   {&__pyx_n_s_directory, __pyx_k_directory, sizeof(__pyx_k_directory), 0, 0, 1, 1},
+  {&__pyx_n_u_directory, __pyx_k_directory, sizeof(__pyx_k_directory), 0, 1, 0, 1},
   {&__pyx_n_s_directory_2, __pyx_k_directory_2, sizeof(__pyx_k_directory_2), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_drain, __pyx_k_drain, sizeof(__pyx_k_drain), 0, 0, 1, 1},
@@ -23664,12 +23919,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 0, 1, 1},
   {&__pyx_n_s_file_size, __pyx_k_file_size, sizeof(__pyx_k_file_size), 0, 0, 1, 1},
   {&__pyx_n_s_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 1},
+  {&__pyx_n_u_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 1, 0, 1},
   {&__pyx_n_s_fileno, __pyx_k_fileno, sizeof(__pyx_k_fileno), 0, 0, 1, 1},
   {&__pyx_n_s_filepath, __pyx_k_filepath, sizeof(__pyx_k_filepath), 0, 0, 1, 1},
   {&__pyx_n_s_fobj, __pyx_k_fobj, sizeof(__pyx_k_fobj), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_format_map, __pyx_k_format_map, sizeof(__pyx_k_format_map), 0, 0, 1, 1},
   {&__pyx_n_s_formatter, __pyx_k_formatter, sizeof(__pyx_k_formatter), 0, 0, 1, 1},
+  {&__pyx_n_u_formatter, __pyx_k_formatter, sizeof(__pyx_k_formatter), 0, 1, 0, 1},
   {&__pyx_n_s_formatter_2, __pyx_k_formatter_2, sizeof(__pyx_k_formatter_2), 0, 0, 1, 1},
   {&__pyx_n_s_fut, __pyx_k_fut, sizeof(__pyx_k_fut), 0, 0, 1, 1},
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
@@ -23686,6 +23943,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_hdrs, __pyx_k_hdrs, sizeof(__pyx_k_hdrs), 0, 0, 1, 1},
   {&__pyx_n_s_headers, __pyx_k_headers, sizeof(__pyx_k_headers), 0, 0, 1, 1},
   {&__pyx_n_s_http_exception, __pyx_k_http_exception, sizeof(__pyx_k_http_exception), 0, 0, 1, 1},
+  {&__pyx_n_u_http_exception, __pyx_k_http_exception, sizeof(__pyx_k_http_exception), 0, 1, 0, 1},
   {&__pyx_n_s_http_exception_2, __pyx_k_http_exception_2, sizeof(__pyx_k_http_exception_2), 0, 0, 1, 1},
   {&__pyx_n_s_if_modified_since, __pyx_k_if_modified_since, sizeof(__pyx_k_if_modified_since), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -23693,7 +23951,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_inspect, __pyx_k_inspect, sizeof(__pyx_k_inspect), 0, 0, 1, 1},
   {&__pyx_n_s_is_dir, __pyx_k_is_dir, sizeof(__pyx_k_is_dir), 0, 0, 1, 1},
-  {&__pyx_kp_s_is_not_allowed_HTTP_method, __pyx_k_is_not_allowed_HTTP_method, sizeof(__pyx_k_is_not_allowed_HTTP_method), 0, 0, 1, 0},
+  {&__pyx_kp_u_is_not_allowed_HTTP_method, __pyx_k_is_not_allowed_HTTP_method, sizeof(__pyx_k_is_not_allowed_HTTP_method), 0, 1, 0, 0},
   {&__pyx_n_s_iscoroutinefunction, __pyx_k_iscoroutinefunction, sizeof(__pyx_k_iscoroutinefunction), 0, 0, 1, 1},
   {&__pyx_n_s_isgeneratorfunction, __pyx_k_isgeneratorfunction, sizeof(__pyx_k_isgeneratorfunction), 0, 0, 1, 1},
   {&__pyx_n_s_isidentifier, __pyx_k_isidentifier, sizeof(__pyx_k_isidentifier), 0, 0, 1, 1},
@@ -23733,12 +23991,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_part, __pyx_k_part, sizeof(__pyx_k_part), 0, 0, 1, 1},
   {&__pyx_n_s_parts, __pyx_k_parts, sizeof(__pyx_k_parts), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
+  {&__pyx_n_u_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 1, 0, 1},
   {&__pyx_n_s_path_2, __pyx_k_path_2, sizeof(__pyx_k_path_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_path_should_be_started_with, __pyx_k_path_should_be_started_with, sizeof(__pyx_k_path_should_be_started_with), 0, 0, 1, 0},
+  {&__pyx_kp_u_path_should_be_started_with, __pyx_k_path_should_be_started_with, sizeof(__pyx_k_path_should_be_started_with), 0, 1, 0, 0},
   {&__pyx_n_s_pathlib, __pyx_k_pathlib, sizeof(__pyx_k_pathlib), 0, 0, 1, 1},
   {&__pyx_n_s_pattern, __pyx_k_pattern, sizeof(__pyx_k_pattern), 0, 0, 1, 1},
+  {&__pyx_n_u_pattern, __pyx_k_pattern, sizeof(__pyx_k_pattern), 0, 1, 0, 1},
   {&__pyx_n_s_pattern_2, __pyx_k_pattern_2, sizeof(__pyx_k_pattern_2), 0, 0, 1, 1},
   {&__pyx_n_s_prefix, __pyx_k_prefix, sizeof(__pyx_k_prefix), 0, 0, 1, 1},
+  {&__pyx_n_u_prefix, __pyx_k_prefix, sizeof(__pyx_k_prefix), 0, 1, 0, 1},
   {&__pyx_n_s_prefix_2, __pyx_k_prefix_2, sizeof(__pyx_k_prefix_2), 0, 0, 1, 1},
   {&__pyx_n_s_prefix_len, __pyx_k_prefix_len, sizeof(__pyx_k_prefix_len), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
@@ -23749,7 +24010,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_query, __pyx_k_query, sizeof(__pyx_k_query), 0, 0, 1, 1},
   {&__pyx_n_s_raise_allowed_methods, __pyx_k_raise_allowed_methods, sizeof(__pyx_k_raise_allowed_methods), 0, 0, 1, 1},
   {&__pyx_n_s_raw_path, __pyx_k_raw_path, sizeof(__pyx_k_raw_path), 0, 0, 1, 1},
-  {&__pyx_n_s_rb, __pyx_k_rb, sizeof(__pyx_k_rb), 0, 0, 1, 1},
+  {&__pyx_n_u_rb, __pyx_k_rb, sizeof(__pyx_k_rb), 0, 1, 0, 1},
   {&__pyx_n_s_re, __pyx_k_re, sizeof(__pyx_k_re), 0, 0, 1, 1},
   {&__pyx_n_s_read, __pyx_k_read, sizeof(__pyx_k_read), 0, 0, 1, 1},
   {&__pyx_n_s_reason, __pyx_k_reason, sizeof(__pyx_k_reason), 0, 0, 1, 1},
@@ -23779,6 +24040,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
   {&__pyx_n_s_sendfile, __pyx_k_sendfile, sizeof(__pyx_k_sendfile), 0, 0, 1, 1},
   {&__pyx_n_s_sendfile_2, __pyx_k_sendfile_2, sizeof(__pyx_k_sendfile_2), 0, 0, 1, 1},
+  {&__pyx_n_u_sendfile_2, __pyx_k_sendfile_2, sizeof(__pyx_k_sendfile_2), 0, 1, 0, 1},
   {&__pyx_n_s_sendfile_cb, __pyx_k_sendfile_cb, sizeof(__pyx_k_sendfile_cb), 0, 0, 1, 1},
   {&__pyx_n_s_sendfile_fallback, __pyx_k_sendfile_fallback, sizeof(__pyx_k_sendfile_fallback), 0, 0, 1, 1},
   {&__pyx_n_s_sendfile_system, __pyx_k_sendfile_system, sizeof(__pyx_k_sendfile_system), 0, 0, 1, 1},
@@ -23786,9 +24048,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_set_result, __pyx_k_set_result, sizeof(__pyx_k_set_result), 0, 0, 1, 1},
   {&__pyx_n_s_set_tcp_cork, __pyx_k_set_tcp_cork, sizeof(__pyx_k_set_tcp_cork), 0, 0, 1, 1},
   {&__pyx_n_s_set_tcp_nodelay, __pyx_k_set_tcp_nodelay, sizeof(__pyx_k_set_tcp_nodelay), 0, 0, 1, 1},
-  {&__pyx_n_s_socket, __pyx_k_socket, sizeof(__pyx_k_socket), 0, 0, 1, 1},
+  {&__pyx_n_u_socket, __pyx_k_socket, sizeof(__pyx_k_socket), 0, 1, 0, 1},
   {&__pyx_n_s_split, __pyx_k_split, sizeof(__pyx_k_split), 0, 0, 1, 1},
-  {&__pyx_n_s_sslcontext, __pyx_k_sslcontext, sizeof(__pyx_k_sslcontext), 0, 0, 1, 1},
+  {&__pyx_n_u_sslcontext, __pyx_k_sslcontext, sizeof(__pyx_k_sslcontext), 0, 1, 0, 1},
   {&__pyx_n_s_st, __pyx_k_st, sizeof(__pyx_k_st), 0, 0, 1, 1},
   {&__pyx_n_s_st_mtime, __pyx_k_st_mtime, sizeof(__pyx_k_st_mtime), 0, 0, 1, 1},
   {&__pyx_n_s_st_size, __pyx_k_st_size, sizeof(__pyx_k_st_size), 0, 0, 1, 1},
@@ -23807,10 +24069,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_unquote, __pyx_k_unquote, sizeof(__pyx_k_unquote), 0, 0, 1, 1},
   {&__pyx_n_s_upstr, __pyx_k_upstr, sizeof(__pyx_k_upstr), 0, 0, 1, 1},
   {&__pyx_n_s_url, __pyx_k_url, sizeof(__pyx_k_url), 0, 0, 1, 1},
-  {&__pyx_kp_s_url_is_not_allowed_for_SystemRo, __pyx_k_url_is_not_allowed_for_SystemRo, sizeof(__pyx_k_url_is_not_allowed_for_SystemRo), 0, 0, 1, 0},
+  {&__pyx_kp_u_url_is_not_allowed_for_SystemRo, __pyx_k_url_is_not_allowed_for_SystemRo, sizeof(__pyx_k_url_is_not_allowed_for_SystemRo), 0, 1, 0, 0},
   {&__pyx_n_s_urlencode, __pyx_k_urlencode, sizeof(__pyx_k_urlencode), 0, 0, 1, 1},
   {&__pyx_n_s_urllib_parse, __pyx_k_urllib_parse, sizeof(__pyx_k_urllib_parse), 0, 0, 1, 1},
-  {&__pyx_n_s_var, __pyx_k_var, sizeof(__pyx_k_var), 0, 0, 1, 1},
+  {&__pyx_n_u_var, __pyx_k_var, sizeof(__pyx_k_var), 0, 1, 0, 1},
   {&__pyx_n_s_version, __pyx_k_version, sizeof(__pyx_k_version), 0, 0, 1, 1},
   {&__pyx_n_s_version_info, __pyx_k_version_info, sizeof(__pyx_k_version_info), 0, 0, 1, 1},
   {&__pyx_n_s_warn, __pyx_k_warn, sizeof(__pyx_k_warn), 0, 0, 1, 1},
@@ -23858,7 +24120,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert prefix.endswith('/'), prefix
  *         super().__init__(
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 436, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -23869,20 +24131,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(
  *             'GET', self.handle, name, expect_handler=expect_handler)
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 437, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 437, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-
-  /* "aiohttp/web_urldispatcher.py":444
- *         try:
- *             directory = Path(directory)
- *             if str(directory).startswith('~'):             # <<<<<<<<<<<<<<
- *                 directory = Path(os.path.expanduser(str(directory)))
- *             directory = directory.resolve()
- */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s__9); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 444, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "aiohttp/web_urldispatcher.py":448
  *             directory = directory.resolve()
@@ -23891,9 +24142,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         except (FileNotFoundError, ValueError) as error:
  *             raise ValueError(
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Not_a_directory); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 448, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Not_a_directory); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "aiohttp/web_urldispatcher.py":456
  *         self._response_factory = response_factory
@@ -23902,9 +24153,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             self._sendfile = self._sendfile_fallback
  * 
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_AIOHTTP_NOSENDFILE); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 456, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_u_AIOHTTP_NOSENDFILE); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "aiohttp/web_urldispatcher.py":467
  *         if isinstance(filename, Path):
@@ -23913,9 +24164,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             filename = filename[1:]
  *         url = self._prefix + filename
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 467, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 467, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "aiohttp/web_urldispatcher.py":468
  *             filename = str(filename)
@@ -23924,9 +24175,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         url = self._prefix + filename
  *         return self._append_query(url, query)
  */
-  __pyx_slice__14 = PySlice_New(__pyx_int_1, Py_None, Py_None); if (unlikely(!__pyx_slice__14)) __PYX_ERR(0, 468, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__14);
-  __Pyx_GIVEREF(__pyx_slice__14);
+  __pyx_slice__13 = PySlice_New(__pyx_int_1, Py_None, Py_None); if (unlikely(!__pyx_slice__13)) __PYX_ERR(0, 468, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__13);
+  __Pyx_GIVEREF(__pyx_slice__13);
 
   /* "aiohttp/web_urldispatcher.py":494
  *                             offset + n, count - n, loop, True)
@@ -23935,9 +24186,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     @asyncio.coroutine
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, Py_None); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 494, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__14 = PyTuple_Pack(1, Py_None); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 494, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "aiohttp/web_urldispatcher.py":514
  *         transport = req.transport
@@ -23946,9 +24197,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             yield from self._sendfile_fallback(req, resp, fobj, count)
  *             return
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_n_s_sslcontext); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 514, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_n_u_sslcontext); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* "aiohttp/web_urldispatcher.py":521
  * 
@@ -23957,9 +24208,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         in_fd = fobj.fileno()
  *         fut = asyncio.Future(loop=loop)
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_s_socket); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 521, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_n_u_socket); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "aiohttp/web_urldispatcher.py":591
  * 
@@ -23968,9 +24219,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         try:
  *             yield from resp.prepare(request)
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, Py_True); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 591, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__17 = PyTuple_Pack(1, Py_True); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 591, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "aiohttp/web_urldispatcher.py":595
  *             yield from resp.prepare(request)
@@ -23979,12 +24230,12 @@ static int __Pyx_InitCachedConstants(void) {
  *                 yield from self._sendfile(request, resp, f, file_size)
  * 
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_n_s_rb); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 595, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_n_u_rb); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 595, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__19 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 595, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_tuple__20 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 595, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "aiohttp/web_urldispatcher.py":599
  * 
@@ -23993,12 +24244,12 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         return resp
  */
+  __pyx_tuple__20 = PyTuple_Pack(1, Py_True); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 599, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
   __pyx_tuple__21 = PyTuple_Pack(1, Py_True); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 599, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_tuple__22 = PyTuple_Pack(1, Py_True); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 599, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "aiohttp/web_urldispatcher.py":617
  * 
@@ -24007,9 +24258,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def match(self, path):
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_url_is_not_allowed_for_SystemRo); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 617, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_url_is_not_allowed_for_SystemRo); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 617, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "aiohttp/web_urldispatcher.py":782
  * 
@@ -24018,9 +24269,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             raise ValueError("path should be started with /")
  *         if not ('{' in path or '}' in path or self.ROUTE_RE.search(path)):
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 782, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "aiohttp/web_urldispatcher.py":783
  *     def add_resource(self, path, *, name=None):
@@ -24029,9 +24280,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         if not ('{' in path or '}' in path or self.ROUTE_RE.search(path)):
  *             resource = PlainResource(path, name=name)
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_path_should_be_started_with); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 783, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_path_should_be_started_with); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 783, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "aiohttp/web_urldispatcher.py":794
  *             match = self.DYN.match(part)
@@ -24040,9 +24291,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 formatter += '{' + match.group('var') + '}'
  *                 continue
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_n_s_var); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 794, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_n_u_var); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 794, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "aiohttp/web_urldispatcher.py":795
  *             if match:
@@ -24051,9 +24302,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 continue
  * 
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_n_s_var); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 795, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_n_u_var); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 795, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "aiohttp/web_urldispatcher.py":801
  *             if match:
@@ -24062,9 +24313,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 continue
  * 
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_n_s_var); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 801, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_n_u_var); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 801, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "aiohttp/web_urldispatcher.py":832
  *         :param path - folder with files
@@ -24073,9 +24324,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         if not prefix.endswith('/'):
  *             prefix += '/'
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 832, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 832, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "aiohttp/web_urldispatcher.py":833
  *         """
@@ -24084,9 +24335,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             prefix += '/'
  *         route = StaticRoute(name, prefix, path,
  */
-  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 833, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_u__6); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 833, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "aiohttp/web_urldispatcher.py":27
  * 
@@ -24095,9 +24346,9 @@ static int __Pyx_InitCachedConstants(void) {
  *            'AbstractResource', 'Resource', 'PlainResource', 'DynamicResource',
  *            'ResourceAdapter',
  */
-  __pyx_tuple__35 = PyTuple_Pack(14, __pyx_n_s_UrlDispatcher, __pyx_n_s_UrlMappingMatchInfo, __pyx_n_s_AbstractResource, __pyx_n_s_Resource, __pyx_n_s_PlainResource, __pyx_n_s_DynamicResource, __pyx_n_s_ResourceAdapter, __pyx_n_s_AbstractRoute, __pyx_n_s_ResourceRoute, __pyx_n_s_Route, __pyx_n_s_PlainRoute, __pyx_n_s_DynamicRoute, __pyx_n_s_StaticRoute, __pyx_n_s_View); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__34 = PyTuple_Pack(14, __pyx_n_u_UrlDispatcher, __pyx_n_u_UrlMappingMatchInfo, __pyx_n_u_AbstractResource, __pyx_n_u_Resource, __pyx_n_u_PlainResource, __pyx_n_u_DynamicResource, __pyx_n_u_ResourceAdapter, __pyx_n_u_AbstractRoute, __pyx_n_u_ResourceRoute, __pyx_n_u_Route, __pyx_n_u_PlainRoute, __pyx_n_u_DynamicRoute, __pyx_n_u_StaticRoute, __pyx_n_u_View); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
 
   /* "aiohttp/web_urldispatcher.py":34
  * 
@@ -24106,9 +24357,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__36 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_5); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 34, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_5); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
 
   /* "aiohttp/web_urldispatcher.py":39
  * class AbstractResource(Sized, Iterable):
@@ -24117,10 +24368,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self._name = name
  * 
  */
-  __pyx_tuple__37 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 39, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_tuple__36 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 39, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":43
  * 
@@ -24129,10 +24380,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._name
  * 
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 43, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__38);
+  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 43, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(0, 43, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":47
  * 
@@ -24141,10 +24392,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Construct url for resource with additional params."""
  * 
  */
-  __pyx_tuple__41 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 47, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__40);
+  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 47, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(0, 47, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":52
  *     @asyncio.coroutine
@@ -24153,10 +24404,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Resolve resource
  * 
  */
-  __pyx_tuple__43 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 52, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 52, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
+  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 52, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 52, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":58
  * 
@@ -24165,10 +24416,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Return a dict with additional info useful for introspection"""
  * 
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 58, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__45);
-  __Pyx_GIVEREF(__pyx_tuple__45);
-  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 58, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":62
  * 
@@ -24177,10 +24428,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if query is not None:
  *             return url + "?" + urlencode(query)
  */
-  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_n_s_url, __pyx_n_s_query); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 62, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__47);
-  __Pyx_GIVEREF(__pyx_tuple__47);
-  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append_query, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__46 = PyTuple_Pack(2, __pyx_n_s_url, __pyx_n_s_query); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
+  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_append_query, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 62, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":72
  *     METHODS = hdrs.METH_ALL | {hdrs.METH_ANY}
@@ -24189,10 +24440,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                  expect_handler=None,
  *                  resource=None):
  */
-  __pyx_tuple__49 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_expect_handler, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 72, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__49);
-  __Pyx_GIVEREF(__pyx_tuple__49);
-  __pyx_codeobj__50 = (PyObject*)__Pyx_PyCode_New(3, 2, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 72, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_tuple__48 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_expect_handler, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__48);
+  __Pyx_GIVEREF(__pyx_tuple__48);
+  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(3, 2, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 72, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(0, 72, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":104
  * 
@@ -24201,10 +24452,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._method
  * 
  */
-  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 104, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__51);
-  __Pyx_GIVEREF(__pyx_tuple__51);
-  __pyx_codeobj__52 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_method, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__52)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_tuple__50 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__50);
+  __Pyx_GIVEREF(__pyx_tuple__50);
+  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_method, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(0, 104, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":108
  * 
@@ -24213,10 +24464,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._handler
  * 
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 108, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__53);
-  __Pyx_GIVEREF(__pyx_tuple__53);
-  __pyx_codeobj__54 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handler, 108, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__54)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handler, 108, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 108, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":113
  *     @property
@@ -24225,10 +24476,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Optional route's name, always equals to resource's name."""
  * 
  */
-  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 113, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__55);
-  __Pyx_GIVEREF(__pyx_tuple__55);
-  __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 113, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__54);
+  __Pyx_GIVEREF(__pyx_tuple__54);
+  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 113, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 113, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":117
  * 
@@ -24237,10 +24488,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._resource
  * 
  */
-  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 117, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__57);
-  __Pyx_GIVEREF(__pyx_tuple__57);
-  __pyx_codeobj__58 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resource, 117, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__56);
+  __Pyx_GIVEREF(__pyx_tuple__56);
+  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resource, 117, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 117, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":121
  * 
@@ -24249,10 +24500,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Return a dict with additional info useful for introspection"""
  * 
  */
-  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 121, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__59);
-  __Pyx_GIVEREF(__pyx_tuple__59);
-  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 121, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__58);
+  __Pyx_GIVEREF(__pyx_tuple__58);
+  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 121, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 121, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":125
  * 
@@ -24261,10 +24512,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Construct url for route with additional params."""
  * 
  */
-  __pyx_tuple__61 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 125, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__61);
-  __Pyx_GIVEREF(__pyx_tuple__61);
-  __pyx_codeobj__62 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 125, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__60);
+  __Pyx_GIVEREF(__pyx_tuple__60);
+  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 125, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 125, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":129
  * 
@@ -24273,10 +24524,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return (yield from self._expect_handler(request))
  * 
  */
-  __pyx_tuple__63 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_request); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 129, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__63);
-  __Pyx_GIVEREF(__pyx_tuple__63);
-  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handle_expect_header, 129, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_request); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__62);
+  __Pyx_GIVEREF(__pyx_tuple__62);
+  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handle_expect_header, 129, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 129, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":135
  * class UrlMappingMatchInfo(dict, AbstractMatchInfo):
@@ -24285,10 +24536,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(match_dict)
  *         self._route = route
  */
-  __pyx_tuple__65 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_match_dict, __pyx_n_s_route); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__65);
-  __Pyx_GIVEREF(__pyx_tuple__65);
-  __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 135, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_match_dict, __pyx_n_s_route); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__64);
+  __Pyx_GIVEREF(__pyx_tuple__64);
+  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 135, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 135, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":140
  * 
@@ -24297,10 +24548,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._route.handler
  * 
  */
-  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 140, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__67);
-  __Pyx_GIVEREF(__pyx_tuple__67);
-  __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handler, 140, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__66);
+  __Pyx_GIVEREF(__pyx_tuple__66);
+  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handler, 140, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 140, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":144
  * 
@@ -24309,10 +24560,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._route
  * 
  */
-  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__69);
-  __Pyx_GIVEREF(__pyx_tuple__69);
-  __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_route, 144, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__68);
+  __Pyx_GIVEREF(__pyx_tuple__68);
+  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_route, 144, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 144, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":148
  * 
@@ -24321,10 +24572,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._route.handle_expect_header
  * 
  */
-  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__71);
-  __Pyx_GIVEREF(__pyx_tuple__71);
-  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_expect_handler, 148, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_tuple__70 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__70);
+  __Pyx_GIVEREF(__pyx_tuple__70);
+  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_expect_handler, 148, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 148, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":152
  * 
@@ -24333,10 +24584,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return None
  * 
  */
-  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 152, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__73);
-  __Pyx_GIVEREF(__pyx_tuple__73);
-  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_http_exception, 152, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__72);
+  __Pyx_GIVEREF(__pyx_tuple__72);
+  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_http_exception, 152, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(0, 152, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":155
  *         return None
@@ -24345,10 +24596,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._route.get_info()
  * 
  */
-  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 155, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__75);
-  __Pyx_GIVEREF(__pyx_tuple__75);
-  __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_tuple__74 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__74);
+  __Pyx_GIVEREF(__pyx_tuple__74);
+  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 155, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":158
  *         return self._route.get_info()
@@ -24357,10 +24608,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return "<MatchInfo {}: {}>".format(super().__repr__(), self._route)
  * 
  */
-  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 158, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__77);
-  __Pyx_GIVEREF(__pyx_tuple__77);
-  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 158, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_tuple__76 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__76);
+  __Pyx_GIVEREF(__pyx_tuple__76);
+  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 158, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 158, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":164
  * class MatchInfoError(UrlMappingMatchInfo):
@@ -24369,10 +24620,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self._exception = http_exception
  *         super().__init__({}, SystemRoute(self._exception))
  */
-  __pyx_tuple__79 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_http_exception); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 164, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__79);
-  __Pyx_GIVEREF(__pyx_tuple__79);
-  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 164, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_tuple__78 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_http_exception); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__78);
+  __Pyx_GIVEREF(__pyx_tuple__78);
+  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 164, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 164, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":169
  * 
@@ -24381,10 +24632,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._exception
  * 
  */
-  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 169, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__81);
-  __Pyx_GIVEREF(__pyx_tuple__81);
-  __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_http_exception, 169, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__80);
+  __Pyx_GIVEREF(__pyx_tuple__80);
+  __pyx_codeobj__81 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__80, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_http_exception, 169, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__81)) __PYX_ERR(0, 169, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":172
  *         return self._exception
@@ -24393,10 +24644,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return "<MatchInfoError {}: {}>".format(self._exception.status,
  *                                                 self._exception.reason)
  */
-  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 172, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__83);
-  __Pyx_GIVEREF(__pyx_tuple__83);
-  __pyx_codeobj__84 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__83, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 172, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__84)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_tuple__82 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__82);
+  __Pyx_GIVEREF(__pyx_tuple__82);
+  __pyx_codeobj__83 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__82, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 172, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__83)) __PYX_ERR(0, 172, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":178
  * 
@@ -24405,10 +24656,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """Default handler for Except header.
  * 
  */
-  __pyx_tuple__85 = PyTuple_Pack(2, __pyx_n_s_request, __pyx_n_s_expect); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(0, 178, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__85);
-  __Pyx_GIVEREF(__pyx_tuple__85);
-  __pyx_codeobj__86 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__85, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_defaultExpectHandler, 178, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__86)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_tuple__84 = PyTuple_Pack(2, __pyx_n_s_request, __pyx_n_s_expect); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__84);
+  __Pyx_GIVEREF(__pyx_tuple__84);
+  __pyx_codeobj__85 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__84, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_defaultExpectHandler, 178, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__85)) __PYX_ERR(0, 178, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":194
  * class ResourceAdapter(AbstractResource):
@@ -24417,10 +24668,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert isinstance(route, Route), \
  *             'Instance of Route class is required, got {!r}'.format(route)
  */
-  __pyx_tuple__87 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_route); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(0, 194, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__87);
-  __Pyx_GIVEREF(__pyx_tuple__87);
-  __pyx_codeobj__88 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__87, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 194, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__88)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_tuple__86 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_route); if (unlikely(!__pyx_tuple__86)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__86);
+  __Pyx_GIVEREF(__pyx_tuple__86);
+  __pyx_codeobj__87 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__86, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 194, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__87)) __PYX_ERR(0, 194, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":201
  *         route._resource = self
@@ -24429,10 +24680,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._route.url(**kwargs)
  * 
  */
-  __pyx_tuple__89 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(0, 201, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__89);
-  __Pyx_GIVEREF(__pyx_tuple__89);
-  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 201, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_tuple__88 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__88);
+  __Pyx_GIVEREF(__pyx_tuple__88);
+  __pyx_codeobj__89 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__88, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 201, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__89)) __PYX_ERR(0, 201, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":205
  * 
@@ -24441,10 +24692,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         route_method = self._route.method
  *         allowed_methods = set()
  */
-  __pyx_tuple__91 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path, __pyx_n_s_route_method, __pyx_n_s_allowed_methods, __pyx_n_s_match_dict); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(0, 205, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__91);
-  __Pyx_GIVEREF(__pyx_tuple__91);
-  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_tuple__90 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path, __pyx_n_s_route_method, __pyx_n_s_allowed_methods, __pyx_n_s_match_dict); if (unlikely(!__pyx_tuple__90)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__90);
+  __Pyx_GIVEREF(__pyx_tuple__90);
+  __pyx_codeobj__91 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__90, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__91)) __PYX_ERR(0, 205, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":216
  *         return None, allowed_methods
@@ -24453,10 +24704,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._route.get_info()
  * 
  */
-  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(0, 216, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__93);
-  __Pyx_GIVEREF(__pyx_tuple__93);
-  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 216, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_tuple__92 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__92)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__92);
+  __Pyx_GIVEREF(__pyx_tuple__92);
+  __pyx_codeobj__93 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__92, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 216, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__93)) __PYX_ERR(0, 216, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":219
  *         return self._route.get_info()
@@ -24465,10 +24716,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return 1
  * 
  */
-  __pyx_tuple__95 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(0, 219, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__95);
-  __Pyx_GIVEREF(__pyx_tuple__95);
-  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 219, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_tuple__94 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__94)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__94);
+  __Pyx_GIVEREF(__pyx_tuple__94);
+  __pyx_codeobj__95 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__94, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 219, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__95)) __PYX_ERR(0, 219, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":222
  *         return 1
@@ -24477,10 +24728,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield self._route
  * 
  */
-  __pyx_tuple__97 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(0, 222, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__97);
-  __Pyx_GIVEREF(__pyx_tuple__97);
-  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 222, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_tuple__96 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__96)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__96);
+  __Pyx_GIVEREF(__pyx_tuple__96);
+  __pyx_codeobj__97 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__96, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 222, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__97)) __PYX_ERR(0, 222, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":228
  * class Resource(AbstractResource):
@@ -24489,10 +24740,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(name=name)
  *         self._routes = []
  */
-  __pyx_tuple__99 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(0, 228, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__99);
-  __Pyx_GIVEREF(__pyx_tuple__99);
-  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 228, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_tuple__98 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__98)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__98);
+  __Pyx_GIVEREF(__pyx_tuple__98);
+  __pyx_codeobj__99 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__98, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 228, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__99)) __PYX_ERR(0, 228, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":232
  *         self._routes = []
@@ -24501,10 +24752,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                   expect_handler=None):
  * 
  */
-  __pyx_tuple__101 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_expect_handler, __pyx_n_s_route); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(0, 232, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__101);
-  __Pyx_GIVEREF(__pyx_tuple__101);
-  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(3, 1, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_route, 232, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(0, 232, __pyx_L1_error)
+  __pyx_tuple__100 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_expect_handler, __pyx_n_s_route); if (unlikely(!__pyx_tuple__100)) __PYX_ERR(0, 232, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__100);
+  __Pyx_GIVEREF(__pyx_tuple__100);
+  __pyx_codeobj__101 = (PyObject*)__Pyx_PyCode_New(3, 1, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__100, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_route, 232, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__101)) __PYX_ERR(0, 232, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":246
  *         return route
@@ -24513,10 +24764,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert isinstance(route, ResourceRoute), \
  *             'Instance of Route class is required, got {!r}'.format(route)
  */
-  __pyx_tuple__103 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_route); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(0, 246, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__103);
-  __Pyx_GIVEREF(__pyx_tuple__103);
-  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_register_route, 246, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_tuple__102 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_route); if (unlikely(!__pyx_tuple__102)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__102);
+  __Pyx_GIVEREF(__pyx_tuple__102);
+  __pyx_codeobj__103 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__102, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_register_route, 246, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__103)) __PYX_ERR(0, 246, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":252
  * 
@@ -24525,10 +24776,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         allowed_methods = set()
  * 
  */
-  __pyx_tuple__105 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path, __pyx_n_s_allowed_methods, __pyx_n_s_match_dict, __pyx_n_s_route, __pyx_n_s_route_method); if (unlikely(!__pyx_tuple__105)) __PYX_ERR(0, 252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__105);
-  __Pyx_GIVEREF(__pyx_tuple__105);
-  __pyx_codeobj__106 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__105, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 252, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__106)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_tuple__104 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path, __pyx_n_s_allowed_methods, __pyx_n_s_match_dict, __pyx_n_s_route, __pyx_n_s_route_method); if (unlikely(!__pyx_tuple__104)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__104);
+  __Pyx_GIVEREF(__pyx_tuple__104);
+  __pyx_codeobj__105 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__104, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 252, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__105)) __PYX_ERR(0, 252, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":268
  *             return None, allowed_methods
@@ -24537,10 +24788,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return len(self._routes)
  * 
  */
-  __pyx_tuple__107 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__107)) __PYX_ERR(0, 268, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__107);
-  __Pyx_GIVEREF(__pyx_tuple__107);
-  __pyx_codeobj__108 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__107, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 268, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__108)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __pyx_tuple__106 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__106)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__106);
+  __Pyx_GIVEREF(__pyx_tuple__106);
+  __pyx_codeobj__107 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__106, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 268, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__107)) __PYX_ERR(0, 268, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":271
  *         return len(self._routes)
@@ -24549,10 +24800,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return iter(self._routes)
  * 
  */
-  __pyx_tuple__109 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__109)) __PYX_ERR(0, 271, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__109);
-  __Pyx_GIVEREF(__pyx_tuple__109);
-  __pyx_codeobj__110 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__109, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 271, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__110)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_tuple__108 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__108)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__108);
+  __Pyx_GIVEREF(__pyx_tuple__108);
+  __pyx_codeobj__109 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__108, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 271, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__109)) __PYX_ERR(0, 271, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":277
  * class PlainResource(Resource):
@@ -24561,10 +24812,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(name=name)
  *         self._path = path
  */
-  __pyx_tuple__111 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_name); if (unlikely(!__pyx_tuple__111)) __PYX_ERR(0, 277, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__111);
-  __Pyx_GIVEREF(__pyx_tuple__111);
-  __pyx_codeobj__112 = (PyObject*)__Pyx_PyCode_New(2, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__111, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 277, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__112)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_tuple__110 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_name); if (unlikely(!__pyx_tuple__110)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__110);
+  __Pyx_GIVEREF(__pyx_tuple__110);
+  __pyx_codeobj__111 = (PyObject*)__Pyx_PyCode_New(2, 1, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__110, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 277, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__111)) __PYX_ERR(0, 277, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":281
  *         self._path = path
@@ -24573,10 +24824,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         # string comparison is about 10 times faster than regexp matching
  *         if self._path == path:
  */
-  __pyx_tuple__113 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__113)) __PYX_ERR(0, 281, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__113);
-  __Pyx_GIVEREF(__pyx_tuple__113);
-  __pyx_codeobj__114 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__113, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match_2, 281, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__114)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_tuple__112 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__112)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__112);
+  __Pyx_GIVEREF(__pyx_tuple__112);
+  __pyx_codeobj__113 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__112, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match_2, 281, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__113)) __PYX_ERR(0, 281, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":288
  *             return None
@@ -24585,10 +24836,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return {'path': self._path}
  * 
  */
-  __pyx_tuple__115 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__115)) __PYX_ERR(0, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__115);
-  __Pyx_GIVEREF(__pyx_tuple__115);
-  __pyx_codeobj__116 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__115, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 288, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__116)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_tuple__114 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__114)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__114);
+  __Pyx_GIVEREF(__pyx_tuple__114);
+  __pyx_codeobj__115 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__114, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 288, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__115)) __PYX_ERR(0, 288, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":291
  *         return {'path': self._path}
@@ -24597,10 +24848,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._append_query(self._path, query)
  * 
  */
-  __pyx_tuple__117 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_query); if (unlikely(!__pyx_tuple__117)) __PYX_ERR(0, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__117);
-  __Pyx_GIVEREF(__pyx_tuple__117);
-  __pyx_codeobj__118 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__117, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 291, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__118)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_tuple__116 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_query); if (unlikely(!__pyx_tuple__116)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__116);
+  __Pyx_GIVEREF(__pyx_tuple__116);
+  __pyx_codeobj__117 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__116, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 291, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__117)) __PYX_ERR(0, 291, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":294
  *         return self._append_query(self._path, query)
@@ -24609,10 +24860,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return "<PlainResource {name} {path}".format(name=name,
  */
-  __pyx_tuple__119 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__119)) __PYX_ERR(0, 294, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__119);
-  __Pyx_GIVEREF(__pyx_tuple__119);
-  __pyx_codeobj__120 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__119, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 294, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__120)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_tuple__118 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__118)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__118);
+  __Pyx_GIVEREF(__pyx_tuple__118);
+  __pyx_codeobj__119 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__118, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 294, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__119)) __PYX_ERR(0, 294, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":302
  * class DynamicResource(Resource):
@@ -24621,10 +24872,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(name=name)
  *         self._pattern = pattern
  */
-  __pyx_tuple__121 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_pattern, __pyx_n_s_formatter, __pyx_n_s_name); if (unlikely(!__pyx_tuple__121)) __PYX_ERR(0, 302, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__121);
-  __Pyx_GIVEREF(__pyx_tuple__121);
-  __pyx_codeobj__122 = (PyObject*)__Pyx_PyCode_New(3, 1, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__121, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 302, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__122)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __pyx_tuple__120 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_pattern, __pyx_n_s_formatter, __pyx_n_s_name); if (unlikely(!__pyx_tuple__120)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__120);
+  __Pyx_GIVEREF(__pyx_tuple__120);
+  __pyx_codeobj__121 = (PyObject*)__Pyx_PyCode_New(3, 1, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__120, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 302, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__121)) __PYX_ERR(0, 302, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":307
  *         self._formatter = formatter
@@ -24633,10 +24884,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         match = self._pattern.match(path)
  *         if match is None:
  */
-  __pyx_tuple__123 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_match); if (unlikely(!__pyx_tuple__123)) __PYX_ERR(0, 307, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__123);
-  __Pyx_GIVEREF(__pyx_tuple__123);
-  __pyx_codeobj__124 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__123, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match_2, 307, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__124)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __pyx_tuple__122 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_match); if (unlikely(!__pyx_tuple__122)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__122);
+  __Pyx_GIVEREF(__pyx_tuple__122);
+  __pyx_codeobj__123 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__122, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match_2, 307, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__123)) __PYX_ERR(0, 307, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":315
  *                     match.groupdict().items()}
@@ -24645,10 +24896,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return {'formatter': self._formatter,
  *                 'pattern': self._pattern}
  */
-  __pyx_tuple__125 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__125)) __PYX_ERR(0, 315, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__125);
-  __Pyx_GIVEREF(__pyx_tuple__125);
-  __pyx_codeobj__126 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__125, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 315, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__126)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_tuple__124 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__124)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__124);
+  __Pyx_GIVEREF(__pyx_tuple__124);
+  __pyx_codeobj__125 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__124, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 315, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__125)) __PYX_ERR(0, 315, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":319
  *                 'pattern': self._pattern}
@@ -24657,10 +24908,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         url = self._formatter.format_map(parts)
  *         return self._append_query(url, query)
  */
-  __pyx_tuple__127 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_parts, __pyx_n_s_query, __pyx_n_s_url); if (unlikely(!__pyx_tuple__127)) __PYX_ERR(0, 319, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__127);
-  __Pyx_GIVEREF(__pyx_tuple__127);
-  __pyx_codeobj__128 = (PyObject*)__Pyx_PyCode_New(1, 2, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__127, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 319, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__128)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_tuple__126 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_parts, __pyx_n_s_query, __pyx_n_s_url); if (unlikely(!__pyx_tuple__126)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__126);
+  __Pyx_GIVEREF(__pyx_tuple__126);
+  __pyx_codeobj__127 = (PyObject*)__Pyx_PyCode_New(1, 2, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__126, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 319, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__127)) __PYX_ERR(0, 319, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":323
  *         return self._append_query(url, query)
@@ -24669,10 +24920,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return ("<DynamicResource {name} {formatter}"
  */
-  __pyx_tuple__129 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__129)) __PYX_ERR(0, 323, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__129);
-  __Pyx_GIVEREF(__pyx_tuple__129);
-  __pyx_codeobj__130 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__129, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 323, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__130)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_tuple__128 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__128)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__128);
+  __Pyx_GIVEREF(__pyx_tuple__128);
+  __pyx_codeobj__129 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__128, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 323, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__129)) __PYX_ERR(0, 323, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":332
  *     """A route with resource"""
@@ -24681,10 +24932,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                  expect_handler=None):
  *         super().__init__(method, handler, expect_handler=expect_handler,
  */
-  __pyx_tuple__131 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_resource, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__131)) __PYX_ERR(0, 332, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__131);
-  __Pyx_GIVEREF(__pyx_tuple__131);
-  __pyx_codeobj__132 = (PyObject*)__Pyx_PyCode_New(4, 1, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 332, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__132)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_tuple__130 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_resource, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__130)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__130);
+  __Pyx_GIVEREF(__pyx_tuple__130);
+  __pyx_codeobj__131 = (PyObject*)__Pyx_PyCode_New(4, 1, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__130, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 332, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__131)) __PYX_ERR(0, 332, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":337
  *                          resource=resource)
@@ -24693,10 +24944,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return "<ResourceRoute [{method}] {resource} -> {handler!r}".format(
  *             method=self.method, resource=self._resource,
  */
-  __pyx_tuple__133 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__133)) __PYX_ERR(0, 337, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__133);
-  __Pyx_GIVEREF(__pyx_tuple__133);
-  __pyx_codeobj__134 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__133, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 337, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__134)) __PYX_ERR(0, 337, __pyx_L1_error)
+  __pyx_tuple__132 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__132)) __PYX_ERR(0, 337, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__132);
+  __Pyx_GIVEREF(__pyx_tuple__132);
+  __pyx_codeobj__133 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__132, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 337, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__133)) __PYX_ERR(0, 337, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":343
  * 
@@ -24705,10 +24956,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._resource.name
  * 
  */
-  __pyx_tuple__135 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__135)) __PYX_ERR(0, 343, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__135);
-  __Pyx_GIVEREF(__pyx_tuple__135);
-  __pyx_codeobj__136 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__135, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 343, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__136)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_tuple__134 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__134)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__134);
+  __Pyx_GIVEREF(__pyx_tuple__134);
+  __pyx_codeobj__135 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__134, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 343, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__135)) __PYX_ERR(0, 343, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":346
  *         return self._resource.name
@@ -24717,10 +24968,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Construct url for route with additional params."""
  *         return self._resource.url(**kwargs)
  */
-  __pyx_tuple__137 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__137)) __PYX_ERR(0, 346, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__137);
-  __Pyx_GIVEREF(__pyx_tuple__137);
-  __pyx_codeobj__138 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__137, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 346, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__138)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_tuple__136 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__136)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__136);
+  __Pyx_GIVEREF(__pyx_tuple__136);
+  __pyx_codeobj__137 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__136, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 346, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__137)) __PYX_ERR(0, 346, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":350
  *         return self._resource.url(**kwargs)
@@ -24729,10 +24980,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._resource.get_info()
  * 
  */
-  __pyx_tuple__139 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__139)) __PYX_ERR(0, 350, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__139);
-  __Pyx_GIVEREF(__pyx_tuple__139);
-  __pyx_codeobj__140 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__139, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 350, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__140)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_tuple__138 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__138)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__138);
+  __Pyx_GIVEREF(__pyx_tuple__138);
+  __pyx_codeobj__139 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__138, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 350, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__139)) __PYX_ERR(0, 350, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":359
  *     """Old fashion route"""
@@ -24741,10 +24992,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(method, handler, expect_handler=expect_handler)
  *         self._name = name
  */
-  __pyx_tuple__141 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__141)) __PYX_ERR(0, 359, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__141);
-  __Pyx_GIVEREF(__pyx_tuple__141);
-  __pyx_codeobj__142 = (PyObject*)__Pyx_PyCode_New(4, 1, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__141, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 359, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__142)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_tuple__140 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__140)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__140);
+  __Pyx_GIVEREF(__pyx_tuple__140);
+  __pyx_codeobj__141 = (PyObject*)__Pyx_PyCode_New(4, 1, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__140, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 359, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__141)) __PYX_ERR(0, 359, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":364
  * 
@@ -24753,10 +25004,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._name
  * 
  */
-  __pyx_tuple__143 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__143)) __PYX_ERR(0, 364, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__143);
-  __Pyx_GIVEREF(__pyx_tuple__143);
-  __pyx_codeobj__144 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__143, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 364, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__144)) __PYX_ERR(0, 364, __pyx_L1_error)
+  __pyx_tuple__142 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__142)) __PYX_ERR(0, 364, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__142);
+  __Pyx_GIVEREF(__pyx_tuple__142);
+  __pyx_codeobj__143 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__142, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_name, 364, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__143)) __PYX_ERR(0, 364, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":368
  * 
@@ -24765,10 +25016,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Return dict with info for given path or
  *         None if route cannot process path."""
  */
-  __pyx_tuple__145 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__145)) __PYX_ERR(0, 368, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__145);
-  __Pyx_GIVEREF(__pyx_tuple__145);
-  __pyx_codeobj__146 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__145, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 368, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__146)) __PYX_ERR(0, 368, __pyx_L1_error)
+  __pyx_tuple__144 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__144)) __PYX_ERR(0, 368, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__144);
+  __Pyx_GIVEREF(__pyx_tuple__144);
+  __pyx_codeobj__145 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__144, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 368, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__145)) __PYX_ERR(0, 368, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":377
  * class PlainRoute(Route):
@@ -24777,10 +25028,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(method, handler, name, expect_handler=expect_handler)
  *         self._path = path
  */
-  __pyx_tuple__147 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_path, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__147)) __PYX_ERR(0, 377, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__147);
-  __Pyx_GIVEREF(__pyx_tuple__147);
-  __pyx_codeobj__148 = (PyObject*)__Pyx_PyCode_New(5, 1, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__147, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 377, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__148)) __PYX_ERR(0, 377, __pyx_L1_error)
+  __pyx_tuple__146 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_path, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__146)) __PYX_ERR(0, 377, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__146);
+  __Pyx_GIVEREF(__pyx_tuple__146);
+  __pyx_codeobj__147 = (PyObject*)__Pyx_PyCode_New(5, 1, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__146, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 377, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__147)) __PYX_ERR(0, 377, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":381
  *         self._path = path
@@ -24789,10 +25040,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         # string comparison is about 10 times faster than regexp matching
  *         if self._path == path:
  */
-  __pyx_tuple__149 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__149)) __PYX_ERR(0, 381, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__149);
-  __Pyx_GIVEREF(__pyx_tuple__149);
-  __pyx_codeobj__150 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__149, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 381, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__150)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_tuple__148 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__148)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__148);
+  __Pyx_GIVEREF(__pyx_tuple__148);
+  __pyx_codeobj__149 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__148, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 381, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__149)) __PYX_ERR(0, 381, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":388
  *             return None
@@ -24801,10 +25052,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._append_query(self._path, query)
  * 
  */
-  __pyx_tuple__151 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_query); if (unlikely(!__pyx_tuple__151)) __PYX_ERR(0, 388, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__151);
-  __Pyx_GIVEREF(__pyx_tuple__151);
-  __pyx_codeobj__152 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__151, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 388, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__152)) __PYX_ERR(0, 388, __pyx_L1_error)
+  __pyx_tuple__150 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_query); if (unlikely(!__pyx_tuple__150)) __PYX_ERR(0, 388, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__150);
+  __Pyx_GIVEREF(__pyx_tuple__150);
+  __pyx_codeobj__151 = (PyObject*)__Pyx_PyCode_New(1, 1, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__150, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 388, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__151)) __PYX_ERR(0, 388, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":391
  *         return self._append_query(self._path, query)
@@ -24813,10 +25064,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return {'path': self._path}
  * 
  */
-  __pyx_tuple__153 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__153)) __PYX_ERR(0, 391, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__153);
-  __Pyx_GIVEREF(__pyx_tuple__153);
-  __pyx_codeobj__154 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__153, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 391, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__154)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_tuple__152 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__152)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__152);
+  __Pyx_GIVEREF(__pyx_tuple__152);
+  __pyx_codeobj__153 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__152, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 391, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__153)) __PYX_ERR(0, 391, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":394
  *         return {'path': self._path}
@@ -24825,10 +25076,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return "<PlainRoute {name}[{method}] {path} -> {handler!r}".format(
  */
-  __pyx_tuple__155 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__155)) __PYX_ERR(0, 394, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__155);
-  __Pyx_GIVEREF(__pyx_tuple__155);
-  __pyx_codeobj__156 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__155, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 394, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__156)) __PYX_ERR(0, 394, __pyx_L1_error)
+  __pyx_tuple__154 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__154)) __PYX_ERR(0, 394, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__154);
+  __Pyx_GIVEREF(__pyx_tuple__154);
+  __pyx_codeobj__155 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__154, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 394, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__155)) __PYX_ERR(0, 394, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":403
  * class DynamicRoute(Route):
@@ -24837,10 +25088,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                  expect_handler=None):
  *         super().__init__(method, handler, name, expect_handler=expect_handler)
  */
-  __pyx_tuple__157 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_pattern, __pyx_n_s_formatter, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__157)) __PYX_ERR(0, 403, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__157);
-  __Pyx_GIVEREF(__pyx_tuple__157);
-  __pyx_codeobj__158 = (PyObject*)__Pyx_PyCode_New(6, 1, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__157, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 403, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__158)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __pyx_tuple__156 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_pattern, __pyx_n_s_formatter, __pyx_n_s_expect_handler); if (unlikely(!__pyx_tuple__156)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__156);
+  __Pyx_GIVEREF(__pyx_tuple__156);
+  __pyx_codeobj__157 = (PyObject*)__Pyx_PyCode_New(6, 1, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__156, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 403, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__157)) __PYX_ERR(0, 403, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":409
  *         self._formatter = formatter
@@ -24849,10 +25100,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         match = self._pattern.match(path)
  *         if match is None:
  */
-  __pyx_tuple__159 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_match); if (unlikely(!__pyx_tuple__159)) __PYX_ERR(0, 409, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__159);
-  __Pyx_GIVEREF(__pyx_tuple__159);
-  __pyx_codeobj__160 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__159, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 409, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__160)) __PYX_ERR(0, 409, __pyx_L1_error)
+  __pyx_tuple__158 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_match); if (unlikely(!__pyx_tuple__158)) __PYX_ERR(0, 409, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__158);
+  __Pyx_GIVEREF(__pyx_tuple__158);
+  __pyx_codeobj__159 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__158, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 409, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__159)) __PYX_ERR(0, 409, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":416
  *             return match.groupdict()
@@ -24861,10 +25112,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         url = self._formatter.format_map(parts)
  *         return self._append_query(url, query)
  */
-  __pyx_tuple__161 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_parts, __pyx_n_s_query, __pyx_n_s_url); if (unlikely(!__pyx_tuple__161)) __PYX_ERR(0, 416, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__161);
-  __Pyx_GIVEREF(__pyx_tuple__161);
-  __pyx_codeobj__162 = (PyObject*)__Pyx_PyCode_New(1, 2, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__161, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 416, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__162)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_tuple__160 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_parts, __pyx_n_s_query, __pyx_n_s_url); if (unlikely(!__pyx_tuple__160)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__160);
+  __Pyx_GIVEREF(__pyx_tuple__160);
+  __pyx_codeobj__161 = (PyObject*)__Pyx_PyCode_New(1, 2, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__160, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 416, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__161)) __PYX_ERR(0, 416, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":420
  *         return self._append_query(url, query)
@@ -24873,10 +25124,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return {'formatter': self._formatter,
  *                 'pattern': self._pattern}
  */
-  __pyx_tuple__163 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__163)) __PYX_ERR(0, 420, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__163);
-  __Pyx_GIVEREF(__pyx_tuple__163);
-  __pyx_codeobj__164 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__163, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 420, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__164)) __PYX_ERR(0, 420, __pyx_L1_error)
+  __pyx_tuple__162 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__162)) __PYX_ERR(0, 420, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__162);
+  __Pyx_GIVEREF(__pyx_tuple__162);
+  __pyx_codeobj__163 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__162, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 420, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__163)) __PYX_ERR(0, 420, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":424
  *                 'pattern': self._pattern}
@@ -24885,10 +25136,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return ("<DynamicRoute {name}[{method}] {formatter} -> {handler!r}"
  */
-  __pyx_tuple__165 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__165)) __PYX_ERR(0, 424, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__165);
-  __Pyx_GIVEREF(__pyx_tuple__165);
-  __pyx_codeobj__166 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__165, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 424, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__166)) __PYX_ERR(0, 424, __pyx_L1_error)
+  __pyx_tuple__164 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__164)) __PYX_ERR(0, 424, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__164);
+  __Pyx_GIVEREF(__pyx_tuple__164);
+  __pyx_codeobj__165 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__164, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 424, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__165)) __PYX_ERR(0, 424, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":433
  * class StaticRoute(Route):
@@ -24897,10 +25148,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                  expect_handler=None, chunk_size=256*1024,
  *                  response_factory=StreamResponse):
  */
-  __pyx_tuple__167 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_prefix, __pyx_n_s_directory, __pyx_n_s_expect_handler, __pyx_n_s_chunk_size, __pyx_n_s_response_factory, __pyx_n_s_error); if (unlikely(!__pyx_tuple__167)) __PYX_ERR(0, 433, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__167);
-  __Pyx_GIVEREF(__pyx_tuple__167);
-  __pyx_codeobj__168 = (PyObject*)__Pyx_PyCode_New(4, 3, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__167, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 433, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__168)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_tuple__166 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_prefix, __pyx_n_s_directory, __pyx_n_s_expect_handler, __pyx_n_s_chunk_size, __pyx_n_s_response_factory, __pyx_n_s_error); if (unlikely(!__pyx_tuple__166)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__166);
+  __Pyx_GIVEREF(__pyx_tuple__166);
+  __pyx_codeobj__167 = (PyObject*)__Pyx_PyCode_New(4, 3, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__166, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 433, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__167)) __PYX_ERR(0, 433, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":459
  *             self._sendfile = self._sendfile_fallback
@@ -24909,10 +25160,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if not path.startswith(self._prefix):
  *             return None
  */
-  __pyx_tuple__169 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__169)) __PYX_ERR(0, 459, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__169);
-  __Pyx_GIVEREF(__pyx_tuple__169);
-  __pyx_codeobj__170 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__169, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 459, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__170)) __PYX_ERR(0, 459, __pyx_L1_error)
+  __pyx_tuple__168 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__168)) __PYX_ERR(0, 459, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__168);
+  __Pyx_GIVEREF(__pyx_tuple__168);
+  __pyx_codeobj__169 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__168, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 459, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__169)) __PYX_ERR(0, 459, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":464
  *         return {'filename': path[self._prefix_len:]}
@@ -24921,10 +25172,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if isinstance(filename, Path):
  *             filename = str(filename)
  */
-  __pyx_tuple__171 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_filename, __pyx_n_s_query, __pyx_n_s_url); if (unlikely(!__pyx_tuple__171)) __PYX_ERR(0, 464, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__171);
-  __Pyx_GIVEREF(__pyx_tuple__171);
-  __pyx_codeobj__172 = (PyObject*)__Pyx_PyCode_New(1, 2, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__171, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 464, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__172)) __PYX_ERR(0, 464, __pyx_L1_error)
+  __pyx_tuple__170 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_filename, __pyx_n_s_query, __pyx_n_s_url); if (unlikely(!__pyx_tuple__170)) __PYX_ERR(0, 464, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__170);
+  __Pyx_GIVEREF(__pyx_tuple__170);
+  __pyx_codeobj__171 = (PyObject*)__Pyx_PyCode_New(1, 2, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__170, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 464, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__171)) __PYX_ERR(0, 464, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":472
  *         return self._append_query(url, query)
@@ -24933,10 +25184,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return {'directory': self._directory,
  *                 'prefix': self._prefix}
  */
-  __pyx_tuple__173 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__173)) __PYX_ERR(0, 472, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__173);
-  __Pyx_GIVEREF(__pyx_tuple__173);
-  __pyx_codeobj__174 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__173, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 472, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__174)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __pyx_tuple__172 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__172)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__172);
+  __Pyx_GIVEREF(__pyx_tuple__172);
+  __pyx_codeobj__173 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__172, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 472, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__173)) __PYX_ERR(0, 472, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":476
  *                 'prefix': self._prefix}
@@ -24945,10 +25196,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                      registered):
  *         if registered:
  */
-  __pyx_tuple__175 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_fut, __pyx_n_s_out_fd, __pyx_n_s_in_fd, __pyx_n_s_offset, __pyx_n_s_count, __pyx_n_s_loop, __pyx_n_s_registered, __pyx_n_s_n, __pyx_n_s_exc); if (unlikely(!__pyx_tuple__175)) __PYX_ERR(0, 476, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__175);
-  __Pyx_GIVEREF(__pyx_tuple__175);
-  __pyx_codeobj__176 = (PyObject*)__Pyx_PyCode_New(8, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__175, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_sendfile_cb, 476, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__176)) __PYX_ERR(0, 476, __pyx_L1_error)
+  __pyx_tuple__174 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_fut, __pyx_n_s_out_fd, __pyx_n_s_in_fd, __pyx_n_s_offset, __pyx_n_s_count, __pyx_n_s_loop, __pyx_n_s_registered, __pyx_n_s_n, __pyx_n_s_exc); if (unlikely(!__pyx_tuple__174)) __PYX_ERR(0, 476, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__174);
+  __Pyx_GIVEREF(__pyx_tuple__174);
+  __pyx_codeobj__175 = (PyObject*)__Pyx_PyCode_New(8, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__174, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_sendfile_cb, 476, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__175)) __PYX_ERR(0, 476, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":497
  * 
@@ -24957,10 +25208,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Write `count` bytes of `fobj` to `resp` starting from `offset` using
  */
-  __pyx_tuple__177 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_req, __pyx_n_s_resp, __pyx_n_s_fobj, __pyx_n_s_count, __pyx_n_s_transport, __pyx_n_s_loop, __pyx_n_s_out_fd, __pyx_n_s_in_fd, __pyx_n_s_fut); if (unlikely(!__pyx_tuple__177)) __PYX_ERR(0, 497, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__177);
-  __Pyx_GIVEREF(__pyx_tuple__177);
-  __pyx_codeobj__178 = (PyObject*)__Pyx_PyCode_New(5, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__177, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_sendfile_system, 497, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__178)) __PYX_ERR(0, 497, __pyx_L1_error)
+  __pyx_tuple__176 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_req, __pyx_n_s_resp, __pyx_n_s_fobj, __pyx_n_s_count, __pyx_n_s_transport, __pyx_n_s_loop, __pyx_n_s_out_fd, __pyx_n_s_in_fd, __pyx_n_s_fut); if (unlikely(!__pyx_tuple__176)) __PYX_ERR(0, 497, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__176);
+  __Pyx_GIVEREF(__pyx_tuple__176);
+  __pyx_codeobj__177 = (PyObject*)__Pyx_PyCode_New(5, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__176, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_sendfile_system, 497, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__177)) __PYX_ERR(0, 497, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":530
  * 
@@ -24969,10 +25220,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         """
  *         Mimic the :meth:`_sendfile_system` method, but without using the
  */
-  __pyx_tuple__179 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_req, __pyx_n_s_resp, __pyx_n_s_fobj, __pyx_n_s_count, __pyx_n_s_chunk_size, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__179)) __PYX_ERR(0, 530, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__179);
-  __Pyx_GIVEREF(__pyx_tuple__179);
-  __pyx_codeobj__180 = (PyObject*)__Pyx_PyCode_New(5, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__179, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_sendfile_fallback, 530, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__180)) __PYX_ERR(0, 530, __pyx_L1_error)
+  __pyx_tuple__178 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_req, __pyx_n_s_resp, __pyx_n_s_fobj, __pyx_n_s_count, __pyx_n_s_chunk_size, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__178)) __PYX_ERR(0, 530, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__178);
+  __Pyx_GIVEREF(__pyx_tuple__178);
+  __pyx_codeobj__179 = (PyObject*)__Pyx_PyCode_New(5, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__178, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_sendfile_fallback, 530, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__179)) __PYX_ERR(0, 530, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":559
  * 
@@ -24981,10 +25232,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         filename = request.match_info['filename']
  *         try:
  */
-  __pyx_tuple__181 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_request, __pyx_n_s_filename, __pyx_n_s_filepath, __pyx_n_s_error, __pyx_n_s_st, __pyx_n_s_modsince, __pyx_n_s_ct, __pyx_n_s_encoding, __pyx_n_s_resp, __pyx_n_s_file_size, __pyx_n_s_f); if (unlikely(!__pyx_tuple__181)) __PYX_ERR(0, 559, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__181);
-  __Pyx_GIVEREF(__pyx_tuple__181);
-  __pyx_codeobj__182 = (PyObject*)__Pyx_PyCode_New(2, 0, 12, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__181, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handle, 559, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__182)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __pyx_tuple__180 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_request, __pyx_n_s_filename, __pyx_n_s_filepath, __pyx_n_s_error, __pyx_n_s_st, __pyx_n_s_modsince, __pyx_n_s_ct, __pyx_n_s_encoding, __pyx_n_s_resp, __pyx_n_s_file_size, __pyx_n_s_f); if (unlikely(!__pyx_tuple__180)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__180);
+  __Pyx_GIVEREF(__pyx_tuple__180);
+  __pyx_codeobj__181 = (PyObject*)__Pyx_PyCode_New(2, 0, 12, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__180, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handle, 559, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__181)) __PYX_ERR(0, 559, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":603
  *         return resp
@@ -24993,10 +25244,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return "<StaticRoute {name}[{method}] {path} -> {directory!r}".format(
  */
-  __pyx_tuple__183 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__183)) __PYX_ERR(0, 603, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__183);
-  __Pyx_GIVEREF(__pyx_tuple__183);
-  __pyx_codeobj__184 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__183, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 603, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__184)) __PYX_ERR(0, 603, __pyx_L1_error)
+  __pyx_tuple__182 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__182)) __PYX_ERR(0, 603, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__182);
+  __Pyx_GIVEREF(__pyx_tuple__182);
+  __pyx_codeobj__183 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__182, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 603, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__183)) __PYX_ERR(0, 603, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":612
  * class SystemRoute(Route):
@@ -25005,10 +25256,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__(hdrs.METH_ANY, self._handler, None)
  *         self._http_exception = http_exception
  */
-  __pyx_tuple__185 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_http_exception); if (unlikely(!__pyx_tuple__185)) __PYX_ERR(0, 612, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__185);
-  __Pyx_GIVEREF(__pyx_tuple__185);
-  __pyx_codeobj__186 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__185, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 612, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__186)) __PYX_ERR(0, 612, __pyx_L1_error)
+  __pyx_tuple__184 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_http_exception); if (unlikely(!__pyx_tuple__184)) __PYX_ERR(0, 612, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__184);
+  __Pyx_GIVEREF(__pyx_tuple__184);
+  __pyx_codeobj__185 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__184, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 612, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__185)) __PYX_ERR(0, 612, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":616
  *         self._http_exception = http_exception
@@ -25017,10 +25268,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         raise RuntimeError(".url() is not allowed for SystemRoute")
  * 
  */
-  __pyx_tuple__187 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__187)) __PYX_ERR(0, 616, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__187);
-  __Pyx_GIVEREF(__pyx_tuple__187);
-  __pyx_codeobj__188 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__187, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 616, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__188)) __PYX_ERR(0, 616, __pyx_L1_error)
+  __pyx_tuple__186 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__186)) __PYX_ERR(0, 616, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__186);
+  __Pyx_GIVEREF(__pyx_tuple__186);
+  __pyx_codeobj__187 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__186, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_url, 616, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__187)) __PYX_ERR(0, 616, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":619
  *         raise RuntimeError(".url() is not allowed for SystemRoute")
@@ -25029,10 +25280,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return None
  * 
  */
-  __pyx_tuple__189 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__189)) __PYX_ERR(0, 619, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__189);
-  __Pyx_GIVEREF(__pyx_tuple__189);
-  __pyx_codeobj__190 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__189, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 619, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__190)) __PYX_ERR(0, 619, __pyx_L1_error)
+  __pyx_tuple__188 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_path); if (unlikely(!__pyx_tuple__188)) __PYX_ERR(0, 619, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__188);
+  __Pyx_GIVEREF(__pyx_tuple__188);
+  __pyx_codeobj__189 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__188, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_match, 619, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__189)) __PYX_ERR(0, 619, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":622
  *         return None
@@ -25041,10 +25292,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return {'http_exception': self._http_exception}
  * 
  */
-  __pyx_tuple__191 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__191)) __PYX_ERR(0, 622, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__191);
-  __Pyx_GIVEREF(__pyx_tuple__191);
-  __pyx_codeobj__192 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__191, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 622, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__192)) __PYX_ERR(0, 622, __pyx_L1_error)
+  __pyx_tuple__190 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__190)) __PYX_ERR(0, 622, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__190);
+  __Pyx_GIVEREF(__pyx_tuple__190);
+  __pyx_codeobj__191 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__190, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_get_info, 622, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__191)) __PYX_ERR(0, 622, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":626
  * 
@@ -25053,10 +25304,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         raise self._http_exception
  * 
  */
-  __pyx_tuple__193 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_request); if (unlikely(!__pyx_tuple__193)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__193);
-  __Pyx_GIVEREF(__pyx_tuple__193);
-  __pyx_codeobj__194 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__193, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handler_2, 626, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__194)) __PYX_ERR(0, 626, __pyx_L1_error)
+  __pyx_tuple__192 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_request); if (unlikely(!__pyx_tuple__192)) __PYX_ERR(0, 626, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__192);
+  __Pyx_GIVEREF(__pyx_tuple__192);
+  __pyx_codeobj__193 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__192, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_handler_2, 626, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__193)) __PYX_ERR(0, 626, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":630
  * 
@@ -25065,10 +25316,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._http_exception.status
  * 
  */
-  __pyx_tuple__195 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__195)) __PYX_ERR(0, 630, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__195);
-  __Pyx_GIVEREF(__pyx_tuple__195);
-  __pyx_codeobj__196 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__195, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_status, 630, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__196)) __PYX_ERR(0, 630, __pyx_L1_error)
+  __pyx_tuple__194 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__194)) __PYX_ERR(0, 630, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__194);
+  __Pyx_GIVEREF(__pyx_tuple__194);
+  __pyx_codeobj__195 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__194, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_status, 630, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__195)) __PYX_ERR(0, 630, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":634
  * 
@@ -25077,10 +25328,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._http_exception.reason
  * 
  */
-  __pyx_tuple__197 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__197)) __PYX_ERR(0, 634, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__197);
-  __Pyx_GIVEREF(__pyx_tuple__197);
-  __pyx_codeobj__198 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__197, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_reason, 634, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__198)) __PYX_ERR(0, 634, __pyx_L1_error)
+  __pyx_tuple__196 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__196)) __PYX_ERR(0, 634, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__196);
+  __Pyx_GIVEREF(__pyx_tuple__196);
+  __pyx_codeobj__197 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__196, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_reason, 634, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__197)) __PYX_ERR(0, 634, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":637
  *         return self._http_exception.reason
@@ -25089,10 +25340,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return "<SystemRoute {self.status}: {self.reason}>".format(self=self)
  * 
  */
-  __pyx_tuple__199 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__199)) __PYX_ERR(0, 637, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__199);
-  __Pyx_GIVEREF(__pyx_tuple__199);
-  __pyx_codeobj__200 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__199, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 637, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__200)) __PYX_ERR(0, 637, __pyx_L1_error)
+  __pyx_tuple__198 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__198)) __PYX_ERR(0, 637, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__198);
+  __Pyx_GIVEREF(__pyx_tuple__198);
+  __pyx_codeobj__199 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__198, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_repr, 637, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__199)) __PYX_ERR(0, 637, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":644
  * 
@@ -25101,10 +25352,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if self.request.method not in hdrs.METH_ALL:
  *             self._raise_allowed_methods()
  */
-  __pyx_tuple__201 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_resp); if (unlikely(!__pyx_tuple__201)) __PYX_ERR(0, 644, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__201);
-  __Pyx_GIVEREF(__pyx_tuple__201);
-  __pyx_codeobj__202 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__201, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 644, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__202)) __PYX_ERR(0, 644, __pyx_L1_error)
+  __pyx_tuple__200 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_resp); if (unlikely(!__pyx_tuple__200)) __PYX_ERR(0, 644, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__200);
+  __Pyx_GIVEREF(__pyx_tuple__200);
+  __pyx_codeobj__201 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__200, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 644, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__201)) __PYX_ERR(0, 644, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":654
  * 
@@ -25113,10 +25364,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             return (yield from self.__iter__())
  * 
  */
-  __pyx_tuple__203 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__203)) __PYX_ERR(0, 654, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__203);
-  __Pyx_GIVEREF(__pyx_tuple__203);
-  __pyx_codeobj__204 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__203, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_await, 654, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__204)) __PYX_ERR(0, 654, __pyx_L1_error)
+  __pyx_tuple__202 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__202)) __PYX_ERR(0, 654, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__202);
+  __Pyx_GIVEREF(__pyx_tuple__202);
+  __pyx_codeobj__203 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__202, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_await, 654, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__203)) __PYX_ERR(0, 654, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":657
  *             return (yield from self.__iter__())
@@ -25125,10 +25376,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         allowed_methods = {m for m in hdrs.METH_ALL if hasattr(self, m)}
  *         raise HTTPMethodNotAllowed(self.request.method, allowed_methods)
  */
-  __pyx_tuple__205 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_allowed_methods); if (unlikely(!__pyx_tuple__205)) __PYX_ERR(0, 657, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__205);
-  __Pyx_GIVEREF(__pyx_tuple__205);
-  __pyx_codeobj__206 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__205, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_raise_allowed_methods, 657, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__206)) __PYX_ERR(0, 657, __pyx_L1_error)
+  __pyx_tuple__204 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_allowed_methods); if (unlikely(!__pyx_tuple__204)) __PYX_ERR(0, 657, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__204);
+  __Pyx_GIVEREF(__pyx_tuple__204);
+  __pyx_codeobj__205 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__204, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_raise_allowed_methods, 657, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__205)) __PYX_ERR(0, 657, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":664
  * class ResourcesView(Sized, Iterable, Container):
@@ -25137,10 +25388,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self._resources = resources
  * 
  */
-  __pyx_tuple__207 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_resources); if (unlikely(!__pyx_tuple__207)) __PYX_ERR(0, 664, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__207);
-  __Pyx_GIVEREF(__pyx_tuple__207);
-  __pyx_codeobj__208 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__207, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 664, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__208)) __PYX_ERR(0, 664, __pyx_L1_error)
+  __pyx_tuple__206 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_resources); if (unlikely(!__pyx_tuple__206)) __PYX_ERR(0, 664, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__206);
+  __Pyx_GIVEREF(__pyx_tuple__206);
+  __pyx_codeobj__207 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__206, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 664, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__207)) __PYX_ERR(0, 664, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":667
  *         self._resources = resources
@@ -25149,10 +25400,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return len(self._resources)
  * 
  */
-  __pyx_tuple__209 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__209)) __PYX_ERR(0, 667, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__209);
-  __Pyx_GIVEREF(__pyx_tuple__209);
-  __pyx_codeobj__210 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__209, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 667, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__210)) __PYX_ERR(0, 667, __pyx_L1_error)
+  __pyx_tuple__208 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__208)) __PYX_ERR(0, 667, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__208);
+  __Pyx_GIVEREF(__pyx_tuple__208);
+  __pyx_codeobj__209 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__208, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 667, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__209)) __PYX_ERR(0, 667, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":670
  *         return len(self._resources)
@@ -25161,10 +25412,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self._resources
  * 
  */
-  __pyx_tuple__211 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__211)) __PYX_ERR(0, 670, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__211);
-  __Pyx_GIVEREF(__pyx_tuple__211);
-  __pyx_codeobj__212 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__211, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 670, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__212)) __PYX_ERR(0, 670, __pyx_L1_error)
+  __pyx_tuple__210 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__210)) __PYX_ERR(0, 670, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__210);
+  __Pyx_GIVEREF(__pyx_tuple__210);
+  __pyx_codeobj__211 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__210, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 670, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__211)) __PYX_ERR(0, 670, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":673
  *         yield from self._resources
@@ -25173,10 +25424,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return resource in self._resources
  * 
  */
-  __pyx_tuple__213 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__213)) __PYX_ERR(0, 673, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__213);
-  __Pyx_GIVEREF(__pyx_tuple__213);
-  __pyx_codeobj__214 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__213, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_contains, 673, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__214)) __PYX_ERR(0, 673, __pyx_L1_error)
+  __pyx_tuple__212 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__212)) __PYX_ERR(0, 673, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__212);
+  __Pyx_GIVEREF(__pyx_tuple__212);
+  __pyx_codeobj__213 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__212, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_contains, 673, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__213)) __PYX_ERR(0, 673, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":679
  * class RoutesView(Sized, Iterable, Container):
@@ -25185,10 +25436,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         self._routes = []
  *         for resource in resources:
  */
-  __pyx_tuple__215 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_resources, __pyx_n_s_resource, __pyx_n_s_route); if (unlikely(!__pyx_tuple__215)) __PYX_ERR(0, 679, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__215);
-  __Pyx_GIVEREF(__pyx_tuple__215);
-  __pyx_codeobj__216 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__215, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 679, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__216)) __PYX_ERR(0, 679, __pyx_L1_error)
+  __pyx_tuple__214 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_resources, __pyx_n_s_resource, __pyx_n_s_route); if (unlikely(!__pyx_tuple__214)) __PYX_ERR(0, 679, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__214);
+  __Pyx_GIVEREF(__pyx_tuple__214);
+  __pyx_codeobj__215 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__214, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 679, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__215)) __PYX_ERR(0, 679, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":685
  *                 self._routes.append(route)
@@ -25197,10 +25448,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return len(self._routes)
  * 
  */
-  __pyx_tuple__217 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__217)) __PYX_ERR(0, 685, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__217);
-  __Pyx_GIVEREF(__pyx_tuple__217);
-  __pyx_codeobj__218 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__217, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 685, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__218)) __PYX_ERR(0, 685, __pyx_L1_error)
+  __pyx_tuple__216 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__216)) __PYX_ERR(0, 685, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__216);
+  __Pyx_GIVEREF(__pyx_tuple__216);
+  __pyx_codeobj__217 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__216, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 685, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__217)) __PYX_ERR(0, 685, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":688
  *         return len(self._routes)
@@ -25209,10 +25460,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         yield from self._routes
  * 
  */
-  __pyx_tuple__219 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__219)) __PYX_ERR(0, 688, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__219);
-  __Pyx_GIVEREF(__pyx_tuple__219);
-  __pyx_codeobj__220 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__219, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 688, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__220)) __PYX_ERR(0, 688, __pyx_L1_error)
+  __pyx_tuple__218 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__218)) __PYX_ERR(0, 688, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__218);
+  __Pyx_GIVEREF(__pyx_tuple__218);
+  __pyx_codeobj__219 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__218, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 688, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__219)) __PYX_ERR(0, 688, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":691
  *         yield from self._routes
@@ -25221,10 +25472,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return route in self._routes
  * 
  */
-  __pyx_tuple__221 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_route); if (unlikely(!__pyx_tuple__221)) __PYX_ERR(0, 691, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__221);
-  __Pyx_GIVEREF(__pyx_tuple__221);
-  __pyx_codeobj__222 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__221, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_contains, 691, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__222)) __PYX_ERR(0, 691, __pyx_L1_error)
+  __pyx_tuple__220 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_route); if (unlikely(!__pyx_tuple__220)) __PYX_ERR(0, 691, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__220);
+  __Pyx_GIVEREF(__pyx_tuple__220);
+  __pyx_codeobj__221 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__220, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_contains, 691, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__221)) __PYX_ERR(0, 691, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":697
  * class UrlDispatcher(AbstractRouter, collections.abc.Mapping):
@@ -25233,9 +25484,9 @@ static int __Pyx_InitCachedConstants(void) {
  *     DYN_WITH_RE = re.compile(
  *         r'^\{(?P<var>[a-zA-Z][_a-zA-Z0-9]*):(?P<re>.+)\}$')
  */
-  __pyx_tuple__223 = PyTuple_Pack(1, __pyx_kp_s_P_var_a_zA_Z__a_zA_Z0_9); if (unlikely(!__pyx_tuple__223)) __PYX_ERR(0, 697, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__223);
-  __Pyx_GIVEREF(__pyx_tuple__223);
+  __pyx_tuple__222 = PyTuple_Pack(1, __pyx_kp_u_P_var_a_zA_Z__a_zA_Z0_9); if (unlikely(!__pyx_tuple__222)) __PYX_ERR(0, 697, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__222);
+  __Pyx_GIVEREF(__pyx_tuple__222);
 
   /* "aiohttp/web_urldispatcher.py":698
  * 
@@ -25244,9 +25495,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         r'^\{(?P<var>[a-zA-Z][_a-zA-Z0-9]*):(?P<re>.+)\}$')
  *     GOOD = r'[^{}/]+'
  */
-  __pyx_tuple__224 = PyTuple_Pack(1, __pyx_kp_s_P_var_a_zA_Z__a_zA_Z0_9_P_re); if (unlikely(!__pyx_tuple__224)) __PYX_ERR(0, 698, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__224);
-  __Pyx_GIVEREF(__pyx_tuple__224);
+  __pyx_tuple__223 = PyTuple_Pack(1, __pyx_kp_u_P_var_a_zA_Z__a_zA_Z0_9_P_re); if (unlikely(!__pyx_tuple__223)) __PYX_ERR(0, 698, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__223);
+  __Pyx_GIVEREF(__pyx_tuple__223);
 
   /* "aiohttp/web_urldispatcher.py":701
  *         r'^\{(?P<var>[a-zA-Z][_a-zA-Z0-9]*):(?P<re>.+)\}$')
@@ -25255,9 +25506,9 @@ static int __Pyx_InitCachedConstants(void) {
  *     NAME_SPLIT_RE = re.compile('[.:-]')
  * 
  */
-  __pyx_tuple__226 = PyTuple_Pack(1, __pyx_kp_s_a_zA_Z); if (unlikely(!__pyx_tuple__226)) __PYX_ERR(0, 701, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__226);
-  __Pyx_GIVEREF(__pyx_tuple__226);
+  __pyx_tuple__225 = PyTuple_Pack(1, __pyx_kp_u_a_zA_Z); if (unlikely(!__pyx_tuple__225)) __PYX_ERR(0, 701, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__225);
+  __Pyx_GIVEREF(__pyx_tuple__225);
 
   /* "aiohttp/web_urldispatcher.py":702
  *     GOOD = r'[^{}/]+'
@@ -25266,9 +25517,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     def __init__(self):
  */
-  __pyx_tuple__228 = PyTuple_Pack(1, __pyx_kp_s__227); if (unlikely(!__pyx_tuple__228)) __PYX_ERR(0, 702, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__228);
-  __Pyx_GIVEREF(__pyx_tuple__228);
+  __pyx_tuple__227 = PyTuple_Pack(1, __pyx_kp_u__226); if (unlikely(!__pyx_tuple__227)) __PYX_ERR(0, 702, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__227);
+  __Pyx_GIVEREF(__pyx_tuple__227);
 
   /* "aiohttp/web_urldispatcher.py":704
  *     NAME_SPLIT_RE = re.compile('[.:-]')
@@ -25277,10 +25528,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         super().__init__()
  *         self._resources = []
  */
-  __pyx_tuple__229 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__229)) __PYX_ERR(0, 704, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__229);
-  __Pyx_GIVEREF(__pyx_tuple__229);
-  __pyx_codeobj__230 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__229, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 704, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__230)) __PYX_ERR(0, 704, __pyx_L1_error)
+  __pyx_tuple__228 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__228)) __PYX_ERR(0, 704, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__228);
+  __Pyx_GIVEREF(__pyx_tuple__228);
+  __pyx_codeobj__229 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__228, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_init, 704, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__229)) __PYX_ERR(0, 704, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":710
  * 
@@ -25289,10 +25540,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         path = request.raw_path
  *         method = request.method
  */
-  __pyx_tuple__231 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_request, __pyx_n_s_path, __pyx_n_s_method, __pyx_n_s_allowed_methods, __pyx_n_s_resource, __pyx_n_s_match_dict, __pyx_n_s_allowed); if (unlikely(!__pyx_tuple__231)) __PYX_ERR(0, 710, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__231);
-  __Pyx_GIVEREF(__pyx_tuple__231);
-  __pyx_codeobj__232 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__231, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 710, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__232)) __PYX_ERR(0, 710, __pyx_L1_error)
+  __pyx_tuple__230 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_request, __pyx_n_s_path, __pyx_n_s_method, __pyx_n_s_allowed_methods, __pyx_n_s_resource, __pyx_n_s_match_dict, __pyx_n_s_allowed); if (unlikely(!__pyx_tuple__230)) __PYX_ERR(0, 710, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__230);
+  __Pyx_GIVEREF(__pyx_tuple__230);
+  __pyx_codeobj__231 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__230, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resolve, 710, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__231)) __PYX_ERR(0, 710, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":728
  *                 return MatchInfoError(HTTPNotFound())
@@ -25301,10 +25552,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return iter(self._named_resources)
  * 
  */
-  __pyx_tuple__233 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__233)) __PYX_ERR(0, 728, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__233);
-  __Pyx_GIVEREF(__pyx_tuple__233);
-  __pyx_codeobj__234 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__233, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 728, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__234)) __PYX_ERR(0, 728, __pyx_L1_error)
+  __pyx_tuple__232 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__232)) __PYX_ERR(0, 728, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__232);
+  __Pyx_GIVEREF(__pyx_tuple__232);
+  __pyx_codeobj__233 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__232, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_iter, 728, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__233)) __PYX_ERR(0, 728, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":731
  *         return iter(self._named_resources)
@@ -25313,10 +25564,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return len(self._named_resources)
  * 
  */
-  __pyx_tuple__235 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__235)) __PYX_ERR(0, 731, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__235);
-  __Pyx_GIVEREF(__pyx_tuple__235);
-  __pyx_codeobj__236 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__235, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 731, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__236)) __PYX_ERR(0, 731, __pyx_L1_error)
+  __pyx_tuple__234 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__234)) __PYX_ERR(0, 731, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__234);
+  __Pyx_GIVEREF(__pyx_tuple__234);
+  __pyx_codeobj__235 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__234, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_len, 731, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__235)) __PYX_ERR(0, 731, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":734
  *         return len(self._named_resources)
@@ -25325,10 +25576,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return name in self._named_resources
  * 
  */
-  __pyx_tuple__237 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__237)) __PYX_ERR(0, 734, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__237);
-  __Pyx_GIVEREF(__pyx_tuple__237);
-  __pyx_codeobj__238 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__237, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_contains, 734, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__238)) __PYX_ERR(0, 734, __pyx_L1_error)
+  __pyx_tuple__236 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__236)) __PYX_ERR(0, 734, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__236);
+  __Pyx_GIVEREF(__pyx_tuple__236);
+  __pyx_codeobj__237 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__236, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_contains, 734, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__237)) __PYX_ERR(0, 734, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":737
  *         return name in self._named_resources
@@ -25337,10 +25588,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return self._named_resources[name]
  * 
  */
-  __pyx_tuple__239 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__239)) __PYX_ERR(0, 737, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__239);
-  __Pyx_GIVEREF(__pyx_tuple__239);
-  __pyx_codeobj__240 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__239, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_getitem, 737, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__240)) __PYX_ERR(0, 737, __pyx_L1_error)
+  __pyx_tuple__238 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__238)) __PYX_ERR(0, 737, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__238);
+  __Pyx_GIVEREF(__pyx_tuple__238);
+  __pyx_codeobj__239 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__238, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_getitem, 737, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__239)) __PYX_ERR(0, 737, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":740
  *         return self._named_resources[name]
@@ -25349,10 +25600,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return ResourcesView(self._resources)
  * 
  */
-  __pyx_tuple__241 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__241)) __PYX_ERR(0, 740, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__241);
-  __Pyx_GIVEREF(__pyx_tuple__241);
-  __pyx_codeobj__242 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__241, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resources, 740, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__242)) __PYX_ERR(0, 740, __pyx_L1_error)
+  __pyx_tuple__240 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__240)) __PYX_ERR(0, 740, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__240);
+  __Pyx_GIVEREF(__pyx_tuple__240);
+  __pyx_codeobj__241 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__240, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_resources, 740, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__241)) __PYX_ERR(0, 740, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":743
  *         return ResourcesView(self._resources)
@@ -25361,10 +25612,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return RoutesView(self._resources)
  * 
  */
-  __pyx_tuple__243 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__243)) __PYX_ERR(0, 743, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__243);
-  __Pyx_GIVEREF(__pyx_tuple__243);
-  __pyx_codeobj__244 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__243, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_routes_2, 743, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__244)) __PYX_ERR(0, 743, __pyx_L1_error)
+  __pyx_tuple__242 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__242)) __PYX_ERR(0, 743, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__242);
+  __Pyx_GIVEREF(__pyx_tuple__242);
+  __pyx_codeobj__243 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__242, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_routes_2, 743, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__243)) __PYX_ERR(0, 743, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":746
  *         return RoutesView(self._resources)
@@ -25373,10 +25624,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         return MappingProxyType(self._named_resources)
  * 
  */
-  __pyx_tuple__245 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__245)) __PYX_ERR(0, 746, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__245);
-  __Pyx_GIVEREF(__pyx_tuple__245);
-  __pyx_codeobj__246 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__245, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_named_resources_2, 746, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__246)) __PYX_ERR(0, 746, __pyx_L1_error)
+  __pyx_tuple__244 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__244)) __PYX_ERR(0, 746, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__244);
+  __Pyx_GIVEREF(__pyx_tuple__244);
+  __pyx_codeobj__245 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__244, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_named_resources_2, 746, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__245)) __PYX_ERR(0, 746, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":749
  *         return MappingProxyType(self._named_resources)
@@ -25385,10 +25636,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         # NB: it's ambiguous but it's really resources.
  *         warnings.warn("Use .named_resources instead", DeprecationWarning)
  */
-  __pyx_tuple__247 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__247)) __PYX_ERR(0, 749, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__247);
-  __Pyx_GIVEREF(__pyx_tuple__247);
-  __pyx_codeobj__248 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__247, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_named_routes, 749, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__248)) __PYX_ERR(0, 749, __pyx_L1_error)
+  __pyx_tuple__246 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__246)) __PYX_ERR(0, 749, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__246);
+  __Pyx_GIVEREF(__pyx_tuple__246);
+  __pyx_codeobj__247 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__246, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_named_routes, 749, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__247)) __PYX_ERR(0, 749, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":754
  *         return self.named_resources()
@@ -25397,10 +25648,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         warnings.warn("Use resource-based interface", DeprecationWarning)
  *         resource = ResourceAdapter(route)
  */
-  __pyx_tuple__249 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_route, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__249)) __PYX_ERR(0, 754, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__249);
-  __Pyx_GIVEREF(__pyx_tuple__249);
-  __pyx_codeobj__250 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__249, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_register_route, 754, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__250)) __PYX_ERR(0, 754, __pyx_L1_error)
+  __pyx_tuple__248 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_route, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__248)) __PYX_ERR(0, 754, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__248);
+  __Pyx_GIVEREF(__pyx_tuple__248);
+  __pyx_codeobj__249 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__248, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_register_route, 754, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__249)) __PYX_ERR(0, 754, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":759
  *         self._reg_resource(resource)
@@ -25409,10 +25660,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         assert isinstance(resource, AbstractResource), \
  *             'Instance of AbstractResource class is required, got {!r}'.format(
  */
-  __pyx_tuple__251 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_resource, __pyx_n_s_name, __pyx_n_s_parts, __pyx_n_s_part); if (unlikely(!__pyx_tuple__251)) __PYX_ERR(0, 759, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__251);
-  __Pyx_GIVEREF(__pyx_tuple__251);
-  __pyx_codeobj__252 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__251, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_reg_resource, 759, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__252)) __PYX_ERR(0, 759, __pyx_L1_error)
+  __pyx_tuple__250 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_resource, __pyx_n_s_name, __pyx_n_s_parts, __pyx_n_s_part); if (unlikely(!__pyx_tuple__250)) __PYX_ERR(0, 759, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__250);
+  __Pyx_GIVEREF(__pyx_tuple__250);
+  __pyx_codeobj__251 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__250, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_reg_resource, 759, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__251)) __PYX_ERR(0, 759, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":781
  *         self._resources.append(resource)
@@ -25421,10 +25672,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         if not path.startswith('/'):
  *             raise ValueError("path should be started with /")
  */
-  __pyx_tuple__253 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_name, __pyx_n_s_resource, __pyx_n_s_pattern, __pyx_n_s_formatter, __pyx_n_s_part, __pyx_n_s_match, __pyx_n_s_compiled, __pyx_n_s_exc); if (unlikely(!__pyx_tuple__253)) __PYX_ERR(0, 781, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__253);
-  __Pyx_GIVEREF(__pyx_tuple__253);
-  __pyx_codeobj__254 = (PyObject*)__Pyx_PyCode_New(2, 1, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__253, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_resource, 781, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__254)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __pyx_tuple__252 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_name, __pyx_n_s_resource, __pyx_n_s_pattern, __pyx_n_s_formatter, __pyx_n_s_part, __pyx_n_s_match, __pyx_n_s_compiled, __pyx_n_s_exc); if (unlikely(!__pyx_tuple__252)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__252);
+  __Pyx_GIVEREF(__pyx_tuple__252);
+  __pyx_codeobj__253 = (PyObject*)__Pyx_PyCode_New(2, 1, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__252, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_resource, 781, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__253)) __PYX_ERR(0, 781, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":819
  *         return resource
@@ -25433,10 +25684,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                   *, name=None, expect_handler=None):
  *         resource = self.add_resource(path, name=name)
  */
-  __pyx_tuple__255 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_expect_handler, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__255)) __PYX_ERR(0, 819, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__255);
-  __Pyx_GIVEREF(__pyx_tuple__255);
-  __pyx_codeobj__256 = (PyObject*)__Pyx_PyCode_New(4, 2, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__255, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_route, 819, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__256)) __PYX_ERR(0, 819, __pyx_L1_error)
+  __pyx_tuple__254 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_method, __pyx_n_s_path, __pyx_n_s_handler, __pyx_n_s_name, __pyx_n_s_expect_handler, __pyx_n_s_resource); if (unlikely(!__pyx_tuple__254)) __PYX_ERR(0, 819, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__254);
+  __Pyx_GIVEREF(__pyx_tuple__254);
+  __pyx_codeobj__255 = (PyObject*)__Pyx_PyCode_New(4, 2, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__254, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_route, 819, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__255)) __PYX_ERR(0, 819, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":825
  *                                   expect_handler=expect_handler)
@@ -25445,10 +25696,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                    chunk_size=256*1024, response_factory=StreamResponse):
  *         """
  */
-  __pyx_tuple__257 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_prefix, __pyx_n_s_path, __pyx_n_s_name, __pyx_n_s_expect_handler, __pyx_n_s_chunk_size, __pyx_n_s_response_factory, __pyx_n_s_route); if (unlikely(!__pyx_tuple__257)) __PYX_ERR(0, 825, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__257);
-  __Pyx_GIVEREF(__pyx_tuple__257);
-  __pyx_codeobj__258 = (PyObject*)__Pyx_PyCode_New(3, 4, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__257, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_static, 825, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__258)) __PYX_ERR(0, 825, __pyx_L1_error)
+  __pyx_tuple__256 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_prefix, __pyx_n_s_path, __pyx_n_s_name, __pyx_n_s_expect_handler, __pyx_n_s_chunk_size, __pyx_n_s_response_factory, __pyx_n_s_route); if (unlikely(!__pyx_tuple__256)) __PYX_ERR(0, 825, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__256);
+  __Pyx_GIVEREF(__pyx_tuple__256);
+  __pyx_codeobj__257 = (PyObject*)__Pyx_PyCode_New(3, 4, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__256, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_n_s_add_static, 825, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__257)) __PYX_ERR(0, 825, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -25617,7 +25868,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import asyncio
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_abc, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_abc, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_abc, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25628,7 +25879,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  * import keyword
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25640,7 +25891,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import collections
  * import mimetypes
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_keyword, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_keyword, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_keyword, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25652,7 +25903,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import mimetypes
  * import re
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_collections, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25664,7 +25915,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import re
  * import os
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_mimetypes, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_mimetypes, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_mimetypes, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25676,7 +25927,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import os
  * import sys
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_re, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_re, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_re, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25688,7 +25939,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import sys
  * import inspect
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25700,7 +25951,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import inspect
  * import warnings
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25712,7 +25963,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * import warnings
  * 
  */
-  __pyx_t_1 = __Pyx_patch_inspect(__Pyx_Import(__pyx_n_s_inspect, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_inspect(__Pyx_Import(__pyx_n_s_inspect, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_inspect, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25724,7 +25975,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  * from collections.abc import Sized, Iterable, Container
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_warnings, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_warnings, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25747,7 +25998,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __Pyx_INCREF(__pyx_n_s_Container);
   __Pyx_GIVEREF(__pyx_n_s_Container);
   PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_Container);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections_abc, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections_abc, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Sized); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
@@ -25776,7 +26027,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __Pyx_INCREF(__pyx_n_s_Path);
   __Pyx_GIVEREF(__pyx_n_s_Path);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Path);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pathlib, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pathlib, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Path); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
@@ -25800,7 +26051,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __Pyx_INCREF(__pyx_n_s_unquote);
   __Pyx_GIVEREF(__pyx_n_s_unquote);
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_unquote);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_urllib_parse, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_urllib_parse, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_urlencode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
@@ -25825,7 +26076,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __Pyx_INCREF(__pyx_n_s_MappingProxyType);
   __Pyx_GIVEREF(__pyx_n_s_MappingProxyType);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_MappingProxyType);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_types, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_types, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_MappingProxyType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
@@ -25846,7 +26097,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __Pyx_INCREF(__pyx_n_s_hdrs);
   __Pyx_GIVEREF(__pyx_n_s_hdrs);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_hdrs);
-  __pyx_t_2 = __Pyx_Import(__pyx_kp_s__5, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s__5, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_hdrs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
@@ -26002,7 +26253,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *            'AbstractResource', 'Resource', 'PlainResource', 'DynamicResource',
  *            'ResourceAdapter',
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_tuple__35) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_tuple__34) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":34
  * 
@@ -26016,7 +26267,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_version_info); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_tuple__36, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_tuple__35, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_PY_35, __pyx_t_1) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -26055,7 +26306,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_name, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_1__init__, 0, __pyx_n_s_AbstractResource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_1__init__, 0, __pyx_n_s_AbstractResource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__37)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_5, __pyx_t_4);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -26069,7 +26320,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._name
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_3name, 0, __pyx_n_s_AbstractResource_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_3name, 0, __pyx_n_s_AbstractResource_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__39)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "aiohttp/web_urldispatcher.py":42
@@ -26110,7 +26361,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Construct url for resource with additional params."""
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_5url, 0, __pyx_n_s_AbstractResource_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_5url, 0, __pyx_n_s_AbstractResource_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__41)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -26174,7 +26425,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Resolve resource
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_7resolve, 0, __pyx_n_s_AbstractResource_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_7resolve, 0, __pyx_n_s_AbstractResource_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__43)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -26251,7 +26502,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Return a dict with additional info useful for introspection"""
  * 
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_9get_info, 0, __pyx_n_s_AbstractResource_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_9get_info, 0, __pyx_n_s_AbstractResource_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
@@ -26289,7 +26540,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         if query is not None:
  *             return url + "?" + urlencode(query)
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_11_append_query, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_AbstractResource__append_query, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_16AbstractResource_11_append_query, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_AbstractResource__append_query, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "aiohttp/web_urldispatcher.py":61
@@ -26317,7 +26568,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, *, name=None):
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_AbstractResource, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_AbstractResource, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_AbstractResource, __pyx_t_5) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -26381,7 +26632,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_expect_handler, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_resource, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_1__init__, 0, __pyx_n_s_AbstractRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__50)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_1__init__, 0, __pyx_n_s_AbstractRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__49)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_5, __pyx_t_7);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -26395,7 +26646,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._method
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_3method, 0, __pyx_n_s_AbstractRoute_method, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__52)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_3method, 0, __pyx_n_s_AbstractRoute_method, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__51)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "aiohttp/web_urldispatcher.py":103
@@ -26423,7 +26674,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._handler
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_5handler, 0, __pyx_n_s_AbstractRoute_handler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__54)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_5handler, 0, __pyx_n_s_AbstractRoute_handler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "aiohttp/web_urldispatcher.py":107
@@ -26464,7 +26715,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Optional route's name, always equals to resource's name."""
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_7name, 0, __pyx_n_s_AbstractRoute_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__56)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_7name, 0, __pyx_n_s_AbstractRoute_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__55)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
@@ -26518,7 +26769,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._resource
  * 
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_9resource, 0, __pyx_n_s_AbstractRoute_resource, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__58)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_9resource, 0, __pyx_n_s_AbstractRoute_resource, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__57)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
   /* "aiohttp/web_urldispatcher.py":116
@@ -26559,7 +26810,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Return a dict with additional info useful for introspection"""
  * 
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_11get_info, 0, __pyx_n_s_AbstractRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__60)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_11get_info, 0, __pyx_n_s_AbstractRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__59)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -26610,7 +26861,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Construct url for route with additional params."""
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_13url, 0, __pyx_n_s_AbstractRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__62)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_13url, 0, __pyx_n_s_AbstractRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 125, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_10 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -26661,7 +26912,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return (yield from self._expect_handler(request))
  * 
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_15handle_expect_header, 0, __pyx_n_s_AbstractRoute_handle_expect_head, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__64)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13AbstractRoute_15handle_expect_header, 0, __pyx_n_s_AbstractRoute_handle_expect_head, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__63)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -26738,7 +26989,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         super().__init__(match_dict)
  *         self._route = route
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_1__init__, 0, __pyx_n_s_UrlMappingMatchInfo___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__66)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_1__init__, 0, __pyx_n_s_UrlMappingMatchInfo___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__65)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF(__pyx_t_7);
   PyList_Append(__pyx_t_5, __pyx_t_7);
@@ -26753,7 +27004,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._route.handler
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_3handler, 0, __pyx_n_s_UrlMappingMatchInfo_handler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_3handler, 0, __pyx_n_s_UrlMappingMatchInfo_handler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "aiohttp/web_urldispatcher.py":139
@@ -26781,7 +27032,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._route
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_5route, 0, __pyx_n_s_UrlMappingMatchInfo_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__70)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_5route, 0, __pyx_n_s_UrlMappingMatchInfo_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "aiohttp/web_urldispatcher.py":143
@@ -26809,7 +27060,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._route.handle_expect_header
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_7expect_handler, 0, __pyx_n_s_UrlMappingMatchInfo_expect_handl, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_7expect_handler, 0, __pyx_n_s_UrlMappingMatchInfo_expect_handl, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__71)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "aiohttp/web_urldispatcher.py":147
@@ -26837,7 +27088,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return None
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_9http_exception, 0, __pyx_n_s_UrlMappingMatchInfo_http_excepti, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__74)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_9http_exception, 0, __pyx_n_s_UrlMappingMatchInfo_http_excepti, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__73)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
   /* "aiohttp/web_urldispatcher.py":151
@@ -26865,7 +27116,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._route.get_info()
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_11get_info, 0, __pyx_n_s_UrlMappingMatchInfo_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__76)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_11get_info, 0, __pyx_n_s_UrlMappingMatchInfo_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__75)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_get_info, __pyx_t_7) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -26877,7 +27128,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return "<MatchInfo {}: {}>".format(super().__repr__(), self._route)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_13__repr__, 0, __pyx_n_s_UrlMappingMatchInfo___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__78)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_19UrlMappingMatchInfo_13__repr__, 0, __pyx_n_s_UrlMappingMatchInfo___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__77)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF(__pyx_t_7);
   PyList_Append(__pyx_t_5, __pyx_t_7);
@@ -26892,7 +27143,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, match_dict, route):
  */
-  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_UrlMappingMatchInfo, __pyx_t_1, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_UrlMappingMatchInfo, __pyx_t_1, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_5, __pyx_t_7) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -26930,7 +27181,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         self._exception = http_exception
  *         super().__init__({}, SystemRoute(self._exception))
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_14MatchInfoError_1__init__, 0, __pyx_n_s_MatchInfoError___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_14MatchInfoError_1__init__, 0, __pyx_n_s_MatchInfoError___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__79)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_INCREF(__pyx_t_10);
   PyList_Append(__pyx_t_7, __pyx_t_10);
@@ -26945,7 +27196,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._exception
  * 
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_14MatchInfoError_3http_exception, 0, __pyx_n_s_MatchInfoError_http_exception, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_14MatchInfoError_3http_exception, 0, __pyx_n_s_MatchInfoError_http_exception, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__81)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
 
   /* "aiohttp/web_urldispatcher.py":168
@@ -26973,7 +27224,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return "<MatchInfoError {}: {}>".format(self._exception.status,
  *                                                 self._exception.reason)
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_14MatchInfoError_5__repr__, 0, __pyx_n_s_MatchInfoError___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__84)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_14MatchInfoError_5__repr__, 0, __pyx_n_s_MatchInfoError___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__83)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_repr, __pyx_t_10) < 0) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -26985,7 +27236,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, http_exception):
  */
-  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MatchInfoError_2, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MatchInfoError_2, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_7, __pyx_t_10) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -27015,7 +27266,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *     """Default handler for Except header.
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_1_defaultExpectHandler, 0, __pyx_n_s_defaultExpectHandler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_1_defaultExpectHandler, 0, __pyx_n_s_defaultExpectHandler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__85)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_10 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -27074,7 +27325,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         assert isinstance(route, Route), \
  *             'Instance of Route class is required, got {!r}'.format(route)
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_1__init__, 0, __pyx_n_s_ResourceAdapter___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__88)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_1__init__, 0, __pyx_n_s_ResourceAdapter___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__87)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_INCREF(__pyx_t_10);
   PyList_Append(__pyx_t_1, __pyx_t_10);
@@ -27089,7 +27340,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._route.url(**kwargs)
  * 
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_3url, 0, __pyx_n_s_ResourceAdapter_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__90)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_3url, 0, __pyx_n_s_ResourceAdapter_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__89)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_url, __pyx_t_10) < 0) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -27114,7 +27365,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         route_method = self._route.method
  *         allowed_methods = set()
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_5resolve, 0, __pyx_n_s_ResourceAdapter_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__92)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_5resolve, 0, __pyx_n_s_ResourceAdapter_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__91)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -27152,7 +27403,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._route.get_info()
  * 
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_7get_info, 0, __pyx_n_s_ResourceAdapter_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__94)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_7get_info, 0, __pyx_n_s_ResourceAdapter_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__93)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_10) < 0) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -27164,7 +27415,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return 1
  * 
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_9__len__, 0, __pyx_n_s_ResourceAdapter___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__96)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_9__len__, 0, __pyx_n_s_ResourceAdapter___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__95)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_len, __pyx_t_10) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -27176,7 +27427,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         yield self._route
  * 
  */
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_11__iter__, 0, __pyx_n_s_ResourceAdapter___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__98)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15ResourceAdapter_11__iter__, 0, __pyx_n_s_ResourceAdapter___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__97)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_iter, __pyx_t_10) < 0) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -27188,7 +27439,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, route):
  */
-  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_ResourceAdapter, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_ResourceAdapter, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_1, __pyx_t_10) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -27229,7 +27480,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 228, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_name, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_1__init__, 0, __pyx_n_s_Resource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__100)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_1__init__, 0, __pyx_n_s_Resource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__99)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 228, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_INCREF(__pyx_t_11);
   PyList_Append(__pyx_t_10, __pyx_t_11);
@@ -27249,7 +27500,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_expect_handler, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 232, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_3add_route, 0, __pyx_n_s_Resource_add_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__102)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 232, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_3add_route, 0, __pyx_n_s_Resource_add_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__101)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_4, __pyx_t_11);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -27263,7 +27514,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         assert isinstance(route, ResourceRoute), \
  *             'Instance of Route class is required, got {!r}'.format(route)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_5register_route, 0, __pyx_n_s_Resource_register_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__104)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_5register_route, 0, __pyx_n_s_Resource_register_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__103)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_register_route, __pyx_t_4) < 0) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -27288,7 +27539,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         allowed_methods = set()
  * 
  */
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_7resolve, 0, __pyx_n_s_Resource_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__106)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_7resolve, 0, __pyx_n_s_Resource_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__105)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 252, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -27326,7 +27577,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return len(self._routes)
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_9__len__, 0, __pyx_n_s_Resource___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__108)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_9__len__, 0, __pyx_n_s_Resource___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__107)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_len, __pyx_t_4) < 0) __PYX_ERR(0, 268, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -27338,7 +27589,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return iter(self._routes)
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_11__iter__, 0, __pyx_n_s_Resource___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__110)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_8Resource_11__iter__, 0, __pyx_n_s_Resource___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__109)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_iter, __pyx_t_4) < 0) __PYX_ERR(0, 271, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -27350,7 +27601,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, *, name=None):
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Resource, __pyx_t_3, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Resource, __pyx_t_3, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_10, __pyx_t_4) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -27391,7 +27642,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_name, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 277, __pyx_L1_error)
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_1__init__, 0, __pyx_n_s_PlainResource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__112)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_1__init__, 0, __pyx_n_s_PlainResource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__111)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_INCREF(__pyx_t_12);
   PyList_Append(__pyx_t_4, __pyx_t_12);
@@ -27408,7 +27659,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         # string comparison is about 10 times faster than regexp matching
  *         if self._path == path:
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_3_match, 0, __pyx_n_s_PlainResource__match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__114)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_3_match, 0, __pyx_n_s_PlainResource__match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__113)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_match_2, __pyx_t_12) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -27420,7 +27671,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return {'path': self._path}
  * 
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_5get_info, 0, __pyx_n_s_PlainResource_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__116)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_5get_info, 0, __pyx_n_s_PlainResource_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__115)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_12) < 0) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -27435,7 +27686,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_12 = PyDict_New(); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_query, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_7url, 0, __pyx_n_s_PlainResource_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__118)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_7url, 0, __pyx_n_s_PlainResource_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__117)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_6, __pyx_t_12);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -27449,7 +27700,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return "<PlainResource {name} {path}".format(name=name,
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_9__repr__, 0, __pyx_n_s_PlainResource___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__120)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13PlainResource_9__repr__, 0, __pyx_n_s_PlainResource___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__119)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_repr, __pyx_t_6) < 0) __PYX_ERR(0, 294, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -27461,7 +27712,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, path, *, name=None):
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_PlainResource, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_PlainResource, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_6) < 0) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -27502,7 +27753,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_12 = PyDict_New(); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_name, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 302, __pyx_L1_error)
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_1__init__, 0, __pyx_n_s_DynamicResource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__122)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_1__init__, 0, __pyx_n_s_DynamicResource___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__121)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_INCREF(__pyx_t_11);
   PyList_Append(__pyx_t_6, __pyx_t_11);
@@ -27519,7 +27770,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         match = self._pattern.match(path)
  *         if match is None:
  */
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_3_match, 0, __pyx_n_s_DynamicResource__match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__124)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_3_match, 0, __pyx_n_s_DynamicResource__match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__123)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_match_2, __pyx_t_11) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -27531,7 +27782,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return {'formatter': self._formatter,
  *                 'pattern': self._pattern}
  */
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_5get_info, 0, __pyx_n_s_DynamicResource_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__126)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_5get_info, 0, __pyx_n_s_DynamicResource_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__125)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_11) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -27546,7 +27797,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_query, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_7url, 0, __pyx_n_s_DynamicResource_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__128)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_7url, 0, __pyx_n_s_DynamicResource_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__127)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_12, __pyx_t_11);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -27560,7 +27811,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return ("<DynamicResource {name} {formatter}"
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_9__repr__, 0, __pyx_n_s_DynamicResource___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__130)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_15DynamicResource_9__repr__, 0, __pyx_n_s_DynamicResource___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__129)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_repr, __pyx_t_12) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -27572,7 +27823,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, pattern, formatter, *, name=None):
  */
-  __pyx_t_12 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DynamicResource, __pyx_t_3, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DynamicResource, __pyx_t_3, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 300, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_6, __pyx_t_12) < 0) __PYX_ERR(0, 300, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -27613,7 +27864,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_expect_handler, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_1__init__, 0, __pyx_n_s_ResourceRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__132)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_1__init__, 0, __pyx_n_s_ResourceRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__131)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_INCREF(__pyx_t_9);
   PyList_Append(__pyx_t_12, __pyx_t_9);
@@ -27630,7 +27881,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return "<ResourceRoute [{method}] {resource} -> {handler!r}".format(
  *             method=self.method, resource=self._resource,
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_3__repr__, 0, __pyx_n_s_ResourceRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__134)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 337, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_3__repr__, 0, __pyx_n_s_ResourceRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__133)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_repr, __pyx_t_9) < 0) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -27642,7 +27893,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._resource.name
  * 
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_5name, 0, __pyx_n_s_ResourceRoute_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__136)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_5name, 0, __pyx_n_s_ResourceRoute_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__135)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
 
   /* "aiohttp/web_urldispatcher.py":342
@@ -27670,7 +27921,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Construct url for route with additional params."""
  *         return self._resource.url(**kwargs)
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_7url, 0, __pyx_n_s_ResourceRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__138)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_7url, 0, __pyx_n_s_ResourceRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__137)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_url, __pyx_t_9) < 0) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -27682,7 +27933,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._resource.get_info()
  * 
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_9get_info, 0, __pyx_n_s_ResourceRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__140)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourceRoute_9get_info, 0, __pyx_n_s_ResourceRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__139)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_9) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -27717,7 +27968,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *     """A route with resource"""
  * 
  */
-  __pyx_t_11 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_ResourceRoute, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_ResourceRoute, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_12, __pyx_t_11) < 0) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -27758,7 +28009,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_9 = PyDict_New(); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 359, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_expect_handler, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
-  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_5Route_1__init__, 0, __pyx_n_s_Route___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__142)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_5Route_1__init__, 0, __pyx_n_s_Route___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__141)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 359, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_INCREF(__pyx_t_13);
   PyList_Append(__pyx_t_11, __pyx_t_13);
@@ -27775,7 +28026,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._name
  * 
  */
-  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_5Route_3name, 0, __pyx_n_s_Route_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__144)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 364, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_5Route_3name, 0, __pyx_n_s_Route_name, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__143)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
 
   /* "aiohttp/web_urldispatcher.py":363
@@ -27816,7 +28067,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """Return dict with info for given path or
  *         None if route cannot process path."""
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_5Route_5match, 0, __pyx_n_s_Route_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__146)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 368, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_5Route_5match, 0, __pyx_n_s_Route_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__145)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_15 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_14))) {
@@ -27877,7 +28128,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *     """Old fashion route"""
  * 
  */
-  __pyx_t_14 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Route, __pyx_t_3, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Route, __pyx_t_3, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_11, __pyx_t_14) < 0) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -27918,7 +28169,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_13 = PyDict_New(); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_expect_handler, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 377, __pyx_L1_error)
-  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_1__init__, 0, __pyx_n_s_PlainRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__148)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 377, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_1__init__, 0, __pyx_n_s_PlainRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__147)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   __Pyx_INCREF(__pyx_t_16);
   PyList_Append(__pyx_t_14, __pyx_t_16);
@@ -27935,7 +28186,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         # string comparison is about 10 times faster than regexp matching
  *         if self._path == path:
  */
-  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_3match, 0, __pyx_n_s_PlainRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__150)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_3match, 0, __pyx_n_s_PlainRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__149)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_match, __pyx_t_16) < 0) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
@@ -27950,7 +28201,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_16 = PyDict_New(); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 388, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   if (PyDict_SetItem(__pyx_t_16, __pyx_n_s_query, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 388, __pyx_L1_error)
-  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_5url, 0, __pyx_n_s_PlainRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__152)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 388, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_5url, 0, __pyx_n_s_PlainRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__151)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 388, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_13, __pyx_t_16);
   __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
@@ -27964,7 +28215,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return {'path': self._path}
  * 
  */
-  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_7get_info, 0, __pyx_n_s_PlainRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__154)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_7get_info, 0, __pyx_n_s_PlainRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__153)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 391, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_13) < 0) __PYX_ERR(0, 391, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -27976,7 +28227,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return "<PlainRoute {name}[{method}] {path} -> {handler!r}".format(
  */
-  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_9__repr__, 0, __pyx_n_s_PlainRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__156)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 394, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10PlainRoute_9__repr__, 0, __pyx_n_s_PlainRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__155)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_repr, __pyx_t_13) < 0) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -27988,7 +28239,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, method, handler, name, path, *, expect_handler=None):
  */
-  __pyx_t_13 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_PlainRoute, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_PlainRoute, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 375, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_14, __pyx_t_13) < 0) __PYX_ERR(0, 375, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -28029,7 +28280,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_16 = PyDict_New(); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 403, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   if (PyDict_SetItem(__pyx_t_16, __pyx_n_s_expect_handler, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 403, __pyx_L1_error)
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_1__init__, 0, __pyx_n_s_DynamicRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__158)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_1__init__, 0, __pyx_n_s_DynamicRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__157)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 403, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_INCREF(__pyx_t_9);
   PyList_Append(__pyx_t_13, __pyx_t_9);
@@ -28046,7 +28297,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         match = self._pattern.match(path)
  *         if match is None:
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_3match, 0, __pyx_n_s_DynamicRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__160)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 409, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_3match, 0, __pyx_n_s_DynamicRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__159)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_match, __pyx_t_9) < 0) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -28061,7 +28312,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_9 = PyDict_New(); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_query, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 416, __pyx_L1_error)
-  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_5url, 0, __pyx_n_s_DynamicRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__162)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_5url, 0, __pyx_n_s_DynamicRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__161)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_16, __pyx_t_9);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -28075,7 +28326,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return {'formatter': self._formatter,
  *                 'pattern': self._pattern}
  */
-  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_7get_info, 0, __pyx_n_s_DynamicRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__164)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 420, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_7get_info, 0, __pyx_n_s_DynamicRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__163)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 420, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_16) < 0) __PYX_ERR(0, 420, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
@@ -28087,7 +28338,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return ("<DynamicRoute {name}[{method}] {formatter} -> {handler!r}"
  */
-  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_9__repr__, 0, __pyx_n_s_DynamicRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__166)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 424, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_12DynamicRoute_9__repr__, 0, __pyx_n_s_DynamicRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__165)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 424, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_repr, __pyx_t_16) < 0) __PYX_ERR(0, 424, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
@@ -28099,7 +28350,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, method, handler, name, pattern, formatter, *,
  */
-  __pyx_t_16 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DynamicRoute, __pyx_t_3, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 401, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DynamicRoute, __pyx_t_3, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_13, __pyx_t_16) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -28137,7 +28388,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *                  expect_handler=None, chunk_size=256*1024,
  *                  response_factory=StreamResponse):
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_1__init__, 0, __pyx_n_s_StaticRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__168)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_1__init__, 0, __pyx_n_s_StaticRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__167)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_INCREF(__pyx_t_9);
   PyList_Append(__pyx_t_16, __pyx_t_9);
@@ -28167,7 +28418,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         if not path.startswith(self._prefix):
  *             return None
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_3match, 0, __pyx_n_s_StaticRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__170)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 459, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_3match, 0, __pyx_n_s_StaticRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__169)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 459, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_match, __pyx_t_9) < 0) __PYX_ERR(0, 459, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -28182,7 +28433,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_9 = PyDict_New(); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 464, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_query, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 464, __pyx_L1_error)
-  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_5url, 0, __pyx_n_s_StaticRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__172)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 464, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_5url, 0, __pyx_n_s_StaticRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__171)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 464, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_15, __pyx_t_9);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -28196,7 +28447,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return {'directory': self._directory,
  *                 'prefix': self._prefix}
  */
-  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_7get_info, 0, __pyx_n_s_StaticRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__174)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_7get_info, 0, __pyx_n_s_StaticRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__173)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_15) < 0) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -28208,7 +28459,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *                      registered):
  *         if registered:
  */
-  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_9_sendfile_cb, 0, __pyx_n_s_StaticRoute__sendfile_cb, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__176)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 476, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_9_sendfile_cb, 0, __pyx_n_s_StaticRoute__sendfile_cb, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__175)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_sendfile_cb, __pyx_t_15) < 0) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -28233,7 +28484,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """
  *         Write `count` bytes of `fobj` to `resp` starting from `offset` using
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_11_sendfile_system, 0, __pyx_n_s_StaticRoute__sendfile_system, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__178)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 497, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_11_sendfile_system, 0, __pyx_n_s_StaticRoute__sendfile_system, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__177)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 497, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_18 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_17))) {
@@ -28284,7 +28535,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         """
  *         Mimic the :meth:`_sendfile_system` method, but without using the
  */
-  __pyx_t_17 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_14_sendfile_fallback, 0, __pyx_n_s_StaticRoute__sendfile_fallback, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__180)); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 530, __pyx_L1_error)
+  __pyx_t_17 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_14_sendfile_fallback, 0, __pyx_n_s_StaticRoute__sendfile_fallback, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__179)); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_19))) {
@@ -28324,7 +28575,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  */
   __pyx_t_15 = __Pyx_GetModuleGlobalName(__pyx_n_s_os); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 553, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
-  __pyx_t_20 = PyObject_HasAttr(__pyx_t_15, __pyx_n_s_sendfile_2); if (unlikely(__pyx_t_20 == -1)) __PYX_ERR(0, 553, __pyx_L1_error)
+  __pyx_t_20 = PyObject_HasAttr(__pyx_t_15, __pyx_n_u_sendfile_2); if (unlikely(__pyx_t_20 == -1)) __PYX_ERR(0, 553, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
   __pyx_t_21 = (__pyx_t_20 != 0);
   if (__pyx_t_21) {
@@ -28396,7 +28647,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         filename = request.match_info['filename']
  *         try:
  */
-  __pyx_t_19 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_17handle, 0, __pyx_n_s_StaticRoute_handle, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__182)); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __pyx_t_19 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_17handle, 0, __pyx_n_s_StaticRoute_handle, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__181)); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_19);
   __pyx_t_17 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_18))) {
@@ -28434,7 +28685,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         name = "'" + self.name + "' " if self.name is not None else ""
  *         return "<StaticRoute {name}[{method}] {path} -> {directory!r}".format(
  */
-  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_20__repr__, 0, __pyx_n_s_StaticRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__184)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 603, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11StaticRoute_20__repr__, 0, __pyx_n_s_StaticRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__183)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 603, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_repr, __pyx_t_15) < 0) __PYX_ERR(0, 603, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -28446,7 +28697,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, name, prefix, directory, *,
  */
-  __pyx_t_15 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_StaticRoute, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 431, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_StaticRoute, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_16, __pyx_t_15) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
@@ -28484,7 +28735,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         super().__init__(hdrs.METH_ANY, self._handler, None)
  *         self._http_exception = http_exception
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_1__init__, 0, __pyx_n_s_SystemRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__186)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 612, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_1__init__, 0, __pyx_n_s_SystemRoute___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__185)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 612, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   __Pyx_INCREF(__pyx_t_18);
   PyList_Append(__pyx_t_15, __pyx_t_18);
@@ -28499,7 +28750,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         raise RuntimeError(".url() is not allowed for SystemRoute")
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_3url, 0, __pyx_n_s_SystemRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__188)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 616, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_3url, 0, __pyx_n_s_SystemRoute_url, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__187)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 616, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_url, __pyx_t_18) < 0) __PYX_ERR(0, 616, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28511,7 +28762,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return None
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_5match, 0, __pyx_n_s_SystemRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__190)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 619, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_5match, 0, __pyx_n_s_SystemRoute_match, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__189)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 619, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_match, __pyx_t_18) < 0) __PYX_ERR(0, 619, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28523,7 +28774,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return {'http_exception': self._http_exception}
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_7get_info, 0, __pyx_n_s_SystemRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__192)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 622, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_7get_info, 0, __pyx_n_s_SystemRoute_get_info, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__191)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 622, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_get_info, __pyx_t_18) < 0) __PYX_ERR(0, 622, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28548,7 +28799,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         raise self._http_exception
  * 
  */
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_9_handler, 0, __pyx_n_s_SystemRoute__handler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__194)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 626, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_9_handler, 0, __pyx_n_s_SystemRoute__handler, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__193)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 626, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_17 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_19))) {
@@ -28586,7 +28837,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._http_exception.status
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_11status, 0, __pyx_n_s_SystemRoute_status, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__196)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 630, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_11status, 0, __pyx_n_s_SystemRoute_status, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__195)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 630, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
 
   /* "aiohttp/web_urldispatcher.py":629
@@ -28614,7 +28865,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._http_exception.reason
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_13reason, 0, __pyx_n_s_SystemRoute_reason, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__198)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 634, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_13reason, 0, __pyx_n_s_SystemRoute_reason, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__197)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 634, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
 
   /* "aiohttp/web_urldispatcher.py":633
@@ -28642,7 +28893,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return "<SystemRoute {self.status}: {self.reason}>".format(self=self)
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_15__repr__, 0, __pyx_n_s_SystemRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__200)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 637, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_11SystemRoute_15__repr__, 0, __pyx_n_s_SystemRoute___repr, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__199)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 637, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_repr, __pyx_t_18) < 0) __PYX_ERR(0, 637, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28654,7 +28905,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, http_exception):
  */
-  __pyx_t_18 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_SystemRoute, __pyx_t_3, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 610, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_SystemRoute, __pyx_t_3, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 610, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_15, __pyx_t_18) < 0) __PYX_ERR(0, 610, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -28703,7 +28954,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         if self.request.method not in hdrs.METH_ALL:
  *             self._raise_allowed_methods()
  */
-  __pyx_t_19 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_4View_1__iter__, 0, __pyx_n_s_View___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__202)); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 644, __pyx_L1_error)
+  __pyx_t_19 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_4View_1__iter__, 0, __pyx_n_s_View___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__201)); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 644, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_19);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_22))) {
@@ -28754,7 +29005,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *             return (yield from self.__iter__())
  * 
  */
-    __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_4View_4__await__, 0, __pyx_n_s_View___await, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__204)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 654, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_4View_4__await__, 0, __pyx_n_s_View___await, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__203)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 654, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_18);
     if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_await, __pyx_t_18) < 0) __PYX_ERR(0, 654, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28775,7 +29026,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         allowed_methods = {m for m in hdrs.METH_ALL if hasattr(self, m)}
  *         raise HTTPMethodNotAllowed(self.request.method, allowed_methods)
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_4View_7_raise_allowed_methods, 0, __pyx_n_s_View__raise_allowed_methods, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__206)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 657, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_4View_7_raise_allowed_methods, 0, __pyx_n_s_View__raise_allowed_methods, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__205)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 657, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_raise_allowed_methods, __pyx_t_18) < 0) __PYX_ERR(0, 657, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28787,7 +29038,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     @asyncio.coroutine
  */
-  __pyx_t_18 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_View, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 641, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_View, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 641, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_View, __pyx_t_18) < 0) __PYX_ERR(0, 641, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28831,7 +29082,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         self._resources = resources
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_1__init__, 0, __pyx_n_s_ResourcesView___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__208)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 664, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_1__init__, 0, __pyx_n_s_ResourcesView___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__207)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 664, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 664, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -28843,7 +29094,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return len(self._resources)
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_3__len__, 0, __pyx_n_s_ResourcesView___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__210)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 667, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_3__len__, 0, __pyx_n_s_ResourcesView___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__209)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 667, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_len, __pyx_t_2) < 0) __PYX_ERR(0, 667, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -28855,7 +29106,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         yield from self._resources
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_5__iter__, 0, __pyx_n_s_ResourcesView___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__212)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 670, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_5__iter__, 0, __pyx_n_s_ResourcesView___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__211)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 670, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_iter, __pyx_t_2) < 0) __PYX_ERR(0, 670, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -28867,7 +29118,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return resource in self._resources
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_8__contains__, 0, __pyx_n_s_ResourcesView___contains, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__214)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 673, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13ResourcesView_8__contains__, 0, __pyx_n_s_ResourcesView___contains, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__213)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 673, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_contains, __pyx_t_2) < 0) __PYX_ERR(0, 673, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -28879,7 +29130,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, resources):
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(__pyx_t_8, __pyx_n_s_ResourcesView, __pyx_t_18, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 662, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(__pyx_t_8, __pyx_n_s_ResourcesView, __pyx_t_18, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 662, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ResourcesView, __pyx_t_2) < 0) __PYX_ERR(0, 662, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -28923,7 +29174,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         self._routes = []
  *         for resource in resources:
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_1__init__, 0, __pyx_n_s_RoutesView___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__216)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 679, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_1__init__, 0, __pyx_n_s_RoutesView___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__215)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 679, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_init, __pyx_t_18) < 0) __PYX_ERR(0, 679, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28935,7 +29186,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return len(self._routes)
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_3__len__, 0, __pyx_n_s_RoutesView___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__218)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 685, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_3__len__, 0, __pyx_n_s_RoutesView___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__217)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 685, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_len, __pyx_t_18) < 0) __PYX_ERR(0, 685, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28947,7 +29198,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         yield from self._routes
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_5__iter__, 0, __pyx_n_s_RoutesView___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__220)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 688, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_5__iter__, 0, __pyx_n_s_RoutesView___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__219)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 688, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_iter, __pyx_t_18) < 0) __PYX_ERR(0, 688, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28959,7 +29210,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return route in self._routes
  * 
  */
-  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_8__contains__, 0, __pyx_n_s_RoutesView___contains, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__222)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 691, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_10RoutesView_8__contains__, 0, __pyx_n_s_RoutesView___contains, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__221)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyObject_SetItem(__pyx_t_8, __pyx_n_s_contains, __pyx_t_18) < 0) __PYX_ERR(0, 691, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -28971,7 +29222,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     def __init__(self, resources):
  */
-  __pyx_t_18 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_RoutesView, __pyx_t_2, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 677, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_RoutesView, __pyx_t_2, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 677, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_RoutesView, __pyx_t_18) < 0) __PYX_ERR(0, 677, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -29023,7 +29274,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_t_22, __pyx_n_s_compile); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 697, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__223, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 697, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__222, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 697, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_DYN, __pyx_t_22) < 0) __PYX_ERR(0, 697, __pyx_L1_error)
@@ -29041,7 +29292,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_t_22, __pyx_n_s_compile); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 698, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__224, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 698, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__223, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 698, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_DYN_WITH_RE, __pyx_t_22) < 0) __PYX_ERR(0, 698, __pyx_L1_error)
@@ -29054,7 +29305,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *     ROUTE_RE = re.compile(r'(\{[_a-zA-Z][^{}]*(?:\{[^{}]*\}[^{}]*)*\})')
  *     NAME_SPLIT_RE = re.compile('[.:-]')
  */
-  if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_GOOD, __pyx_kp_s__225) < 0) __PYX_ERR(0, 700, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_GOOD, __pyx_kp_u__224) < 0) __PYX_ERR(0, 700, __pyx_L1_error)
 
   /* "aiohttp/web_urldispatcher.py":701
  *         r'^\{(?P<var>[a-zA-Z][_a-zA-Z0-9]*):(?P<re>.+)\}$')
@@ -29068,7 +29319,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_t_22, __pyx_n_s_compile); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 701, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__226, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 701, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__225, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 701, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_ROUTE_RE, __pyx_t_22) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
@@ -29086,7 +29337,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_t_22, __pyx_n_s_compile); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 702, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__228, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 702, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_tuple__227, NULL); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 702, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_NAME_SPLIT_RE, __pyx_t_22) < 0) __PYX_ERR(0, 702, __pyx_L1_error)
@@ -29099,7 +29350,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         super().__init__()
  *         self._resources = []
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_1__init__, 0, __pyx_n_s_UrlDispatcher___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__230)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 704, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_1__init__, 0, __pyx_n_s_UrlDispatcher___init, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__229)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 704, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   __Pyx_INCREF(__pyx_t_22);
   PyList_Append(__pyx_t_18, __pyx_t_22);
@@ -29127,7 +29378,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         path = request.raw_path
  *         method = request.method
  */
-  __pyx_t_17 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_3resolve, 0, __pyx_n_s_UrlDispatcher_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__232)); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 710, __pyx_L1_error)
+  __pyx_t_17 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_3resolve, 0, __pyx_n_s_UrlDispatcher_resolve, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__231)); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_19))) {
@@ -29165,7 +29416,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return iter(self._named_resources)
  * 
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_6__iter__, 0, __pyx_n_s_UrlDispatcher___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__234)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 728, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_6__iter__, 0, __pyx_n_s_UrlDispatcher___iter, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__233)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 728, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_iter, __pyx_t_22) < 0) __PYX_ERR(0, 728, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29177,7 +29428,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return len(self._named_resources)
  * 
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_8__len__, 0, __pyx_n_s_UrlDispatcher___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__236)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 731, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_8__len__, 0, __pyx_n_s_UrlDispatcher___len, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__235)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 731, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_len, __pyx_t_22) < 0) __PYX_ERR(0, 731, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29189,7 +29440,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return name in self._named_resources
  * 
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_10__contains__, 0, __pyx_n_s_UrlDispatcher___contains, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__238)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 734, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_10__contains__, 0, __pyx_n_s_UrlDispatcher___contains, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__237)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 734, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_contains, __pyx_t_22) < 0) __PYX_ERR(0, 734, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29201,7 +29452,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return self._named_resources[name]
  * 
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_12__getitem__, 0, __pyx_n_s_UrlDispatcher___getitem, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__240)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 737, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_12__getitem__, 0, __pyx_n_s_UrlDispatcher___getitem, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__239)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_getitem, __pyx_t_22) < 0) __PYX_ERR(0, 737, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29213,7 +29464,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return ResourcesView(self._resources)
  * 
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_14resources, 0, __pyx_n_s_UrlDispatcher_resources, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__242)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 740, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_14resources, 0, __pyx_n_s_UrlDispatcher_resources, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__241)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 740, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_resources, __pyx_t_22) < 0) __PYX_ERR(0, 740, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29225,7 +29476,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return RoutesView(self._resources)
  * 
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_16routes, 0, __pyx_n_s_UrlDispatcher_routes, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__244)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 743, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_16routes, 0, __pyx_n_s_UrlDispatcher_routes, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__243)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 743, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_routes_2, __pyx_t_22) < 0) __PYX_ERR(0, 743, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29237,7 +29488,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         return MappingProxyType(self._named_resources)
  * 
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_18named_resources, 0, __pyx_n_s_UrlDispatcher_named_resources, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__246)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 746, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_18named_resources, 0, __pyx_n_s_UrlDispatcher_named_resources, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__245)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 746, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_named_resources_2, __pyx_t_22) < 0) __PYX_ERR(0, 746, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29249,7 +29500,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         # NB: it's ambiguous but it's really resources.
  *         warnings.warn("Use .named_resources instead", DeprecationWarning)
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_20named_routes, 0, __pyx_n_s_UrlDispatcher_named_routes, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__248)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 749, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_20named_routes, 0, __pyx_n_s_UrlDispatcher_named_routes, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__247)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 749, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_named_routes, __pyx_t_22) < 0) __PYX_ERR(0, 749, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29261,7 +29512,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         warnings.warn("Use resource-based interface", DeprecationWarning)
  *         resource = ResourceAdapter(route)
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_22register_route, 0, __pyx_n_s_UrlDispatcher_register_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__250)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 754, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_22register_route, 0, __pyx_n_s_UrlDispatcher_register_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__249)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 754, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_register_route, __pyx_t_22) < 0) __PYX_ERR(0, 754, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29273,7 +29524,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *         assert isinstance(resource, AbstractResource), \
  *             'Instance of AbstractResource class is required, got {!r}'.format(
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_24_reg_resource, 0, __pyx_n_s_UrlDispatcher__reg_resource, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__252)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 759, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_24_reg_resource, 0, __pyx_n_s_UrlDispatcher__reg_resource, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__251)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 759, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyObject_SetItem(__pyx_t_2, __pyx_n_s_reg_resource, __pyx_t_22) < 0) __PYX_ERR(0, 759, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29288,7 +29539,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __pyx_t_22 = PyDict_New(); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 781, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (PyDict_SetItem(__pyx_t_22, __pyx_n_s_name, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 781, __pyx_L1_error)
-  __pyx_t_19 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_26add_resource, 0, __pyx_n_s_UrlDispatcher_add_resource, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__254)); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __pyx_t_19 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_26add_resource, 0, __pyx_n_s_UrlDispatcher_add_resource, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__253)); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 781, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_19);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_19, __pyx_t_22);
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -29306,7 +29557,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
   __Pyx_GOTREF(__pyx_t_19);
   if (PyDict_SetItem(__pyx_t_19, __pyx_n_s_name, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 819, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_19, __pyx_n_s_expect_handler, ((PyObject *)Py_None)) < 0) __PYX_ERR(0, 819, __pyx_L1_error)
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_28add_route, 0, __pyx_n_s_UrlDispatcher_add_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__256)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 819, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_28add_route, 0, __pyx_n_s_UrlDispatcher_add_route, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__255)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 819, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   __Pyx_CyFunction_SetDefaultsKwDict(__pyx_t_22, __pyx_t_19);
   __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
@@ -29320,7 +29571,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  *                    chunk_size=256*1024, response_factory=StreamResponse):
  *         """
  */
-  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_30add_static, 0, __pyx_n_s_UrlDispatcher_add_static, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__258)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 825, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7aiohttp_17web_urldispatcher_13UrlDispatcher_30add_static, 0, __pyx_n_s_UrlDispatcher_add_static, NULL, __pyx_n_s_aiohttp_web_urldispatcher, __pyx_d, ((PyObject *)__pyx_codeobj__257)); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 825, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (!__Pyx_CyFunction_InitDefaults(__pyx_t_22, sizeof(__pyx_defaults1), 1)) __PYX_ERR(0, 825, __pyx_L1_error)
 
@@ -29347,7 +29598,7 @@ PyMODINIT_FUNC PyInit_web_urldispatcher(void)
  * 
  *     DYN = re.compile(r'^\{(?P<var>[a-zA-Z][_a-zA-Z0-9]*)\}$')
  */
-  __pyx_t_22 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_UrlDispatcher, __pyx_t_8, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 695, __pyx_L1_error)
+  __pyx_t_22 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_UrlDispatcher, __pyx_t_8, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 695, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_18, __pyx_t_22) < 0) __PYX_ERR(0, 695, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -30890,19 +31141,6 @@ return_ne:
     return 0;
 }
 
-/* RaiseTooManyValuesToUnpack */
-            static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
-    PyErr_Format(PyExc_ValueError,
-                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
-}
-
-/* RaiseNeedMoreValuesToUnpack */
-            static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
-    PyErr_Format(PyExc_ValueError,
-                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
-                 index, (index == 1) ? "" : "s");
-}
-
 /* IterFinish */
             static CYTHON_INLINE int __Pyx_IterFinish(void) {
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -30938,6 +31176,41 @@ return_ne:
 #endif
 }
 
+/* PyObjectCallMethod0 */
+            static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
+    PyObject *method, *result = NULL;
+    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
+    if (unlikely(!method)) goto bad;
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (likely(PyMethod_Check(method))) {
+        PyObject *self = PyMethod_GET_SELF(method);
+        if (likely(self)) {
+            PyObject *function = PyMethod_GET_FUNCTION(method);
+            result = __Pyx_PyObject_CallOneArg(function, self);
+            Py_DECREF(method);
+            return result;
+        }
+    }
+#endif
+    result = __Pyx_PyObject_CallNoArg(method);
+    Py_DECREF(method);
+bad:
+    return result;
+}
+
+/* RaiseNeedMoreValuesToUnpack */
+            static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
+    PyErr_Format(PyExc_ValueError,
+                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
+                 index, (index == 1) ? "" : "s");
+}
+
+/* RaiseTooManyValuesToUnpack */
+            static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
+    PyErr_Format(PyExc_ValueError,
+                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
+}
+
 /* UnpackItemEndCheck */
             static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
     if (unlikely(retval)) {
@@ -30948,6 +31221,165 @@ return_ne:
         return __Pyx_IterFinish();
     }
     return 0;
+}
+
+/* RaiseNoneIterError */
+            static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+}
+
+/* UnpackTupleError */
+            static void __Pyx_UnpackTupleError(PyObject *t, Py_ssize_t index) {
+    if (t == Py_None) {
+      __Pyx_RaiseNoneNotIterableError();
+    } else if (PyTuple_GET_SIZE(t) < index) {
+      __Pyx_RaiseNeedMoreValuesError(PyTuple_GET_SIZE(t));
+    } else {
+      __Pyx_RaiseTooManyValuesError(index);
+    }
+}
+
+/* UnpackTuple2 */
+            static CYTHON_INLINE int __Pyx_unpack_tuple2(PyObject* tuple, PyObject** pvalue1, PyObject** pvalue2,
+                                             int is_tuple, int has_known_size, int decref_tuple) {
+    Py_ssize_t index;
+    PyObject *value1 = NULL, *value2 = NULL, *iter = NULL;
+    if (!is_tuple && unlikely(!PyTuple_Check(tuple))) {
+        iternextfunc iternext;
+        iter = PyObject_GetIter(tuple);
+        if (unlikely(!iter)) goto bad;
+        if (decref_tuple) { Py_DECREF(tuple); tuple = NULL; }
+        iternext = Py_TYPE(iter)->tp_iternext;
+        value1 = iternext(iter); if (unlikely(!value1)) { index = 0; goto unpacking_failed; }
+        value2 = iternext(iter); if (unlikely(!value2)) { index = 1; goto unpacking_failed; }
+        if (!has_known_size && unlikely(__Pyx_IternextUnpackEndCheck(iternext(iter), 2))) goto bad;
+        Py_DECREF(iter);
+    } else {
+        if (!has_known_size && unlikely(PyTuple_GET_SIZE(tuple) != 2)) {
+            __Pyx_UnpackTupleError(tuple, 2);
+            goto bad;
+        }
+#if CYTHON_COMPILING_IN_PYPY
+        value1 = PySequence_ITEM(tuple, 0);
+        if (unlikely(!value1)) goto bad;
+        value2 = PySequence_ITEM(tuple, 1);
+        if (unlikely(!value2)) goto bad;
+#else
+        value1 = PyTuple_GET_ITEM(tuple, 0);
+        value2 = PyTuple_GET_ITEM(tuple, 1);
+        Py_INCREF(value1);
+        Py_INCREF(value2);
+#endif
+        if (decref_tuple) { Py_DECREF(tuple); }
+    }
+    *pvalue1 = value1;
+    *pvalue2 = value2;
+    return 0;
+unpacking_failed:
+    if (!has_known_size && __Pyx_IterFinish() == 0)
+        __Pyx_RaiseNeedMoreValuesError(index);
+bad:
+    Py_XDECREF(iter);
+    Py_XDECREF(value1);
+    Py_XDECREF(value2);
+    if (decref_tuple) { Py_XDECREF(tuple); }
+    return -1;
+}
+
+/* dict_iter */
+            static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* iterable, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_source_is_dict) {
+    is_dict = is_dict || likely(PyDict_CheckExact(iterable));
+    *p_source_is_dict = is_dict;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (is_dict) {
+        *p_orig_length = PyDict_Size(iterable);
+        Py_INCREF(iterable);
+        return iterable;
+    }
+#endif
+    *p_orig_length = 0;
+    if (method_name) {
+        PyObject* iter;
+        iterable = __Pyx_PyObject_CallMethod0(iterable, method_name);
+        if (!iterable)
+            return NULL;
+#if !CYTHON_COMPILING_IN_PYPY
+        if (PyTuple_CheckExact(iterable) || PyList_CheckExact(iterable))
+            return iterable;
+#endif
+        iter = PyObject_GetIter(iterable);
+        Py_DECREF(iterable);
+        return iter;
+    }
+    return PyObject_GetIter(iterable);
+}
+static CYTHON_INLINE int __Pyx_dict_iter_next(
+        PyObject* iter_obj, CYTHON_NCP_UNUSED Py_ssize_t orig_length, CYTHON_NCP_UNUSED Py_ssize_t* ppos,
+        PyObject** pkey, PyObject** pvalue, PyObject** pitem, int source_is_dict) {
+    PyObject* next_item;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (source_is_dict) {
+        PyObject *key, *value;
+        if (unlikely(orig_length != PyDict_Size(iter_obj))) {
+            PyErr_SetString(PyExc_RuntimeError, "dictionary changed size during iteration");
+            return -1;
+        }
+        if (unlikely(!PyDict_Next(iter_obj, ppos, &key, &value))) {
+            return 0;
+        }
+        if (pitem) {
+            PyObject* tuple = PyTuple_New(2);
+            if (unlikely(!tuple)) {
+                return -1;
+            }
+            Py_INCREF(key);
+            Py_INCREF(value);
+            PyTuple_SET_ITEM(tuple, 0, key);
+            PyTuple_SET_ITEM(tuple, 1, value);
+            *pitem = tuple;
+        } else {
+            if (pkey) {
+                Py_INCREF(key);
+                *pkey = key;
+            }
+            if (pvalue) {
+                Py_INCREF(value);
+                *pvalue = value;
+            }
+        }
+        return 1;
+    } else if (PyTuple_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyTuple_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyTuple_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else if (PyList_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyList_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyList_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else
+#endif
+    {
+        next_item = PyIter_Next(iter_obj);
+        if (unlikely(!next_item)) {
+            return __Pyx_IterFinish();
+        }
+    }
+    if (pitem) {
+        *pitem = next_item;
+    } else if (pkey && pvalue) {
+        if (__Pyx_unpack_tuple2(next_item, pkey, pvalue, source_is_dict, source_is_dict, 1))
+            return -1;
+    } else if (pkey) {
+        *pkey = next_item;
+    } else {
+        *pvalue = next_item;
+    }
+    return 1;
 }
 
 /* RaiseKeywordRequired */
@@ -30962,6 +31394,31 @@ return_ne:
         "%s() needs keyword-only argument %s", func_name,
         PyString_AS_STRING(kw_name));
         #endif
+}
+
+/* unicode_tailmatch */
+            static int __Pyx_PyUnicode_Tailmatch(PyObject* s, PyObject* substr,
+                                     Py_ssize_t start, Py_ssize_t end, int direction) {
+    if (unlikely(PyTuple_Check(substr))) {
+        Py_ssize_t i, count = PyTuple_GET_SIZE(substr);
+        for (i = 0; i < count; i++) {
+            Py_ssize_t result;
+#if CYTHON_COMPILING_IN_CPYTHON
+            result = PyUnicode_Tailmatch(s, PyTuple_GET_ITEM(substr, i),
+                                         start, end, direction);
+#else
+            PyObject* sub = PySequence_ITEM(substr, i);
+            if (unlikely(!sub)) return -1;
+            result = PyUnicode_Tailmatch(s, sub, start, end, direction);
+            Py_DECREF(sub);
+#endif
+            if (result) {
+                return (int) result;
+            }
+        }
+        return 0;
+    }
+    return (int) PyUnicode_Tailmatch(s, substr, start, end, direction);
 }
 
 /* SaveResetException */

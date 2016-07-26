@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -978,7 +978,7 @@ static PyObject *__pyx_n_s_ClientServerContextManager_tearD;
 static PyObject *__pyx_n_s_ClientServerContextManager_test;
 static PyObject *__pyx_n_s_ClientServerContextManager_test_2;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
-static PyObject *__pyx_kp_s_Hello;
+static PyObject *__pyx_kp_u_Hello;
 static PyObject *__pyx_n_s__6;
 static PyObject *__pyx_n_s_aenter;
 static PyObject *__pyx_n_s_aexit;
@@ -996,7 +996,7 @@ static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_handler;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_inspect;
-static PyObject *__pyx_n_s_localhost;
+static PyObject *__pyx_n_u_localhost;
 static PyObject *__pyx_n_s_loop;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
@@ -1020,7 +1020,7 @@ static PyObject *__pyx_n_s_test_client_server;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_wait_closed;
 static PyObject *__pyx_n_s_websockets_py35_client_server;
-static PyObject *__pyx_kp_s_ws_localhost_8642;
+static PyObject *__pyx_kp_u_ws_localhost_8642;
 static PyObject *__pyx_pf_10websockets_4py35_13client_server_26ClientServerContextManager_setUp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10websockets_4py35_13client_server_26ClientServerContextManager_2tearDown(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10websockets_4py35_13client_server_26ClientServerContextManager_10test_basic_basic(PyObject *__pyx_self); /* proto */
@@ -1592,9 +1592,9 @@ static PyObject *__pyx_gb_10websockets_4py35_13client_server_26ClientServerConte
           __Pyx_INCREF(__pyx_cur_scope->__pyx_v_reply);
           __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_reply);
           PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_9, __pyx_cur_scope->__pyx_v_reply);
-          __Pyx_INCREF(__pyx_kp_s_Hello);
-          __Pyx_GIVEREF(__pyx_kp_s_Hello);
-          PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_9, __pyx_kp_s_Hello);
+          __Pyx_INCREF(__pyx_kp_u_Hello);
+          __Pyx_GIVEREF(__pyx_kp_u_Hello);
+          PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_9, __pyx_kp_u_Hello);
           __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L9_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1859,9 +1859,9 @@ static PyObject *__pyx_pf_10websockets_4py35_13client_server_26ClientServerConte
   }
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_3);
-  __Pyx_INCREF(__pyx_n_s_localhost);
-  __Pyx_GIVEREF(__pyx_n_s_localhost);
-  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_s_localhost);
+  __Pyx_INCREF(__pyx_n_u_localhost);
+  __Pyx_GIVEREF(__pyx_n_u_localhost);
+  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_localhost);
   __Pyx_INCREF(__pyx_int_8642);
   __Pyx_GIVEREF(__pyx_int_8642);
   PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, __pyx_int_8642);
@@ -2651,7 +2651,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ClientServerContextManager_test, __pyx_k_ClientServerContextManager_test, sizeof(__pyx_k_ClientServerContextManager_test), 0, 0, 1, 1},
   {&__pyx_n_s_ClientServerContextManager_test_2, __pyx_k_ClientServerContextManager_test_2, sizeof(__pyx_k_ClientServerContextManager_test_2), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
-  {&__pyx_kp_s_Hello, __pyx_k_Hello, sizeof(__pyx_k_Hello), 0, 0, 1, 0},
+  {&__pyx_kp_u_Hello, __pyx_k_Hello, sizeof(__pyx_k_Hello), 0, 1, 0, 0},
   {&__pyx_n_s__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 0, 1, 1},
   {&__pyx_n_s_aenter, __pyx_k_aenter, sizeof(__pyx_k_aenter), 0, 0, 1, 1},
   {&__pyx_n_s_aexit, __pyx_k_aexit, sizeof(__pyx_k_aexit), 0, 0, 1, 1},
@@ -2669,7 +2669,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_handler, __pyx_k_handler, sizeof(__pyx_k_handler), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_inspect, __pyx_k_inspect, sizeof(__pyx_k_inspect), 0, 0, 1, 1},
-  {&__pyx_n_s_localhost, __pyx_k_localhost, sizeof(__pyx_k_localhost), 0, 0, 1, 1},
+  {&__pyx_n_u_localhost, __pyx_k_localhost, sizeof(__pyx_k_localhost), 0, 1, 0, 1},
   {&__pyx_n_s_loop, __pyx_k_loop, sizeof(__pyx_k_loop), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
@@ -2693,7 +2693,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_wait_closed, __pyx_k_wait_closed, sizeof(__pyx_k_wait_closed), 0, 0, 1, 1},
   {&__pyx_n_s_websockets_py35_client_server, __pyx_k_websockets_py35_client_server, sizeof(__pyx_k_websockets_py35_client_server), 0, 0, 1, 1},
-  {&__pyx_kp_s_ws_localhost_8642, __pyx_k_ws_localhost_8642, sizeof(__pyx_k_ws_localhost_8642), 0, 0, 1, 0},
+  {&__pyx_kp_u_ws_localhost_8642, __pyx_k_ws_localhost_8642, sizeof(__pyx_k_ws_localhost_8642), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -2711,7 +2711,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 await client.send("Hello!")
  *                 reply = await client.recv()
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_ws_localhost_8642); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_ws_localhost_8642); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -2722,7 +2722,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 reply = await client.recv()
  *                 self.assertEqual(reply, "Hello!")
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Hello); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Hello); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -2905,7 +2905,7 @@ PyMODINIT_FUNC PyInit_client_server(void)
  * 
  * from ..client import *
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3020,7 +3020,7 @@ PyMODINIT_FUNC PyInit_client_server(void)
  * 
  *     def setUp(self):
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_ClientServerContextManager, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_ClientServerContextManager, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ClientServerContextManager, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;

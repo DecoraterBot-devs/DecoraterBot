@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -792,13 +792,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* ReturnWithStopIteration.proto */
 #define __Pyx_ReturnWithStopIteration(value)\
     if (value == Py_None) PyErr_SetNone(PyExc_StopIteration); else __Pyx__ReturnWithStopIteration(value)
@@ -815,24 +808,6 @@ static PyObject* __Pyx_patch_asyncio(PyObject* module);
 
 /* ImportFrom.proto */
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
-
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
-#endif
 
 /* CythonFunction.proto */
 #define __Pyx_CyFunction_USED 1
@@ -942,7 +917,6 @@ static const char __pyx_k_all[] = "__all__";
 static const char __pyx_k_num[] = "num";
 static const char __pyx_k_sys[] = "sys";
 static const char __pyx_k_args[] = "args";
-static const char __pyx_k_join[] = "join";
 static const char __pyx_k_line[] = "line";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_path[] = "path";
@@ -1004,19 +978,20 @@ static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elswor
 static PyObject *__pyx_n_s_BytesHeaderParser;
 static PyObject *__pyx_n_s_BytesIO;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
-static PyObject *__pyx_n_s_GET;
-static PyObject *__pyx_kp_s_HTTP_1_1;
-static PyObject *__pyx_kp_s_Line_too_long;
-static PyObject *__pyx_kp_s_Line_without_CRLF;
+static PyObject *__pyx_n_u_GET;
+static PyObject *__pyx_kp_u_HTTP_1_1;
+static PyObject *__pyx_kp_u_Line_too_long;
+static PyObject *__pyx_kp_u_Line_without_CRLF;
 static PyObject *__pyx_n_s_MAX_HEADERS;
 static PyObject *__pyx_n_s_MAX_LINE;
-static PyObject *__pyx_kp_s_Python;
-static PyObject *__pyx_kp_s_Too_many_headers;
+static PyObject *__pyx_kp_u_Python;
+static PyObject *__pyx_kp_u_Too_many_headers;
 static PyObject *__pyx_n_s_USER_AGENT;
-static PyObject *__pyx_kp_s_Unsupported_HTTP_version;
-static PyObject *__pyx_kp_s_Unsupported_method;
+static PyObject *__pyx_n_u_USER_AGENT;
+static PyObject *__pyx_kp_u_Unsupported_HTTP_version;
+static PyObject *__pyx_kp_u_Unsupported_method;
 static PyObject *__pyx_n_s_ValueError;
-static PyObject *__pyx_kp_s__14;
+static PyObject *__pyx_kp_u__14;
 static PyObject *__pyx_kp_b__8;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_args;
@@ -1036,7 +1011,6 @@ static PyObject *__pyx_n_s_headers;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_inspect;
 static PyObject *__pyx_n_s_io;
-static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_line;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_method;
@@ -1048,7 +1022,9 @@ static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_read_line;
 static PyObject *__pyx_n_s_read_message;
 static PyObject *__pyx_n_s_read_request;
+static PyObject *__pyx_n_u_read_request;
 static PyObject *__pyx_n_s_read_response;
+static PyObject *__pyx_n_u_read_response;
 static PyObject *__pyx_n_s_readline;
 static PyObject *__pyx_n_s_reason;
 static PyObject *__pyx_n_s_request_line;
@@ -1063,7 +1039,7 @@ static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_version;
-static PyObject *__pyx_kp_s_websockets;
+static PyObject *__pyx_kp_u_websockets;
 static PyObject *__pyx_n_s_websockets_http;
 static PyObject *__pyx_n_s_websockets_version;
 static PyObject *__pyx_n_s_write;
@@ -1399,7 +1375,7 @@ static PyObject *__pyx_gb_10websockets_4http_2generator(__pyx_CoroutineObject *_
  *         raise ValueError("Unsupported method")
  *     if version != 'HTTP/1.1':
  */
-  __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_method, __pyx_n_s_GET, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_method, __pyx_n_u_GET, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
   if (__pyx_t_7) {
 
     /* "websockets/http.py":48
@@ -1431,7 +1407,7 @@ static PyObject *__pyx_gb_10websockets_4http_2generator(__pyx_CoroutineObject *_
  *         raise ValueError("Unsupported HTTP version")
  *     return path, headers
  */
-  __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_version, __pyx_kp_s_HTTP_1_1, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_version, __pyx_kp_u_HTTP_1_1, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
   if (__pyx_t_7) {
 
     /* "websockets/http.py":50
@@ -1797,7 +1773,7 @@ static PyObject *__pyx_gb_10websockets_4http_5generator1(__pyx_CoroutineObject *
  *         raise ValueError("Unsupported HTTP version")
  *     return int(status), headers
  */
-  __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_version, __pyx_kp_s_HTTP_1_1, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_version, __pyx_kp_u_HTTP_1_1, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
   if (__pyx_t_7) {
 
     /* "websockets/http.py":71
@@ -3183,19 +3159,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BytesHeaderParser, __pyx_k_BytesHeaderParser, sizeof(__pyx_k_BytesHeaderParser), 0, 0, 1, 1},
   {&__pyx_n_s_BytesIO, __pyx_k_BytesIO, sizeof(__pyx_k_BytesIO), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
-  {&__pyx_n_s_GET, __pyx_k_GET, sizeof(__pyx_k_GET), 0, 0, 1, 1},
-  {&__pyx_kp_s_HTTP_1_1, __pyx_k_HTTP_1_1, sizeof(__pyx_k_HTTP_1_1), 0, 0, 1, 0},
-  {&__pyx_kp_s_Line_too_long, __pyx_k_Line_too_long, sizeof(__pyx_k_Line_too_long), 0, 0, 1, 0},
-  {&__pyx_kp_s_Line_without_CRLF, __pyx_k_Line_without_CRLF, sizeof(__pyx_k_Line_without_CRLF), 0, 0, 1, 0},
+  {&__pyx_n_u_GET, __pyx_k_GET, sizeof(__pyx_k_GET), 0, 1, 0, 1},
+  {&__pyx_kp_u_HTTP_1_1, __pyx_k_HTTP_1_1, sizeof(__pyx_k_HTTP_1_1), 0, 1, 0, 0},
+  {&__pyx_kp_u_Line_too_long, __pyx_k_Line_too_long, sizeof(__pyx_k_Line_too_long), 0, 1, 0, 0},
+  {&__pyx_kp_u_Line_without_CRLF, __pyx_k_Line_without_CRLF, sizeof(__pyx_k_Line_without_CRLF), 0, 1, 0, 0},
   {&__pyx_n_s_MAX_HEADERS, __pyx_k_MAX_HEADERS, sizeof(__pyx_k_MAX_HEADERS), 0, 0, 1, 1},
   {&__pyx_n_s_MAX_LINE, __pyx_k_MAX_LINE, sizeof(__pyx_k_MAX_LINE), 0, 0, 1, 1},
-  {&__pyx_kp_s_Python, __pyx_k_Python, sizeof(__pyx_k_Python), 0, 0, 1, 0},
-  {&__pyx_kp_s_Too_many_headers, __pyx_k_Too_many_headers, sizeof(__pyx_k_Too_many_headers), 0, 0, 1, 0},
+  {&__pyx_kp_u_Python, __pyx_k_Python, sizeof(__pyx_k_Python), 0, 1, 0, 0},
+  {&__pyx_kp_u_Too_many_headers, __pyx_k_Too_many_headers, sizeof(__pyx_k_Too_many_headers), 0, 1, 0, 0},
   {&__pyx_n_s_USER_AGENT, __pyx_k_USER_AGENT, sizeof(__pyx_k_USER_AGENT), 0, 0, 1, 1},
-  {&__pyx_kp_s_Unsupported_HTTP_version, __pyx_k_Unsupported_HTTP_version, sizeof(__pyx_k_Unsupported_HTTP_version), 0, 0, 1, 0},
-  {&__pyx_kp_s_Unsupported_method, __pyx_k_Unsupported_method, sizeof(__pyx_k_Unsupported_method), 0, 0, 1, 0},
+  {&__pyx_n_u_USER_AGENT, __pyx_k_USER_AGENT, sizeof(__pyx_k_USER_AGENT), 0, 1, 0, 1},
+  {&__pyx_kp_u_Unsupported_HTTP_version, __pyx_k_Unsupported_HTTP_version, sizeof(__pyx_k_Unsupported_HTTP_version), 0, 1, 0, 0},
+  {&__pyx_kp_u_Unsupported_method, __pyx_k_Unsupported_method, sizeof(__pyx_k_Unsupported_method), 0, 1, 0, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
-  {&__pyx_kp_s__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 0, 1, 0},
+  {&__pyx_kp_u__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 1, 0, 0},
   {&__pyx_kp_b__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 0, 0},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
@@ -3215,7 +3192,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_inspect, __pyx_k_inspect, sizeof(__pyx_k_inspect), 0, 0, 1, 1},
   {&__pyx_n_s_io, __pyx_k_io, sizeof(__pyx_k_io), 0, 0, 1, 1},
-  {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_line, __pyx_k_line, sizeof(__pyx_k_line), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_method, __pyx_k_method, sizeof(__pyx_k_method), 0, 0, 1, 1},
@@ -3227,7 +3203,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_read_line, __pyx_k_read_line, sizeof(__pyx_k_read_line), 0, 0, 1, 1},
   {&__pyx_n_s_read_message, __pyx_k_read_message, sizeof(__pyx_k_read_message), 0, 0, 1, 1},
   {&__pyx_n_s_read_request, __pyx_k_read_request, sizeof(__pyx_k_read_request), 0, 0, 1, 1},
+  {&__pyx_n_u_read_request, __pyx_k_read_request, sizeof(__pyx_k_read_request), 0, 1, 0, 1},
   {&__pyx_n_s_read_response, __pyx_k_read_response, sizeof(__pyx_k_read_response), 0, 0, 1, 1},
+  {&__pyx_n_u_read_response, __pyx_k_read_response, sizeof(__pyx_k_read_response), 0, 1, 0, 1},
   {&__pyx_n_s_readline, __pyx_k_readline, sizeof(__pyx_k_readline), 0, 0, 1, 1},
   {&__pyx_n_s_reason, __pyx_k_reason, sizeof(__pyx_k_reason), 0, 0, 1, 1},
   {&__pyx_n_s_request_line, __pyx_k_request_line, sizeof(__pyx_k_request_line), 0, 0, 1, 1},
@@ -3242,7 +3220,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_version, __pyx_k_version, sizeof(__pyx_k_version), 0, 0, 1, 1},
-  {&__pyx_kp_s_websockets, __pyx_k_websockets, sizeof(__pyx_k_websockets), 0, 0, 1, 0},
+  {&__pyx_kp_u_websockets, __pyx_k_websockets, sizeof(__pyx_k_websockets), 0, 1, 0, 0},
   {&__pyx_n_s_websockets_http, __pyx_k_websockets_http, sizeof(__pyx_k_websockets_http), 0, 0, 1, 1},
   {&__pyx_n_s_websockets_version, __pyx_k_websockets_version, sizeof(__pyx_k_websockets_version), 0, 0, 1, 1},
   {&__pyx_n_s_write, __pyx_k_write, sizeof(__pyx_k_write), 0, 0, 1, 1},
@@ -3281,7 +3259,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     if version != 'HTTP/1.1':
  *         raise ValueError("Unsupported HTTP version")
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_Unsupported_method); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Unsupported_method); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -3292,7 +3270,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     return path, headers
  * 
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_Unsupported_HTTP_version); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Unsupported_HTTP_version); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -3317,7 +3295,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     return int(status), headers
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Unsupported_HTTP_version); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Unsupported_HTTP_version); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -3328,7 +3306,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     header_lines.seek(0)
  *     headers = email.parser.BytesHeaderParser().parse(header_lines)
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Too_many_headers); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Too_many_headers); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -3350,7 +3328,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     if not line.endswith(b'\r\n'):
  *         raise ValueError("Line without CRLF")
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Line_too_long); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Line_too_long); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -3371,7 +3349,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         raise ValueError("Line without CRLF")             # <<<<<<<<<<<<<<
  *     return line
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_Line_without_CRLF); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_Line_without_CRLF); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
@@ -3569,7 +3547,7 @@ PyMODINIT_FUNC PyInit_http(void)
  * import email.parser
  * import io
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3581,7 +3559,7 @@ PyMODINIT_FUNC PyInit_http(void)
  * import io
  * import sys
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_email_parser, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_email_parser, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_email, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3593,7 +3571,7 @@ PyMODINIT_FUNC PyInit_http(void)
  * import sys
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_io, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3605,7 +3583,7 @@ PyMODINIT_FUNC PyInit_http(void)
  * 
  * from .version import version as websockets_version
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3640,15 +3618,15 @@ PyMODINIT_FUNC PyInit_http(void)
  */
   __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_read_request);
-  __Pyx_GIVEREF(__pyx_n_s_read_request);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_read_request);
-  __Pyx_INCREF(__pyx_n_s_read_response);
-  __Pyx_GIVEREF(__pyx_n_s_read_response);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_read_response);
-  __Pyx_INCREF(__pyx_n_s_USER_AGENT);
-  __Pyx_GIVEREF(__pyx_n_s_USER_AGENT);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_USER_AGENT);
+  __Pyx_INCREF(__pyx_n_u_read_request);
+  __Pyx_GIVEREF(__pyx_n_u_read_request);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_u_read_request);
+  __Pyx_INCREF(__pyx_n_u_read_response);
+  __Pyx_GIVEREF(__pyx_n_u_read_response);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_read_response);
+  __Pyx_INCREF(__pyx_n_u_USER_AGENT);
+  __Pyx_GIVEREF(__pyx_n_u_USER_AGENT);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_u_USER_AGENT);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -3677,7 +3655,7 @@ PyMODINIT_FUNC PyInit_http(void)
  *     'websockets/{}'.format(websockets_version),
  * ))
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Python, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Python, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3721,7 +3699,7 @@ PyMODINIT_FUNC PyInit_http(void)
  * ))
  * 
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_websockets, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_websockets, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_websockets_version); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3775,7 +3753,7 @@ PyMODINIT_FUNC PyInit_http(void)
  *     'Python/{}'.format(sys.version[:3]),
  *     'websockets/{}'.format(websockets_version),
  */
-  __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s__14, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Join(__pyx_kp_u__14, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_USER_AGENT, __pyx_t_1) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
@@ -5704,13 +5682,6 @@ ignore:
     }
     return value;
 }
-
-/* StringJoin */
-            #if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
-}
-#endif
 
 /* CythonFunction */
             static PyObject *

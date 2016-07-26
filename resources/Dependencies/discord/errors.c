@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -795,9 +795,9 @@ static const char __pyx_k_Exception_that_s_thrown_when_an_2[] = "Exception that'
 static const char __pyx_k_Exception_that_s_thrown_when_an_3[] = "Exception that's thrown when an argument to a function\n    is invalid some way (e.g. wrong value or wrong type).\n\n    This could be considered the analogous of ``ValueError`` and\n    ``TypeError`` except derived from :exc:`ClientException` and thus\n    :exc:`DiscordException`.\n    ";
 static const char __pyx_k_Exception_that_s_thrown_for_when_2[] = "Exception that's thrown for when status code 404 occurs.\n\n    Subclass of :exc:`HTTPException`\n    ";
 static const char __pyx_k_Exception_that_s_thrown_when_the_2[] = "Exception that's thrown when the gateway connection is\n    closed for reasons that could not be handled internally.\n\n    Attributes\n    -----------\n    code : int\n        The close code of the websocket.\n    reason : str\n        The reason provided for the closure.\n    ";
-static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_kp_s_0_reason_status_code_0_status;
-static PyObject *__pyx_kp_s_1;
+static PyObject *__pyx_kp_u_;
+static PyObject *__pyx_kp_u_0_reason_status_code_0_status;
+static PyObject *__pyx_kp_u_1;
 static PyObject *__pyx_kp_s_An_exception_that_is_usually_thr;
 static PyObject *__pyx_kp_s_Base_exception_class_for_discord;
 static PyObject *__pyx_n_s_ClientException;
@@ -829,10 +829,11 @@ static PyObject *__pyx_n_s_InvalidToken;
 static PyObject *__pyx_n_s_LoginFailure;
 static PyObject *__pyx_n_s_NotFound;
 static PyObject *__pyx_n_s_RateLimitError;
-static PyObject *__pyx_kp_s_The_gateway_to_connect_to_discor;
+static PyObject *__pyx_kp_u_The_gateway_to_connect_to_discor;
 static PyObject *__pyx_n_s_UnknownConnectionError;
 static PyObject *__pyx_n_s_VoiceWSTimeoutError;
 static PyObject *__pyx_n_s_code;
+static PyObject *__pyx_n_u_code;
 static PyObject *__pyx_n_s_discord_errors;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_fmt;
@@ -841,6 +842,7 @@ static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_message;
+static PyObject *__pyx_n_u_message;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_original;
@@ -904,8 +906,8 @@ static PyObject *__pyx_pf_7discord_6errors_15GatewayNotFound___init__(CYTHON_UNU
  *         super(GatewayNotFound, self).__init__(message)
  * 
  */
-  __Pyx_INCREF(__pyx_kp_s_The_gateway_to_connect_to_discor);
-  __pyx_v_message = __pyx_kp_s_The_gateway_to_connect_to_discor;
+  __Pyx_INCREF(__pyx_kp_u_The_gateway_to_connect_to_discor);
+  __pyx_v_message = __pyx_kp_u_The_gateway_to_connect_to_discor;
 
   /* "discord/errors.py":46
  *     def __init__(self):
@@ -1154,8 +1156,8 @@ static PyObject *__pyx_pf_7discord_6errors_13HTTPException___init__(CYTHON_UNUSE
  *         if len(self.text):
  *             fmt = fmt + ': {1}'
  */
-  __Pyx_INCREF(__pyx_kp_s_0_reason_status_code_0_status);
-  __pyx_v_fmt = __pyx_kp_s_0_reason_status_code_0_status;
+  __Pyx_INCREF(__pyx_kp_u_0_reason_status_code_0_status);
+  __pyx_v_fmt = __pyx_kp_u_0_reason_status_code_0_status;
 
   /* "discord/errors.py":72
  * 
@@ -1178,9 +1180,9 @@ static PyObject *__pyx_pf_7discord_6errors_13HTTPException___init__(CYTHON_UNUSE
  * 
  *         super().__init__(fmt.format(self.response, self.text))
  */
-    __pyx_t_3 = PyNumber_Add(__pyx_v_fmt, __pyx_kp_s_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_Concat(__pyx_v_fmt, __pyx_kp_u_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF_SET(__pyx_v_fmt, __pyx_t_3);
+    __Pyx_DECREF_SET(__pyx_v_fmt, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
     /* "discord/errors.py":72
@@ -1436,7 +1438,7 @@ static PyObject *__pyx_pf_7discord_6errors_16ConnectionClosed___init__(CYTHON_UN
   __Pyx_INCREF(__pyx_v_original);
   __Pyx_GIVEREF(__pyx_v_original);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_original);
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 125, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1515,9 +1517,9 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_kp_s_0_reason_status_code_0_status, __pyx_k_0_reason_status_code_0_status, sizeof(__pyx_k_0_reason_status_code_0_status), 0, 0, 1, 0},
-  {&__pyx_kp_s_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
+  {&__pyx_kp_u_0_reason_status_code_0_status, __pyx_k_0_reason_status_code_0_status, sizeof(__pyx_k_0_reason_status_code_0_status), 0, 1, 0, 0},
+  {&__pyx_kp_u_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 1, 0, 0},
   {&__pyx_kp_s_An_exception_that_is_usually_thr, __pyx_k_An_exception_that_is_usually_thr, sizeof(__pyx_k_An_exception_that_is_usually_thr), 0, 0, 1, 0},
   {&__pyx_kp_s_Base_exception_class_for_discord, __pyx_k_Base_exception_class_for_discord, sizeof(__pyx_k_Base_exception_class_for_discord), 0, 0, 1, 0},
   {&__pyx_n_s_ClientException, __pyx_k_ClientException, sizeof(__pyx_k_ClientException), 0, 0, 1, 1},
@@ -1549,10 +1551,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_LoginFailure, __pyx_k_LoginFailure, sizeof(__pyx_k_LoginFailure), 0, 0, 1, 1},
   {&__pyx_n_s_NotFound, __pyx_k_NotFound, sizeof(__pyx_k_NotFound), 0, 0, 1, 1},
   {&__pyx_n_s_RateLimitError, __pyx_k_RateLimitError, sizeof(__pyx_k_RateLimitError), 0, 0, 1, 1},
-  {&__pyx_kp_s_The_gateway_to_connect_to_discor, __pyx_k_The_gateway_to_connect_to_discor, sizeof(__pyx_k_The_gateway_to_connect_to_discor), 0, 0, 1, 0},
+  {&__pyx_kp_u_The_gateway_to_connect_to_discor, __pyx_k_The_gateway_to_connect_to_discor, sizeof(__pyx_k_The_gateway_to_connect_to_discor), 0, 1, 0, 0},
   {&__pyx_n_s_UnknownConnectionError, __pyx_k_UnknownConnectionError, sizeof(__pyx_k_UnknownConnectionError), 0, 0, 1, 1},
   {&__pyx_n_s_VoiceWSTimeoutError, __pyx_k_VoiceWSTimeoutError, sizeof(__pyx_k_VoiceWSTimeoutError), 0, 0, 1, 1},
   {&__pyx_n_s_code, __pyx_k_code, sizeof(__pyx_k_code), 0, 0, 1, 1},
+  {&__pyx_n_u_code, __pyx_k_code, sizeof(__pyx_k_code), 0, 1, 0, 1},
   {&__pyx_n_s_discord_errors, __pyx_k_discord_errors, sizeof(__pyx_k_discord_errors), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_fmt, __pyx_k_fmt, sizeof(__pyx_k_fmt), 0, 0, 1, 1},
@@ -1561,6 +1564,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_message, __pyx_k_message, sizeof(__pyx_k_message), 0, 0, 1, 1},
+  {&__pyx_n_u_message, __pyx_k_message, sizeof(__pyx_k_message), 0, 1, 0, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_original, __pyx_k_original, sizeof(__pyx_k_original), 0, 0, 1, 1},
@@ -1593,7 +1597,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             self.code = message.get('code', 0)
  *         else:
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_message, __pyx_kp_s_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_message, __pyx_kp_u_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -1604,7 +1608,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         else:
  *             self.text = message
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_s_code, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_u_code, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -1771,7 +1775,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_DiscordException, __pyx_n_s_DiscordException, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Base_exception_class_for_discord); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DiscordException, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DiscordException, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DiscordException, __pyx_t_4) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1797,7 +1801,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_ClientException, __pyx_n_s_ClientException, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_s_thrown_when_an); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_ClientException, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_ClientException, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ClientException, __pyx_t_4) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1843,7 +1847,7 @@ PyMODINIT_FUNC PyInit_errors(void)
  *     """An exception that is usually thrown when the gateway hub
  *     for the :class:`Client` websocket is not found."""
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_GatewayNotFound, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_GatewayNotFound, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_GatewayNotFound, __pyx_t_4) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1894,7 +1898,7 @@ PyMODINIT_FUNC PyInit_errors(void)
  *     """Exception that's thrown when an HTTP request operation fails.
  * 
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPException, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_HTTPException, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_5) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1922,7 +1926,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_Forbidden, __pyx_n_s_Forbidden, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_s_thrown_for_when); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Forbidden, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Forbidden, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Forbidden, __pyx_t_5) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1948,7 +1952,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_NotFound, __pyx_n_s_NotFound, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_s_thrown_for_when_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_NotFound, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_NotFound, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_NotFound, __pyx_t_5) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1974,7 +1978,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_InvalidArgument, __pyx_n_s_InvalidArgument, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_s_thrown_when_an_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidArgument, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidArgument, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_InvalidArgument, __pyx_t_5) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2000,7 +2004,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_LoginFailure, __pyx_n_s_LoginFailure, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_s_thrown_when_the); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_LoginFailure, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_LoginFailure, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_LoginFailure, __pyx_t_5) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2051,7 +2055,7 @@ PyMODINIT_FUNC PyInit_errors(void)
  *     """Exception that's thrown when the gateway connection is
  *     closed for reasons that could not be handled internally.
  */
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ConnectionClosed, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ConnectionClosed, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_5, __pyx_t_6) < 0) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2079,7 +2083,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_InvalidToken, __pyx_n_s_InvalidToken, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_s_thrown_when_a_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_InvalidToken, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_InvalidToken, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_InvalidToken, __pyx_t_6) < 0) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2105,7 +2109,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_VoiceWSTimeoutError, __pyx_n_s_VoiceWSTimeoutError, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_is_thown_when_a_c); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_VoiceWSTimeoutError, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_VoiceWSTimeoutError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_VoiceWSTimeoutError, __pyx_t_6) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2131,7 +2135,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_RateLimitError, __pyx_n_s_RateLimitError, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_s_thrown_when_you); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_RateLimitError, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_RateLimitError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_RateLimitError, __pyx_t_6) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2157,7 +2161,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_InvalidServerError, __pyx_n_s_InvalidServerError, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_is_closed_when_a); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidServerError, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_InvalidServerError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_InvalidServerError, __pyx_t_6) < 0) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2183,7 +2187,7 @@ PyMODINIT_FUNC PyInit_errors(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_UnknownConnectionError, __pyx_n_s_UnknownConnectionError, (PyObject *) NULL, __pyx_n_s_discord_errors, __pyx_kp_s_Exception_that_is_thrown_when_so); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_UnknownConnectionError, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_UnknownConnectionError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_UnknownConnectionError, __pyx_t_6) < 0) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;

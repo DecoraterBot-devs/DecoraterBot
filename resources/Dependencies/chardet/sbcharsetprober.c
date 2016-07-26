@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -851,9 +851,9 @@ static PyObject *__pyx_n_s_aBuf;
 static PyObject *__pyx_n_s_aLen;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_s_cf;
-static PyObject *__pyx_n_s_charToOrderMap;
+static PyObject *__pyx_n_u_charToOrderMap;
 static PyObject *__pyx_n_s_chardet_sbcharsetprober;
-static PyObject *__pyx_n_s_charsetName;
+static PyObject *__pyx_n_u_charsetName;
 static PyObject *__pyx_n_s_charsetprober;
 static PyObject *__pyx_n_s_compat;
 static PyObject *__pyx_n_s_constants;
@@ -870,7 +870,7 @@ static PyObject *__pyx_n_s_get_state;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
-static PyObject *__pyx_n_s_keepEnglishLetter;
+static PyObject *__pyx_n_u_keepEnglishLetter;
 static PyObject *__pyx_n_s_mFreqChar;
 static PyObject *__pyx_n_s_mLastOrder;
 static PyObject *__pyx_n_s_mModel;
@@ -880,21 +880,21 @@ static PyObject *__pyx_n_s_mSeqCounters;
 static PyObject *__pyx_n_s_mState;
 static PyObject *__pyx_n_s_mTotalChar;
 static PyObject *__pyx_n_s_mTotalSeqs;
-static PyObject *__pyx_n_s_mTypicalPositiveRatio;
+static PyObject *__pyx_n_u_mTypicalPositiveRatio;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_model;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_nameProber;
 static PyObject *__pyx_n_s_order;
-static PyObject *__pyx_n_s_precedenceMatrix;
+static PyObject *__pyx_n_u_precedenceMatrix;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_reset;
 static PyObject *__pyx_n_s_reversed;
-static PyObject *__pyx_kp_s_s_confidence_s_below_negativesh;
-static PyObject *__pyx_kp_s_s_confidence_s_we_have_awinner;
+static PyObject *__pyx_kp_u_s_confidence_s_below_negativesh;
+static PyObject *__pyx_kp_u_s_confidence_s_we_have_awinner;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_stderr;
 static PyObject *__pyx_n_s_sys;
@@ -1399,7 +1399,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_4
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_charsetName); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_charsetName); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_r = __pyx_t_4;
@@ -1526,7 +1526,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_keepEnglishLetter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_keepEnglishLetter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
@@ -1699,7 +1699,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_charToOrderMap); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_charToOrderMap); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_wrap_ord); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -1882,7 +1882,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  */
           __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 88, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_5 = PyObject_GetItem(__pyx_t_6, __pyx_n_s_precedenceMatrix); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)
+          __pyx_t_5 = PyObject_GetItem(__pyx_t_6, __pyx_n_u_precedenceMatrix); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           __pyx_t_6 = PyObject_GetItem(__pyx_t_5, __pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 88, __pyx_L1_error)
@@ -1932,7 +1932,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  */
           __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_precedenceMatrix); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_6 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_precedenceMatrix); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __pyx_t_1 = PyObject_GetItem(__pyx_t_6, __pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
@@ -2144,7 +2144,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  */
           __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_10 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_charsetName); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 102, __pyx_L1_error)
+          __pyx_t_10 = PyObject_GetItem(__pyx_t_1, __pyx_n_u_charsetName); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 102, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
@@ -2163,7 +2163,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  *                                          (self._mModel['charsetName'], cf))
  *                     self._mState = constants.eFoundIt
  */
-          __pyx_t_10 = __Pyx_PyString_Format(__pyx_kp_s_s_confidence_s_we_have_awinner, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 101, __pyx_L1_error)
+          __pyx_t_10 = PyUnicode_Format(__pyx_kp_u_s_confidence_s_we_have_awinner, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 101, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __pyx_t_1 = NULL;
@@ -2284,7 +2284,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  */
           __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_10 = PyObject_GetItem(__pyx_t_5, __pyx_n_s_charsetName); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 108, __pyx_L1_error)
+          __pyx_t_10 = PyObject_GetItem(__pyx_t_5, __pyx_n_u_charsetName); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 108, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
@@ -2324,7 +2324,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_6
  *                                          (self._mModel['charsetName'], cf,
  *                                           NEGATIVE_SHORTCUT_THRESHOLD))
  */
-          __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_s_confidence_s_below_negativesh, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+          __pyx_t_5 = PyUnicode_Format(__pyx_kp_u_s_confidence_s_below_negativesh, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __pyx_t_1 = NULL;
@@ -2560,7 +2560,7 @@ static PyObject *__pyx_pf_7chardet_15sbcharsetprober_23SingleByteCharSetProber_8
  */
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_mModel); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyObject_GetItem(__pyx_t_4, __pyx_n_s_mTypicalPositiveRatio); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_t_4, __pyx_n_u_mTypicalPositiveRatio); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -2713,9 +2713,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_aLen, __pyx_k_aLen, sizeof(__pyx_k_aLen), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_s_cf, __pyx_k_cf, sizeof(__pyx_k_cf), 0, 0, 1, 1},
-  {&__pyx_n_s_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 0, 1, 1},
+  {&__pyx_n_u_charToOrderMap, __pyx_k_charToOrderMap, sizeof(__pyx_k_charToOrderMap), 0, 1, 0, 1},
   {&__pyx_n_s_chardet_sbcharsetprober, __pyx_k_chardet_sbcharsetprober, sizeof(__pyx_k_chardet_sbcharsetprober), 0, 0, 1, 1},
-  {&__pyx_n_s_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 0, 1, 1},
+  {&__pyx_n_u_charsetName, __pyx_k_charsetName, sizeof(__pyx_k_charsetName), 0, 1, 0, 1},
   {&__pyx_n_s_charsetprober, __pyx_k_charsetprober, sizeof(__pyx_k_charsetprober), 0, 0, 1, 1},
   {&__pyx_n_s_compat, __pyx_k_compat, sizeof(__pyx_k_compat), 0, 0, 1, 1},
   {&__pyx_n_s_constants, __pyx_k_constants, sizeof(__pyx_k_constants), 0, 0, 1, 1},
@@ -2732,7 +2732,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
-  {&__pyx_n_s_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 0, 1, 1},
+  {&__pyx_n_u_keepEnglishLetter, __pyx_k_keepEnglishLetter, sizeof(__pyx_k_keepEnglishLetter), 0, 1, 0, 1},
   {&__pyx_n_s_mFreqChar, __pyx_k_mFreqChar, sizeof(__pyx_k_mFreqChar), 0, 0, 1, 1},
   {&__pyx_n_s_mLastOrder, __pyx_k_mLastOrder, sizeof(__pyx_k_mLastOrder), 0, 0, 1, 1},
   {&__pyx_n_s_mModel, __pyx_k_mModel, sizeof(__pyx_k_mModel), 0, 0, 1, 1},
@@ -2742,21 +2742,21 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_mState, __pyx_k_mState, sizeof(__pyx_k_mState), 0, 0, 1, 1},
   {&__pyx_n_s_mTotalChar, __pyx_k_mTotalChar, sizeof(__pyx_k_mTotalChar), 0, 0, 1, 1},
   {&__pyx_n_s_mTotalSeqs, __pyx_k_mTotalSeqs, sizeof(__pyx_k_mTotalSeqs), 0, 0, 1, 1},
-  {&__pyx_n_s_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 0, 1, 1},
+  {&__pyx_n_u_mTypicalPositiveRatio, __pyx_k_mTypicalPositiveRatio, sizeof(__pyx_k_mTypicalPositiveRatio), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_model, __pyx_k_model, sizeof(__pyx_k_model), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_nameProber, __pyx_k_nameProber, sizeof(__pyx_k_nameProber), 0, 0, 1, 1},
   {&__pyx_n_s_order, __pyx_k_order, sizeof(__pyx_k_order), 0, 0, 1, 1},
-  {&__pyx_n_s_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 0, 1, 1},
+  {&__pyx_n_u_precedenceMatrix, __pyx_k_precedenceMatrix, sizeof(__pyx_k_precedenceMatrix), 0, 1, 0, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_reset, __pyx_k_reset, sizeof(__pyx_k_reset), 0, 0, 1, 1},
   {&__pyx_n_s_reversed, __pyx_k_reversed, sizeof(__pyx_k_reversed), 0, 0, 1, 1},
-  {&__pyx_kp_s_s_confidence_s_below_negativesh, __pyx_k_s_confidence_s_below_negativesh, sizeof(__pyx_k_s_confidence_s_below_negativesh), 0, 0, 1, 0},
-  {&__pyx_kp_s_s_confidence_s_we_have_awinner, __pyx_k_s_confidence_s_we_have_awinner, sizeof(__pyx_k_s_confidence_s_we_have_awinner), 0, 0, 1, 0},
+  {&__pyx_kp_u_s_confidence_s_below_negativesh, __pyx_k_s_confidence_s_below_negativesh, sizeof(__pyx_k_s_confidence_s_below_negativesh), 0, 1, 0, 0},
+  {&__pyx_kp_u_s_confidence_s_we_have_awinner, __pyx_k_s_confidence_s_we_have_awinner, sizeof(__pyx_k_s_confidence_s_we_have_awinner), 0, 1, 0, 0},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_stderr, __pyx_k_stderr, sizeof(__pyx_k_stderr), 0, 0, 1, 1},
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
@@ -2963,7 +2963,7 @@ PyMODINIT_FUNC PyInit_sbcharsetprober(void)
  * from . import constants
  * from .charsetprober import CharSetProber
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3187,7 +3187,7 @@ PyMODINIT_FUNC PyInit_sbcharsetprober(void)
  *     def __init__(self, model, reversed=False, nameProber=None):
  *         CharSetProber.__init__(self)
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_SingleByteCharSetProber, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_SingleByteCharSetProber, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SingleByteCharSetProber, __pyx_t_4) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

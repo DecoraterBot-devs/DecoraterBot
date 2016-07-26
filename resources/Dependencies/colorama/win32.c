@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -941,11 +941,14 @@ static PyObject *__pyx_n_s_char;
 static PyObject *__pyx_n_s_colorama_win32;
 static PyObject *__pyx_n_s_csbi;
 static PyObject *__pyx_n_s_ctypes;
-static PyObject *__pyx_kp_s_d_d_d_d_d_d_d_d_d_d_d;
+static PyObject *__pyx_kp_u_d_d_d_d_d_d_d_d_d_d_d;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_dwCursorPosition;
+static PyObject *__pyx_n_u_dwCursorPosition;
 static PyObject *__pyx_n_s_dwMaximumWindowSize;
+static PyObject *__pyx_n_u_dwMaximumWindowSize;
 static PyObject *__pyx_n_s_dwSize;
+static PyObject *__pyx_n_u_dwSize;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_fields;
 static PyObject *__pyx_n_s_handle;
@@ -965,6 +968,7 @@ static PyObject *__pyx_n_s_restype;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_sr;
 static PyObject *__pyx_n_s_srWindow;
+static PyObject *__pyx_n_u_srWindow;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_n_s_stream_id;
@@ -974,6 +978,7 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_title;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_wAttributes;
+static PyObject *__pyx_n_u_wAttributes;
 static PyObject *__pyx_n_s_winapi_test;
 static PyObject *__pyx_n_s_windll;
 static PyObject *__pyx_n_s_wintypes;
@@ -1288,7 +1293,7 @@ static PyObject *__pyx_pf_8colorama_5win32_26CONSOLE_SCREEN_BUFFER_INFO___str__(
  *                 self.dwSize.Y, self.dwSize.X,
  *                 self.dwCursorPosition.Y, self.dwCursorPosition.X,
  */
-  __pyx_t_12 = __Pyx_PyString_Format(__pyx_kp_s_d_d_d_d_d_d_d_d_d_d_d, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_12 = PyUnicode_Format(__pyx_kp_u_d_d_d_d_d_d_d_d_d_d_d, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_r = __pyx_t_12;
@@ -3202,11 +3207,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_colorama_win32, __pyx_k_colorama_win32, sizeof(__pyx_k_colorama_win32), 0, 0, 1, 1},
   {&__pyx_n_s_csbi, __pyx_k_csbi, sizeof(__pyx_k_csbi), 0, 0, 1, 1},
   {&__pyx_n_s_ctypes, __pyx_k_ctypes, sizeof(__pyx_k_ctypes), 0, 0, 1, 1},
-  {&__pyx_kp_s_d_d_d_d_d_d_d_d_d_d_d, __pyx_k_d_d_d_d_d_d_d_d_d_d_d, sizeof(__pyx_k_d_d_d_d_d_d_d_d_d_d_d), 0, 0, 1, 0},
+  {&__pyx_kp_u_d_d_d_d_d_d_d_d_d_d_d, __pyx_k_d_d_d_d_d_d_d_d_d_d_d, sizeof(__pyx_k_d_d_d_d_d_d_d_d_d_d_d), 0, 1, 0, 0},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_dwCursorPosition, __pyx_k_dwCursorPosition, sizeof(__pyx_k_dwCursorPosition), 0, 0, 1, 1},
+  {&__pyx_n_u_dwCursorPosition, __pyx_k_dwCursorPosition, sizeof(__pyx_k_dwCursorPosition), 0, 1, 0, 1},
   {&__pyx_n_s_dwMaximumWindowSize, __pyx_k_dwMaximumWindowSize, sizeof(__pyx_k_dwMaximumWindowSize), 0, 0, 1, 1},
+  {&__pyx_n_u_dwMaximumWindowSize, __pyx_k_dwMaximumWindowSize, sizeof(__pyx_k_dwMaximumWindowSize), 0, 1, 0, 1},
   {&__pyx_n_s_dwSize, __pyx_k_dwSize, sizeof(__pyx_k_dwSize), 0, 0, 1, 1},
+  {&__pyx_n_u_dwSize, __pyx_k_dwSize, sizeof(__pyx_k_dwSize), 0, 1, 0, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_fields, __pyx_k_fields, sizeof(__pyx_k_fields), 0, 0, 1, 1},
   {&__pyx_n_s_handle, __pyx_k_handle, sizeof(__pyx_k_handle), 0, 0, 1, 1},
@@ -3226,6 +3234,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_sr, __pyx_k_sr, sizeof(__pyx_k_sr), 0, 0, 1, 1},
   {&__pyx_n_s_srWindow, __pyx_k_srWindow, sizeof(__pyx_k_srWindow), 0, 0, 1, 1},
+  {&__pyx_n_u_srWindow, __pyx_k_srWindow, sizeof(__pyx_k_srWindow), 0, 1, 0, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {&__pyx_n_s_stream_id, __pyx_k_stream_id, sizeof(__pyx_k_stream_id), 0, 0, 1, 1},
@@ -3235,6 +3244,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_title, __pyx_k_title, sizeof(__pyx_k_title), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_n_s_wAttributes, __pyx_k_wAttributes, sizeof(__pyx_k_wAttributes), 0, 0, 1, 1},
+  {&__pyx_n_u_wAttributes, __pyx_k_wAttributes, sizeof(__pyx_k_wAttributes), 0, 1, 0, 1},
   {&__pyx_n_s_winapi_test, __pyx_k_winapi_test, sizeof(__pyx_k_winapi_test), 0, 0, 1, 1},
   {&__pyx_n_s_windll, __pyx_k_windll, sizeof(__pyx_k_windll), 0, 0, 1, 1},
   {&__pyx_n_s_wintypes, __pyx_k_wintypes, sizeof(__pyx_k_wintypes), 0, 0, 1, 1},
@@ -3534,7 +3544,7 @@ PyMODINIT_FUNC PyInit_win32(void)
  *     from ctypes import LibraryLoader
  *     windll = LibraryLoader(ctypes.WinDLL)
  */
-      __pyx_t_4 = __Pyx_Import(__pyx_n_s_ctypes, 0, -1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L2_error)
+      __pyx_t_4 = __Pyx_Import(__pyx_n_s_ctypes, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (PyDict_SetItem(__pyx_d, __pyx_n_s_ctypes, __pyx_t_4) < 0) __PYX_ERR(0, 9, __pyx_L2_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3551,7 +3561,7 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_INCREF(__pyx_n_s_LibraryLoader);
       __Pyx_GIVEREF(__pyx_n_s_LibraryLoader);
       PyList_SET_ITEM(__pyx_t_4, 0, __pyx_n_s_LibraryLoader);
-      __pyx_t_5 = __Pyx_Import(__pyx_n_s_ctypes, __pyx_t_4, -1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 10, __pyx_L2_error)
+      __pyx_t_5 = __Pyx_Import(__pyx_n_s_ctypes, __pyx_t_4, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 10, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = __Pyx_ImportFrom(__pyx_t_5, __pyx_n_s_LibraryLoader); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 10, __pyx_L2_error)
@@ -3615,7 +3625,7 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_INCREF(__pyx_n_s_wintypes);
       __Pyx_GIVEREF(__pyx_n_s_wintypes);
       PyList_SET_ITEM(__pyx_t_5, 0, __pyx_n_s_wintypes);
-      __pyx_t_4 = __Pyx_Import(__pyx_n_s_ctypes, __pyx_t_5, -1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L2_error)
+      __pyx_t_4 = __Pyx_Import(__pyx_n_s_ctypes, __pyx_t_5, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L2_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_5 = __Pyx_ImportFrom(__pyx_t_4, __pyx_n_s_wintypes); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 12, __pyx_L2_error)
@@ -3655,7 +3665,7 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_INCREF(__pyx_n_s_POINTER);
       __Pyx_GIVEREF(__pyx_n_s_POINTER);
       PyList_SET_ITEM(__pyx_t_4, 3, __pyx_n_s_POINTER);
-      __pyx_t_5 = __Pyx_Import(__pyx_n_s_ctypes, __pyx_t_4, -1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L4_except_error)
+      __pyx_t_5 = __Pyx_Import(__pyx_n_s_ctypes, __pyx_t_4, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = __Pyx_ImportFrom(__pyx_t_5, __pyx_n_s_byref); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L4_except_error)
@@ -3721,9 +3731,9 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 28, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_INCREF(__pyx_n_s_dwSize);
-      __Pyx_GIVEREF(__pyx_n_s_dwSize);
-      PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_n_s_dwSize);
+      __Pyx_INCREF(__pyx_n_u_dwSize);
+      __Pyx_GIVEREF(__pyx_n_u_dwSize);
+      PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_n_u_dwSize);
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_7);
       __pyx_t_7 = 0;
@@ -3739,9 +3749,9 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 29, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_INCREF(__pyx_n_s_dwCursorPosition);
-      __Pyx_GIVEREF(__pyx_n_s_dwCursorPosition);
-      PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_s_dwCursorPosition);
+      __Pyx_INCREF(__pyx_n_u_dwCursorPosition);
+      __Pyx_GIVEREF(__pyx_n_u_dwCursorPosition);
+      PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_u_dwCursorPosition);
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_7);
       __pyx_t_7 = 0;
@@ -3760,9 +3770,9 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_INCREF(__pyx_n_s_wAttributes);
-      __Pyx_GIVEREF(__pyx_n_s_wAttributes);
-      PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_n_s_wAttributes);
+      __Pyx_INCREF(__pyx_n_u_wAttributes);
+      __Pyx_GIVEREF(__pyx_n_u_wAttributes);
+      PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_n_u_wAttributes);
       __Pyx_GIVEREF(__pyx_t_10);
       PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_10);
       __pyx_t_10 = 0;
@@ -3781,9 +3791,9 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 31, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_INCREF(__pyx_n_s_srWindow);
-      __Pyx_GIVEREF(__pyx_n_s_srWindow);
-      PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_n_s_srWindow);
+      __Pyx_INCREF(__pyx_n_u_srWindow);
+      __Pyx_GIVEREF(__pyx_n_u_srWindow);
+      PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_n_u_srWindow);
       __Pyx_GIVEREF(__pyx_t_11);
       PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_11);
       __pyx_t_11 = 0;
@@ -3799,9 +3809,9 @@ PyMODINIT_FUNC PyInit_win32(void)
       __Pyx_GOTREF(__pyx_t_11);
       __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 32, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __Pyx_INCREF(__pyx_n_s_dwMaximumWindowSize);
-      __Pyx_GIVEREF(__pyx_n_s_dwMaximumWindowSize);
-      PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_n_s_dwMaximumWindowSize);
+      __Pyx_INCREF(__pyx_n_u_dwMaximumWindowSize);
+      __Pyx_GIVEREF(__pyx_n_u_dwMaximumWindowSize);
+      PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_n_u_dwMaximumWindowSize);
       __Pyx_GIVEREF(__pyx_t_11);
       PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_11);
       __pyx_t_11 = 0;
@@ -3852,7 +3862,7 @@ PyMODINIT_FUNC PyInit_win32(void)
  *         """struct in wincon.h."""
  *         _fields_ = [
  */
-      __pyx_t_11 = __Pyx_Py3ClassCreate(__pyx_t_4, __pyx_n_s_CONSOLE_SCREEN_BUFFER_INFO, __pyx_t_5, __pyx_t_8, NULL, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L4_except_error)
+      __pyx_t_11 = __Pyx_Py3ClassCreate(__pyx_t_4, __pyx_n_s_CONSOLE_SCREEN_BUFFER_INFO, __pyx_t_5, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L4_except_error)
       __Pyx_GOTREF(__pyx_t_11);
       if (PyDict_SetItem(__pyx_d, __pyx_n_s_CONSOLE_SCREEN_BUFFER_INFO, __pyx_t_11) < 0) __PYX_ERR(0, 25, __pyx_L4_except_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;

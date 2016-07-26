@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -856,10 +856,10 @@ static const char __pyx_k_1cbd08c76f8af6dddce02c5138971129[] = "1cbd08c76f8af6dd
 static const char __pyx_k_322c936a8c8be1b803cd94861bdfa868[] = "322c936a8c8be1b803cd94861bdfa868";
 static const char __pyx_k_6debd47ed13483642cf09e832ed0bc1b[] = "6debd47ed13483642cf09e832ed0bc1b";
 static const char __pyx_k_dd4dbc0016779df1378e7812eabaa04d[] = "dd4dbc0016779df1378e7812eabaa04d";
-static PyObject *__pyx_kp_s_0e291f67c9274a1abdddeb3fd919cbaa;
-static PyObject *__pyx_kp_s_1cbd08c76f8af6dddce02c5138971129;
-static PyObject *__pyx_kp_s_322c936a8c8be1b803cd94861bdfa868;
-static PyObject *__pyx_kp_s_6debd47ed13483642cf09e832ed0bc1b;
+static PyObject *__pyx_kp_u_0e291f67c9274a1abdddeb3fd919cbaa;
+static PyObject *__pyx_kp_u_1cbd08c76f8af6dddce02c5138971129;
+static PyObject *__pyx_kp_u_322c936a8c8be1b803cd94861bdfa868;
+static PyObject *__pyx_kp_u_6debd47ed13483642cf09e832ed0bc1b;
 static PyObject *__pyx_n_s_ChannelType;
 static PyObject *__pyx_n_s_ChannelType___str;
 static PyObject *__pyx_n_s_DefaultAvatar;
@@ -874,24 +874,29 @@ static PyObject *__pyx_n_s_Status;
 static PyObject *__pyx_n_s_Status___str;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_amsterdam;
+static PyObject *__pyx_n_u_amsterdam;
 static PyObject *__pyx_n_s_blurple;
 static PyObject *__pyx_n_s_brazil;
+static PyObject *__pyx_n_u_brazil;
 static PyObject *__pyx_n_s_call;
 static PyObject *__pyx_n_s_channel_icon_change;
 static PyObject *__pyx_n_s_channel_name_change;
 static PyObject *__pyx_n_s_cls;
-static PyObject *__pyx_n_s_dd4dbc0016779df1378e7812eabaa04d;
+static PyObject *__pyx_n_u_dd4dbc0016779df1378e7812eabaa04d;
 static PyObject *__pyx_n_s_default;
 static PyObject *__pyx_n_s_discord_enums;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_enum;
 static PyObject *__pyx_n_s_frankfurt;
+static PyObject *__pyx_n_u_frankfurt;
 static PyObject *__pyx_n_s_green;
 static PyObject *__pyx_n_s_grey;
 static PyObject *__pyx_n_s_group;
 static PyObject *__pyx_n_s_idle;
+static PyObject *__pyx_n_u_idle;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_london;
+static PyObject *__pyx_n_u_london;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_members;
 static PyObject *__pyx_n_s_metaclass;
@@ -901,7 +906,9 @@ static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_n_s_obj;
 static PyObject *__pyx_n_s_object;
 static PyObject *__pyx_n_s_offline;
+static PyObject *__pyx_n_u_offline;
 static PyObject *__pyx_n_s_online;
+static PyObject *__pyx_n_u_online;
 static PyObject *__pyx_n_s_orange;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_private;
@@ -911,28 +918,30 @@ static PyObject *__pyx_n_s_recipient_remove;
 static PyObject *__pyx_n_s_red;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_singapore;
+static PyObject *__pyx_n_u_singapore;
 static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_n_s_sydney;
+static PyObject *__pyx_n_u_sydney;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_text;
 static PyObject *__pyx_n_s_try_enum;
 static PyObject *__pyx_n_s_url;
-static PyObject *__pyx_kp_s_us_central;
+static PyObject *__pyx_kp_u_us_central;
 static PyObject *__pyx_n_s_us_central_2;
-static PyObject *__pyx_kp_s_us_east;
+static PyObject *__pyx_kp_u_us_east;
 static PyObject *__pyx_n_s_us_east_2;
-static PyObject *__pyx_kp_s_us_south;
+static PyObject *__pyx_kp_u_us_south;
 static PyObject *__pyx_n_s_us_south_2;
-static PyObject *__pyx_kp_s_us_west;
+static PyObject *__pyx_kp_u_us_west;
 static PyObject *__pyx_n_s_us_west_2;
 static PyObject *__pyx_n_s_val;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_value_2;
-static PyObject *__pyx_kp_s_vip_amsterdam;
+static PyObject *__pyx_kp_u_vip_amsterdam;
 static PyObject *__pyx_n_s_vip_amsterdam_2;
-static PyObject *__pyx_kp_s_vip_us_east;
+static PyObject *__pyx_kp_u_vip_us_east;
 static PyObject *__pyx_n_s_vip_us_east_2;
-static PyObject *__pyx_kp_s_vip_us_west;
+static PyObject *__pyx_kp_u_vip_us_west;
 static PyObject *__pyx_n_s_vip_us_west_2;
 static PyObject *__pyx_n_s_voice;
 static PyObject *__pyx_pf_7discord_5enums_11ChannelType___str__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
@@ -1643,10 +1652,10 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_0e291f67c9274a1abdddeb3fd919cbaa, __pyx_k_0e291f67c9274a1abdddeb3fd919cbaa, sizeof(__pyx_k_0e291f67c9274a1abdddeb3fd919cbaa), 0, 0, 1, 0},
-  {&__pyx_kp_s_1cbd08c76f8af6dddce02c5138971129, __pyx_k_1cbd08c76f8af6dddce02c5138971129, sizeof(__pyx_k_1cbd08c76f8af6dddce02c5138971129), 0, 0, 1, 0},
-  {&__pyx_kp_s_322c936a8c8be1b803cd94861bdfa868, __pyx_k_322c936a8c8be1b803cd94861bdfa868, sizeof(__pyx_k_322c936a8c8be1b803cd94861bdfa868), 0, 0, 1, 0},
-  {&__pyx_kp_s_6debd47ed13483642cf09e832ed0bc1b, __pyx_k_6debd47ed13483642cf09e832ed0bc1b, sizeof(__pyx_k_6debd47ed13483642cf09e832ed0bc1b), 0, 0, 1, 0},
+  {&__pyx_kp_u_0e291f67c9274a1abdddeb3fd919cbaa, __pyx_k_0e291f67c9274a1abdddeb3fd919cbaa, sizeof(__pyx_k_0e291f67c9274a1abdddeb3fd919cbaa), 0, 1, 0, 0},
+  {&__pyx_kp_u_1cbd08c76f8af6dddce02c5138971129, __pyx_k_1cbd08c76f8af6dddce02c5138971129, sizeof(__pyx_k_1cbd08c76f8af6dddce02c5138971129), 0, 1, 0, 0},
+  {&__pyx_kp_u_322c936a8c8be1b803cd94861bdfa868, __pyx_k_322c936a8c8be1b803cd94861bdfa868, sizeof(__pyx_k_322c936a8c8be1b803cd94861bdfa868), 0, 1, 0, 0},
+  {&__pyx_kp_u_6debd47ed13483642cf09e832ed0bc1b, __pyx_k_6debd47ed13483642cf09e832ed0bc1b, sizeof(__pyx_k_6debd47ed13483642cf09e832ed0bc1b), 0, 1, 0, 0},
   {&__pyx_n_s_ChannelType, __pyx_k_ChannelType, sizeof(__pyx_k_ChannelType), 0, 0, 1, 1},
   {&__pyx_n_s_ChannelType___str, __pyx_k_ChannelType___str, sizeof(__pyx_k_ChannelType___str), 0, 0, 1, 1},
   {&__pyx_n_s_DefaultAvatar, __pyx_k_DefaultAvatar, sizeof(__pyx_k_DefaultAvatar), 0, 0, 1, 1},
@@ -1661,24 +1670,29 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Status___str, __pyx_k_Status___str, sizeof(__pyx_k_Status___str), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_amsterdam, __pyx_k_amsterdam, sizeof(__pyx_k_amsterdam), 0, 0, 1, 1},
+  {&__pyx_n_u_amsterdam, __pyx_k_amsterdam, sizeof(__pyx_k_amsterdam), 0, 1, 0, 1},
   {&__pyx_n_s_blurple, __pyx_k_blurple, sizeof(__pyx_k_blurple), 0, 0, 1, 1},
   {&__pyx_n_s_brazil, __pyx_k_brazil, sizeof(__pyx_k_brazil), 0, 0, 1, 1},
+  {&__pyx_n_u_brazil, __pyx_k_brazil, sizeof(__pyx_k_brazil), 0, 1, 0, 1},
   {&__pyx_n_s_call, __pyx_k_call, sizeof(__pyx_k_call), 0, 0, 1, 1},
   {&__pyx_n_s_channel_icon_change, __pyx_k_channel_icon_change, sizeof(__pyx_k_channel_icon_change), 0, 0, 1, 1},
   {&__pyx_n_s_channel_name_change, __pyx_k_channel_name_change, sizeof(__pyx_k_channel_name_change), 0, 0, 1, 1},
   {&__pyx_n_s_cls, __pyx_k_cls, sizeof(__pyx_k_cls), 0, 0, 1, 1},
-  {&__pyx_n_s_dd4dbc0016779df1378e7812eabaa04d, __pyx_k_dd4dbc0016779df1378e7812eabaa04d, sizeof(__pyx_k_dd4dbc0016779df1378e7812eabaa04d), 0, 0, 1, 1},
+  {&__pyx_n_u_dd4dbc0016779df1378e7812eabaa04d, __pyx_k_dd4dbc0016779df1378e7812eabaa04d, sizeof(__pyx_k_dd4dbc0016779df1378e7812eabaa04d), 0, 1, 0, 1},
   {&__pyx_n_s_default, __pyx_k_default, sizeof(__pyx_k_default), 0, 0, 1, 1},
   {&__pyx_n_s_discord_enums, __pyx_k_discord_enums, sizeof(__pyx_k_discord_enums), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_enum, __pyx_k_enum, sizeof(__pyx_k_enum), 0, 0, 1, 1},
   {&__pyx_n_s_frankfurt, __pyx_k_frankfurt, sizeof(__pyx_k_frankfurt), 0, 0, 1, 1},
+  {&__pyx_n_u_frankfurt, __pyx_k_frankfurt, sizeof(__pyx_k_frankfurt), 0, 1, 0, 1},
   {&__pyx_n_s_green, __pyx_k_green, sizeof(__pyx_k_green), 0, 0, 1, 1},
   {&__pyx_n_s_grey, __pyx_k_grey, sizeof(__pyx_k_grey), 0, 0, 1, 1},
   {&__pyx_n_s_group, __pyx_k_group, sizeof(__pyx_k_group), 0, 0, 1, 1},
   {&__pyx_n_s_idle, __pyx_k_idle, sizeof(__pyx_k_idle), 0, 0, 1, 1},
+  {&__pyx_n_u_idle, __pyx_k_idle, sizeof(__pyx_k_idle), 0, 1, 0, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_london, __pyx_k_london, sizeof(__pyx_k_london), 0, 0, 1, 1},
+  {&__pyx_n_u_london, __pyx_k_london, sizeof(__pyx_k_london), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_members, __pyx_k_members, sizeof(__pyx_k_members), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
@@ -1688,7 +1702,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
   {&__pyx_n_s_object, __pyx_k_object, sizeof(__pyx_k_object), 0, 0, 1, 1},
   {&__pyx_n_s_offline, __pyx_k_offline, sizeof(__pyx_k_offline), 0, 0, 1, 1},
+  {&__pyx_n_u_offline, __pyx_k_offline, sizeof(__pyx_k_offline), 0, 1, 0, 1},
   {&__pyx_n_s_online, __pyx_k_online, sizeof(__pyx_k_online), 0, 0, 1, 1},
+  {&__pyx_n_u_online, __pyx_k_online, sizeof(__pyx_k_online), 0, 1, 0, 1},
   {&__pyx_n_s_orange, __pyx_k_orange, sizeof(__pyx_k_orange), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_private, __pyx_k_private, sizeof(__pyx_k_private), 0, 0, 1, 1},
@@ -1698,28 +1714,30 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_red, __pyx_k_red, sizeof(__pyx_k_red), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_singapore, __pyx_k_singapore, sizeof(__pyx_k_singapore), 0, 0, 1, 1},
+  {&__pyx_n_u_singapore, __pyx_k_singapore, sizeof(__pyx_k_singapore), 0, 1, 0, 1},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {&__pyx_n_s_sydney, __pyx_k_sydney, sizeof(__pyx_k_sydney), 0, 0, 1, 1},
+  {&__pyx_n_u_sydney, __pyx_k_sydney, sizeof(__pyx_k_sydney), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_text, __pyx_k_text, sizeof(__pyx_k_text), 0, 0, 1, 1},
   {&__pyx_n_s_try_enum, __pyx_k_try_enum, sizeof(__pyx_k_try_enum), 0, 0, 1, 1},
   {&__pyx_n_s_url, __pyx_k_url, sizeof(__pyx_k_url), 0, 0, 1, 1},
-  {&__pyx_kp_s_us_central, __pyx_k_us_central, sizeof(__pyx_k_us_central), 0, 0, 1, 0},
+  {&__pyx_kp_u_us_central, __pyx_k_us_central, sizeof(__pyx_k_us_central), 0, 1, 0, 0},
   {&__pyx_n_s_us_central_2, __pyx_k_us_central_2, sizeof(__pyx_k_us_central_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_us_east, __pyx_k_us_east, sizeof(__pyx_k_us_east), 0, 0, 1, 0},
+  {&__pyx_kp_u_us_east, __pyx_k_us_east, sizeof(__pyx_k_us_east), 0, 1, 0, 0},
   {&__pyx_n_s_us_east_2, __pyx_k_us_east_2, sizeof(__pyx_k_us_east_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_us_south, __pyx_k_us_south, sizeof(__pyx_k_us_south), 0, 0, 1, 0},
+  {&__pyx_kp_u_us_south, __pyx_k_us_south, sizeof(__pyx_k_us_south), 0, 1, 0, 0},
   {&__pyx_n_s_us_south_2, __pyx_k_us_south_2, sizeof(__pyx_k_us_south_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_us_west, __pyx_k_us_west, sizeof(__pyx_k_us_west), 0, 0, 1, 0},
+  {&__pyx_kp_u_us_west, __pyx_k_us_west, sizeof(__pyx_k_us_west), 0, 1, 0, 0},
   {&__pyx_n_s_us_west_2, __pyx_k_us_west_2, sizeof(__pyx_k_us_west_2), 0, 0, 1, 1},
   {&__pyx_n_s_val, __pyx_k_val, sizeof(__pyx_k_val), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_n_s_value_2, __pyx_k_value_2, sizeof(__pyx_k_value_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_vip_amsterdam, __pyx_k_vip_amsterdam, sizeof(__pyx_k_vip_amsterdam), 0, 0, 1, 0},
+  {&__pyx_kp_u_vip_amsterdam, __pyx_k_vip_amsterdam, sizeof(__pyx_k_vip_amsterdam), 0, 1, 0, 0},
   {&__pyx_n_s_vip_amsterdam_2, __pyx_k_vip_amsterdam_2, sizeof(__pyx_k_vip_amsterdam_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_vip_us_east, __pyx_k_vip_us_east, sizeof(__pyx_k_vip_us_east), 0, 0, 1, 0},
+  {&__pyx_kp_u_vip_us_east, __pyx_k_vip_us_east, sizeof(__pyx_k_vip_us_east), 0, 1, 0, 0},
   {&__pyx_n_s_vip_us_east_2, __pyx_k_vip_us_east_2, sizeof(__pyx_k_vip_us_east_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_vip_us_west, __pyx_k_vip_us_west, sizeof(__pyx_k_vip_us_west), 0, 0, 1, 0},
+  {&__pyx_kp_u_vip_us_west, __pyx_k_vip_us_west, sizeof(__pyx_k_vip_us_west), 0, 1, 0, 0},
   {&__pyx_n_s_vip_us_west_2, __pyx_k_vip_us_west_2, sizeof(__pyx_k_vip_us_west_2), 0, 0, 1, 1},
   {&__pyx_n_s_voice, __pyx_k_voice, sizeof(__pyx_k_voice), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -1934,7 +1952,7 @@ PyMODINIT_FUNC PyInit_enums(void)
   __Pyx_INCREF(__pyx_n_s_Enum);
   __Pyx_GIVEREF(__pyx_n_s_Enum);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Enum);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_enum, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_enum, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Enum); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
@@ -2017,7 +2035,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     text    = 0
  *     private = 1
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ChannelType, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ChannelType, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ChannelType, __pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2105,7 +2123,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     default             = 0
  *     recipient_add       = 1
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MessageType, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_MessageType, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MessageType, __pyx_t_4) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2139,7 +2157,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     us_east       = 'us-east'
  *     us_south      = 'us-south'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_west_2, __pyx_kp_s_us_west) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_west_2, __pyx_kp_u_us_west) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
 
   /* "discord/enums.py":48
  * class ServerRegion(Enum):
@@ -2148,7 +2166,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     us_south      = 'us-south'
  *     us_central    = 'us-central'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_east_2, __pyx_kp_s_us_east) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_east_2, __pyx_kp_u_us_east) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
 
   /* "discord/enums.py":49
  *     us_west       = 'us-west'
@@ -2157,7 +2175,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     us_central    = 'us-central'
  *     singapore     = 'singapore'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_south_2, __pyx_kp_s_us_south) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_south_2, __pyx_kp_u_us_south) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
   /* "discord/enums.py":50
  *     us_east       = 'us-east'
@@ -2166,7 +2184,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     singapore     = 'singapore'
  *     london        = 'london'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_central_2, __pyx_kp_s_us_central) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_us_central_2, __pyx_kp_u_us_central) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
 
   /* "discord/enums.py":51
  *     us_south      = 'us-south'
@@ -2175,7 +2193,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     london        = 'london'
  *     sydney        = 'sydney'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_singapore, __pyx_n_s_singapore) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_singapore, __pyx_n_u_singapore) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
 
   /* "discord/enums.py":52
  *     us_central    = 'us-central'
@@ -2184,7 +2202,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     sydney        = 'sydney'
  *     amsterdam     = 'amsterdam'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_london, __pyx_n_s_london) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_london, __pyx_n_u_london) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
 
   /* "discord/enums.py":53
  *     singapore     = 'singapore'
@@ -2193,7 +2211,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     amsterdam     = 'amsterdam'
  *     frankfurt     = 'frankfurt'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_sydney, __pyx_n_s_sydney) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_sydney, __pyx_n_u_sydney) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
 
   /* "discord/enums.py":54
  *     london        = 'london'
@@ -2202,7 +2220,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     frankfurt     = 'frankfurt'
  *     brazil        = 'brazil'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_amsterdam, __pyx_n_s_amsterdam) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_amsterdam, __pyx_n_u_amsterdam) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
 
   /* "discord/enums.py":55
  *     sydney        = 'sydney'
@@ -2211,7 +2229,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     brazil        = 'brazil'
  *     vip_us_east   = 'vip-us-east'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_frankfurt, __pyx_n_s_frankfurt) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_frankfurt, __pyx_n_u_frankfurt) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
 
   /* "discord/enums.py":56
  *     amsterdam     = 'amsterdam'
@@ -2220,7 +2238,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     vip_us_east   = 'vip-us-east'
  *     vip_us_west   = 'vip-us-west'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_brazil, __pyx_n_s_brazil) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_brazil, __pyx_n_u_brazil) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
 
   /* "discord/enums.py":57
  *     frankfurt     = 'frankfurt'
@@ -2229,7 +2247,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     vip_us_west   = 'vip-us-west'
  *     vip_amsterdam = 'vip-amsterdam'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_vip_us_east_2, __pyx_kp_s_vip_us_east) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_vip_us_east_2, __pyx_kp_u_vip_us_east) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
 
   /* "discord/enums.py":58
  *     brazil        = 'brazil'
@@ -2238,7 +2256,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     vip_amsterdam = 'vip-amsterdam'
  * 
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_vip_us_west_2, __pyx_kp_s_vip_us_west) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_vip_us_west_2, __pyx_kp_u_vip_us_west) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
 
   /* "discord/enums.py":59
  *     vip_us_east   = 'vip-us-east'
@@ -2247,7 +2265,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  * 
  *     def __str__(self):
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_vip_amsterdam_2, __pyx_kp_s_vip_amsterdam) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_vip_amsterdam_2, __pyx_kp_u_vip_amsterdam) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
 
   /* "discord/enums.py":61
  *     vip_amsterdam = 'vip-amsterdam'
@@ -2268,7 +2286,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     us_west       = 'us-west'
  *     us_east       = 'us-east'
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ServerRegion, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ServerRegion, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ServerRegion, __pyx_t_4) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2302,7 +2320,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     offline = 'offline'
  *     idle = 'idle'
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_online, __pyx_n_s_online) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_online, __pyx_n_u_online) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
 
   /* "discord/enums.py":66
  * class Status(Enum):
@@ -2311,7 +2329,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     idle = 'idle'
  * 
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_offline, __pyx_n_s_offline) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_offline, __pyx_n_u_offline) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
 
   /* "discord/enums.py":67
  *     online = 'online'
@@ -2320,7 +2338,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  * 
  *     def __str__(self):
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_idle, __pyx_n_s_idle) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_idle, __pyx_n_u_idle) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
 
   /* "discord/enums.py":69
  *     idle = 'idle'
@@ -2341,7 +2359,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     online = 'online'
  *     offline = 'offline'
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_Status, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_Status, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Status, __pyx_t_4) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2375,7 +2393,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     grey = "322c936a8c8be1b803cd94861bdfa868"
  *     green = "dd4dbc0016779df1378e7812eabaa04d"
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_blurple, __pyx_kp_s_6debd47ed13483642cf09e832ed0bc1b) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_blurple, __pyx_kp_u_6debd47ed13483642cf09e832ed0bc1b) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
 
   /* "discord/enums.py":74
  * class DefaultAvatar(Enum):
@@ -2384,7 +2402,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     green = "dd4dbc0016779df1378e7812eabaa04d"
  *     orange = "0e291f67c9274a1abdddeb3fd919cbaa"
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_grey, __pyx_kp_s_322c936a8c8be1b803cd94861bdfa868) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_grey, __pyx_kp_u_322c936a8c8be1b803cd94861bdfa868) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
 
   /* "discord/enums.py":75
  *     blurple = "6debd47ed13483642cf09e832ed0bc1b"
@@ -2393,7 +2411,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     orange = "0e291f67c9274a1abdddeb3fd919cbaa"
  *     red = "1cbd08c76f8af6dddce02c5138971129"
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_green, __pyx_n_s_dd4dbc0016779df1378e7812eabaa04d) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_green, __pyx_n_u_dd4dbc0016779df1378e7812eabaa04d) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
 
   /* "discord/enums.py":76
  *     grey = "322c936a8c8be1b803cd94861bdfa868"
@@ -2402,7 +2420,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     red = "1cbd08c76f8af6dddce02c5138971129"
  * 
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_orange, __pyx_kp_s_0e291f67c9274a1abdddeb3fd919cbaa) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_orange, __pyx_kp_u_0e291f67c9274a1abdddeb3fd919cbaa) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
 
   /* "discord/enums.py":77
  *     green = "dd4dbc0016779df1378e7812eabaa04d"
@@ -2411,7 +2429,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  * 
  *     def __new__(cls, url):
  */
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_red, __pyx_kp_s_1cbd08c76f8af6dddce02c5138971129) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_red, __pyx_kp_u_1cbd08c76f8af6dddce02c5138971129) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
 
   /* "discord/enums.py":79
  *     red = "1cbd08c76f8af6dddce02c5138971129"
@@ -2444,7 +2462,7 @@ PyMODINIT_FUNC PyInit_enums(void)
  *     blurple = "6debd47ed13483642cf09e832ed0bc1b"
  *     grey = "322c936a8c8be1b803cd94861bdfa868"
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DefaultAvatar, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DefaultAvatar, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DefaultAvatar, __pyx_t_4) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -921,7 +921,7 @@ static PyObject *__pyx_kp_b_HTTP_1_1_101_Switching_Protocols;
 static PyObject *__pyx_kp_b_OPTIONS_HTTP_1_1;
 static PyObject *__pyx_n_s_StreamReader;
 static PyObject *__pyx_n_s_TestCase;
-static PyObject *__pyx_n_s_Upgrade;
+static PyObject *__pyx_n_u_Upgrade;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_b__11;
 static PyObject *__pyx_n_s__15;
@@ -932,7 +932,7 @@ static PyObject *__pyx_n_s_assertRaises;
 static PyObject *__pyx_n_s_asyncio;
 static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_asyncio_tasks;
-static PyObject *__pyx_kp_s_chat;
+static PyObject *__pyx_kp_u_chat;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_enter;
@@ -971,7 +971,7 @@ static PyObject *__pyx_n_s_test_read_request;
 static PyObject *__pyx_n_s_test_read_response;
 static PyObject *__pyx_n_s_test_version;
 static PyObject *__pyx_n_s_unittest;
-static PyObject *__pyx_n_s_websocket;
+static PyObject *__pyx_n_u_websocket;
 static PyObject *__pyx_n_s_websockets_test_http;
 static PyObject *__pyx_pf_10websockets_9test_http_9HTTPTests_setUp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10websockets_9test_http_9HTTPTests_2tearDown(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
@@ -1553,9 +1553,9 @@ static PyObject *__pyx_pf_10websockets_9test_http_9HTTPTests_4test_read_request(
   __Pyx_INCREF(__pyx_v_path);
   __Pyx_GIVEREF(__pyx_v_path);
   PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_9, __pyx_v_path);
-  __Pyx_INCREF(__pyx_kp_s_chat);
-  __Pyx_GIVEREF(__pyx_kp_s_chat);
-  PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_9, __pyx_kp_s_chat);
+  __Pyx_INCREF(__pyx_kp_u_chat);
+  __Pyx_GIVEREF(__pyx_kp_u_chat);
+  PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_9, __pyx_kp_u_chat);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -1571,7 +1571,7 @@ static PyObject *__pyx_pf_10websockets_9test_http_9HTTPTests_4test_read_request(
  */
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_assertEqual); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_2 = PyObject_GetItem(__pyx_v_hdrs, __pyx_n_s_Upgrade); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_v_hdrs, __pyx_n_u_Upgrade); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_9 = 0;
@@ -1592,9 +1592,9 @@ static PyObject *__pyx_pf_10websockets_9test_http_9HTTPTests_4test_read_request(
   }
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_9, __pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_websocket);
-  __Pyx_GIVEREF(__pyx_n_s_websocket);
-  PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_9, __pyx_n_s_websocket);
+  __Pyx_INCREF(__pyx_n_u_websocket);
+  __Pyx_GIVEREF(__pyx_n_u_websocket);
+  PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_9, __pyx_n_u_websocket);
   __pyx_t_2 = 0;
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1856,7 +1856,7 @@ static PyObject *__pyx_pf_10websockets_9test_http_9HTTPTests_6test_read_response
  */
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_assertEqual); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_2 = PyObject_GetItem(__pyx_v_hdrs, __pyx_n_s_Upgrade); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_v_hdrs, __pyx_n_u_Upgrade); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_9 = 0;
@@ -1877,9 +1877,9 @@ static PyObject *__pyx_pf_10websockets_9test_http_9HTTPTests_6test_read_response
   }
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_9, __pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_websocket);
-  __Pyx_GIVEREF(__pyx_n_s_websocket);
-  PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_9, __pyx_n_s_websocket);
+  __Pyx_INCREF(__pyx_n_u_websocket);
+  __Pyx_GIVEREF(__pyx_n_u_websocket);
+  PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_9, __pyx_n_u_websocket);
   __pyx_t_2 = 0;
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4063,7 +4063,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_b_OPTIONS_HTTP_1_1, __pyx_k_OPTIONS_HTTP_1_1, sizeof(__pyx_k_OPTIONS_HTTP_1_1), 0, 0, 0, 0},
   {&__pyx_n_s_StreamReader, __pyx_k_StreamReader, sizeof(__pyx_k_StreamReader), 0, 0, 1, 1},
   {&__pyx_n_s_TestCase, __pyx_k_TestCase, sizeof(__pyx_k_TestCase), 0, 0, 1, 1},
-  {&__pyx_n_s_Upgrade, __pyx_k_Upgrade, sizeof(__pyx_k_Upgrade), 0, 0, 1, 1},
+  {&__pyx_n_u_Upgrade, __pyx_k_Upgrade, sizeof(__pyx_k_Upgrade), 0, 1, 0, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_kp_b__11, __pyx_k__11, sizeof(__pyx_k__11), 0, 0, 0, 0},
   {&__pyx_n_s__15, __pyx_k__15, sizeof(__pyx_k__15), 0, 0, 1, 1},
@@ -4074,7 +4074,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_tasks, __pyx_k_asyncio_tasks, sizeof(__pyx_k_asyncio_tasks), 0, 0, 1, 1},
-  {&__pyx_kp_s_chat, __pyx_k_chat, sizeof(__pyx_k_chat), 0, 0, 1, 0},
+  {&__pyx_kp_u_chat, __pyx_k_chat, sizeof(__pyx_k_chat), 0, 1, 0, 0},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
@@ -4113,7 +4113,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test_read_response, __pyx_k_test_read_response, sizeof(__pyx_k_test_read_response), 0, 0, 1, 1},
   {&__pyx_n_s_test_version, __pyx_k_test_version, sizeof(__pyx_k_test_version), 0, 0, 1, 1},
   {&__pyx_n_s_unittest, __pyx_k_unittest, sizeof(__pyx_k_unittest), 0, 0, 1, 1},
-  {&__pyx_n_s_websocket, __pyx_k_websocket, sizeof(__pyx_k_websocket), 0, 0, 1, 1},
+  {&__pyx_n_u_websocket, __pyx_k_websocket, sizeof(__pyx_k_websocket), 0, 1, 0, 1},
   {&__pyx_n_s_websockets_test_http, __pyx_k_websockets_test_http, sizeof(__pyx_k_websockets_test_http), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -4486,7 +4486,7 @@ PyMODINIT_FUNC PyInit_test_http(void)
  * import unittest
  * 
  */
-  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, -1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_patch_asyncio(__Pyx_Import(__pyx_n_s_asyncio, 0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_asyncio, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4498,7 +4498,7 @@ PyMODINIT_FUNC PyInit_test_http(void)
  * 
  * from .http import *
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_unittest, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_unittest, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4687,7 +4687,7 @@ PyMODINIT_FUNC PyInit_test_http(void)
  * 
  *     def setUp(self):
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPTests, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_HTTPTests, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_5) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

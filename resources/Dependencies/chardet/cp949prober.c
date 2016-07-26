@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -761,7 +761,7 @@ static const char __pyx_k_MultiByteCharSetProber[] = "MultiByteCharSetProber";
 static const char __pyx_k_EUCKRDistributionAnalysis[] = "EUCKRDistributionAnalysis";
 static const char __pyx_k_CP949Prober_get_charset_name[] = "CP949Prober.get_charset_name";
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\chardet\\cp949prober.py";
-static PyObject *__pyx_n_s_CP949;
+static PyObject *__pyx_n_u_CP949;
 static PyObject *__pyx_n_s_CP949Prober;
 static PyObject *__pyx_n_s_CP949Prober___init;
 static PyObject *__pyx_n_s_CP949Prober_get_charset_name;
@@ -1023,8 +1023,8 @@ static PyObject *__pyx_pf_7chardet_11cp949prober_11CP949Prober_2get_charset_name
  *         return "CP949"             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_n_s_CP949);
-  __pyx_r = __pyx_n_s_CP949;
+  __Pyx_INCREF(__pyx_n_u_CP949);
+  __pyx_r = __pyx_n_u_CP949;
   goto __pyx_L0;
 
   /* "chardet/cp949prober.py":44
@@ -1064,7 +1064,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_CP949, __pyx_k_CP949, sizeof(__pyx_k_CP949), 0, 0, 1, 1},
+  {&__pyx_n_u_CP949, __pyx_k_CP949, sizeof(__pyx_k_CP949), 0, 1, 0, 1},
   {&__pyx_n_s_CP949Prober, __pyx_k_CP949Prober, sizeof(__pyx_k_CP949Prober), 0, 0, 1, 1},
   {&__pyx_n_s_CP949Prober___init, __pyx_k_CP949Prober___init, sizeof(__pyx_k_CP949Prober___init), 0, 0, 1, 1},
   {&__pyx_n_s_CP949Prober_get_charset_name, __pyx_k_CP949Prober_get_charset_name, sizeof(__pyx_k_CP949Prober_get_charset_name), 0, 0, 1, 1},
@@ -1366,7 +1366,7 @@ PyMODINIT_FUNC PyInit_cp949prober(void)
  *     def __init__(self):
  *         MultiByteCharSetProber.__init__(self)
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_CP949Prober, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_CP949Prober, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CP949Prober, __pyx_t_4) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

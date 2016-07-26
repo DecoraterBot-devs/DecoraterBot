@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -829,7 +829,7 @@ static const char __pyx_k_Colour_lighter_grey[] = "Colour.lighter_grey";
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\discord\\colour.py";
 static const char __pyx_k_The_MIT_License_MIT_Copyright_c[] = "\nThe MIT License (MIT)\n\nCopyright (c) 2015-2016 Rapptz\n\nPermission is hereby granted, free of charge, to any person obtaining a\ncopy of this software and associated documentation files (the \"Software\"),\nto deal in the Software without restriction, including without limitation\nthe rights to use, copy, modify, merge, publish, distribute, sublicense,\nand/or sell copies of the Software, and to permit persons to whom the\nSoftware is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS\nOR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\nFROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER\nDEALINGS IN THE SOFTWARE.\n";
 static const char __pyx_k_Represents_a_Discord_role_colour[] = "Represents a Discord role colour. This class is similar\n    to an (red, green, blue) tuple.\n\n    There is an alias for this called Color.\n\n    Supported operations:\n\n    +-----------+----------------------------------------+\n    | Operation |              Description               |\n    +===========+========================================+\n    | x == y    | Checks if two colours are equal.       |\n    +-----------+----------------------------------------+\n    | x != y    | Checks if two colours are not equal.   |\n    +-----------+----------------------------------------+\n    | hash(x)   | Return the colour's hash.              |\n    +-----------+----------------------------------------+\n    | str(x)    | Returns the hex format for the colour. |\n    +-----------+----------------------------------------+\n\n    Attributes\n    ------------\n    value : int\n        The raw integer colour value.\n    ";
-static PyObject *__pyx_kp_s_0_6x;
+static PyObject *__pyx_kp_u_0_6x;
 static PyObject *__pyx_n_s_Color;
 static PyObject *__pyx_n_s_Colour;
 static PyObject *__pyx_n_s_Colour___eq;
@@ -912,6 +912,7 @@ static PyObject *__pyx_n_s_teal;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_to_tuple;
 static PyObject *__pyx_n_s_value;
+static PyObject *__pyx_n_u_value;
 static PyObject *__pyx_pf_7discord_6colour_6Colour___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_7discord_6colour_6Colour_2_get_byte(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_byte); /* proto */
 static PyObject *__pyx_pf_7discord_6colour_6Colour_4__eq__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_other); /* proto */
@@ -1591,7 +1592,7 @@ static PyObject *__pyx_pf_7discord_6colour_6Colour_8__str__(CYTHON_UNUSED PyObje
  *     def __hash__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_6x, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_0_6x, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_value); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3323,7 +3324,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_0_6x, __pyx_k_0_6x, sizeof(__pyx_k_0_6x), 0, 0, 1, 0},
+  {&__pyx_kp_u_0_6x, __pyx_k_0_6x, sizeof(__pyx_k_0_6x), 0, 1, 0, 0},
   {&__pyx_n_s_Color, __pyx_k_Color, sizeof(__pyx_k_Color), 0, 0, 1, 1},
   {&__pyx_n_s_Colour, __pyx_k_Colour, sizeof(__pyx_k_Colour), 0, 0, 1, 1},
   {&__pyx_n_s_Colour___eq, __pyx_k_Colour___eq, sizeof(__pyx_k_Colour___eq), 0, 0, 1, 1},
@@ -3406,6 +3407,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_to_tuple, __pyx_k_to_tuple, sizeof(__pyx_k_to_tuple), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
+  {&__pyx_n_u_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 1, 0, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -4206,9 +4208,9 @@ PyMODINIT_FUNC PyInit_colour(void)
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_value);
-  __Pyx_GIVEREF(__pyx_n_s_value);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_value);
+  __Pyx_INCREF(__pyx_n_u_value);
+  __Pyx_GIVEREF(__pyx_n_u_value);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_u_value);
   if (PyObject_SetItem(__pyx_t_1, __pyx_n_s_slots, __pyx_t_2) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -4870,7 +4872,7 @@ PyMODINIT_FUNC PyInit_colour(void)
  *     """Represents a Discord role colour. This class is similar
  *     to an (red, green, blue) tuple.
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Colour, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Colour, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Colour, __pyx_t_3) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;

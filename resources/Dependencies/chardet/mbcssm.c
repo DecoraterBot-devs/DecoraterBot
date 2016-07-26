@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -691,10 +691,10 @@ static const char __pyx_k_UCS2BECharLenTable[] = "UCS2BECharLenTable";
 static const char __pyx_k_UCS2LECharLenTable[] = "UCS2LECharLenTable";
 static PyObject *__pyx_n_s_BIG5_cls;
 static PyObject *__pyx_n_s_BIG5_st;
-static PyObject *__pyx_n_s_Big5;
+static PyObject *__pyx_n_u_Big5;
 static PyObject *__pyx_n_s_Big5CharLenTable;
 static PyObject *__pyx_n_s_Big5SMModel;
-static PyObject *__pyx_n_s_CP949;
+static PyObject *__pyx_n_u_CP949;
 static PyObject *__pyx_n_s_CP949CharLenTable;
 static PyObject *__pyx_n_s_CP949SMModel;
 static PyObject *__pyx_n_s_CP949_cls;
@@ -711,9 +711,9 @@ static PyObject *__pyx_n_s_EUCTWCharLenTable;
 static PyObject *__pyx_n_s_EUCTWSMModel;
 static PyObject *__pyx_n_s_EUCTW_cls;
 static PyObject *__pyx_n_s_EUCTW_st;
-static PyObject *__pyx_kp_s_EUC_JP;
-static PyObject *__pyx_kp_s_EUC_KR;
-static PyObject *__pyx_n_s_GB2312;
+static PyObject *__pyx_kp_u_EUC_JP;
+static PyObject *__pyx_kp_u_EUC_KR;
+static PyObject *__pyx_n_u_GB2312;
 static PyObject *__pyx_n_s_GB2312CharLenTable;
 static PyObject *__pyx_n_s_GB2312SMModel;
 static PyObject *__pyx_n_s_GB2312_cls;
@@ -722,7 +722,7 @@ static PyObject *__pyx_n_s_SJISCharLenTable;
 static PyObject *__pyx_n_s_SJISSMModel;
 static PyObject *__pyx_n_s_SJIS_cls;
 static PyObject *__pyx_n_s_SJIS_st;
-static PyObject *__pyx_n_s_Shift_JIS;
+static PyObject *__pyx_n_u_Shift_JIS;
 static PyObject *__pyx_n_s_UCS2BECharLenTable;
 static PyObject *__pyx_n_s_UCS2BESMModel;
 static PyObject *__pyx_n_s_UCS2BE_cls;
@@ -735,22 +735,22 @@ static PyObject *__pyx_n_s_UTF8CharLenTable;
 static PyObject *__pyx_n_s_UTF8SMModel;
 static PyObject *__pyx_n_s_UTF8_cls;
 static PyObject *__pyx_n_s_UTF8_st;
-static PyObject *__pyx_kp_s_UTF_16BE;
-static PyObject *__pyx_kp_s_UTF_16LE;
-static PyObject *__pyx_kp_s_UTF_8;
-static PyObject *__pyx_n_s_charLenTable;
-static PyObject *__pyx_n_s_classFactor;
-static PyObject *__pyx_n_s_classTable;
+static PyObject *__pyx_kp_u_UTF_16BE;
+static PyObject *__pyx_kp_u_UTF_16LE;
+static PyObject *__pyx_kp_u_UTF_8;
+static PyObject *__pyx_n_u_charLenTable;
+static PyObject *__pyx_n_u_classFactor;
+static PyObject *__pyx_n_u_classTable;
 static PyObject *__pyx_n_s_constants;
 static PyObject *__pyx_n_s_eError;
 static PyObject *__pyx_n_s_eItsMe;
 static PyObject *__pyx_n_s_eStart;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_n_s_name;
-static PyObject *__pyx_n_s_stateTable;
+static PyObject *__pyx_n_u_name;
+static PyObject *__pyx_n_u_stateTable;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_kp_s_x_euc_tw;
+static PyObject *__pyx_kp_u_x_euc_tw;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
@@ -814,10 +814,10 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BIG5_cls, __pyx_k_BIG5_cls, sizeof(__pyx_k_BIG5_cls), 0, 0, 1, 1},
   {&__pyx_n_s_BIG5_st, __pyx_k_BIG5_st, sizeof(__pyx_k_BIG5_st), 0, 0, 1, 1},
-  {&__pyx_n_s_Big5, __pyx_k_Big5, sizeof(__pyx_k_Big5), 0, 0, 1, 1},
+  {&__pyx_n_u_Big5, __pyx_k_Big5, sizeof(__pyx_k_Big5), 0, 1, 0, 1},
   {&__pyx_n_s_Big5CharLenTable, __pyx_k_Big5CharLenTable, sizeof(__pyx_k_Big5CharLenTable), 0, 0, 1, 1},
   {&__pyx_n_s_Big5SMModel, __pyx_k_Big5SMModel, sizeof(__pyx_k_Big5SMModel), 0, 0, 1, 1},
-  {&__pyx_n_s_CP949, __pyx_k_CP949, sizeof(__pyx_k_CP949), 0, 0, 1, 1},
+  {&__pyx_n_u_CP949, __pyx_k_CP949, sizeof(__pyx_k_CP949), 0, 1, 0, 1},
   {&__pyx_n_s_CP949CharLenTable, __pyx_k_CP949CharLenTable, sizeof(__pyx_k_CP949CharLenTable), 0, 0, 1, 1},
   {&__pyx_n_s_CP949SMModel, __pyx_k_CP949SMModel, sizeof(__pyx_k_CP949SMModel), 0, 0, 1, 1},
   {&__pyx_n_s_CP949_cls, __pyx_k_CP949_cls, sizeof(__pyx_k_CP949_cls), 0, 0, 1, 1},
@@ -834,9 +834,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_EUCTWSMModel, __pyx_k_EUCTWSMModel, sizeof(__pyx_k_EUCTWSMModel), 0, 0, 1, 1},
   {&__pyx_n_s_EUCTW_cls, __pyx_k_EUCTW_cls, sizeof(__pyx_k_EUCTW_cls), 0, 0, 1, 1},
   {&__pyx_n_s_EUCTW_st, __pyx_k_EUCTW_st, sizeof(__pyx_k_EUCTW_st), 0, 0, 1, 1},
-  {&__pyx_kp_s_EUC_JP, __pyx_k_EUC_JP, sizeof(__pyx_k_EUC_JP), 0, 0, 1, 0},
-  {&__pyx_kp_s_EUC_KR, __pyx_k_EUC_KR, sizeof(__pyx_k_EUC_KR), 0, 0, 1, 0},
-  {&__pyx_n_s_GB2312, __pyx_k_GB2312, sizeof(__pyx_k_GB2312), 0, 0, 1, 1},
+  {&__pyx_kp_u_EUC_JP, __pyx_k_EUC_JP, sizeof(__pyx_k_EUC_JP), 0, 1, 0, 0},
+  {&__pyx_kp_u_EUC_KR, __pyx_k_EUC_KR, sizeof(__pyx_k_EUC_KR), 0, 1, 0, 0},
+  {&__pyx_n_u_GB2312, __pyx_k_GB2312, sizeof(__pyx_k_GB2312), 0, 1, 0, 1},
   {&__pyx_n_s_GB2312CharLenTable, __pyx_k_GB2312CharLenTable, sizeof(__pyx_k_GB2312CharLenTable), 0, 0, 1, 1},
   {&__pyx_n_s_GB2312SMModel, __pyx_k_GB2312SMModel, sizeof(__pyx_k_GB2312SMModel), 0, 0, 1, 1},
   {&__pyx_n_s_GB2312_cls, __pyx_k_GB2312_cls, sizeof(__pyx_k_GB2312_cls), 0, 0, 1, 1},
@@ -845,7 +845,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SJISSMModel, __pyx_k_SJISSMModel, sizeof(__pyx_k_SJISSMModel), 0, 0, 1, 1},
   {&__pyx_n_s_SJIS_cls, __pyx_k_SJIS_cls, sizeof(__pyx_k_SJIS_cls), 0, 0, 1, 1},
   {&__pyx_n_s_SJIS_st, __pyx_k_SJIS_st, sizeof(__pyx_k_SJIS_st), 0, 0, 1, 1},
-  {&__pyx_n_s_Shift_JIS, __pyx_k_Shift_JIS, sizeof(__pyx_k_Shift_JIS), 0, 0, 1, 1},
+  {&__pyx_n_u_Shift_JIS, __pyx_k_Shift_JIS, sizeof(__pyx_k_Shift_JIS), 0, 1, 0, 1},
   {&__pyx_n_s_UCS2BECharLenTable, __pyx_k_UCS2BECharLenTable, sizeof(__pyx_k_UCS2BECharLenTable), 0, 0, 1, 1},
   {&__pyx_n_s_UCS2BESMModel, __pyx_k_UCS2BESMModel, sizeof(__pyx_k_UCS2BESMModel), 0, 0, 1, 1},
   {&__pyx_n_s_UCS2BE_cls, __pyx_k_UCS2BE_cls, sizeof(__pyx_k_UCS2BE_cls), 0, 0, 1, 1},
@@ -858,22 +858,22 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_UTF8SMModel, __pyx_k_UTF8SMModel, sizeof(__pyx_k_UTF8SMModel), 0, 0, 1, 1},
   {&__pyx_n_s_UTF8_cls, __pyx_k_UTF8_cls, sizeof(__pyx_k_UTF8_cls), 0, 0, 1, 1},
   {&__pyx_n_s_UTF8_st, __pyx_k_UTF8_st, sizeof(__pyx_k_UTF8_st), 0, 0, 1, 1},
-  {&__pyx_kp_s_UTF_16BE, __pyx_k_UTF_16BE, sizeof(__pyx_k_UTF_16BE), 0, 0, 1, 0},
-  {&__pyx_kp_s_UTF_16LE, __pyx_k_UTF_16LE, sizeof(__pyx_k_UTF_16LE), 0, 0, 1, 0},
-  {&__pyx_kp_s_UTF_8, __pyx_k_UTF_8, sizeof(__pyx_k_UTF_8), 0, 0, 1, 0},
-  {&__pyx_n_s_charLenTable, __pyx_k_charLenTable, sizeof(__pyx_k_charLenTable), 0, 0, 1, 1},
-  {&__pyx_n_s_classFactor, __pyx_k_classFactor, sizeof(__pyx_k_classFactor), 0, 0, 1, 1},
-  {&__pyx_n_s_classTable, __pyx_k_classTable, sizeof(__pyx_k_classTable), 0, 0, 1, 1},
+  {&__pyx_kp_u_UTF_16BE, __pyx_k_UTF_16BE, sizeof(__pyx_k_UTF_16BE), 0, 1, 0, 0},
+  {&__pyx_kp_u_UTF_16LE, __pyx_k_UTF_16LE, sizeof(__pyx_k_UTF_16LE), 0, 1, 0, 0},
+  {&__pyx_kp_u_UTF_8, __pyx_k_UTF_8, sizeof(__pyx_k_UTF_8), 0, 1, 0, 0},
+  {&__pyx_n_u_charLenTable, __pyx_k_charLenTable, sizeof(__pyx_k_charLenTable), 0, 1, 0, 1},
+  {&__pyx_n_u_classFactor, __pyx_k_classFactor, sizeof(__pyx_k_classFactor), 0, 1, 0, 1},
+  {&__pyx_n_u_classTable, __pyx_k_classTable, sizeof(__pyx_k_classTable), 0, 1, 0, 1},
   {&__pyx_n_s_constants, __pyx_k_constants, sizeof(__pyx_k_constants), 0, 0, 1, 1},
   {&__pyx_n_s_eError, __pyx_k_eError, sizeof(__pyx_k_eError), 0, 0, 1, 1},
   {&__pyx_n_s_eItsMe, __pyx_k_eItsMe, sizeof(__pyx_k_eItsMe), 0, 0, 1, 1},
   {&__pyx_n_s_eStart, __pyx_k_eStart, sizeof(__pyx_k_eStart), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
-  {&__pyx_n_s_stateTable, __pyx_k_stateTable, sizeof(__pyx_k_stateTable), 0, 0, 1, 1},
+  {&__pyx_n_u_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 1, 0, 1},
+  {&__pyx_n_u_stateTable, __pyx_k_stateTable, sizeof(__pyx_k_stateTable), 0, 1, 0, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_kp_s_x_euc_tw, __pyx_k_x_euc_tw, sizeof(__pyx_k_x_euc_tw), 0, 0, 1, 0},
+  {&__pyx_kp_u_x_euc_tw, __pyx_k_x_euc_tw, sizeof(__pyx_k_x_euc_tw), 0, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1624,9 +1624,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_24);
   __pyx_t_23 = __Pyx_GetModuleGlobalName(__pyx_n_s_BIG5_cls); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_23);
-  if (PyDict_SetItem(__pyx_t_24, __pyx_n_s_classTable, __pyx_t_23) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_24, __pyx_n_u_classTable, __pyx_t_23) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
-  if (PyDict_SetItem(__pyx_t_24, __pyx_n_s_classFactor, __pyx_int_5) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_24, __pyx_n_u_classFactor, __pyx_int_5) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":78
  * Big5SMModel = {'classTable': BIG5_cls,
@@ -1637,7 +1637,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_23 = __Pyx_GetModuleGlobalName(__pyx_n_s_BIG5_st); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_23);
-  if (PyDict_SetItem(__pyx_t_24, __pyx_n_s_stateTable, __pyx_t_23) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_24, __pyx_n_u_stateTable, __pyx_t_23) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
 
   /* "chardet/mbcssm.py":79
@@ -1649,9 +1649,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_23 = __Pyx_GetModuleGlobalName(__pyx_n_s_Big5CharLenTable); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_23);
-  if (PyDict_SetItem(__pyx_t_24, __pyx_n_s_charLenTable, __pyx_t_23) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_24, __pyx_n_u_charLenTable, __pyx_t_23) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
-  if (PyDict_SetItem(__pyx_t_24, __pyx_n_s_name, __pyx_n_s_Big5) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_24, __pyx_n_u_name, __pyx_n_u_Big5) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Big5SMModel, __pyx_t_24) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
 
@@ -2094,9 +2094,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_67);
   __pyx_t_66 = __Pyx_GetModuleGlobalName(__pyx_n_s_CP949_cls); if (unlikely(!__pyx_t_66)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_66);
-  if (PyDict_SetItem(__pyx_t_67, __pyx_n_s_classTable, __pyx_t_66) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_67, __pyx_n_u_classTable, __pyx_t_66) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_66); __pyx_t_66 = 0;
-  if (PyDict_SetItem(__pyx_t_67, __pyx_n_s_classFactor, __pyx_int_10) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_67, __pyx_n_u_classFactor, __pyx_int_10) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":118
  * CP949SMModel = {'classTable': CP949_cls,
@@ -2107,7 +2107,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_66 = __Pyx_GetModuleGlobalName(__pyx_n_s_CP949_st); if (unlikely(!__pyx_t_66)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_66);
-  if (PyDict_SetItem(__pyx_t_67, __pyx_n_s_stateTable, __pyx_t_66) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_67, __pyx_n_u_stateTable, __pyx_t_66) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_66); __pyx_t_66 = 0;
 
   /* "chardet/mbcssm.py":119
@@ -2119,9 +2119,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_66 = __Pyx_GetModuleGlobalName(__pyx_n_s_CP949CharLenTable); if (unlikely(!__pyx_t_66)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_66);
-  if (PyDict_SetItem(__pyx_t_67, __pyx_n_s_charLenTable, __pyx_t_66) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_67, __pyx_n_u_charLenTable, __pyx_t_66) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_66); __pyx_t_66 = 0;
-  if (PyDict_SetItem(__pyx_t_67, __pyx_n_s_name, __pyx_n_s_CP949) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_67, __pyx_n_u_name, __pyx_n_u_CP949) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CP949SMModel, __pyx_t_67) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_67); __pyx_t_67 = 0;
 
@@ -2402,9 +2402,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_33);
   __pyx_t_34 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCJP_cls); if (unlikely(!__pyx_t_34)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_34);
-  if (PyDict_SetItem(__pyx_t_33, __pyx_n_s_classTable, __pyx_t_34) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_33, __pyx_n_u_classTable, __pyx_t_34) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_34); __pyx_t_34 = 0;
-  if (PyDict_SetItem(__pyx_t_33, __pyx_n_s_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_33, __pyx_n_u_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":171
  * EUCJPSMModel = {'classTable': EUCJP_cls,
@@ -2415,7 +2415,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_34 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCJP_st); if (unlikely(!__pyx_t_34)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_34);
-  if (PyDict_SetItem(__pyx_t_33, __pyx_n_s_stateTable, __pyx_t_34) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_33, __pyx_n_u_stateTable, __pyx_t_34) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_34); __pyx_t_34 = 0;
 
   /* "chardet/mbcssm.py":172
@@ -2427,9 +2427,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_34 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCJPCharLenTable); if (unlikely(!__pyx_t_34)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_34);
-  if (PyDict_SetItem(__pyx_t_33, __pyx_n_s_charLenTable, __pyx_t_34) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_33, __pyx_n_u_charLenTable, __pyx_t_34) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_34); __pyx_t_34 = 0;
-  if (PyDict_SetItem(__pyx_t_33, __pyx_n_s_name, __pyx_kp_s_EUC_JP) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_33, __pyx_n_u_name, __pyx_kp_u_EUC_JP) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EUCJPSMModel, __pyx_t_33) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_33); __pyx_t_33 = 0;
 
@@ -2576,9 +2576,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_48);
   __pyx_t_47 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCKR_cls); if (unlikely(!__pyx_t_47)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_47);
-  if (PyDict_SetItem(__pyx_t_48, __pyx_n_s_classTable, __pyx_t_47) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_48, __pyx_n_u_classTable, __pyx_t_47) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_47); __pyx_t_47 = 0;
-  if (PyDict_SetItem(__pyx_t_48, __pyx_n_s_classFactor, __pyx_int_4) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_48, __pyx_n_u_classFactor, __pyx_int_4) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":221
  * EUCKRSMModel = {'classTable': EUCKR_cls,
@@ -2589,7 +2589,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_47 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCKR_st); if (unlikely(!__pyx_t_47)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_47);
-  if (PyDict_SetItem(__pyx_t_48, __pyx_n_s_stateTable, __pyx_t_47) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_48, __pyx_n_u_stateTable, __pyx_t_47) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_47); __pyx_t_47 = 0;
 
   /* "chardet/mbcssm.py":222
@@ -2601,9 +2601,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_47 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCKRCharLenTable); if (unlikely(!__pyx_t_47)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_47);
-  if (PyDict_SetItem(__pyx_t_48, __pyx_n_s_charLenTable, __pyx_t_47) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_48, __pyx_n_u_charLenTable, __pyx_t_47) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_47); __pyx_t_47 = 0;
-  if (PyDict_SetItem(__pyx_t_48, __pyx_n_s_name, __pyx_kp_s_EUC_KR) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_48, __pyx_n_u_name, __pyx_kp_u_EUC_KR) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EUCKRSMModel, __pyx_t_48) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_48); __pyx_t_48 = 0;
 
@@ -2934,9 +2934,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_25 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCTW_cls); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_25);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_classTable, __pyx_t_25) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_classTable, __pyx_t_25) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_classFactor, __pyx_int_7) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_classFactor, __pyx_int_7) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":275
  * EUCTWSMModel = {'classTable': EUCTW_cls,
@@ -2947,7 +2947,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_25 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCTW_st); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_25);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_stateTable, __pyx_t_25) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_stateTable, __pyx_t_25) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
 
   /* "chardet/mbcssm.py":276
@@ -2959,9 +2959,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_25 = __Pyx_GetModuleGlobalName(__pyx_n_s_EUCTWCharLenTable); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 276, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_25);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_charLenTable, __pyx_t_25) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_charLenTable, __pyx_t_25) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_kp_s_x_euc_tw) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_name, __pyx_kp_u_x_euc_tw) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_EUCTWSMModel, __pyx_t_2) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -3296,9 +3296,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_GB2312_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_classTable, __pyx_t_1) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_u_classTable, __pyx_t_1) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_classFactor, __pyx_int_7) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_u_classFactor, __pyx_int_7) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":334
  * GB2312SMModel = {'classTable': GB2312_cls,
@@ -3309,7 +3309,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_GB2312_st); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_stateTable, __pyx_t_1) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_u_stateTable, __pyx_t_1) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "chardet/mbcssm.py":335
@@ -3321,9 +3321,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_GB2312CharLenTable); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_charLenTable, __pyx_t_1) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_u_charLenTable, __pyx_t_1) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_GB2312) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_u_name, __pyx_n_u_GB2312) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_GB2312SMModel, __pyx_t_3) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
@@ -3518,9 +3518,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_54);
   __pyx_t_53 = __Pyx_GetModuleGlobalName(__pyx_n_s_SJIS_cls); if (unlikely(!__pyx_t_53)) __PYX_ERR(0, 384, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_53);
-  if (PyDict_SetItem(__pyx_t_54, __pyx_n_s_classTable, __pyx_t_53) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_54, __pyx_n_u_classTable, __pyx_t_53) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_53); __pyx_t_53 = 0;
-  if (PyDict_SetItem(__pyx_t_54, __pyx_n_s_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_54, __pyx_n_u_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":386
  * SJISSMModel = {'classTable': SJIS_cls,
@@ -3531,7 +3531,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_53 = __Pyx_GetModuleGlobalName(__pyx_n_s_SJIS_st); if (unlikely(!__pyx_t_53)) __PYX_ERR(0, 386, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_53);
-  if (PyDict_SetItem(__pyx_t_54, __pyx_n_s_stateTable, __pyx_t_53) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_54, __pyx_n_u_stateTable, __pyx_t_53) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_53); __pyx_t_53 = 0;
 
   /* "chardet/mbcssm.py":387
@@ -3543,9 +3543,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_53 = __Pyx_GetModuleGlobalName(__pyx_n_s_SJISCharLenTable); if (unlikely(!__pyx_t_53)) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_53);
-  if (PyDict_SetItem(__pyx_t_54, __pyx_n_s_charLenTable, __pyx_t_53) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_54, __pyx_n_u_charLenTable, __pyx_t_53) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_53); __pyx_t_53 = 0;
-  if (PyDict_SetItem(__pyx_t_54, __pyx_n_s_name, __pyx_n_s_Shift_JIS) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_54, __pyx_n_u_name, __pyx_n_u_Shift_JIS) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SJISSMModel, __pyx_t_54) < 0) __PYX_ERR(0, 384, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_54); __pyx_t_54 = 0;
 
@@ -3866,9 +3866,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_48 = __Pyx_GetModuleGlobalName(__pyx_n_s_UCS2BE_cls); if (unlikely(!__pyx_t_48)) __PYX_ERR(0, 439, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_48);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_classTable, __pyx_t_48) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_classTable, __pyx_t_48) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_48); __pyx_t_48 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":441
  * UCS2BESMModel = {'classTable': UCS2BE_cls,
@@ -3879,7 +3879,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_48 = __Pyx_GetModuleGlobalName(__pyx_n_s_UCS2BE_st); if (unlikely(!__pyx_t_48)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_48);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_stateTable, __pyx_t_48) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_stateTable, __pyx_t_48) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_48); __pyx_t_48 = 0;
 
   /* "chardet/mbcssm.py":442
@@ -3891,9 +3891,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_48 = __Pyx_GetModuleGlobalName(__pyx_n_s_UCS2BECharLenTable); if (unlikely(!__pyx_t_48)) __PYX_ERR(0, 442, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_48);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_charLenTable, __pyx_t_48) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_charLenTable, __pyx_t_48) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_48); __pyx_t_48 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_name, __pyx_kp_s_UTF_16BE) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_kp_u_UTF_16BE) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_UCS2BESMModel, __pyx_t_1) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -4220,9 +4220,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_56);
   __pyx_t_55 = __Pyx_GetModuleGlobalName(__pyx_n_s_UCS2LE_cls); if (unlikely(!__pyx_t_55)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_55);
-  if (PyDict_SetItem(__pyx_t_56, __pyx_n_s_classTable, __pyx_t_55) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_56, __pyx_n_u_classTable, __pyx_t_55) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_55); __pyx_t_55 = 0;
-  if (PyDict_SetItem(__pyx_t_56, __pyx_n_s_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_56, __pyx_n_u_classFactor, __pyx_int_6) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":496
  * UCS2LESMModel = {'classTable': UCS2LE_cls,
@@ -4233,7 +4233,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_55 = __Pyx_GetModuleGlobalName(__pyx_n_s_UCS2LE_st); if (unlikely(!__pyx_t_55)) __PYX_ERR(0, 496, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_55);
-  if (PyDict_SetItem(__pyx_t_56, __pyx_n_s_stateTable, __pyx_t_55) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_56, __pyx_n_u_stateTable, __pyx_t_55) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_55); __pyx_t_55 = 0;
 
   /* "chardet/mbcssm.py":497
@@ -4245,9 +4245,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_55 = __Pyx_GetModuleGlobalName(__pyx_n_s_UCS2LECharLenTable); if (unlikely(!__pyx_t_55)) __PYX_ERR(0, 497, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_55);
-  if (PyDict_SetItem(__pyx_t_56, __pyx_n_s_charLenTable, __pyx_t_55) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_56, __pyx_n_u_charLenTable, __pyx_t_55) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_55); __pyx_t_55 = 0;
-  if (PyDict_SetItem(__pyx_t_56, __pyx_n_s_name, __pyx_kp_s_UTF_16LE) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_56, __pyx_n_u_name, __pyx_kp_u_UTF_16LE) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_UCS2LESMModel, __pyx_t_56) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_56); __pyx_t_56 = 0;
 
@@ -5468,9 +5468,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
   __Pyx_GOTREF(__pyx_t_173);
   __pyx_t_172 = __Pyx_GetModuleGlobalName(__pyx_n_s_UTF8_cls); if (unlikely(!__pyx_t_172)) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_172);
-  if (PyDict_SetItem(__pyx_t_173, __pyx_n_s_classTable, __pyx_t_172) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_173, __pyx_n_u_classTable, __pyx_t_172) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_172); __pyx_t_172 = 0;
-  if (PyDict_SetItem(__pyx_t_173, __pyx_n_s_classFactor, __pyx_int_16) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_173, __pyx_n_u_classFactor, __pyx_int_16) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
 
   /* "chardet/mbcssm.py":570
  * UTF8SMModel = {'classTable': UTF8_cls,
@@ -5481,7 +5481,7 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_172 = __Pyx_GetModuleGlobalName(__pyx_n_s_UTF8_st); if (unlikely(!__pyx_t_172)) __PYX_ERR(0, 570, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_172);
-  if (PyDict_SetItem(__pyx_t_173, __pyx_n_s_stateTable, __pyx_t_172) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_173, __pyx_n_u_stateTable, __pyx_t_172) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_172); __pyx_t_172 = 0;
 
   /* "chardet/mbcssm.py":571
@@ -5492,9 +5492,9 @@ PyMODINIT_FUNC PyInit_mbcssm(void)
  */
   __pyx_t_172 = __Pyx_GetModuleGlobalName(__pyx_n_s_UTF8CharLenTable); if (unlikely(!__pyx_t_172)) __PYX_ERR(0, 571, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_172);
-  if (PyDict_SetItem(__pyx_t_173, __pyx_n_s_charLenTable, __pyx_t_172) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_173, __pyx_n_u_charLenTable, __pyx_t_172) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_172); __pyx_t_172 = 0;
-  if (PyDict_SetItem(__pyx_t_173, __pyx_n_s_name, __pyx_kp_s_UTF_8) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_173, __pyx_n_u_name, __pyx_kp_u_UTF_8) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_UTF8SMModel, __pyx_t_173) < 0) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_173); __pyx_t_173 = 0;
 

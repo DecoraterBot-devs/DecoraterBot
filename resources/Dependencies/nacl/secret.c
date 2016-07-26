@@ -853,11 +853,11 @@ static PyObject *__pyx_n_s_SecretBox___bytes;
 static PyObject *__pyx_n_s_SecretBox___init;
 static PyObject *__pyx_n_s_SecretBox_decrypt;
 static PyObject *__pyx_n_s_SecretBox_encrypt;
-static PyObject *__pyx_kp_s_SecretBox_must_be_created_from_3;
+static PyObject *__pyx_kp_u_SecretBox_must_be_created_from_3;
 static PyObject *__pyx_n_s_StringFixer;
 static PyObject *__pyx_kp_s_The_SecretBox_class_encrypts_an;
-static PyObject *__pyx_kp_s_The_key_must_be_exactly_s_bytes;
-static PyObject *__pyx_kp_s_The_nonce_must_be_exactly_s_byte;
+static PyObject *__pyx_kp_u_The_key_must_be_exactly_s_bytes;
+static PyObject *__pyx_kp_u_The_nonce_must_be_exactly_s_byte;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_bindings;
@@ -1147,7 +1147,7 @@ static PyObject *__pyx_pf_4nacl_6secret_9SecretBox___init__(CYTHON_UNUSED PyObje
  *                 self.KEY_SIZE,
  *             )
  */
-    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_The_key_must_be_exactly_s_bytes, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_2 = PyUnicode_Format(__pyx_kp_u_The_key_must_be_exactly_s_bytes, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -1445,7 +1445,7 @@ static PyObject *__pyx_pf_4nacl_6secret_9SecretBox_4encrypt(CYTHON_UNUSED PyObje
  */
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_NONCE_SIZE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_The_nonce_must_be_exactly_s_byte, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_The_nonce_must_be_exactly_s_byte, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -1983,7 +1983,7 @@ static PyObject *__pyx_pf_4nacl_6secret_9SecretBox_6decrypt(CYTHON_UNUSED PyObje
  */
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_NONCE_SIZE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_The_nonce_must_be_exactly_s_byte, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_2 = PyUnicode_Format(__pyx_kp_u_The_nonce_must_be_exactly_s_byte, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -2143,11 +2143,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SecretBox___init, __pyx_k_SecretBox___init, sizeof(__pyx_k_SecretBox___init), 0, 0, 1, 1},
   {&__pyx_n_s_SecretBox_decrypt, __pyx_k_SecretBox_decrypt, sizeof(__pyx_k_SecretBox_decrypt), 0, 0, 1, 1},
   {&__pyx_n_s_SecretBox_encrypt, __pyx_k_SecretBox_encrypt, sizeof(__pyx_k_SecretBox_encrypt), 0, 0, 1, 1},
-  {&__pyx_kp_s_SecretBox_must_be_created_from_3, __pyx_k_SecretBox_must_be_created_from_3, sizeof(__pyx_k_SecretBox_must_be_created_from_3), 0, 0, 1, 0},
+  {&__pyx_kp_u_SecretBox_must_be_created_from_3, __pyx_k_SecretBox_must_be_created_from_3, sizeof(__pyx_k_SecretBox_must_be_created_from_3), 0, 1, 0, 0},
   {&__pyx_n_s_StringFixer, __pyx_k_StringFixer, sizeof(__pyx_k_StringFixer), 0, 0, 1, 1},
   {&__pyx_kp_s_The_SecretBox_class_encrypts_an, __pyx_k_The_SecretBox_class_encrypts_an, sizeof(__pyx_k_The_SecretBox_class_encrypts_an), 0, 0, 1, 0},
-  {&__pyx_kp_s_The_key_must_be_exactly_s_bytes, __pyx_k_The_key_must_be_exactly_s_bytes, sizeof(__pyx_k_The_key_must_be_exactly_s_bytes), 0, 0, 1, 0},
-  {&__pyx_kp_s_The_nonce_must_be_exactly_s_byte, __pyx_k_The_nonce_must_be_exactly_s_byte, sizeof(__pyx_k_The_nonce_must_be_exactly_s_byte), 0, 0, 1, 0},
+  {&__pyx_kp_u_The_key_must_be_exactly_s_bytes, __pyx_k_The_key_must_be_exactly_s_bytes, sizeof(__pyx_k_The_key_must_be_exactly_s_bytes), 0, 1, 0, 0},
+  {&__pyx_kp_u_The_nonce_must_be_exactly_s_byte, __pyx_k_The_nonce_must_be_exactly_s_byte, sizeof(__pyx_k_The_nonce_must_be_exactly_s_byte), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_bindings, __pyx_k_bindings, sizeof(__pyx_k_bindings), 0, 0, 1, 1},
@@ -2207,7 +2207,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if len(key) != self.KEY_SIZE:
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_SecretBox_must_be_created_from_3); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_SecretBox_must_be_created_from_3); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -2581,7 +2581,7 @@ PyMODINIT_FUNC PyInit_secret(void)
  *     """
  *     The SecretBox class encrypts and decrypts messages using the given secret
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_SecretBox, __pyx_t_3, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_SecretBox, __pyx_t_3, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SecretBox, __pyx_t_4) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

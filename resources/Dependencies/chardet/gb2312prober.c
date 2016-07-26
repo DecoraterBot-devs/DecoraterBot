@@ -261,8 +261,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
   #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #else
-  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_Divide(x,y)
-  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceDivide(x,y)
+  #define __Pyx_PyNumber_Divide(x,y)         PyNumber_TrueDivide(x,y)
+  #define __Pyx_PyNumber_InPlaceDivide(x,y)  PyNumber_InPlaceTrueDivide(x,y)
 #endif
 
 #ifndef __PYX_EXTERN_C
@@ -763,7 +763,7 @@ static const char __pyx_k_GB2312Prober_get_charset_name[] = "GB2312Prober.get_ch
 static const char __pyx_k_E_Users_Elsword_Desktop_py_to_c[] = "E:\\Users\\Elsword\\Desktop\\py to c to pyd\\to_build\\chardet\\gb2312prober.py";
 static PyObject *__pyx_n_s_CodingStateMachine;
 static PyObject *__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c;
-static PyObject *__pyx_n_s_GB2312;
+static PyObject *__pyx_n_u_GB2312;
 static PyObject *__pyx_n_s_GB2312DistributionAnalysis;
 static PyObject *__pyx_n_s_GB2312Prober;
 static PyObject *__pyx_n_s_GB2312Prober___init;
@@ -1023,8 +1023,8 @@ static PyObject *__pyx_pf_7chardet_12gb2312prober_12GB2312Prober_2get_charset_na
  *         return "GB2312"             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_n_s_GB2312);
-  __pyx_r = __pyx_n_s_GB2312;
+  __Pyx_INCREF(__pyx_n_u_GB2312);
+  __pyx_r = __pyx_n_u_GB2312;
   goto __pyx_L0;
 
   /* "chardet/gb2312prober.py":42
@@ -1066,7 +1066,7 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_CodingStateMachine, __pyx_k_CodingStateMachine, sizeof(__pyx_k_CodingStateMachine), 0, 0, 1, 1},
   {&__pyx_kp_s_E_Users_Elsword_Desktop_py_to_c, __pyx_k_E_Users_Elsword_Desktop_py_to_c, sizeof(__pyx_k_E_Users_Elsword_Desktop_py_to_c), 0, 0, 1, 0},
-  {&__pyx_n_s_GB2312, __pyx_k_GB2312, sizeof(__pyx_k_GB2312), 0, 0, 1, 1},
+  {&__pyx_n_u_GB2312, __pyx_k_GB2312, sizeof(__pyx_k_GB2312), 0, 1, 0, 1},
   {&__pyx_n_s_GB2312DistributionAnalysis, __pyx_k_GB2312DistributionAnalysis, sizeof(__pyx_k_GB2312DistributionAnalysis), 0, 0, 1, 1},
   {&__pyx_n_s_GB2312Prober, __pyx_k_GB2312Prober, sizeof(__pyx_k_GB2312Prober), 0, 0, 1, 1},
   {&__pyx_n_s_GB2312Prober___init, __pyx_k_GB2312Prober___init, sizeof(__pyx_k_GB2312Prober___init), 0, 0, 1, 1},
@@ -1366,7 +1366,7 @@ PyMODINIT_FUNC PyInit_gb2312prober(void)
  *     def __init__(self):
  *         MultiByteCharSetProber.__init__(self)
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_GB2312Prober, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_GB2312Prober, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_GB2312Prober, __pyx_t_4) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

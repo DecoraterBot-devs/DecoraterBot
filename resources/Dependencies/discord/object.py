@@ -51,4 +51,4 @@ class Object:
     @property
     def created_at(self):
         """Returns the snowflake's creation time in UTC."""
-        return utils.snowflake_time(self.id)
+        return snowflake_time(self.id)

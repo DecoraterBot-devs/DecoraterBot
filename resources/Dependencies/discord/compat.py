@@ -29,7 +29,6 @@ import asyncio
 try:
     create_task = asyncio.ensure_future
 except AttributeError:
-    # noinspection PyDeprecation
     create_task = asyncio.async
 
 try:
@@ -111,8 +110,6 @@ except AttributeError:
         destination.add_done_callback(_call_check_cancel)
         source.add_done_callback(_call_set_state)
 
-
-    # noinspection PyIncorrectDocstring
     def run_coroutine_threadsafe(coro, loop):
         """Submit a coroutine object to a given event loop.
 
@@ -123,7 +120,6 @@ except AttributeError:
 
         future = concurrent.futures.Future()
 
-        # noinspection PyTypeChecker
         def callback():
             try:
                 _chain_future(create_task(coro, loop=loop), future)

@@ -25,7 +25,7 @@ DEALINGS IN THE SOFTWARE.
 """
 
 from re import split as re_split
-from .errors import HTTPException, Forbidden, NotFound, InvalidArgument, RateLimitError
+from .errors import HTTPException, Forbidden, NotFound, InvalidArgument
 import datetime
 from base64 import b64encode
 import asyncio
@@ -33,8 +33,6 @@ import json
 
 DISCORD_EPOCH = 1420070400000
 
-
-# noinspection PyPep8Naming,PyUnusedLocal
 class cached_property:
     def __init__(self, function):
         self.function = function
@@ -49,8 +47,6 @@ class cached_property:
 
         return value
 
-
-# noinspection PyUnusedLocal
 class CachedSlotProperty:
     def __init__(self, name, function):
         self.name = name
@@ -68,12 +64,10 @@ class CachedSlotProperty:
             setattr(instance, self.name, value)
             return value
 
-
 def cached_slot_property(name):
     def decorator(func):
         return CachedSlotProperty(name, func)
     return decorator
-
 
 def parse_time(timestamp):
     if timestamp:
@@ -108,7 +102,6 @@ def oauth_url(client_id, permissions=None, server=None, redirect_uri=None):
     return url
 
 
-# noinspection PyIncorrectDocstring,PyShadowingBuiltins
 def snowflake_time(id):
     """Returns the creation date in UTC of a discord id."""
     return datetime.datetime.utcfromtimestamp(((int(id) >> 22) + DISCORD_EPOCH) / 1000)
@@ -158,7 +151,6 @@ def find(predicate, seq):
         if predicate(element):
             return element
     return None
-
 
 def get(iterable, **attrs):
     """A helper that returns the first element in the iterable that meets
@@ -223,11 +215,8 @@ def _unique(iterable):
     adder = seen.add
     return [x for x in iterable if not (x in seen or adder(x))]
 
-
-# noinspection PyUnusedLocal
 def _null_event(*args, **kwargs):
     pass
-
 
 def _get_mime_type_for_image(data):
     if data.startswith(b'\x89\x50\x4E\x47\x0D\x0A\x1A\x0A'):
@@ -237,13 +226,12 @@ def _get_mime_type_for_image(data):
     else:
         raise InvalidArgument('Unsupported image type given')
 
-
 def _bytes_to_base64_data(data):
     fmt = 'data:{mime};base64,{data}'
     mime = _get_mime_type_for_image(data)
     b64 = b64encode(data).decode('ascii')
     return fmt.format(mime=mime, data=b64)
 
-
 def to_json(obj):
     return json.dumps(obj, separators=(',', ':'), ensure_ascii=True)
+

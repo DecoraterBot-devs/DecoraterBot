@@ -75,7 +75,7 @@ class HTTPClient:
         self.token = None
         self.bot_token = False
 
-        user_agent = 'DiscordBot (https://github.com/AraHaan/discord.py {0}) Python/{1[0]}.{1[1]} aiohttp/{2}'
+        user_agent = 'DiscordBot (https://github.com/Cheeselab/discord.py {0}) Python/{1[0]}.{1[1]} aiohttp/{2}'
         self.user_agent = user_agent.format(__version__, sys.version_info, aiohttp.__version__)
 
     @asyncio.coroutine
@@ -102,47 +102,42 @@ class HTTPClient:
         kwargs['headers'] = headers
         with (yield from lock):
             for tries in range(5):
+                r = yield from self.session.request(method, url, **kwargs)
+                log.debug(self.REQUEST_LOG.format(method=method, url=url, status=r.status, json=kwargs.get('data')))
                 try:
-                    r = yield from self.session.request(method, url, **kwargs)
-                    log.debug(self.REQUEST_LOG.format(method=method, url=url, status=r.status, json=kwargs.get('data')))
-                    try:
-                        # even errors have text involved in them so this is safe to call
-                        data = yield from json_or_text(r)
+                    # even errors have text involved in them so this is safe to call
+                    data = yield from json_or_text(r)
 
-                        # the request was successful so just return the text/json
-                        if 300 > r.status >= 200:
-                            log.debug(self.SUCCESS_LOG.format(method=method, url=url, text=data))
-                            return data
+                    # the request was successful so just return the text/json
+                    if 300 > r.status >= 200:
+                        log.debug(self.SUCCESS_LOG.format(method=method, url=url, text=data))
+                        return data
 
-                        # we are being rate limited
-                        if r.status == 429:
-                            fmt = 'We are being rate limited. Retrying in {:.2} seconds. Handled under the bucket "{}"'
+                    # we are being rate limited
+                    if r.status == 429:
+                        fmt = 'We are being rate limited. Retrying in {:.2} seconds. Handled under the bucket "{}"'
 
-                            # sleep a bit
-                            retry_after = data['retry_after'] / 1000.0
-                            log.info(fmt.format(retry_after, bucket))
-                            yield from asyncio.sleep(retry_after)
-                            continue
+                        # sleep a bit
+                        retry_after = data['retry_after'] / 1000.0
+                        log.info(fmt.format(retry_after, bucket))
+                        yield from asyncio.sleep(retry_after)
+                        continue
 
-                        # we've received a 502, unconditional retry
-                        if r.status == 502 and tries <= 5:
-                            yield from asyncio.sleep(1 + tries * 2)
-                            continue
+                    # we've received a 502, unconditional retry
+                    if r.status == 502 and tries <= 5:
+                        yield from asyncio.sleep(1 + tries * 2)
+                        continue
 
-                        # the usual error cases
-                        if r.status == 403:
-                            raise Forbidden(r, data)
-                        elif r.status == 404:
-                            raise NotFound(r, data)
-                        else:
-                            raise HTTPException(r, data)
-                    finally:
-                        # clean-up just in case
-                        yield from r.release()
-                except aiohttp.errors.ClientOSError:
-                    log.debug("Can not connect to Discord.")
-                    raise UnknownConnectionError("Can not connect to Discord.")
-
+                    # the usual error cases
+                    if r.status == 403:
+                        raise Forbidden(r, data)
+                    elif r.status == 404:
+                        raise NotFound(r, data)
+                    else:
+                        raise HTTPException(r, data)
+                finally:
+                    # clean-up just in case
+                    yield from r.release()
 
     def get(self, *args, **kwargs):
         return self.request('GET', *args, **kwargs)
@@ -282,6 +277,18 @@ class HTTPClient:
             params['after'] = after
 
         return self.get(url, params=params, bucket=_func_())
+
+    def pin_message(self, channel_id, message_id):
+        url = '{0.CHANNELS}/{1}/pins/{2}'.format(self, channel_id, message_id)
+        return self.put(url, bucket=_func_())
+
+    def unpin_message(self, channel_id, message_id):
+        url = '{0.CHANNELS}/{1}/pins/{2}'.format(self, channel_id, message_id)
+        return self.delete(url, bucket=_func_())
+
+    def pins_from(self, channel_id):
+        url = '{0.CHANNELS}/{1}/pins'.format(self, channel_id)
+        return self.get(url, bucket=_func_())
 
     # Member management
 

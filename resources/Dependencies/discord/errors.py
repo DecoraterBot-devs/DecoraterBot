@@ -24,14 +24,12 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-
 class DiscordException(Exception):
     """Base exception class for discord.py
 
     Ideally speaking, this could be caught to handle any exceptions thrown from this library.
     """
     pass
-
 
 class ClientException(DiscordException):
     """Exception that's thrown when an operation in the :class:`Client` fails.
@@ -40,14 +38,12 @@ class ClientException(DiscordException):
     """
     pass
 
-
 class GatewayNotFound(DiscordException):
     """An exception that is usually thrown when the gateway hub
     for the :class:`Client` websocket is not found."""
     def __init__(self):
         message = 'The gateway to connect to discord was not found.'
         super(GatewayNotFound, self).__init__(message)
-
 
 class HTTPException(DiscordException):
     """Exception that's thrown when an HTTP request operation fails.
@@ -66,14 +62,17 @@ class HTTPException(DiscordException):
 
     def __init__(self, response, message):
         self.response = response
-        self.text = message
+        if type(message) is dict:
+            self.text = message.get('message', '')
+            self.code = message.get('code', 0)
+        else:
+            self.text = message
 
         fmt = '{0.reason} (status code: {0.status})'
-        if len(message) < 100:
+        if len(self.text):
             fmt = fmt + ': {1}'
 
-        super().__init__(fmt.format(self.response, message))
-
+        super().__init__(fmt.format(self.response, self.text))
 
 class Forbidden(HTTPException):
     """Exception that's thrown for when status code 403 occurs.
@@ -81,7 +80,6 @@ class Forbidden(HTTPException):
     Subclass of :exc:`HTTPException`
     """
     pass
-
 
 class NotFound(HTTPException):
     """Exception that's thrown for when status code 404 occurs.
@@ -101,14 +99,12 @@ class InvalidArgument(ClientException):
     """
     pass
 
-
 class LoginFailure(ClientException):
     """Exception that's thrown when the :meth:`Client.login` function
     fails to log you in from improper credentials or some other misc.
     failure.
     """
     pass
-
 
 class ConnectionClosed(ClientException):
     """Exception that's thrown when the gateway connection is
@@ -128,13 +124,11 @@ class ConnectionClosed(ClientException):
         self.reason = original.reason
         super().__init__(str(original))
 
-
 class InvalidToken(ClientException):
     """Exception that's thrown when a invalid token is passed
     into the library.
     """
     pass
-
 
 class VoiceWSTimeoutError(ClientException):
     """Exception that is thown when a concurrent.futures._base.TimeoutError is Thrown.
@@ -142,7 +136,6 @@ class VoiceWSTimeoutError(ClientException):
     This essentially makes it easier to track Timeout Error on the Voice Websocket
     instead of the main one."""
     pass
-
 
 class RateLimitError(ClientException):
     """Exception that's thrown when you send more requests to a discord
@@ -153,7 +146,6 @@ class RateLimitError(ClientException):
     Will be replaced with a rate limit helper that would allow it to be
     retried when Danny gets to making it."""
     pass
-
 
 class InvalidServerError(ClientException):
     """Exception that is closed when a server is invalid for some reason."""

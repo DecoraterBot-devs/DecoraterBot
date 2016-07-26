@@ -25,8 +25,6 @@ DEALINGS IN THE SOFTWARE.
 
 from .utils import snowflake_time
 
-
-# noinspection PyShadowingBuiltins
 class Object:
     """Represents a generic Discord object.
 
@@ -53,4 +51,4 @@ class Object:
     @property
     def created_at(self):
         """Returns the snowflake's creation time in UTC."""
-        return utils.snowflake_time(self.id)
+        return snowflake_time(self.id)

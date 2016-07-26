@@ -31,7 +31,6 @@ from .calls import CallMessage
 import re
 from .enums import MessageType, try_enum
 
-
 class Message:
     """Represents a message from Discord.
 
@@ -81,7 +80,7 @@ class Message:
             **and** it did end up mentioning everyone.
 
     mentions: list
-         A list of :class:`Member` that were mentioned. If the message is in a private message
+        A list of :class:`Member` that were mentioned. If the message is in a private message
         then the list will be of :class:`User` instead. For messages that are not of type
         :attr:`MessageType.default`\, this array can be used to aid in system messages.
         For more information, see :attr:`system_content`.
@@ -105,10 +104,10 @@ class Message:
         Specifies if the message is currently pinned.
     """
 
-    __slots__ = ['edited_timestamp', 'timestamp', 'tts', 'content', 'channel',
-                 'mention_everyone', 'embeds', 'id', 'mentions', 'author',
-                 'channel_mentions', 'server', '_raw_mentions', 'attachments',
-                 '_clean_content', '_raw_channel_mentions', 'nonce',
+    __slots__ = [ 'edited_timestamp', 'timestamp', 'tts', 'content', 'channel',
+                  'mention_everyone', 'embeds', 'id', 'mentions', 'author',
+                  'channel_mentions', 'server', '_raw_mentions', 'attachments',
+                  '_clean_content', '_raw_channel_mentions', 'nonce', 'pinned',
                   'role_mentions', '_raw_role_mentions', 'type', 'call',
                   '_system_content' ]
 
@@ -122,7 +121,8 @@ class Message:
         # sometimes the .%f modifier is missing
         self.edited_timestamp = utils.parse_time(data.get('edited_timestamp'))
         self.timestamp = utils.parse_time(data.get('timestamp'))
-        self.tts = data.get('tts')
+        self.tts = data.get('tts', False)
+        self.pinned = data.get('pinned', False)
         self.content = data.get('content')
         self.mention_everyone = data.get('mention_everyone')
         self.embeds = data.get('embeds')

@@ -32,8 +32,6 @@ from .channel import Channel
 from .enums import ServerRegion, Status
 from .mixins import Hashable
 
-
-# noinspection PyIncorrectDocstring,PyUnusedLocal
 class Server(Hashable):
     """Represents a Discord server.
 

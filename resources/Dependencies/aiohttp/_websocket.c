@@ -487,7 +487,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "aiohttp/_websocket.pyx",
+  "aiohttp\\_websocket.pyx",
   "type.pxd",
   "bool.pxd",
   "complex.pxd",
@@ -748,11 +748,11 @@ static const char __pyx_k_uint32_msk[] = "uint32_msk";
 static const char __pyx_k_uint64_msk[] = "uint64_msk";
 static const char __pyx_k_aiohttp__websocket[] = "aiohttp._websocket";
 static const char __pyx_k_websocket_mask_cython[] = "_websocket_mask_cython";
-static const char __pyx_k_home_travis_build_KeepSafe_aioh[] = "/home/travis/build/KeepSafe/aiohttp/aiohttp/_websocket.pyx";
+static const char __pyx_k_C_projects_aiohttp_aiohttp__webs[] = "C:\\projects\\aiohttp\\aiohttp\\_websocket.pyx";
+static PyObject *__pyx_kp_s_C_projects_aiohttp_aiohttp__webs;
 static PyObject *__pyx_n_s_aiohttp__websocket;
 static PyObject *__pyx_n_s_data;
 static PyObject *__pyx_n_s_data_len;
-static PyObject *__pyx_kp_s_home_travis_build_KeepSafe_aioh;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_in_buf;
 static PyObject *__pyx_n_s_main;
@@ -1112,10 +1112,10 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_s_C_projects_aiohttp_aiohttp__webs, __pyx_k_C_projects_aiohttp_aiohttp__webs, sizeof(__pyx_k_C_projects_aiohttp_aiohttp__webs), 0, 0, 1, 0},
   {&__pyx_n_s_aiohttp__websocket, __pyx_k_aiohttp__websocket, sizeof(__pyx_k_aiohttp__websocket), 0, 0, 1, 1},
   {&__pyx_n_s_data, __pyx_k_data, sizeof(__pyx_k_data), 0, 0, 1, 1},
   {&__pyx_n_s_data_len, __pyx_k_data_len, sizeof(__pyx_k_data_len), 0, 0, 1, 1},
-  {&__pyx_kp_s_home_travis_build_KeepSafe_aioh, __pyx_k_home_travis_build_KeepSafe_aioh, sizeof(__pyx_k_home_travis_build_KeepSafe_aioh), 0, 0, 1, 0},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_in_buf, __pyx_k_in_buf, sizeof(__pyx_k_in_buf), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -1149,7 +1149,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(8, __pyx_n_s_mask, __pyx_n_s_data, __pyx_n_s_data_len, __pyx_n_s_i, __pyx_n_s_in_buf, __pyx_n_s_mask_buf, __pyx_n_s_uint32_msk, __pyx_n_s_uint64_msk); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_travis_build_KeepSafe_aioh, __pyx_n_s_websocket_mask_cython, 9, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_C_projects_aiohttp_aiohttp__webs, __pyx_n_s_websocket_mask_cython, 9, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

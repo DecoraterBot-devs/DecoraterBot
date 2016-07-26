@@ -24,7 +24,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-
 class Colour:
     """Represents a Discord role colour. This class is similar
     to an (red, green, blue) tuple.
@@ -51,7 +50,7 @@ class Colour:
         The raw integer colour value.
     """
 
-    __slots__ = ['value']
+    __slots__ = [ 'value' ]
 
     def __init__(self, value):
         self.value = value

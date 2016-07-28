@@ -328,8 +328,9 @@ class VoiceClient:
         # Copy header to nonce's first 12 bytes
         nonce[:12] = header
 
-        # Encrypt and return the data
-        return header + box.encrypt(bytes(data), bytes(nonce)).ciphertext
+        if data is not None:
+            # Encrypt and return the data
+            return header + box.encrypt(bytes(data), bytes(nonce)).ciphertext
 
     def create_ffmpeg_player(self, filename, *, use_avconv=False, pipe=False, stderr=None, options=None, before_options=None, headers=None, after=None, output=None):
         """Creates a stream player for ffmpeg that launches in a separate thread to play
@@ -663,9 +664,10 @@ class VoiceClient:
         else:
             encoded_data = data
         packet = self._get_voice_packet(encoded_data)
-        try:
-            sent = self.socket.sendto(packet, (self.endpoint_ip, self.voice_port))
-        except BlockingIOError:
-            log.warning('A packet has been dropped (seq: {0.sequence}, timestamp: {0.timestamp})'.format(self))
+        if packet is not None:
+            try:
+                sent = self.socket.sendto(packet, (self.endpoint_ip, self.voice_port))
+            except BlockingIOError:
+                log.warning('A packet has been dropped (seq: {0.sequence}, timestamp: {0.timestamp})'.format(self))
 
-        self.checked_add('timestamp', self.encoder.samples_per_frame, 4294967295)
+            self.checked_add('timestamp', self.encoder.samples_per_frame, 4294967295)

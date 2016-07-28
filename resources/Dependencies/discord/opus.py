@@ -246,13 +246,16 @@ class Encoder:
             raise OpusError(ret)
 
     def encode(self, pcm, frame_size):
-        max_data_bytes = len(pcm)
-        pcm = ctypes.cast(pcm, c_int16_ptr)
-        data = (ctypes.c_char * max_data_bytes)()
+        try:
+            max_data_bytes = len(pcm)
+            pcm = ctypes.cast(pcm, c_int16_ptr)
+            data = (ctypes.c_char * max_data_bytes)()
 
-        ret = _lib.opus_encode(self._state, pcm, frame_size, data, max_data_bytes)
-        if ret < 0:
-            log.info('error has happened in encode')
-            raise OpusError(ret)
+            ret = _lib.opus_encode(self._state, pcm, frame_size, data, max_data_bytes)
+            if ret < 0:
+                log.info('error has happened in encode')
+                raise OpusError(ret)
 
-        return array.array('b', data[:ret]).tobytes()
+            return array.array('b', data[:ret]).tobytes()
+        except OSError:
+            pass

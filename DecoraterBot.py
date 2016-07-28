@@ -27,7 +27,7 @@
         -> fix bugs.
         -> add commands.
         -> help finish the per server config (has issues)
-        -> update the Voice commands to be better (and not use globals which is 1 big thing that kilsl it).
+        -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
 
     But keep in mind any and all Changes you make can and will be property of Cheese.lab Induestries Inc.
 """

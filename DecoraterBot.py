@@ -9,7 +9,14 @@
     
     Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to BULLSHIT.
     
-    Any and all Developers work all the time, many of them do not gety paid for their hard work.
+    Any and all Developers work all the time, many of them do not get paid for their hard work.
+    
+    I am one of those who did not get paid even though I am the original Developer I coded this bot from the bottom with no lines of code at all.
+    
+    And how much money did I get from it for my 11 months or so of working on it? None- yeah thats right 0$ how pissed can someone be?
+    Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that way I can code my bot.
+    
+    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as it is 10 years old and is falling apart
     
     I am half tempted myself to pulling this bot from github and making it on patrion that boobot is also on to help me with my development needs.
     

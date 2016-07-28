@@ -1,4 +1,20 @@
 # coding=utf-8
+"""
+    DecoraterBot's source is protected by Cheese.lab industries Inc. Even though it is Open Source
+    any and all users waive the right to say that this bot's code was stolen when it really was not.
+    Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
+    it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF SHIT LIKE THIS.
+    
+    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems untrue.
+    
+    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to BULLSHIT.
+    
+    Any and all Developers work all the time, many of them do not gety paid for their hard work.
+    
+    I am half tempted myself to pulling this bot from github and making it on patrion that boobot is also on to help me with my development needs.
+    
+    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse than the way it is.
+"""
 import os
 import sys
 sys.dont_write_bytecode = True

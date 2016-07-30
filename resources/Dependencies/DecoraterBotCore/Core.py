@@ -29,7 +29,7 @@
         -> help finish the per server config (has issues)
         -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
 
-    But keep in mind any and all Changes you make can and will be property of Cheese.lab Induestries Inc.
+    But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
 import os
 import discord
@@ -54,6 +54,9 @@ import BotPMError
 import BotVoiceCommands
 from discord.ext import commands
 
+DBLogin = Login.BotLogin()
+DBEvents = Ignore.BotEvents()
+DBIgnores = Ignore.BotIgnores()
 jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
 somedict = json.load(jsonfile)
 consoledatafile = io.open(sys.path[0] + '\\resources\ConfigData\\ConsoleWindow.json', 'r')
@@ -63,7 +66,7 @@ botmessages = json.load(botmessagesdata)
 
 version = str(consoletext['WindowVersion'][0])
 start = time.time()
-Login.BotLogin.variable()
+DBLogin.variable()
 
 PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
 
@@ -87,421 +90,359 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     if discord_user_id == 'None':
         discord_user_id = None
 
+# noinspection PyPep8Naming,PyUnusedLocal
+class bot_data:
+    """
+        This Class is for Internal Use only!!!
+    """
+    def __init__(self):
+        pass
 
-class BotCore:
-    # noinspection PyPep8Naming,PyUnusedLocal
-    class bot:
-        """
-            This Class is for Internal Use only!!!
-        """
+    def changewindowtitle_code(self):
+        ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
 
-        @classmethod
-        def changewindowtitle_code(self):
-            ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
+    def changewindowsize_code(self):
+        cmd = "mode con: cols=80 lines=23"
+        subprocess.Popen(cmd, shell=True)
 
-        @classmethod
-        def changewindowsize_code(self):
-            cmd = "mode con: cols=80 lines=23"
-            subprocess.Popen(cmd, shell=True)
-
-        @asyncio.coroutine
-        def commands_code(client, message):
-            yield from Ignore.BotIgnores.ignore(client, message)
-            if message.content.startswith(_bot_prefix + "uptime"):
-                if message.author.id in somedict['Users']:
+    @asyncio.coroutine
+    def commands_code(self, client, message):
+        yield from DBIgnores.ignore(client, message)
+        if message.content.startswith(_bot_prefix + "uptime"):
+            if message.author.id in somedict['Users']:
+                return
+            else:
+                stop = time.time()
+                seconds = stop - start
+                days = int(((seconds / 60) / 60) / 24)
+                hours = str(int((seconds / 60) / 60 - (days * 24)))
+                minutes = str(int((seconds / 60) % 60))
+                seconds = str(int(seconds % 60))
+                days = str(days)
+                time_001 = str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
+                time_parse = time_001
+                try:
+                    yield from client.send_message(message.channel, time_parse)
+                except discord.errors.Forbidden:
                     return
-                else:
-                    stop = time.time()
-                    seconds = stop - start
-                    days = int(((seconds / 60) / 60) / 24)
-                    hours = str(int((seconds / 60) / 60 - (days * 24)))
-                    minutes = str(int((seconds / 60) % 60))
-                    seconds = str(int(seconds % 60))
-                    days = str(days)
-                    time_001 = str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
-                    time_parse = time_001
-                    try:
-                        yield from client.send_message(message.channel, time_parse)
-                    except discord.errors.Forbidden:
-                        return
-            if message.content.startswith(_bot_prefix + "hlreload"):
-                if message.author.id == discord_user_id:
-                    desmod_new = message.content.lower()[len(_bot_prefix + 'hlreload '):].strip()
-                    _somebool = False
-                    desmod = None
-                    reload_reason = None
-                    if desmod_new.rfind('ignore') is not -1:
-                        desmod = 'Ignore'
-                        rsn = desmod_new.strip('ignore')
-                        if rsn.rfind(' | ') is not -1:
-                            reason = rsn.strip(' | ')
-                            reload_reason = reason
-                            _somebool = True
-                        else:
-                            reason = None
-                            reload_reason = reason
-                            _somebool = True
-                    if _somebool is True:
-                        if desmod_new is not None:
-                            if desmod == 'Ignore':
+        if message.content.startswith(_bot_prefix + "hlreload"):
+            if message.author.id == discord_user_id:
+                desmod_new = message.content.lower()[len(_bot_prefix + 'hlreload '):].strip()
+                _somebool = False
+                desmod = None
+                reload_reason = None
+                if desmod_new.rfind('ignore') is not -1:
+                    desmod = 'Ignore'
+                    rsn = desmod_new.strip('ignore')
+                    if rsn.rfind(' | ') is not -1:
+                        reason = rsn.strip(' | ')
+                        reload_reason = reason
+                        _somebool = True
+                    else:
+                        reason = None
+                        reload_reason = reason
+                        _somebool = True
+                if _somebool is True:
+                    if desmod_new is not None:
+                        if desmod == 'Ignore':
+                            try:
+                                rsn = reload_reason
+                                yield from DBEvents.high_level_reload_helper(client, message, rsn)
+                                module = sys.modules.get(desmod)
+                                importlib.reload(module)
+                                yield from DBEvents.high_level_reload_helper2(client, message)
                                 try:
-                                    rsn = reload_reason
-                                    yield from Ignore.BotEvents.high_level_reload_helper(client, message, rsn)
-                                    module = sys.modules.get(desmod)
-                                    importlib.reload(module)
-                                    yield from Ignore.BotEvents.high_level_reload_helper2(client, message)
-                                    try:
-                                        msgdata = str(botmessages['reload_command_data'][0])
-                                        message_data = msgdata + ' Reloaded ' + desmod + '.'
-                                        if desmod == 'BotLogs':
-                                            if rsn is not None:
-                                                message_data = message_data + ' Reason: ' + rsn
-                                                yield from client.send_message(message.channel, message_data)
-                                            else:
-                                                yield from client.send_message(message.channel, message_data)
+                                    msgdata = str(botmessages['reload_command_data'][0])
+                                    message_data = msgdata + ' Reloaded ' + desmod + '.'
+                                    if desmod == 'BotLogs':
+                                        if rsn is not None:
+                                            message_data = message_data + ' Reason: ' + rsn
+                                            yield from client.send_message(message.channel, message_data)
                                         else:
                                             yield from client.send_message(message.channel, message_data)
-                                    except discord.errors.Forbidden:
-                                        yield from BotPMError._resolve_send_message_error(client, message)
-                                except Exception as e:
-                                    reloadexception = str(traceback.format_exc())
-                                    try:
-
-                                        reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
-                                        yield from client.send_message(message.channel, reload_data)
-                                    except discord.errors.Forbidden:
-                                        yield from BotPMError._resolve_send_message_error(client, message)
-                    else:
-                        try:
-                            yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
-                        except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                                    else:
+                                        yield from client.send_message(message.channel, message_data)
+                                except discord.errors.Forbidden:
+                                    yield from BotPMError._resolve_send_message_error(client, message)
+                            except Exception as e:
+                                reloadexception = str(traceback.format_exc())
+                                try:
+                                    reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
+                                    yield from client.send_message(message.channel, reload_data)
+                                except discord.errors.Forbidden:
+                                    yield from BotPMError._resolve_send_message_error(client, message)
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
+                        yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError._resolve_send_message_error(client, message)
+            else:
+                try:
+                    yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
+                except discord.errors.Forbidden:
+                    yield from BotPMError._resolve_send_message_error(client, message)
 
-        @classmethod
-        @asyncio.coroutine
-        def deletemessage_code(self, client, message):
-            yield from Ignore.BotEvents._resolve_delete_method(client, message)
+    @asyncio.coroutine
+    def deletemessage_code(self, client, message):
+        yield from DBEvents._resolve_delete_method(client, message)
 
-        @classmethod
-        @asyncio.coroutine
-        def editmessage_code(self, client, before, after):
-            yield from Ignore.BotEvents._resolve_edit_method(client, before, after)
+    @asyncio.coroutine
+    def editmessage_code(self, client, before, after):
+        yield from DBEvents._resolve_edit_method(client, before, after)
 
-        @classmethod
-        @asyncio.coroutine
-        def memberban_code(self, client, member):
-            yield from Ignore.BotEvents._resolve_onban(client, member)
+    @asyncio.coroutine
+    def memberban_code(self, client, member):
+        yield from DBEvents._resolve_onban(client, member)
 
-        @classmethod
-        @asyncio.coroutine
-        def memberunban_code(self, client, member):
-            yield from Ignore.BotEvents._resolve_onunban(client, member)
+    @asyncio.coroutine
+    def memberunban_code(self, client, member):
+        yield from DBEvents._resolve_onunban(client, member)
 
-        @classmethod
-        @asyncio.coroutine
-        def memberremove_code(self, client, member):
-            yield from Ignore.BotEvents._resolve_onremove(client, member)
+    @asyncio.coroutine
+    def memberremove_code(self, client, member):
+        yield from DBEvents._resolve_onremove(client, member)
 
-        @classmethod
-        @asyncio.coroutine
-        def memberjoin_code(self, client, member):
-            yield from Ignore.BotEvents._resolve_onjoin(client, member)
+    @asyncio.coroutine
+    def memberjoin_code(self, client, member):
+        yield from DBEvents._resolve_onjoin(client, member)
 
-        @classmethod
-        def _login_helper_code(self, client):
-            Login.BotLogin.login_info(client)
+    def _login_helper_code(self, client):
+        DBLogin.login_info(client)
 
-        @classmethod
-        def _discord_logger_code(self):
-            Ignore.BotEvents._resolve_discord_logger()
+    def _discord_logger_code(self):
+        DBEvents._resolve_discord_logger()
 
-        @classmethod
-        def _asyncio_logger_code(self):
-            Ignore.BotEvents._resolve_asyncio_logger()
+    def _asyncio_logger_code(self):
+        DBEvents._resolve_asyncio_logger()
 
-        @classmethod
-        @asyncio.coroutine
-        def _server_available_code(self, server):
-            yield from Ignore.BotEvents.server_available(server)
+    @asyncio.coroutine
+    def _server_available_code(self, server):
+        yield from DBEvents.server_available(server)
 
-        @classmethod
-        @asyncio.coroutine
-        def _server_unavailable_code(self, server):
-            yield from Ignore.BotEvents.server_unavailable(server)
+    @asyncio.coroutine
+    def _server_unavailable_code(self, server):
+        yield from DBEvents.server_unavailable(server)
 
-        @classmethod
-        @asyncio.coroutine
-        def groupjoin_code(self, channel, user):
-            yield from Ignore.BotEvents._resolve_ongroupjoin(channel, user)
+    @asyncio.coroutine
+    def groupjoin_code(self, channel, user):
+        yield from DBEvents._resolve_ongroupjoin(channel, user)
 
-        @classmethod
-        @asyncio.coroutine
-        def groupremove_code(self, channel, user):
-            yield from Ignore.BotEvents._resolve_ongroupremove(channel, user)
+    @asyncio.coroutine
+    def groupremove_code(self, channel, user):
+        yield from DBEvents._resolve_ongroupremove(channel, user)
 
-        @classmethod
-        @asyncio.coroutine
-        def raw_recv_code(self, msg):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def raw_recv_code(self, msg):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def raw_send_code(self, payload):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def raw_send_code(self, payload):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def _bot_resumed_code(self):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def _bot_resumed_code(self):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def typing_code(self, channel, user, when):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def typing_code(self, channel, user, when):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def errors_code(self, event, *args, **kwargs):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def errors_code(self, event, *args, **kwargs):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def channeldelete_code(self, channel):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def channeldelete_code(self, channel):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def voiceupdate_code(self, before, after):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def voiceupdate_code(self, before, after):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def serverrolecreate_code(self, role):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def serverrolecreate_code(self, role):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def serverroledelete_code(self, role):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def serverroledelete_code(self, role):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def serverroleupdate_code(self, before, after):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def serverroleupdate_code(self, before, after):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def serverjoin_code(self, server):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def serverjoin_code(self, server):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def serverremove_code(self, server):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def serverremove_code(self, server):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def serverupdate_code(self, before, after):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def serverupdate_code(self, before, after):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def channelcreate_code(self, channel):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def channelcreate_code(self, channel):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def channelupdate_code(self, before, after):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def channelupdate_code(self, before, after):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def memberupdate_code(self, before, after):
-            # TODO: Add a Event function for this in the Ignores module.
-            pass
+    @asyncio.coroutine
+    def memberupdate_code(self, before, after):
+        # TODO: Add a Event function for this in the Ignores module.
+        pass
 
-        @classmethod
-        @asyncio.coroutine
-        def _bot_ready_code(self, client):
-            yield from Login.BotLogin.on_login(client)
-            yield from Ignore.BotEvents._resolve_on_login_voice_channel_join(client)
+    @asyncio.coroutine
+    def _bot_ready_code(self, client):
+        yield from DBLogin.on_login(client)
+        yield from DBEvents._resolve_on_login_voice_channel_join(client)
 
-    @classmethod
+class BotCore:
+    def __init__(self):
+        self.bot = bot_data()
+
     def changewindowtitle(self):
         self.bot.changewindowtitle_code()
 
-    @classmethod
     def changewindowsize(self):
         self.bot.changewindowsize_code()
 
-    @classmethod
     @asyncio.coroutine
     def commands(self, client, message):
         yield from self.bot.commands_code(client, message)
 
-    @classmethod
     @asyncio.coroutine
     def deletemessage(self, client, message):
         yield from self.bot.deletemessage_code(client, message)
 
-    @classmethod
     @asyncio.coroutine
     def editmessage(self, client, before, after):
         yield from self.bot.editmessage_code(client, before, after)
 
-    @classmethod
     @asyncio.coroutine
     def memberban(self, client, member):
         yield from self.bot.memberban_code(client, member)
 
-    @classmethod
     @asyncio.coroutine
     def memberunban(self, client, member):
         yield from self.bot.memberunban_code(client, member)
 
-    @classmethod
     @asyncio.coroutine
     def memberremove(self, client, member):
         yield from self.bot.memberremove_code(client, member)
 
-    @classmethod
     @asyncio.coroutine
     def memberjoin(self, client, member):
         yield from self.bot.memberjoin_code(client, member)
 
-    @classmethod
     def _login_helper(self, client):
         self.bot._login_helper_code(client)
 
-    @classmethod
     def _discord_logger(self):
         self.bot._discord_logger_code()
 
-    @classmethod
     def _asyncio_logger(self):
         self.bot._asyncio_logger_code()
 
-    @classmethod
     @asyncio.coroutine
     def _server_available(self, server):
         yield from self.bot._server_available_code(server)
 
-    @classmethod
     @asyncio.coroutine
     def _server_unavailable(self, server):
         yield from self.bot._server_unavailable_code(server)
 
-    @classmethod
     @asyncio.coroutine
     def groupjoin(self, channel, user):
         yield from self.bot.groupjoin_code(channel, user)
 
-    @classmethod
     @asyncio.coroutine
     def groupremove(self, channel, user):
         yield from self.bot.groupremove_code(channel, user)
 
-    @classmethod
     @asyncio.coroutine
     def raw_recv(self, msg):
         yield from self.bot.raw_recv_code(msg)
 
-    @classmethod
     @asyncio.coroutine
     def raw_send(self, payload):
         yield from self.bot.raw_send_code(payload)
 
-    @classmethod
     @asyncio.coroutine
     def _bot_resumed(self):
         yield from self.bot._bot_resumed_code()
 
-    @classmethod
     @asyncio.coroutine
     def typing(self, channel, user, when):
         yield from self.bot.typing_code(channel, user, when)
 
-    @classmethod
     @asyncio.coroutine
     def errors(self, event, *args, **kwargs):
         yield from self.bot.errors_code(event, *args, **kwargs)
 
-    @classmethod
     @asyncio.coroutine
     def channeldelete(self, channel):
         yield from self.bot.channeldelete_code(channel)
 
-    @classmethod
     @asyncio.coroutine
     def voiceupdate(self, before, after):
         yield from self.bot.voiceupdate_code(before, after)
 
-    @classmethod
     @asyncio.coroutine
     def serverrolecreate(self, role):
         yield from self.bot.serverrolecreate_code(role)
 
-    @classmethod
     @asyncio.coroutine
     def serverroledelete(self, role):
         yield from self.bot.serverroledelete_code(role)
 
-    @classmethod
     @asyncio.coroutine
     def serverroleupdate(self, before, after):
         yield from self.bot.serverroleupdate_code(before, after)
 
-    @classmethod
     @asyncio.coroutine
     def serverjoin(self, server):
         yield from self.bot.serverjoin_code(server)
 
-    @classmethod
     @asyncio.coroutine
     def serverremove(self, server):
         yield from self.bot.serverremove_code(server)
 
-    @classmethod
     @asyncio.coroutine
     def serverupdate(self, before, after):
         yield from self.bot.serverupdate_code(before, after)
 
-    @classmethod
     @asyncio.coroutine
     def channelcreate(self, channel):
         yield from self.bot.channelcreate_code(channel)
 
-    @classmethod
     @asyncio.coroutine
     def channelupdate(self, before, after):
         yield from self.bot.channelupdate_code(before, after)
 
-    @classmethod
     @asyncio.coroutine
     def memberupdate(self, before, after):
         yield from self.bot.memberupdate_code(before, after)
 
-    @classmethod
     @asyncio.coroutine
     def _bot_ready(self, client):
         yield from self.bot._bot_ready_code(client)

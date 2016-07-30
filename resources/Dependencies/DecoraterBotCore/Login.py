@@ -29,7 +29,7 @@
         -> help finish the per server config (has issues)
         -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
 
-    But keep in mind any and all Changes you make can and will be property of Cheese.lab Induestries Inc.
+    But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
 import discord
 import asyncio
@@ -58,111 +58,110 @@ global is_bot_logged_in
 is_bot_logged_in = False
 
 
-class BotLogin:
-    # noinspection PyPep8Naming
-    class bot:
-        """
-            This Class is for Internal Use only!!!
-        """
+class bot_data:
+    """
+        This Class is for Internal Use only!!!
+    """
+    def __init__(self):
+        pass
 
-        @classmethod
-        def login_info_code(self, client):
-            global reconnects
-            if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-                credsfile = io.open(PATH, 'r')
-                credentials = json.load(credsfile)
-                discord_user_email = str(credentials['email'][0])
-                if discord_user_email == 'None':
-                    discord_user_email = None
-                discord_user_password = str(credentials['password'][0])
-                if discord_user_password == 'None':
-                    discord_user_password = None
-                bot_token = str(credentials['token'][0])
-                is_bot_logged_in = False
-                if bot_token == 'None':
-                    bot_token = None
-                try:
-                    if discord_user_email and discord_user_password is not None:
-                        client.run(discord_user_email, discord_user_password)
-                    elif bot_token is not None:
-                        # This is for logging into the bot with a token.
-                        client.run(bot_token)
-                    is_bot_logged_in = True
-                except discord.errors.GatewayNotFound:
-                    print(str(consoletext['Login_Gateway_No_Find'][0]))
-                    return
-                except discord.errors.LoginFailure:
-                    print(str(consoletext['Login_Failure'][0]))
-                    sys.exit(2)
-                except discord.errors.InvalidToken:
-                    print(str(consoletext['Invalid_Token'][0]))
-                    sys.exit(2)
-                except discord.errors.UnknownConnectionError:
-                    print(str(consoletext['Unknown_Connection_Error'][0]))
-                    sys.exit(2)
-                except TypeError:
-                    return
-                except KeyboardInterrupt:
-                    return
-                except asyncio.futures.InvalidStateError:
+    def login_info_code(self, client):
+        global reconnects
+        if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+            credsfile = io.open(PATH, 'r')
+            credentials = json.load(credsfile)
+            discord_user_email = str(credentials['email'][0])
+            if discord_user_email == 'None':
+                discord_user_email = None
+            discord_user_password = str(credentials['password'][0])
+            if discord_user_password == 'None':
+                discord_user_password = None
+            bot_token = str(credentials['token'][0])
+            is_bot_logged_in = False
+            if bot_token == 'None':
+                bot_token = None
+            try:
+                if discord_user_email and discord_user_password is not None:
+                    client.run(discord_user_email, discord_user_password)
+                elif bot_token is not None:
+                    # This is for logging into the bot with a token.
+                    client.run(bot_token)
+                is_bot_logged_in = True
+            except discord.errors.GatewayNotFound:
+                print(str(consoletext['Login_Gateway_No_Find'][0]))
+                return
+            except discord.errors.LoginFailure:
+                print(str(consoletext['Login_Failure'][0]))
+                sys.exit(2)
+            except discord.errors.InvalidToken:
+                print(str(consoletext['Invalid_Token'][0]))
+                sys.exit(2)
+            except discord.errors.UnknownConnectionError:
+                print(str(consoletext['Unknown_Connection_Error'][0]))
+                sys.exit(2)
+            except TypeError:
+                return
+            except KeyboardInterrupt:
+                return
+            except asyncio.futures.InvalidStateError:
+                reconnects = reconnects + 1
+                if reconnects != 0:
+                    print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                    # sleeptime = reconnects * 5
+                    self.login_info(client)
+            if is_bot_logged_in:
+                if not client.is_logged_in:
+                    pass
+                else:
                     reconnects = reconnects + 1
                     if reconnects != 0:
                         print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
-                        # sleeptime = reconnects * 5
+                        sleeptime = reconnects * 5
+                        asyncio.sleep(sleeptime)
                         self.login_info(client)
-                if is_bot_logged_in:
-                    if not client.is_logged_in:
-                        pass
-                    else:
-                        reconnects = reconnects + 1
-                        if reconnects != 0:
-                            print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
-                            sleeptime = reconnects * 5
-                            asyncio.sleep(sleeptime)
-                            self.login_info(client)
-            else:
-                print(str(consoletext['Credentials_Not_Found'][0]))
-                sys.exit(2)
+        else:
+            print(str(consoletext['Credentials_Not_Found'][0]))
+            sys.exit(2)
 
-        @classmethod
-        @asyncio.coroutine
-        def on_login_code(self, client):
-            global logged_in
-            if logged_in:
-                logged_in = False
-                botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
-                botmessages = json.load(botmessagesdata)
-                message_data = str(botmessages['On_Ready_Message'][0])
-                try:
-                    yield from client.send_message(discord.Object(id='118098998744580098'), message_data)
-                except discord.errors.Forbidden:
-                    return
-                try:
-                    yield from client.send_message(discord.Object(id='103685935593435136'), message_data)
-                except discord.errors.Forbidden:
-                    return
-                bot_name = client.user.name
-                print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
-                    consoletext['Window_Login_Text'][0]).format(bot_name, client.user.id, __version__))
-            if not logged_in:
-                game_name = str(consoletext['On_Ready_Game'][0])
-                stream_url = "https://twitch.tv/decoraterbot"
-                yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
+    @asyncio.coroutine
+    def on_login_code(self, client):
+        global logged_in
+        if logged_in:
+            logged_in = False
+            botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
+            botmessages = json.load(botmessagesdata)
+            message_data = str(botmessages['On_Ready_Message'][0])
+            try:
+                yield from client.send_message(discord.Object(id='118098998744580098'), message_data)
+            except discord.errors.Forbidden:
+                return
+            try:
+                yield from client.send_message(discord.Object(id='103685935593435136'), message_data)
+            except discord.errors.Forbidden:
+                return
+            bot_name = client.user.name
+            print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
+                consoletext['Window_Login_Text'][0]).format(bot_name, client.user.id, __version__))
+        if not logged_in:
+            game_name = str(consoletext['On_Ready_Game'][0])
+            stream_url = "https://twitch.tv/decoraterbot"
+            yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
 
-        @classmethod
-        def variable_code(self):
-            global logged_in
-            logged_in = True
+    def variable_code(self):
+        global logged_in
+        logged_in = True
 
-    @classmethod
+
+class BotLogin:
+    def __init__(self):
+        self.bot = bot_data()
+
     def login_info(self, client):
         self.bot.login_info_code(client)
 
-    @classmethod
     @asyncio.coroutine
     def on_login(self, client):
         yield from self.bot.on_login_code(client)
 
-    @classmethod
     def variable(self):
         self.bot.variable_code()

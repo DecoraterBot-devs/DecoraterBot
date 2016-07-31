@@ -108,7 +108,8 @@ class bot_data:
                 if reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
                     # sleeptime = reconnects * 5
-                    self.login_info(client)
+                    # asyncio.sleep(sleeptime)
+                    self.login_info_code(client)
             if is_bot_logged_in:
                 if not client.is_logged_in:
                     pass
@@ -116,9 +117,9 @@ class bot_data:
                     reconnects = reconnects + 1
                     if reconnects != 0:
                         print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
-                        sleeptime = reconnects * 5
-                        asyncio.sleep(sleeptime)
-                        self.login_info(client)
+                        # sleeptime = reconnects * 5
+                        # asyncio.sleep(sleeptime)
+                        self.login_info_code(client)
         else:
             print(str(consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)

@@ -29,7 +29,7 @@
         -> help finish the per server config (has issues)
         -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
 
-    But keep in mind any and all Changes you make can and will be property of Cheese.lab Induestries Inc.
+    But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
 import os
 import sys
@@ -43,151 +43,153 @@ except ImportError:
 import DecoraterBotCore
 import asyncio
 
-DecoraterBotCore.Core.BotCore._asyncio_logger()
-DecoraterBotCore.Core.BotCore._discord_logger()
+DBCore = DecoraterBotCore.Core.BotCore()
+
+DBCore._asyncio_logger()
+DBCore._discord_logger()
 client = discord.Client()
-DecoraterBotCore.Core.BotCore.changewindowtitle()
-# DecoraterBotCore.Core.BotCore.changewindowsize()
+DBCore.changewindowtitle()
+# DBCore.changewindowsize()
 
 
 @client.async_event
 def on_message(message):
-    yield from DecoraterBotCore.Core.BotCore.commands(client, message)
+    yield from DBCore.commands(client, message)
 
 
 @client.async_event
 def on_message_delete(message):
-    yield from DecoraterBotCore.Core.BotCore.deletemessage(client, message)
+    yield from DBCore.deletemessage(client, message)
 
 
 @client.async_event
 def on_message_edit(before, after):
-    yield from DecoraterBotCore.Core.BotCore.editmessage(client, before, after)
+    yield from DBCore.editmessage(client, before, after)
 
 
 @client.async_event
 def on_channel_delete(channel):
-    yield from DecoraterBotCore.Core.BotCore.channeldelete(channel)
+    yield from DBCore.channeldelete(channel)
 
 
 @client.async_event
 def on_channel_create(channel):
-    yield from DecoraterBotCore.Core.BotCore.channelcreate(channel)
+    yield from DBCore.channelcreate(channel)
 
 
 @client.async_event
 def on_channel_update(before, after):
-    yield from DecoraterBotCore.Core.BotCore.channelupdate(before, after)
+    yield from DBCore.channelupdate(before, after)
 
 
 @client.async_event
 def on_member_ban(member):
-    yield from DecoraterBotCore.Core.BotCore.memberban(client, member)
+    yield from DBCore.memberban(client, member)
 
 
 @client.async_event
 def on_member_unban(server, user):
-    yield from DecoraterBotCore.Core.BotCore.memberunban(server, user)
+    yield from DBCore.memberunban(server, user)
 
 
 @client.async_event
 def on_member_remove(member):
-    yield from DecoraterBotCore.Core.BotCore.memberremove(client, member)
+    yield from DBCore.memberremove(client, member)
 
 
 @client.async_event
 def on_member_update(before, after):
-    yield from DecoraterBotCore.Core.BotCore.memberupdate(before, after)
+    yield from DBCore.memberupdate(before, after)
 
 
 @client.async_event
 def on_member_join(member):
-    yield from DecoraterBotCore.Core.BotCore.memberjoin(client, member)
+    yield from DBCore.memberjoin(client, member)
 
 
 @client.async_event
 def on_server_available(server):
-    yield from DecoraterBotCore.Core.BotCore._server_available(server)
+    yield from DBCore._server_available(server)
 
 
 @client.async_event
 def on_server_unavailable(server):
-    yield from DecoraterBotCore.Core.BotCore._server_unavailable(server)
+    yield from DBCore._server_unavailable(server)
 
 
 @client.async_event
 def on_server_join(server):
-    yield from DecoraterBotCore.Core.BotCore.serverjoin(server)
+    yield from DBCore.serverjoin(server)
 
 
 @client.async_event
 def on_server_remove(server):
-    yield from DecoraterBotCore.Core.BotCore.serverremove(server)
+    yield from DBCore.serverremove(server)
 
 
 @client.async_event
 def on_server_update(before, after):
-    yield from DecoraterBotCore.Core.BotCore.serverupdate(before, after)
+    yield from DBCore.serverupdate(before, after)
 
 
 @client.async_event
 def on_server_role_create(role):
-    yield from DecoraterBotCore.Core.BotCore.serverrolecreate(role)
+    yield from DBCore.serverrolecreate(role)
 
 
 @client.async_event
 def on_server_role_delete(role):
-    yield from DecoraterBotCore.Core.BotCore.serverroledelete(role)
+    yield from DBCore.serverroledelete(role)
 
 
 @client.async_event
 def on_server_role_update(before, after):
-    yield from DecoraterBotCore.Core.BotCore.serverroleupdate(before, after)
+    yield from DBCore.serverroleupdate(before, after)
 
 
 @client.async_event
 def on_group_join(channel, user):
-    yield from DecoraterBotCore.Core.BotCore.groupjoin(channel, user)
+    yield from DBCore.groupjoin(channel, user)
 
 
 @client.async_event
 def on_group_remove(channel, user):
-    yield from DecoraterBotCore.Core.BotCore.groupremove(channel, user)
+    yield from DBCore.groupremove(channel, user)
 
 
 @client.async_event
 def on_error(event, *args, **kwargs):
-    yield from DecoraterBotCore.Core.BotCore.errors(event, *args, **kwargs)
+    yield from DBCore.errors(event, *args, **kwargs)
 
 
 @client.async_event
 def on_voice_state_update(before, after):
-    yield from DecoraterBotCore.Core.BotCore.voiceupdate(before, after)
+    yield from DBCore.voiceupdate(before, after)
 
 
 @client.async_event
 def on_typing(channel, user, when):
-    yield from DecoraterBotCore.Core.BotCore.typing(channel, user, when)
+    yield from DBCore.typing(channel, user, when)
 
 
 @client.async_event
 def on_socket_raw_receive(msg):
-    yield from DecoraterBotCore.Core.BotCore.raw_recv(msg)
+    yield from DBCore.raw_recv(msg)
 
 
 @client.async_event
 def on_socket_raw_send(payload):
-    yield from DecoraterBotCore.Core.BotCore.raw_send(payload)
+    yield from DBCore.raw_send(payload)
 
 
 @client.async_event
 def on_ready():
-    yield from DecoraterBotCore.Core.BotCore._bot_ready(client)
+    yield from DBCore._bot_ready(client)
 
 
 @client.async_event
 def on_resumed():
-    yield from DecoraterBotCore.Core.BotCore._bot_resumed()
+    yield from DBCore._bot_resumed()
 
 
-DecoraterBotCore.Core.BotCore._login_helper(client)
+DBCore._login_helper(client)

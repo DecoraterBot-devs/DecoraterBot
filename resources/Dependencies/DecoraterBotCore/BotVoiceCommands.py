@@ -1459,12 +1459,10 @@ class VoiceBotCommands:
     def __init__(self):
         self.bot = bot_data()
 
-    @classmethod
     @asyncio.coroutine
     def voice_stuff_new(self, client, message):
         yield from self.bot.voice_stuff_new_code(client, message)
 
-    @classmethod
     @asyncio.coroutine
     def voice_stuff_new_disabled(self, client, message):
         """
@@ -1478,22 +1476,18 @@ class VoiceBotCommands:
         """
         yield from self.bot.voice_stuff_new_disabled_code(client, message)
 
-    @classmethod
     @asyncio.coroutine
     def _reload_commands_bypass1_new(self, client, message, reload_reason):
         yield from self.bot._reload_commands_bypass1_new_code(client, message, reload_reason)
 
-    @classmethod
     @asyncio.coroutine
     def _reload_commands_bypass2_new(self, client, message):
         yield from self.bot._reload_commands_bypass2_new_code(client, message)
 
-    @classmethod
     @asyncio.coroutine
     def _reload_commands_bypass3_new(self, client):
         yield from self.bot._reload_commands_bypass3_new_code(client)
 
-    @classmethod
     @asyncio.coroutine
     def _reload_commands_bypass4_new(self, client, message, reload_reason):
         yield from self.bot._reload_commands_bypass4_new_code(client, message, reload_reason)

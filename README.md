@@ -26,6 +26,8 @@ More Documentation on setting that file up **coming Soon™**.
 
 After you have configurated the bot with a token you can run the bot with 1 of the following ways:
 
+# Windows
+
 > with ``DecoraterBot.bat`` that uses the 32-bit version of the Embedded Python 3.5 interpreter.
 
 (Will use 3.6 when it is released as a replacement so stay tuned)( Voice Compatibility is #1).
@@ -44,6 +46,11 @@ Again. Do not use this Alpha Interpreter unless you do not want Voice Channel Co
 
 Note: You Will have to use the Bat files above by right clicking them in the solution file.
 Also I might be thinking about finally removing some of the folders with py files as I am thinking of makign most of them pyd's to have further optimizations to the bot's Error logs (eg function names to files that do not hold the specific errors). With that Said the lines that calls some functions then will not show.
+
+# Fedora
+
+Not available yet. I need python binaries for Python 3.5.2 and the other things for this.
+You have any other platforms you want the bot to support? Well send me it's sys.platform value and the python binaries with ``cffi``, ``aiohttp`` and any other python package this comes with for that OS and I could add it to here. The only thing stopping me is the Binaries and a few lines of platform specific code.
 
 ## Contributors
 

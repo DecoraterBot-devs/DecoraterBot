@@ -97,8 +97,11 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     if discord_user_id == 'None':
         discord_user_id = None
 
-if sys.platform != 'win32':
+if not (sys.platform.startswith('win') or
+    sys.platform.startswith('freebsd') or
+    sys.platform.startswith('linux')):  # The platform list I have so far.
     raise UnsupportedPlatform('You Are Running this bot on a Currently Unsupported Platform.\nPlease send your platform information as a comment to the\nhttps://github.com/Cheeselab/DecoraterBot/issues/7 issue. Your current Platform is: {0}\nAlso Please note the Developer only has and can get the Windows Binaries of Python and the Dependencies so it is recommended for someone to commit those in a folder to be included in future versions.'.format(sys.platform))
+
 
 # noinspection PyPep8Naming,PyUnusedLocal
 class bot_data:

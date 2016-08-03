@@ -1039,11 +1039,27 @@ class bot_data:
                         except ConnectionResetError:
                             # Supress a Error here.
                             pass
-                        botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel.id)
-                        botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_server.id)
-                        botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_channel.id)
-                        botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_server_name)
-                        botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel_name)
+                        if vchannel is not None:
+                            try:
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel.id)
+                            except ValueError:
+                                pass
+                            try:
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_server.id)
+                            except ValueError:
+                                pass
+                            try:
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_channel.id)
+                            except ValueError:
+                                pass
+                            try:
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_server_name)
+                            except ValueError:
+                                pass
+                            try:
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel_name)
+                            except ValueError:
+                                pass
                         filename = sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "BotVoiceChannel.json"
                         json.dump(botvoicechannel, open(filename, "w"))
                         try:

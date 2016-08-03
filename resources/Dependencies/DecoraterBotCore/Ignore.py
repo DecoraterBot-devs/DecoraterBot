@@ -294,6 +294,7 @@ if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _async
     import BotLogs
     DBLogs = BotLogs.BotLogs()
 
+
 class bot_data_001:
     """
         This Class is for Internal Use only!!!
@@ -451,7 +452,9 @@ class bot_data_001:
         yield from DBCommands.bot_roles(client, message)
         yield from DBCommands.more_commands(client, message)
         yield from DBCommands.convert_url(client, message)
-        if _disable_voice_commands is not True:
+        if (_disable_voice_commands is not True and 
+            sys.platform.startswith('win')):  # Sorry but currently I only have opus for Windows and the same for ffmpeg. 
+            # You will have to get opus and ffmpeg for your platform and then add it to the list like you see in Core.py.
             yield from DBVoiceCommands.voice_stuff_new(client, message)
         else:
             yield from DBVoiceCommands.voice_stuff_new_disabled(client, message)

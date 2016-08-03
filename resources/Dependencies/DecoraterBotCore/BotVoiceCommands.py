@@ -23,11 +23,14 @@
     So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse than the way it is.
     
     You do have the right however to:
-        -> Contribute to the bot's development.
-        -> fix bugs.
-        -> add commands.
-        -> help finish the per server config (has issues)
-        -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Contribute to the bot's development.
+        --> fix bugs.
+        --> add commands.
+        --> help finish the per server config (has issues)
+        --> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can bug fix all you like.
+                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes any and/or all issues.
+                (There are times when I am so busy that I do not see or even notice some bugs for a few weeks or more)
 
     But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
@@ -55,17 +58,19 @@ from collections import deque
 import BotPMError
 from discord.ext import commands
 
-botbanslist = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
+sepa = os.sep
+
+botbanslist = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotBanned.json', 'r')
 banlist = json.load(botbanslist)
 try:
-    botvoicechannelfile = io.open(sys.path[0] + '\\resources\\ConfigData\\BotVoiceChannel.json', 'r')
+    botvoicechannelfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotVoiceChannel.json', 'r')
     botvoicechannel = json.load(botvoicechannelfile)
 except FileNotFoundError:
     pass
-botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
+botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
 botmessages = json.load(botmessagesdata)
 
-PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
+PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
     credentials = json.load(credsfile)
@@ -77,19 +82,23 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         _log_ytdl = False
 
 bits = ctypes.sizeof(ctypes.c_voidp)
+# I Sadly have only Windows Version of opus.dll ad Windows Version of FFmpeg.
+# Feel free to help pull request Linux & Mac versions of these files especially the pyd's hopefully they will not conflict with the windows pyd's
+# Why? Because I dont have a Mac or a Linux OS. Not to mention the platform arch. I do know on python on Windows (does not matter if 32 or 64 bit)
+# that it is identified as "WIN32"
 if bits == 4:
-    opusdll = sys.path[0] + "\\resources\\opus\\opus.dll"
-    os.chdir(sys.path[0] + "\\resources\\ffmpeg\\x86")
+    opusdll = sys.path[0] + sepa + "resources" + sepa + "opus" + sepa + "opus.dll"
+    os.chdir(sys.path[0] + sepa + "resources" + sepa + "ffmpeg" + sepa + "x86")
 elif bits == 8:
-    opusdll = sys.path[0] + "\\resources\\opus\\opus64.dll"
-    os.chdir(sys.path[0] + "\\resources\\ffmpeg\\x64")
+    opusdll = sys.path[0] + sepa + "resources" + sepa + "opus" + sepa + "opus64.dll"
+    os.chdir(sys.path[0] + sepa + "resources" + sepa + "ffmpeg" + sepa + "x64")
 
 
 class YTDLLogger(object):
     def log_file_code(self, meth, msg):
         if meth is not '':
             if meth == 'ytdl_debug':
-                logfile = sys.path[0] + '\\resources\\Logs\\ytdl_debug_logs.txt'
+                logfile = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_debug_logs.txt'
                 try:
                     file = io.open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -100,7 +109,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_warning':
-                logfile2 = sys.path[0] + '\\resources\\Logs\\ytdl_warning_logs.txt'
+                logfile2 = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_warning_logs.txt'
                 try:
                     file2 = io.open(logfile2, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile2)
@@ -111,7 +120,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_error':
-                logfile3 = sys.path[0] + '\\resources\\Logs\\ytdl_error_logs.txt'
+                logfile3 = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_error_logs.txt'
                 try:
                     file3 = io.open(logfile3, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile3)
@@ -122,7 +131,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             if meth == 'ytdl_info':
-                logfile4 = sys.path[0] + '\\resources\\Logs\\ytdl_info_logs.txt'
+                logfile4 = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_info_logs.txt'
                 try:
                     file4 = io.open(logfile4, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile4)
@@ -235,7 +244,7 @@ _temp_player_10 = None
 # noinspection PyRedeclaration
 ffmop = "-nostats -loglevel quiet"
 # noinspection PyRedeclaration
-ffmout = io.open(sys.path[0] + '\\resources\\Logs\\ffmpeg.shit', 'w')
+ffmout = io.open(sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ffmpeg.shit', 'w')
 # noinspection PyRedeclaration
 verror = False
 
@@ -303,7 +312,7 @@ class bot_data:
                         botvoicechannel['Bot_Current_Voice_Channel'].append(voice_message_server_name)
                     if vchannel_name not in botvoicechannel:
                         botvoicechannel['Bot_Current_Voice_Channel'].append(vchannel_name)
-                    file_name = sys.path[0] + "\\resources\\ConfigData\\BotVoiceChannel.json"
+                    file_name = sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "BotVoiceChannel.json"
                     json.dump(botvoicechannel, open(file_name, "w"))
                     try:
                         try:
@@ -1035,7 +1044,7 @@ class bot_data:
                         botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_channel.id)
                         botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_server_name)
                         botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel_name)
-                        filename = sys.path[0] + "\\resources\\ConfigData\\BotVoiceChannel.json"
+                        filename = sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "BotVoiceChannel.json"
                         json.dump(botvoicechannel, open(filename, "w"))
                         try:
                             try:
@@ -1303,7 +1312,7 @@ class bot_data:
         global vchannel_name
         global verror
         try:
-            botvoicechannelfile = io.open(sys.path[0] + '\\resources\\ConfigData\\BotVoiceChannel.json', 'r')
+            botvoicechannelfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotVoiceChannel.json', 'r')
             botvoicechannel_reloaded = json.load(botvoicechannelfile)
             botvoicechannelfile.close()
         except FileNotFoundError:

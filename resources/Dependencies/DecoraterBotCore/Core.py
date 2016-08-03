@@ -23,11 +23,14 @@
     So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse than the way it is.
     
     You do have the right however to:
-        -> Contribute to the bot's development.
-        -> fix bugs.
-        -> add commands.
-        -> help finish the per server config (has issues)
-        -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Contribute to the bot's development.
+        --> fix bugs.
+        --> add commands.
+        --> help finish the per server config (has issues)
+        --> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can bug fix all you like.
+                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes any and/or all issues.
+                (There are times when I am so busy that I do not see or even notice some bugs for a few weeks or more)
 
     But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
@@ -46,7 +49,8 @@ import io
 try:
     import Ignore
 except ImportError:
-    sys.path.append(sys.path[0] + "\\resources\\Dependencies\\DecoraterBotCore")
+    sepa = os.sep
+    sys.path.append(sys.path[0] + sepa + "resources" + sepa + "Dependencies" + sepa + "DecoraterBotCore")
     import Ignore
 import Login
 import BotCommands
@@ -54,21 +58,23 @@ import BotPMError
 import BotVoiceCommands
 from discord.ext import commands
 
+sepa = os.sep
+
 DBLogin = Login.BotLogin()
 DBEvents = Ignore.BotEvents()
 DBIgnores = Ignore.BotIgnores()
-jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\BotBanned.json', 'r')
+jsonfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotBanned.json', 'r')
 somedict = json.load(jsonfile)
-consoledatafile = io.open(sys.path[0] + '\\resources\ConfigData\\ConsoleWindow.json', 'r')
+consoledatafile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'ConsoleWindow.json', 'r')
 consoletext = json.load(consoledatafile)
-botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
+botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
 botmessages = json.load(botmessagesdata)
 
 version = str(consoletext['WindowVersion'][0])
 start = time.time()
 DBLogin.variable()
 
-PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
+PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
@@ -102,6 +108,9 @@ class bot_data:
         ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
 
     def changewindowsize_code(self):
+        # the Following is windows only. I do however want to figure out the variable for Linux / Mac to catch them and make a univeral all platform
+        # bot but the issue is the dependencies. Unless I undo the PYD Compile of most of them (although it would make some things easier and less disk space
+        # usage.)
         cmd = "mode con: cols=80 lines=23"
         subprocess.Popen(cmd, shell=True)
 

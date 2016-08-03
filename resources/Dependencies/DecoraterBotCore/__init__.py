@@ -1,7 +1,4 @@
 # coding=utf-8
-import sys
-from .Core import *
-import logging
 """
     DecoraterBot's source is protected by Cheese.lab industries Inc. Even though it is Open Source
     any and all users waive the right to say that this bot's code was stolen when it really was not.
@@ -26,14 +23,20 @@ import logging
     So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse than the way it is.
     
     You do have the right however to:
-        -> Contribute to the bot's development.
-        -> fix bugs.
-        -> add commands.
-        -> help finish the per server config (has issues)
-        -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Contribute to the bot's development.
+        --> fix bugs.
+        --> add commands.
+        --> help finish the per server config (has issues)
+        --> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can bug fix all you like.
+                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes any and/or all issues.
+                (There are times when I am so busy that I do not see or even notice some bugs for a few weeks or more)
 
     But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
+import sys
+from .Core import *
+import logging
 """
 DecoraterBotCore
 ~~~~~~~~~~~~~~~~~~~

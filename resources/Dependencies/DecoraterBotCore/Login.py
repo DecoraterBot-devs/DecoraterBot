@@ -23,11 +23,14 @@
     So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse than the way it is.
     
     You do have the right however to:
-        -> Contribute to the bot's development.
-        -> fix bugs.
-        -> add commands.
-        -> help finish the per server config (has issues)
-        -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Contribute to the bot's development.
+        --> fix bugs.
+        --> add commands.
+        --> help finish the per server config (has issues)
+        --> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can bug fix all you like.
+                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes any and/or all issues.
+                (There are times when I am so busy that I do not see or even notice some bugs for a few weeks or more)
 
     But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
@@ -43,12 +46,17 @@ from colorama import init
 from colorama import Fore, Back, Style
 from discord.ext import commands
 
+sepa = os.sep
+
 init()
 
-consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
+consoledatafile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'ConsoleWindow.json', 'r')
 consoletext = json.load(consoledatafile)
 
-PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
+botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
+botmessages = json.load(botmessagesdata)
+
+PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
 
 global reconnects
 # noinspection PyRedeclaration
@@ -129,8 +137,6 @@ class bot_data:
         global logged_in
         if logged_in:
             logged_in = False
-            botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
-            botmessages = json.load(botmessagesdata)
             message_data = str(botmessages['On_Ready_Message'][0])
             try:
                 yield from client.send_message(discord.Object(id='118098998744580098'), message_data)

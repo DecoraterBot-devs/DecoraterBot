@@ -23,14 +23,18 @@
     So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse than the way it is.
     
     You do have the right however to:
-        -> Contribute to the bot's development.
-        -> fix bugs.
-        -> add commands.
-        -> help finish the per server config (has issues)
-        -> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Contribute to the bot's development.
+        --> fix bugs.
+        --> add commands.
+        --> help finish the per server config (has issues)
+        --> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
+        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can bug fix all you like.
+                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes any and/or all issues.
+                (There are times when I am so busy that I do not see or even notice some bugs for a few weeks or more)
 
     But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
 """
+import os
 import discord
 import asyncio
 import sys
@@ -42,8 +46,9 @@ import traceback
 try:
     import BotCommands
 except SyntaxError:
+    sepa = os.sep
     exception_data = 'Fatal exception caused in BotCommands.py:\n{0}'.format(str(traceback.format_exc()))
-    logfile = sys.path[0] + '\\resources\\Logs\\error_log.txt'
+    logfile = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'error_log.txt'
     try:
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
@@ -59,20 +64,22 @@ import BotPMError
 import BotVoiceCommands
 from discord.ext import commands
 
+sepa = os.sep
+
 try:
-    consoledatafile = io.open(sys.path[0] + '\\resources\\ConfigData\\ConsoleWindow.json', 'r')
+    consoledatafile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'ConsoleWindow.json', 'r')
     consoletext = json.load(consoledatafile)
 except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
 try:
-    jsonfile = io.open(sys.path[0] + '\\resources\\ConfigData\\IgnoreList.json', 'r')
+    jsonfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'IgnoreList.json', 'r')
     somedict = json.load(jsonfile)
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][0]))
     sys.exit(2)
 try:
-    botmessagesdata = io.open(sys.path[0] + '\\resources\\ConfigData\\BotMessages.json', 'r')
+    botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
     botmessages = json.load(botmessagesdata)
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][1]))
@@ -116,7 +123,7 @@ log_member_join = True
 # Will Always be True to prevent the Error Handler from Causing Issues later.
 enable_error_handler = True
 
-PATH = sys.path[0] + '\\resources\\ConfigData\\Credentials.json'
+PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
     credentials = json.load(credsfile)
@@ -301,7 +308,7 @@ class bot_data_001:
             if message.channel.id not in somedict["channels"]:
                 try:
                     somedict["channels"].append(message.channel.id)
-                    json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
+                    json.dump(somedict, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "IgnoreList.json", "w"))
                     try:
                         yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][0]))
                     except discord.errors.Forbidden:
@@ -316,7 +323,7 @@ class bot_data_001:
                 try:
                     ignored = somedict["channels"]
                     ignored.remove(message.channel.id)
-                    json.dump(somedict, open(sys.path[0] + "\\resources\\ConfigData\\IgnoreList.json", "w"))
+                    json.dump(somedict, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "IgnoreList.json", "w"))
                     msg_info = str(botmessages['Unignore_Channel_Data'][0])
                     try:
                         yield from client.send_message(message.channel, msg_info)
@@ -478,11 +485,11 @@ class bot_data_001:
     @asyncio.coroutine
     def cheesy_commands_code(self, client, message):
         yield from self.enable_all_commands_with_logs_code(client, message)
-        serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
+        serveridslistfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa + 'servers.json', 'r')
         serveridslist = json.load(serveridslistfile)
         serveridslistfile.close()
         serverid = str(serveridslist['config_server_ids'][0])
-        file_path = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+        file_path = sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa + serverid + sepa + 'verifications' + sepa
         filename_1 = 'verifycache.json'
         filename_2 = 'verifycommand.json'
         filename_3 = 'verifyrole.json'
@@ -503,7 +510,12 @@ class bot_data_001:
         role_name = str(memberjoinverifyroledata['verify_role_id'][0])
         msg_command = str(memberjoinverifymessagedata['verify_command'][0])
         try:
-            if message.content == msg_command:
+            msgdata = None
+            if '>' or '<' or '`' in message.content:
+                msgdata = message.content.replace('<', '').replace('>', '').replace('`', '')
+            else:
+                msgdata = message.content
+            if msgdata == msg_command:
                 if message.author.id in newlyjoinedlist['users_to_be_verified']:
                     yield from client.delete_message(message)
                     role = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
@@ -643,11 +655,11 @@ class bot_data_003:
     @asyncio.coroutine
     def _resolve_verify_cache_cleanup_2_code(self, client, member):
         try:
-            serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
+            serveridslistfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa + 'servers.json', 'r')
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
-            file_path = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+            file_path = sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa + serverid + sepa + 'verifications' + sepa
             filename_1 = 'verifycache.json'
             joinedlistfile = io.open(sys.path[0] + file_path + filename_1, 'r')
             newlyjoinedlist = json.load(joinedlistfile)
@@ -655,8 +667,8 @@ class bot_data_003:
             if member.id in newlyjoinedlist['users_to_be_verified']:
                 yield from client.send_message(discord.Object(id='141489876200718336'), "{0} has left the {1} Server.".format(member.mention, member.server.name))
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                file_name = "\\verifications\\verifycache.json"
-                filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760" + file_name
+                file_name = sepa + "verifications" + sepa + "verifycache.json"
+                filename = sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "serverconfigs" + sepa + "71324306319093760" + file_name
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
             funcname = '_resolve_verify_cache_cleanup_2_code'
@@ -666,19 +678,19 @@ class bot_data_003:
     @asyncio.coroutine
     def _resolve_verify_cache_cleanup_code(self, client, member):
         try:
-            serveridslistfile = io.open(sys.path[0] + '\\resources\\ConfigData\\serverconfigs\\servers.json', 'r')
+            serveridslistfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa + 'servers.json', 'r')
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
-            file_path = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+            file_path = sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa + serverid + sepa + 'verifications' + sepa
             filename_1 = 'verifycache.json'
             joinedlistfile = io.open(sys.path[0] + file_path + filename_1, 'r')
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
             if member.id in newlyjoinedlist['users_to_be_verified']:
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                file_name = "\\verifications\\verifycache.json"
-                filename = sys.path[0] + "\\resources\\ConfigData\\serverconfigs\\71324306319093760" + file_name
+                file_name = sepa + "verifications" + sepa + "verifycache.json"
+                filename = sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "serverconfigs" + sepa + "71324306319093760" + file_name
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
             funcname = '_resolve_verify_cache_cleanup_code'
@@ -732,13 +744,13 @@ class bot_data_003:
         try:
             # TODO: Add logging for this.
             if member.server.id == '71324306319093760':
-                file_path_join_1 = '\\resources\\ConfigData\\serverconfigs\\'
+                file_path_join_1 = sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa
                 filename_join_1 = 'servers.json'
                 serveridslistfile = io.open(sys.path[0] + file_path_join_1 + filename_join_1, 'r')
                 serveridslist = json.load(serveridslistfile)
                 serveridslistfile.close()
                 serverid = str(serveridslist['config_server_ids'][0])
-                file_path_join_2 = '\\resources\\ConfigData\\serverconfigs\\' + serverid + '\\verifications\\'
+                file_path_join_2 = sepa + 'resources' + sepa + 'ConfigData' + sepa + 'serverconfigs' + sepa + serverid + sepa + 'verifications' + sepa
                 filename_join_2 = 'verifymessages.json'
                 filename_join_3 = 'verifycache.json'
                 filename_join_4 = 'verifycache.json'

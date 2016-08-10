@@ -274,8 +274,10 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         _disable_voice_commands = False
     if _pm_command_errors == 'True':
         _pm_command_errors = True
+        enable_error_handler = False
     elif _pm_command_errors == 'False':
         _pm_command_errors = False
+        enable_error_handler = True
     if _bot_prefix == '':
         _bot_prefix = None
     if _bot_prefix is None:
@@ -541,7 +543,8 @@ class bot_data_001:
 
     @asyncio.coroutine
     def everyone_mention_logger_code(self, client, message):
-        yield from client.send_message(message.channel.server.owner, "{0} has mentioned everyone in {1} on the {1} server.".format(message.author.name, message.channel.name, message.channel.server.name))
+        if message.content.find('@everyone') != -1:
+            yield from client.send_message(message.channel.server.owner, "{0} has mentioned everyone in {1} on the {1} server.".format(message.author.name, message.channel.name, message.channel.server.name))
 
 
 class bot_data_002:
@@ -578,12 +581,10 @@ class bot_data_002:
                 if _pm_command_errors:
                     if discord_user_id is not None:
                         owner = discord_user_id
-                        cheesecast = "71323348545576960"
                         exception_data = str(traceback.format_exc())
                         message_data = '```py\n' + exception_data + "\n```"
                         try:
                             yield from client.send_message(discord.User(id=owner), message_data)
-                            yield from client.send_message(discord.User(id=cheesecast), message_data)
                         except discord.errors.Forbidden:
                             return
                         except discord.errors.HTTPException:

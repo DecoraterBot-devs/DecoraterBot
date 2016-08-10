@@ -462,3 +462,129 @@ class BotCore:
     @asyncio.coroutine
     def _bot_ready(self, client):
         yield from self.bot._bot_ready_code(client)
+
+
+DBCore = BotCore()
+
+
+class BotClient(discord.Client):
+    # Hack to not overwrite the __init__ function in discord.Client()
+    # This is required to actually login and run the bot or you will be screwed. DO NOT REMOVE THIS HACK!!!
+    def not_a_async_function(self):
+        DBCore._asyncio_logger()
+        DBCore._discord_logger()
+        DBCore.changewindowtitle()
+        # DBCore.changewindowsize()
+        DBCore._login_helper(self)
+
+    @asyncio.coroutine
+    def on_message(self, message):
+        yield from DBCore.commands(self, message)
+
+    @asyncio.coroutine
+    def on_message_delete(self, message):
+        yield from DBCore.deletemessage(self, message)
+
+    @asyncio.coroutine
+    def on_message_edit(self, before, after):
+        yield from DBCore.editmessage(self, before, after)
+
+    @asyncio.coroutine
+    def on_channel_delete(self, channel):
+        yield from DBCore.channeldelete(channel)
+
+    @asyncio.coroutine
+    def on_channel_create(self, channel):
+        yield from DBCore.channelcreate(channel)
+
+    @asyncio.coroutine
+    def on_channel_update(self, before, after):
+        yield from DBCore.channelupdate(before, after)
+
+    @asyncio.coroutine
+    def on_member_ban(self, member):
+        yield from DBCore.memberban(self, member)
+
+    @asyncio.coroutine
+    def on_member_unban(server, user):
+        yield from DBCore.memberunban(server, user)
+
+    @asyncio.coroutine
+    def on_member_remove(self, member):
+        yield from DBCore.memberremove(client, member)
+
+    @asyncio.coroutine
+    def on_member_update(self, before, after):
+        yield from DBCore.memberupdate(before, after)
+
+    @asyncio.coroutine
+    def on_member_join(self, member):
+        yield from DBCore.memberjoin(self, member)
+
+    @asyncio.coroutine
+    def on_server_available(self, server):
+        yield from DBCore._server_available(server)
+
+    @asyncio.coroutine
+    def on_server_unavailable(self, server):
+        yield from DBCore._server_unavailable(server)
+
+    @asyncio.coroutine
+    def on_server_join(self, server):
+        yield from DBCore.serverjoin(server)
+
+    @asyncio.coroutine
+    def on_server_remove(self, server):
+        yield from DBCore.serverremove(server)
+
+    @asyncio.coroutine
+    def on_server_update(self, before, after):
+        yield from DBCore.serverupdate(before, after)
+
+    @asyncio.coroutine
+    def on_server_role_create(self, role):
+        yield from DBCore.serverrolecreate(role)
+
+    @asyncio.coroutine
+    def on_server_role_delete(self, role):
+        yield from DBCore.serverroledelete(role)
+
+    @asyncio.coroutine
+    def on_server_role_update(self, before, after):
+        yield from DBCore.serverroleupdate(before, after)
+
+    @asyncio.coroutine
+    def on_group_join(self, channel, user):
+        yield from DBCore.groupjoin(channel, user)
+
+    @asyncio.coroutine
+    def on_group_remove(self, channel, user):
+        yield from DBCore.groupremove(channel, user)
+
+    @asyncio.coroutine
+    def on_error(self, event, *args, **kwargs):
+        yield from DBCore.errors(event, *args, **kwargs)
+
+    @asyncio.coroutine
+    def on_voice_state_update(self, before, after):
+        yield from DBCore.voiceupdate(before, after)
+
+    @asyncio.coroutine
+    def on_typing(self, channel, user, when):
+        yield from DBCore.typing(channel, user, when)
+
+    @asyncio.coroutine
+    def on_socket_raw_receive(self, msg):
+        yield from DBCore.raw_recv(msg)
+
+    @asyncio.coroutine
+    def on_socket_raw_send(self, payload):
+        yield from DBCore.raw_send(payload)
+
+    @asyncio.coroutine
+    def on_ready(self):
+        yield from DBCore._bot_ready(self)
+
+    @asyncio.coroutine
+    def on_resumed(self):
+        yield from DBCore._bot_resumed()

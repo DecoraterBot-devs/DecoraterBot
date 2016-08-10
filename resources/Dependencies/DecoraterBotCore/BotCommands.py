@@ -950,6 +950,12 @@ class bot_data:
                     if not meme_error:
                         rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
                         yield from client.send_message(message.channel, rep)
+            if message.content.startswith(_bot_prefix + 'givecreds'):
+                """
+                    This command tricks a bot to giving the owner of this bot 200 credits.
+                """
+                ownermentiondata = '<@' + owner_id + '>'
+                yield from client.send_message(message.channel, 't!daily {0}'.format(ownermentiondata))
             """
                 This below is left in so anyone could have a example of itterating through roles to find the right one
                 that they want.

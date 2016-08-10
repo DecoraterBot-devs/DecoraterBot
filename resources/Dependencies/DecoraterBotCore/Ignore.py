@@ -121,6 +121,7 @@ log_socket_raw_send = True
 log_resumed = True
 log_member_join = True
 # Will Always be True to prevent the Error Handler from Causing Issues later.
+# Well only if the PM Error handler is False.
 enable_error_handler = True
 
 PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
@@ -538,6 +539,10 @@ class bot_data_001:
         except NameError:
             yield from client.send_message(message.channel, "{0} Verification has Failed.".format(message.author.mention))
 
+    @asyncio.coroutine
+    def everyone_mention_logger_code(self, client, message):
+        yield from client.send_message(message.channel.server.owner, "{0} has mentioned everyone in {1} on the {1} server.".format(message.author.name, message.channel.name, message.channel.server.name))
+
 
 class bot_data_002:
     """
@@ -565,6 +570,7 @@ class bot_data_002:
                     if message.channel.id == '141489876200718336':
                         yield from self.DBCommandData.cheesy_commands(client, message)
                     else:
+                        yield from self.DBCommandData.everyone_mention_logger(client, message)
                         yield from self.DBCommandData.enable_all_commands_with_logs(client, message)
                 else:
                     yield from self.DBCommandData.enable_all_commands_with_logs(client, message)
@@ -572,10 +578,12 @@ class bot_data_002:
                 if _pm_command_errors:
                     if discord_user_id is not None:
                         owner = discord_user_id
+                        cheesecast = "71323348545576960"
                         exception_data = str(traceback.format_exc())
                         message_data = '```py\n' + exception_data + "\n```"
                         try:
                             yield from client.send_message(discord.User(id=owner), message_data)
+                            yield from client.send_message(discord.User(id=cheesecast), message_data)
                         except discord.errors.Forbidden:
                             return
                         except discord.errors.HTTPException:
@@ -889,6 +897,10 @@ class BotCommandData:
     @asyncio.coroutine
     def cheesy_commands(self, client, message):
         yield from self.bot.cheesy_commands_code(client, message)
+
+    @asyncio.coroutine
+    def everyone_mention_logger(self, client, message):
+        yield from self.bot.everyone_mention_logger_code(client, message)
 
 
 class BotIgnores:

@@ -41,7 +41,7 @@
         "Successfully Joined the server.",
         "Sorry, You did not specify a code or a Valid URL to Join a Server.",
         "You did not specify a URL to Join.",
-        "Sorry, This Command does not work like it used too If you want it in that server you have to go to here:\n<https://discordapp.com/oauth2/authorize?&client_id=168323225602752512&scope=bot&permissions=134343695>"
+        "Sorry, This Command does not work like it used too If you want it in that server you have to go to here:\n<https://cheeselab.cf/decoraterbot>"
     ],
     "kill_command_data": [
         "{0.mention} took a lamp out and hit them on the head, killing them.",

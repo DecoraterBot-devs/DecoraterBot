@@ -150,7 +150,7 @@ class ProcessPlayer(StreamPlayer):
         try:
             super().run()
         except Exception as err:
-            log.exception(str(err))
+            log.exception('Exception in Daemon Thread(s) {0}.'.format(str(err)))
 
         self.process.kill()
         if self.process.poll() is None:

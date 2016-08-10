@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import os.path
 import optparse
+import re
 import sys
 
 from .downloader.external import list_external_downloaders
@@ -93,8 +94,18 @@ def parseOpts(overrideArguments=None):
         setattr(parser.values, option.dest, value.split(','))
 
     def _hide_login_info(opts):
-        opts = list(opts)
-        for private_opt in ['-p', '--password', '-u', '--username', '--video-password']:
+        PRIVATE_OPTS = ['-p', '--password', '-u', '--username', '--video-password']
+        eqre = re.compile('^(?P<key>' + ('|'.join(re.escape(po) for po in PRIVATE_OPTS)) + ')=.+$')
+
+        def _scrub_eq(o):
+            m = eqre.match(o)
+            if m:
+                return m.group('key') + '=PRIVATE'
+            else:
+                return o
+
+        opts = list(map(_scrub_eq, opts))
+        for private_opt in PRIVATE_OPTS:
             try:
                 i = opts.index(private_opt)
                 opts[i + 1] = 'PRIVATE'
@@ -488,9 +499,20 @@ def parseOpts(overrideArguments=None):
         dest='bidi_workaround', action='store_true',
         help='Work around terminals that lack bidirectional text support. Requires bidiv or fribidi executable in PATH')
     workarounds.add_option(
-        '--sleep-interval', metavar='SECONDS',
+        '--sleep-interval', '--min-sleep-interval', metavar='SECONDS',
         dest='sleep_interval', type=float,
-        help='Number of seconds to sleep before each download.')
+        help=(
+            'Number of seconds to sleep before each download when used alone '
+            'or a lower bound of a range for randomized sleep before each download '
+            '(minimum possible number of seconds to sleep) when used along with '
+            '--max-sleep-interval.'))
+    workarounds.add_option(
+        '--max-sleep-interval', metavar='SECONDS',
+        dest='max_sleep_interval', type=float,
+        help=(
+            'Upper bound of a range for randomized sleep before each download '
+            '(maximum possible number of seconds to sleep). Must only be used '
+            'along with --min-sleep-interval.'))
 
     verbosity = optparse.OptionGroup(parser, 'Verbosity / Simulation Options')
     verbosity.add_option(

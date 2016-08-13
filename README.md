@@ -65,7 +65,7 @@ View the list of bot commands [here](https://github.com/Cheeselab/DecoraterBot/b
 
 Join the official Cheese.lab servers to help test and contribute to the development of the bot.
 
-[![](https://discordapp.com/api/servers/71324306319093760/widget.png?style=banner2)](https://discord.gg/cheese) 
+[![](https://discordapp.com/api/servers/71324306319093760/widget.png?style=banner2)](https://discord.gg/lab) 
 [![](https://discordapp.com/api/servers/200406284288131072/widget.png?style=banner2)](https://discord.gg/m9GDqER)
 
 And the Bot's Original Server (Kinda dead right now):

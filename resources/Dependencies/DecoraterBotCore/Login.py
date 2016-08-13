@@ -38,6 +38,7 @@ import discord
 import asyncio
 import os
 import os.path
+import aiohttp
 import sys
 import json
 import io
@@ -112,6 +113,13 @@ class bot_data:
             except KeyboardInterrupt:
                 return
             except asyncio.futures.InvalidStateError:
+                reconnects = reconnects + 1
+                if reconnects != 0:
+                    print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                    # sleeptime = reconnects * 5
+                    # asyncio.sleep(sleeptime)
+                    self.login_info_code(client)
+            except aiohttp.errors.ClientOSError:
                 reconnects = reconnects + 1
                 if reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))

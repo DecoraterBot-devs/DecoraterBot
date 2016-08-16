@@ -3,7 +3,6 @@ import asyncio
 
 import keyword
 import collections
-import mimetypes
 import re
 import os
 import sys
@@ -15,13 +14,15 @@ from pathlib import Path
 from urllib.parse import urlencode, unquote
 from types import MappingProxyType
 
+from multidict import upstr
+
 from . import hdrs
 from .abc import AbstractRouter, AbstractMatchInfo, AbstractView
+from .file_sender import FileSender
 from .protocol import HttpVersion11
 from .web_exceptions import (HTTPMethodNotAllowed, HTTPNotFound,
-                             HTTPNotModified, HTTPExpectationFailed)
+                             HTTPExpectationFailed)
 from .web_reqrep import StreamResponse
-from .multidict import upstr
 
 
 __all__ = ('UrlDispatcher', 'UrlMappingMatchInfo',
@@ -66,7 +67,7 @@ class AbstractResource(Sized, Iterable):
             return url
 
 
-class AbstractRoute(metaclass=abc.ABCMeta):
+class AbstractRoute(abc.ABC):
     METHODS = hdrs.METH_ALL | {hdrs.METH_ANY}
 
     def __init__(self, method, handler, *,
@@ -93,7 +94,14 @@ class AbstractRoute(metaclass=abc.ABCMeta):
               issubclass(handler, AbstractView)):
             pass
         else:
-            handler = asyncio.coroutine(handler)
+            @asyncio.coroutine
+            def handler_wrapper(*args, **kwargs):
+                result = old_handler(*args, **kwargs)
+                if asyncio.iscoroutine(result):
+                    result = yield from result
+                return result
+            old_handler = handler
+            handler = handler_wrapper
 
         self._method = method
         self._handler = handler
@@ -176,7 +184,7 @@ class MatchInfoError(UrlMappingMatchInfo):
 
 @asyncio.coroutine
 def _defaultExpectHandler(request):
-    """Default handler for Except header.
+    """Default handler for Expect header.
 
     Just send "100 Continue" to client.
     raise HTTPExpectationFailed if value of header is not "100-continue"
@@ -450,11 +458,8 @@ class StaticRoute(Route):
             raise ValueError(
                 "No directory exists at '{}'".format(directory)) from error
         self._directory = directory
-        self._chunk_size = chunk_size
-        self._response_factory = response_factory
-
-        if bool(os.environ.get("AIOHTTP_NOSENDFILE")):
-            self._sendfile = self._sendfile_fallback
+        self._file_sender = FileSender(resp_factory=response_factory,
+                                       chunk_size=chunk_size)
 
     def match(self, path):
         if not path.startswith(self._prefix):
@@ -473,88 +478,6 @@ class StaticRoute(Route):
         return {'directory': self._directory,
                 'prefix': self._prefix}
 
-    def _sendfile_cb(self, fut, out_fd, in_fd, offset, count, loop,
-                     registered):
-        if registered:
-            loop.remove_writer(out_fd)
-        try:
-            n = os.sendfile(out_fd, in_fd, offset, count)
-            if n == 0:  # EOF reached
-                n = count
-        except (BlockingIOError, InterruptedError):
-            n = 0
-        except Exception as exc:
-            fut.set_exception(exc)
-            return
-
-        if n < count:
-            loop.add_writer(out_fd, self._sendfile_cb, fut, out_fd, in_fd,
-                            offset + n, count - n, loop, True)
-        else:
-            fut.set_result(None)
-
-    @asyncio.coroutine
-    def _sendfile_system(self, req, resp, fobj, count):
-        """
-        Write `count` bytes of `fobj` to `resp` starting from `offset` using
-        the ``sendfile`` system call.
-
-        `req` should be a :obj:`aiohttp.web.Request` instance.
-
-        `resp` should be a :obj:`aiohttp.web.StreamResponse` instance.
-
-        `fobj` should be an open file object.
-
-        `offset` should be an integer >= 0.
-
-        `count` should be an integer > 0.
-        """
-        transport = req.transport
-
-        if transport.get_extra_info("sslcontext"):
-            yield from self._sendfile_fallback(req, resp, fobj, count)
-            return
-
-        yield from resp.drain()
-
-        loop = req.app.loop
-        out_fd = transport.get_extra_info("socket").fileno()
-        in_fd = fobj.fileno()
-        fut = asyncio.Future(loop=loop)
-
-        self._sendfile_cb(fut, out_fd, in_fd, 0, count, loop, False)
-
-        yield from fut
-
-    @asyncio.coroutine
-    def _sendfile_fallback(self, req, resp, fobj, count):
-        """
-        Mimic the :meth:`_sendfile_system` method, but without using the
-        ``sendfile`` system call. This should be used on systems that don't
-        support the ``sendfile`` system call.
-
-        To avoid blocking the event loop & to keep memory usage low, `fobj` is
-        transferred in chunks controlled by the `chunk_size` argument to
-        :class:`StaticRoute`.
-        """
-        chunk_size = self._chunk_size
-
-        chunk = fobj.read(chunk_size)
-        while chunk and count > chunk_size:
-            resp.write(chunk)
-            yield from resp.drain()
-            count = count - chunk_size
-            chunk = fobj.read(chunk_size)
-
-        if chunk:
-            resp.write(chunk[:count])
-            yield from resp.drain()
-
-    if hasattr(os, "sendfile"):  # pragma: no cover
-        _sendfile = _sendfile_system
-    else:  # pragma: no cover
-        _sendfile = _sendfile_fallback
-
     @asyncio.coroutine
     def handle(self, request):
         filename = request.match_info['filename']
@@ -566,39 +489,15 @@ class StaticRoute(Route):
             raise HTTPNotFound() from error
         except Exception as error:
             # perm error or other kind!
-            request.logger.exception(error)
+            request.app.logger.exception(error)
             raise HTTPNotFound() from error
 
-        st = filepath.stat()
+        # Make sure that filepath is a file
+        if not filepath.is_file():
+            raise HTTPNotFound()
 
-        modsince = request.if_modified_since
-        if modsince is not None and st.st_mtime <= modsince.timestamp():
-            raise HTTPNotModified()
-
-        ct, encoding = mimetypes.guess_type(str(filepath))
-        if not ct:
-            ct = 'application/octet-stream'
-
-        resp = self._response_factory()
-        resp.content_type = ct
-        if encoding:
-            resp.headers[hdrs.CONTENT_ENCODING] = encoding
-        resp.last_modified = st.st_mtime
-
-        file_size = st.st_size
-
-        resp.content_length = file_size
-        resp.set_tcp_cork(True)
-        try:
-            yield from resp.prepare(request)
-
-            with filepath.open('rb') as f:
-                yield from self._sendfile(request, resp, f, file_size)
-
-        finally:
-            resp.set_tcp_nodelay(True)
-
-        return resp
+        ret = yield from self._file_sender.send(request, filepath)
+        return ret
 
     def __repr__(self):
         name = "'" + self.name + "' " if self.name is not None else ""
@@ -655,7 +554,8 @@ class View(AbstractView):
             return (yield from self.__iter__())
 
     def _raise_allowed_methods(self):
-        allowed_methods = {m for m in hdrs.METH_ALL if hasattr(self, m)}
+        allowed_methods = {
+            m for m in hdrs.METH_ALL if hasattr(self, m.lower())}
         raise HTTPMethodNotAllowed(self.request.method, allowed_methods)
 
 

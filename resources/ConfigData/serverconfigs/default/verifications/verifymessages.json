@@ -1,1 +1,13 @@
-{    "verify_messages": [        "<@{0}> has joined {1}. Please Read the rules in [mention channel here] and when you agree send the verifification command in here.",        "{0} You are now verified."    ],    "verify_messages_channel": [        "[channel id to send join/verification stuff here]"    ]}
+{
+    "verify_messages": [
+        "<@{0}> has joined {1}. Please Read the rules in [mention channel here] and when you agree send the verifification command in here.",
+        "You are now verified on the {0} Server.",
+        "You are not on the list of people to verify.",
+        "{0} I am sorry, you did not send the right Verification Message. Please Read [mention channel here] and try again.",
+        "{0} Verification has Failed.",
+        "{0} has left the {1} Server."
+    ],
+    "verify_messages_channel": [
+        "[channel id to send join/verification stuff here]"
+    ]
+}

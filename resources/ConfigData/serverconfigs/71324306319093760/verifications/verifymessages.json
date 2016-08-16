@@ -1,1 +1,13 @@
-{    "verify_messages": [        "<@{0}> has joined {1}. Please Read the Code of Conduct in <#149323474765217792> and when you agree send the command in here.",        "You are now verified on the {0} Server."    ],    "verify_messages_channel": [        "141489876200718336"    ]}
+{
+    "verify_messages": [
+        "<@{0}> has joined {1}. Please Read the Code of Conduct in <#149323474765217792> and when you agree send the command in here.",
+        "You are now verified on the {0} Server.",
+        "You are not on the list of people to verify.",
+        "{0} I am sorry, you did not send the right Verification Message. Please Read <#149323474765217792> and try again.",
+        "{0} Verification has Failed.",
+        "{0} has left the {1} Server."
+    ],
+    "verify_messages_channel": [
+        "141489876200718336"
+    ]
+}

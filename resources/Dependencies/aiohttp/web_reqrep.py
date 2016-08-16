@@ -16,12 +16,13 @@ from email.utils import parsedate
 from types import MappingProxyType
 from urllib.parse import urlsplit, parse_qsl, unquote
 
+from multidict import (CIMultiDictProxy,
+                       CIMultiDict,
+                       MultiDictProxy,
+                       MultiDict)
+
 from . import hdrs
 from .helpers import reify
-from .multidict import (CIMultiDictProxy,
-                        CIMultiDict,
-                        MultiDictProxy,
-                        MultiDict)
 from .protocol import Response as ResponseImpl, HttpVersion10, HttpVersion11
 from .streams import EOF_MARKER
 
@@ -274,12 +275,6 @@ class Request(dict, HeadersMixin):
             {key: val.value for key, val in parsed.items()})
 
     @property
-    def payload(self):
-        """Return raw payload stream."""
-        warnings.warn('use Request.content instead', DeprecationWarning)
-        return self._payload
-
-    @property
     def content(self):
         """Return raw payload stream."""
         return self._payload
@@ -398,8 +393,10 @@ class Request(dict, HeadersMixin):
         raise NotImplementedError
 
     def __repr__(self):
+        ascii_encodable_path = self.path.encode('ascii', 'backslashreplace') \
+            .decode('ascii')
         return "<{} {} {} >".format(self.__class__.__name__,
-                                    self.method, self.path)
+                                    self.method, ascii_encodable_path)
 
 
 ############################################################
@@ -482,6 +479,10 @@ class StreamResponse(HeadersMixin):
         # Backwards compatibility for when force was a bool <0.17.
         if type(force) == bool:
             force = ContentCoding.deflate if force else ContentCoding.identity
+        elif force is not None:
+            assert isinstance(force, ContentCoding), ("force should one of "
+                                                      "None, bool or "
+                                                      "ContentEncoding")
 
         self._compression = True
         self._compression_force = force
@@ -847,11 +848,15 @@ class Response(StreamResponse):
 
         self.body = text.encode(self.charset)
 
+    def should_send_body(self):
+        return (self._req.method != hdrs.METH_HEAD and
+                self._status not in [204, 304])
+
     @asyncio.coroutine
     def write_eof(self):
         try:
             body = self._body
-            if body is not None:
+            if body is not None and self.should_send_body():
                 self.write(body)
         finally:
             self.set_tcp_nodelay(True)

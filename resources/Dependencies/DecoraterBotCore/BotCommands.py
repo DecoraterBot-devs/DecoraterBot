@@ -3,24 +3,33 @@
     DecoraterBot's source is protected by Cheese.lab industries Inc. Even though it is Open Source
     any and all users waive the right to say that this bot's code was stolen when it really was not.
     Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
-    it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF SHIT LIKE THIS.
+    it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF
+    SHIT LIKE THIS.
     
-    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems untrue.
+    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems
+    untrue.
     
-    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to BULLSHIT.
+    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to
+    BULLSHIT.
     
     Any and all Developers work all the time, many of them do not get paid for their hard work.
     
-    I am one of those who did not get paid even though I am the original Developer I coded this bot from the bottom with no lines of code at all.
+    I am one of those who did not get paid even though I am the original Developer I coded this bot from the bottom
+    with no lines of code at all.
     
-    And how much money did I get from it for my 11 months or so of working on it? None- yeah thats right 0$ how pissed can someone be?
-    Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that way I can code my bot.
+    And how much money did I get from it for my 11 months or so of working on it? None, yeah thats right 0$ how
+    pissed can someone get?
+    Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that
+    way I can code my bot.
     
-    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as it is 10 years old and is falling apart
+    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
+    it is 10 years old and is falling apart
     
-    I am half tempted myself to pulling this bot from github and making it on patrion that boobot is also on to help me with my development needs.
+    I am half tempted myself to pulling this bot from github and making it on patrion that boobot was on to help me
+    with my development needs.
     
-    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse than the way it is.
+    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse
+    than the way it is.
     
     You do have the right however to:
         --> Contribute to the bot's development.
@@ -28,8 +37,10 @@
         --> add commands.
         --> help finish the per server config (has issues)
         --> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
-        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can bug fix all you like.
-                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes any and/or all issues.
+        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can
+                bug fix all you like.
+                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes
+                any and/or all issues.
                 (There are times when I am so busy that I do not see or even notice some bugs for a few weeks or more)
 
     But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
@@ -47,7 +58,11 @@ import base64
 import os.path
 import random
 import platform
+import importlib
 import youtube_dl
+import aiohttp
+import multidict
+import setuptools
 import time
 import cmath
 import ctypes
@@ -55,10 +70,12 @@ import subprocess
 from threading import Timer
 from collections import deque
 import BotPMError
+import py2pycx
 from discord.ext import commands
 
 sepa = os.sep
 
+# noinspection PyGlobalUndefined
 global sent_prune_error_message
 # noinspection PyRedeclaration
 sent_prune_error_message = False
@@ -137,6 +154,7 @@ if _log_games:
     DBLogs = BotLogs.BotLogs()
 
 
+# noinspection PyUnusedLocal,PyPep8Naming
 class bot_data:
     """
         This class is for Internal use only!!!
@@ -164,7 +182,8 @@ class bot_data:
             else:
                 msg = random.randint(0, 1)
                 if msg == 0:
-                    heads_coin = sys.path[0] + sepa + "resources" + sepa + "images" + sepa + "coins" + sepa + "Heads.png"
+                    heads_coin = (sys.path[0] + sepa + "resources" + sepa + "images" + sepa + "coins" + sepa +
+                                  "Heads.png")
                     try:
                         yield from client.send_file(message.channel, heads_coin)
                     except discord.errors.Forbidden:
@@ -174,7 +193,8 @@ class bot_data:
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
                 if msg == 1:
-                    tails_coin = sys.path[0] + sepa + "resources" + sepa + "images" + sepa + "coins" + sepa + "Tails.png"
+                    tails_coin = (sys.path[0] + sepa + "resources" + sepa + "images" + sepa + "coins" + sepa +
+                                  "Tails.png")
                     try:
                         yield from client.send_file(message.channel, tails_coin)
                     except discord.errors.Forbidden:
@@ -285,7 +305,8 @@ class bot_data:
                     debugcode_new = debugcode_new + '\n'
                     eval_temp_code.write(debugcode_new)
                     eval_temp_code.close()
-                    execoutputfile = sys.path[0] + sepa + 'resources' + sepa + 'exec_files' + sepa + 'eval_output_temp.txt'
+                    execoutputfile = (sys.path[0] + sepa + 'resources' + sepa + 'exec_files' + sepa +
+                                      'eval_output_temp.txt')
                     eval_temp_result_output = io.open(execoutputfile, 'w', encoding='utf-8')
                     out = eval_temp_result_output
                     p = subprocess.Popen(sys.path[4] + sepa + "python " + evalcodefile, stdout=out, stderr=out,
@@ -881,7 +902,7 @@ class bot_data:
                 msg_mention_list_len = len(message.mentions) - 1
                 if msg_mention_list_len == -1:
                     msg_mention_list_len = 0
-                if msg_mention_list_len == 0:
+                if msg_mention_list_len > 0:
                     if desdata.startswith(message.mentions[msg_mention_list_len].mention):
                         desdata = desdata.replace(" | ", "\n").replace('-', '--').replace(' ', '-')
                         desdata = desdata.splitlines()
@@ -1170,7 +1191,8 @@ class bot_data:
                     if message.mentions[0].id not in banlist['Users']:
                         try:
                             banlist['Users'].append(message.mentions[0].id)
-                            json.dump(banlist, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "BotBanned.json", "w"))
+                            json.dump(banlist, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa +
+                                                    "BotBanned.json", "w"))
                             try:
                                 message_data = str(
                                     botmessages['bot_ban_command_data'][0]).format(message.mentions[0])
@@ -1200,7 +1222,8 @@ class bot_data:
                         try:
                             tobotunban = banlist['Users']
                             tobotunban.remove(message.mentions[0].id)
-                            json.dump(banlist, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "BotBanned.json", "w"))
+                            json.dump(banlist, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa +
+                                                    "BotBanned.json", "w"))
                             try:
                                 message_data = str(
                                     botmessages['bot_unban_command_data'][0]).format(message.mentions[0])
@@ -1245,7 +1268,7 @@ class bot_data:
                 else:
                     seenin = set(
                         [member.server.name for member in client.get_all_members()
-                        if member.name == message.author.name])
+                         if member.name == message.author.name])
                     seenin = str(len(seenin))
                     if str(message.author.game) != 'None':
                         msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(message.author, seenin)

@@ -272,10 +272,7 @@ from .fox import FOXIE
 from .foxgay import FoxgayIE
 from .foxnews import FoxNewsIE
 from .foxsports import FoxSportsIE
-from .franceculture import (
-    FranceCultureIE,
-    FranceCultureEmissionIE,
-)
+from .franceculture import FranceCultureIE
 from .franceinter import FranceInterIE
 from .francetv import (
     PluzzIE,
@@ -325,6 +322,7 @@ from .heise import HeiseIE
 from .hellporno import HellPornoIE
 from .helsinki import HelsinkiIE
 from .hentaistigma import HentaiStigmaIE
+from .hgtv import HGTVIE
 from .historicfilms import HistoricFilmsIE
 from .hitbox import HitboxIE, HitboxLiveIE
 from .hornbunny import HornBunnyIE
@@ -811,7 +809,6 @@ from .tagesschau import (
     TagesschauPlayerIE,
     TagesschauIE,
 )
-from .tapely import TapelyIE
 from .tass import TassIE
 from .tdslifeway import TDSLifewayIE
 from .teachertube import (

@@ -1,4 +1,4 @@
-"""simple http server."""
+"""simple HTTP server."""
 
 import asyncio
 import http.server
@@ -41,9 +41,9 @@ EMPTY_PAYLOAD = streams.EmptyStreamReader()
 
 
 class ServerHttpProtocol(aiohttp.StreamProtocol):
-    """Simple http protocol implementation.
+    """Simple HTTP protocol implementation.
 
-    ServerHttpProtocol handles incoming http request. It reads request line,
+    ServerHttpProtocol handles incoming HTTP request. It reads request line,
     request headers and request payload and calls handle_request() method.
     By default it always returns with 404 response.
 
@@ -73,6 +73,12 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
     :param str access_log_format: access log format string
 
     :param loop: Optional event loop
+
+    :param int max_line_size: Optional maximum header line size
+
+    :param int max_field_size: Optional maximum header field size
+
+    :param int max_headers: Optional maximum header size
     """
     _request_count = 0
     _request_handler = None
@@ -80,9 +86,6 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
     _keep_alive = False  # keep transport open
     _keep_alive_handle = None  # keep alive timer handle
     _timeout_handle = None  # slow request timer handle
-
-    _request_prefix = aiohttp.HttpPrefixParser()  # http method parser
-    _request_parser = aiohttp.HttpRequestParser()  # default request parser
 
     def __init__(self, *, loop=None,
                  keep_alive=75,  # NGINX default value is 75 secs
@@ -93,6 +96,9 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                  access_log_format=helpers.AccessLogger.LOG_FORMAT,
                  debug=False,
                  log=None,
+                 max_line_size=8190,
+                 max_headers=32768,
+                 max_field_size=8190,
                  **kwargs):
         super().__init__(
             loop=loop,
@@ -102,6 +108,12 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
         self._keep_alive_period = keep_alive  # number of seconds to keep alive
         self._timeout = timeout  # slow request timeout
         self._loop = loop if loop is not None else asyncio.get_event_loop()
+
+        self._request_prefix = aiohttp.HttpPrefixParser()
+        self._request_parser = aiohttp.HttpRequestParser(
+            max_line_size=max_line_size,
+            max_field_size=max_field_size,
+            max_headers=max_headers)
 
         self.logger = log or logger
         self.debug = debug
@@ -229,7 +241,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
 
             payload = None
             try:
-                # read http request method
+                # read HTTP request method
                 prefix = reader.set_parser(self._request_prefix)
                 yield from prefix.read()
 
@@ -252,7 +264,14 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                     self._timeout_handle = None
 
                 # request may not have payload
-                if (message.headers.get(hdrs.CONTENT_LENGTH, 0) or
+                try:
+                    content_length = int(
+                        message.headers.get(hdrs.CONTENT_LENGTH, 0))
+                except ValueError:
+                    content_length = 0
+
+                if (content_length > 0 or
+                    message.method == 'CONNECT' or
                     hdrs.SEC_WEBSOCKET_KEY1 in message.headers or
                     'chunked' in message.headers.get(
                         hdrs.TRANSFER_ENCODING, '')):
@@ -319,7 +338,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
                      payload=None, exc=None, headers=None, reason=None):
         """Handle errors.
 
-        Returns http response with specific status code. Logs additional
+        Returns HTTP response with specific status code. Logs additional
         information. It always closes current connection."""
         now = self._loop.time()
         try:
@@ -369,7 +388,7 @@ class ServerHttpProtocol(aiohttp.StreamProtocol):
             self.keep_alive(False)
 
     def handle_request(self, message, payload):
-        """Handle a single http request.
+        """Handle a single HTTP request.
 
         Subclass should override this method. By default it always
         returns 404 response.

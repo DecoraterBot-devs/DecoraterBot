@@ -288,7 +288,7 @@ ffmout = io.open(sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ffmp
 verror = False
 
 
-# noinspection PyExceptClausesOrder,PyPep8Naming
+# noinspection PyExceptClausesOrder,PyPep8Naming,PyUnboundLocalVariable
 class bot_data:
     """
         This class is for Internal use only!!!

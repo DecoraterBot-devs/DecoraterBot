@@ -109,12 +109,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 
 # The platform list I have so far.
 if not (sys.platform.startswith('win') or sys.platform.startswith('freebsd') and sys.platform.startswith('linux')):
-    platerrormsg = 'You Are Running this bot on a Currently Unsupported Platform.\n'
-    platerrormsg += 'Please send your platform information as a comment to the\n'
-    platerrormsg += 'https://github.com/Cheeselab/DecoraterBot/issues/7 issue. Your current Platform is: {0}\n'
-    platerrormsg += 'Also Please note the Developer only has and can get the Windows Binaries of Python and the '
-    platerrormsg += 'Dependencies so it is recommended for someone to commit those in a folder to be included in '
-    platerrormsg += 'future versions.'
+    platerrormsg = str(consoletext['Unsupported_Platform'][0])
     raise UnsupportedPlatform(platerrormsg.format(sys.platform))
 
 

@@ -52,8 +52,10 @@ try:
     import discord
 except ImportError:
     sepa = os.sep
-    appendpath = sys.path[0] + sepa + "resources" + sepa + "Dependencies"
+    appendpath = "{0}{1}resources{1}Dependencies".format(sys.path[0], sepa)
+    appendpath2 = "{0}{1}dependencies.zip".format(appendpath, sepa)
     sys.path.append(appendpath)
+    sys.path.append(appendpath2)
     import discord
 import DecoraterBotCore
 import asyncio

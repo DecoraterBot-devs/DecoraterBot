@@ -290,7 +290,7 @@ _temp_player_10 = None
 # noinspection PyRedeclaration
 ffmop = "-nostats -loglevel quiet"
 # noinspection PyRedeclaration
-ffmout = io.open(sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ffmpeg.shit', 'w')
+ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(sys.path[0], sepa), 'w')
 # noinspection PyRedeclaration
 verror = False
 
@@ -360,7 +360,7 @@ class bot_data:
                         botvoicechannel['Bot_Current_Voice_Channel'].append(voice_message_server_name)
                     if vchannel_name not in botvoicechannel:
                         botvoicechannel['Bot_Current_Voice_Channel'].append(vchannel_name)
-                    file_name = sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa + "BotVoiceChannel.json"
+                    file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
                     json.dump(botvoicechannel, open(file_name, "w"))
                     try:
                         try:
@@ -1108,8 +1108,7 @@ class bot_data:
                                 botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel_name)
                             except ValueError:
                                 pass
-                        filename = (sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa +
-                                    "BotVoiceChannel.json")
+                        filename = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
                         json.dump(botvoicechannel, open(filename, "w"))
                         try:
                             try:
@@ -1379,7 +1378,7 @@ class bot_data:
         global vchannel_name
         global verror
         try:
-            botvoicechannelfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotVoiceChannel.json', 'r')
+            botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0], sepa), 'r')
             botvoicechannel_reloaded = json.load(botvoicechannelfile)
             botvoicechannelfile.close()
         except FileNotFoundError:

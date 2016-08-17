@@ -60,7 +60,7 @@ try:
     import Ignore
 except ImportError:
     sepa = os.sep
-    sys.path.append(sys.path[0] + sepa + "resources" + sepa + "Dependencies" + sepa + "DecoraterBotCore")
+    sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(sys.path[0], sepa))
     import Ignore
 import Login
 import BotCommands
@@ -74,22 +74,26 @@ sepa = os.sep
 DBLogin = Login.BotLogin()
 DBEvents = Ignore.BotEvents()
 DBIgnores = Ignore.BotIgnores()
-jsonfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotBanned.json', 'r')
+jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa), 'r')
 somedict = json.load(jsonfile)
-consoledatafile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'ConsoleWindow.json', 'r')
+jsonfile.close()
+consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa), 'r')
 consoletext = json.load(consoledatafile)
-botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
+consoledatafile.close()
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa), 'r')
 botmessages = json.load(botmessagesdata)
+botmessagesdata.close()
 
 version = str(consoletext['WindowVersion'][0])
 start = time.time()
 DBLogin.variable()
 
-PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
     credentials = json.load(credsfile)
+    credsfile.close()
     discord_user_id = str(credentials['ownerid'][0])
     bot_id = str(credentials['botid'][0])
     _logging = str(credentials['logging'][0])

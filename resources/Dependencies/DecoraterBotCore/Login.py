@@ -62,13 +62,15 @@ sepa = os.sep
 
 init()
 
-consoledatafile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'ConsoleWindow.json', 'r')
+consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa), 'r')
 consoletext = json.load(consoledatafile)
+consoledatafile.close()
 
-botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa), 'r')
 botmessages = json.load(botmessagesdata)
+botmessagesdata.close()
 
-PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 
 # noinspection PyGlobalUndefined
 global reconnects

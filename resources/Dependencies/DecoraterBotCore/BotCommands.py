@@ -58,6 +58,7 @@ import base64
 import os.path
 import random
 import platform
+import gc
 import importlib
 import youtube_dl
 import aiohttp
@@ -85,8 +86,9 @@ PY36 = sys.version_info >= (3, 6)
 PY35 = sys.version_info >= (3, 5)
 
 try:
-    consoledatafile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'ConsoleWindow.json', 'r')
+    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa), 'r')
     consoletext = json.load(consoledatafile)
+    consoledatafile.close()
 except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
@@ -99,17 +101,20 @@ except ImportError:
     print_data_003 = 'Disabled the tinyurl command for now.'
     print(print_data_001 + print_data_002 + print_data_003)
     disabletinyurl = True
-botbanslist = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotBanned.json', 'r')
+botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa), 'r')
 banlist = json.load(botbanslist)
+botbanslist.close()
 try:
-    commandslist = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotCommands.json', 'r')
+    commandslist = io.open('{0}{1}resources{1}ConfigData{1}BotCommands.json'.format(sys.path[0], sepa), 'r')
     commandlist = json.load(commandslist)
+    commandslist.close()
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][3]))
     sys.exit(2)
 try:
-    botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
+    botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa), 'r')
     botmessages = json.load(botmessagesdata)
+    botmessagesdata.close()
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][1]))
     sys.exit(2)
@@ -129,7 +134,7 @@ info = "``" + str(consoletext['WindowName'][0]) + version + rev + "``"
 botcommandsPM = str(botmessages['commands_command_data'][2])
 commandturlfix = str(botmessages['commands_command_data'][5])
 botcommandsPMwithtinyurl = botcommandsPM + str(botmessages['commands_command_data'][3]) + commandturlfix
-PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
@@ -182,8 +187,7 @@ class bot_data:
             else:
                 msg = random.randint(0, 1)
                 if msg == 0:
-                    heads_coin = (sys.path[0] + sepa + "resources" + sepa + "images" + sepa + "coins" + sepa +
-                                  "Heads.png")
+                    heads_coin = "{0}{1}resources{1}images{1}coins{1}Heads.png".format(sys.path[0], sepa)
                     try:
                         yield from client.send_file(message.channel, heads_coin)
                     except discord.errors.Forbidden:
@@ -193,8 +197,7 @@ class bot_data:
                         except discord.errors.Forbidden:
                             yield from BotPMError._resolve_send_message_error(client, message)
                 if msg == 1:
-                    tails_coin = (sys.path[0] + sepa + "resources" + sepa + "images" + sepa + "coins" + sepa +
-                                  "Tails.png")
+                    tails_coin = "{0}{1}resources{1}images{1}coins{1}Tails.png".format(sys.path[0], sepa)
                     try:
                         yield from client.send_file(message.channel, tails_coin)
                     except discord.errors.Forbidden:
@@ -300,16 +303,15 @@ class bot_data:
                 debugcode_new = "# coding=utf-8\n" + message.content[len(_bot_prefix + "debug "):].strip()
                 BotOwner = discord.utils.find(lambda member: member.id == owner_id, message.channel.server.members)
                 try:
-                    evalcodefile = sys.path[0] + sepa + 'resources' + sepa + 'exec_files' + sepa + 'exec_temp.py'
+                    evalcodefile = '{0}{1}resources{1}exec_files{1}exec_temp.py'.format(sys.path[0], sepa)
                     eval_temp_code = io.open(evalcodefile, 'w+', encoding='utf-8')
                     debugcode_new = debugcode_new + '\n'
                     eval_temp_code.write(debugcode_new)
                     eval_temp_code.close()
-                    execoutputfile = (sys.path[0] + sepa + 'resources' + sepa + 'exec_files' + sepa +
-                                      'eval_output_temp.txt')
+                    execoutputfile = '{0}{1}resources{1}exec_files{1}exec_output_temp.txt'.format(sys.path[0], sepa)
                     eval_temp_result_output = io.open(execoutputfile, 'w', encoding='utf-8')
                     out = eval_temp_result_output
-                    p = subprocess.Popen(sys.path[4] + sepa + "python " + evalcodefile, stdout=out, stderr=out,
+                    p = subprocess.Popen("{0}{1}python {2}".format(sys.path[4], sepa, evalcodefile), stdout=out, stderr=out,
                                          shell=True)
                     p.wait()
                     eval_temp_result_output.close()
@@ -869,7 +871,7 @@ class bot_data:
                     botmessages['stats_command_data'][0]).format(server_count, member_count, textchannels_count)
                 yield from client.send_message(message.channel, formatted_data)
             if message.content.startswith(_bot_prefix + 'rs'):
-                filename1 = str(sys.path[0]) + sepa + 'resources' + sepa + 'images' + sepa + 'elsword' + sepa + 'RS.jpg'
+                filename1 = '{0}{1}resources{1}images{1}elsword{1}RS.jpg'.format(sys.path[0], sepa)
                 file_object = open(filename1, 'rb')
                 file_data = None
                 if file_object is not None:
@@ -877,7 +879,7 @@ class bot_data:
                     file_object.close()
                 yield from client.edit_profile(avatar=file_data)
             if message.content.startswith(_bot_prefix + 'as'):
-                filename2 = str(sys.path[0]) + sepa + 'resources' + sepa + 'images' + sepa + 'elsword' + sepa + 'AS.jpg'
+                filename2 = '{0}{1}resources{1}images{1}elsword{1}AS.jpg'.format(sys.path[0], sepa)
                 file_object = open(filename2, 'rb')
                 file_data = None
                 if file_object is not None:
@@ -885,7 +887,7 @@ class bot_data:
                     file_object.close()
                 yield from client.edit_profile(avatar=file_data)
             if message.content.startswith(_bot_prefix + 'ai'):
-                filename3 = str(sys.path[0]) + sepa + 'resources' + sepa + 'images' + sepa + 'elsword' + sepa + 'AI.jpg'
+                filename3 = '{0}{1}resources{1}images{1}elsword{1}AI.jpg'.format(sys.path[0], sepa)
                 file_object = open(filename3, 'rb')
                 file_data = None
                 if file_object is not None:
@@ -1191,8 +1193,7 @@ class bot_data:
                     if message.mentions[0].id not in banlist['Users']:
                         try:
                             banlist['Users'].append(message.mentions[0].id)
-                            json.dump(banlist, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa +
-                                                    "BotBanned.json", "w"))
+                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(sys.path[0], sepa), "w"))
                             try:
                                 message_data = str(
                                     botmessages['bot_ban_command_data'][0]).format(message.mentions[0])
@@ -1222,8 +1223,7 @@ class bot_data:
                         try:
                             tobotunban = banlist['Users']
                             tobotunban.remove(message.mentions[0].id)
-                            json.dump(banlist, open(sys.path[0] + sepa + "resources" + sepa + "ConfigData" + sepa +
-                                                    "BotBanned.json", "w"))
+                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(sys.path[0], sepa), "w"))
                             try:
                                 message_data = str(
                                     botmessages['bot_unban_command_data'][0]).format(message.mentions[0])

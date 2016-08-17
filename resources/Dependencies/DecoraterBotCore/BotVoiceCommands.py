@@ -71,21 +71,24 @@ from discord.ext import commands
 
 sepa = os.sep
 
-botbanslist = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotBanned.json', 'r')
+botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa), 'r')
 banlist = json.load(botbanslist)
+botbanslist.close()
 try:
-    botvoicechannelfile = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa +
-                                  'BotVoiceChannel.json', 'r')
+    botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0], sepa), 'r')
     botvoicechannel = json.load(botvoicechannelfile)
+    botvoicechannelfile.close()
 except FileNotFoundError:
     pass
-botmessagesdata = io.open(sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'BotMessages.json', 'r')
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa), 'r')
 botmessages = json.load(botmessagesdata)
+botmessagesdata.close()
 
-PATH = sys.path[0] + sepa + 'resources' + sepa + 'ConfigData' + sepa + 'Credentials.json'
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH, 'r')
     credentials = json.load(credsfile)
+    credsfile.close()
     _bot_prefix = str(credentials['bot_prefix'][0])
     _log_ytdl = str(credentials['ytdl_logs'][0])
     if _log_ytdl == 'True':
@@ -99,18 +102,18 @@ bits = ctypes.sizeof(ctypes.c_voidp)
 # Hopefully they will not conflict with the windows pyd's
 # Why? Because I don't have a Mac or a Linux OS.
 if bits == 4:
-    opusdll = sys.path[0] + sepa + "resources" + sepa + "opus" + sepa + "opus.dll"
-    os.chdir(sys.path[0] + sepa + "resources" + sepa + "ffmpeg" + sepa + "x86")
+    opusdll = "{0}{1}resources{1}opus{1}opus.dll".format(sys.path[0], sepa)
+    os.chdir("{0}{1}resources{1}ffmpeg{1}x86".format(sys.path[0], sepa))
 elif bits == 8:
-    opusdll = sys.path[0] + sepa + "resources" + sepa + "opus" + sepa + "opus64.dll"
-    os.chdir(sys.path[0] + sepa + "resources" + sepa + "ffmpeg" + sepa + "x64")
+    opusdll = "{0}{1}resources{1}opus{1}opus64.dll".format(sys.path[0], sepa)
+    os.chdir("{0}{1}resources{1}ffmpeg{1}x64".format(sys.path[0], sepa))
 
 
 class YTDLLogger(object):
     def log_file_code(self, meth, msg):
         if meth is not '':
             if meth == 'ytdl_debug':
-                logfile = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_debug_logs.txt'
+                logfile = '{0}{1}resources{1}Logs{1}ytdl_debug_logs.txt'.format(sys.path[0], sepa)
                 try:
                     file = io.open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -118,10 +121,11 @@ class YTDLLogger(object):
                         file.seek(0)
                         file.truncate()
                     file.write(msg + '\n')
+                    file.close()
                 except PermissionError:
                     return
             elif meth == 'ytdl_warning':
-                logfile2 = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_warning_logs.txt'
+                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warning_logs.txt'.format(sys.path[0], sepa)
                 try:
                     file2 = io.open(logfile2, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile2)
@@ -129,10 +133,11 @@ class YTDLLogger(object):
                         file2.seek(0)
                         file2.truncate()
                     file2.write(msg + '\n')
+                    file2.close()
                 except PermissionError:
                     return
             elif meth == 'ytdl_error':
-                logfile3 = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_error_logs.txt'
+                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_error_logs.txt'.format(sys.path[0], sepa)
                 try:
                     file3 = io.open(logfile3, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile3)
@@ -140,10 +145,11 @@ class YTDLLogger(object):
                         file3.seek(0)
                         file3.truncate()
                     file3.write(msg + '\n')
+                    file3.close()
                 except PermissionError:
                     return
-            if meth == 'ytdl_info':
-                logfile4 = sys.path[0] + sepa + 'resources' + sepa + 'Logs' + sepa + 'ytdl_info_logs.txt'
+            elif meth == 'ytdl_info':
+                logfile4 = '{0}{1}resources{1}Logs{1}ytdl_info_logs.txt'.format(sys.path[0], sepa)
                 try:
                     file4 = io.open(logfile4, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile4)
@@ -151,6 +157,7 @@ class YTDLLogger(object):
                         file4.seek(0)
                         file4.truncate()
                     file4.write(msg + '\n')
+                    file4.close()
                 except PermissionError:
                     return
         else:
@@ -1323,6 +1330,7 @@ class bot_data:
     def _reload_commands_bypass1_new_code(self, client, message, reload_reason):
         global player
         global vchannel
+        global ffmout
         global vchannel_name
         global voice_message_channel
         global voice
@@ -1330,6 +1338,7 @@ class bot_data:
         global voice_message_server
         global is_bot_playing
         global voice_message_server_name
+        ffmout.close()
         if voice is not None:
             yield from voice.disconnect()
             if voice_message_channel is not None:

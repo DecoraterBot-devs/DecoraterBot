@@ -99,11 +99,11 @@ class bot_data:
             elif loggers == 'asyncio':
                 asynciologger = logging.getLogger('asyncio')
                 asynciologger.setLevel(logging.DEBUG)
-                handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(sys.path[0],
+                asynciologgerhandler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(sys.path[0],
                                                                                                      sepa),
                                               encoding='utf-8', mode='w')
-                handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-                asynciologger.addHandler(handler)
+                asynciologgerhandler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+                asynciologger.addHandler(asynciologgerhandler)
 
     @staticmethod
     def logs_code(client, message):

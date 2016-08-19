@@ -742,7 +742,7 @@ class bot_data_003:
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
-            file_path = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications'.format(sepa, serverid)
+            file_path = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa, serverid)
             filename_1 = 'verifycache.json'
             joinedlistfile = io.open(sys.path[0] + file_path + filename_1)
             newlyjoinedlist = json.load(joinedlistfile)
@@ -811,8 +811,8 @@ class bot_data_003:
                 serveridslist = json.load(serveridslistfile)
                 serveridslistfile.close()
                 serverid = str(serveridslist['config_server_ids'][0])
-                file_path_join_2 = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications'.format(sepa,
-                                                                                                            serverid)
+                file_path_join_2 = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa,
+                                                                                                               serverid)
                 filename_join_2 = 'verifymessages.json'
                 filename_join_3 = 'verifycache.json'
                 filename_join_4 = 'verifycache.json'

@@ -580,7 +580,7 @@ class BotClient(discord.Client):
 
     @asyncio.coroutine
     def on_member_remove(self, member):
-        yield from DBCore.memberremove(client, member)
+        yield from DBCore.memberremove(self, member)
 
     @asyncio.coroutine
     def on_member_update(self, before, after):

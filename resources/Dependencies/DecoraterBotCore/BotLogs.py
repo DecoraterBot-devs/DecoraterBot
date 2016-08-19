@@ -81,22 +81,29 @@ class bot_data:
         pass
 
     @staticmethod
-    def set_up_discord_logger_code():
-        logger = logging.getLogger('discord')
-        logger.setLevel(logging.DEBUG)
-        handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(sys.path[0], sepa),
-                                      encoding='utf-8', mode='w')
-        handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-        logger.addHandler(handler)
-
-    @staticmethod
-    def set_up_asyncio_logger_code():
-        asynciologger = logging.getLogger('asyncio')
-        asynciologger.setLevel(logging.DEBUG)
-        handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(sys.path[0], sepa),
-                                      encoding='utf-8', mode='w')
-        handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-        asynciologger.addHandler(handler)
+    def set_up_loggers(loggers=None):
+        """
+        Logs Events from discord and/or asyncio stuff.
+        :param loggers: Name of the logger(s) to use.
+        :return: Nothing.
+        """
+        if loggers is not None:
+            if loggers == 'discord':
+                logger = logging.getLogger('discord')
+                logger.setLevel(logging.DEBUG)
+                handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(sys.path[0],
+                                                                                                       sepa),
+                                              encoding='utf-8', mode='w')
+                handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+                logger.addHandler(handler)
+            elif loggers == 'asyncio':
+                asynciologger = logging.getLogger('asyncio')
+                asynciologger.setLevel(logging.DEBUG)
+                handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(sys.path[0],
+                                                                                                     sepa),
+                                              encoding='utf-8', mode='w')
+                handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+                asynciologger.addHandler(handler)
 
     @staticmethod
     def logs_code(client, message):
@@ -130,6 +137,13 @@ class bot_data:
                 return
 
     def edit_logs_code(self, client, before, after):
+        """
+        Logs Edited messages.
+        :param client: Discord Client.
+        :param before: Message.
+        :param after: Message.
+        :return: Nothing.
+        """
         old = str(before.content)
         new = str(after.content)
         logfile = '{0}{1}resources{1}Logs{1}edit log.txt'.format(sys.path[0], sepa)
@@ -174,6 +188,12 @@ class bot_data:
 
     @staticmethod
     def delete_logs_code(client, message):
+        """
+        Logs Deleted Messages.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
         dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                                str(message.timestamp), message.content)
         dellogsPM = dellogs001
@@ -202,6 +222,13 @@ class bot_data:
 
     @staticmethod
     def resolve_embed_logs_code(client, before, after):
+        """
+        helps with determining if the messages was edited or a embed instead.
+        :param client: Discord Client.
+        :param before: Messages.
+        :param after: Messages.
+        :return: Nothing.
+        """
         if before.channel.is_private is True:
             data = str(LogData['Embed_Logs'][0])
         else:
@@ -219,6 +246,12 @@ class bot_data:
 
     @asyncio.coroutine
     def send_logs_code(self, client, message):
+        """
+        Sends Sent Lessages.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
         Logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                                  str(message.timestamp),
                                                                  message.channel.server.name, message.channel.name,
@@ -231,6 +264,13 @@ class bot_data:
 
     @asyncio.coroutine
     def send_edit_logs_code(self, client, before, after):
+        """
+        Sends Edited Messages.
+        :param client: Discord Client.
+        :param before: Messages.
+        :param after: Messages.
+        :return: Nothing.
+        """
         old = str(before.content)
         new = str(after.content)
         editlog001 = str(LogData['Send_On_Message_Edit_Logs'][0]).format(before.author.name, before.author.id,
@@ -262,6 +302,12 @@ class bot_data:
 
     @asyncio.coroutine
     def on_bot_error_code(self, funcname, tbinfo):
+        """
+        Handles Event Bot Errors
+        :param funcname: Function names that Had a .
+        :param tbinfo: Original Traceback.
+        :return: Nothing.
+        """
         if bool(funcname):
             if bool(tbinfo):
                 exception_data = 'Ignoring exception caused at {0}:\n{1}'.format(funcname, tbinfo)
@@ -283,6 +329,13 @@ class bot_data:
 
     @staticmethod
     def gamelog_code(client, message, desgame):
+        """
+        Logs the bot's game settings.
+        :param client: Discord Client.
+        :param message: Messages.
+        :param desgame: Game Name.
+        :return: Nothing.
+        """
         gmelogdata01 = str(LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
         gmelogsPM = gmelogdata01
         if message.channel.is_private is False:
@@ -305,6 +358,12 @@ class bot_data:
 
     @asyncio.coroutine
     def onban_code(self, client, member):
+        """
+        Logs Bans.
+        :param client: Discord Client.
+        :param member: Members.
+        :return: Nothing.
+        """
         mem_name = member.name
         mem_id = member.id
         mem_dis = member.discriminator
@@ -320,6 +379,11 @@ class bot_data:
 
     @asyncio.coroutine
     def onavailable_code(self, server):
+        """
+        Logs available Servers.
+        :param server: Servers.
+        :return: Nothing.
+        """
         available_log_data = str(LogData['On_Server_Available'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}available_servers.txt'.format(sys.path[0], sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
@@ -331,6 +395,11 @@ class bot_data:
 
     @asyncio.coroutine
     def onunavailable_code(self, server):
+        """
+        Logs Unavailable Servers.
+        :param server: Servers.
+        :return: Nothing.
+        """
         unavailable_log_data = str(LogData['On_Server_Unavailable'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.txt'.format(sys.path[0], sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
@@ -342,6 +411,12 @@ class bot_data:
 
     @asyncio.coroutine
     def onunban_code(self, server, user):
+        """
+        Logs Unbans.
+        :param server: Servers.
+        :param user: Users.
+        :return: Nothing.
+        """
         unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
         logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(sys.path[0], sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
@@ -353,11 +428,23 @@ class bot_data:
 
     @asyncio.coroutine
     def ongroupjoin_code(self, channel, user):
+        """
+        logs group join.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         # TODO: Impliment this.
         pass
 
     @asyncio.coroutine
     def ongroupremove_code(self, channel, user):
+        """
+        Removed from group.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         # TODO: Impliment this.
         pass
 
@@ -382,37 +469,93 @@ class bot_data:
 
 
 class BotLogs:
+    """
+    Main Bot logging Class.
+    """
     def __init__(self):
         self.bot = bot_data()
 
     def set_up_discord_logger(self):
-        self.bot.set_up_discord_logger_code()
+        """
+        Sets up the Discord Logger.
+        :return: Nothing.
+        """
+        self.bot.set_up_loggers(loggers='discord')
 
     def set_up_asyncio_logger(self):
-        self.bot.set_up_asyncio_logger_code()
+        """
+        Sets up the asyncio Logger.
+        :return: Nothing.
+        """
+        self.bot.set_up_loggers(loggers='asyncio')
 
     def logs(self, client, message):
+        """
+        Logs Sent Messages.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
         self.bot.logs_code(client, message)
 
     def edit_logs(self, client, before, after):
+        """
+        Logs Edited Messages.
+        :param client: Discord Client.
+        :param before: Messages.
+        :param after: Messages.
+        :return: Nothing.
+        """
         self.bot.edit_logs_code(client, before, after)
 
     def delete_logs(self, client, message):
+        """
+        Logs Deleted Messages.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
         self.bot.delete_logs_code(client, message)
 
     def resolve_embed_logs(self, client, before, after):
+        """
+        Resolves if the message was edited or not.
+        :param client: Discord client.
+        :param before: Messages.
+        :param after: Messages.
+        :return: Nothing.
+        """
         self.bot.resolve_embed_logs_code(client, before, after)
 
     @asyncio.coroutine
     def send_logs(self, client, message):
+        """
+        Sends Sent Messages.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
         yield from self.bot.send_logs_code(client, message)
 
     @asyncio.coroutine
     def send_edit_logs(self, client, before, after):
+        """
+        Sends Edited Messages.
+        :param client: Discord Client.
+        :param before: Messages.
+        :param after: Messages.
+        :return: Nothing.
+        """
         yield from self.bot.send_edit_logs_code(client, before, after)
 
     @asyncio.coroutine
     def send_delete_logs(self, client, message):
+        """
+        Sends Deleted Messages.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
         yield from self.bot.send_delete_logs_code(client, message)
 
     @asyncio.coroutine
@@ -431,32 +574,79 @@ class BotLogs:
         yield from self.bot.on_bot_error_code(funcname, tbinfo)
 
     def gamelog(self, client, message, desgame):
+        """
+        Logs Game Names.
+        :param client: Discord Client.
+        :param message: Messages.
+        :param desgame: Game Name.
+        :return: Nothing.
+        """
         self.bot.gamelog_code(client, message, desgame)
 
     @asyncio.coroutine
     def onban(self, client, member):
+        """
+        Logs Bans.
+        :param client: Discord Client.
+        :param member: Members.
+        :return: Nothing.
+        """
         yield from self.bot.onban_code(client, member)
 
     @asyncio.coroutine
     def onavailable(self, server):
+        """
+        Logs Available Servers.
+        :param server:
+        :return: Nothing.
+        """
         yield from self.bot.onavailable_code(server)
 
     @asyncio.coroutine
     def onunavailable(self, server):
+        """
+        Logs Unavailable Servers
+        :param server: Servers.
+        :return: Nothing.
+        """
         yield from self.bot.onunavailable_code(server)
 
     @asyncio.coroutine
     def onunban(self, server, user):
+        """
+        Logs Unbans.
+        :param server: Servers.
+        :param user: Users.
+        :return: Nothing.
+        """
         yield from self.bot.onunban_code(server, user)
 
     @asyncio.coroutine
     def ongroupjoin(self, channel, user):
+        """
+        Logs group join.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         yield from self.bot.ongroupjoin_code(channel, user)
 
     @asyncio.coroutine
     def ongroupremove(self, channel, user):
+        """
+        Logs group remove.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         yield from self.bot.ongroupremove_code(channel, user)
 
     @asyncio.coroutine
     def onkick(self, client, member):
+        """
+        Logs Kicks.
+        :param client: Discord client.
+        :param member: Members.
+        :return: Nothing.
+        """
         yield from self.bot.onkick_code(client, member)

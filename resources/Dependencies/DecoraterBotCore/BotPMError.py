@@ -4,13 +4,13 @@
     any and all users waive the right to say that this bot's code was stolen when it really was not.
     Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
     it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF
-    SHIT LIKE THIS.
+    CRAP LIKE THIS.
     
-    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems
+    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will go after you for such cliams that it deems
     untrue.
     
-    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to
-    BULLSHIT.
+    Cheese.lab industries Inc. Believes in the rights of Original Developers of bots. They do not take kindly to
+    BULLCRAP.
     
     Any and all Developers work all the time, many of them do not get paid for their hard work.
     
@@ -22,13 +22,13 @@
     Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that
     way I can code my bot.
     
-    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
+    However crap does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
     it is 10 years old and is falling apart
     
     I am half tempted myself to pulling this bot from github and making it on patrion that boobot was on to help me
     with my development needs.
     
-    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse
+    So, as such I accept issue requests, but please do not give me bullcrap I hate it as it makes everything worse
     than the way it is.
     
     You do have the right however to:
@@ -47,16 +47,16 @@
 """
 import discord
 import asyncio
-import io
-import sys
-import subprocess
-import os
-import traceback
-from discord.ext import commands
 
 
 @asyncio.coroutine
-def _resolve_send_message_error(client, message):
+def resolve_send_message_error(client, message):
+    """
+    Relolves Errors when Sending messages.
+    :param client: Discord Client.
+    :param message: Messages.
+    :return: Nothing.
+    """
     svr_name = message.channel.server.name
     cnl_name = message.channel.name
     msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
@@ -68,9 +68,15 @@ def _resolve_send_message_error(client, message):
 
 
 @asyncio.coroutine
-def _resolve_unloaded_commands_error(client, message):
+def resolve_unloaded_commands_error(client, message):
+    """
+    Resolves Unloaded Commands.
+    :param client: Discord Client.
+    :param message: Messages.
+    :return: Nothing.
+    """
     msgdata = 'Sorry, Commands was unloaded by my owner for now (He might be updating them).'
     try:
         yield from client.send_message(message.channel, msgdata)
     except discord.errors.Forbidden:
-        _resolve_send_message_error(client, message)
+        resolve_send_message_error(client, message)

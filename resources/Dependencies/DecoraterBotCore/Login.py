@@ -4,13 +4,13 @@
     any and all users waive the right to say that this bot's code was stolen when it really was not.
     Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
     it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF
-    SHIT LIKE THIS.
+    CRAP LIKE THIS.
     
-    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems
+    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will go after you for such cliams that it deems
     untrue.
     
-    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to
-    BULLSHIT.
+    Cheese.lab industries Inc. Believes in the rights of Original Developers of bots. They do not take kindly to
+    BULLCRAP.
     
     Any and all Developers work all the time, many of them do not get paid for their hard work.
     
@@ -22,13 +22,13 @@
     Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that
     way I can code my bot.
     
-    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
+    However crap does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
     it is 10 years old and is falling apart
     
     I am half tempted myself to pulling this bot from github and making it on patrion that boobot was on to help me
     with my development needs.
     
-    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse
+    So, as such I accept issue requests, but please do not give me bullcrap I hate it as it makes everything worse
     than the way it is.
     
     You do have the right however to:
@@ -56,17 +56,16 @@ import io
 from discord.__init__ import __version__
 from colorama import init
 from colorama import Fore, Back, Style
-from discord.ext import commands
 
 sepa = os.sep
 
 init()
 
-consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa), 'r')
+consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
 consoletext = json.load(consoledatafile)
 consoledatafile.close()
 
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa), 'r')
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
 botmessages = json.load(botmessagesdata)
 botmessagesdata.close()
 
@@ -90,11 +89,19 @@ class bot_data:
     def __init__(self):
         pass
 
+    # noinspection PyUnresolvedReferences
     def login_info_code(self, client):
+        """
+        Allows the bot to Connect / Reconnect.
+        NOTE: Reconnection is not always 100% due to sometimes throwing a RuntimeError because of a Event loop getting
+        closed in Discord.py. Sadly the run fucntion does not reopen/recreate that loop.
+        :param client: Discord Client.
+        :return: Nothing.
+        """
         global is_bot_logged_in
         global reconnects
         if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-            credsfile = io.open(PATH, 'r')
+            credsfile = io.open(PATH)
             credentials = json.load(credsfile)
             discord_user_email = str(credentials['email'][0])
             if discord_user_email == 'None':
@@ -131,14 +138,14 @@ class bot_data:
             except KeyboardInterrupt:
                 return
             except asyncio.futures.InvalidStateError:
-                reconnects = reconnects + 1
+                reconnects += 1
                 if reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
                     # sleeptime = reconnects * 5
                     # asyncio.sleep(sleeptime)
                     self.login_info_code(client)
             except aiohttp.errors.ClientOSError:
-                reconnects = reconnects + 1
+                reconnects += 1
                 if reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
                     # sleeptime = reconnects * 5
@@ -148,7 +155,7 @@ class bot_data:
                 if not client.is_logged_in:
                     pass
                 else:
-                    reconnects = reconnects + 1
+                    reconnects += 1
                     if reconnects != 0:
                         print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
                         # sleeptime = reconnects * 5
@@ -161,6 +168,11 @@ class bot_data:
     # noinspection PyGlobalUndefined
     @asyncio.coroutine
     def on_login_code(self, client):
+        """
+        Function that does the on_ready event stuff after logging in.
+        :param client: Discord Client.
+        :return: Nothing.
+        """
         global logged_in
         if logged_in:
             logged_in = False
@@ -181,21 +193,44 @@ class bot_data:
             stream_url = "https://twitch.tv/decoraterbot"
             yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
 
-    def variable_code(self):
+    @staticmethod
+    def variable_code():
+        """
+        Function that makes Certain things on the on_ready event only happen 1 time only. (eg the logged in printing
+        stuff)
+        :return: Nothing.
+        """
         global logged_in
         logged_in = True
 
 
 class BotLogin:
+    """
+    Base Class for getting the bot login.
+    """
     def __init__(self):
         self.bot = bot_data()
 
     def login_info(self, client):
+        """
+        Function for Gettign the bot online.
+        :param client: Discord Client.
+        :return: Nothing.
+        """
         self.bot.login_info_code(client)
 
     @asyncio.coroutine
     def on_login(self, client):
+        """
+        Calls the Function that does the on_ready event stuff.
+        :param client: Discord Client.
+        :return: Nothing.
+        """
         yield from self.bot.on_login_code(client)
 
     def variable(self):
+        """
+        For catching things and only making certain things on the ready event only done 1 time.
+        :return: Nothing.
+        """
         self.bot.variable_code()

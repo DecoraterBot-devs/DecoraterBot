@@ -4,13 +4,13 @@
     any and all users waive the right to say that this bot's code was stolen when it really was not.
     Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
     it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF
-    SHIT LIKE THIS.
+    CRAP LIKE THIS.
     
-    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems
+    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will go after you for such cliams that it deems
     untrue.
     
-    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to
-    BULLSHIT.
+    Cheese.lab industries Inc. Believes in the rights of Original Developers of bots. They do not take kindly to
+    BULLCRAP.
     
     Any and all Developers work all the time, many of them do not get paid for their hard work.
     
@@ -22,13 +22,13 @@
     Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that
     way I can code my bot.
     
-    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
+    However crap does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
     it is 10 years old and is falling apart
     
     I am half tempted myself to pulling this bot from github and making it on patrion that boobot was on to help me
     with my development needs.
     
-    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse
+    So, as such I accept issue requests, but please do not give me bullcrap I hate it as it makes everything worse
     than the way it is.
     
     You do have the right however to:
@@ -57,14 +57,14 @@ import json
 sepa = os.sep
 
 try:
-    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa), 'r')
+    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
     consoletext = json.load(consoledatafile)
     consoledatafile.close()
 except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
 try:
-    LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.json'.format(sys.path[0], sepa), 'r')
+    LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.json'.format(sys.path[0], sepa))
     LogData = json.load(LogDataFile)
     LogDataFile.close()
 except FileNotFoundError:
@@ -80,21 +80,26 @@ class bot_data:
     def __init__(self):
         pass
 
-    def set_up_discord_logger_code(self):
+    @staticmethod
+    def set_up_discord_logger_code():
         logger = logging.getLogger('discord')
         logger.setLevel(logging.DEBUG)
-        handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(sys.path[0], sepa), encoding='utf-8', mode='w')
+        handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(sys.path[0], sepa),
+                                      encoding='utf-8', mode='w')
         handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
         logger.addHandler(handler)
 
-    def set_up_asyncio_logger_code(self):
+    @staticmethod
+    def set_up_asyncio_logger_code():
         asynciologger = logging.getLogger('asyncio')
         asynciologger.setLevel(logging.DEBUG)
-        handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(sys.path[0], sepa), encoding='utf-8', mode='w')
+        handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(sys.path[0], sepa),
+                                      encoding='utf-8', mode='w')
         handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
         asynciologger.addHandler(handler)
 
-    def logs_code(self, client, message):
+    @staticmethod
+    def logs_code(client, message):
         """
             :type client: Discord.py Client object
             :param message: Message Object
@@ -148,26 +153,27 @@ class bot_data:
                 file.truncate()
                 try:
                     if before.content == after.content:
-                        self._resolve_embed_logs_code(client, before, after)
+                        self.resolve_embed_logs_code(client, before, after)
                     else:
                         try:
                             file.write(editlogServers)
                         except PermissionError:
                             return
                         file.close()
-                except:
+                except Exception as e:
                     if before.channel.is_private is False:
                         print(str(LogData['On_Edit_Logs_Error'][0]))
                     else:
                         if before.content == after.content:
-                            self._resolve_embed_logs_code(client, before, after)
+                            self.resolve_embed_logs_code(client, before, after)
                         else:
                             file.write(edit_log_PM)
                         file.close()
         except PermissionError:
             return
 
-    def delete_logs_code(self, client, message):
+    @staticmethod
+    def delete_logs_code(client, message):
         dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                                str(message.timestamp), message.content)
         dellogsPM = dellogs001
@@ -194,7 +200,8 @@ class bot_data:
             except PermissionError:
                 return
 
-    def _resolve_embed_logs_code(self, client, before, after):
+    @staticmethod
+    def resolve_embed_logs_code(client, before, after):
         if before.channel.is_private is True:
             data = str(LogData['Embed_Logs'][0])
         else:
@@ -274,7 +281,8 @@ class bot_data:
         else:
             raise
 
-    def gamelog_code(self, client, message, desgame):
+    @staticmethod
+    def gamelog_code(client, message, desgame):
         gmelogdata01 = str(LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
         gmelogsPM = gmelogdata01
         if message.channel.is_private is False:
@@ -392,8 +400,8 @@ class BotLogs:
     def delete_logs(self, client, message):
         self.bot.delete_logs_code(client, message)
 
-    def _resolve_embed_logs(self, client, before, after):
-        self.bot._resolve_embed_logs_code(client, before, after)
+    def resolve_embed_logs(self, client, before, after):
+        self.bot.resolve_embed_logs_code(client, before, after)
 
     @asyncio.coroutine
     def send_logs(self, client, message):

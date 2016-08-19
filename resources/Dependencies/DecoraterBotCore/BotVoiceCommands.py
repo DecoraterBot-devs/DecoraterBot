@@ -4,13 +4,13 @@
     any and all users waive the right to say that this bot's code was stolen when it really was not.
     Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
     it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF
-    SHIT LIKE THIS.
+    CRAP LIKE THIS.
     
-    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems
+    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will go after you for such cliams that it deems
     untrue.
     
-    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to
-    BULLSHIT.
+    Cheese.lab industries Inc. Believes in the rights of Original Developers of bots. They do not take kindly to
+    BULLCRAP.
     
     Any and all Developers work all the time, many of them do not get paid for their hard work.
     
@@ -22,13 +22,13 @@
     Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that
     way I can code my bot.
     
-    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
+    However crap does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
     it is 10 years old and is falling apart
     
     I am half tempted myself to pulling this bot from github and making it on patrion that boobot was on to help me
     with my development needs.
     
-    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse
+    So, as such I accept issue requests, but please do not give me bullcrap I hate it as it makes everything worse
     than the way it is.
     
     You do have the right however to:
@@ -50,43 +50,34 @@ import discord
 import asyncio
 import json
 import io
-import traceback
-import urllib
 import sys
 import os
-import base64
 import os.path
-import random
 import concurrent
-import platform
 import youtube_dl
-import time
-import cmath
 import ctypes
-import subprocess
-from threading import Timer
-from collections import deque
+# noinspection PyUnresolvedReferences
 import BotPMError
 from discord.ext import commands
 
 sepa = os.sep
 
-botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa), 'r')
+botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa))
 banlist = json.load(botbanslist)
 botbanslist.close()
 try:
-    botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0], sepa), 'r')
+    botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0], sepa))
     botvoicechannel = json.load(botvoicechannelfile)
     botvoicechannelfile.close()
 except FileNotFoundError:
     pass
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa), 'r')
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
 botmessages = json.load(botmessagesdata)
 botmessagesdata.close()
 
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    credsfile = io.open(PATH, 'r')
+    credsfile = io.open(PATH)
     credentials = json.load(credsfile)
     credsfile.close()
     _bot_prefix = str(credentials['bot_prefix'][0])
@@ -102,15 +93,25 @@ bits = ctypes.sizeof(ctypes.c_voidp)
 # Hopefully they will not conflict with the windows pyd's
 # Why? Because I don't have a Mac or a Linux OS.
 if bits == 4:
-    opusdll = "{0}{1}resources{1}opus{1}opus.dll".format(sys.path[0], sepa)
-    os.chdir("{0}{1}resources{1}ffmpeg{1}x86".format(sys.path[0], sepa))
+    opusdll = '{0}{1}resources{1}opus{1}opus.dll'.format(sys.path[0], sepa)
+    os.chdir('{0}{1}resources{1}ffmpeg{1}x86'.format(sys.path[0], sepa))
 elif bits == 8:
-    opusdll = "{0}{1}resources{1}opus{1}opus64.dll".format(sys.path[0], sepa)
-    os.chdir("{0}{1}resources{1}ffmpeg{1}x64".format(sys.path[0], sepa))
+    opusdll = '{0}{1}resources{1}opus{1}opus64.dll'.format(sys.path[0], sepa)
+    os.chdir('{0}{1}resources{1}ffmpeg{1}x64'.format(sys.path[0], sepa))
 
 
 class YTDLLogger(object):
-    def log_file_code(self, meth, msg):
+    """
+    Class for Silencing all of the Youtube_DL Logging stuff that defaults to console.
+    """
+    @staticmethod
+    def log_file_code(meth, msg):
+        """
+        Logs data to file (if set).
+        :param meth: Method name.
+        :param msg: message.
+        :return: Nothing.
+        """
         if meth is not '':
             if meth == 'ytdl_debug':
                 logfile = '{0}{1}resources{1}Logs{1}ytdl_debug_logs.txt'.format(sys.path[0], sepa)
@@ -164,24 +165,44 @@ class YTDLLogger(object):
             return
 
     def info(self, msg):
+        """
+        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        :param msg: Message.
+        :return: Nothing.
+        """
         if _log_ytdl:
             self.log_file_code('ytdl_info', msg)
         else:
             pass
 
     def debug(self, msg):
+        """
+        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        :param msg: Message.
+        :return: Nothing.
+        """
         if _log_ytdl:
             self.log_file_code('ytdl_debug', msg)
         else:
             pass
 
     def warning(self, msg):
+        """
+        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        :param msg: Message.
+        :return: Nothing.
+        """
         if _log_ytdl:
             self.log_file_code('ytdl_warning', msg)
         else:
             pass
 
     def error(self, msg):
+        """
+        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        :param msg: Message.
+        :return: Nothing.
+        """
         if _log_ytdl:
             self.log_file_code('ytdl_error', msg)
         else:
@@ -305,6 +326,12 @@ class bot_data:
 
     @asyncio.coroutine
     def voice_stuff_new_code(self, client, message):
+        """
+        Listens for the Voice Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         global player
         global vchannel
         global vchannel_name
@@ -341,7 +368,7 @@ class bot_data:
                         message_data = messagedata.format(voice_message_server_name)
                     yield from client.send_message(message.channel, message_data)
                 except discord.errors.Forbidden:
-                    yield from BotPMError._resolve_send_message_error(client, message)
+                    yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 discord.opus.load_opus(opusdll)
                 voice_message_channel = message.channel
@@ -375,14 +402,14 @@ class bot_data:
                             voice_message_channel = None
                             voice = None
                             verror = True
-                            msgdata = 'This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Developer of this bot to Add it in.'
+                            msgdata = 'This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in.'
                             yield from client.send_message(voice_message_channel, msgdata)
                         if not verror:
                             try:
                                 msg_data = str(botmessages['join_voice_channel_command_data'][1]).format(vchannel.name)
                                 yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError._resolve_send_message_error(client, message)
+                                yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.InvalidArgument:
                         voice_message_channel = None
                         voice = None
@@ -394,7 +421,7 @@ class bot_data:
                             msg_data = str(botmessages['join_voice_channel_command_data'][2])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     except asyncio.TimeoutError:
                         voice_message_channel = None
                         voice = None
@@ -406,7 +433,7 @@ class bot_data:
                             msg_data = str(botmessages['join_voice_channel_command_data'][3])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.ClientException:
                         voice_message_channel = None
                         voice = None
@@ -416,7 +443,7 @@ class bot_data:
                             msg_data = str(botmessages['join_voice_channel_command_data'][4])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.opus.OpusNotLoaded:
                         voice_message_channel = None
                         voice = None
@@ -428,7 +455,7 @@ class bot_data:
                             msg_data = str(botmessages['join_voice_channel_command_data'][5])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     except IndexError:
                         return
         if message.content.startswith(_bot_prefix + 'play'):
@@ -445,7 +472,7 @@ class bot_data:
                                         message_data = "You must Specify a URL in this command."
                                         yield from client.send_message(voice_message_channel, message_data)
                                     except discord.errors.Forbidden:
-                                        yield from BotPMError._resolve_send_message_error(client, message)
+                                        yield from BotPMError.resolve_send_message_error(client, message)
                                 if data.rfind('https://') == -1 and data.rfind('http://') == -1:
                                     # lets try to do a search.
                                     player = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -466,7 +493,7 @@ class bot_data:
                                                 message_data = part1 + msgdata + minutes + ":" + seconds + "]**"
                                                 yield from client.send_message(voice_message_channel, message_data)
                                             except discord.errors.Forbidden:
-                                                yield from BotPMError._resolve_send_message_error(client, message)
+                                                yield from BotPMError.resolve_send_message_error(client, message)
                                             try:
                                                 player.start()
                                             except RuntimeError:
@@ -502,8 +529,7 @@ class bot_data:
                                                     yield from client.send_message(voice_message_channel,
                                                                                    message_data)
                                                 except discord.errors.Forbidden:
-                                                    yield from BotPMError._resolve_send_message_error(client,
-                                                                                                      message)
+                                                    yield from BotPMError.resolve_send_message_error(client, message)
                                                 try:
                                                     player.start()
                                                 except RuntimeError:
@@ -520,8 +546,6 @@ class bot_data:
                                         yield from client.send_message(voice_message_channel, message_data)
                                         _temp_player_1 = None
                             except IndexError:
-                                return
-                            except urllib.error.URLError:
                                 return
                             except discord.errors.ClientException:
                                 msgdata = "Error: ffmpeg not found.\nCurrent Path Vars(With appeneds last 2 on end):"
@@ -551,7 +575,7 @@ class bot_data:
                             message_data = "You must Specify a URL or a search term of a video in this command."
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     else:
                         if '<' and '>' in data:
                             data = data.replace('<', '').replace('>', '')
@@ -870,7 +894,7 @@ class bot_data:
                             message_data = "**Stopped [" + msgdata + minutes + ":" + seconds + "]**"
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                         player.stop()
                         player = None
                         is_bot_playing = False
@@ -908,7 +932,7 @@ class bot_data:
                                             except ValueError:
                                                 pass
                                         except discord.errors.Forbidden:
-                                            yield from BotPMError._resolve_send_message_error(client, message)
+                                            yield from BotPMError.resolve_send_message_error(client, message)
                                         player.start()
                             except UnboundLocalError:
                                 player = None
@@ -918,7 +942,7 @@ class bot_data:
                             message_data = "Failed to stop the currently playing song/whatever it is as player is None."
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     return
         if message.content.startswith(_bot_prefix + 'pause'):
@@ -937,7 +961,7 @@ class bot_data:
                             message_data = "**Paused [" + msgdata + minutes + ":" + seconds + "]**"
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                         player.pause()
                     else:
                         message_data = "Failed to pause the currently playing song/whatever it is as player is None."
@@ -963,7 +987,7 @@ class bot_data:
                             message_data = "**Resumed [" + msgdata + minutes + ":" + seconds + "]**"
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                         player.resume()
                     else:
                         try:
@@ -971,7 +995,7 @@ class bot_data:
                             message_data = msgdata
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     return
             else:
@@ -990,26 +1014,26 @@ class bot_data:
                             message_data = 'Moved to the ' + vchannel.name + " Voice Channel."
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.InvalidArgument:
                         try:
                             message_data = 'The Channel specified is not a voice channel.'
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.Forbidden:
                         try:
                             msgdata = 'This bot does not have permissions to move members to the '
                             message_data = msgdata + vchannel.name + ' Voice Channel.'
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                         except discord.errors.HTTPException:
                             try:
                                 message_data = 'Failed to move to the ' + vchannel.name + ' Voice Channel.'
                                 yield from client.send_message(voice_message_channel, message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError._resolve_send_message_error(client, message)
+                                yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     return
         if player is not None:
@@ -1028,7 +1052,7 @@ class bot_data:
                             message_data = "**Finished [" + track_info + seconds + "]**"
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                     if len(bot_playlist) == 0:
                         player = None
                     if len(bot_playlist) >= 1:
@@ -1071,7 +1095,7 @@ class bot_data:
                                         except ValueError:
                                             pass
                                     except discord.errors.Forbidden:
-                                        yield from BotPMError._resolve_send_message_error(client, message)
+                                        yield from BotPMError.resolve_send_message_error(client, message)
                                     if player is not None:
                                         player.start()
                         except UnboundLocalError:
@@ -1117,7 +1141,7 @@ class bot_data:
                                 message_data = "Left the " + vchannel_name + " Voice Channel."
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError._resolve_send_message_error(client, message)
+                            yield from BotPMError.resolve_send_message_error(client, message)
                         vchannel = None
                         voice_message_channel = None
                         voice = None
@@ -1326,7 +1350,14 @@ class bot_data:
             yield from client.send_message(message.channel, msgdata)
 
     @asyncio.coroutine
-    def _reload_commands_bypass1_new_code(self, client, message, reload_reason):
+    def reload_commands_bypass1_new_code(self, client, message, reload_reason):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :param message: Message.
+        :param reload_reason: Reason for reloading.
+        :return: Nothing.
+        """
         global player
         global vchannel
         global ffmout
@@ -1366,10 +1397,17 @@ class bot_data:
                     voice_message_server_name = None
                     is_bot_playing = False
                 except discord.errors.Forbidden:
-                    yield from BotPMError._resolve_send_message_error(client, message)
+                    yield from BotPMError.resolve_send_message_error(client, message)
 
+    # noinspection PyProtectedMember,PyUnresolvedReferences
     @asyncio.coroutine
-    def _reload_commands_bypass2_new_code(self, client, message):
+    def reload_commands_bypass2_new_code(self, client, message):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
         global vchannel
         global voice
         global voice_message_server
@@ -1378,7 +1416,8 @@ class bot_data:
         global vchannel_name
         global verror
         try:
-            botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0], sepa), 'r')
+            botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0],
+                                                                                                       sepa))
             botvoicechannel_reloaded = json.load(botvoicechannelfile)
             botvoicechannelfile.close()
         except FileNotFoundError:
@@ -1423,7 +1462,7 @@ class bot_data:
                 voice_message_channel = None
                 voice = None
                 verror = True
-                msgdata = 'This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Developer of this bot to Add it in.'
+                msgdata = 'This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in.'
                 yield from client.send_message(voice_message_channel, msgdata)
             if verror is not True:
                 message_data = "Rejoined the {0} Voice Channel.".format(vchannel_name)
@@ -1437,7 +1476,12 @@ class bot_data:
             voice = None
 
     @asyncio.coroutine
-    def _reload_commands_bypass3_new_code(self, client):
+    def reload_commands_bypass3_new_code(self, client):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :return: Nothing.
+        """
         global vchannel
         global voice
         global voice_message_server
@@ -1476,7 +1520,7 @@ class bot_data:
                 voice_message_channel = None
                 voice = None
                 verror = True
-                msgdata = 'This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Developer of this bot to Add it in.'
+                msgdata = 'This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in.'
                 yield from client.send_message(voice_message_channel, msgdata)
             if verror is not True:
                 message_data = "Rejoined the {0} Voice Channel.".format(vchannel_name)
@@ -1490,7 +1534,14 @@ class bot_data:
             voice = None
 
     @asyncio.coroutine
-    def _reload_commands_bypass4_new_code(self, client, message, reload_reason):
+    def reload_commands_bypass4_new_code(self, client, message, reload_reason):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :param message: Message.
+        :param reload_reason: Reason for reloading.
+        :return: Nothing.
+        """
         global player
         global vchannel
         global vchannel_name
@@ -1528,15 +1579,24 @@ class bot_data:
                     voice_message_server_name = None
                     is_bot_playing = False
                 except discord.errors.Forbidden:
-                    yield from BotPMError._resolve_send_message_error(client, message)
+                    yield from BotPMError.resolve_send_message_error(client, message)
 
 
 class VoiceBotCommands:
+    """
+    Class for Voice Channel Functionality in this bot.
+    """
     def __init__(self):
         self.bot = bot_data()
 
     @asyncio.coroutine
     def voice_stuff_new(self, client, message):
+        """
+        Listens for the Voice Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.voice_stuff_new_code(client, message)
 
     @asyncio.coroutine
@@ -1553,17 +1613,42 @@ class VoiceBotCommands:
         yield from self.bot.voice_stuff_new_disabled_code(client, message)
 
     @asyncio.coroutine
-    def _reload_commands_bypass1_new(self, client, message, reload_reason):
-        yield from self.bot._reload_commands_bypass1_new_code(client, message, reload_reason)
+    def reload_commands_bypass1_new(self, client, message, reload_reason):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :param message: Message.
+        :param reload_reason: Reason for reloading.
+        :return: Nothing.
+        """
+        yield from self.bot.reload_commands_bypass1_new_code(client, message, reload_reason)
 
     @asyncio.coroutine
-    def _reload_commands_bypass2_new(self, client, message):
-        yield from self.bot._reload_commands_bypass2_new_code(client, message)
+    def reload_commands_bypass2_new(self, client, message):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
+        """
+        yield from self.bot.reload_commands_bypass2_new_code(client, message)
 
     @asyncio.coroutine
-    def _reload_commands_bypass3_new(self, client):
-        yield from self.bot._reload_commands_bypass3_new_code(client)
+    def reload_commands_bypass3_new(self, client):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :return: Nothing.
+        """
+        yield from self.bot.reload_commands_bypass3_new_code(client)
 
     @asyncio.coroutine
-    def _reload_commands_bypass4_new(self, client, message, reload_reason):
-        yield from self.bot._reload_commands_bypass4_new_code(client, message, reload_reason)
+    def reload_commands_bypass4_new(self, client, message, reload_reason):
+        """
+        Reloading Command Bypass for Voice Channels.
+        :param client: Discord Client.
+        :param message: Message.
+        :param reload_reason: Reason for reloading.
+        :return: Nothing.
+        """
+        yield from self.bot.reload_commands_bypass4_new_code(client, message, reload_reason)

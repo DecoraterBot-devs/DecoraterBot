@@ -4,13 +4,13 @@
     any and all users waive the right to say that this bot's code was stolen when it really was not.
     Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
     it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF
-    SHIT LIKE THIS.
+    CRAP LIKE THIS.
     
-    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will do after you for such cliams that it deems
+    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will go after you for such cliams that it deems
     untrue.
     
-    Cheese.lab industries Inc. Belieces in the rights of Original Developers of bots. They do not take kindly to
-    BULLSHIT.
+    Cheese.lab industries Inc. Believes in the rights of Original Developers of bots. They do not take kindly to
+    BULLCRAP.
     
     Any and all Developers work all the time, many of them do not get paid for their hard work.
     
@@ -22,13 +22,13 @@
     Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that
     way I can code my bot.
     
-    However shit does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
+    However crap does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
     it is 10 years old and is falling apart
     
     I am half tempted myself to pulling this bot from github and making it on patrion that boobot was on to help me
     with my development needs.
     
-    So, as such I accept issue requests, but please do not give me bullshit I hate it as it makes everything worse
+    So, as such I accept issue requests, but please do not give me bullcrap I hate it as it makes everything worse
     than the way it is.
     
     You do have the right however to:
@@ -47,7 +47,6 @@
 """
 import os
 import discord
-import requests
 import ctypes
 import sys
 import time
@@ -61,26 +60,26 @@ try:
 except ImportError:
     sepa = os.sep
     sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(sys.path[0], sepa))
+    # noinspection PyUnresolvedReferences
     import Ignore
+# noinspection PyUnresolvedReferences
 import Login
-import BotCommands
 from .BotErrors import *
+# noinspection PyUnresolvedReferences
 import BotPMError
-import BotVoiceCommands
-from discord.ext import commands
 
 sepa = os.sep
 
 DBLogin = Login.BotLogin()
 DBEvents = Ignore.BotEvents()
 DBIgnores = Ignore.BotIgnores()
-jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa), 'r')
+jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa))
 somedict = json.load(jsonfile)
 jsonfile.close()
-consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa), 'r')
+consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
 consoletext = json.load(consoledatafile)
 consoledatafile.close()
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa), 'r')
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
 botmessages = json.load(botmessagesdata)
 botmessagesdata.close()
 
@@ -91,7 +90,7 @@ DBLogin.variable()
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    credsfile = io.open(PATH, 'r')
+    credsfile = io.open(PATH)
     credentials = json.load(credsfile)
     credsfile.close()
     discord_user_id = str(credentials['ownerid'][0])
@@ -125,17 +124,33 @@ class bot_data:
     def __init__(self):
         pass
 
-    def changewindowtitle_code(self):
+    @staticmethod
+    def changewindowtitle_code():
+        """
+        Changes the console's window Title.
+        :return: Nothing.
+        """
         # the Following is windows only.
         ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
 
-    def changewindowsize_code(self):
+    @staticmethod
+    def changewindowsize_code():
+        """
+        Changes the Console's size.
+        :return: Nothing.
+        """
         # the Following is windows only.
         cmd = "mode con: cols=80 lines=23"
         os.system(cmd)
 
     @asyncio.coroutine
     def commands_code(self, client, message):
+        """
+        Cental place where all Commands are Registered/Created at.
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from DBIgnores.ignore(client, message)
         if message.content.startswith(_bot_prefix + "uptime"):
             if message.author.id in somedict['Users']:
@@ -192,73 +207,113 @@ class bot_data:
                                     else:
                                         yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
-                                    yield from BotPMError._resolve_send_message_error(client, message)
+                                    yield from BotPMError.resolve_send_message_error(client, message)
                             except Exception as e:
                                 reloadexception = str(traceback.format_exc())
                                 try:
                                     reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
                                     yield from client.send_message(message.channel, reload_data)
                                 except discord.errors.Forbidden:
-                                    yield from BotPMError._resolve_send_message_error(client, message)
+                                    yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     try:
                         yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
                     except discord.errors.Forbidden:
-                        yield from BotPMError._resolve_send_message_error(client, message)
+                        yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
                     yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError._resolve_send_message_error(client, message)
+                    yield from BotPMError.resolve_send_message_error(client, message)
 
     @asyncio.coroutine
     def deletemessage_code(self, client, message):
-        yield from DBEvents._resolve_delete_method(client, message)
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
+        yield from DBEvents.resolve_delete_method(client, message)
 
     @asyncio.coroutine
     def editmessage_code(self, client, before, after):
-        yield from DBEvents._resolve_edit_method(client, before, after)
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param before: Message.
+        :param after: Message.
+        :return: Nothing.
+        """
+        yield from DBEvents.resolve_edit_method(client, before, after)
 
     @asyncio.coroutine
     def memberban_code(self, client, member):
-        yield from DBEvents._resolve_onban(client, member)
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
+        yield from DBEvents.resolve_onban(client, member)
 
     @asyncio.coroutine
     def memberunban_code(self, client, member):
-        yield from DBEvents._resolve_onunban(client, member)
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
+        yield from DBEvents.resolve_onunban(client, member)
 
     @asyncio.coroutine
     def memberremove_code(self, client, member):
-        yield from DBEvents._resolve_onremove(client, member)
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
+        yield from DBEvents.resolve_onremove(client, member)
 
     @asyncio.coroutine
     def memberjoin_code(self, client, member):
-        yield from DBEvents._resolve_onjoin(client, member)
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
+        yield from DBEvents.resolve_onjoin(client, member)
 
-    def _login_helper_code(self, client):
+    @staticmethod
+    def login_helper_code(client):
         DBLogin.login_info(client)
 
-    def _discord_logger_code(self):
-        DBEvents._resolve_discord_logger()
+    @staticmethod
+    def discord_logger_code():
+        DBEvents.resolve_discord_logger()
 
-    def _asyncio_logger_code(self):
-        DBEvents._resolve_asyncio_logger()
+    @staticmethod
+    def asyncio_logger_code():
+        DBEvents.resolve_asyncio_logger()
 
     @asyncio.coroutine
-    def _server_available_code(self, server):
+    def server_available_code(self, server):
         yield from DBEvents.server_available(server)
 
     @asyncio.coroutine
-    def _server_unavailable_code(self, server):
+    def server_unavailable_code(self, server):
         yield from DBEvents.server_unavailable(server)
 
     @asyncio.coroutine
     def groupjoin_code(self, channel, user):
-        yield from DBEvents._resolve_ongroupjoin(channel, user)
+        yield from DBEvents.resolve_ongroupjoin(channel, user)
 
     @asyncio.coroutine
     def groupremove_code(self, channel, user):
-        yield from DBEvents._resolve_ongroupremove(channel, user)
+        yield from DBEvents.resolve_ongroupremove(channel, user)
 
     @asyncio.coroutine
     def raw_recv_code(self, msg):
@@ -271,7 +326,7 @@ class bot_data:
         pass
 
     @asyncio.coroutine
-    def _bot_resumed_code(self):
+    def bot_resumed_code(self):
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
@@ -341,9 +396,9 @@ class bot_data:
         pass
 
     @asyncio.coroutine
-    def _bot_ready_code(self, client):
+    def bot_ready_code(self, client):
         yield from DBLogin.on_login(client)
-        yield from DBEvents._resolve_on_login_voice_channel_join(client)
+        yield from DBEvents.resolve_on_login_voice_channel_join(client)
 
 
 class BotCore:
@@ -384,22 +439,22 @@ class BotCore:
     def memberjoin(self, client, member):
         yield from self.bot.memberjoin_code(client, member)
 
-    def _login_helper(self, client):
-        self.bot._login_helper_code(client)
+    def login_helper(self, client):
+        self.bot.login_helper_code(client)
 
-    def _discord_logger(self):
-        self.bot._discord_logger_code()
+    def discord_logger(self):
+        self.bot.discord_logger_code()
 
-    def _asyncio_logger(self):
-        self.bot._asyncio_logger_code()
-
-    @asyncio.coroutine
-    def _server_available(self, server):
-        yield from self.bot._server_available_code(server)
+    def asyncio_logger(self):
+        self.bot.asyncio_logger_code()
 
     @asyncio.coroutine
-    def _server_unavailable(self, server):
-        yield from self.bot._server_unavailable_code(server)
+    def server_available(self, server):
+        yield from self.bot.server_available_code(server)
+
+    @asyncio.coroutine
+    def server_unavailable(self, server):
+        yield from self.bot.server_unavailable_code(server)
 
     @asyncio.coroutine
     def groupjoin(self, channel, user):
@@ -418,8 +473,8 @@ class BotCore:
         yield from self.bot.raw_send_code(payload)
 
     @asyncio.coroutine
-    def _bot_resumed(self):
-        yield from self.bot._bot_resumed_code()
+    def bot_resumed(self):
+        yield from self.bot.bot_resumed_code()
 
     @asyncio.coroutine
     def typing(self, channel, user, when):
@@ -474,8 +529,8 @@ class BotCore:
         yield from self.bot.memberupdate_code(before, after)
 
     @asyncio.coroutine
-    def _bot_ready(self, client):
-        yield from self.bot._bot_ready_code(client)
+    def bot_ready(self, client):
+        yield from self.bot.bot_ready_code(client)
 
 
 DBCore = BotCore()
@@ -485,11 +540,11 @@ class BotClient(discord.Client):
     # Hack to not overwrite the __init__ function in discord.Client()
     # This is required to actually login and run the bot or you will be screwed. DO NOT REMOVE THIS HACK!!!
     def not_a_async_function(self):
-        DBCore._asyncio_logger()
-        DBCore._discord_logger()
+        DBCore.asyncio_logger()
+        DBCore.discord_logger()
         DBCore.changewindowtitle()
         # DBCore.changewindowsize()
-        DBCore._login_helper(self)
+        DBCore.login_helper(self)
 
     @asyncio.coroutine
     def on_message(self, message):
@@ -520,7 +575,7 @@ class BotClient(discord.Client):
         yield from DBCore.memberban(self, member)
 
     @asyncio.coroutine
-    def on_member_unban(server, user):
+    def on_member_unban(self, server, user):
         yield from DBCore.memberunban(server, user)
 
     @asyncio.coroutine
@@ -537,11 +592,11 @@ class BotClient(discord.Client):
 
     @asyncio.coroutine
     def on_server_available(self, server):
-        yield from DBCore._server_available(server)
+        yield from DBCore.server_available(server)
 
     @asyncio.coroutine
     def on_server_unavailable(self, server):
-        yield from DBCore._server_unavailable(server)
+        yield from DBCore.server_unavailable(server)
 
     @asyncio.coroutine
     def on_server_join(self, server):
@@ -597,8 +652,8 @@ class BotClient(discord.Client):
 
     @asyncio.coroutine
     def on_ready(self):
-        yield from DBCore._bot_ready(self)
+        yield from DBCore.bot_ready(self)
 
     @asyncio.coroutine
     def on_resumed(self):
-        yield from DBCore._bot_resumed()
+        yield from DBCore.bot_resumed()

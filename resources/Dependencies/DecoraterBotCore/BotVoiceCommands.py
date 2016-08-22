@@ -88,16 +88,20 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         _log_ytdl = False
 
 bits = ctypes.sizeof(ctypes.c_voidp)
-# I Sadly have only Windows Version of opus.dll ad Windows Version of FFmpeg.
-# Feel free to help pull request Linux & Mac versions of these files especially the pyd's.
-# Hopefully they will not conflict with the windows pyd's
-# Why? Because I don't have a Mac or a Linux OS.
 if bits == 4:
-    opusdll = '{0}{1}resources{1}opus{1}opus.dll'.format(sys.path[0], sepa)
-    os.chdir('{0}{1}resources{1}ffmpeg{1}x86'.format(sys.path[0], sepa))
+    if not (sys.platform.startswith('linux')):
+        opusdll = '{0}{1}resources{1}opus{1}win32{1}x86{1}opus.dll'.format(sys.path[0], sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}x86'.format(sys.path[0], sepa))
+    else:
+        opusdll = '{0}{1}resources{1}opus{1}linux{1}x86{1}opus.dll'.format(sys.path[0], sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x86'.format(sys.path[0], sepa))
 elif bits == 8:
-    opusdll = '{0}{1}resources{1}opus{1}opus64.dll'.format(sys.path[0], sepa)
-    os.chdir('{0}{1}resources{1}ffmpeg{1}x64'.format(sys.path[0], sepa))
+    if not (sys.platform.startswith('linux')):
+        opusdll = '{0}{1}resources{1}opus{1}win32{1}x64{1}opus.dll'.format(sys.path[0], sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}win32(1)x64'.format(sys.path[0], sepa))
+    else:
+        opusdll = '{0}{1}resources{1}opus{1}linux{1}x64{1}opus.dll'.format(sys.path[0], sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}linux(1)x64'.format(sys.path[0], sepa))
 
 
 class YTDLLogger(object):

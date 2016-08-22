@@ -131,7 +131,10 @@ class bot_data:
         :return: Nothing.
         """
         # the Following is windows only.
-        ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
+        if sys.platform.startswith('win'):
+            ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
+        else:
+            print('Canno\'t change Console window title for this platform.\nPlease help the Developer with this.')
 
     @staticmethod
     def changewindowsize_code():

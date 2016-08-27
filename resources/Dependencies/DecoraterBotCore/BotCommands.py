@@ -964,6 +964,29 @@ class bot_data:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
+        if message.content.startswith(_bot_prefix + 'lk'):
+            filename1 = '{0}{1}resources{1}images{1}elsword{1}LK.jpg'.format(sys.path[0], sepa)
+            file_object = open(filename1, 'rb')
+            file_data = None
+            if file_object is not None:
+                file_data = file_object.read()
+                file_object.close()
+            yield from client.edit_profile(avatar=file_data)
+        if message.content.startswith(_bot_prefix + 'vp'):
+            filename1 = '{0}{1}resources{1}images{1}elsword{1}VP.jpg'.format(sys.path[0], sepa)
+            file_object = open(filename1, 'rb')
+            file_data = None
+            if file_object is not None:
+                file_data = file_object.read()
+                file_object.close()
+            yield from client.edit_profile(avatar=file_data)
+        if message.content.startswith(_bot_prefix + 'restart'):
+            if message.author.id == owner_id:
+                """
+                    This Command is to restart the bot as reloadign moduels seems broken currently.
+                """
+                subprocess.Popen("{0}{1}DecoraterBot.bat".format(sys.path[0], sepa))
+                sys.exit(1)
         if message.content.startswith(_bot_prefix + 'meme'):
             desdata = message.content[len(_bot_prefix + 'meme'):].strip()
             meme_error = False
@@ -1110,6 +1133,7 @@ class bot_data:
                     except discord.HTTPException:
                         return
     else:
+        # noinspection PyTypeChecker
         @asyncio.coroutine
         def prune_command_iterater_helper(self, client, message, num, sent_prune_error_message):
             """
@@ -1132,6 +1156,7 @@ class bot_data:
                     else:
                         return
 
+        # noinspection PyTypeChecker
         @asyncio.coroutine
         def clear_command_iterater_helper(self, client, message):
             """

@@ -159,7 +159,8 @@
         "The channel Specified is not a voice channel.",
         "The request to join a voice channel has timed out.",
         "Already connected to a voice channel on this server.",
-        "Could not load 'opus.dll' or 'opus64.dll'."
+        "Could not load 'opus.dll' or 'opus64.dll'.",
+        "This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in."
     ],
     "eval_command_data": [
         "Server owner of {0} does not allow this bot to send messages in {1}.",
@@ -179,5 +180,12 @@
         "A picture is required for this to work properly.",
         "Top Text is required for this to work properly.",
         "Bottom Text is required for this to work properly."
+    ],
+    "voice_commands_disabled": [
+        "Sorry, Voice Commands are Disabled."
+    ],
+    "play_command_data": [
+        "You must Specify a URL in this command.",
+        ""
     ]
 }

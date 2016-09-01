@@ -1118,12 +1118,13 @@ class bot_data:
             :param message: Message.
             :return: Nothing.
             """
-            async for msg in client.logs_from(message.channel, limit=100):
-                if msg.author.id == client.user.id:
-                    try:
-                        await client.delete_message(msg)
-                    except discord.HTTPException:
-                        return
+            def botauthor(m):
+                return m.author == client.user
+
+            try:
+                await client.purge_from(message.channel, limit=100, check=botauthor):
+            except discord.HTTPException:
+                return
     else:
         # noinspection PyTypeChecker
         @asyncio.coroutine
@@ -1156,13 +1157,13 @@ class bot_data:
             :param message: Message.
             :return: Nothing.
             """
-            logs = yield from client.logs_from(message.channel, limit=100)
-            for msg in logs:
-                if msg.author.id == client.user.id:
-                    try:
-                        yield from client.delete_message(msg)
-                    except discord.HTTPException:
-                        return
+            def botauthor(m):
+                return m.author == client.user
+
+            try:
+                yield from client.purge_from(message.channel, limit=100, check=botauthor):
+            except discord.HTTPException:
+                return
 
     @asyncio.coroutine
     def prune_code(self, client, message):

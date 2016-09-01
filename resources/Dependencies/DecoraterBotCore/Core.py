@@ -292,59 +292,127 @@ class bot_data:
 
     @staticmethod
     def login_helper_code(client):
+        """
+        Bot Login Helper.
+        :param client: Discord client.
+        :return: Nothing.
+        """
         DBLogin.login_info(client)
 
     @staticmethod
     def discord_logger_code():
+        """
+        Logger Data.
+        :return: Nothing.
+        """
         DBEvents.resolve_discord_logger()
 
     @staticmethod
     def asyncio_logger_code():
+        """
+        Asyncio Logger.
+        :return: Nothing.
+        """
         DBEvents.resolve_asyncio_logger()
 
     @asyncio.coroutine
     def server_available_code(self, server):
+        """
+        Bot Event.
+        :param server: Servers.
+        :return: Nothing.
+        """
         yield from DBEvents.server_available(server)
 
     @asyncio.coroutine
     def server_unavailable_code(self, server):
+        """
+        Bot Event.
+        :param server: Servers.
+        :return: Nothing.
+        """
         yield from DBEvents.server_unavailable(server)
 
     @asyncio.coroutine
     def groupjoin_code(self, channel, user):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         yield from DBEvents.resolve_ongroupjoin(channel, user)
 
     @asyncio.coroutine
     def groupremove_code(self, channel, user):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         yield from DBEvents.resolve_ongroupremove(channel, user)
 
     @asyncio.coroutine
     def raw_recv_code(self, msg):
+        """
+        Bot Event.
+        :param msg: Message.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def raw_send_code(self, payload):
+        """
+        Bot Event.
+        :param payload: Payload.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def bot_resumed_code(self):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def typing_code(self, channel, user, when):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :param user: Users.
+        :param when: Time.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def errors_code(self, event, *args, **kwargs):
+        """
+        Bot Event.
+        :param event: Event.
+        :param args: Args.
+        :param kwargs: Other Args.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def channeldelete_code(self, channel):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
@@ -400,6 +468,11 @@ class bot_data:
 
     @asyncio.coroutine
     def bot_ready_code(self, client):
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :return: Nothing.
+        """
         yield from DBLogin.on_login(client)
         yield from DBEvents.resolve_on_login_voice_channel_join(client)
 

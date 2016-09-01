@@ -50,6 +50,8 @@ import sys
 sys.dont_write_bytecode = True
 try:
     import discord
+    # noinspection PyUnresolvedReferences
+    import DecoraterBotCore
 except ImportError:
     sepa = os.sep
     appendpath = "{0}{1}resources{1}Dependencies".format(sys.path[0], sepa)
@@ -57,8 +59,8 @@ except ImportError:
     sys.path.append(appendpath)
     sys.path.append(appendpath2)
     import discord
-# noinspection PyUnresolvedReferences
-import DecoraterBotCore
+    # noinspection PyUnresolvedReferences
+    import DecoraterBotCore
 
 
 DecoraterBotCore.Core.BotClient().not_a_async_function()

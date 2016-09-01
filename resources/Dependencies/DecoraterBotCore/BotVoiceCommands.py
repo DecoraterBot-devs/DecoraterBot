@@ -58,6 +58,7 @@ import youtube_dl
 import ctypes
 # noinspection PyUnresolvedReferences
 import BotPMError
+# noinspection PyUnresolvedReferences
 from discord.ext import commands
 
 sepa = os.sep
@@ -406,7 +407,7 @@ class bot_data:
                             voice_message_channel = None
                             voice = None
                             verror = True
-                            msgdata = 'This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in.'
+                            msgdata = str(botmessages['join_voice_channel_command_data'][6])
                             yield from client.send_message(voice_message_channel, msgdata)
                         if not verror:
                             try:
@@ -473,7 +474,7 @@ class bot_data:
                                 data = message.content[len(_bot_prefix + "play "):].strip()
                                 if data == "":
                                     try:
-                                        message_data = "You must Specify a URL in this command."
+                                        message_data = str(botmessages['play_command_data'][0])
                                         yield from client.send_message(voice_message_channel, message_data)
                                     except discord.errors.Forbidden:
                                         yield from BotPMError.resolve_send_message_error(client, message)
@@ -491,10 +492,8 @@ class bot_data:
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
                                             try:
-                                                data = "] ["
-                                                msgdata = str(player.title) + "] by [" + str(player.uploader) + data
-                                                part1 = "**Now Playing ["
-                                                message_data = part1 + msgdata + minutes + ":" + seconds + "]**"
+                                                message_data = "**Now Playing [{0}] by [{1}] [{2}:{3}]**".format(
+                                                    str(player.title), str(player.uploader), minutes, seconds)
                                                 yield from client.send_message(voice_message_channel, message_data)
                                             except discord.errors.Forbidden:
                                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -526,10 +525,8 @@ class bot_data:
                                                 if len(seconds) == 1:
                                                     seconds = "0" + seconds
                                                 try:
-                                                    data = "] ["
-                                                    msgdata = str(player.title) + "] by [" + str(player.uploader) + data
-                                                    part1 = "**Now Playing ["
-                                                    message_data = part1 + msgdata + minutes + ":" + seconds + "]**"
+                                                    message_data = "**Now Playing [{0}] by [{1}] [{2}:{3}]**".format(
+                                                        str(player.title), str(player.uploader), minutes, seconds)
                                                     yield from client.send_message(voice_message_channel,
                                                                                    message_data)
                                                 except discord.errors.Forbidden:
@@ -894,8 +891,9 @@ class bot_data:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            msgdata = str(player.title) + "] by [" + str(player.uploader) + "] ["
-                            message_data = "**Stopped [" + msgdata + minutes + ":" + seconds + "]**"
+                            message_data = "**Stopped [{0}] by [{1}] [{2}:{3}]**".format(str(player.title),
+                                                                                         str(player.uploader),
+                                                                                         minutes, seconds)
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -927,9 +925,10 @@ class bot_data:
                                             seconds = str(int(fulldir % 60))
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
-                                            track_info = str(player.title) + "] by [" + str(player.uploader) + "] ["
-                                            track_info2 = track_info + minutes + ":" + seconds + "]"
-                                            message_data = "**Now Playing [" + track_info2 + "**"
+                                            track_info = "[{0}] by [{1}]".format(str(player.title),
+                                                                                 str(player.uploader))
+                                            message_data = "**Now Playing {0} [{1}:{2}]**".format(track_info,
+                                                                                                  minutes, seconds)
                                             yield from client.send_message(voice_message_channel, message_data)
                                             try:
                                                 bot_playlist_entries.remove(track_info)
@@ -961,8 +960,8 @@ class bot_data:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            msgdata = str(player.title) + "] by [" + str(player.uploader) + "] ["
-                            message_data = "**Paused [" + msgdata + minutes + ":" + seconds + "]**"
+                            message_data = "**Paused [{0}] by [{1}] [{2}:{3}]**".format(
+                                str(player.title), str(player.uploader), minutes, seconds)
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -987,8 +986,8 @@ class bot_data:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            msgdata = str(player.title) + "] by [" + str(player.uploader) + "] ["
-                            message_data = "**Resumed [" + msgdata + minutes + ":" + seconds + "]**"
+                            message_data = "**Resumed [{0}] by [{1}] [{2}:{3}]**".format(
+                                str(player.title), str(player.uploader), minutes, seconds)
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -1052,8 +1051,8 @@ class bot_data:
                         _sent_finished_message = True
                         is_bot_playing = False
                         try:
-                            track_info = str(player.title) + "] by [" + str(player.uploader) + "] [" + minutes + ":"
-                            message_data = "**Finished [" + track_info + seconds + "]**"
+                            message_data = "**Finished [{0}] by [{1}] [{2}:{3}]**".format(
+                                str(player.title), str(player.uploader), minutes, seconds)
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -1090,9 +1089,10 @@ class bot_data:
                                         seconds = str(int(fulldir % 60))
                                         if len(seconds) == 1:
                                             seconds = "0" + seconds
-                                        track_info = str(player.title) + "] by [" + str(player.uploader) + "] ["
-                                        track_info2 = track_info + minutes + ":" + seconds + "]"
-                                        message_data = "**Now Playing [" + track_info2 + "**"
+                                        track_info = "[{0}] by [{1}]".format(str(player.title),
+                                                                             str(player.uploader))
+                                        message_data = "**Now Playing {0} [{1}:{2}]**".format(
+                                            track_info, minutes, seconds)
                                         yield from client.send_message(voice_message_channel, message_data)
                                         try:
                                             bot_playlist_entries.remove(track_info)
@@ -1326,31 +1326,31 @@ class bot_data:
             :param message: Message Object
         """
         if message.content.startswith(_bot_prefix + 'JoinVoiceChannel'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + 'play'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + 'stop'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + 'pause'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + 'unpause'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + 'move'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + 'LeaveVoiceChannel'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + 'Playlist'):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
         if message.content.startswith(_bot_prefix + "vol"):
-            msgdata = "Sorry, Voice Commands are Disabled."
+            msgdata = str(botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
 
     @asyncio.coroutine

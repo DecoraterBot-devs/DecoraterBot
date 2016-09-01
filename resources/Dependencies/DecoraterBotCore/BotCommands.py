@@ -980,13 +980,6 @@ class bot_data:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
-        if message.content.startswith(_bot_prefix + 'restart'):
-            if message.author.id == owner_id:
-                """
-                    This Command is to restart the bot as reloadign moduels seems broken currently.
-                """
-                subprocess.Popen("{0}{1}DecoraterBot.bat".format(sys.path[0], sepa))
-                sys.exit(1)
         if message.content.startswith(_bot_prefix + 'meme'):
             desdata = message.content[len(_bot_prefix + 'meme'):].strip()
             meme_error = False
@@ -1107,15 +1100,14 @@ class bot_data:
             :param sent_prune_error_message: Bool
             :return: Nothing.
             """
-            async for msg in client.logs_from(message.channel, limit=num + 1):
-                try:
-                    await client.delete_message(msg)
-                except discord.HTTPException:
-                    if sent_prune_error_message is False:
-                        sent_prune_error_message = True
-                        await client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
-                    else:
-                        return
+            try:
+                await client.purge_from(message.channel, limit=num + 1)
+            except discord.HTTPException:
+                if sent_prune_error_message is False:
+                    sent_prune_error_message = True
+                    await client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
+                else:
+                    return
 
         # noinspection PyMethodMayBeStatic
         async def clear_command_iterater_helper(self, client, message):
@@ -1145,16 +1137,14 @@ class bot_data:
             :param sent_prune_error_message: Bool
             :return: Nothing.
             """
-            logs = yield from client.logs_from(message.channel, limit=num + 1)
-            for msg in logs:
-                try:
-                    yield from client.delete_message(msg)
-                except discord.HTTPException:
-                    if sent_prune_error_message is False:
-                        sent_prune_error_message = True
-                        yield from client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
-                    else:
-                        return
+            try:
+                yield from client.purge_from(message.channel, limit=num + 1)
+            except discord.HTTPException:
+                if sent_prune_error_message is False:
+                    sent_prune_error_message = True
+                    yield from client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
+                else:
+                    return
 
         # noinspection PyTypeChecker
         @asyncio.coroutine

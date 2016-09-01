@@ -1122,7 +1122,7 @@ class bot_data:
                 return m.author == client.user
 
             try:
-                await client.purge_from(message.channel, limit=100, check=botauthor):
+                await client.purge_from(message.channel, limit=100, check=botauthor)
             except discord.HTTPException:
                 return
     else:
@@ -1161,7 +1161,7 @@ class bot_data:
                 return m.author == client.user
 
             try:
-                yield from client.purge_from(message.channel, limit=100, check=botauthor):
+                yield from client.purge_from(message.channel, limit=100, check=botauthor)
             except discord.HTTPException:
                 return
 

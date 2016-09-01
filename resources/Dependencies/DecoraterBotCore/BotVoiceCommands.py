@@ -56,9 +56,7 @@ import os.path
 import concurrent
 import youtube_dl
 import ctypes
-# noinspection PyUnresolvedReferences
 import BotPMError
-# noinspection PyUnresolvedReferences
 from discord.ext import commands
 
 sepa = os.sep
@@ -214,114 +212,61 @@ class YTDLLogger(object):
             pass
 
 
-# noinspection PyGlobalUndefined
 global ytdlo
-# noinspection PyGlobalUndefined
 global player
-# noinspection PyGlobalUndefined
 global vchannel
-# noinspection PyGlobalUndefined
 global vchannel_name
-# noinspection PyGlobalUndefined
 global voice_message_channel
-# noinspection PyGlobalUndefined
 global voice_message_server
-# noinspection PyGlobalUndefined
 global voice_message_server_name
-# noinspection PyGlobalUndefined
 global voice
-# noinspection PyGlobalUndefined
 global _sent_finished_message
-# noinspection PyGlobalUndefined
 global sent_prune_error_message
-# noinspection PyGlobalUndefined
 global is_bot_playing
-# noinspection PyGlobalUndefined
 global bot_playlist
-# noinspection PyGlobalUndefined
 global bot_playlist_entries
-# noinspection PyGlobalUndefined
 global _temp_player_1
-# noinspection PyGlobalUndefined
 global _temp_player_2
-# noinspection PyGlobalUndefined
 global _temp_player_3
-# noinspection PyGlobalUndefined
 global _temp_player_4
-# noinspection PyGlobalUndefined
 global _temp_player_5
-# noinspection PyGlobalUndefined
 global _temp_player_6
-# noinspection PyGlobalUndefined
 global _temp_player_7
-# noinspection PyGlobalUndefined
 global _temp_player_8
-# noinspection PyGlobalUndefined
 global _temp_player_9
-# noinspection PyGlobalUndefined
 global _temp_player_10
-# noinspection PyGlobalUndefined
 global ffmop
-# noinspection PyGlobalUndefined
 global ffmout
-# noinspection PyGlobalUndefined
 global verror
 
-# noinspection PyRedeclaration
 ytdlo = {'verbose': False, 'logger': YTDLLogger(), 'default_search': "ytsearch"}
-# noinspection PyRedeclaration
 player = None
-# noinspection PyRedeclaration
 vchannel = None
-# noinspection PyRedeclaration
 vchannel_name = None
-# noinspection PyRedeclaration
 voice_message_channel = None
-# noinspection PyRedeclaration
 voice_message_server = None
-# noinspection PyRedeclaration
 voice_message_server_name = None
-# noinspection PyRedeclaration
 voice = None
-# noinspection PyRedeclaration
 _sent_finished_message = False
-# noinspection PyRedeclaration
 sent_prune_error_message = False
-# noinspection PyRedeclaration
 is_bot_playing = False
-# noinspection PyRedeclaration
 bot_playlist = []
-# noinspection PyRedeclaration
 bot_playlist_entries = []
-# noinspection PyRedeclaration
 _temp_player_1 = None
-# noinspection PyRedeclaration
 _temp_player_2 = None
-# noinspection PyRedeclaration
 _temp_player_3 = None
-# noinspection PyRedeclaration
 _temp_player_4 = None
-# noinspection PyRedeclaration
 _temp_player_5 = None
-# noinspection PyRedeclaration
 _temp_player_6 = None
-# noinspection PyRedeclaration
 _temp_player_7 = None
-# noinspection PyRedeclaration
 _temp_player_8 = None
-# noinspection PyRedeclaration
 _temp_player_9 = None
-# noinspection PyRedeclaration
 _temp_player_10 = None
-# noinspection PyRedeclaration
 ffmop = "-nostats -loglevel quiet"
-# noinspection PyRedeclaration
 ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(sys.path[0], sepa), 'w')
-# noinspection PyRedeclaration
 verror = False
 
 
-# noinspection PyExceptClausesOrder,PyPep8Naming,PyUnboundLocalVariable
 class bot_data:
     """
         This class is for Internal use only!!!
@@ -553,12 +498,12 @@ class bot_data:
                                 message_data = msgdata + "```py\n" + str(sys.path) + "\n```"
                                 yield from client.send_message(message.channel, message_data)
                                 player = None
+                            except youtube_dl.utils.UnsupportedError:
+                                yield from client.send_message(message.channel, "Unsupported Youtube video URL.")
+                                player = None
                             except youtube_dl.utils.ExtractorError:
                                 message_data = "Error When trying to extract the video from the Youtube video URL."
                                 yield from client.send_message(message.channel, message_data)
-                                player = None
-                            except youtube_dl.utils.UnsupportedError:
-                                yield from client.send_message(message.channel, "Unsupported Youtube video URL.")
                                 player = None
                             except youtube_dl.utils.DownloadError:
                                 yield from client.send_message(message.channel, "Invalid or not a Youtube video URL.")
@@ -1403,7 +1348,6 @@ class bot_data:
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
-    # noinspection PyProtectedMember,PyUnresolvedReferences
     @asyncio.coroutine
     def reload_commands_bypass2_new_code(self, client, message):
         """
@@ -1427,7 +1371,6 @@ class bot_data:
         except FileNotFoundError:
             pass
         try:
-            # noinspection PyUnboundLocalVariable
             vchannel_2 = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][0])
             vmserver = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][1])
             vmchannel = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][2])

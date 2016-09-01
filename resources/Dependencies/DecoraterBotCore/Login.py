@@ -71,17 +71,12 @@ botmessagesdata.close()
 
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 
-# noinspection PyGlobalUndefined
 global reconnects
-# noinspection PyRedeclaration
 reconnects = 0
-# noinspection PyGlobalUndefined
 global is_bot_logged_in
-# noinspection PyRedeclaration
 is_bot_logged_in = False
 
 
-# noinspection PyPep8Naming
 class bot_data:
     """
         This Class is for Internal Use only!!!
@@ -89,7 +84,6 @@ class bot_data:
     def __init__(self):
         pass
 
-    # noinspection PyUnresolvedReferences
     def login_info_code(self, client):
         """
         Allows the bot to Connect / Reconnect.
@@ -165,7 +159,6 @@ class bot_data:
             print(str(consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)
 
-    # noinspection PyGlobalUndefined
     @asyncio.coroutine
     def on_login_code(self, client):
         """

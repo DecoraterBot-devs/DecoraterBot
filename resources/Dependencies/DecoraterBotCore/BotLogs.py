@@ -72,7 +72,6 @@ except FileNotFoundError:
     sys.exit(2)
 
 
-# noinspection PyUnusedLocal,PyPep8Naming,PyCompatibility
 class bot_data:
     """
         This class is for Internal use only!!!

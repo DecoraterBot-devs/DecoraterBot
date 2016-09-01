@@ -60,12 +60,9 @@ try:
 except ImportError:
     sepa = os.sep
     sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(sys.path[0], sepa))
-    # noinspection PyUnresolvedReferences
     import Ignore
-# noinspection PyUnresolvedReferences
 import Login
 from .BotErrors import *
-# noinspection PyUnresolvedReferences
 import BotPMError
 
 sepa = os.sep
@@ -116,7 +113,6 @@ if not (sys.platform.startswith('win') or sys.platform.startswith('freebsd') and
     raise UnsupportedPlatform(platerrormsg.format(sys.platform))
 
 
-# noinspection PyPep8Naming,PyUnusedLocal
 class bot_data:
     """
         This Class is for Internal Use only!!!

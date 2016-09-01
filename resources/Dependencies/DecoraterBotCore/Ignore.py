@@ -54,7 +54,6 @@ import os.path
 import importlib
 import traceback
 try:
-    # noinspection PyUnresolvedReferences
     import BotCommands
 except SyntaxError:
     sepa = os.sep
@@ -72,9 +71,7 @@ except SyntaxError:
         pass
     print('Cannot Continue as the Commands has a SyntaxError.')
     sys.exit(1)
-# noinspection PyUnresolvedReferences
 import BotPMError
-# noinspection PyUnresolvedReferences
 import BotVoiceCommands
 
 sepa = os.sep
@@ -104,9 +101,7 @@ except FileNotFoundError:
 DBCommands = BotCommands.BotCommands()
 DBVoiceCommands = BotVoiceCommands.VoiceBotCommands()
 
-# noinspection PyGlobalUndefined
 global _somebool
-# noinspection PyRedeclaration
 _somebool = False
 
 # default to True in case options are not present in Credentials.json
@@ -312,12 +307,10 @@ if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _async
         log_server_role_create or log_server_role_delete or log_server_role_update or log_group_join or 
         log_group_remove or log_error or log_voice_state_update or log_typing or log_socket_raw_receive or 
         log_socket_raw_send or log_resumed or log_member_join or enable_error_handler):
-    # noinspection PyUnresolvedReferences
     import BotLogs
     DBLogs = BotLogs.BotLogs()
 
 
-# noinspection PyUnusedLocal,PyPep8Naming
 class bot_data_001:
     """
         This Class is for Internal Use only!!!
@@ -588,7 +581,6 @@ class bot_data_001:
         pass  # this does not yet work right so commented this out.
 
 
-# noinspection PyUnusedLocal,PyPep8Naming
 class bot_data_002:
     """
         This Class is for Internal Use only!!!
@@ -643,7 +635,6 @@ class bot_data_002:
             yield from self.DBCommandData.ignored_channel_commands(client, message)
 
 
-# noinspection PyUnusedLocal,PyPep8Naming
 class bot_data_003:
     """
         This Class is for Internal Use only!!!

@@ -70,17 +70,13 @@ import ctypes
 import subprocess
 from threading import Timer
 from collections import deque
-# noinspection PyUnresolvedReferences
 import BotPMError
-# noinspection PyUnresolvedReferences
 import py2pycx
 from discord.ext import commands
 
 sepa = os.sep
 
-# noinspection PyGlobalUndefined
 global sent_prune_error_message
-# noinspection PyRedeclaration
 sent_prune_error_message = False
 
 bits = ctypes.sizeof(ctypes.c_voidp)
@@ -95,7 +91,6 @@ except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
 try:
-    # noinspection PyUnresolvedReferences
     import TinyURL
     disabletinyurl = False
 except ImportError:
@@ -158,12 +153,10 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         _pm_commands_list = False
 
 if _log_games:
-    # noinspection PyUnresolvedReferences
     import BotLogs
     DBLogs = BotLogs.BotLogs()
 
 
-# noinspection PyUnusedLocal,PyPep8Naming
 class bot_data:
     """
         This class is for Internal use only!!!
@@ -1097,7 +1090,6 @@ class bot_data:
             """
 
     if PY35 or PY36:
-        # noinspection PyMethodMayBeStatic
         async def prune_command_iterater_helper(self, client, message, num, sent_prune_error_message):
             """
             Prunes Messages.
@@ -1117,7 +1109,6 @@ class bot_data:
                 else:
                     return
 
-        # noinspection PyMethodMayBeStatic
         async def clear_command_iterater_helper(self, client, message):
             """
             Clears the bot's messages.
@@ -1134,7 +1125,6 @@ class bot_data:
             except discord.HTTPException:
                 return
     else:
-        # noinspection PyTypeChecker
         @asyncio.coroutine
         def prune_command_iterater_helper(self, client, message, num, sent_prune_error_message):
             """
@@ -1155,7 +1145,6 @@ class bot_data:
                 else:
                     return
 
-        # noinspection PyTypeChecker
         @asyncio.coroutine
         def clear_command_iterater_helper(self, client, message):
             """

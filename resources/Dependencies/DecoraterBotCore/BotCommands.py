@@ -965,16 +965,24 @@ class bot_data:
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
         if message.content.startswith(_bot_prefix + 'lk'):
-            filename1 = '{0}{1}resources{1}images{1}elsword{1}LK.jpg'.format(sys.path[0], sepa)
-            file_object = open(filename1, 'rb')
+            filename4 = '{0}{1}resources{1}images{1}elsword{1}LK.jpg'.format(sys.path[0], sepa)
+            file_object = open(filename4, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
         if message.content.startswith(_bot_prefix + 'vp'):
-            filename1 = '{0}{1}resources{1}images{1}elsword{1}VP.jpg'.format(sys.path[0], sepa)
-            file_object = open(filename1, 'rb')
+            filename5 = '{0}{1}resources{1}images{1}elsword{1}VP.jpg'.format(sys.path[0], sepa)
+            file_object = open(filename5, 'rb')
+            file_data = None
+            if file_object is not None:
+                file_data = file_object.read()
+                file_object.close()
+            yield from client.edit_profile(avatar=file_data)
+        if message.content.startswith(_bot_prefix + 'ws'):
+            filename6 = '{0}{1}resources{1}images{1}elsword{1}WS.jpg'.format(sys.path[0], sepa)
+            file_object = open(filename6, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()

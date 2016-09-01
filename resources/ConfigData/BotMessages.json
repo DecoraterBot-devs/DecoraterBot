@@ -159,7 +159,7 @@
         "The channel Specified is not a voice channel.",
         "The request to join a voice channel has timed out.",
         "Already connected to a voice channel on this server.",
-        "Could not load 'opus.dll' or 'opus64.dll'.",
+        "Could not load 'opus.dll' or 'libopus.so'.",
         "This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in."
     ],
     "eval_command_data": [

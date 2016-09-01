@@ -34,6 +34,10 @@ Commands are usually using the `::` prefix.
 | ``::as``	| Changes bot's avatar to Asura's image.	|
 | ``::rs``	| Changes bot's avatar to Rune Slayer's image.	|
 | ``::ai``	| Changes bot's avatar to Aisha's base image.	|
+| ``::lk``	| Changes bot's avatar to Lord Knight's image.	|
+| ``::vp``	| Changes bot's avatar to Void Princess's image.	|
+| ``::ws``	| Changes bot's avatar to Wind Sneeker's image.	|
+| ``::givecreds``	| Gives the Bot's Owner Daily Credits if and only if the Tatsumaki bot is present in the server this command is sent from.	|
 | ``::tinyurl <URL to shorten here>``	| Makes the bot shorten the URL Provided. (Supports ``<`` and ``>`` between the URL to excape embedding of it with [oEmbed](http://oembed.com/))	|
 
 View the list of Voice Channel Commands [here](https://github.com/Cheeselab/DecoraterBot/blob/Async-Portable/VoiceCommands.md).

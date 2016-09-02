@@ -391,51 +391,106 @@ class bot_data:
 
     @asyncio.coroutine
     def voiceupdate_code(self, before, after):
+        """
+        Bot Event.
+        :param before: State.
+        :param after: State.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def serverrolecreate_code(self, role):
+        """
+        Bot Event.
+        :param role: Role.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def serverroledelete_code(self, role):
+        """
+        Bot Event.
+        :param role: Role.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def serverroleupdate_code(self, before, after):
+        """
+        Bot Event.
+        :param before: Role.
+        :param after: Role.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def serverjoin_code(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def serverremove_code(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def serverupdate_code(self, before, after):
+        """
+        Bot Event.
+        :param before: Server.
+        :param after: Server.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def channelcreate_code(self, channel):
+        """
+        Bot Event.
+        :param channel: Channel.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def channelupdate_code(self, before, after):
+        """
+        Bot Event.
+        :param before: Channel.
+        :param after: Channel.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
     @asyncio.coroutine
     def memberupdate_code(self, before, after):
+        """
+        Bot Event.
+        :param before: Member.
+        :param after: Member.
+        :return: Nothing.
+        """
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
@@ -451,134 +506,316 @@ class bot_data:
 
 
 class BotCore:
+    """
+    Bot Core for the bot's Events.
+    """
     def __init__(self):
         self.bot = bot_data()
 
     def changewindowtitle(self):
+        """
+        Changes the console's window Title.
+        :return: Nothing.
+        """
         self.bot.changewindowtitle_code()
 
     def changewindowsize(self):
+        """
+        Changes the Console's size.
+        :return: Nothing.
+        """
         self.bot.changewindowsize_code()
 
     @asyncio.coroutine
     def commands(self, client, message):
+        """
+        Cental place where all Commands are Registered/Created at.
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.commands_code(client, message)
 
     @asyncio.coroutine
     def deletemessage(self, client, message):
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.deletemessage_code(client, message)
 
     @asyncio.coroutine
     def editmessage(self, client, before, after):
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param before: Message.
+        :param after: Message.
+        :return: Nothing.
+        """
         yield from self.bot.editmessage_code(client, before, after)
 
     @asyncio.coroutine
     def memberban(self, client, member):
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from self.bot.memberban_code(client, member)
 
     @asyncio.coroutine
     def memberunban(self, client, member):
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from self.bot.memberunban_code(client, member)
 
     @asyncio.coroutine
     def memberremove(self, client, member):
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from self.bot.memberremove_code(client, member)
 
     @asyncio.coroutine
     def memberjoin(self, client, member):
+        """
+        Bot Event.
+        :param client: Discord Client.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from self.bot.memberjoin_code(client, member)
 
     def login_helper(self, client):
+        """
+        Bot Login Helper.
+        :param client: Discord client.
+        :return: Nothing.
+        """
         self.bot.login_helper_code(client)
 
     def discord_logger(self):
+        """
+        Logger Data.
+        :return: Nothing.
+        """
         self.bot.discord_logger_code()
 
     def asyncio_logger(self):
+        """
+        Asyncio Logger.
+        :return: Nothing.
+        """
         self.bot.asyncio_logger_code()
 
     @asyncio.coroutine
     def server_available(self, server):
+        """
+        Bot Event.
+        :param server: Servers.
+        :return: Nothing.
+        """
         yield from self.bot.server_available_code(server)
 
     @asyncio.coroutine
     def server_unavailable(self, server):
+        """
+        Bot Event.
+        :param server: Servers.
+        :return: Nothing.
+        """
         yield from self.bot.server_unavailable_code(server)
 
     @asyncio.coroutine
     def groupjoin(self, channel, user):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         yield from self.bot.groupjoin_code(channel, user)
 
     @asyncio.coroutine
     def groupremove(self, channel, user):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :param user: Users.
+        :return: Nothing.
+        """
         yield from self.bot.groupremove_code(channel, user)
 
     @asyncio.coroutine
     def raw_recv(self, msg):
+        """
+        Bot Event.
+        :param msg: Message.
+        :return: Nothing.
+        """
         yield from self.bot.raw_recv_code(msg)
 
     @asyncio.coroutine
     def raw_send(self, payload):
+        """
+        Bot Event.
+        :param payload: Payload.
+        :return: Nothing.
+        """
         yield from self.bot.raw_send_code(payload)
 
     @asyncio.coroutine
     def bot_resumed(self):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
         yield from self.bot.bot_resumed_code()
 
     @asyncio.coroutine
     def typing(self, channel, user, when):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :param user: Users.
+        :param when: Time.
+        :return: Nothing.
+        """
         yield from self.bot.typing_code(channel, user, when)
 
     @asyncio.coroutine
     def errors(self, event, *args, **kwargs):
+        """
+        Bot Event.
+        :param event: Event.
+        :param args: Args.
+        :param kwargs: Other Args.
+        :return: Nothing.
+        """
         yield from self.bot.errors_code(event, *args, **kwargs)
 
     @asyncio.coroutine
     def channeldelete(self, channel):
+        """
+        Bot Event.
+        :param channel: Channels.
+        :return: Nothing.
+        """
         yield from self.bot.channeldelete_code(channel)
 
     @asyncio.coroutine
     def voiceupdate(self, before, after):
+        """
+        Bot Event.
+        :param before: State.
+        :param after: State.
+        :return: Nothing.
+        """
         yield from self.bot.voiceupdate_code(before, after)
 
     @asyncio.coroutine
     def serverrolecreate(self, role):
+        """
+        Bot Event.
+        :param role: Role.
+        :return: Nothing.
+        """
         yield from self.bot.serverrolecreate_code(role)
 
     @asyncio.coroutine
     def serverroledelete(self, role):
+        """
+        Bot Event.
+        :param role: Role.
+        :return: Nothing.
+        """
         yield from self.bot.serverroledelete_code(role)
 
     @asyncio.coroutine
     def serverroleupdate(self, before, after):
+        """
+        Bot Event.
+        :param before: Role.
+        :param after: Role.
+        :return: Nothing.
+        """
         yield from self.bot.serverroleupdate_code(before, after)
 
     @asyncio.coroutine
     def serverjoin(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from self.bot.serverjoin_code(server)
 
     @asyncio.coroutine
     def serverremove(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from self.bot.serverremove_code(server)
 
     @asyncio.coroutine
     def serverupdate(self, before, after):
+        """
+        Bot Event.
+        :param before: Server.
+        :param after: Server.
+        :return: Nothing.
+        """
         yield from self.bot.serverupdate_code(before, after)
 
     @asyncio.coroutine
     def channelcreate(self, channel):
+        """
+        Bot Event.
+        :param channel: Channel.
+        :return: Nothing.
+        """
         yield from self.bot.channelcreate_code(channel)
 
     @asyncio.coroutine
     def channelupdate(self, before, after):
+        """
+        Bot Event.
+        :param before: Channel.
+        :param after: Channel.
+        :return: Nothing.
+        """
         yield from self.bot.channelupdate_code(before, after)
 
     @asyncio.coroutine
     def memberupdate(self, before, after):
+        """
+        Bot Event.
+        :param before: Member.
+        :param after: Member.
+        :return: Nothing.
+        """
         yield from self.bot.memberupdate_code(before, after)
 
     @asyncio.coroutine
     def bot_ready(self, client):
+        """
+        Bot Event.
+        :param client: Discord client.
+        :return: Nothing.
+        """
         yield from self.bot.bot_ready_code(client)
 
 
@@ -807,7 +1044,7 @@ class BotClient(discord.Client):
         Bot Event.
         :param event: Event.
         :param args: Args.
-        :param kwargs: Args.
+        :param kwargs: Other Args.
         :return: Nothing.
         """
         yield from DBCore.errors(event, *args, **kwargs)

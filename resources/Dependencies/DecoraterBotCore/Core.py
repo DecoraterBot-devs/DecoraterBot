@@ -1,49 +1,26 @@
 # coding=utf-8
 """
-    DecoraterBot's source is protected by Cheese.lab industries Inc. Even though it is Open Source
-    any and all users waive the right to say that this bot's code was stolen when it really was not.
-    Me @Decorater the only core developer of this bot do not take kindly to those false Allegations.
-    it would piss any DEVELOPER OFF WHEN THEY SPEND ABOUT A YEAR CODING STUFF FROM SCRATCH AND THEN BE ACCUSED OF
-    CRAP LIKE THIS.
-    
-    So, do not do it. If you do Cheese.lab Industries Inc. Can and Will go after you for such cliams that it deems
-    untrue.
-    
-    Cheese.lab industries Inc. Believes in the rights of Original Developers of bots. They do not take kindly to
-    BULLCRAP.
-    
-    Any and all Developers work all the time, many of them do not get paid for their hard work.
-    
-    I am one of those who did not get paid even though I am the original Developer I coded this bot from the bottom
-    with no lines of code at all.
-    
-    And how much money did I get from it for my 11 months or so of working on it? None, yeah thats right 0$ how
-    pissed can someone get?
-    Exactly I have over stretched my relatives money that they paid for Internet and power for my computer so that
-    way I can code my bot.
-    
-    However crap does go out of the Fan with a possible 600$ or more that my Laptop Drastically needs to Repairs as
-    it is 10 years old and is falling apart
-    
-    I am half tempted myself to pulling this bot from github and making it on patrion that boobot was on to help me
-    with my development needs.
-    
-    So, as such I accept issue requests, but please do not give me bullcrap I hate it as it makes everything worse
-    than the way it is.
-    
-    You do have the right however to:
-        --> Contribute to the bot's development.
-        --> fix bugs.
-        --> add commands.
-        --> help finish the per server config (has issues)
-        --> update the Voice commands to be better (and not use globals which is 1 big thing that kills it).
-        --> Use the code for your own bot. Put Please give me the Credits for at least mot of the code. And Yes you can
-                bug fix all you like.
-                But Please try to share your bug fixes with me (if stable) I would gladly Accept bug fixes that fixes
-                any and/or all issues.
-                (There are times when I am so busy that I do not see or even notice some bugs for a few weeks or more)
+The MIT License (MIT)
 
-    But keep in mind any and all Changes you make can and will be property of Cheese.lab Industries Inc.
+Copyright (c) 2015-2016 AraHaan
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 """
 import os
 import discord
@@ -609,9 +586,18 @@ DBCore = BotCore()
 
 
 class BotClient(discord.Client):
+    """
+    Bot Main client Class.
+    This is where the Events are Registered.
+    """
     # Hack to not overwrite the __init__ function in discord.Client()
     # This is required to actually login and run the bot or you will be screwed. DO NOT REMOVE THIS HACK!!!
     def not_a_async_function(self):
+        """
+        This is a bypass for overloading the __init__ function in Discord.py
+        which would be bad as then the bot would not be able to connect.
+        :return: Nothing.
+        """
         DBCore.asyncio_logger()
         DBCore.discord_logger()
         DBCore.changewindowtitle()
@@ -620,112 +606,263 @@ class BotClient(discord.Client):
 
     @asyncio.coroutine
     def on_message(self, message):
+        """
+        Bo9t Event.
+        :param message: Messages.
+        :return: Nothing.
+        """
         yield from DBCore.commands(self, message)
 
     @asyncio.coroutine
     def on_message_delete(self, message):
+        """
+        Bot Event.
+        :param message: Messages.
+        :return: Nothing.
+        """
         yield from DBCore.deletemessage(self, message)
 
     @asyncio.coroutine
     def on_message_edit(self, before, after):
+        """
+        Bot Event.
+        :param before: Message.
+        :param after: Message.
+        :return: Nothing.
+        """
         yield from DBCore.editmessage(self, before, after)
 
     @asyncio.coroutine
     def on_channel_delete(self, channel):
+        """
+        Bot Event.
+        :param channel: Channel.
+        :return: Nothing.
+        """
         yield from DBCore.channeldelete(channel)
 
     @asyncio.coroutine
     def on_channel_create(self, channel):
+        """
+        Bot Event.
+        :param channel: Channel.
+        :return: Nothing.
+        """
         yield from DBCore.channelcreate(channel)
 
     @asyncio.coroutine
     def on_channel_update(self, before, after):
+        """
+        Bot Event.
+        :param before: Channel.
+        :param after: Channel.
+        :return: Nothing.
+        """
         yield from DBCore.channelupdate(before, after)
 
     @asyncio.coroutine
     def on_member_ban(self, member):
+        """
+        Bot Event.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from DBCore.memberban(self, member)
 
     @asyncio.coroutine
     def on_member_unban(self, server, user):
+        """
+        Bot Event.
+        :param server: Server.
+        :param user: User.
+        :return: Nothing.
+        """
         yield from DBCore.memberunban(server, user)
 
     @asyncio.coroutine
     def on_member_remove(self, member):
+        """
+        Bot Event.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from DBCore.memberremove(self, member)
 
     @asyncio.coroutine
     def on_member_update(self, before, after):
+        """
+        Bot Event.
+        :param before: Member.
+        :param after: Member.
+        :return: Nothing.
+        """
         yield from DBCore.memberupdate(before, after)
 
     @asyncio.coroutine
     def on_member_join(self, member):
+        """
+        Bot Event.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from DBCore.memberjoin(self, member)
 
     @asyncio.coroutine
     def on_server_available(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from DBCore.server_available(server)
 
     @asyncio.coroutine
     def on_server_unavailable(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from DBCore.server_unavailable(server)
 
     @asyncio.coroutine
     def on_server_join(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from DBCore.serverjoin(server)
 
     @asyncio.coroutine
     def on_server_remove(self, server):
+        """
+        Bot Event.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from DBCore.serverremove(server)
 
     @asyncio.coroutine
     def on_server_update(self, before, after):
+        """
+        Bot Event.
+        :param before: Server.
+        :param after: Server.
+        :return: Nothing.
+        """
         yield from DBCore.serverupdate(before, after)
 
     @asyncio.coroutine
     def on_server_role_create(self, role):
+        """
+        Bot Event.
+        :param role: Role.
+        :return: Nothing.
+        """
         yield from DBCore.serverrolecreate(role)
 
     @asyncio.coroutine
     def on_server_role_delete(self, role):
+        """
+        Bot Event.
+        :param role: Role.
+        :return: Nothing.
+        """
         yield from DBCore.serverroledelete(role)
 
     @asyncio.coroutine
     def on_server_role_update(self, before, after):
+        """
+        Bot Event.
+        :param before: Role.
+        :param after: Role.
+        :return: Nothing.
+        """
         yield from DBCore.serverroleupdate(before, after)
 
     @asyncio.coroutine
     def on_group_join(self, channel, user):
+        """
+        Bot Event.
+        :param channel: Channel.
+        :param user: User.
+        :return: Nothing.
+        """
         yield from DBCore.groupjoin(channel, user)
 
     @asyncio.coroutine
     def on_group_remove(self, channel, user):
+        """
+        Bot Event.
+        :param channel: Channel.
+        :param user: User.
+        :return: Nothing.
+        """
         yield from DBCore.groupremove(channel, user)
 
     @asyncio.coroutine
     def on_error(self, event, *args, **kwargs):
+        """
+        Bot Event.
+        :param event: Event.
+        :param args: Args.
+        :param kwargs: Args.
+        :return: Nothing.
+        """
         yield from DBCore.errors(event, *args, **kwargs)
 
     @asyncio.coroutine
     def on_voice_state_update(self, before, after):
+        """
+        Bot Event.
+        :param before: State.
+        :param after: State.
+        :return: Nothing.
+        """
         yield from DBCore.voiceupdate(before, after)
 
     @asyncio.coroutine
     def on_typing(self, channel, user, when):
+        """
+        Bot Event.
+        :param channel: Channel.
+        :param user: User.
+        :param when: Time.
+        :return: Nothing.
+        """
         yield from DBCore.typing(channel, user, when)
 
     @asyncio.coroutine
     def on_socket_raw_receive(self, msg):
+        """
+        Bot Event.
+        :param msg: Message.
+        :return: Nothing.
+        """
         yield from DBCore.raw_recv(msg)
 
     @asyncio.coroutine
     def on_socket_raw_send(self, payload):
+        """
+        Bot Event.
+        :param payload: Payload.
+        :return: Nothing.
+        """
         yield from DBCore.raw_send(payload)
 
     @asyncio.coroutine
     def on_ready(self):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
         yield from DBCore.bot_ready(self)
 
     @asyncio.coroutine
     def on_resumed(self):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
         yield from DBCore.bot_resumed()

@@ -505,18 +505,18 @@ class BotData:
                                 try:
                                     playlist01 = _temp_player_1.title
                                     playlist01time = _temp_player_1.duration
-                                    track1 = '[{0}]'.format(playlist01)
+                                    track1 = str(botmessages['play_command_data'][10]).format(playlist01)
                                     fulldir = playlist01time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track1time = newdir
                                     track1uploader = str(_temp_player_1.uploader)
-                                    track1info = "{0} by [{1}] {2}".format(track1, track1uploader, track1time)
+                                    track1info = str(botmessages['play_command_data'][12]).format(track1, track1uploader, track1time)
                                     bot_playlist_entries.append(track1info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track1, track1time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track1, track1time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -527,7 +527,7 @@ class BotData:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif data in bot_playlist:
-                                msgdata = 'Sorry, that url is already in my playlist.'
+                                msgdata = str(botmessages['play_command_data'][14])
                                 message_data = msgdata
                                 yield from client.send_message(message.channel, message_data)
                             elif len(bot_playlist) == 1:
@@ -537,18 +537,18 @@ class BotData:
                                 try:
                                     playlist02 = _temp_player_2.title
                                     playlist02time = _temp_player_2.duration
-                                    track2 = '[{0}]'.format(playlist02)
+                                    track2 = str(botmessages['play_command_data'][10]).format(playlist02)
                                     fulldir = playlist02time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track2time = newdir
                                     track2uploader = str(_temp_player_2.uploader)
-                                    track2info = "{0} by [{1}] {2}".format(track2, track2uploader, track2time)
+                                    track2info = str(botmessages['play_command_data'][12]).format(track2, track2uploader, track2time)
                                     bot_playlist_entries.append(track2info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track2, track2time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track2, track2time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -565,18 +565,18 @@ class BotData:
                                 try:
                                     playlist03 = _temp_player_3.title
                                     playlist03time = _temp_player_3.duration
-                                    track3 = '[{0}]'.format(playlist03)
+                                    track3 = str(botmessages['play_command_data'][10]).format(playlist03)
                                     fulldir = playlist03time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track3time = newdir
                                     track3uploader = str(_temp_player_3.uploader)
-                                    track3info = "{0} by [{1}] {2}".format(track3, track3uploader, track3time)
+                                    track3info = str(botmessages['play_command_data'][12]).format(track3, track3uploader, track3time)
                                     bot_playlist_entries.append(track3info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track3, track3time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track3, track3time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -593,18 +593,18 @@ class BotData:
                                 try:
                                     playlist04 = _temp_player_4.title
                                     playlist04time = _temp_player_4.duration
-                                    track4 = '[{0}]'.format(playlist04)
+                                    track4 = str(botmessages['play_command_data'][10]).format(playlist04)
                                     fulldir = playlist04time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track4time = newdir
                                     track4uploader = str(_temp_player_4.uploader)
-                                    track4info = "{0} by [{1}] {2}".format(track4, track4uploader, track4time)
+                                    track4info = str(botmessages['play_command_data'][12]).format(track4, track4uploader, track4time)
                                     bot_playlist_entries.append(track4info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track4, track4time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track4, track4time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -621,18 +621,18 @@ class BotData:
                                 try:
                                     playlist05 = _temp_player_5.title
                                     playlist05time = _temp_player_5.duration
-                                    track5 = '[{0}]'.format(playlist05)
+                                    track5 = str(botmessages['play_command_data'][10]).format(playlist05)
                                     fulldir = playlist05time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track5time = newdir
                                     track5uploader = str(_temp_player_5.uploader)
-                                    track5info = "{0} by [{1}] {2}".format(track5, track5uploader, track5time)
+                                    track5info = str(botmessages['play_command_data'][12]).format(track5, track5uploader, track5time)
                                     bot_playlist_entries.append(track5info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track5, track5time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track5, track5time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -649,18 +649,18 @@ class BotData:
                                 try:
                                     playlist06 = _temp_player_6.title
                                     playlist06time = _temp_player_6.duration
-                                    track6 = '[{0}]'.format(playlist06)
+                                    track6 = str(botmessages['play_command_data'][10]).format(playlist06)
                                     fulldir = playlist06time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track6time = newdir
                                     track6uploader = str(_temp_player_6.uploader)
-                                    track6info = "{0} by [{1}] {2}".format(track6, track6uploader, track6time)
+                                    track6info = str(botmessages['play_command_data'][12]).format(track6, track6uploader, track6time)
                                     bot_playlist_entries.append(track6info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track6, track6time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track6, track6time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -677,18 +677,18 @@ class BotData:
                                 try:
                                     playlist07 = _temp_player_7.title
                                     playlist07time = _temp_player_7.duration
-                                    track7 = '[{0}]'.format(playlist07)
+                                    track7 = str(botmessages['play_command_data'][10]).format(playlist07)
                                     fulldir = playlist07time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track7time = newdir
                                     track7uploader = str(_temp_player_7.uploader)
-                                    track7info = "{0} by [{1}] {2}".format(track7, track7uploader, track7time)
+                                    track7info = str(botmessages['play_command_data'][12]).format(track7, track7uploader, track7time)
                                     bot_playlist_entries.append(track7info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track7, track7time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track7, track7time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -705,18 +705,18 @@ class BotData:
                                 try:
                                     playlist08 = _temp_player_8.title
                                     playlist08time = _temp_player_8.duration
-                                    track8 = '[{0}]'.format(playlist08)
+                                    track8 = str(botmessages['play_command_data'][10]).format(playlist08)
                                     fulldir = playlist08time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track8time = newdir
                                     track8uploader = str(_temp_player_8.uploader)
-                                    track8info = "{0} by [{1}] {2}".format(track8, track8uploader, track8time)
+                                    track8info = str(botmessages['play_command_data'][12]).format(track8, track8uploader, track8time)
                                     bot_playlist_entries.append(track8info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track8, track8time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track8, track8time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -733,18 +733,18 @@ class BotData:
                                 try:
                                     playlist09 = _temp_player_9.title
                                     playlist09time = _temp_player_9.duration
-                                    track9 = '[{0}]'.format(playlist09)
+                                    track9 = str(botmessages['play_command_data'][10]).format(playlist09)
                                     fulldir = playlist09time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track9time = newdir
                                     track9uploader = str(_temp_player_9.uploader)
-                                    track9info = "{0} by [{1}] {2}".format(track9, track9uploader, track9time)
+                                    track9info = str(botmessages['play_command_data'][12]).format(track9, track9uploader, track9time)
                                     bot_playlist_entries.append(track9info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track9, track9time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track9, track9time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -761,18 +761,18 @@ class BotData:
                                 try:
                                     playlist10 = _temp_player_10.title
                                     playlist10time = _temp_player_10.duration
-                                    track10 = '[{0}]'.format(playlist10)
+                                    track10 = str(botmessages['play_command_data'][10]).format(playlist10)
                                     fulldir = playlist10time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
+                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track10time = newdir
                                     track10uploader = str(_temp_player_10.uploader)
-                                    track10info = "{0} by [{1}] {2}".format(track10, track10uploader, track10time)
+                                    track10info = str(botmessages['play_command_data'][12]).format(track10, track10uploader, track10time)
                                     bot_playlist_entries.append(track10info)
-                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track10, track10time)
+                                    msgdata = str(botmessages['play_command_data'][13]).format(track10, track10time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is playing.
@@ -783,7 +783,7 @@ class BotData:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 10:
-                                msgdata = 'Sorry, my playlist is full right now.'
+                                msgdata = str(botmessages['play_command_data'][15])
                                 message_data = msgdata
                                 yield from client.send_message(message.channel, message_data)
         if message.content.startswith(_bot_prefix + 'stop'):

@@ -194,6 +194,12 @@
         "Error When trying to extract the video from the Youtube video URL.",
         "Invalid or not a Youtube video URL.",
         "This bot needs to be in a voice channel to be able to use this command.",
-        "You must Specify a URL or a search term of a video in this command."
+        "You must Specify a URL or a search term of a video in this command.",
+        "[{0}]",
+        "[{0}:{1}]",
+        "{0} by [{1}] {2}",
+        "**{0}{1}** has been added to my playlist.",
+        "Sorry, that url is already in my playlist.",
+        "Sorry, my playlist is full right now."
     ]
 }

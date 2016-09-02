@@ -514,13 +514,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track1time = newdir
                                     track1uploader = str(_temp_player_1.uploader)
-                                    track1info = str(botmessages['play_command_data'][12]).format(track1, track1uploader, track1time)
+                                    track1info = str(botmessages['play_command_data'][12]).format(track1,
+                                                                                                  track1uploader,
+                                                                                                  track1time)
                                     bot_playlist_entries.append(track1info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track1, track1time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_1.start()
                                     _temp_player_1.stop()
                                 except AttributeError:
@@ -546,13 +548,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track2time = newdir
                                     track2uploader = str(_temp_player_2.uploader)
-                                    track2info = str(botmessages['play_command_data'][12]).format(track2, track2uploader, track2time)
+                                    track2info = str(botmessages['play_command_data'][12]).format(track2,
+                                                                                                  track2uploader,
+                                                                                                  track2time)
                                     bot_playlist_entries.append(track2info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track2, track2time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_2.start()
                                     _temp_player_2.stop()
                                 except AttributeError:
@@ -574,13 +578,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track3time = newdir
                                     track3uploader = str(_temp_player_3.uploader)
-                                    track3info = str(botmessages['play_command_data'][12]).format(track3, track3uploader, track3time)
+                                    track3info = str(botmessages['play_command_data'][12]).format(track3,
+                                                                                                  track3uploader,
+                                                                                                  track3time)
                                     bot_playlist_entries.append(track3info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track3, track3time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_3.start()
                                     _temp_player_3.stop()
                                 except AttributeError:
@@ -602,13 +608,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track4time = newdir
                                     track4uploader = str(_temp_player_4.uploader)
-                                    track4info = str(botmessages['play_command_data'][12]).format(track4, track4uploader, track4time)
+                                    track4info = str(botmessages['play_command_data'][12]).format(track4,
+                                                                                                  track4uploader,
+                                                                                                  track4time)
                                     bot_playlist_entries.append(track4info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track4, track4time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_4.start()
                                     _temp_player_4.stop()
                                 except AttributeError:
@@ -630,13 +638,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track5time = newdir
                                     track5uploader = str(_temp_player_5.uploader)
-                                    track5info = str(botmessages['play_command_data'][12]).format(track5, track5uploader, track5time)
+                                    track5info = str(botmessages['play_command_data'][12]).format(track5,
+                                                                                                  track5uploader,
+                                                                                                  track5time)
                                     bot_playlist_entries.append(track5info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track5, track5time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_5.start()
                                     _temp_player_5.stop()
                                 except AttributeError:
@@ -658,13 +668,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track6time = newdir
                                     track6uploader = str(_temp_player_6.uploader)
-                                    track6info = str(botmessages['play_command_data'][12]).format(track6, track6uploader, track6time)
+                                    track6info = str(botmessages['play_command_data'][12]).format(track6,
+                                                                                                  track6uploader,
+                                                                                                  track6time)
                                     bot_playlist_entries.append(track6info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track6, track6time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_6.start()
                                     _temp_player_6.stop()
                                 except AttributeError:
@@ -686,13 +698,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track7time = newdir
                                     track7uploader = str(_temp_player_7.uploader)
-                                    track7info = str(botmessages['play_command_data'][12]).format(track7, track7uploader, track7time)
+                                    track7info = str(botmessages['play_command_data'][12]).format(track7,
+                                                                                                  track7uploader,
+                                                                                                  track7time)
                                     bot_playlist_entries.append(track7info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track7, track7time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_7.start()
                                     _temp_player_7.stop()
                                 except AttributeError:
@@ -714,13 +728,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track8time = newdir
                                     track8uploader = str(_temp_player_8.uploader)
-                                    track8info = str(botmessages['play_command_data'][12]).format(track8, track8uploader, track8time)
+                                    track8info = str(botmessages['play_command_data'][12]).format(track8,
+                                                                                                  track8uploader,
+                                                                                                  track8time)
                                     bot_playlist_entries.append(track8info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track8, track8time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_8.start()
                                     _temp_player_8.stop()
                                 except AttributeError:
@@ -742,13 +758,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track9time = newdir
                                     track9uploader = str(_temp_player_9.uploader)
-                                    track9info = str(botmessages['play_command_data'][12]).format(track9, track9uploader, track9time)
+                                    track9info = str(botmessages['play_command_data'][12]).format(track9,
+                                                                                                  track9uploader,
+                                                                                                  track9time)
                                     bot_playlist_entries.append(track9info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track9, track9time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_9.start()
                                     _temp_player_9.stop()
                                 except AttributeError:
@@ -770,13 +788,15 @@ class BotData:
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track10time = newdir
                                     track10uploader = str(_temp_player_10.uploader)
-                                    track10info = str(botmessages['play_command_data'][12]).format(track10, track10uploader, track10time)
+                                    track10info = str(botmessages['play_command_data'][12]).format(track10,
+                                                                                                   rack10uploader,
+                                                                                                   track10time)
                                     bot_playlist_entries.append(track10info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track10, track10time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
-                                    # I need some workarround to clear the temp players.
+                                    # Thread Exception here when it gets to this line when the normal "player" is
+                                    # playing. I need some workarround to clear the temp players.
                                     _temp_player_10.start()
                                     _temp_player_10.stop()
                                 except AttributeError:

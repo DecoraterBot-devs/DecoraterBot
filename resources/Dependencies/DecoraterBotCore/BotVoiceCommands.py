@@ -505,20 +505,22 @@ class BotData:
                                 try:
                                     playlist01 = _temp_player_1.title
                                     playlist01time = _temp_player_1.duration
-                                    track1 = '[' + playlist01 + ']'
+                                    track1 = '[{0}]'.format(playlist01)
                                     fulldir = playlist01time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track1time = newdir
                                     track1uploader = str(_temp_player_1.uploader)
-                                    track1info = track1 + ' by [' + track1uploader + '] ' + track1time
+                                    track1info = "{0} by [{1}] {2}".format(track1, track1uploader, track1time)
                                     bot_playlist_entries.append(track1info)
-                                    msgdata = '**' + track1 + track1time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track1, track1time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_1.start()
                                     _temp_player_1.stop()
                                 except AttributeError:
@@ -535,20 +537,22 @@ class BotData:
                                 try:
                                     playlist02 = _temp_player_2.title
                                     playlist02time = _temp_player_2.duration
-                                    track2 = '[' + playlist02 + ']'
+                                    track2 = '[{0}]'.format(playlist02)
                                     fulldir = playlist02time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track2time = newdir
                                     track2uploader = str(_temp_player_2.uploader)
-                                    track2info = track2 + ' by [' + track2uploader + '] ' + track2time
+                                    track2info = "{0} by [{1}] {2}".format(track2, track2uploader, track2time)
                                     bot_playlist_entries.append(track2info)
-                                    msgdata = '**' + track2 + track2time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track2, track2time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_2.start()
                                     _temp_player_2.stop()
                                 except AttributeError:
@@ -561,20 +565,22 @@ class BotData:
                                 try:
                                     playlist03 = _temp_player_3.title
                                     playlist03time = _temp_player_3.duration
-                                    track3 = '[' + playlist03 + ']'
+                                    track3 = '[{0}]'.format(playlist03)
                                     fulldir = playlist03time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track3time = newdir
                                     track3uploader = str(_temp_player_3.uploader)
-                                    track3info = track3 + ' by [' + track3uploader + '] ' + track3time
+                                    track3info = "{0} by [{1}] {2}".format(track3, track3uploader, track3time)
                                     bot_playlist_entries.append(track3info)
-                                    msgdata = '**' + track3 + track3time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track3, track3time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_3.start()
                                     _temp_player_3.stop()
                                 except AttributeError:
@@ -587,20 +593,22 @@ class BotData:
                                 try:
                                     playlist04 = _temp_player_4.title
                                     playlist04time = _temp_player_4.duration
-                                    track4 = '[' + playlist04 + ']'
+                                    track4 = '[{0}]'.format(playlist04)
                                     fulldir = playlist04time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track4time = newdir
                                     track4uploader = str(_temp_player_4.uploader)
-                                    track4info = track4 + ' by [' + track4uploader + '] ' + track4time
+                                    track4info = "{0} by [{1}] {2}".format(track4, track4uploader, track4time)
                                     bot_playlist_entries.append(track4info)
-                                    msgdata = '**' + track4 + track4time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track4, track4time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_4.start()
                                     _temp_player_4.stop()
                                 except AttributeError:
@@ -613,20 +621,22 @@ class BotData:
                                 try:
                                     playlist05 = _temp_player_5.title
                                     playlist05time = _temp_player_5.duration
-                                    track5 = '[' + playlist05 + ']'
+                                    track5 = '[{0}]'.format(playlist05)
                                     fulldir = playlist05time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track5time = newdir
                                     track5uploader = str(_temp_player_5.uploader)
-                                    track5info = track5 + ' by [' + track5uploader + '] ' + track5time
+                                    track5info = "{0} by [{1}] {2}".format(track5, track5uploader, track5time)
                                     bot_playlist_entries.append(track5info)
-                                    msgdata = '**' + track5 + track5time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track5, track5time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_5.start()
                                     _temp_player_5.stop()
                                 except AttributeError:
@@ -639,20 +649,22 @@ class BotData:
                                 try:
                                     playlist06 = _temp_player_6.title
                                     playlist06time = _temp_player_6.duration
-                                    track6 = '[' + playlist06 + ']'
+                                    track6 = '[{0}]'.format(playlist06)
                                     fulldir = playlist06time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track6time = newdir
                                     track6uploader = str(_temp_player_6.uploader)
-                                    track6info = track6 + ' by [' + track6uploader + '] ' + track6time
+                                    track6info = "{0} by [{1}] {2}".format(track6, track6uploader, track6time)
                                     bot_playlist_entries.append(track6info)
-                                    msgdata = '**' + track6 + track6time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track6, track6time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_6.start()
                                     _temp_player_6.stop()
                                 except AttributeError:
@@ -665,20 +677,22 @@ class BotData:
                                 try:
                                     playlist07 = _temp_player_7.title
                                     playlist07time = _temp_player_7.duration
-                                    track7 = '[' + playlist07 + ']'
+                                    track7 = '[{0}]'.format(playlist07)
                                     fulldir = playlist07time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track7time = newdir
                                     track7uploader = str(_temp_player_7.uploader)
-                                    track7info = track7 + ' by [' + track7uploader + '] ' + track7time
+                                    track7info = "{0} by [{1}] {2}".format(track7, track7uploader, track7time)
                                     bot_playlist_entries.append(track7info)
-                                    msgdata = '**' + track7 + track7time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track7, track7time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_7.start()
                                     _temp_player_7.stop()
                                 except AttributeError:
@@ -691,20 +705,22 @@ class BotData:
                                 try:
                                     playlist08 = _temp_player_8.title
                                     playlist08time = _temp_player_8.duration
-                                    track8 = '[' + playlist08 + ']'
+                                    track8 = '[{0}]'.format(playlist08)
                                     fulldir = playlist08time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track8time = newdir
                                     track8uploader = str(_temp_player_8.uploader)
-                                    track8info = track8 + ' by [' + track8uploader + '] ' + track8time
+                                    track8info = "{0} by [{1}] {2}".format(track8, track8uploader, track8time)
                                     bot_playlist_entries.append(track8info)
-                                    msgdata = '**' + track8 + track8time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track8, track8time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_8.start()
                                     _temp_player_8.stop()
                                 except AttributeError:
@@ -717,20 +733,22 @@ class BotData:
                                 try:
                                     playlist09 = _temp_player_9.title
                                     playlist09time = _temp_player_9.duration
-                                    track9 = '[' + playlist09 + ']'
+                                    track9 = '[{0}]'.format(playlist09)
                                     fulldir = playlist09time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track9time = newdir
                                     track9uploader = str(_temp_player_9.uploader)
-                                    track9info = track9 + ' by [' + track9uploader + '] ' + track9time
+                                    track9info = "{0} by [{1}] {2}".format(track9, track9uploader, track9time)
                                     bot_playlist_entries.append(track9info)
-                                    msgdata = '**' + track9 + track9time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track9, track9time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_9.start()
                                     _temp_player_9.stop()
                                 except AttributeError:
@@ -757,6 +775,8 @@ class BotData:
                                     msgdata = "**{0}{1}** has been added to my playlist.".format(track10, track10time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
+                                    # Thread Exception here when it gets to this line when the normal "player" is playing.
+                                    # I need some workarround to clear the temp players.
                                     _temp_player_10.start()
                                     _temp_player_10.stop()
                                 except AttributeError:

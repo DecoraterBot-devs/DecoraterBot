@@ -244,7 +244,7 @@ ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(sys.path[0], sepa
 verror = False
 
 
-class bot_data:
+class BotData:
     """
         This class is for Internal use only!!!
     """
@@ -414,7 +414,7 @@ class bot_data:
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
                                             try:
-                                                message_data = "**Now Playing [{0}] by [{1}] [{2}:{3}]**".format(
+                                                message_data = str(botmessages['play_command_data'][1]).format(
                                                     str(player.title), str(player.uploader), minutes, seconds)
                                                 yield from client.send_message(voice_message_channel, message_data)
                                             except discord.errors.Forbidden:
@@ -424,10 +424,7 @@ class bot_data:
                                             except RuntimeError:
                                                 pass
                                         except AttributeError:
-                                            msgdata = 'Sorry, This Video must have either been deleted by the '
-                                            part1 = msgdata + 'owner. And/or  their account was supspended/'
-                                            messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                            message_data = messagedata + 'is not available in the United States.'
+                                            message_data = str(botmessages['play_command_data'][2])
                                             is_bot_playing = False
                                             yield from client.send_message(voice_message_channel, message_data)
                                 else:
@@ -447,7 +444,7 @@ class bot_data:
                                                 if len(seconds) == 1:
                                                     seconds = "0" + seconds
                                                 try:
-                                                    message_data = "**Now Playing [{0}] by [{1}] [{2}:{3}]**".format(
+                                                    message_data = str(botmessages['play_command_data'][1]).format(
                                                         str(player.title), str(player.uploader), minutes, seconds)
                                                     yield from client.send_message(voice_message_channel,
                                                                                    message_data)
@@ -458,44 +455,42 @@ class bot_data:
                                                 except RuntimeError:
                                                     pass
                                             except AttributeError:
-                                                msgdata = 'Sorry, This Video must have either been deleted by the '
-                                                part1 = msgdata + 'owner. And/or  their account was supspended/'
-                                                messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                                message_data = messagedata + 'is not available in the United States.'
+                                                message_data = str(botmessages['play_command_data'][2])
                                                 is_bot_playing = False
                                                 yield from client.send_message(voice_message_channel, message_data)
                                     else:
-                                        message_data = 'The URL specified is nto a valid Youtube Video/Music URL.'
+                                        message_data = str(botmessages['play_command_data'][3])
                                         yield from client.send_message(voice_message_channel, message_data)
                                         _temp_player_1 = None
                             except IndexError:
                                 return
                             except discord.errors.ClientException:
-                                msgdata = "Error: ffmpeg not found.\nCurrent Path Vars(With appeneds last 2 on end):"
-                                message_data = msgdata + "```py\n" + str(sys.path) + "\n```"
+                                message_data = str(botmessages['play_command_data'][4]).format(str(sys.path))
                                 yield from client.send_message(message.channel, message_data)
                                 player = None
                             except youtube_dl.utils.UnsupportedError:
-                                yield from client.send_message(message.channel, "Unsupported Youtube video URL.")
+                                yield from client.send_message(message.channel,
+                                                               str(botmessages['play_command_data'][5]))
                                 player = None
                             except youtube_dl.utils.ExtractorError:
-                                message_data = "Error When trying to extract the video from the Youtube video URL."
+                                message_data = str(botmessages['play_command_data'][6])
                                 yield from client.send_message(message.channel, message_data)
                                 player = None
                             except youtube_dl.utils.DownloadError:
-                                yield from client.send_message(message.channel, "Invalid or not a Youtube video URL.")
+                                yield from client.send_message(message.channel,
+                                                               str(botmessages['play_command_data'][7]))
                                 player = None
                         else:
                             return
                 else:
-                    message_data = "This bot needs to be in a voice channel to be able to use this command."
+                    message_data = str(botmessages['play_command_data'][8])
                     yield from client.send_message(message.channel, message_data)
             else:
                 if player is not None:
                     data = message.content[len(_bot_prefix + "play "):].strip()
                     if data == "":
                         try:
-                            message_data = "You must Specify a URL or a search term of a video in this command."
+                            message_data = str(botmessages['play_command_data'][9])
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -527,10 +522,7 @@ class bot_data:
                                     _temp_player_1.start()
                                     _temp_player_1.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif data in bot_playlist:
                                 msgdata = 'Sorry, that url is already in my playlist.'
@@ -560,10 +552,7 @@ class bot_data:
                                     _temp_player_2.start()
                                     _temp_player_2.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 2:
                                 _temp_player_3 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -589,10 +578,7 @@ class bot_data:
                                     _temp_player_3.start()
                                     _temp_player_3.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 3:
                                 _temp_player_4 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -618,10 +604,7 @@ class bot_data:
                                     _temp_player_4.start()
                                     _temp_player_4.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 4:
                                 _temp_player_5 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -647,10 +630,7 @@ class bot_data:
                                     _temp_player_5.start()
                                     _temp_player_5.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 5:
                                 _temp_player_6 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -676,10 +656,7 @@ class bot_data:
                                     _temp_player_6.start()
                                     _temp_player_6.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 6:
                                 _temp_player_7 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -705,10 +682,7 @@ class bot_data:
                                     _temp_player_7.start()
                                     _temp_player_7.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 7:
                                 _temp_player_8 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -734,10 +708,7 @@ class bot_data:
                                     _temp_player_8.start()
                                     _temp_player_8.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 8:
                                 _temp_player_9 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -763,10 +734,7 @@ class bot_data:
                                     _temp_player_9.start()
                                     _temp_player_9.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 9:
                                 _temp_player_10 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
@@ -775,27 +743,24 @@ class bot_data:
                                 try:
                                     playlist10 = _temp_player_10.title
                                     playlist10time = _temp_player_10.duration
-                                    track10 = '[' + playlist10 + ']'
+                                    track10 = '[{0}]'.format(playlist10)
                                     fulldir = playlist10time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = '[' + minutes + ':' + seconds + ']'
+                                    newdir = '[{0}:{1}]'.format(minutes, seconds)
                                     track10time = newdir
                                     track10uploader = str(_temp_player_10.uploader)
-                                    track10info = track10 + ' by [' + track10uploader + '] ' + track10time
+                                    track10info = "{0} by [{1}] {2}".format(track10, track10uploader, track10time)
                                     bot_playlist_entries.append(track10info)
-                                    msgdata = '**' + track10 + track10time + '** has been added to my playlist.'
+                                    msgdata = "**{0}{1}** has been added to my playlist.".format(track10, track10time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     _temp_player_10.start()
                                     _temp_player_10.stop()
                                 except AttributeError:
-                                    msgdata = 'Sorry, This Video must have either been deleted by the owner. '
-                                    part1 = msgdata + 'And/or  their account was supspended/'
-                                    messagedata = part1 + 'terminated by Youtube. **Or** the video '
-                                    message_data = messagedata + 'is not available in the United States.'
+                                    message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(voice_message_channel, message_data)
                             elif len(bot_playlist) == 10:
                                 msgdata = 'Sorry, my playlist is full right now.'
@@ -1512,7 +1477,7 @@ class VoiceBotCommands:
     Class for Voice Channel Functionality in this bot.
     """
     def __init__(self):
-        self.bot = bot_data()
+        self.bot = BotData()
 
     @asyncio.coroutine
     def voice_stuff_new(self, client, message):

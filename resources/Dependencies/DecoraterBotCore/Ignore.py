@@ -298,6 +298,12 @@ class bot_data_001:
 
     @asyncio.coroutine
     def ignore_channel_code(self, client, message):
+        """
+        Makes the bot Ignore or not Ignore channels.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         if message.content.startswith(_bot_prefix + 'ignorechannel'):
             if message.channel.id not in somedict["channels"]:
                 try:

@@ -186,6 +186,14 @@
     ],
     "play_command_data": [
         "You must Specify a URL in this command.",
-        ""
+        "**Now Playing [{0}] by [{1}] [{2}:{3}]**",
+        "Sorry, This Video must have either been deleted by the owner. And/or their account was supspended/terminated by Youtube. **Or** the video is not available in the United States.",
+        "The URL specified is not a valid Youtube Video/Music URL.",
+        "Error: ffmpeg not found.\nCurrent Path Vars(With appeneds last 2 on end):```py\n{0}\n```",
+        "Unsupported Youtube video URL.",
+        "Error When trying to extract the video from the Youtube video URL.",
+        "Invalid or not a Youtube video URL.",
+        "This bot needs to be in a voice channel to be able to use this command.",
+        "You must Specify a URL or a search term of a video in this command."
     ]
 }

@@ -201,5 +201,16 @@
         "**{0}{1}** has been added to my playlist.",
         "Sorry, that url is already in my playlist.",
         "Sorry, my playlist is full right now."
+    ],
+    "stop_command_data": [
+        "**Stopped [{0}] by [{1}] [{2}:{3}]**",
+        "[{0}] by [{1}]",
+        "**Now Playing {0} [{1}:{2}]**",
+        "Failed to stop the currently playing song/whatever it is as player is None."
+    ],
+    "pause_command_data": [
+        "**Paused [{0}] by [{1}] [{2}:{3}]**",
+        "Failed to pause the currently playing song/whatever it is as player is None.",
+        "This bot must be in a voice channel to be able to pause a Youtube Video/Music."
     ]
 }

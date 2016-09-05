@@ -818,9 +818,9 @@ class BotData:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            message_data = "**Stopped [{0}] by [{1}] [{2}:{3}]**".format(str(player.title),
-                                                                                         str(player.uploader),
-                                                                                         minutes, seconds)
+                            message_data = str(botmessages['stop_command_data'][0]).format(str(player.title),
+                                                                                           str(player.uploader),
+                                                                                           minutes, seconds)
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -852,10 +852,12 @@ class BotData:
                                             seconds = str(int(fulldir % 60))
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
-                                            track_info = "[{0}] by [{1}]".format(str(player.title),
-                                                                                 str(player.uploader))
-                                            message_data = "**Now Playing {0} [{1}:{2}]**".format(track_info,
-                                                                                                  minutes, seconds)
+                                            track_info = str(botmessages['stop_command_data'][1]).format(
+                                                str(player.title),
+                                                str(player.uploader))
+                                            message_data = str(botmessages['stop_command_data'][2]).format(track_info,
+                                                                                                           minutes,
+                                                                                                           seconds)
                                             yield from client.send_message(voice_message_channel, message_data)
                                             try:
                                                 bot_playlist_entries.remove(track_info)
@@ -869,7 +871,7 @@ class BotData:
                                 is_bot_playing = False
                     else:
                         try:
-                            message_data = "Failed to stop the currently playing song/whatever it is as player is None."
+                            message_data = str(botmessages['stop_command_data'][3])
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -887,19 +889,19 @@ class BotData:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            message_data = "**Paused [{0}] by [{1}] [{2}:{3}]**".format(
+                            message_data = str(botmessages['pause_command_data'][0]).format(
                                 str(player.title), str(player.uploader), minutes, seconds)
                             yield from client.send_message(voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                         player.pause()
                     else:
-                        message_data = "Failed to pause the currently playing song/whatever it is as player is None."
+                        message_data = str(botmessages['pause_command_data'][1])
                         yield from client.send_message(voice_message_channel, message_data)
                 else:
                     return
             else:
-                message_data = 'This bot must be in a voice channel to be able to pause a Youtube Video/Music.'
+                message_data = str(botmessages['pause_command_data'][2])
                 yield from client.send_message(message.channel, message_data)
         if message.content.startswith(_bot_prefix + 'unpause'):
             if message.author.id in banlist['Users']:

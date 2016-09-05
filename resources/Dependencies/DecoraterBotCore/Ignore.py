@@ -288,7 +288,7 @@ if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _async
     DBLogs = BotLogs.BotLogs()
 
 
-class bot_data_001:
+class BotData001:
     """
         This Class is for Internal Use only!!!
     """
@@ -564,7 +564,7 @@ class bot_data_001:
         pass  # this does not yet work right so commented this out.
 
 
-class bot_data_002:
+class BotData002:
     """
         This Class is for Internal Use only!!!
     """
@@ -618,7 +618,7 @@ class bot_data_002:
             yield from self.DBCommandData.ignored_channel_commands(client, message)
 
 
-class bot_data_003:
+class BotData003:
     """
         This Class is for Internal Use only!!!
     """
@@ -890,7 +890,7 @@ class bot_data_003:
 
 class BotCommandData:
     def __init__(self):
-        self.bot = bot_data_001()
+        self.bot = BotData001()
 
     @asyncio.coroutine
     def ignore_channel(self, client, message):
@@ -931,7 +931,7 @@ class BotCommandData:
 
 class BotIgnores:
     def __init__(self):
-        self.bot = bot_data_002()
+        self.bot = BotData002()
 
     @asyncio.coroutine
     def ignore(self, client, message):
@@ -940,7 +940,7 @@ class BotIgnores:
 
 class BotEvents:
     def __init__(self):
-        self.bot = bot_data_003()
+        self.bot = BotData003()
 
     @asyncio.coroutine
     def resolve_delete_method(self, client, message):

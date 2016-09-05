@@ -49,7 +49,7 @@ except FileNotFoundError:
     sys.exit(2)
 
 
-class bot_data:
+class BotData:
     """
         This class is for Internal use only!!!
     """
@@ -448,7 +448,7 @@ class BotLogs:
     Main Bot logging Class.
     """
     def __init__(self):
-        self.bot = bot_data()
+        self.bot = BotData()
 
     def set_up_discord_logger(self):
         """

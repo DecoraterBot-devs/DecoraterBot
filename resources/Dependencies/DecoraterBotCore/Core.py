@@ -90,7 +90,7 @@ if not (sys.platform.startswith('win') or sys.platform.startswith('freebsd') and
     raise UnsupportedPlatform(platerrormsg.format(sys.platform))
 
 
-class bot_data:
+class BotData:
     """
         This Class is for Internal Use only!!!
     """
@@ -510,7 +510,7 @@ class BotCore:
     Bot Core for the bot's Events.
     """
     def __init__(self):
-        self.bot = bot_data()
+        self.bot = BotData()
 
     def changewindowtitle(self):
         """

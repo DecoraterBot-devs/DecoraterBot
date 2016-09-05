@@ -54,7 +54,7 @@ global is_bot_logged_in
 is_bot_logged_in = False
 
 
-class bot_data:
+class BotData:
     """
         This Class is for Internal Use only!!!
     """
@@ -179,7 +179,7 @@ class BotLogin:
     Base Class for getting the bot login.
     """
     def __init__(self):
-        self.bot = bot_data()
+        self.bot = BotData()
 
     def login_info(self, client):
         """

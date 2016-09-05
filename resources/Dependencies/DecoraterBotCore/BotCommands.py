@@ -134,7 +134,7 @@ if _log_games:
     DBLogs = BotLogs.BotLogs()
 
 
-class bot_data:
+class BotData:
     """
         This class is for Internal use only!!!
     """
@@ -1519,7 +1519,7 @@ class BotCommands:
     Basic Messge Commands.
     """
     def __init__(self):
-        self.bot = bot_data()
+        self.bot = BotData()
 
     @asyncio.coroutine
     def attack(self, client, message):

@@ -86,15 +86,15 @@ class BotData:
             :type client: Discord.py Client object
             :param message: Message Object
         """
-        Logs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
+        logs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                             str(message.timestamp), message.content)
-        LogsPM = Logs001
-        LogsServers = None
+        logspm = logs001
+        logsservers = None
         if message.channel.is_private is False:
-            Logs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
+            logs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
                                                                 str(message.timestamp), message.channel.server.name,
                                                                 message.channel.name, message.content)
-            LogsServers = Logs003
+            logsservers = logs003
         if message.content is not None:
             logfile = '{0}{1}resources{1}Logs{1}log.txt'.format(sys.path[0], sepa)
             try:
@@ -104,9 +104,9 @@ class BotData:
                     file.seek(0)
                     file.truncate()
                 if message.channel.is_private is True:
-                    file.write(LogsPM)
+                    file.write(logspm)
                 else:
-                    file.write(LogsServers)
+                    file.write(logsservers)
                 file.close()
             except PermissionError:
                 return
@@ -126,14 +126,14 @@ class BotData:
         usr_id = before.author.id
         msg_time = str(before.timestamp)
         editlog001 = str(LogData['On_Message_Logs'][0]).format(usr_name, usr_id, msg_time, old, new)
-        edit_log_PM = editlog001
-        editlogServers = None
+        edit_log_pm = editlog001
+        editlogservers = None
         if before.channel.is_private is False:
             svr_name = before.channel.server.name
             chl_name = before.channel.name
             editlog003 = str(LogData['On_Message_Logs'][1]).format(usr_name, usr_id, msg_time, svr_name,
                                                                    chl_name, old, new)
-            editlogServers = editlog003
+            editlogservers = editlog003
         try:
             file = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -145,7 +145,7 @@ class BotData:
                         self.resolve_embed_logs_code(client, before, after)
                     else:
                         try:
-                            file.write(editlogServers)
+                            file.write(editlogservers)
                         except PermissionError:
                             return
                         file.close()
@@ -156,7 +156,7 @@ class BotData:
                         if before.content == after.content:
                             self.resolve_embed_logs_code(client, before, after)
                         else:
-                            file.write(edit_log_PM)
+                            file.write(edit_log_pm)
                         file.close()
         except PermissionError:
             return
@@ -171,14 +171,14 @@ class BotData:
         """
         dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                                str(message.timestamp), message.content)
-        dellogsPM = dellogs001
-        dellogsServers = None
+        dellogspm = dellogs001
+        dellogsservers = None
         if message.channel.is_private is False:
             dellogs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
                                                                    str(message.timestamp),
                                                                    message.channel.server.name,
                                                                    message.channel.name, message.content)
-            dellogsServers = dellogs003
+            dellogsservers = dellogs003
         if message.content is not None:
             try:
                 logfile = '{0}{1}resources{1}Logs{1}delete log.txt'.format(sys.path[0], sepa)
@@ -188,9 +188,9 @@ class BotData:
                     file.seek(0)
                     file.truncate()
                 if message.channel.is_private is True:
-                    file.write(dellogsPM)
+                    file.write(dellogspm)
                 else:
-                    file.write(dellogsServers)
+                    file.write(dellogsservers)
                 file.close()
             except PermissionError:
                 return
@@ -227,11 +227,11 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        Logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
+        logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                                  str(message.timestamp),
                                                                  message.channel.server.name, message.channel.name,
                                                                  message.content)
-        sndmsglogs = Logs001
+        sndmsglogs = logs001
         try:
             yield from client.send_message(discord.Object(id='153055192873566208'), sndmsglogs)
         except discord.errors.NotFound:
@@ -313,10 +313,10 @@ class BotData:
         :return: Nothing.
         """
         gmelogdata01 = str(LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
-        gmelogsPM = gmelogdata01
+        gmelogspm = gmelogdata01
         if message.channel.is_private is False:
             gmelog001 = str(LogData['On_Message_Logs'][1]).format(message.author.name, desgame, message.author.id)
-            gmelogsServers = gmelog001
+            gmelogsservers = gmelog001
             logfile = '{0}{1}resources{1}Logs{1}gamelog.txt'.format(sys.path[0], sepa)
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
@@ -325,9 +325,9 @@ class BotData:
                     file.seek(0)
                     file.truncate()
                 if message.channel.is_private is True:
-                    file.write(gmelogsPM)
+                    file.write(gmelogspm)
                 else:
-                    file.write(gmelogsServers)
+                    file.write(gmelogsservers)
                 file.close()
             except PermissionError:
                 return

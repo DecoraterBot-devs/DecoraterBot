@@ -340,6 +340,12 @@ class BotData001:
 
     @asyncio.coroutine
     def reload_command_code(self, client, message):
+        """
+        Reloads Bot Command Files.
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
         global _somebool
         if message.content.startswith(_bot_prefix + 'reload'):
             if message.author.id == discord_user_id:

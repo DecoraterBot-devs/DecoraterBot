@@ -276,11 +276,12 @@ class BotData:
             return
 
     @asyncio.coroutine
-    def on_bot_error_code(self, funcname, tbinfo):
+    def on_bot_error_code(self, funcname, tbinfo, err):
         """
         Handles Event Bot Errors
         :param funcname: Function names that Had a .
         :param tbinfo: Original Traceback.
+        :param err: RAW traceback Error Data.
         :return: Nothing.
         """
         if bool(funcname):
@@ -298,9 +299,9 @@ class BotData:
                 except PermissionError:
                     return
             else:
-                raise
+                raise err
         else:
-            raise
+            raise err
 
     @staticmethod
     def gamelog_code(client, message, desgame):
@@ -534,7 +535,7 @@ class BotLogs:
         yield from self.bot.send_delete_logs_code(client, message)
 
     @asyncio.coroutine
-    def on_bot_error(self, funcname, tbinfo):
+    def on_bot_error(self, funcname, tbinfo, err):
         """
             This Function is for Internal Bot use only.
             It is for catching any Errors and writing them to a file.
@@ -545,8 +546,9 @@ class BotLogs:
                 raises the Errors that happened if empty string or None is given.
             :param tbinfo: string data of the traceback info. Must be a string for this to not Error itself.
                 raises the Errors that happened if empty string or None is given.
+            :param err: Error Data from Traceback. (RAW)
         """
-        yield from self.bot.on_bot_error_code(funcname, tbinfo)
+        yield from self.bot.on_bot_error_code(funcname, tbinfo, err)
 
     def gamelog(self, client, message, desgame):
         """

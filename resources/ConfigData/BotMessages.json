@@ -212,5 +212,46 @@
         "**Paused [{0}] by [{1}] [{2}:{3}]**",
         "Failed to pause the currently playing song/whatever it is as player is None.",
         "This bot must be in a voice channel to be able to pause a Youtube Video/Music."
+    ],
+    "unpause_command_data": [
+        "**Resumed [{0}] by [{1}] [{2}:{3}]**",
+        "Failed to resume the currently playing song/whatever it is as player is None.",
+        "This bot must be in a voice channel to be able to resume a Youtube Video/Music."
+    ],
+    "move_command_data": [
+        "Moved to the {0} Voice Channel.",
+        "The Channel specified is not a voice channel.",
+        "This bot does not have permissions to move members to the {0} Voice Channel."
+    ],
+    "auto_playlist_data": [
+        "**Finished [{0}] by [{1}] [{2}:{3}]**",
+        "[{0}] by [{1}]",
+        "**Now Playing {0} [{1}:{2}]**"
+    ],
+    "leave_voice_channel_command_data": [
+        "Left the {0} Voice Channel.",
+        "This bot does not have a Voice Channel to leave."
+    ],
+    "playlist_command_data": [
+        "Empty[00:00]",
+        "Track 0 : **{0}**\nTrack 1 : **{1}**\nTrack 2 : **{2}**\nTrack 3 : **{3}**\nTrack 4 : **{4}**\nTrack 5 : **{5}**\nTrack 6 : **{6}**\nTrack 7 : **{7}**\nTrack 8 : **{8}**\nTrack 9 : **{9}**"
+    ],
+    "volume_command_data": [
+        "Volume changed to ``{0}%``",
+        "Sorry, volume can only be within the range of 0~200. Please try again.",
+        "Sorry, you must specify a actual int value to change the volume.",
+        "Sorry, you can only use this when the bot is playing something."
+    ],
+    "reload_commands_voice_channels_bypass1": [
+        "Left the {0} Voice Channel. Reason: {1}",
+        "Owner is reloading Voice Channel Commands."
+    ],
+    "reload_commands_voice_channels_bypass2": [
+        "A Timeout Error Kept the bot from Rejoining the Voice Channel.",
+        "This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in.",
+        "Rejoined the {0} Voice Channel."
+    ],
+    "reload_commands_voice_channels_bypass4": [
+        "Owner is doing a high level reload."
     ]
 }

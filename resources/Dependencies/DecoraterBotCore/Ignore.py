@@ -607,13 +607,13 @@ class BotData002:
                         except discord.errors.HTTPException:
                             funcname = 'ignore_code'
                             tbinfo = str(traceback.format_exc())
-                            yield from DBLogs.on_bot_error(funcname, tbinfo)
+                            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
                     else:
                         return
                 else:
                     funcname = 'ignore_code'
                     tbinfo = str(traceback.format_exc())
-                    yield from DBLogs.on_bot_error(funcname, tbinfo)
+                    yield from DBLogs.on_bot_error(funcname, tbinfo, e)
         else:
             yield from self.DBCommandData.ignored_channel_commands(client, message)
 
@@ -651,7 +651,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_delete_method_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_edit_method_code(self, client, before, after):
@@ -679,7 +679,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_edit_method_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_verify_cache_cleanup_2_code(self, client, member):
@@ -706,7 +706,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_verify_cache_cleanup_2_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_verify_cache_cleanup_code(self, client, member):
@@ -730,7 +730,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_verify_cache_cleanup_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onban_code(self, client, member):
@@ -742,7 +742,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_onban_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onunban_code(self, client, user):
@@ -752,7 +752,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_onunban_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onremove_code(self, client, member):
@@ -772,7 +772,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_onremove_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onjoin_code(self, client, member):
@@ -809,7 +809,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_onjoin_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_on_login_voice_channel_join_code(self, client):
@@ -821,7 +821,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_on_login_voice_channel_join_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def high_level_reload_helper_code(self, client, message, reload_reason):
@@ -833,7 +833,7 @@ class BotData003:
         except Exception as e:
             funcname = 'high_level_reload_helper_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @staticmethod
     def resolve_discord_logger_code():
@@ -863,7 +863,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_ongroupjoin_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_ongroupremove_code(self, channel, user):
@@ -873,7 +873,7 @@ class BotData003:
         except Exception as e:
             funcname = '_resolve_ongroupremove_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def high_level_reload_helper2_code(self, client, message):
@@ -885,7 +885,7 @@ class BotData003:
         except Exception as e:
             funcname = 'high_level_reload_helper2_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo)
+            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
 
 class BotCommandData:

@@ -299,7 +299,7 @@ class BotData:
             # makes the owner AKA Creator of the bot only able to use this as this can be dangerous.
             if message.author.id == owner_id:
                 debugcode_new = "# coding=utf-8\n" + message.content[len(_bot_prefix + "debug "):].strip()
-                BotOwner = discord.utils.find(lambda member: member.id == owner_id, message.channel.server.members)
+                botowner = discord.utils.find(lambda member: member.id == owner_id, message.channel.server.members)
                 try:
                     evalcodefile = '{0}{1}resources{1}exec_files{1}exec_temp.py'.format(sys.path[0], sepa)
                     eval_temp_code = io.open(evalcodefile, 'w+', encoding='utf-8')
@@ -325,8 +325,8 @@ class BotData:
                     except discord.errors.Forbidden:
                         msgdata = str(botmessages['eval_command_data'][0])
                         message_data = msgdata.format(message.channel.server.name, message.channel.name)
-                        yield from client.send_message(BotOwner, message_data)
-                        yield from client.send_message(BotOwner, "```py\n" + debugcode + "\n```")
+                        yield from client.send_message(botowner, message_data)
+                        yield from client.send_message(botowner, "```py\n" + debugcode + "\n```")
                     except discord.errors.HTTPException:
                         if len(debugcode) > 2000:
                             result_info = str(botmessages['eval_command_data'][1])
@@ -339,8 +339,8 @@ class BotData:
                     except discord.errors.Forbidden:
                         msgdata = str(botmessages['eval_command_data'][0])
                         message_data = msgdata.format(message.channel.server.name, message.channel.name)
-                        yield from client.send_message(BotOwner, message_data)
-                        yield from client.send_message(BotOwner, "```py\n" + debugcode + "\n```")
+                        yield from client.send_message(botowner, message_data)
+                        yield from client.send_message(botowner, "```py\n" + debugcode + "\n```")
             else:
                 try:
                     result_info = str(botmessages['debug_command_data'][0])

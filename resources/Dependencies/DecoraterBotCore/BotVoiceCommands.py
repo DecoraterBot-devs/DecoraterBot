@@ -77,7 +77,7 @@ elif bits == 8:
         os.chdir('{0}{1}resources{1}ffmpeg{1}win32(1)x64'.format(sys.path[0], sepa))
     else:
         opusdll = '{0}{1}resources{1}opus{1}linux{1}x64{1}opus.dll'.format(sys.path[0], sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}linux(1)x64'.format(sys.path[0], sepa))
+        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x64'.format(sys.path[0], sepa))
 
 
 class YTDLLogger(object):

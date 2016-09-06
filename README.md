@@ -31,7 +31,7 @@ After you have configurated the bot with a token you can run the bot with 1 of t
 
 > with ``DecoraterBot.bat`` that uses the 32-bit version of the Embedded Python 3.5 interpreter.
 
-(Will use 3.6 when it is released as a replacement so stay tuned)( Voice Compatibility is #1).
+(Will use 3.6 when it is released as a replacement so stay tuned)(Voice Compatibility is #1).
 > with ``DecoraterBot64.bat`` that uses the 64-bit version of the Embedded Python 3.5 interpreter.
 
 (Will be replaced with 3.6 when released too.)
@@ -40,6 +40,17 @@ After you have configurated the bot with a token you can run the bot with 1 of t
 
 Note: You Will have to use the Bat files above by right clicking them in the solution file.
 Also I might be thinking about finally removing some of the folders with py files as I am thinking of makign most of them pyd's to have further optimizations to the bot's Error logs (eg function names to files that do not hold the specific errors). With that Said the lines that calls some functions then will not show.
+
+# Linux
+
+> with ``DecoraterBot.sh`` that uses the 32-bit version of the Python 3.5 interpreter.
+
+(Will use 3.6 when it is released as a replacement so stay tuned)(Voice Compatibility is #1).
+> with ``DecoraterBot64.sh`` that uses the 64-bit version of the Python 3.5 interpreter.
+
+(Will be replaced with 3.6 when released too.)
+
+Note: The one provided cannot be used yet it is there for a test for now I plan to make it usable however but the bytecode files in the zip it uses is not correct on it's standard library.
 
 # Other Platforms
 

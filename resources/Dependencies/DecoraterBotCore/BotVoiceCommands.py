@@ -34,7 +34,6 @@ import concurrent
 import youtube_dl
 import ctypes
 import BotPMError
-from discord.ext import commands
 
 sepa = os.sep
 
@@ -789,7 +788,7 @@ class BotData:
                                     track10time = newdir
                                     track10uploader = str(_temp_player_10.uploader)
                                     track10info = str(botmessages['play_command_data'][12]).format(track10,
-                                                                                                   rack10uploader,
+                                                                                                   track10uploader,
                                                                                                    track10time)
                                     bot_playlist_entries.append(track10info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track10, track10time)

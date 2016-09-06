@@ -23,33 +23,19 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 from __future__ import unicode_literals
-import discord
+
 import asyncio
-import json
-import io
-import traceback
-import urllib
-import sys
-import os
-import base64
-import os.path
-import random
-import platform
-import gc
-import importlib
-import youtube_dl
-import aiohttp
-import multidict
-import setuptools
-import time
-import cmath
 import ctypes
+import io
+import json
+import os.path
+import platform
+import random
 import subprocess
-from threading import Timer
-from collections import deque
+import sys
+import traceback
 import BotPMError
-import py2pycx
-from discord.ext import commands
+import discord
 
 sepa = os.sep
 

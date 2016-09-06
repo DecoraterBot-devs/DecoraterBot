@@ -113,6 +113,292 @@ log_member_join = True
 # Well only if the PM Error handler is False.
 enable_error_handler = True
 
+
+class BotConfigVars:
+    """
+    Class for getting the config Values.
+    """
+    def __init__(self):
+        pass
+
+    @property
+    def logging(self):
+        """
+        Function that returns weather to have normal logging or not.
+        :return: Bool
+        """
+        value = str(credentials['logging'][0])
+        if value == 'True':
+            value = True
+        elif value == 'False':
+            value = False
+        return value
+
+    @property
+    def logbans(self):
+        """
+        Returns weather to log bans or not.
+        :return: Bool
+        """
+        value = str(credentials['logbans'][0])
+        if value == 'True':
+            value = True
+        elif value == 'False':
+            value = False
+        return value
+
+    @property
+    def logunbans(self):
+        """
+        Returns weather to log unbans or not.
+        :return: Bool
+        """
+        value = str(credentials['logunbans'][0])
+        if value == 'True':
+            value = True
+        elif value == 'False':
+            value = False
+        return value
+
+    @property
+    def logkicks(self):
+        """
+        Returns weather to log kicks or not.
+        :return: Bool
+        """
+        value = str(credentials['logkicks'][0])
+        if value == 'True':
+            value = True
+        elif value == 'False':
+            value = False
+        return value
+
+    @property
+    def discord_logger(self):
+        """
+        Returns weather to use the discord.py logger or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def asyncio_logger(self):
+        """
+        Returns weather to use the asyncio logger or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_available(self):
+        """
+        Returns weather to log available servers or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_unavailable(self):
+        """
+        Returns weather to log unavailable servers or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_channel_create(self):
+        """
+        Returns weather to log Created Channels or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_channel_delete(self):
+        """
+        Returns weather to log Deleted Channels or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_channel_update(self):
+        """
+        Returns weather to log updated Channels or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_member_update(self):
+        """
+        Returns weather to log member updates or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_server_join(self):
+        """
+        Returns weather to log Server Joins.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_server_remove(self):
+        """
+        Returns weather to log when a Server is removed.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_server_update(self):
+        """
+        Returns weather to log when a Server is updated.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_server_role_create(self):
+        """
+        Returns weather to log when a role is created.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_server_role_delete(self):
+        """
+        Returns weather to log when a role was deleted.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_server_role_update(self):
+        """
+        Returns weather to log when a role was updated.
+        :return:
+        """
+        pass
+
+    @property
+    def log_group_join(self):
+        """
+        Returns weather to log group joins or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_group_remove(self):
+        """
+        Returns weather to log group removes or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_error(self):
+        """
+        Returns weather to log bot errors or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_voice_state_update(self):
+        """
+        Returns weather to log Voice State Updates or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_typing(self):
+        """
+        Returns Weather to log typing or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_socket_raw_receive(self):
+        """
+        Returns weather to log socket raw recieve data or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_socket_raw_send(self):
+        """
+        Returns weather to log raw socket send data.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_resumed(self):
+        """
+        Returns weather to log bot connection resumes or not.
+        :return: Bool
+        """
+        pass
+
+    @property
+    def log_member_join(self):
+        """
+        Returns weather to log when a person joins a server.
+        :return: Bool
+        """
+        value = str(credentials['log_member_join'][0])
+        if value == 'True':
+            value = True
+        elif value == 'False':
+            value = False
+        return value
+
+    @property
+    def pm_command_errors(self):
+        value = str(credentials['pm_command_errors'][0])
+        if value == 'True':
+            value = True
+        elif value == 'False':
+            value = False
+        return value
+
+    @property
+    def enable_error_handler(self):
+        """
+        Returns weather to use the Error Handler or not.
+        :return: Bool
+        """
+        value = None
+        if self.pm_command_errors:
+            value = False
+        else:
+            value = True
+        return value
+
+    @property
+    def bot_prefix(self):
+        """
+        Returns the Bot Prefix.
+        :return:
+        """
+        value = str(credentials['bot_prefix'][0])
+        if value == '':
+            value = None
+        if value is None:
+            print('No Prefix specified in Credentials.json. The Bot cannot continue.')
+            sys.exit(2)
+        return value
+
+BotConfig = BotConfigVars()
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     credsfile = io.open(PATH)
@@ -895,6 +1181,9 @@ class BotData003:
 
 
 class BotCommandData:
+    """
+    Bot Command Data Class.
+    """
     def __init__(self):
         self.bot = BotData001()
 
@@ -936,6 +1225,9 @@ class BotCommandData:
 
 
 class BotIgnores:
+    """
+    Bot Ignores Class.
+    """
     def __init__(self):
         self.bot = BotData002()
 
@@ -945,6 +1237,9 @@ class BotIgnores:
 
 
 class BotEvents:
+    """
+    Bot Events Class.
+    """
     def __init__(self):
         self.bot = BotData003()
 

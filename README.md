@@ -47,7 +47,7 @@ Also I might be thinking about finally removing some of the folders with py file
 
 You will also have to install the following as well in order to run the bot:
 
-> aiohttp (latest perfered and multidict it comes with as a separate package)
+> aiohttp (latest perfered)
 
 > pynacl
 

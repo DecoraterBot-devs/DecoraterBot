@@ -662,7 +662,8 @@ class BotData:
         if len(message.mentions) > 5:
             yield from self.mention_ban_helper(client, message)
         if message.content.startswith(_bot_prefix + "ban"):
-            if message.author.id == message.channel.server.owner.id or owner_id:
+            role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
+            if role in message.author.roles:
                 for disuser in message.mentions:
                     listdata = message.channel.server.members
                     member = discord.utils.find(lambda member: member.name == disuser.name, listdata)
@@ -695,7 +696,8 @@ class BotData:
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(_bot_prefix + "softban"):
-            if message.author.id == message.channel.server.owner.id or owner_id:
+            role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
+            if role in message.author.roles:
                 for disuser in message.mentions:
                     memberlist = message.channel.server.members
                     member = discord.utils.find(lambda member: member.name == disuser.name, memberlist)
@@ -731,7 +733,8 @@ class BotData:
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(_bot_prefix + "kick"):
-            if message.author.id == message.channel.server.owner.id or owner_id:
+            role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
+            if role in message.author.roles:
                 for disuser in message.mentions:
                     memberlist = message.channel.server.members
                     member = discord.utils.find(lambda member: member.name == disuser.name, memberlist)

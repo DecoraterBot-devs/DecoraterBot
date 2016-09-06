@@ -45,8 +45,6 @@ Also I might be thinking about finally removing some of the folders with py file
 
 > with ``DecoraterBot.sh`` that uses the current installed Python Interpreter (Python 3.5.2 recommended).
 
-(Will use 3.6 when it is released as a replacement so stay tuned)(Voice Compatibility is #1).
-
 # Other Platforms
 
 Not available yet. I need python binaries for Python 3.5.2 and the other things for this.

@@ -32,6 +32,9 @@ except ImportError:
     sepa = os.sep
     appendpath = "{0}{1}resources{1}Dependencies".format(sys.path[0], sepa)
     appendpath2 = "{0}{1}dependencies.{2}.zip".format(appendpath, sepa, sys.platform)
+    if sys.platform.startswith("win"):
+        appendpath3 = "{0}{1}resources{1}Dependencies{1}win32-deps".format(sys.path[0], sepa)
+        sys.path.append(appendpath3)
     sys.path.append(appendpath)
     sys.path.append(appendpath2)
     import discord

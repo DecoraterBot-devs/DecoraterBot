@@ -43,14 +43,9 @@ Also I might be thinking about finally removing some of the folders with py file
 
 # Linux
 
-> with ``DecoraterBot.sh`` that uses the 32-bit version of the Python 3.5 interpreter.
+> with ``DecoraterBot.sh`` that uses the current installed Python Interpreter (Python 3.5.2 recommended).
 
 (Will use 3.6 when it is released as a replacement so stay tuned)(Voice Compatibility is #1).
-> with ``DecoraterBot64.sh`` that uses the 64-bit version of the Python 3.5 interpreter.
-
-(Will be replaced with 3.6 when released too.)
-
-Note: The one provided cannot be used yet it is there for a test for now I plan to make it usable however but the bytecode files in the zip it uses is not correct on it's standard library.
 
 # Other Platforms
 

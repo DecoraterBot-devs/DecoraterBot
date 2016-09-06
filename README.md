@@ -45,6 +45,15 @@ Also I might be thinking about finally removing some of the folders with py file
 
 > with ``DecoraterBot.sh`` that uses the current installed Python Interpreter (Python 3.5.2 recommended).
 
+You will also have to install the following as well in order to run the bot:
+
+> aiohttp (latest perfered and multidict it comes with as a separate package)
+
+> pynacl
+
+> cffi (should be installed when pynacl is installed usually)
+
+
 # Other Platforms
 
 Not available yet. I need python binaries for Python 3.5.2 and the other things for this.

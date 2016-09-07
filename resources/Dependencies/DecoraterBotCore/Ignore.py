@@ -119,7 +119,9 @@ class BotConfigVars:
     Class for getting the config Values.
     """
     def __init__(self):
-        pass
+        self.credsfile = io.open(PATH)
+        self.credentials = json.load(self.credsfile)
+        self.credsfile.close()
 
     @property
     def logging(self):
@@ -127,10 +129,10 @@ class BotConfigVars:
         Function that returns weather to have normal logging or not.
         :return: Bool
         """
-        value = str(credentials['logging'][0])
+        value = str(self.credentials['logging'][0])
         if value == 'True':
             value = True
-        elif value == 'False':
+        if value == 'False':
             value = False
         return value
 
@@ -140,10 +142,10 @@ class BotConfigVars:
         Returns weather to log bans or not.
         :return: Bool
         """
-        value = str(credentials['logbans'][0])
+        value = str(self.credentials['logbans'][0])
         if value == 'True':
             value = True
-        elif value == 'False':
+        if value == 'False':
             value = False
         return value
 
@@ -153,10 +155,10 @@ class BotConfigVars:
         Returns weather to log unbans or not.
         :return: Bool
         """
-        value = str(credentials['logunbans'][0])
+        value = str(self.credentials['logunbans'][0])
         if value == 'True':
             value = True
-        elif value == 'False':
+        if value == 'False':
             value = False
         return value
 
@@ -166,10 +168,10 @@ class BotConfigVars:
         Returns weather to log kicks or not.
         :return: Bool
         """
-        value = str(credentials['logkicks'][0])
+        value = str(self.credentials['logkicks'][0])
         if value == 'True':
             value = True
-        elif value == 'False':
+        if value == 'False':
             value = False
         return value
 
@@ -179,7 +181,12 @@ class BotConfigVars:
         Returns weather to use the discord.py logger or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['discord_py_logger'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def asyncio_logger(self):
@@ -187,7 +194,12 @@ class BotConfigVars:
         Returns weather to use the asyncio logger or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['asyncio_logger'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_available(self):
@@ -195,7 +207,12 @@ class BotConfigVars:
         Returns weather to log available servers or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['LogServerAvailable'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_unavailable(self):
@@ -203,7 +220,12 @@ class BotConfigVars:
         Returns weather to log unavailable servers or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['LogServerUnavailable'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_channel_create(self):
@@ -211,7 +233,12 @@ class BotConfigVars:
         Returns weather to log Created Channels or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_channel_create'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_channel_delete(self):
@@ -219,7 +246,12 @@ class BotConfigVars:
         Returns weather to log Deleted Channels or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_channel_delete'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_channel_update(self):
@@ -227,7 +259,12 @@ class BotConfigVars:
         Returns weather to log updated Channels or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_channel_update'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_member_update(self):
@@ -235,7 +272,12 @@ class BotConfigVars:
         Returns weather to log member updates or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_member_update'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_server_join(self):
@@ -243,7 +285,12 @@ class BotConfigVars:
         Returns weather to log Server Joins.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_server_join'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_server_remove(self):
@@ -251,7 +298,12 @@ class BotConfigVars:
         Returns weather to log when a Server is removed.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_server_remove'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_server_update(self):
@@ -259,7 +311,12 @@ class BotConfigVars:
         Returns weather to log when a Server is updated.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_server_update'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_server_role_create(self):
@@ -267,7 +324,12 @@ class BotConfigVars:
         Returns weather to log when a role is created.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_server_role_create'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_server_role_delete(self):
@@ -275,7 +337,12 @@ class BotConfigVars:
         Returns weather to log when a role was deleted.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_server_role_delete'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_server_role_update(self):
@@ -283,7 +350,12 @@ class BotConfigVars:
         Returns weather to log when a role was updated.
         :return:
         """
-        pass
+        value = str(self.credentials['log_server_role_update'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_group_join(self):
@@ -291,7 +363,12 @@ class BotConfigVars:
         Returns weather to log group joins or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_group_join'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_group_remove(self):
@@ -299,7 +376,12 @@ class BotConfigVars:
         Returns weather to log group removes or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_group_remove'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_error(self):
@@ -307,7 +389,12 @@ class BotConfigVars:
         Returns weather to log bot errors or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_error'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_voice_state_update(self):
@@ -315,7 +402,12 @@ class BotConfigVars:
         Returns weather to log Voice State Updates or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_voice_state_update'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_typing(self):
@@ -323,7 +415,12 @@ class BotConfigVars:
         Returns Weather to log typing or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_typing'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_socket_raw_receive(self):
@@ -331,7 +428,12 @@ class BotConfigVars:
         Returns weather to log socket raw recieve data or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_socket_raw_receive'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_socket_raw_send(self):
@@ -339,7 +441,12 @@ class BotConfigVars:
         Returns weather to log raw socket send data.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_socket_raw_send'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_resumed(self):
@@ -347,7 +454,12 @@ class BotConfigVars:
         Returns weather to log bot connection resumes or not.
         :return: Bool
         """
-        pass
+        value = str(self.credentials['log_resumed'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
 
     @property
     def log_member_join(self):
@@ -355,19 +467,19 @@ class BotConfigVars:
         Returns weather to log when a person joins a server.
         :return: Bool
         """
-        value = str(credentials['log_member_join'][0])
+        value = str(self.credentials['log_member_join'][0])
         if value == 'True':
             value = True
-        elif value == 'False':
+        if value == 'False':
             value = False
         return value
 
     @property
     def pm_command_errors(self):
-        value = str(credentials['pm_command_errors'][0])
+        value = str(self.credentials['pm_command_errors'][0])
         if value == 'True':
             value = True
-        elif value == 'False':
+        if value == 'False':
             value = False
         return value
 
@@ -390,7 +502,7 @@ class BotConfigVars:
         Returns the Bot Prefix.
         :return:
         """
-        value = str(credentials['bot_prefix'][0])
+        value = str(self.credentials['bot_prefix'][0])
         if value == '':
             value = None
         if value is None:
@@ -398,171 +510,65 @@ class BotConfigVars:
             sys.exit(2)
         return value
 
-BotConfig = BotConfigVars()
+    @property
+    def discord_user_id(self):
+        value = str(self.credentials['ownerid'][0])
+        if value == 'None':
+            value = None
+        return value
+
+    @property
+    def bot_id(self):
+        value = str(self.credentials['botid'][0])
+        if value == 'None':
+            value = None
+        return value
+
+    @property
+    def disable_voice_commands(self):
+        value = str(self.credentials['disable_voice'][0])
+        if value == 'True':
+            value = True
+        if value == 'False':
+            value = False
+        return value
+
+
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    credsfile = io.open(PATH)
-    credentials = json.load(credsfile)
-    credsfile.close()
-    discord_user_id = str(credentials['ownerid'][0])
-    bot_id = str(credentials['botid'][0])
-    _logging = str(credentials['logging'][0])
-    _logbans = str(credentials['logbans'][0])
-    _logunbans = str(credentials['logunbans'][0])
-    _logkicks = str(credentials['logkicks'][0])
-    _bot_prefix = str(credentials['bot_prefix'][0])
-    _disable_voice_commands = str(credentials['disable_voice'][0])
-    _pm_command_errors = str(credentials['pm_command_errors'][0])
-    _discord_logger = str(credentials['discord_py_logger'][0])
-    _asyncio_logger = str(credentials['asyncio_logger'][0])
-    _log_available = str(credentials['LogServerAvailable'][0])
-    _log_unavailable = str(credentials['LogServerUnavailable'][0])
-    log_channel_create = str(credentials['log_channel_create'][0])
-    log_channel_delete = str(credentials['log_channel_delete'][0])
-    log_channel_update = str(credentials['log_channel_update'][0])
-    log_member_update = str(credentials['log_member_update'][0])
-    log_server_join = str(credentials['log_server_join'][0])
-    log_server_remove = str(credentials['log_server_remove'][0])
-    log_server_update = str(credentials['log_server_update'][0])
-    log_server_role_create = str(credentials['log_server_role_create'][0])
-    log_server_role_delete = str(credentials['log_server_role_delete'][0])
-    log_server_role_update = str(credentials['log_server_role_update'][0])
-    log_group_join = str(credentials['log_group_join'][0])
-    log_group_remove = str(credentials['log_group_remove'][0])
-    log_error = str(credentials['log_error'][0])
-    log_voice_state_update = str(credentials['log_voice_state_update'][0])
-    log_typing = str(credentials['log_typing'][0])
-    log_socket_raw_receive = str(credentials['log_socket_raw_receive'][0])
-    log_socket_raw_send = str(credentials['log_socket_raw_send'][0])
-    log_resumed = str(credentials['log_resumed'][0])
-    log_member_join = str(credentials['log_member_join'][0])
-    if _logging == 'True':
-        _logging = True
-    elif _logging == 'False':
-        _logging = False
-    if _logbans == 'True':
-        _logbans = True
-    elif _logbans == 'False':
-        _logbans = False
-    if _logunbans == 'True':
-        _logunbans = True
-    elif _logunbans == 'False':
-        _logunbans = False
-    if _logkicks == 'True':
-        _logkicks = True
-    elif _logkicks == 'False':
-        _logkicks = False
-    if _log_available == 'True':
-        _log_available = True
-    elif _log_available == 'False':
-        _log_available = False
-    if _log_unavailable == 'True':
-        _log_unavailable = True
-    elif _log_unavailable == 'False':
-        _log_unavailable = False
-    if log_channel_create == 'True':
-        log_channel_create = True
-    elif log_channel_create == 'False':
-        log_channel_create = False
-    if log_channel_delete == 'True':
-        log_channel_delete = True
-    elif log_channel_delete == 'False':
-        log_channel_delete = False
-    if log_channel_update == 'True':
-        log_channel_update = True
-    elif log_channel_update == 'False':
-        log_channel_update = False
-    if log_member_update == 'True':
-        log_member_update = True
-    elif log_member_update == 'False':
-        log_member_update = False
-    if log_server_join == 'True':
-        log_server_join = True
-    elif log_server_join == 'False':
-        log_server_join = False
-    if log_server_remove == 'True':
-        log_server_remove = True
-    elif log_server_remove == 'False':
-        log_server_remove = False
-    if log_server_update == 'True':
-        log_server_update = True
-    elif log_server_update == 'False':
-        log_server_update = False
-    if log_server_role_create == 'True':
-        log_server_role_create = True
-    elif log_server_role_create == 'False':
-        log_server_role_create = False
-    if log_server_role_delete == 'True':
-        log_server_role_delete = True
-    elif log_server_role_delete == 'False':
-        log_server_role_delete = False
-    if log_server_role_update == 'True':
-        log_server_role_update = True
-    elif log_server_role_update == 'False':
-        log_server_role_update = False
-    if log_group_join == 'True':
-        log_group_join = True
-    elif log_group_join == 'False':
-        log_group_join = False
-    if log_group_remove == 'True':
-        log_group_remove = True
-    elif log_group_remove == 'False':
-        log_group_remove = False
-    if log_error == 'True':
-        log_error = True
-    elif log_error == 'False':
-        log_error = False
-    if log_voice_state_update == 'True':
-        log_voice_state_update = True
-    elif log_voice_state_update == 'False':
-        log_voice_state_update = False
-    if log_typing == 'True':
-        log_typing = True
-    elif log_typing == 'False':
-        log_typing = False
-    if log_socket_raw_receive == 'True':
-        log_socket_raw_receive = True
-    elif log_socket_raw_receive == 'False':
-        log_socket_raw_receive = False
-    if log_socket_raw_send == 'True':
-        log_socket_raw_send = True
-    elif log_socket_raw_send == 'False':
-        log_socket_raw_send = False
-    if log_resumed == 'True':
-        log_resumed = True
-    elif log_resumed == 'False':
-        log_resumed = False
-    if log_member_join == 'True':
-        log_member_join = True
-    elif log_member_join == 'False':
-        log_member_join = False
-    if _discord_logger == 'True':
-        _discord_logger = True
-    elif _discord_logger == 'False':
-        _discord_logger = False
-    if _asyncio_logger == 'True':
-        _asyncio_logger = True
-    elif _asyncio_logger == 'False':
-        _asyncio_logger = False
-    if _disable_voice_commands == 'True':
-        _disable_voice_commands = True
-    elif _disable_voice_commands == 'False':
-        _disable_voice_commands = False
-    if _pm_command_errors == 'True':
-        _pm_command_errors = True
-        enable_error_handler = False
-    elif _pm_command_errors == 'False':
-        _pm_command_errors = False
-        enable_error_handler = True
-    if _bot_prefix == '':
-        _bot_prefix = None
-    if _bot_prefix is None:
-        print('No Prefix specified in Credentials.json. The Bot cannot continue.')
-        sys.exit(2)
-    if bot_id == 'None':
-        bot_id = None
-    if discord_user_id == 'None':
-        discord_user_id = None
+    BotConfig = BotConfigVars()
+    discord_user_id = BotConfig.discord_user_id
+    bot_id = BotConfig.bot_id
+    _logging = BotConfig.logging
+    _logbans = BotConfig.logbans
+    _logunbans = BotConfig.logunbans
+    _logkicks = BotConfig.logkicks
+    _bot_prefix = BotConfig.bot_prefix
+    _disable_voice_commands = BotConfig.disable_voice_commands
+    _pm_command_errors = BotConfig.pm_command_errors
+    _discord_logger = BotConfig.discord_logger
+    _asyncio_logger = BotConfig.asyncio_logger
+    _log_available = BotConfig.log_available
+    _log_unavailable = BotConfig.log_unavailable
+    log_channel_create = BotConfig.log_channel_create
+    log_channel_delete = BotConfig.log_channel_delete
+    log_channel_update = BotConfig.log_channel_update
+    log_member_update = BotConfig.log_member_update
+    log_server_join = BotConfig.log_server_join
+    log_server_remove = BotConfig.log_server_remove
+    log_server_update = BotConfig.log_server_update
+    log_server_role_create = BotConfig.log_server_role_create
+    log_server_role_delete = BotConfig.log_server_role_delete
+    log_server_role_update = BotConfig.log_server_role_update
+    log_group_join = BotConfig.log_group_join
+    log_group_remove = BotConfig.log_group_remove
+    log_error = BotConfig.log_error
+    log_voice_state_update = BotConfig.log_voice_state_update
+    log_typing = BotConfig.log_typing
+    log_socket_raw_receive = BotConfig.log_socket_raw_receive
+    log_socket_raw_send = BotConfig.log_socket_raw_send
+    log_resumed = BotConfig.log_resumed
+    log_member_join = BotConfig.log_member_join
 
 if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _asyncio_logger or _log_available or
         _log_unavailable or log_channel_create or log_channel_delete or log_channel_update or 

@@ -31,7 +31,7 @@ try:
 except ImportError:
     sepa = os.sep
     appendpath = "{0}{1}resources{1}Dependencies".format(sys.path[0], sepa)
-    appendpath2 = "{0}{1}dependencies.{2}.zip".format(appendpath, sepa, sys.platform)
+    appendpath2 = "{0}{1}dependencies.{2}.{3.name}-{4.major}{4.minor}{4.micro}.zip".format(appendpath, sepa, sys.platform, sys.implementation, sys.version_info)
     if sys.platform.startswith("win"):
         appendpath3 = "{0}{1}resources{1}Dependencies{1}win32-deps".format(sys.path[0], sepa)
         sys.path.append(appendpath3)

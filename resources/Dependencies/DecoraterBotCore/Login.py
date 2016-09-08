@@ -72,19 +72,12 @@ class BotData:
         global is_bot_logged_in
         global reconnects
         if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-            credsfile = io.open(PATH)
-            credentials = json.load(credsfile)
-            discord_user_email = str(credentials['email'][0])
-            if discord_user_email == 'None':
-                discord_user_email = None
-            discord_user_password = str(credentials['password'][0])
-            if discord_user_password == 'None':
-                discord_user_password = None
-            bot_token = str(credentials['token'][0])
+            BotConfig = BotConfigReader.BotConfigVars()
+            discord_user_email = BotConfig.discord_user_email
+            discord_user_password = BotConfig.discord_user_password
+            bot_token = BotConfig.bot_token
             if is_bot_logged_in:
                 is_bot_logged_in = False
-            if bot_token == 'None':
-                bot_token = None
             try:
                 if discord_user_email and discord_user_password is not None:
                     client.run(discord_user_email, discord_user_password)

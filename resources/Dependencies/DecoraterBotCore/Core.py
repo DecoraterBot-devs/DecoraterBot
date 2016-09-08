@@ -41,6 +41,7 @@ except ImportError:
 import Login
 from .BotErrors import *
 import BotPMError
+import BotConfigReader
 
 sepa = os.sep
 
@@ -64,25 +65,14 @@ DBLogin.variable()
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    credsfile = io.open(PATH)
-    credentials = json.load(credsfile)
-    credsfile.close()
-    discord_user_id = str(credentials['ownerid'][0])
-    bot_id = str(credentials['botid'][0])
-    _logging = str(credentials['logging'][0])
-    _logbans = str(credentials['logbans'][0])
-    _logunbans = str(credentials['logunbans'][0])
-    _logkicks = str(credentials['logkicks'][0])
-    _bot_prefix = str(credentials['bot_prefix'][0])
-    if _bot_prefix == '':
-        _bot_prefix = None
-    if _bot_prefix is None:
-        print('No Prefix specified in Credentials.json. The Bot cannot continue.')
-        sys.exit(2)
-    if bot_id == 'None':
-        bot_id = None
-    if discord_user_id == 'None':
-        discord_user_id = None
+    BotConfig = BotConfigReader.BotConfigVars()
+    discord_user_id = BotConfig.owner_id
+    bot_id = BotConfig.bot_id
+    _logging = BotConfig.logging
+    _logbans = BotConfig.logbans
+    _logunbans = BotConfig.logunbans
+    _logkicks = BotConfig.logkicks
+    _bot_prefix = BotConfig.bot_prefix
 
 # The platform list I have so far.
 if not (sys.platform.startswith('win') or sys.platform.startswith('freebsd') and sys.platform.startswith('linux')):

@@ -34,6 +34,7 @@ import concurrent
 import youtube_dl
 import ctypes
 import BotPMError
+import BotConfigReader
 
 sepa = os.sep
 
@@ -52,15 +53,9 @@ botmessagesdata.close()
 
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    credsfile = io.open(PATH)
-    credentials = json.load(credsfile)
-    credsfile.close()
-    _bot_prefix = str(credentials['bot_prefix'][0])
-    _log_ytdl = str(credentials['ytdl_logs'][0])
-    if _log_ytdl == 'True':
-        _log_ytdl = True
-    elif _log_ytdl == 'False':
-        _log_ytdl = False
+    BotConfig = BotConfigReader.BotConfigVars()
+    _bot_prefix = BotConfig.bot_prefix
+    _log_ytdl = BotConfig.log_ytdl
 
 bits = ctypes.sizeof(ctypes.c_voidp)
 if bits == 4:

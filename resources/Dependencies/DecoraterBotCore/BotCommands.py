@@ -36,6 +36,7 @@ import sys
 import traceback
 import BotPMError
 import discord
+import BotConfigReader
 
 sepa = os.sep
 
@@ -99,21 +100,11 @@ PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sep
 
 _log_games = True
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    credsfile = io.open(PATH)
-    credentials = json.load(credsfile)
-    owner_id = str(credentials['ownerid'][0])
-    _log_games = str(credentials['loggames'][0])
-    if _log_games == 'True':
-        _log_games = True
-    elif _log_games == 'False':
-        _log_games = False
-    _is_official_bot = str(credentials['Is_Official_Bot_Account'][0])
-    _pm_commands_list = str(credentials['PM_Commands'][0])
-    _bot_prefix = str(credentials['bot_prefix'][0])
-    if _pm_commands_list == 'True':
-        _pm_commands_list = True
-    elif _pm_commands_list == 'False':
-        _pm_commands_list = False
+    BotConfig = BotConfigReader.BotConfigVars()
+    _log_games = BotConfig.log_games
+    _is_official_bot = BotConfig.is_official_bot
+    _pm_commands_list = BotConfig.pm_commands_list
+    _bot_prefix = BotConfig.bot_prefix
 
 if _log_games:
     import BotLogs

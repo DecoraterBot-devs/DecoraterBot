@@ -33,6 +33,7 @@ import io
 from discord.__init__ import __version__
 from colorama import init
 from colorama import Fore, Back, Style
+import BotConfigReader
 
 sepa = os.sep
 

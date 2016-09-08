@@ -38,6 +38,8 @@ class BotConfigVars:
     Class for getting the Credentials.json config Values.
     """
     def __init__(self):
+        sepa = os.sep
+        PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
         self.credsfile = io.open(PATH)
         self.credentials = json.load(self.credsfile)
         self.credsfile.close()
@@ -353,21 +355,21 @@ class BotConfigVars:
 
     @property
     def discord_user_email(self):
-        value = str(credentials['email'][0])
+        value = str(self.credentials['email'][0])
         if value == 'None':
             value = None
         return value
 
     @property
     def discord_user_password(self):
-        value = str(credentials['password'][0])
+        value = str(self.credentials['password'][0])
         if value == 'None':
             value = None
         return value
 
     @property
     def bot_token(self):
-        value = str(credentials['token'][0])
+        value = str(self.credentials['token'][0])
         if value == 'None':
             value = None
         return value

@@ -52,6 +52,10 @@ You will also have to install the following as well in order to run the bot:
 > cffi (should be installed when pynacl is installed usually)
 
 
+Luckily the following file should be able to handle the installation:
+
+> install_deps.linux.sh
+
 # Other Platforms
 
 Not available yet. I need python binaries for Python 3.5.2 and the other things for this.

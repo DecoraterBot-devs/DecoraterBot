@@ -39,288 +39,59 @@ class BotConfigVars:
     """
     def __init__(self):
         sepa = os.sep
-        PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
-        self.credsfile = io.open(PATH)
-        self.credentials = json.load(self.credsfile)
-        self.credsfile.close()
+        self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
+        self.credentials = None
+        self.load()
 
-    @property
-    def logging(self):
-        """
-        Function that returns weather to have normal logging or not.
-        :return: Bool
-        """
-        value = self.credentials['logging']
-        return value
+        # Properties.
+        self.logging = self.credentials['logging']  # bool
+        self.logbans = self.credentials['logbans']  # bool
+        self.logunbans = self.credentials['logunbans']  # bool
+        self.logkicks = self.credentials['logkicks']  # bool
+        self.log_games = self.credentials['loggames']  # bool
+        self.discord_logger = self.credentials['discord_py_logger']  # bool
+        self.asyncio_logger = self.credentials['asyncio_logger']  # bool
+        self.log_available = self.credentials['LogServerAvailable']  # bool
+        self.log_unavailable = self.credentials['LogServerUnavailable']  # bool
+        self.log_channel_create = self.credentials['log_channel_create']  # bool
+        self.is_official_bot = self.credentials['Is_Official_Bot_Account']  # bool
+        self.log_ytdl = self.credentials['ytdl_logs']  # bool
+        self.pm_commands_list = self.credentials['PM_Commands']  # bool
+        self.log_channel_delete = self.credentials['log_channel_delete']  # bool
+        self.log_channel_update = self.credentials['log_channel_update']  # bool
+        self.log_member_update = self.credentials['log_member_update']  # bool
+        self.log_server_join = self.credentials['log_server_join']  # bool
+        self.log_server_remove = self.credentials['log_server_remove']  # bool
+        self.log_server_update = self.credentials['log_server_update']  # bool
+        self.log_server_role_create = self.credentials['log_server_role_create']  # bool
+        self.log_server_role_delete = self.credentials['log_server_role_delete']  # bool
+        self.log_server_role_update = self.credentials['log_server_role_update']  # bool
+        self.log_group_join = self.credentials['log_group_join']  # bool
+        self.log_group_remove = self.credentials['log_group_remove']  # bool
+        self.log_error = self.credentials['log_error']  # bool
+        self.log_voice_state_update = self.credentials['log_voice_state_update']  # bool
+        self.log_typing = self.credentials['log_typing']  # bool
+        self.log_socket_raw_receive = self.credentials['log_socket_raw_receive']  # bool
+        self.log_socket_raw_send = self.credentials['log_socket_raw_send']  # bool
+        self.log_resumed = self.credentials['log_resumed']  # bool
+        self.log_member_join = self.credentials['log_member_join']  # bool
+        self.pm_command_errors = self.credentials['pm_command_errors']  # bool
+        self.enable_error_handler = self.enable_error_handler_code()  # bool
+        self.bot_prefix = self.credentials['bot_prefix']  # string
+        self.discord_user_id = self.credentials['ownerid']  # string
+        self.discord_user_email = self.credentials['email']  # string
+        self.discord_user_password = self.credentials['password']  # string
+        self.bot_token = self.credentials['token']  # string
+        self.disable_voice_commands = self.credentials['disable_voice']  # bool
 
-    @property
-    def logbans(self):
-        """
-        Returns weather to log bans or not.
-        :return: Bool
-        """
-        value = self.credentials['logbans']
-        return value
+    def load(self):
+        try:
+            with open(self.json_file) as file:
+                self.credentials = json.load(file)
+        except(OSError, IOError):
+            pass
 
-    @property
-    def logunbans(self):
-        """
-        Returns weather to log unbans or not.
-        :return: Bool
-        """
-        value = self.credentials['logunbans']
-        return value
-
-    @property
-    def logkicks(self):
-        """
-        Returns weather to log kicks or not.
-        :return: Bool
-        """
-        value = self.credentials['logkicks']
-        return value
-
-    @property
-    def log_games(self):
-        value = self.credentials['loggames']
-        return value
-
-    @property
-    def discord_logger(self):
-        """
-        Returns weather to use the discord.py logger or not.
-        :return: Bool
-        """
-        value = self.credentials['discord_py_logger']
-        return value
-
-    @property
-    def asyncio_logger(self):
-        """
-        Returns weather to use the asyncio logger or not.
-        :return: Bool
-        """
-        value = self.credentials['asyncio_logger']
-        return value
-
-    @property
-    def log_available(self):
-        """
-        Returns weather to log available servers or not.
-        :return: Bool
-        """
-        value = self.credentials['LogServerAvailable']
-        return value
-
-    @property
-    def log_unavailable(self):
-        """
-        Returns weather to log unavailable servers or not.
-        :return: Bool
-        """
-        value = self.credentials['LogServerUnavailable']
-        return value
-
-    @property
-    def log_channel_create(self):
-        """
-        Returns weather to log Created Channels or not.
-        :return: Bool
-        """
-        value = self.credentials['log_channel_create']
-        return value
-
-    @property
-    def owner_id(self):
-        value = str(self.credentials['ownerid'][0])
-        if value == 'None':
-            value = None
-        return value
-
-    @property
-    def is_official_bot(self):
-        value = self.credentials['Is_Official_Bot_Account']
-        return value
-
-    @property
-    def log_ytdl(self):
-        value = self.credentials['ytdl_logs']
-        return value
-
-    @property
-    def pm_commands_list(self):
-        value = self.credentials['PM_Commands']
-        return value
-
-    @property
-    def log_channel_delete(self):
-        """
-        Returns weather to log Deleted Channels or not.
-        :return: Bool
-        """
-        value = self.credentials['log_channel_delete']
-        return value
-
-    @property
-    def log_channel_update(self):
-        """
-        Returns weather to log updated Channels or not.
-        :return: Bool
-        """
-        value = self.credentials['log_channel_update']
-        return value
-
-    @property
-    def log_member_update(self):
-        """
-        Returns weather to log member updates or not.
-        :return: Bool
-        """
-        value = self.credentials['log_member_update']
-        return value
-
-    @property
-    def log_server_join(self):
-        """
-        Returns weather to log Server Joins.
-        :return: Bool
-        """
-        value = self.credentials['log_server_join']
-        return value
-
-    @property
-    def log_server_remove(self):
-        """
-        Returns weather to log when a Server is removed.
-        :return: Bool
-        """
-        value = self.credentials['log_server_remove']
-        return value
-
-    @property
-    def log_server_update(self):
-        """
-        Returns weather to log when a Server is updated.
-        :return: Bool
-        """
-        value = self.credentials['log_server_update']
-        return value
-
-    @property
-    def log_server_role_create(self):
-        """
-        Returns weather to log when a role is created.
-        :return: Bool
-        """
-        value = self.credentials['log_server_role_create']
-        return value
-
-    @property
-    def log_server_role_delete(self):
-        """
-        Returns weather to log when a role was deleted.
-        :return: Bool
-        """
-        value = self.credentials['log_server_role_delete']
-        return value
-
-    @property
-    def log_server_role_update(self):
-        """
-        Returns weather to log when a role was updated.
-        :return:
-        """
-        value = self.credentials['log_server_role_update']
-        return value
-
-    @property
-    def log_group_join(self):
-        """
-        Returns weather to log group joins or not.
-        :return: Bool
-        """
-        value = self.credentials['log_group_join']
-        return value
-
-    @property
-    def log_group_remove(self):
-        """
-        Returns weather to log group removes or not.
-        :return: Bool
-        """
-        value = self.credentials['log_group_remove']
-        return value
-
-    @property
-    def log_error(self):
-        """
-        Returns weather to log bot errors or not.
-        :return: Bool
-        """
-        value = self.credentials['log_error']
-        return value
-
-    @property
-    def log_voice_state_update(self):
-        """
-        Returns weather to log Voice State Updates or not.
-        :return: Bool
-        """
-        value = self.credentials['log_voice_state_update']
-        return value
-
-    @property
-    def log_typing(self):
-        """
-        Returns Weather to log typing or not.
-        :return: Bool
-        """
-        value = self.credentials['log_typing']
-        return value
-
-    @property
-    def log_socket_raw_receive(self):
-        """
-        Returns weather to log socket raw recieve data or not.
-        :return: Bool
-        """
-        value = self.credentials['log_socket_raw_receive']
-        return value
-
-    @property
-    def log_socket_raw_send(self):
-        """
-        Returns weather to log raw socket send data.
-        :return: Bool
-        """
-        value = self.credentials['log_socket_raw_send']
-        return value
-
-    @property
-    def log_resumed(self):
-        """
-        Returns weather to log bot connection resumes or not.
-        :return: Bool
-        """
-        value = self.credentials['log_resumed']
-        return value
-
-    @property
-    def log_member_join(self):
-        """
-        Returns weather to log when a person joins a server.
-        :return: Bool
-        """
-        value = self.credentials['log_member_join']
-        return value
-
-    @property
-    def pm_command_errors(self):
-        value = self.credentials['pm_command_errors']
-        return value
-
-    @property
-    def enable_error_handler(self):
+    def enable_error_handler_code(self):
         """
         Returns weather to use the Error Handler or not.
         :return: Bool
@@ -330,58 +101,4 @@ class BotConfigVars:
             value = False
         else:
             value = True
-        return value
-
-    @property
-    def bot_prefix(self):
-        """
-        Returns the Bot Prefix.
-        :return:
-        """
-        value = str(self.credentials['bot_prefix'][0])
-        if value == '':
-            value = None
-        if value is None:
-            print('No Prefix specified in Credentials.json. The Bot cannot continue.')
-            sys.exit(2)
-        return value
-
-    @property
-    def discord_user_id(self):
-        value = str(self.credentials['ownerid'][0])
-        if value == 'None':
-            value = None
-        return value
-
-    @property
-    def discord_user_email(self):
-        value = str(self.credentials['email'][0])
-        if value == 'None':
-            value = None
-        return value
-
-    @property
-    def discord_user_password(self):
-        value = str(self.credentials['password'][0])
-        if value == 'None':
-            value = None
-        return value
-
-    @property
-    def bot_token(self):
-        value = str(self.credentials['token'][0])
-        if value == 'None':
-            value = None
-        return value
-
-    @property
-    def bot_id(self):
-        value = str(self.credentials['botid'][0])
-        if value == 'None':
-            value = None
-        return value
-
-    @property
-    def disable_voice_commands(self):
-        value = self.credentials['disable_voice']
         return value

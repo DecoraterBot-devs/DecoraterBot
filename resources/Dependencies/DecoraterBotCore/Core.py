@@ -66,8 +66,9 @@ PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sep
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     BotConfig = BotConfigReader.BotConfigVars()
-    discord_user_id = BotConfig.owner_id
-    bot_id = BotConfig.bot_id
+    discord_user_id = BotConfig.discord_user_id
+    if discord_user_id == 'None':
+        discord_user_id = None
     _logging = BotConfig.logging
     _logbans = BotConfig.logbans
     _logunbans = BotConfig.logunbans

@@ -119,12 +119,18 @@ PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sep
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     BotConfig = BotConfigReader.BotConfigVars()
     discord_user_id = BotConfig.discord_user_id
-    bot_id = BotConfig.bot_id
+    if discord_user_id == 'None':
+        discord_user_id = None
     _logging = BotConfig.logging
     _logbans = BotConfig.logbans
     _logunbans = BotConfig.logunbans
     _logkicks = BotConfig.logkicks
     _bot_prefix = BotConfig.bot_prefix
+    if _bot_prefix == '':
+        _bot_prefix = None
+    if _bot_prefix is None:
+        print('No Prefix specified in Credentials.json. The Bot cannot continue.')
+        sys.exit(2)
     _disable_voice_commands = BotConfig.disable_voice_commands
     _pm_command_errors = BotConfig.pm_command_errors
     _discord_logger = BotConfig.discord_logger
@@ -457,7 +463,7 @@ class BotData002:
                 if message.channel.is_private is not False:
                     yield from self.DBCommandData.pm_commands(client, message)
                 elif message.channel.server and message.channel.server.id == "81812480254291968":
-                    if message.author.id == bot_id:
+                    if message.author.id == client.user.id:
                         return
                     elif message.channel.id == "153055192873566208":
                         yield from self.DBCommandData.enable_all_commands(client, message)
@@ -511,7 +517,7 @@ class BotData003:
                 if _logging == 'True':
                     DBLogs.delete_logs(client, message)
             elif message.channel.server and message.channel.server.id == "81812480254291968":
-                if message.author.id == bot_id:
+                if message.author.id == client.user.id:
                     return
                 elif message.channel.id == "153055192873566208":
                     return
@@ -539,7 +545,7 @@ class BotData003:
                 if _logging == 'True':
                     DBLogs.edit_logs(client, before, after)
             elif before.channel.server and before.channel.server.id == "81812480254291968":
-                if before.author.id == bot_id:
+                if before.author.id == client.user.id:
                     return
                 elif before.channel.id == "153055192873566208":
                     return

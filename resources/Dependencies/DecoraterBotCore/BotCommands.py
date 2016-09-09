@@ -102,6 +102,9 @@ _log_games = True
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     BotConfig = BotConfigReader.BotConfigVars()
     _log_games = BotConfig.log_games
+    owner_id = BotConfig.discord_user_id
+    if owner_id == 'None':
+        owner_id = None
     _is_official_bot = BotConfig.is_official_bot
     _pm_commands_list = BotConfig.pm_commands_list
     _bot_prefix = BotConfig.bot_prefix

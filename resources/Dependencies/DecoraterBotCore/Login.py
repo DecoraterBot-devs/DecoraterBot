@@ -72,62 +72,72 @@ class BotData:
         """
         global is_bot_logged_in
         global reconnects
-        if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-            BotConfig = BotConfigReader.BotConfigVars()
-            discord_user_email = BotConfig.discord_user_email
-            discord_user_password = BotConfig.discord_user_password
-            bot_token = BotConfig.bot_token
-            if is_bot_logged_in:
-                is_bot_logged_in = False
-            try:
-                if discord_user_email and discord_user_password is not None:
-                    client.run(discord_user_email, discord_user_password)
-                elif bot_token is not None:
-                    # This is for logging into the bot with a token.
-                    client.run(bot_token)
-                is_bot_logged_in = True
-            except discord.errors.GatewayNotFound:
-                print(str(consoletext['Login_Gateway_No_Find'][0]))
-                return
-            except discord.errors.LoginFailure:
-                print(str(consoletext['Login_Failure'][0]))
-                sys.exit(2)
-            except discord.errors.InvalidToken:
-                print(str(consoletext['Invalid_Token'][0]))
-                sys.exit(2)
-            except discord.errors.UnknownConnectionError:
-                print(str(consoletext['Unknown_Connection_Error'][0]))
-                sys.exit(2)
-            except TypeError:
-                return
-            except KeyboardInterrupt:
-                return
-            except asyncio.futures.InvalidStateError:
-                reconnects += 1
-                if reconnects != 0:
-                    print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
-                    # sleeptime = reconnects * 5
-                    # asyncio.sleep(sleeptime)
-                    self.login_info_code(client)
-            except aiohttp.errors.ClientOSError:
-                reconnects += 1
-                if reconnects != 0:
-                    print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
-                    # sleeptime = reconnects * 5
-                    # asyncio.sleep(sleeptime)
-                    self.login_info_code(client)
-            if is_bot_logged_in:
-                if not client.is_logged_in:
-                    pass
-                else:
+        try:
+            if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+                BotConfig = BotConfigReader.BotConfigVars()
+                discord_user_email = BotConfig.discord_user_email
+                if discord_user_email == 'None':
+                    discord_user_email = None
+                discord_user_password = BotConfig.discord_user_password
+                if discord_user_password == 'None':
+                    discord_user_password = None
+                bot_token = BotConfig.bot_token
+                if bot_token == 'None':
+                    bot_token = None
+                if is_bot_logged_in:
+                    is_bot_logged_in = False
+                try:
+                    if discord_user_email and discord_user_password is not None:
+                        client.run(discord_user_email, discord_user_password)
+                    elif bot_token is not None:
+                        # This is for logging into the bot with a token.
+                        client.run(bot_token)
+                    is_bot_logged_in = True
+                except discord.errors.GatewayNotFound:
+                    print(str(consoletext['Login_Gateway_No_Find'][0]))
+                    return
+                except discord.errors.LoginFailure:
+                    print(str(consoletext['Login_Failure'][0]))
+                    sys.exit(2)
+                except discord.errors.InvalidToken:
+                    print(str(consoletext['Invalid_Token'][0]))
+                    sys.exit(2)
+                except discord.errors.UnknownConnectionError:
+                    print(str(consoletext['Unknown_Connection_Error'][0]))
+                    sys.exit(2)
+                except TypeError:
+                    return
+                except KeyboardInterrupt:
+                    return
+                except asyncio.futures.InvalidStateError:
                     reconnects += 1
                     if reconnects != 0:
                         print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
                         # sleeptime = reconnects * 5
                         # asyncio.sleep(sleeptime)
                         self.login_info_code(client)
-        else:
-            print(str(consoletext['Credentials_Not_Found'][0]))
+                except aiohttp.errors.ClientOSError:
+                    reconnects += 1
+                    if reconnects != 0:
+                        print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                        # sleeptime = reconnects * 5
+                        # asyncio.sleep(sleeptime)
+                        self.login_info_code(client)
+                if is_bot_logged_in:
+                    if not client.is_logged_in:
+                        pass
+                    else:
+                        reconnects += 1
+                        if reconnects != 0:
+                            print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                            # sleeptime = reconnects * 5
+                            # asyncio.sleep(sleeptime)
+                            self.login_info_code(client)
+            else:
+                print(str(consoletext['Credentials_Not_Found'][0]))
+                sys.exit(2)
+        except Exception as e:
+            print("This Bot has Crashed for some reason.")
             sys.exit(2)
 
     @asyncio.coroutine

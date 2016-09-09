@@ -13,7 +13,7 @@ The bot gets updated and tested regularly. Pushes are released when features are
 
 ## Configuration
 
-To run this bot you will need 3 things:
+To run this bot you will need 2 things:
 
 > A working Discord Bot Token. 
 
@@ -21,7 +21,7 @@ To run this bot you will need 3 things:
 
 Configuration is in Credentials.json in ``\\resources\\ConfigData\\``.
 
-More Documentation on setting that file up **coming Soon™**.
+More Documentation on setting that file **coming Soon™**.
 
 After you have configurated the bot with a token you can run the bot with 1 of the following ways:
 

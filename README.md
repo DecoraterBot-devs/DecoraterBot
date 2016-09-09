@@ -58,8 +58,11 @@ Luckily the following file should be able to handle the installation:
 
 # Other Platforms
 
-Not available yet. I need python binaries for Python 3.5.2 and the other things for this.
-You have any other platforms you want the bot to support? Well send me it's sys.platform value and the python binaries with ``cffi``, ``aiohttp`` and any other python package this comes with for that OS and I could add it to here. The only thing stopping me is the Binaries and a few lines of platform specific code.
+Not available yet.
+
+I need command line things to execute python 3.4.2+ (3.5.2 recommended).
+You have any other platforms you want the bot to support?
+Well send me it's sys.platform value. The only thing stopping me is a few lines of platform specific code.
 
 ## Contributors
 

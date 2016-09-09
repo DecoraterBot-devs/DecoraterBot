@@ -19,8 +19,6 @@ To run this bot you will need 3 things:
 
 > Your Account ID
 
-> Your Bot's ID
-
 Configuration is in Credentials.json in ``\\resources\\ConfigData\\``.
 
 More Documentation on setting that file up **coming Soon™**.

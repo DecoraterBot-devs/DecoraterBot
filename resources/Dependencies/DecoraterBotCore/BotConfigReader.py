@@ -22,16 +22,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
-import os
-import discord
-import ctypes
-import sys
-import time
-import asyncio
 import json
-import traceback
-import importlib
-import io
+import os
+import sys
+
 
 class BotConfigVars:
     """
@@ -41,6 +35,7 @@ class BotConfigVars:
         sepa = os.sep
         self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
         self.credentials = None
+        self.value = None
         self.load()
 
         # Properties.
@@ -76,7 +71,7 @@ class BotConfigVars:
         self.log_resumed = self.credentials['log_resumed']  # bool
         self.log_member_join = self.credentials['log_member_join']  # bool
         self.pm_command_errors = self.credentials['pm_command_errors']  # bool
-        self.enable_error_handler = self.enable_error_handler_code()  # bool
+        self.enable_error_handler = self.enable_error_handler_code  # bool
         self.bot_prefix = self.credentials['bot_prefix']  # string
         self.discord_user_id = self.credentials['ownerid']  # string
         self.discord_user_email = self.credentials['email']  # string
@@ -85,20 +80,24 @@ class BotConfigVars:
         self.disable_voice_commands = self.credentials['disable_voice']  # bool
 
     def load(self):
+        """
+        Loads the JSON config Data.
+        :return: List.
+        """
         try:
             with open(self.json_file) as file:
                 self.credentials = json.load(file)
         except(OSError, IOError):
             pass
 
+    @property
     def enable_error_handler_code(self):
         """
         Returns weather to use the Error Handler or not.
         :return: Bool
         """
-        value = None
         if self.pm_command_errors:
-            value = False
+            self.value = False
         else:
-            value = True
-        return value
+            self.value = True
+        return self.value

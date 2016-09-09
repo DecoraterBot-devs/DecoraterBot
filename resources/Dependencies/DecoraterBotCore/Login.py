@@ -49,10 +49,7 @@ botmessagesdata.close()
 
 PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
 
-global reconnects
-reconnects = 0
-global is_bot_logged_in
-is_bot_logged_in = False
+BotConfig = BotConfigReader.BotConfigVars()
 
 
 class BotData:
@@ -60,7 +57,9 @@ class BotData:
         This Class is for Internal Use only!!!
     """
     def __init__(self):
-        pass
+        self.reconnects = 0
+        self.is_bot_logged_in = False
+        self.logged_in = False
 
     def login_info_code(self, client):
         """
@@ -70,11 +69,8 @@ class BotData:
         :param client: Discord Client.
         :return: Nothing.
         """
-        global is_bot_logged_in
-        global reconnects
         try:
             if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-                BotConfig = BotConfigReader.BotConfigVars()
                 discord_user_email = BotConfig.discord_user_email
                 if discord_user_email == 'None':
                     discord_user_email = None
@@ -84,15 +80,15 @@ class BotData:
                 bot_token = BotConfig.bot_token
                 if bot_token == 'None':
                     bot_token = None
-                if is_bot_logged_in:
-                    is_bot_logged_in = False
+                if self.is_bot_logged_in:
+                    self.is_bot_logged_in = False
                 try:
                     if discord_user_email and discord_user_password is not None:
                         client.run(discord_user_email, discord_user_password)
                     elif bot_token is not None:
                         # This is for logging into the bot with a token.
                         client.run(bot_token)
-                    is_bot_logged_in = True
+                        self.is_bot_logged_in = True
                 except discord.errors.GatewayNotFound:
                     print(str(consoletext['Login_Gateway_No_Find'][0]))
                     return
@@ -110,26 +106,26 @@ class BotData:
                 except KeyboardInterrupt:
                     return
                 except asyncio.futures.InvalidStateError:
-                    reconnects += 1
-                    if reconnects != 0:
-                        print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                    self.reconnects += 1
+                    if self.reconnects != 0:
+                        print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
                         # sleeptime = reconnects * 5
                         # asyncio.sleep(sleeptime)
                         self.login_info_code(client)
                 except aiohttp.errors.ClientOSError:
-                    reconnects += 1
-                    if reconnects != 0:
-                        print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                    self.reconnects += 1
+                    if self.reconnects != 0:
+                        print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
                         # sleeptime = reconnects * 5
                         # asyncio.sleep(sleeptime)
                         self.login_info_code(client)
-                if is_bot_logged_in:
+                if self.is_bot_logged_in:
                     if not client.is_logged_in:
                         pass
                     else:
-                        reconnects += 1
-                        if reconnects != 0:
-                            print('Bot is currently reconnecting for {0} times.'.format(str(reconnects)))
+                        self.reconnects += 1
+                        if self.reconnects != 0:
+                            print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
                             # sleeptime = reconnects * 5
                             # asyncio.sleep(sleeptime)
                             self.login_info_code(client)
@@ -147,9 +143,8 @@ class BotData:
         :param client: Discord Client.
         :return: Nothing.
         """
-        global logged_in
-        if logged_in:
-            logged_in = False
+        if self.logged_in:
+            self.logged_in = False
             message_data = str(botmessages['On_Ready_Message'][0])
             try:
                 yield from client.send_message(discord.Object(id='118098998744580098'), message_data)
@@ -162,20 +157,18 @@ class BotData:
             bot_name = client.user.name
             print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
                 consoletext['Window_Login_Text'][0]).format(bot_name, client.user.id, __version__))
-        if not logged_in:
+        if not self.logged_in:
             game_name = str(consoletext['On_Ready_Game'][0])
             stream_url = "https://twitch.tv/decoraterbot"
             yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
 
-    @staticmethod
-    def variable_code():
+    def variable_code(self):
         """
         Function that makes Certain things on the on_ready event only happen 1 time only. (eg the logged in printing
         stuff)
         :return: Nothing.
         """
-        global logged_in
-        logged_in = True
+        self.logged_in = True
 
 
 class BotLogin:

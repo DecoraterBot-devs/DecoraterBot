@@ -183,67 +183,37 @@ class YTDLLogger(object):
             pass
 
 
-global ytdlo
-global player
-global vchannel
-global vchannel_name
-global voice_message_channel
-global voice_message_server
-global voice_message_server_name
-global voice
-global _sent_finished_message
-global sent_prune_error_message
-global is_bot_playing
-global bot_playlist
-global bot_playlist_entries
-global _temp_player_1
-global _temp_player_2
-global _temp_player_3
-global _temp_player_4
-global _temp_player_5
-global _temp_player_6
-global _temp_player_7
-global _temp_player_8
-global _temp_player_9
-global _temp_player_10
-global ffmop
-global ffmout
-global verror
-
-ytdlo = {'verbose': False, 'logger': YTDLLogger(), 'default_search': "ytsearch"}
-player = None
-vchannel = None
-vchannel_name = None
-voice_message_channel = None
-voice_message_server = None
-voice_message_server_name = None
-voice = None
-_sent_finished_message = False
-sent_prune_error_message = False
-is_bot_playing = False
-bot_playlist = []
-bot_playlist_entries = []
-_temp_player_1 = None
-_temp_player_2 = None
-_temp_player_3 = None
-_temp_player_4 = None
-_temp_player_5 = None
-_temp_player_6 = None
-_temp_player_7 = None
-_temp_player_8 = None
-_temp_player_9 = None
-_temp_player_10 = None
-ffmop = "-nostats -loglevel quiet"
-ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(sys.path[0], sepa), 'w')
-verror = False
-
-
 class BotData:
     """
         This class is for Internal use only!!!
     """
     def __init__(self):
-        pass
+        self.ytdlo = {'verbose': False, 'logger': YTDLLogger(), 'default_search': "ytsearch"}
+        self.player = None
+        self.vchannel = None
+        self.vchannel_name = None
+        self.voice_message_channel = None
+        self.voice_message_server = None
+        self.voice_message_server_name = None
+        self.voice = None
+        self._sent_finished_message = False
+        self.sent_prune_error_message = False
+        self.is_bot_playing = False
+        self.bot_playlist = []
+        self.bot_playlist_entries = []
+        self._temp_player_1 = None
+        self._temp_player_2 = None
+        self._temp_player_3 = None
+        self._temp_player_4 = None
+        self._temp_player_5 = None
+        self._temp_player_6 = None
+        self._temp_player_7 = None
+        self._temp_player_8 = None
+        self._temp_player_9 = None
+        self._temp_player_10 = None
+        self.ffmop = "-nostats -loglevel quiet"
+        self.ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(sys.path[0], sepa), 'w')
+        self.verror = False
 
     @asyncio.coroutine
     def voice_stuff_new_code(self, client, message):
@@ -253,125 +223,102 @@ class BotData:
         :param message: Message.
         :return: Nothing.
         """
-        global player
-        global vchannel
-        global vchannel_name
-        global voice_message_channel
-        global voice
-        global _sent_finished_message
-        global voice_message_server
-        global is_bot_playing
-        global bot_playlist
-        global _temp_player_1
-        global _temp_player_2
-        global _temp_player_3
-        global _temp_player_4
-        global _temp_player_5
-        global _temp_player_6
-        global _temp_player_7
-        global _temp_player_8
-        global _temp_player_9
-        global _temp_player_10
-        global bot_playlist_entries
-        global ffmop
-        global ffmout
-        global voice_message_server_name
-        global verror
         if message.content.startswith(_bot_prefix + 'JoinVoiceChannel'):
             if message.author.id in banlist['Users']:
                 return
-            elif vchannel is not None:
+            elif self.vchannel is not None:
                 try:
                     messagedata = str(botmessages['join_voice_channel_command_data'][0])
                     try:
-                        message_data = messagedata.format(voice_message_server.name)
+                        message_data = messagedata.format(self.voice_message_server.name)
                     except AttributeError:
-                        message_data = messagedata.format(voice_message_server_name)
+                        message_data = messagedata.format(self.voice_message_server_name)
                     yield from client.send_message(message.channel, message_data)
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 discord.opus.load_opus(opusdll)
-                voice_message_channel = message.channel
-                voice_message_server = message.channel.server
-                voice_message_server_name = message.channel.server.name
+                self.voice_message_channel = message.channel
+                self.voice_message_server = message.channel.server
+                self.voice_message_server_name = message.channel.server.name
                 if message.author.voice_channel is not None:
-                    vchannel = message.author.voice_channel
-                    vchannel_name = message.author.voice_channel.name
-                    if vchannel.id not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(vchannel.id)
-                    if voice_message_server.id not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(voice_message_server.id)
-                    if voice_message_channel.id not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(voice_message_channel.id)
-                    if voice_message_server_name not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(voice_message_server_name)
-                    if vchannel_name not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(vchannel_name)
+                    self.vchannel = message.author.voice_channel
+                    self.vchannel_name = message.author.voice_channel.name
+                    if self.vchannel.id not in botvoicechannel:
+                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel.id)
+                    if self.voice_message_server.id not in botvoicechannel:
+                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server.id)
+                    if self.voice_message_channel.id not in botvoicechannel:
+                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_channel.id)
+                    if self.voice_message_server_name not in botvoicechannel:
+                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server_name)
+                    if self.vchannel_name not in botvoicechannel:
+                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel_name)
                     file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
                     json.dump(botvoicechannel, open(file_name, "w"))
                     try:
                         try:
-                            voice = yield from client.join_voice_channel(vchannel)
+                            self.voice = yield from client.join_voice_channel(self.vchannel)
                         except discord.errors.ConnectionClosed:
                             pass
                         except RuntimeError:
-                            voice_message_server_name = None
-                            vchannel_name = None
-                            vchannel = None
-                            voice_message_server = None
-                            voice_message_channel = None
-                            voice = None
-                            verror = True
+                            self.voice_message_server_name = None
+                            self.vchannel_name = None
+                            self.vchannel = None
+                            self.voice_message_server = None
+                            self.voice_message_channel = None
+                            self.voice = None
+                            self.verror = True
                             msgdata = str(botmessages['join_voice_channel_command_data'][6])
-                            yield from client.send_message(voice_message_channel, msgdata)
-                        if not verror:
+                            yield from client.send_message(self.voice_message_channel, msgdata)
+                        if not self.verror:
                             try:
-                                msg_data = str(botmessages['join_voice_channel_command_data'][1]).format(vchannel.name)
+                                msg_data = str(botmessages['join_voice_channel_command_data'][1]).format(
+                                    self.vchannel.name)
                                 yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.InvalidArgument:
-                        voice_message_channel = None
-                        voice = None
-                        vchannel = None
-                        voice_message_server = None
-                        voice_message_server_name = None
-                        vchannel_name = None
+                        self.voice_message_channel = None
+                        self.voice = None
+                        self.vchannel = None
+                        self.voice_message_server = None
+                        self.voice_message_server_name = None
+                        self.vchannel_name = None
                         try:
                             msg_data = str(botmessages['join_voice_channel_command_data'][2])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except asyncio.TimeoutError:
-                        voice_message_channel = None
-                        voice = None
-                        vchannel = None
-                        voice_message_server = None
-                        voice_message_server_name = None
-                        vchannel_name = None
+                        self.voice_message_channel = None
+                        self.voice = None
+                        self.vchannel = None
+                        self.voice_message_server = None
+                        self.voice_message_server_name = None
+                        self.vchannel_name = None
                         try:
                             msg_data = str(botmessages['join_voice_channel_command_data'][3])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.ClientException:
-                        voice_message_channel = None
-                        voice = None
-                        vchannel = None
-                        voice_message_server = None
+                        self.voice_message_channel = None
+                        self.voice = None
+                        self.vchannel = None
+                        self.voice_message_server = None
                         try:
                             msg_data = str(botmessages['join_voice_channel_command_data'][4])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.opus.OpusNotLoaded:
-                        voice_message_channel = None
-                        voice = None
-                        vchannel = None
-                        voice_message_server = None
-                        voice_message_server_name = None
-                        vchannel_name = None
+                        self.voice_message_channel = None
+                        self.voice = None
+                        self.vchannel = None
+                        self.voice_message_server = None
+                        self.voice_message_server_name = None
+                        self.vchannel_name = None
                         try:
                             msg_data = str(botmessages['join_voice_channel_command_data'][5])
                             yield from client.send_message(message.channel, msg_data)
@@ -382,123 +329,130 @@ class BotData:
         if message.content.startswith(_bot_prefix + 'play'):
             if message.author.id in banlist['Users']:
                 return
-            elif is_bot_playing is False:
-                if voice is not None:
-                    if voice_message_channel is not None:
-                        if message.channel.id == voice_message_channel.id:
+            elif self.is_bot_playing is False:
+                if self.voice is not None:
+                    if self.voice_message_channel is not None:
+                        if message.channel.id == self.voice_message_channel.id:
                             try:
                                 data = message.content[len(_bot_prefix + "play "):].strip()
                                 if data == "":
                                     try:
                                         message_data = str(botmessages['play_command_data'][0])
-                                        yield from client.send_message(voice_message_channel, message_data)
+                                        yield from client.send_message(self.voice_message_channel, message_data)
                                     except discord.errors.Forbidden:
                                         yield from BotPMError.resolve_send_message_error(client, message)
                                 if data.rfind('https://') == -1 and data.rfind('http://') == -1:
                                     # lets try to do a search.
-                                    player = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                 options=ffmop, output=ffmout)
-                                    _sent_finished_message = False
-                                    is_bot_playing = True
-                                    if player is not None:
+                                    self.player = yield from self.voice.create_ytdl_player(data,
+                                                                                           ytdl_options=self.ytdlo,
+                                                                                           options=self.ffmop,
+                                                                                           output=self.ffmout)
+                                    self._sent_finished_message = False
+                                    self.is_bot_playing = True
+                                    if self.player is not None:
                                         try:
-                                            fulldir = player.duration
+                                            fulldir = self.player.duration
                                             minutes = str(int((fulldir / 60) % 60))
                                             seconds = str(int(fulldir % 60))
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
                                             try:
                                                 message_data = str(botmessages['play_command_data'][1]).format(
-                                                    str(player.title), str(player.uploader), minutes, seconds)
-                                                yield from client.send_message(voice_message_channel, message_data)
+                                                    str(self.player.title), str(self.player.uploader), minutes, seconds)
+                                                yield from client.send_message(self.voice_message_channel, message_data)
                                             except discord.errors.Forbidden:
                                                 yield from BotPMError.resolve_send_message_error(client, message)
                                             try:
-                                                player.start()
+                                                self.player.start()
                                             except RuntimeError:
                                                 pass
                                         except AttributeError:
                                             message_data = str(botmessages['play_command_data'][2])
-                                            is_bot_playing = False
-                                            yield from client.send_message(voice_message_channel, message_data)
+                                            self.is_bot_playing = False
+                                            yield from client.send_message(self.voice_message_channel, message_data)
                                 else:
                                     if '<' and '>' in data:
                                         data = data.strip('<')
                                         data = data.strip('>')
                                     if 'www.youtube.com/watch?v=' in data:
-                                        player = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                        _sent_finished_message = False
-                                        is_bot_playing = True
-                                        if player is not None:
+                                        self.player = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                        self._sent_finished_message = False
+                                        self.is_bot_playing = True
+                                        if self.player is not None:
                                             try:
-                                                fulldir = player.duration
+                                                fulldir = self.player.duration
                                                 minutes = str(int((fulldir / 60) % 60))
                                                 seconds = str(int(fulldir % 60))
                                                 if len(seconds) == 1:
                                                     seconds = "0" + seconds
                                                 try:
                                                     message_data = str(botmessages['play_command_data'][1]).format(
-                                                        str(player.title), str(player.uploader), minutes, seconds)
-                                                    yield from client.send_message(voice_message_channel,
+                                                        str(self.player.title), str(self.player.uploader), minutes,
+                                                        seconds)
+                                                    yield from client.send_message(self.voice_message_channel,
                                                                                    message_data)
                                                 except discord.errors.Forbidden:
                                                     yield from BotPMError.resolve_send_message_error(client, message)
                                                 try:
-                                                    player.start()
+                                                    self.player.start()
                                                 except RuntimeError:
                                                     pass
                                             except AttributeError:
                                                 message_data = str(botmessages['play_command_data'][2])
-                                                is_bot_playing = False
-                                                yield from client.send_message(voice_message_channel, message_data)
+                                                self.is_bot_playing = False
+                                                yield from client.send_message(self.voice_message_channel, message_data)
                                     else:
                                         message_data = str(botmessages['play_command_data'][3])
-                                        yield from client.send_message(voice_message_channel, message_data)
-                                        _temp_player_1 = None
+                                        yield from client.send_message(self.voice_message_channel, message_data)
+                                        self._temp_player_1 = None
                             except IndexError:
                                 return
                             except discord.errors.ClientException:
                                 message_data = str(botmessages['play_command_data'][4]).format(str(sys.path))
                                 yield from client.send_message(message.channel, message_data)
-                                player = None
+                                self.player = None
                             except youtube_dl.utils.UnsupportedError:
                                 yield from client.send_message(message.channel,
                                                                str(botmessages['play_command_data'][5]))
-                                player = None
+                                self.player = None
                             except youtube_dl.utils.ExtractorError:
                                 message_data = str(botmessages['play_command_data'][6])
                                 yield from client.send_message(message.channel, message_data)
-                                player = None
+                                self.player = None
                             except youtube_dl.utils.DownloadError:
                                 yield from client.send_message(message.channel,
                                                                str(botmessages['play_command_data'][7]))
-                                player = None
+                                self.player = None
                         else:
                             return
                 else:
                     message_data = str(botmessages['play_command_data'][8])
                     yield from client.send_message(message.channel, message_data)
             else:
-                if player is not None:
+                if self.player is not None:
                     data = message.content[len(_bot_prefix + "play "):].strip()
                     if data == "":
                         try:
                             message_data = str(botmessages['play_command_data'][9])
-                            yield from client.send_message(voice_message_channel, message_data)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     else:
                         if '<' and '>' in data:
                             data = data.replace('<', '').replace('>', '')
                         if 'www.youtube.com/watch?v=' in data:
-                            if len(bot_playlist) == 0:
-                                _temp_player_1 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                            if len(self.bot_playlist) == 0:
+                                self._temp_player_1 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist01 = _temp_player_1.title
-                                    playlist01time = _temp_player_1.duration
+                                    playlist01 = self._temp_player_1.title
+                                    playlist01time = self._temp_player_1.duration
                                     track1 = str(botmessages['play_command_data'][10]).format(playlist01)
                                     fulldir = playlist01time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -507,32 +461,34 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track1time = newdir
-                                    track1uploader = str(_temp_player_1.uploader)
+                                    track1uploader = str(self._temp_player_1.uploader)
                                     track1info = str(botmessages['play_command_data'][12]).format(track1,
                                                                                                   track1uploader,
                                                                                                   track1time)
-                                    bot_playlist_entries.append(track1info)
+                                    self.bot_playlist_entries.append(track1info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track1, track1time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_1.start()
-                                    _temp_player_1.stop()
+                                    self._temp_player_1.start()
+                                    self._temp_player_1.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif data in bot_playlist:
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif data in self.bot_playlist:
                                 msgdata = str(botmessages['play_command_data'][14])
                                 message_data = msgdata
                                 yield from client.send_message(message.channel, message_data)
-                            elif len(bot_playlist) == 1:
-                                _temp_player_2 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                            elif len(self.bot_playlist) == 1:
+                                self._temp_player_2 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist02 = _temp_player_2.title
-                                    playlist02time = _temp_player_2.duration
+                                    playlist02 = self._temp_player_2.title
+                                    playlist02time = self._temp_player_2.duration
                                     track2 = str(botmessages['play_command_data'][10]).format(playlist02)
                                     fulldir = playlist02time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -541,28 +497,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track2time = newdir
-                                    track2uploader = str(_temp_player_2.uploader)
+                                    track2uploader = str(self._temp_player_2.uploader)
                                     track2info = str(botmessages['play_command_data'][12]).format(track2,
                                                                                                   track2uploader,
                                                                                                   track2time)
-                                    bot_playlist_entries.append(track2info)
+                                    self.bot_playlist_entries.append(track2info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track2, track2time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_2.start()
-                                    _temp_player_2.stop()
+                                    self._temp_player_2.start()
+                                    self._temp_player_2.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 2:
-                                _temp_player_3 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 2:
+                                self._temp_player_3 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist03 = _temp_player_3.title
-                                    playlist03time = _temp_player_3.duration
+                                    playlist03 = self._temp_player_3.title
+                                    playlist03time = self._temp_player_3.duration
                                     track3 = str(botmessages['play_command_data'][10]).format(playlist03)
                                     fulldir = playlist03time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -571,28 +529,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track3time = newdir
-                                    track3uploader = str(_temp_player_3.uploader)
+                                    track3uploader = str(self._temp_player_3.uploader)
                                     track3info = str(botmessages['play_command_data'][12]).format(track3,
                                                                                                   track3uploader,
                                                                                                   track3time)
-                                    bot_playlist_entries.append(track3info)
+                                    self.bot_playlist_entries.append(track3info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track3, track3time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_3.start()
-                                    _temp_player_3.stop()
+                                    self._temp_player_3.start()
+                                    self._temp_player_3.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 3:
-                                _temp_player_4 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 3:
+                                self._temp_player_4 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist04 = _temp_player_4.title
-                                    playlist04time = _temp_player_4.duration
+                                    playlist04 = self._temp_player_4.title
+                                    playlist04time = self._temp_player_4.duration
                                     track4 = str(botmessages['play_command_data'][10]).format(playlist04)
                                     fulldir = playlist04time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -601,28 +561,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track4time = newdir
-                                    track4uploader = str(_temp_player_4.uploader)
+                                    track4uploader = str(self._temp_player_4.uploader)
                                     track4info = str(botmessages['play_command_data'][12]).format(track4,
                                                                                                   track4uploader,
                                                                                                   track4time)
-                                    bot_playlist_entries.append(track4info)
+                                    self.bot_playlist_entries.append(track4info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track4, track4time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_4.start()
-                                    _temp_player_4.stop()
+                                    self._temp_player_4.start()
+                                    self._temp_player_4.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 4:
-                                _temp_player_5 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 4:
+                                self._temp_player_5 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist05 = _temp_player_5.title
-                                    playlist05time = _temp_player_5.duration
+                                    playlist05 = self._temp_player_5.title
+                                    playlist05time = self._temp_player_5.duration
                                     track5 = str(botmessages['play_command_data'][10]).format(playlist05)
                                     fulldir = playlist05time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -631,28 +593,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track5time = newdir
-                                    track5uploader = str(_temp_player_5.uploader)
+                                    track5uploader = str(self._temp_player_5.uploader)
                                     track5info = str(botmessages['play_command_data'][12]).format(track5,
                                                                                                   track5uploader,
                                                                                                   track5time)
-                                    bot_playlist_entries.append(track5info)
+                                    self.bot_playlist_entries.append(track5info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track5, track5time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_5.start()
-                                    _temp_player_5.stop()
+                                    self._temp_player_5.start()
+                                    self._temp_player_5.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 5:
-                                _temp_player_6 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 5:
+                                self._temp_player_6 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist06 = _temp_player_6.title
-                                    playlist06time = _temp_player_6.duration
+                                    playlist06 = self._temp_player_6.title
+                                    playlist06time = self._temp_player_6.duration
                                     track6 = str(botmessages['play_command_data'][10]).format(playlist06)
                                     fulldir = playlist06time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -661,28 +625,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track6time = newdir
-                                    track6uploader = str(_temp_player_6.uploader)
+                                    track6uploader = str(self._temp_player_6.uploader)
                                     track6info = str(botmessages['play_command_data'][12]).format(track6,
                                                                                                   track6uploader,
                                                                                                   track6time)
-                                    bot_playlist_entries.append(track6info)
+                                    self.bot_playlist_entries.append(track6info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track6, track6time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_6.start()
-                                    _temp_player_6.stop()
+                                    self._temp_player_6.start()
+                                    self._temp_player_6.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 6:
-                                _temp_player_7 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 6:
+                                self._temp_player_7 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist07 = _temp_player_7.title
-                                    playlist07time = _temp_player_7.duration
+                                    playlist07 = self._temp_player_7.title
+                                    playlist07time = self._temp_player_7.duration
                                     track7 = str(botmessages['play_command_data'][10]).format(playlist07)
                                     fulldir = playlist07time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -691,28 +657,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track7time = newdir
-                                    track7uploader = str(_temp_player_7.uploader)
+                                    track7uploader = str(self._temp_player_7.uploader)
                                     track7info = str(botmessages['play_command_data'][12]).format(track7,
                                                                                                   track7uploader,
                                                                                                   track7time)
-                                    bot_playlist_entries.append(track7info)
+                                    self.bot_playlist_entries.append(track7info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track7, track7time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_7.start()
-                                    _temp_player_7.stop()
+                                    self._temp_player_7.start()
+                                    self._temp_player_7.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 7:
-                                _temp_player_8 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 7:
+                                self._temp_player_8 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist08 = _temp_player_8.title
-                                    playlist08time = _temp_player_8.duration
+                                    playlist08 = self._temp_player_8.title
+                                    playlist08time = self._temp_player_8.duration
                                     track8 = str(botmessages['play_command_data'][10]).format(playlist08)
                                     fulldir = playlist08time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -721,28 +689,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track8time = newdir
-                                    track8uploader = str(_temp_player_8.uploader)
+                                    track8uploader = str(self._temp_player_8.uploader)
                                     track8info = str(botmessages['play_command_data'][12]).format(track8,
                                                                                                   track8uploader,
                                                                                                   track8time)
-                                    bot_playlist_entries.append(track8info)
+                                    self.bot_playlist_entries.append(track8info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track8, track8time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_8.start()
-                                    _temp_player_8.stop()
+                                    self._temp_player_8.start()
+                                    self._temp_player_8.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 8:
-                                _temp_player_9 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                     options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 8:
+                                self._temp_player_9 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist09 = _temp_player_9.title
-                                    playlist09time = _temp_player_9.duration
+                                    playlist09 = self._temp_player_9.title
+                                    playlist09time = self._temp_player_9.duration
                                     track9 = str(botmessages['play_command_data'][10]).format(playlist09)
                                     fulldir = playlist09time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -751,28 +721,30 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track9time = newdir
-                                    track9uploader = str(_temp_player_9.uploader)
+                                    track9uploader = str(self._temp_player_9.uploader)
                                     track9info = str(botmessages['play_command_data'][12]).format(track9,
                                                                                                   track9uploader,
                                                                                                   track9time)
-                                    bot_playlist_entries.append(track9info)
+                                    self.bot_playlist_entries.append(track9info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track9, track9time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_9.start()
-                                    _temp_player_9.stop()
+                                    self._temp_player_9.start()
+                                    self._temp_player_9.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 9:
-                                _temp_player_10 = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                                      options=ffmop, output=ffmout)
-                                bot_playlist.append(data)
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 9:
+                                self._temp_player_10 = yield from self.voice.create_ytdl_player(data,
+                                                                                                ytdl_options=self.ytdlo,
+                                                                                                options=self.ffmop,
+                                                                                                output=self.ffmout)
+                                self.bot_playlist.append(data)
                                 try:
-                                    playlist10 = _temp_player_10.title
-                                    playlist10time = _temp_player_10.duration
+                                    playlist10 = self._temp_player_10.title
+                                    playlist10time = self._temp_player_10.duration
                                     track10 = str(botmessages['play_command_data'][10]).format(playlist10)
                                     fulldir = playlist10time
                                     minutes = str(int((fulldir / 60) % 60))
@@ -781,92 +753,93 @@ class BotData:
                                         seconds = "0" + seconds
                                     newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track10time = newdir
-                                    track10uploader = str(_temp_player_10.uploader)
+                                    track10uploader = str(self._temp_player_10.uploader)
                                     track10info = str(botmessages['play_command_data'][12]).format(track10,
                                                                                                    track10uploader,
                                                                                                    track10time)
-                                    bot_playlist_entries.append(track10info)
+                                    self.bot_playlist_entries.append(track10info)
                                     msgdata = str(botmessages['play_command_data'][13]).format(track10, track10time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                     # Thread Exception here when it gets to this line when the normal "player" is
                                     # playing. I need some workarround to clear the temp players.
-                                    _temp_player_10.start()
-                                    _temp_player_10.stop()
+                                    self._temp_player_10.start()
+                                    self._temp_player_10.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
-                                    yield from client.send_message(voice_message_channel, message_data)
-                            elif len(bot_playlist) == 10:
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 10:
                                 msgdata = str(botmessages['play_command_data'][15])
                                 message_data = msgdata
                                 yield from client.send_message(message.channel, message_data)
         if message.content.startswith(_bot_prefix + 'stop'):
             if message.author.id in banlist['Users']:
                 return
-            elif voice_message_channel is not None:
-                if message.channel.id == voice_message_channel.id:
-                    if player is not None:
-                        fulldir = player.duration
+            elif self.voice_message_channel is not None:
+                if message.channel.id == self.voice_message_channel.id:
+                    if self.player is not None:
+                        fulldir = self.player.duration
                         minutes = str(int((fulldir / 60) % 60))
                         seconds = str(int(fulldir % 60))
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            message_data = str(botmessages['stop_command_data'][0]).format(str(player.title),
-                                                                                           str(player.uploader),
+                            message_data = str(botmessages['stop_command_data'][0]).format(str(self.player.title),
+                                                                                           str(self.player.uploader),
                                                                                            minutes, seconds)
-                            yield from client.send_message(voice_message_channel, message_data)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-                        player.stop()
-                        player = None
-                        is_bot_playing = False
-                        if len(bot_playlist) >= 1:
+                        self.player.stop()
+                        self.player = None
+                        self.is_bot_playing = False
+                        if len(self.bot_playlist) >= 1:
                             try:
                                 track_data = None
                                 try:
-                                    track_data = str(bot_playlist_entries[0])
+                                    track_data = str(self.bot_playlist_entries[0])
                                 except IndexError:
                                     pass
-                                data = str(bot_playlist[0])
-                                player = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                             options=ffmop, output=ffmout)
-                                if player is not None:
-                                    _sent_finished_message = False
+                                data = str(self.bot_playlist[0])
+                                self.player = yield from self.voice.create_ytdl_player(data, ytdl_options=self.ytdlo,
+                                                                                       options=self.ffmop,
+                                                                                       output=self.ffmout)
+                                if self.player is not None:
+                                    self._sent_finished_message = False
                                     try:
-                                        bot_playlist.remove(data)
-                                        bot_playlist_entries.remove(track_data)
+                                        self.bot_playlist.remove(data)
+                                        self.bot_playlist_entries.remove(track_data)
                                     except ValueError:
                                         pass
-                                    if is_bot_playing is False:
-                                        is_bot_playing = True
+                                    if self.is_bot_playing is False:
+                                        self.is_bot_playing = True
                                         try:
-                                            fulldir = player.duration
+                                            fulldir = self.player.duration
                                             minutes = str(int((fulldir / 60) % 60))
                                             seconds = str(int(fulldir % 60))
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
                                             track_info = str(botmessages['stop_command_data'][1]).format(
-                                                str(player.title),
-                                                str(player.uploader))
+                                                str(self.player.title),
+                                                str(self.player.uploader))
                                             message_data = str(botmessages['stop_command_data'][2]).format(track_info,
                                                                                                            minutes,
                                                                                                            seconds)
-                                            yield from client.send_message(voice_message_channel, message_data)
+                                            yield from client.send_message(self.voice_message_channel, message_data)
                                             try:
-                                                bot_playlist_entries.remove(track_info)
+                                                self.bot_playlist_entries.remove(track_info)
                                             except ValueError:
                                                 pass
                                         except discord.errors.Forbidden:
                                             yield from BotPMError.resolve_send_message_error(client, message)
-                                        player.start()
+                                            self.player.start()
                             except UnboundLocalError:
-                                player = None
-                                is_bot_playing = False
+                                self.player = None
+                                self.is_bot_playing = False
                     else:
                         try:
                             message_data = str(botmessages['stop_command_data'][3])
-                            yield from client.send_message(voice_message_channel, message_data)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                 else:
@@ -874,24 +847,24 @@ class BotData:
         if message.content.startswith(_bot_prefix + 'pause'):
             if message.author.id in banlist['Users']:
                 return
-            elif voice_message_channel is not None:
-                if message.channel.id == voice_message_channel.id:
-                    if player is not None:
-                        fulldir = player.duration
+            elif self.voice_message_channel is not None:
+                if message.channel.id == self.voice_message_channel.id:
+                    if self.player is not None:
+                        fulldir = self.player.duration
                         minutes = str(int((fulldir / 60) % 60))
                         seconds = str(int(fulldir % 60))
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
                             message_data = str(botmessages['pause_command_data'][0]).format(
-                                str(player.title), str(player.uploader), minutes, seconds)
-                            yield from client.send_message(voice_message_channel, message_data)
+                                str(self.player.title), str(self.player.uploader), minutes, seconds)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-                        player.pause()
+                        self.player.pause()
                     else:
                         message_data = str(botmessages['pause_command_data'][1])
-                        yield from client.send_message(voice_message_channel, message_data)
+                        yield from client.send_message(self.voice_message_channel, message_data)
                 else:
                     return
             else:
@@ -900,26 +873,26 @@ class BotData:
         if message.content.startswith(_bot_prefix + 'unpause'):
             if message.author.id in banlist['Users']:
                 return
-            elif voice_message_channel is not None:
-                if message.channel.id == voice_message_channel.id:
-                    if player is not None:
-                        fulldir = player.duration
+            elif self.voice_message_channel is not None:
+                if message.channel.id == self.voice_message_channel.id:
+                    if self.player is not None:
+                        fulldir = self.player.duration
                         minutes = str(int((fulldir / 60) % 60))
                         seconds = str(int(fulldir % 60))
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
                             message_data = str(botmessages['unpause_command_data'][0]).format(
-                                str(player.title), str(player.uploader), minutes, seconds)
-                            yield from client.send_message(voice_message_channel, message_data)
+                                str(self.player.title), str(self.player.uploader), minutes, seconds)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-                        player.resume()
+                        self.player.resume()
                     else:
                         try:
                             msgdata = str(botmessages['unpause_command_data'][1])
                             message_data = msgdata
-                            yield from client.send_message(voice_message_channel, message_data)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                 else:
@@ -930,134 +903,136 @@ class BotData:
         if message.content.startswith(_bot_prefix + 'move'):
             if message.author.id in banlist['Users']:
                 return
-            elif voice_message_channel is not None:
-                if message.channel.id == voice_message_channel.id:
-                    vchannel = message.author.voice_channel
-                    bot = message.channel.server.get_member_named('DecoraterBot#5102')
+            elif self.voice_message_channel is not None:
+                if message.channel.id == self.voice_message_channel.id:
+                    self.vchannel = message.author.voice_channel
+                    bot = message.channel.server.get_member_named('{0}#{1}'.format(client.user.name,
+                                                                                   client.user.discriminator))
                     try:
-                        yield from client.move_member(bot, vchannel)
+                        yield from client.move_member(bot, self.vchannel)
                         try:
-                            message_data = str(botmessages['move_command_data'][0]).format(vchannel.name)
-                            yield from client.send_message(voice_message_channel, message_data)
+                            message_data = str(botmessages['move_command_data'][0]).format(self.vchannel.name)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.InvalidArgument:
                         try:
                             message_data = str(botmessages['move_command_data'][1])
-                            yield from client.send_message(voice_message_channel, message_data)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.Forbidden:
                         try:
-                            msgdata = str(botmessages['move_command_data'][2]).format(vchannel.name)
+                            msgdata = str(botmessages['move_command_data'][2]).format(self.vchannel.name)
                             message_data = msgdata
-                            yield from client.send_message(voice_message_channel, message_data)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                         except discord.errors.HTTPException:
                             try:
-                                message_data = 'Failed to move to the ' + vchannel.name + ' Voice Channel.'
-                                yield from client.send_message(voice_message_channel, message_data)
+                                message_data = str(botmessages['move_command_data'][3]).format(self.vchannel.name)
+                                yield from client.send_message(self.voice_message_channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     return
-        if player is not None:
-            if voice_message_channel is not None:
-                if player.is_done() is not False:
-                    fulldir = player.duration
+        if self.player is not None:
+            if self.voice_message_channel is not None:
+                if self.player.is_done() is not False:
+                    fulldir = self.player.duration
                     minutes = str(int((fulldir / 60) % 60))
                     seconds = str(int(fulldir % 60))
                     if len(seconds) == 1:
                         seconds = "0" + seconds
-                    if _sent_finished_message is False:
-                        _sent_finished_message = True
-                        is_bot_playing = False
+                    if self._sent_finished_message is False:
+                        self._sent_finished_message = True
+                        self.is_bot_playing = False
                         try:
                             message_data = str(botmessages['auto_playlist_data'][0]).format(
-                                str(player.title), str(player.uploader), minutes, seconds)
-                            yield from client.send_message(voice_message_channel, message_data)
+                                str(self.player.title), str(self.player.uploader), minutes, seconds)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-                    if len(bot_playlist) == 0:
-                        player = None
-                    if len(bot_playlist) >= 1:
+                    if len(self.bot_playlist) == 0:
+                        self.player = None
+                    if len(self.bot_playlist) >= 1:
                         try:
                             track_data = None
                             try:
-                                track_data = str(bot_playlist_entries[0])
+                                track_data = str(self.bot_playlist_entries[0])
                             except IndexError:
                                 pass
-                            data = str(bot_playlist[0])
+                            data = str(self.bot_playlist[0])
                             try:
-                                player = yield from voice.create_ytdl_player(data, ytdl_options=ytdlo,
-                                                                             options=ffmop, output=ffmout)
+                                self.player = yield from self.voice.create_ytdl_player(data, ytdl_options=self.ytdlo,
+                                                                                       options=self.ffmop,
+                                                                                       output=self.ffmout)
                             except AttributeError:
-                                is_bot_playing = False
-                            if player is not None:
-                                _sent_finished_message = False
+                                self.is_bot_playing = False
+                            if self.player is not None:
+                                self._sent_finished_message = False
                                 try:
-                                    bot_playlist.remove(data)
+                                    self.bot_playlist.remove(data)
                                 except ValueError:
                                     pass
                                 try:
-                                    bot_playlist_entries.remove(track_data)
+                                    self.bot_playlist_entries.remove(track_data)
                                 except ValueError:
                                     pass
-                                if is_bot_playing is False:
-                                    is_bot_playing = True
+                                if self.is_bot_playing is False:
+                                    self.is_bot_playing = True
                                     try:
-                                        fulldir = player.duration
+                                        fulldir = self.player.duration
                                         minutes = str(int((fulldir / 60) % 60))
                                         seconds = str(int(fulldir % 60))
                                         if len(seconds) == 1:
                                             seconds = "0" + seconds
                                         track_info = str(botmessages['auto_playlist_data'][1]).format(
-                                            str(player.title),
-                                            str(player.uploader))
+                                            str(self.player.title),
+                                            str(self.player.uploader))
                                         message_data = str(botmessages['auto_playlist_data'][2]).format(
                                             track_info, minutes, seconds)
-                                        yield from client.send_message(voice_message_channel, message_data)
+                                        yield from client.send_message(self.voice_message_channel, message_data)
                                         try:
-                                            bot_playlist_entries.remove(track_info)
+                                            self.bot_playlist_entries.remove(track_info)
                                         except ValueError:
                                             pass
                                     except discord.errors.Forbidden:
                                         yield from BotPMError.resolve_send_message_error(client, message)
-                                    if player is not None:
-                                        player.start()
+                                    if self.player is not None:
+                                        self.player.start()
                         except UnboundLocalError:
-                            is_bot_playing = False
+                            self.is_bot_playing = False
         if message.content.startswith(_bot_prefix + 'LeaveVoiceChannel'):
             if message.author.id in banlist['Users']:
                 return
-            elif voice is not None:
-                if voice_message_channel is not None:
-                    if message.channel.id == voice_message_channel.id:
+            elif self.voice is not None:
+                if self.voice_message_channel is not None:
+                    if message.channel.id == self.voice_message_channel.id:
                         try:
-                            yield from voice.disconnect()
+                            yield from self.voice.disconnect()
                         except ConnectionResetError:
                             # Supress a Error here.
                             pass
-                        if vchannel is not None:
+                        if self.vchannel is not None:
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel.id)
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel.id)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_server.id)
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server.id)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_channel.id)
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_channel.id)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(voice_message_server_name)
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server_name)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(vchannel_name)
+                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel_name)
                             except ValueError:
                                 pass
                         filename = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
@@ -1065,22 +1040,22 @@ class BotData:
                         try:
                             try:
                                 message_data = str(botmessages['leave_voice_channel_command_data'][0]).format(
-                                    vchannel.name)
+                                    self.vchannel.name)
                             except AttributeError:
                                 message_data = str(botmessages['leave_voice_channel_command_data'][0]).format(
-                                    vchannel_name)
-                            yield from client.send_message(voice_message_channel, message_data)
+                                    self.vchannel_name)
+                            yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-                        vchannel = None
-                        voice_message_channel = None
-                        voice = None
-                        vchannel_name = None
-                        if player is not None:
-                            player = None
-                        voice_message_server = None
-                        if is_bot_playing is True:
-                            is_bot_playing = False
+                        self.vchannel = None
+                        self.voice_message_channel = None
+                        self.voice = None
+                        self.vchannel_name = None
+                        if self.player is not None:
+                            self.player = None
+                        self.voice_message_server = None
+                        if self.is_bot_playing is True:
+                            self.is_bot_playing = False
                     else:
                         return
             else:
@@ -1100,7 +1075,7 @@ class BotData:
             track10 = str(botmessages['playlist_command_data'][0])
             if message.author.id in banlist['Users']:
                 return
-            elif len(bot_playlist_entries) == 0:
+            elif len(self.bot_playlist_entries) == 0:
                 track1 = str(botmessages['playlist_command_data'][0])
                 track2 = str(botmessages['playlist_command_data'][0])
                 track3 = str(botmessages['playlist_command_data'][0])
@@ -1111,8 +1086,8 @@ class BotData:
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 1:
-                track1 = str(bot_playlist_entries[0])
+            elif len(self.bot_playlist_entries) == 1:
+                track1 = str(self.bot_playlist_entries[0])
                 track2 = str(botmessages['playlist_command_data'][0])
                 track3 = str(botmessages['playlist_command_data'][0])
                 track4 = str(botmessages['playlist_command_data'][0])
@@ -1122,9 +1097,9 @@ class BotData:
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 2:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
+            elif len(self.bot_playlist_entries) == 2:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
                 track3 = str(botmessages['playlist_command_data'][0])
                 track4 = str(botmessages['playlist_command_data'][0])
                 track5 = str(botmessages['playlist_command_data'][0])
@@ -1133,10 +1108,10 @@ class BotData:
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 3:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
+            elif len(self.bot_playlist_entries) == 3:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
                 track4 = str(botmessages['playlist_command_data'][0])
                 track5 = str(botmessages['playlist_command_data'][0])
                 track6 = str(botmessages['playlist_command_data'][0])
@@ -1144,83 +1119,83 @@ class BotData:
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 4:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
-                track4 = str(bot_playlist_entries[3])
+            elif len(self.bot_playlist_entries) == 4:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
+                track4 = str(self.bot_playlist_entries[3])
                 track5 = str(botmessages['playlist_command_data'][0])
                 track6 = str(botmessages['playlist_command_data'][0])
                 track7 = str(botmessages['playlist_command_data'][0])
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 5:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
-                track4 = str(bot_playlist_entries[3])
-                track5 = str(bot_playlist_entries[4])
+            elif len(self.bot_playlist_entries) == 5:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
+                track4 = str(self.bot_playlist_entries[3])
+                track5 = str(self.bot_playlist_entries[4])
                 track6 = str(botmessages['playlist_command_data'][0])
                 track7 = str(botmessages['playlist_command_data'][0])
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 6:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
-                track4 = str(bot_playlist_entries[3])
-                track5 = str(bot_playlist_entries[4])
-                track6 = str(bot_playlist_entries[5])
+            elif len(self.bot_playlist_entries) == 6:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
+                track4 = str(self.bot_playlist_entries[3])
+                track5 = str(self.bot_playlist_entries[4])
+                track6 = str(self.bot_playlist_entries[5])
                 track7 = str(botmessages['playlist_command_data'][0])
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 7:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
-                track4 = str(bot_playlist_entries[3])
-                track5 = str(bot_playlist_entries[4])
-                track6 = str(bot_playlist_entries[5])
-                track7 = str(bot_playlist_entries[6])
+            elif len(self.bot_playlist_entries) == 7:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
+                track4 = str(self.bot_playlist_entries[3])
+                track5 = str(self.bot_playlist_entries[4])
+                track6 = str(self.bot_playlist_entries[5])
+                track7 = str(self.bot_playlist_entries[6])
                 track8 = str(botmessages['playlist_command_data'][0])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 8:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
-                track4 = str(bot_playlist_entries[3])
-                track5 = str(bot_playlist_entries[4])
-                track6 = str(bot_playlist_entries[5])
-                track7 = str(bot_playlist_entries[6])
-                track8 = str(bot_playlist_entries[7])
+            elif len(self.bot_playlist_entries) == 8:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
+                track4 = str(self.bot_playlist_entries[3])
+                track5 = str(self.bot_playlist_entries[4])
+                track6 = str(self.bot_playlist_entries[5])
+                track7 = str(self.bot_playlist_entries[6])
+                track8 = str(self.bot_playlist_entries[7])
                 track9 = str(botmessages['playlist_command_data'][0])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 9:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
-                track4 = str(bot_playlist_entries[3])
-                track5 = str(bot_playlist_entries[4])
-                track6 = str(bot_playlist_entries[5])
-                track7 = str(bot_playlist_entries[6])
-                track8 = str(bot_playlist_entries[7])
-                track9 = str(bot_playlist_entries[8])
+            elif len(self.bot_playlist_entries) == 9:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
+                track4 = str(self.bot_playlist_entries[3])
+                track5 = str(self.bot_playlist_entries[4])
+                track6 = str(self.bot_playlist_entries[5])
+                track7 = str(self.bot_playlist_entries[6])
+                track8 = str(self.bot_playlist_entries[7])
+                track9 = str(self.bot_playlist_entries[8])
                 track10 = str(botmessages['playlist_command_data'][0])
-            elif len(bot_playlist_entries) == 10:
-                track1 = str(bot_playlist_entries[0])
-                track2 = str(bot_playlist_entries[1])
-                track3 = str(bot_playlist_entries[2])
-                track4 = str(bot_playlist_entries[3])
-                track5 = str(bot_playlist_entries[4])
-                track6 = str(bot_playlist_entries[5])
-                track7 = str(bot_playlist_entries[6])
-                track8 = str(bot_playlist_entries[7])
-                track9 = str(bot_playlist_entries[8])
-                track10 = str(bot_playlist_entries[9])
+            elif len(self.bot_playlist_entries) == 10:
+                track1 = str(self.bot_playlist_entries[0])
+                track2 = str(self.bot_playlist_entries[1])
+                track3 = str(self.bot_playlist_entries[2])
+                track4 = str(self.bot_playlist_entries[3])
+                track5 = str(self.bot_playlist_entries[4])
+                track6 = str(self.bot_playlist_entries[5])
+                track7 = str(self.bot_playlist_entries[6])
+                track8 = str(self.bot_playlist_entries[7])
+                track9 = str(self.bot_playlist_entries[8])
+                track10 = str(self.bot_playlist_entries[9])
             msgdata = str(botmessages['playlist_command_data'][1]).format(track1, track2, track3, track4, track5,
                                                                           track6, track7, track8, track9, track10)
             message_data = msgdata
@@ -1228,24 +1203,25 @@ class BotData:
         if message.content.startswith(_bot_prefix + "vol"):
             if message.author.id in banlist['Users']:
                 return
-            elif voice_message_channel is not None:
-                if message.channel.id == voice_message_channel.id:
-                    if player is not None:
+            elif self.voice_message_channel is not None:
+                if message.channel.id == self.voice_message_channel.id:
+                    if self.player is not None:
                         value_string = message.content.strip(_bot_prefix + "vol ")
                         try:
                             value = int(value_string) / 100
                             if 0.0 <= value <= 2.0:
-                                player.volume = value
+                                self.player.volume = value
                                 value_message = str(botmessages['volume_command_data'][0]).format(str(value * 100))
-                                yield from client.send_message(voice_message_channel, value_message)
+                                yield from client.send_message(self.voice_message_channel, value_message)
                             else:
-                                yield from client.send_message(voice_message_channel,
+                                yield from client.send_message(self.voice_message_channel,
                                                                str(botmessages['volume_command_data'][1]))
                         except ValueError:
-                            yield from client.send_message(voice_message_channel,
+                            yield from client.send_message(self.voice_message_channel,
                                                            str(botmessages['volume_command_data'][2]))
                 else:
-                    yield from client.send_message(voice_message_channel, str(botmessages['volume_command_data'][3]))
+                    yield from client.send_message(self.voice_message_channel,
+                                                   str(botmessages['volume_command_data'][3]))
 
     @asyncio.coroutine
     def voice_stuff_new_disabled_code(self, client, message):
@@ -1291,46 +1267,36 @@ class BotData:
         :param reload_reason: Reason for reloading.
         :return: Nothing.
         """
-        global player
-        global vchannel
-        global ffmout
-        global vchannel_name
-        global voice_message_channel
-        global voice
-        global _sent_finished_message
-        global voice_message_server
-        global is_bot_playing
-        global voice_message_server_name
-        ffmout.close()
-        if voice is not None:
-            yield from voice.disconnect()
-            if voice_message_channel is not None:
+        self.ffmout.close()
+        if self.voice is not None:
+            yield from self.voice.disconnect()
+            if self.voice_message_channel is not None:
                 try:
                     if reload_reason is not None:
                         try:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel.name, reload_reason)
+                                self.vchannel.name, reload_reason)
                         except AttributeError:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel_name, reload_reason)
+                                self.vchannel_name, reload_reason)
                     else:
                         reason = str(botmessages['reload_commands_voice_channels_bypass1'][1])
                         try:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel.name, reason)
+                                self.vchannel.name, reason)
                         except AttributeError:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel_name, reason)
-                    yield from client.send_message(voice_message_channel, message_data)
-                    voice_message_channel = None
-                    voice = None
-                    vchannel = None
-                    voice_message_server = None
-                    player = None
-                    vchannel_name = None
-                    _sent_finished_message = False
-                    voice_message_server_name = None
-                    is_bot_playing = False
+                                self.vchannel_name, reason)
+                    yield from client.send_message(self.voice_message_channel, message_data)
+                    self.voice_message_channel = None
+                    self.voice = None
+                    self.vchannel = None
+                    self.voice_message_server = None
+                    self.player = None
+                    self.vchannel_name = None
+                    self._sent_finished_message = False
+                    self.voice_message_server_name = None
+                    self.is_bot_playing = False
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -1342,13 +1308,6 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        global vchannel
-        global voice
-        global voice_message_server
-        global voice_message_channel
-        global voice_message_server_name
-        global vchannel_name
-        global verror
         botvoicechannel_reloaded = None
         try:
             botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0],
@@ -1361,54 +1320,54 @@ class BotData:
             vchannel_2 = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][0])
             vmserver = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][1])
             vmchannel = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][2])
-            voice_message_server_name = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][3])
-            vchannel_name = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][4])
-            vchannel = discord.Object(id=vchannel_2)
-            voice_message_server = discord.Object(id=vmserver)
-            voice_message_channel = discord.Object(id=vmchannel)
+            self.voice_message_server_name = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][3])
+            self.vchannel_name = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][4])
+            self.vchannel = discord.Object(id=vchannel_2)
+            self.voice_message_server = discord.Object(id=vmserver)
+            self.voice_message_channel = discord.Object(id=vmchannel)
             try:
-                voice = yield from client.join_voice_channel(vchannel)
-                verror = False
+                self.voice = yield from client.join_voice_channel(self.vchannel)
+                self.verror = False
             except discord.errors.ConnectionClosed:
                 pass
             except discord.errors.InvalidArgument:
-                voice_message_server_name = None
-                vchannel_name = None
-                vchannel = None
-                voice_message_server = None
-                voice_message_channel = None
-                voice = None
-                verror = True
+                self.voice_message_server_name = None
+                self.vchannel_name = None
+                self.vchannel = None
+                self.voice_message_server = None
+                self.voice_message_channel = None
+                self.voice = None
+                self.verror = True
             except concurrent.futures._base.TimeoutError:
                 yield from client.send_message(message.channel,
                                                str(botmessages['reload_commands_voice_channels_bypass2'][0]))
-                voice_message_server_name = None
-                vchannel_name = None
-                vchannel = None
-                voice_message_server = None
-                voice_message_channel = None
-                voice = None
-                verror = True
+                self.voice_message_server_name = None
+                self.vchannel_name = None
+                self.vchannel = None
+                self.voice_message_server = None
+                self.voice_message_channel = None
+                self.voice = None
+                self.verror = True
             except RuntimeError:
-                voice_message_server_name = None
-                vchannel_name = None
-                vchannel = None
-                voice_message_server = None
-                voice_message_channel = None
-                voice = None
-                verror = True
+                self.voice_message_server_name = None
+                self.vchannel_name = None
+                self.vchannel = None
+                self.voice_message_server = None
+                self.voice_message_channel = None
+                self.voice = None
+                self.verror = True
                 msgdata = str(botmessages['reload_commands_voice_channels_bypass2'][1])
-                yield from client.send_message(voice_message_channel, msgdata)
-            if verror is not True:
-                message_data = str(botmessages['reload_commands_voice_channels_bypass2'][2]).format(vchannel_name)
-                yield from client.send_message(voice_message_channel, message_data)
+                yield from client.send_message(self.voice_message_channel, msgdata)
+            if self.verror is not True:
+                message_data = str(botmessages['reload_commands_voice_channels_bypass2'][2]).format(self.vchannel_name)
+                yield from client.send_message(self.voice_message_channel, message_data)
         except IndexError:
-            voice_message_server_name = None
-            vchannel_name = None
-            vchannel = None
-            voice_message_server = None
-            voice_message_channel = None
-            voice = None
+            self.voice_message_server_name = None
+            self.vchannel_name = None
+            self.vchannel = None
+            self.voice_message_server = None
+            self.voice_message_channel = None
+            self.voice = None
 
     @asyncio.coroutine
     def reload_commands_bypass3_new_code(self, client):
@@ -1417,56 +1376,49 @@ class BotData:
         :param client: Discord Client.
         :return: Nothing.
         """
-        global vchannel
-        global voice
-        global voice_message_server
-        global voice_message_channel
-        global voice_message_server_name
-        global vchannel_name
-        global verror
         try:
             vchannel_2 = str(botvoicechannel['Bot_Current_Voice_Channel'][0])
             vmserver = str(botvoicechannel['Bot_Current_Voice_Channel'][1])
             vmchannel = str(botvoicechannel['Bot_Current_Voice_Channel'][2])
-            voice_message_server_name = str(botvoicechannel['Bot_Current_Voice_Channel'][3])
-            vchannel_name = str(botvoicechannel['Bot_Current_Voice_Channel'][4])
-            vchannel = discord.Object(id=vchannel_2)
-            voice_message_server = discord.Object(id=vmserver)
-            voice_message_channel = discord.Object(id=vmchannel)
+            self.voice_message_server_name = str(botvoicechannel['Bot_Current_Voice_Channel'][3])
+            self.vchannel_name = str(botvoicechannel['Bot_Current_Voice_Channel'][4])
+            self.vchannel = discord.Object(id=vchannel_2)
+            self.voice_message_server = discord.Object(id=vmserver)
+            self.voice_message_channel = discord.Object(id=vmchannel)
             discord.opus.load_opus(opusdll)
             try:
-                voice = yield from client.join_voice_channel(vchannel)
-                verror = False
+                self.voice = yield from client.join_voice_channel(self.vchannel)
+                self.verror = False
             except discord.errors.ConnectionClosed:
                 pass
             except discord.errors.InvalidArgument:
-                voice_message_server_name = None
-                vchannel_name = None
-                vchannel = None
-                voice_message_server = None
-                voice_message_channel = None
-                voice = None
-                verror = True
+                self.voice_message_server_name = None
+                self.vchannel_name = None
+                self.vchannel = None
+                self.voice_message_server = None
+                self.voice_message_channel = None
+                self.voice = None
+                self.verror = True
             except RuntimeError:
-                voice_message_server_name = None
-                vchannel_name = None
-                vchannel = None
-                voice_message_server = None
-                voice_message_channel = None
-                voice = None
-                verror = True
+                self.voice_message_server_name = None
+                self.vchannel_name = None
+                self.vchannel = None
+                self.voice_message_server = None
+                self.voice_message_channel = None
+                self.voice = None
+                self.verror = True
                 msgdata = str(botmessages['reload_commands_voice_channels_bypass2'][1])
-                yield from client.send_message(voice_message_channel, msgdata)
-            if verror is not True:
-                message_data = str(botmessages['reload_commands_voice_channels_bypass2'][2]).format(vchannel_name)
-                yield from client.send_message(voice_message_channel, message_data)
+                yield from client.send_message(self.voice_message_channel, msgdata)
+            if self.verror is not True:
+                message_data = str(botmessages['reload_commands_voice_channels_bypass2'][2]).format(self.vchannel_name)
+                yield from client.send_message(self.voice_message_channel, message_data)
         except IndexError:
-            voice_message_server_name = None
-            vchannel_name = None
-            vchannel = None
-            voice_message_server = None
-            voice_message_channel = None
-            voice = None
+            self.voice_message_server_name = None
+            self.vchannel_name = None
+            self.vchannel = None
+            self.voice_message_server = None
+            self.voice_message_channel = None
+            self.voice = None
 
     @asyncio.coroutine
     def reload_commands_bypass4_new_code(self, client, message, reload_reason):
@@ -1477,44 +1429,35 @@ class BotData:
         :param reload_reason: Reason for reloading.
         :return: Nothing.
         """
-        global player
-        global vchannel
-        global vchannel_name
-        global voice_message_channel
-        global voice
-        global _sent_finished_message
-        global voice_message_server
-        global is_bot_playing
-        global voice_message_server_name
-        if voice is not None:
-            yield from voice.disconnect()
-            if voice_message_channel is not None:
+        if self.voice is not None:
+            yield from self.voice.disconnect()
+            if self.voice_message_channel is not None:
                 try:
                     if reload_reason is not None:
                         try:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel.name, reload_reason)
+                                self.vchannel.name, reload_reason)
                         except AttributeError:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel_name, reload_reason)
+                                self.vchannel_name, reload_reason)
                     else:
                         reason = str(botmessages['reload_commands_voice_channels_bypass4'][0])
                         try:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel.name, reason)
+                                self.vchannel.name, reason)
                         except AttributeError:
                             message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
-                                vchannel_name, reason)
-                    yield from client.send_message(voice_message_channel, message_data)
-                    voice_message_channel = None
-                    voice = None
-                    vchannel = None
-                    voice_message_server = None
-                    player = None
-                    vchannel_name = None
-                    _sent_finished_message = False
-                    voice_message_server_name = None
-                    is_bot_playing = False
+                                self.vchannel_name, reason)
+                    yield from client.send_message(self.voice_message_channel, message_data)
+                    self.voice_message_channel = None
+                    self.voice = None
+                    self.vchannel = None
+                    self.voice_message_server = None
+                    self.player = None
+                    self.vchannel_name = None
+                    self._sent_finished_message = False
+                    self.voice_message_server_name = None
+                    self.is_bot_playing = False
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 

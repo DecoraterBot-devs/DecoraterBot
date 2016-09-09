@@ -40,9 +40,6 @@ import BotConfigReader
 
 sepa = os.sep
 
-global sent_prune_error_message
-sent_prune_error_message = False
-
 bits = ctypes.sizeof(ctypes.c_voidp)
 PY36 = sys.version_info >= (3, 6)
 PY35 = sys.version_info >= (3, 5)
@@ -119,7 +116,7 @@ class BotData:
         This class is for Internal use only!!!
     """
     def __init__(self):
-        pass
+        self.sent_prune_error_message = False
 
     @asyncio.coroutine
     def attack_code(self, client, message):
@@ -358,7 +355,7 @@ class BotData:
                             desgametype = 2
                             stream_url = "https://twitch.tv/decoraterbot"
                     if desgametype is not None:
-                        if _log_games == 'True':
+                        if _log_games:
                             DBLogs.gamelog(client, message, desgame)
                         yield from client.change_status(game=discord.Game(name=desgame, type=desgametype,
                                                                           url=stream_url))
@@ -369,7 +366,7 @@ class BotData:
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     else:
-                        if _log_games == 'True':
+                        if _log_games:
                             DBLogs.gamelog(client, message, desgame)
                         yield from client.change_status(game=discord.Game(name=desgame), idle=True)
                         try:
@@ -402,7 +399,7 @@ class BotData:
             if message.author.id in banlist['Users']:
                 return
             else:
-                if _is_official_bot == 'True':
+                if _is_official_bot:
                     yield from client.send_message(message.channel, str(botmessages['join_command_data'][3]))
                 else:
                     code = message.content[len(_bot_prefix + "join "):].strip()
@@ -1050,21 +1047,19 @@ class BotData:
             """
 
     if PY35 or PY36:
-        @staticmethod
-        async def prune_command_iterater_helper(client, message, num, sent_prune_error_message):
+        async def prune_command_iterater_helper(self, client, message, num):
             """
             Prunes Messages.
             :param client: Discord Client.
             :param message: Message
             :param num:
-            :param sent_prune_error_message: Bool
             :return: Nothing.
             """
             try:
                 await client.purge_from(message.channel, limit=num + 1)
             except discord.HTTPException:
-                if sent_prune_error_message is False:
-                    sent_prune_error_message = True
+                if self.sent_prune_error_message is False:
+                    self.sent_prune_error_message = True
                     await client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
                 else:
                     return
@@ -1091,21 +1086,20 @@ class BotData:
                 return
     else:
         @asyncio.coroutine
-        def prune_command_iterater_helper(self, client, message, num, sent_prune_error_message):
+        def prune_command_iterater_helper(self, client, message, num):
             """
             Prunes Messages.
             :param self:
             :param client: Discord Client.
             :param message: Message
             :param num:
-            :param sent_prune_error_message: Bool
             :return: Nothing.
             """
             try:
                 yield from client.purge_from(message.channel, limit=num + 1)
             except discord.HTTPException:
-                if sent_prune_error_message is False:
-                    sent_prune_error_message = True
+                if self.sent_prune_error_message is False:
+                    self.sent_prune_error_message = True
                     yield from client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
                 else:
                     return
@@ -1140,12 +1134,11 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        global sent_prune_error_message
         if message.content.startswith(_bot_prefix + 'prune'):
             if message.author.id in banlist['Users']:
                 return
             else:
-                sent_prune_error_message = False
+                self.sent_prune_error_message = False
                 role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
                 """
                 if message.author.id == owner_id:
@@ -1156,7 +1149,7 @@ class BotData:
                             num = int(opt)
                         except:
                             return
-                    yield from self.prune_command_iterater_helper(client, message, num, sent_prune_error_message)
+                    yield from self.prune_command_iterater_helper(client, message, num)
                 else:
                 """
                 if role in message.author.roles:
@@ -1167,7 +1160,7 @@ class BotData:
                             num = int(opt)
                         except Exception as e:
                             return
-                    yield from self.prune_command_iterater_helper(client, message, num, sent_prune_error_message)
+                    yield from self.prune_command_iterater_helper(client, message, num)
                 else:
                     try:
                         yield from client.send_message(message.channel, str(botmessages['prune_command_data'][1]))
@@ -1490,7 +1483,7 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if _is_official_bot == 'True':
+        if _is_official_bot:
             if message.content.startswith('https://discord.gg/'):
                 yield from client.send_message(message.channel, str(botmessages['join_command_data'][3]))
             if message.content.startswith('http://discord.gg/'):

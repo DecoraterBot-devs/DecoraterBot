@@ -221,7 +221,8 @@
     "move_command_data": [
         "Moved to the {0} Voice Channel.",
         "The Channel specified is not a voice channel.",
-        "This bot does not have permissions to move members to the {0} Voice Channel."
+        "This bot does not have permissions to move members to the {0} Voice Channel.",
+        "Failed to move to the {0} Voice Channel."
     ],
     "auto_playlist_data": [
         "**Finished [{0}] by [{1}] [{2}:{3}]**",

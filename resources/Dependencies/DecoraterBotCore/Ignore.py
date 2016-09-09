@@ -79,9 +79,6 @@ except FileNotFoundError:
 DBCommands = BotCommands.BotCommands()
 DBVoiceCommands = BotVoiceCommands.VoiceBotCommands()
 
-global _somebool
-_somebool = False
-
 # default to True in case options are not present in Credentials.json
 _logging = True
 _logbans = True
@@ -173,7 +170,7 @@ class BotData001:
     """
 
     def __init__(self):
-        pass
+        self._somebool = False
 
     @asyncio.coroutine
     def ignore_channel_code(self, client, message):
@@ -225,12 +222,11 @@ class BotData001:
         :param message: Message.
         :return: Nothing.
         """
-        global _somebool
         if message.content.startswith(_bot_prefix + 'reload'):
             if message.author.id == discord_user_id:
                 desmod_new = message.content.lower()[len(_bot_prefix + 'reload '):].strip()
                 rejoin_after_reload = False
-                _somebool = False
+                self._somebool = False
                 desmod = None
                 reload_reason = None
                 if len(desmod_new) < 1:
@@ -241,36 +237,36 @@ class BotData001:
                     if rsn.rfind(' | ') is not -1:
                         reason = rsn.strip(' | ')
                         reload_reason = reason
-                        _somebool = True
+                        self._somebool = True
                     else:
                         reason = None
                         reload_reason = reason
-                        _somebool = True
+                        self._somebool = True
                 elif desmod_new.rfind('botcommands') is not -1:
                     desmod = 'BotCommands'
                     rsn = desmod_new.replace('botcommands', "")
                     if rsn.rfind(' | ') is not -1:
                         reason = rsn.strip(' | ')
                         reload_reason = reason
-                        _somebool = True
+                        self._somebool = True
                     else:
                         reason = None
                         reload_reason = reason
-                        _somebool = True
+                        self._somebool = True
                 elif desmod_new.rfind("botvoicecommands") is not -1:
                     desmod = "BotVoiceCommands"
                     rsn = desmod_new.replace('botvoicecommands', "")
                     if rsn.rfind(' | ') is not -1:
                         reason = rsn.replace(' | ', "")
                         reload_reason = reason
-                        _somebool = True
+                        self._somebool = True
                     else:
                         reason = None
                         reload_reason = reason
-                        _somebool = True
+                        self._somebool = True
                 else:
-                    _somebool = False
-                if _somebool is True:
+                    self._somebool = False
+                if self._somebool is True:
                     if desmod_new is not None:
                         if desmod == 'BotCommands' or desmod == 'BotLogs' or desmod == 'BotVoiceCommands':
                             if desmod == 'BotVoiceCommands':
@@ -359,18 +355,36 @@ class BotData001:
 
     @asyncio.coroutine
     def enable_all_commands_with_send_logs_code(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.enable_all_commands_code(client, message)
         if _logging:
             yield from DBLogs.send_logs(client, message)
 
     @asyncio.coroutine
     def enable_all_commands_with_logs_code(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.enable_all_commands_code(client, message)
         if _logging:
             DBLogs.logs(client, message)
 
     @asyncio.coroutine
     def pm_commands_code(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from DBCommands.scan_for_invite_url_only_pm(client, message)
         yield from DBCommands.invite(client, message)
         yield from DBCommands.kills(client, message)
@@ -384,6 +398,12 @@ class BotData001:
 
     @asyncio.coroutine
     def cheesy_commands_code(self, client, message):
+        """
+        Listens fCheese.lab Specific Server commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.enable_all_commands_with_logs_code(client, message)
         serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(sys.path[0],
                                                                                                          sepa))
@@ -441,6 +461,12 @@ class BotData001:
 
     @asyncio.coroutine
     def everyone_mention_logger_code(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         # if message.content.find('@everyone') != -1:
         #     yield from client.send_message(message.channel.server.owner,
         #                                    "{0} has mentioned everyone in {1} on the {1} server.".format(
@@ -458,6 +484,12 @@ class BotData002:
 
     @asyncio.coroutine
     def ignore_code(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         if message.channel.id not in somedict['channels']:
             try:
                 if message.channel.is_private is not False:
@@ -512,6 +544,12 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_delete_method_code(self, client, message):
+        """
+        Handles Deleted Messages.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         try:
             if message.channel.is_private is not False:
                 if _logging == 'True':
@@ -540,6 +578,13 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_edit_method_code(self, client, before, after):
+        """
+        Handles Edited Messages.
+        :param client: Discord client.
+        :param before: Message.
+        :param after: Message.
+        :return: Nothing.
+        """
         try:
             if before.channel.is_private is not False:
                 if _logging == 'True':
@@ -568,6 +613,12 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_verify_cache_cleanup_2_code(self, client, member):
+        """
+        Cleans Up Verify Cache.
+        :param client: Discord client.
+        :param member: Member.
+        :return: Nothing.
+        """
         try:
             serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
                 sys.path[0], sepa))
@@ -594,7 +645,12 @@ class BotData003:
             yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
-    def resolve_verify_cache_cleanup_code(self, client, member):
+    def resolve_verify_cache_cleanup_code(self, member):
+        """
+        Cleans Up Verify Cache.
+        :param member: Member.
+        :return: Nothing.
+        """
         try:
             serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
                 sys.path[0], sepa))
@@ -619,11 +675,17 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_onban_code(self, client, member):
+        """
+        Lists users banned.
+        :param client: Discord client.
+        :param member: Member.
+        :return: Nothing.
+        """
         try:
             if _logbans == 'True':
                 yield from DBLogs.onban(client, member)
             if member.server and member.server.id == "71324306319093760":
-                yield from self.resolve_verify_cache_cleanup_code(client, member)
+                yield from self.resolve_verify_cache_cleanup_code(member)
         except Exception as e:
             funcname = '_resolve_onban_code'
             tbinfo = str(traceback.format_exc())
@@ -631,6 +693,12 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_onunban_code(self, client, user):
+        """
+        Lists users unbanned.
+        :param client: Discord client.
+        :param user: Member.
+        :return: Nothing.
+        """
         try:
             if _logunbans == 'True':
                 yield from DBLogs.onunban(client, user)
@@ -641,6 +709,12 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_onremove_code(self, client, member):
+        """
+        Handles when a user is removed from a server.
+        :param client: Discord client.
+        :param member: Member.
+        :return: Nothing.
+        """
         try:
             try:
                 banslist = yield from client.get_bans(member.server)
@@ -661,6 +735,12 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_onjoin_code(self, client, member):
+        """
+        Handles when a user joins a server.
+        :param client: Discord client.
+        :param member: Member.
+        :return: Nothing.
+        """
         try:
             # TODO: Add logging for this.
             if member.server.id == '71324306319093760' and member.bot is not True:
@@ -698,6 +778,11 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_on_login_voice_channel_join_code(self, client):
+        """
+        Joins a voice channel upon login (if one is set in the json file this reads.)
+        :param client: Discord client.
+        :return: Nothing.
+        """
         try:
             if _disable_voice_commands is not True:
                 yield from DBVoiceCommands.reload_commands_bypass3_new(client)
@@ -710,6 +795,13 @@ class BotData003:
 
     @asyncio.coroutine
     def high_level_reload_helper_code(self, client, message, reload_reason):
+        """
+        Handles High level reloading.
+        :param client: Discord client.
+        :param message: Message.
+        :param reload_reason: Reason for reloading.
+        :return: Nothing.
+        """
         try:
             if _disable_voice_commands is not True:
                 yield from DBVoiceCommands.reload_commands_bypass4_new(client, message, reload_reason)
@@ -722,26 +814,50 @@ class BotData003:
 
     @staticmethod
     def resolve_discord_logger_code():
+        """
+        Discord Logger.
+        :return: Nothing.
+        """
         if _discord_logger:
             DBLogs.set_up_discord_logger()
 
     @staticmethod
     def resolve_asyncio_logger_code():
+        """
+        asyncio Logger (seems to still not work yet for some reason).
+        :return: Nothing.
+        """
         if _asyncio_logger:
             DBLogs.set_up_asyncio_logger()
 
     @asyncio.coroutine
     def server_available_code(self, server):
+        """
+        Gets Available servers.
+        :param server: Server.
+        :return: Nothing.
+        """
         if _log_available:
             yield from DBLogs.onavailable(server)
 
     @asyncio.coroutine
     def server_unavailable_code(self, server):
+        """
+        Gets Unavailable servers.
+        :param server: Server.
+        :return: Nothing.
+        """
         if _log_unavailable:
             yield from DBLogs.onunavailable(server)
 
     @asyncio.coroutine
     def resolve_ongroupjoin_code(self, channel, user):
+        """
+        Handles when a user joins a group.
+        :param channel: Channel.
+        :param user: User.
+        :return: Nothing.
+        """
         try:
             if log_group_join:
                 yield from DBLogs.ongroupjoin(channel, user)
@@ -752,6 +868,12 @@ class BotData003:
 
     @asyncio.coroutine
     def resolve_ongroupremove_code(self, channel, user):
+        """
+        Handles when a user is removed/leaves a group.
+        :param channel: Channel.
+        :param user: User.
+        :return: Nothing.
+        """
         try:
             if log_group_remove:
                 yield from DBLogs.ongroupremove(channel, user)
@@ -762,6 +884,12 @@ class BotData003:
 
     @asyncio.coroutine
     def high_level_reload_helper2_code(self, client, message):
+        """
+        Handles High level reloading.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         try:
             if _disable_voice_commands is not True:
                 yield from DBVoiceCommands.reload_commands_bypass2_new(client, message)
@@ -782,38 +910,92 @@ class BotCommandData:
 
     @asyncio.coroutine
     def ignore_channel(self, client, message):
+        """
+        Makes the bot Ignore or not Ignore channels.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.ignore_channel_code(client, message)
 
     @asyncio.coroutine
     def reload_command(self, client, message):
+        """
+        Reloads Bot Command Files.
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.reload_command_code(client, message)
 
     @asyncio.coroutine
     def ignored_channel_commands(self, client, message):
+        """
+        Listens for the Commands that can be done in muted Channels.
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.ignored_channel_commands_code(client, message)
 
     @asyncio.coroutine
     def enable_all_commands(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.enable_all_commands_code(client, message)
 
     @asyncio.coroutine
     def enable_all_commands_with_send_logs(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.enable_all_commands_with_send_logs_code(client, message)
 
     @asyncio.coroutine
     def enable_all_commands_with_logs(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.enable_all_commands_with_logs_code(client, message)
 
     @asyncio.coroutine
     def pm_commands(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.pm_commands_code(client, message)
 
     @asyncio.coroutine
     def cheesy_commands(self, client, message):
+        """
+        Listens fCheese.lab Specific Server commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.cheesy_commands_code(client, message)
 
     @asyncio.coroutine
     def everyone_mention_logger(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.everyone_mention_logger_code(client, message)
 
 
@@ -826,6 +1008,12 @@ class BotIgnores:
 
     @asyncio.coroutine
     def ignore(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.ignore_code(client, message)
 
 
@@ -838,58 +1026,143 @@ class BotEvents:
 
     @asyncio.coroutine
     def resolve_delete_method(self, client, message):
+        """
+        Handles Deleted Messages.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_delete_method_code(client, message)
 
     @asyncio.coroutine
     def resolve_edit_method(self, client, before, after):
+        """
+        Handles Edited Messages.
+        :param client: Discord client.
+        :param before: Message.
+        :param after: Message.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_edit_method_code(client, before, after)
 
     @asyncio.coroutine
     def resolve_onban(self, client, member):
+        """
+        Lists users banned.
+        :param client: Discord client.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_onban_code(client, member)
 
     @asyncio.coroutine
     def resolve_onunban(self, client, user):
+        """
+        Lists users unbanned.
+        :param client: Discord client.
+        :param user: Member.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_onunban_code(client, user)
 
     @asyncio.coroutine
     def resolve_onremove(self, client, member):
+        """
+        Handles when a user is removed from a server.
+        :param client: Discord client.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_onremove_code(client, member)
 
     @asyncio.coroutine
     def resolve_onjoin(self, client, member):
+        """
+        Handles when a user joins a server.
+        :param client: Discord client.
+        :param member: Member.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_onjoin_code(client, member)
 
     @asyncio.coroutine
     def resolve_on_login_voice_channel_join(self, client):
+        """
+        Joins a voice channel upon login (if one is set in the json file this reads.)
+        :param client: Discord client.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_on_login_voice_channel_join_code(client)
 
     @asyncio.coroutine
     def high_level_reload_helper(self, client, message, reload_reason):
+        """
+        Handles High level reloading.
+        :param client: Discord client.
+        :param message: Message.
+        :param reload_reason: Reason for reloading.
+        :return: Nothing.
+        """
         yield from self.bot.high_level_reload_helper_code(client, message, reload_reason)
 
     def resolve_discord_logger(self):
+        """
+        Discord Logger.
+        :return: Nothing.
+        """
         self.bot.resolve_discord_logger_code()
 
     def resolve_asyncio_logger(self):
+        """
+        asyncio Logger (seems to still not work yet for some reason).
+        :return: Nothing.
+        """
         self.bot.resolve_asyncio_logger_code()
 
     @asyncio.coroutine
     def server_available(self, server):
+        """
+        Gets Available servers.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from self.bot.server_available_code(server)
 
     @asyncio.coroutine
     def server_unavailable(self, server):
+        """
+        Gets Unavailable servers.
+        :param server: Server.
+        :return: Nothing.
+        """
         yield from self.bot.server_unavailable_code(server)
 
     @asyncio.coroutine
     def resolve_ongroupjoin(self, channel, user):
+        """
+        Handles when a user joins a group.
+        :param channel: Channel.
+        :param user: User.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_ongroupjoin_code(channel, user)
 
     @asyncio.coroutine
     def resolve_ongroupremove(self, channel, user):
+        """
+        Handles when a user is removed/leaves a group.
+        :param channel: Channel.
+        :param user: User.
+        :return: Nothing.
+        """
         yield from self.bot.resolve_ongroupremove_code(channel, user)
 
     @asyncio.coroutine
     def high_level_reload_helper2(self, client, message):
+        """
+        Handles High level reloading.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         yield from self.bot.high_level_reload_helper2_code(client, message)

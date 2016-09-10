@@ -48,8 +48,14 @@ except SyntaxError:
         pass
     print('Cannot Continue as the Commands has a SyntaxError.')
     sys.exit(1)
-import BotPMError
-import BotVoiceCommands
+try:
+    import BotPMError
+except ImportError:
+    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
+try:
+    import BotVoiceCommands
+except ImportError:
+    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import BotConfigReader
 
 sepa = os.sep
@@ -191,6 +197,7 @@ class BotData001:
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 except Exception as e:
+                    str(e)
                     try:
                         yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][1]))
                     except discord.errors.Forbidden:
@@ -208,6 +215,7 @@ class BotData001:
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 except Exception as e:
+                    str(e)
                     msg_info = str(botmessages['Unignore_Channel_Data'][1])
                     try:
                         yield from client.send_message(message.channel, msg_info)
@@ -293,6 +301,7 @@ class BotData001:
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                             except Exception as e:
+                                str(e)
                                 reloadexception = str(traceback.format_exc())
                                 try:
                                     reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
@@ -375,7 +384,7 @@ class BotData001:
         """
         yield from self.enable_all_commands_code(client, message)
         if _logging:
-            DBLogs.logs(client, message)
+            DBLogs.logs(message)
 
     @asyncio.coroutine
     def pm_commands_code(self, client, message):
@@ -394,7 +403,7 @@ class BotData001:
         yield from DBCommands.randomcoin(client, message)
         yield from DBCommands.convert_url(client, message)
         if _logging:
-            DBLogs.logs(client, message)
+            DBLogs.logs(message)
 
     @asyncio.coroutine
     def cheesy_commands_code(self, client, message):
@@ -439,9 +448,9 @@ class BotData001:
             if msgdata == msg_command:
                 if message.author.id in newlyjoinedlist['users_to_be_verified']:
                     yield from client.delete_message(message)
-                    role = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
+                    role2 = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
                     msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(message.server.name)
-                    yield from client.add_roles(message.author, role)
+                    yield from client.add_roles(message.author, role2)
                     yield from client.send_message(message.author, msg_data)
                     newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
                     json.dump(newlyjoinedlist, open(sys.path[0] + file_path + filename_5, "w"))
@@ -515,8 +524,8 @@ class BotData002:
                 if _pm_command_errors:
                     if discord_user_id is not None:
                         owner = discord_user_id
-                        exception_data = str(traceback.format_exc())
-                        message_data = '```py\n' + exception_data + "\n```"
+                        exception_data2 = str(traceback.format_exc())
+                        message_data = '```py\n{0}\n```'.format(exception_data2)
                         try:
                             yield from client.send_message(discord.User(id=owner), message_data)
                         except discord.errors.Forbidden:
@@ -552,8 +561,8 @@ class BotData003:
         """
         try:
             if message.channel.is_private is not False:
-                if _logging == 'True':
-                    DBLogs.delete_logs(client, message)
+                if _logging:
+                    DBLogs.delete_logs(message)
             elif message.channel.server and message.channel.server.id == "81812480254291968":
                 if message.author.id == client.user.id:
                     return
@@ -569,8 +578,8 @@ class BotData003:
                 elif message.channel.server.id == '95342850102796288':
                     return
                 else:
-                    if _logging == 'True':
-                        DBLogs.delete_logs(client, message)
+                    if _logging:
+                        DBLogs.delete_logs(message)
         except Exception as e:
             funcname = '_resolve_delete_method_code'
             tbinfo = str(traceback.format_exc())
@@ -587,8 +596,8 @@ class BotData003:
         """
         try:
             if before.channel.is_private is not False:
-                if _logging == 'True':
-                    DBLogs.edit_logs(client, before, after)
+                if _logging:
+                    DBLogs.edit_logs(before, after)
             elif before.channel.server and before.channel.server.id == "81812480254291968":
                 if before.author.id == client.user.id:
                     return
@@ -604,8 +613,8 @@ class BotData003:
                 elif before.channel.server.id == '95342850102796288':
                     return
                 else:
-                    if _logging == 'True':
-                        DBLogs.edit_logs(client, before, after)
+                    if _logging:
+                        DBLogs.edit_logs(before, after)
         except Exception as e:
             funcname = '_resolve_edit_method_code'
             tbinfo = str(traceback.format_exc())
@@ -681,9 +690,10 @@ class BotData003:
         :param member: Member.
         :return: Nothing.
         """
+        str(client)  # to bypass unused param.
         try:
-            if _logbans == 'True':
-                yield from DBLogs.onban(client, member)
+            if _logbans:
+                yield from DBLogs.onban(member)
             if member.server and member.server.id == "71324306319093760":
                 yield from self.resolve_verify_cache_cleanup_code(member)
         except Exception as e:
@@ -699,9 +709,10 @@ class BotData003:
         :param user: Member.
         :return: Nothing.
         """
+        str(client)
         try:
-            if _logunbans == 'True':
-                yield from DBLogs.onunban(client, user)
+            if _logunbans:
+                yield from DBLogs.onunban(user)
         except Exception as e:
             funcname = '_resolve_onunban_code'
             tbinfo = str(traceback.format_exc())
@@ -721,11 +732,11 @@ class BotData003:
                 if member in banslist:
                     return
                 else:
-                    if _logkicks == 'True':
-                        yield from DBLogs.onkick(client, member)
+                    if _logkicks:
+                        yield from DBLogs.onkick(member)
             except (discord.errors.HTTPException, discord.errors.Forbidden):
-                if _logkicks == 'True':
-                    yield from DBLogs.onkick(client, member)
+                if _logkicks:
+                    yield from DBLogs.onkick(member)
             if member.server and member.server.id == "71324306319093760":
                 yield from self.resolve_verify_cache_cleanup_2_code(client, member)
         except Exception as e:

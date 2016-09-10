@@ -133,6 +133,7 @@ class BotData:
                 print(str(consoletext['Credentials_Not_Found'][0]))
                 sys.exit(2)
         except Exception as e:
+            str(e)  # To Bypass issues later as this is a dummy thing. (for now)
             print("This Bot has Crashed for some reason.")
             sys.exit(2)
 

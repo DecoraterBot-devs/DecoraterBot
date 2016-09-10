@@ -38,9 +38,15 @@ except ImportError:
     sepa = os.sep
     sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(sys.path[0], sepa))
     import Ignore
-import Login
+try:
+    import Login
+except ImportError:
+    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 from .BotErrors import *
-import BotPMError
+try:
+    import BotPMError
+except ImportError:
+    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import BotConfigReader
 
 sepa = os.sep
@@ -177,6 +183,7 @@ class BotData:
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                             except Exception as e:
+                                str(e)
                                 reloadexception = str(traceback.format_exc())
                                 try:
                                     reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)

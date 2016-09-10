@@ -34,7 +34,10 @@ import random
 import subprocess
 import sys
 import traceback
-import BotPMError
+try:
+    import BotPMError
+except ImportError:
+    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import discord
 import BotConfigReader
 
@@ -184,9 +187,9 @@ class BotData:
             else:
                 if _bot_prefix + "pink" in message.content:
                     desrole = message.content[len(_bot_prefix + "color " + _bot_prefix + "pink "):].strip()
-                    role = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
+                    role2 = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
                     try:
-                        yield from client.edit_role(message.channel.server, role, color=discord.Colour(int(
+                        yield from client.edit_role(message.channel.server, role2, color=discord.Colour(int(
                             'ff3054', 16)))
                     except discord.errors.Forbidden:
                         try:
@@ -200,9 +203,9 @@ class BotData:
                         return
                 if _bot_prefix + "brown" in message.content:
                     desrole = message.content[len(_bot_prefix + "color " + _bot_prefix + "brown "):].strip()
-                    role = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
+                    role2 = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
                     try:
-                        yield from client.edit_role(message.channel.server, role, color=discord.Colour(int(
+                        yield from client.edit_role(message.channel.server, role2, color=discord.Colour(int(
                             '652d2d', 16)))
                     except discord.errors.Forbidden:
                         try:
@@ -257,6 +260,7 @@ class BotData:
                                 result_info = str(botmessages['eval_command_data'][1])
                                 yield from client.send_message(message.channel, result_info)
                     except Exception as e:
+                        str(e)
                         debugcode = traceback.format_exc()
                         debugcode = str(debugcode)
                         try:
@@ -309,6 +313,7 @@ class BotData:
                             result_info = str(botmessages['eval_command_data'][1])
                             yield from client.send_message(message.channel, result_info)
                 except Exception as e:
+                    str(e)
                     debugcode = traceback.format_exc()
                     debugcode = str(debugcode)
                     try:
@@ -590,18 +595,18 @@ class BotData:
                     if message.author.id == "103607047383166976":
                         return
                     else:
-                        info = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
-                        yield from client.send_message(message.channel, info)
+                        info2 = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                        yield from client.send_message(message.channel, info2)
                 elif message.channel.server.id == '101596364479135744':
                     if message.author.id == "110368240768679936":
                         return
                     else:
-                        info = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
-                        yield from client.send_message(message.channel, info)
+                        info2 = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                        yield from client.send_message(message.channel, info2)
                 else:
-                    info = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                    info2 = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
                     try:
-                        yield from client.send_message(message.channel, info)
+                        yield from client.send_message(message.channel, info2)
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -653,15 +658,15 @@ class BotData:
         if len(message.mentions) > 5:
             yield from self.mention_ban_helper(client, message)
         if message.content.startswith(_bot_prefix + "ban"):
-            role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
-            if role in message.author.roles:
+            role2 = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
+            if role2 in message.author.roles:
                 for disuser in message.mentions:
                     listdata = message.channel.server.members
-                    member = discord.utils.find(lambda member: member.name == disuser.name, listdata)
+                    member2 = discord.utils.find(lambda member: member.name == disuser.name, listdata)
                     try:
-                        yield from client.ban(member, delete_message_days=7)
+                        yield from client.ban(member2, delete_message_days=7)
                         try:
-                            message_data = str(botmessages['ban_command_data'][0]).format(member)
+                            message_data = str(botmessages['ban_command_data'][0]).format(member2)
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -687,16 +692,16 @@ class BotData:
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(_bot_prefix + "softban"):
-            role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
-            if role in message.author.roles:
+            role2 = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
+            if role2 in message.author.roles:
                 for disuser in message.mentions:
                     memberlist = message.channel.server.members
-                    member = discord.utils.find(lambda member: member.name == disuser.name, memberlist)
+                    member2 = discord.utils.find(lambda member: member.name == disuser.name, memberlist)
                     try:
-                        yield from client.ban(member, delete_message_days=7)
-                        yield from client.unban(member.server, member)
+                        yield from client.ban(member2, delete_message_days=7)
+                        yield from client.unban(member2.server, member2)
                         try:
-                            message_data = str(botmessages['softban_command_data'][0]).format(member)
+                            message_data = str(botmessages['softban_command_data'][0]).format(member2)
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -724,15 +729,15 @@ class BotData:
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(_bot_prefix + "kick"):
-            role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
-            if role in message.author.roles:
+            role2 = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
+            if role2 in message.author.roles:
                 for disuser in message.mentions:
                     memberlist = message.channel.server.members
-                    member = discord.utils.find(lambda member: member.name == disuser.name, memberlist)
+                    member2 = discord.utils.find(lambda member: member.name == disuser.name, memberlist)
                     try:
-                        yield from client.kick(member)
+                        yield from client.kick(member2)
                         try:
-                            message_data = str(botmessages['kick_command_data'][0]).format(member)
+                            message_data = str(botmessages['kick_command_data'][0]).format(member2)
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -1139,7 +1144,7 @@ class BotData:
                 return
             else:
                 self.sent_prune_error_message = False
-                role = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
+                role2 = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
                 """
                 if message.author.id == owner_id:
                     opt = message.content[len(_bot_prefix + "prune "):].strip()
@@ -1152,13 +1157,14 @@ class BotData:
                     yield from self.prune_command_iterater_helper(client, message, num)
                 else:
                 """
-                if role in message.author.roles:
+                if role2 in message.author.roles:
                     opt = message.content[len(_bot_prefix + "prune "):].strip()
                     num = 1
                     if opt:
                         try:
                             num = int(opt)
                         except Exception as e:
+                            str(e)
                             return
                     yield from self.prune_command_iterater_helper(client, message, num)
                 else:
@@ -1180,11 +1186,11 @@ class BotData:
         if message.content.startswith(_bot_prefix + 'giveme'):
             if message.channel.server and message.channel.server.id == "81812480254291968":
                 desrole = message.content[len(_bot_prefix + "giveme "):].strip()
-                role = discord.utils.find(lambda role: role.name == 'Muted', message.channel.server.roles)
+                role2 = discord.utils.find(lambda role: role.name == 'Muted', message.channel.server.roles)
                 role3 = discord.utils.find(lambda role: role.name == 'Students', message.channel.server.roles)
                 if 'admin' in desrole:
                     if 'Muted' in message.author.roles:
-                        yield from client.add_roles(message.author, role)
+                        yield from client.add_roles(message.author, role2)
                         yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][0]))
                     else:
                         yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][5]))
@@ -1198,11 +1204,11 @@ class BotData:
                 if message.channel.server and message.channel.server.id == "127233852182626304":
                     desrole = message.content[len(_bot_prefix + "giveme "):].strip()
                     rolelist = message.channel.server.roles
-                    role = discord.utils.find(lambda role: role.name == '3rd Party Developer', rolelist)
+                    role2 = discord.utils.find(lambda role: role.name == '3rd Party Developer', rolelist)
                     role3 = discord.utils.find(lambda role: role.name == 'Streamer', rolelist)
                     if 'dev' in desrole:
-                        if role not in message.author.roles:
-                            yield from client.add_roles(message.author, role)
+                        if role2 not in message.author.roles:
+                            yield from client.add_roles(message.author, role2)
                             yield from client.send_message(message.channel, str(
                                 botmessages['giveme_command_data'][2]))
                         else:
@@ -1226,11 +1232,11 @@ class BotData:
             if message.channel.server and message.channel.server.id == "127233852182626304":
                 desrole = message.content[len(_bot_prefix + "remove "):].strip()
                 rolelist = message.channel.server.roles
-                role = discord.utils.find(lambda role: role.name == '3rd Party Developer', rolelist)
+                role2 = discord.utils.find(lambda role: role.name == '3rd Party Developer', rolelist)
                 role3 = discord.utils.find(lambda role: role.name == 'Streamer', rolelist)
                 if 'dev' in desrole:
-                    if role in message.author.roles:
-                        yield from client.remove_roles(message.author, role)
+                    if role2 in message.author.roles:
+                        yield from client.remove_roles(message.author, role2)
                         yield from client.send_message(message.channel, str(botmessages['remove_command_data'][0]))
                     else:
                         yield from client.send_message(message.channel, str(botmessages['remove_command_data'][2]))
@@ -1306,6 +1312,7 @@ class BotData:
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
                             except Exception as e:
+                                str(e)
                                 try:
                                     messagedata = str(
                                         botmessages['bot_ban_command_data'][1]).format(message.mentions[0])
@@ -1337,6 +1344,7 @@ class BotData:
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
                         except Exception as e:
+                            str(e)
                             try:
                                 messagedata = str(
                                     botmessages['bot_unban_command_data'][1]).format(message.mentions[0])
@@ -1358,17 +1366,17 @@ class BotData:
                 return
             else:
                 for disuser in message.mentions:
-                    username = message.mentions[0].name
+                    username = disuser.name
                     seenin = set(
                         [member.server.name for member in client.get_all_members() if member.name == username])
                     seenin = str(len(seenin))
-                    if str(message.mentions[0].game) != 'None':
-                        desuser = message.mentions[0]
+                    if str(disuser.game) != 'None':
+                        desuser = disuser
                         msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(desuser, seenin)
                         message_data = msgdata_1
                         data = message_data
                     else:
-                        desuser = message.mentions[0]
+                        desuser = disuser
                         msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(desuser, seenin)
                         message_data = msgdata_1.replace("Playing ", "")
                         data = message_data

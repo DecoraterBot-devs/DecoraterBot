@@ -33,7 +33,10 @@ import os.path
 import concurrent
 import youtube_dl
 import ctypes
-import BotPMError
+try:
+    import BotPMError
+except ImportError:
+    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import BotConfigReader
 
 sepa = os.sep
@@ -214,6 +217,12 @@ class BotData:
         self.ffmop = "-nostats -loglevel quiet"
         self.ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(sys.path[0], sepa), 'w')
         self.verror = False
+        """
+        Global bool to prevent the bot from beign able to join a voice channel while logging in.
+        This is Essentially a fix to the bot not being able to actually send messages in the voice
+        commands as they would drastically screw up.
+        """
+        self.lock_join_voice_channel_command = False
 
     @asyncio.coroutine
     def voice_stuff_new_code(self, client, message):
@@ -237,95 +246,96 @@ class BotData:
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
             else:
-                discord.opus.load_opus(opusdll)
-                self.voice_message_channel = message.channel
-                self.voice_message_server = message.channel.server
-                self.voice_message_server_name = message.channel.server.name
-                if message.author.voice_channel is not None:
-                    self.vchannel = message.author.voice_channel
-                    self.vchannel_name = message.author.voice_channel.name
-                    if self.vchannel.id not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel.id)
-                    if self.voice_message_server.id not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server.id)
-                    if self.voice_message_channel.id not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_channel.id)
-                    if self.voice_message_server_name not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server_name)
-                    if self.vchannel_name not in botvoicechannel:
-                        botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel_name)
-                    file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
-                    json.dump(botvoicechannel, open(file_name, "w"))
-                    try:
+                if not self.lock_join_voice_channel_command:
+                    discord.opus.load_opus(opusdll)
+                    self.voice_message_channel = message.channel
+                    self.voice_message_server = message.channel.server
+                    self.voice_message_server_name = message.channel.server.name
+                    if message.author.voice_channel is not None:
+                        self.vchannel = message.author.voice_channel
+                        self.vchannel_name = message.author.voice_channel.name
+                        if self.vchannel.id not in botvoicechannel:
+                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel.id)
+                        if self.voice_message_server.id not in botvoicechannel:
+                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server.id)
+                        if self.voice_message_channel.id not in botvoicechannel:
+                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_channel.id)
+                        if self.voice_message_server_name not in botvoicechannel:
+                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server_name)
+                        if self.vchannel_name not in botvoicechannel:
+                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel_name)
+                        file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
+                        json.dump(botvoicechannel, open(file_name, "w"))
                         try:
-                            self.voice = yield from client.join_voice_channel(self.vchannel)
-                        except discord.errors.ConnectionClosed:
-                            pass
-                        except RuntimeError:
-                            self.voice_message_server_name = None
-                            self.vchannel_name = None
-                            self.vchannel = None
-                            self.voice_message_server = None
+                            try:
+                                self.voice = yield from client.join_voice_channel(self.vchannel)
+                            except discord.errors.ConnectionClosed:
+                                pass
+                            except RuntimeError:
+                                self.voice_message_server_name = None
+                                self.vchannel_name = None
+                                self.vchannel = None
+                                self.voice_message_server = None
+                                self.voice_message_channel = None
+                                self.voice = None
+                                self.verror = True
+                                msgdata = str(botmessages['join_voice_channel_command_data'][6])
+                                yield from client.send_message(self.voice_message_channel, msgdata)
+                            if not self.verror:
+                                try:
+                                    msg_data = str(botmessages['join_voice_channel_command_data'][1]).format(
+                                        self.vchannel_name)
+                                    yield from client.send_message(message.channel, msg_data)
+                                except discord.errors.Forbidden:
+                                    yield from BotPMError.resolve_send_message_error(client, message)
+                        except discord.errors.InvalidArgument:
                             self.voice_message_channel = None
                             self.voice = None
-                            self.verror = True
-                            msgdata = str(botmessages['join_voice_channel_command_data'][6])
-                            yield from client.send_message(self.voice_message_channel, msgdata)
-                        if not self.verror:
+                            self.vchannel = None
+                            self.voice_message_server = None
+                            self.voice_message_server_name = None
+                            self.vchannel_name = None
                             try:
-                                msg_data = str(botmessages['join_voice_channel_command_data'][1]).format(
-                                    self.vchannel.name)
+                                msg_data = str(botmessages['join_voice_channel_command_data'][2])
                                 yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
-                    except discord.errors.InvalidArgument:
-                        self.voice_message_channel = None
-                        self.voice = None
-                        self.vchannel = None
-                        self.voice_message_server = None
-                        self.voice_message_server_name = None
-                        self.vchannel_name = None
-                        try:
-                            msg_data = str(botmessages['join_voice_channel_command_data'][2])
-                            yield from client.send_message(message.channel, msg_data)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    except asyncio.TimeoutError:
-                        self.voice_message_channel = None
-                        self.voice = None
-                        self.vchannel = None
-                        self.voice_message_server = None
-                        self.voice_message_server_name = None
-                        self.vchannel_name = None
-                        try:
-                            msg_data = str(botmessages['join_voice_channel_command_data'][3])
-                            yield from client.send_message(message.channel, msg_data)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    except discord.errors.ClientException:
-                        self.voice_message_channel = None
-                        self.voice = None
-                        self.vchannel = None
-                        self.voice_message_server = None
-                        try:
-                            msg_data = str(botmessages['join_voice_channel_command_data'][4])
-                            yield from client.send_message(message.channel, msg_data)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    except discord.opus.OpusNotLoaded:
-                        self.voice_message_channel = None
-                        self.voice = None
-                        self.vchannel = None
-                        self.voice_message_server = None
-                        self.voice_message_server_name = None
-                        self.vchannel_name = None
-                        try:
-                            msg_data = str(botmessages['join_voice_channel_command_data'][5])
-                            yield from client.send_message(message.channel, msg_data)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    except IndexError:
-                        return
+                        except asyncio.TimeoutError:
+                            self.voice_message_channel = None
+                            self.voice = None
+                            self.vchannel = None
+                            self.voice_message_server = None
+                            self.voice_message_server_name = None
+                            self.vchannel_name = None
+                            try:
+                                msg_data = str(botmessages['join_voice_channel_command_data'][3])
+                                yield from client.send_message(message.channel, msg_data)
+                            except discord.errors.Forbidden:
+                                yield from BotPMError.resolve_send_message_error(client, message)
+                        except discord.errors.ClientException:
+                            self.voice_message_channel = None
+                            self.voice = None
+                            self.vchannel = None
+                            self.voice_message_server = None
+                            try:
+                                msg_data = str(botmessages['join_voice_channel_command_data'][4])
+                                yield from client.send_message(message.channel, msg_data)
+                            except discord.errors.Forbidden:
+                                yield from BotPMError.resolve_send_message_error(client, message)
+                        except discord.opus.OpusNotLoaded:
+                            self.voice_message_channel = None
+                            self.voice = None
+                            self.vchannel = None
+                            self.voice_message_server = None
+                            self.voice_message_server_name = None
+                            self.vchannel_name = None
+                            try:
+                                msg_data = str(botmessages['join_voice_channel_command_data'][5])
+                                yield from client.send_message(message.channel, msg_data)
+                            except discord.errors.Forbidden:
+                                yield from BotPMError.resolve_send_message_error(client, message)
+                        except IndexError:
+                            return
         if message.content.startswith(_bot_prefix + 'play'):
             if message.author.id in banlist['Users']:
                 return
@@ -1308,20 +1318,12 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        botvoicechannel_reloaded = None
         try:
-            botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0],
-                                                                                                       sepa))
-            botvoicechannel_reloaded = json.load(botvoicechannelfile)
-            botvoicechannelfile.close()
-        except FileNotFoundError:
-            pass
-        try:
-            vchannel_2 = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][0])
-            vmserver = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][1])
-            vmchannel = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][2])
-            self.voice_message_server_name = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][3])
-            self.vchannel_name = str(botvoicechannel_reloaded['Bot_Current_Voice_Channel'][4])
+            vchannel_2 = str(botvoicechannel['Bot_Current_Voice_Channel'][0])
+            vmserver = str(botvoicechannel['Bot_Current_Voice_Channel'][1])
+            vmchannel = str(botvoicechannel['Bot_Current_Voice_Channel'][2])
+            self.voice_message_server_name = str(botvoicechannel['Bot_Current_Voice_Channel'][3])
+            self.vchannel_name = str(botvoicechannel['Bot_Current_Voice_Channel'][4])
             self.vchannel = discord.Object(id=vchannel_2)
             self.voice_message_server = discord.Object(id=vmserver)
             self.voice_message_channel = discord.Object(id=vmchannel)
@@ -1376,6 +1378,7 @@ class BotData:
         :param client: Discord Client.
         :return: Nothing.
         """
+        self.lock_join_voice_channel_command = True
         try:
             vchannel_2 = str(botvoicechannel['Bot_Current_Voice_Channel'][0])
             vmserver = str(botvoicechannel['Bot_Current_Voice_Channel'][1])
@@ -1399,6 +1402,7 @@ class BotData:
                 self.voice_message_channel = None
                 self.voice = None
                 self.verror = True
+                self.lock_join_voice_channel_command = False
             except RuntimeError:
                 self.voice_message_server_name = None
                 self.vchannel_name = None
@@ -1407,11 +1411,13 @@ class BotData:
                 self.voice_message_channel = None
                 self.voice = None
                 self.verror = True
+                self.lock_join_voice_channel_command = False
                 msgdata = str(botmessages['reload_commands_voice_channels_bypass2'][1])
                 yield from client.send_message(self.voice_message_channel, msgdata)
             if self.verror is not True:
                 message_data = str(botmessages['reload_commands_voice_channels_bypass2'][2]).format(self.vchannel_name)
                 yield from client.send_message(self.voice_message_channel, message_data)
+                self.lock_join_voice_channel_command = False
         except IndexError:
             self.voice_message_server_name = None
             self.vchannel_name = None
@@ -1419,6 +1425,7 @@ class BotData:
             self.voice_message_server = None
             self.voice_message_channel = None
             self.voice = None
+            self.lock_join_voice_channel_command = False
 
     @asyncio.coroutine
     def reload_commands_bypass4_new_code(self, client, message, reload_reason):

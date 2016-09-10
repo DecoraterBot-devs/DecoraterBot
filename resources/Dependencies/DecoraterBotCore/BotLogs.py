@@ -81,9 +81,8 @@ class BotData:
                 asynciologger.addHandler(asynciologgerhandler)
 
     @staticmethod
-    def logs_code(client, message):
+    def logs_code(message):
         """
-            :type client: Discord.py Client object
             :param message: Message Object
         """
         logs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
@@ -111,10 +110,9 @@ class BotData:
             except PermissionError:
                 return
 
-    def edit_logs_code(self, client, before, after):
+    def edit_logs_code(self, before, after):
         """
         Logs Edited messages.
-        :param client: Discord Client.
         :param before: Message.
         :param after: Message.
         :return: Nothing.
@@ -142,7 +140,7 @@ class BotData:
                 file.truncate()
                 try:
                     if before.content == after.content:
-                        self.resolve_embed_logs_code(client, before, after)
+                        self.resolve_embed_logs_code(before)
                     else:
                         try:
                             file.write(editlogservers)
@@ -150,11 +148,12 @@ class BotData:
                             return
                         file.close()
                 except Exception as e:
+                    str(e)  # Empty string that is not used nor assigned to a variable. (for now)
                     if before.channel.is_private is False:
                         print(str(LogData['On_Edit_Logs_Error'][0]))
                     else:
                         if before.content == after.content:
-                            self.resolve_embed_logs_code(client, before, after)
+                            self.resolve_embed_logs_code(before)
                         else:
                             file.write(edit_log_pm)
                         file.close()
@@ -162,10 +161,9 @@ class BotData:
             return
 
     @staticmethod
-    def delete_logs_code(client, message):
+    def delete_logs_code(message):
         """
         Logs Deleted Messages.
-        :param client: Discord Client.
         :param message: Messages.
         :return: Nothing.
         """
@@ -196,12 +194,10 @@ class BotData:
                 return
 
     @staticmethod
-    def resolve_embed_logs_code(client, before, after):
+    def resolve_embed_logs_code(before):
         """
         helps with determining if the messages was edited or a embed instead.
-        :param client: Discord Client.
         :param before: Messages.
-        :param after: Messages.
         :return: Nothing.
         """
         if before.channel.is_private is True:
@@ -304,10 +300,9 @@ class BotData:
             raise err
 
     @staticmethod
-    def gamelog_code(client, message, desgame):
+    def gamelog_code(message, desgame):
         """
         Logs the bot's game settings.
-        :param client: Discord Client.
         :param message: Messages.
         :param desgame: Game Name.
         :return: Nothing.
@@ -333,10 +328,9 @@ class BotData:
                 return
 
     @asyncio.coroutine
-    def onban_code(self, client, member):
+    def onban_code(self, member):
         """
         Logs Bans.
-        :param client: Discord Client.
         :param member: Members.
         :return: Nothing.
         """
@@ -425,7 +419,7 @@ class BotData:
         pass
 
     @asyncio.coroutine
-    def onkick_code(self, client, member):
+    def onkick_code(self, member):
         """
 
         :rtype: None
@@ -465,43 +459,38 @@ class BotLogs:
         """
         self.bot.set_up_loggers(loggers='asyncio')
 
-    def logs(self, client, message):
+    def logs(self, message):
         """
         Logs Sent Messages.
-        :param client: Discord Client.
         :param message: Messages.
         :return: Nothing.
         """
-        self.bot.logs_code(client, message)
+        self.bot.logs_code(message)
 
-    def edit_logs(self, client, before, after):
+    def edit_logs(self, before, after):
         """
         Logs Edited Messages.
-        :param client: Discord Client.
         :param before: Messages.
         :param after: Messages.
         :return: Nothing.
         """
-        self.bot.edit_logs_code(client, before, after)
+        self.bot.edit_logs_code(before, after)
 
-    def delete_logs(self, client, message):
+    def delete_logs(self, message):
         """
         Logs Deleted Messages.
-        :param client: Discord Client.
         :param message: Messages.
         :return: Nothing.
         """
-        self.bot.delete_logs_code(client, message)
+        self.bot.delete_logs_code(message)
 
-    def resolve_embed_logs(self, client, before, after):
+    def resolve_embed_logs(self, before):
         """
         Resolves if the message was edited or not.
-        :param client: Discord client.
         :param before: Messages.
-        :param after: Messages.
         :return: Nothing.
         """
-        self.bot.resolve_embed_logs_code(client, before, after)
+        self.bot.resolve_embed_logs_code(before)
 
     @asyncio.coroutine
     def send_logs(self, client, message):
@@ -550,15 +539,14 @@ class BotLogs:
         """
         yield from self.bot.on_bot_error_code(funcname, tbinfo, err)
 
-    def gamelog(self, client, message, desgame):
+    def gamelog(self, message, desgame):
         """
         Logs Game Names.
-        :param client: Discord Client.
         :param message: Messages.
         :param desgame: Game Name.
         :return: Nothing.
         """
-        self.bot.gamelog_code(client, message, desgame)
+        self.bot.gamelog_code(message, desgame)
 
     @asyncio.coroutine
     def onban(self, client, member):

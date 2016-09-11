@@ -40,21 +40,24 @@ except ImportError:
 import BotConfigReader
 
 sepa = os.sep
+path = sys.path[0]
+if path.find('\\AppData\\Local\\Temp') != -1:
+    path = sys.executable.strip('DecoraterBot.exe')
 
-botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa))
+botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(path, sepa))
 banlist = json.load(botbanslist)
 botbanslist.close()
 try:
-    botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(sys.path[0], sepa))
+    botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(path, sepa))
     botvoicechannel = json.load(botvoicechannelfile)
     botvoicechannelfile.close()
 except FileNotFoundError:
     pass
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
 botmessages = json.load(botmessagesdata)
 botmessagesdata.close()
 
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     BotConfig = BotConfigReader.BotConfigVars()
     _bot_prefix = BotConfig.bot_prefix
@@ -63,18 +66,18 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 bits = ctypes.sizeof(ctypes.c_voidp)
 if bits == 4:
     if not (sys.platform.startswith('linux')):
-        opusdll = '{0}{1}resources{1}opus{1}win32{1}x86{1}opus.dll'.format(sys.path[0], sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}x86'.format(sys.path[0], sepa))
+        opusdll = '{0}{1}resources{1}opus{1}win32{1}x86{1}opus.dll'.format(path, sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}x86'.format(path, sepa))
     else:
-        opusdll = '{0}{1}resources{1}opus{1}linux{1}x86{1}opus.dll'.format(sys.path[0], sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x86'.format(sys.path[0], sepa))
+        opusdll = '{0}{1}resources{1}opus{1}linux{1}x86{1}opus.dll'.format(path, sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x86'.format(path, sepa))
 elif bits == 8:
     if not (sys.platform.startswith('linux')):
-        opusdll = '{0}{1}resources{1}opus{1}win32{1}x64{1}opus.dll'.format(sys.path[0], sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}win32(1)x64'.format(sys.path[0], sepa))
+        opusdll = '{0}{1}resources{1}opus{1}win32{1}x64{1}opus.dll'.format(path, sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}win32(1)x64'.format(path, sepa))
     else:
-        opusdll = '{0}{1}resources{1}opus{1}linux{1}x64{1}opus.dll'.format(sys.path[0], sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x64'.format(sys.path[0], sepa))
+        opusdll = '{0}{1}resources{1}opus{1}linux{1}x64{1}opus.dll'.format(path, sepa)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x64'.format(path, sepa))
 
 
 class YTDLLogger(object):
@@ -91,7 +94,7 @@ class YTDLLogger(object):
         """
         if meth is not '':
             if meth == 'ytdl_debug':
-                logfile = '{0}{1}resources{1}Logs{1}ytdl_debug_logs.txt'.format(sys.path[0], sepa)
+                logfile = '{0}{1}resources{1}Logs{1}ytdl_debug_logs.txt'.format(path, sepa)
                 try:
                     file = io.open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -103,7 +106,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_warning':
-                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warning_logs.txt'.format(sys.path[0], sepa)
+                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warning_logs.txt'.format(path, sepa)
                 try:
                     file2 = io.open(logfile2, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile2)
@@ -115,7 +118,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_error':
-                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_error_logs.txt'.format(sys.path[0], sepa)
+                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_error_logs.txt'.format(path, sepa)
                 try:
                     file3 = io.open(logfile3, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile3)
@@ -127,7 +130,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_info':
-                logfile4 = '{0}{1}resources{1}Logs{1}ytdl_info_logs.txt'.format(sys.path[0], sepa)
+                logfile4 = '{0}{1}resources{1}Logs{1}ytdl_info_logs.txt'.format(path, sepa)
                 try:
                     file4 = io.open(logfile4, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile4)
@@ -215,7 +218,7 @@ class BotData:
         self._temp_player_9 = None
         self._temp_player_10 = None
         self.ffmop = "-nostats -loglevel quiet"
-        self.ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(sys.path[0], sepa), 'w')
+        self.ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(path, sepa), 'w')
         self.verror = False
         """
         Global bool to prevent the bot from beign able to join a voice channel while logging in.
@@ -264,7 +267,7 @@ class BotData:
                             botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server_name)
                         if self.vchannel_name not in botvoicechannel:
                             botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel_name)
-                        file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
+                        file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(path, sepa)
                         json.dump(botvoicechannel, open(file_name, "w"))
                         try:
                             try:
@@ -1045,7 +1048,7 @@ class BotData:
                                 botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel_name)
                             except ValueError:
                                 pass
-                        filename = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(sys.path[0], sepa)
+                        filename = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(path, sepa)
                         json.dump(botvoicechannel, open(filename, "w"))
                         try:
                             try:

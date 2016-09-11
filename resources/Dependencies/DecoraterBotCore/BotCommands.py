@@ -42,13 +42,16 @@ import discord
 import BotConfigReader
 
 sepa = os.sep
+path = sys.path[0]
+if path.find('\\AppData\\Local\\Temp') != -1:
+    path = sys.executable.strip('DecoraterBot.exe')
 
 bits = ctypes.sizeof(ctypes.c_voidp)
 PY36 = sys.version_info >= (3, 6)
 PY35 = sys.version_info >= (3, 5)
 
 try:
-    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
+    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
     consoletext = json.load(consoledatafile)
     consoledatafile.close()
 except FileNotFoundError:
@@ -63,18 +66,18 @@ except ImportError:
     print_data_003 = 'Disabled the tinyurl command for now.'
     print(print_data_001 + print_data_002 + print_data_003)
     disabletinyurl = True
-botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa))
+botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(path, sepa))
 banlist = json.load(botbanslist)
 botbanslist.close()
 try:
-    commandslist = io.open('{0}{1}resources{1}ConfigData{1}BotCommands.json'.format(sys.path[0], sepa))
+    commandslist = io.open('{0}{1}resources{1}ConfigData{1}BotCommands.json'.format(path, sepa))
     commandlist = json.load(commandslist)
     commandslist.close()
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][3]))
     sys.exit(2)
 try:
-    botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
+    botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
     botmessages = json.load(botmessagesdata)
     botmessagesdata.close()
 except FileNotFoundError:
@@ -96,7 +99,7 @@ info = "``" + str(consoletext['WindowName'][0]) + version + rev + "``"
 botcommandsPM = str(botmessages['commands_command_data'][2])
 commandturlfix = str(botmessages['commands_command_data'][5])
 botcommandsPMwithtinyurl = botcommandsPM + str(botmessages['commands_command_data'][3]) + commandturlfix
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
 
 _log_games = True
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
@@ -120,6 +123,7 @@ class BotData:
     """
     def __init__(self):
         self.sent_prune_error_message = False
+        self.tinyurlerror = False
 
     @asyncio.coroutine
     def attack_code(self, client, message):
@@ -153,7 +157,7 @@ class BotData:
             else:
                 msg = random.randint(0, 1)
                 if msg == 0:
-                    heads_coin = "{0}{1}resources{1}images{1}coins{1}Heads.png".format(sys.path[0], sepa)
+                    heads_coin = "{0}{1}resources{1}images{1}coins{1}Heads.png".format(path, sepa)
                     try:
                         yield from client.send_file(message.channel, heads_coin)
                     except discord.errors.Forbidden:
@@ -163,7 +167,7 @@ class BotData:
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                 if msg == 1:
-                    tails_coin = "{0}{1}resources{1}images{1}coins{1}Tails.png".format(sys.path[0], sepa)
+                    tails_coin = "{0}{1}resources{1}images{1}coins{1}Tails.png".format(path, sepa)
                     try:
                         yield from client.send_file(message.channel, tails_coin)
                     except discord.errors.Forbidden:
@@ -282,12 +286,12 @@ class BotData:
                 debugcode_new = "# coding=utf-8\n" + message.content[len(_bot_prefix + "debug "):].strip()
                 botowner = discord.utils.find(lambda member: member.id == owner_id, message.channel.server.members)
                 try:
-                    evalcodefile = '{0}{1}resources{1}exec_files{1}exec_temp.py'.format(sys.path[0], sepa)
+                    evalcodefile = '{0}{1}resources{1}exec_files{1}exec_temp.py'.format(path, sepa)
                     eval_temp_code = io.open(evalcodefile, 'w+', encoding='utf-8')
                     debugcode_new += '\n'
                     eval_temp_code.write(debugcode_new)
                     eval_temp_code.close()
-                    execoutputfile = '{0}{1}resources{1}exec_files{1}exec_output_temp.txt'.format(sys.path[0], sepa)
+                    execoutputfile = '{0}{1}resources{1}exec_files{1}exec_output_temp.txt'.format(path, sepa)
                     eval_temp_result_output = io.open(execoutputfile, 'w', encoding='utf-8')
                     out = eval_temp_result_output
                     p = subprocess.Popen("{0}{1}python {2}".format(sys.path[4], sepa, evalcodefile), stdout=out,
@@ -896,7 +900,7 @@ class BotData:
                 botmessages['stats_command_data'][0]).format(server_count, member_count, textchannels_count)
             yield from client.send_message(message.channel, formatted_data)
         if message.content.startswith(_bot_prefix + 'rs'):
-            filename1 = '{0}{1}resources{1}images{1}elsword{1}RS.jpg'.format(sys.path[0], sepa)
+            filename1 = '{0}{1}resources{1}images{1}elsword{1}RS.jpg'.format(path, sepa)
             file_object = open(filename1, 'rb')
             file_data = None
             if file_object is not None:
@@ -904,7 +908,7 @@ class BotData:
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
         if message.content.startswith(_bot_prefix + 'as'):
-            filename2 = '{0}{1}resources{1}images{1}elsword{1}AS.jpg'.format(sys.path[0], sepa)
+            filename2 = '{0}{1}resources{1}images{1}elsword{1}AS.jpg'.format(path, sepa)
             file_object = open(filename2, 'rb')
             file_data = None
             if file_object is not None:
@@ -912,7 +916,7 @@ class BotData:
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
         if message.content.startswith(_bot_prefix + 'ai'):
-            filename3 = '{0}{1}resources{1}images{1}elsword{1}AI.jpg'.format(sys.path[0], sepa)
+            filename3 = '{0}{1}resources{1}images{1}elsword{1}AI.jpg'.format(path, sepa)
             file_object = open(filename3, 'rb')
             file_data = None
             if file_object is not None:
@@ -920,7 +924,7 @@ class BotData:
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
         if message.content.startswith(_bot_prefix + 'lk'):
-            filename4 = '{0}{1}resources{1}images{1}elsword{1}LK.jpg'.format(sys.path[0], sepa)
+            filename4 = '{0}{1}resources{1}images{1}elsword{1}LK.jpg'.format(path, sepa)
             file_object = open(filename4, 'rb')
             file_data = None
             if file_object is not None:
@@ -928,7 +932,7 @@ class BotData:
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
         if message.content.startswith(_bot_prefix + 'vp'):
-            filename5 = '{0}{1}resources{1}images{1}elsword{1}VP.jpg'.format(sys.path[0], sepa)
+            filename5 = '{0}{1}resources{1}images{1}elsword{1}VP.jpg'.format(path, sepa)
             file_object = open(filename5, 'rb')
             file_data = None
             if file_object is not None:
@@ -936,7 +940,7 @@ class BotData:
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
         if message.content.startswith(_bot_prefix + 'ws'):
-            filename6 = '{0}{1}resources{1}images{1}elsword{1}WS.jpg'.format(sys.path[0], sepa)
+            filename6 = '{0}{1}resources{1}images{1}elsword{1}WS.jpg'.format(path, sepa)
             file_object = open(filename6, 'rb')
             file_data = None
             if file_object is not None:
@@ -1303,7 +1307,7 @@ class BotData:
                     if message.mentions[0].id not in banlist['Users']:
                         try:
                             banlist['Users'].append(message.mentions[0].id)
-                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(sys.path[0],
+                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(path,
                                                                                                            sepa), "w"))
                             try:
                                 message_data = str(
@@ -1335,7 +1339,7 @@ class BotData:
                         try:
                             tobotunban = banlist['Users']
                             tobotunban.remove(message.mentions[0].id)
-                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(sys.path[0],
+                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(path,
                                                                                                            sepa), "w"))
                             try:
                                 message_data = str(
@@ -1411,6 +1415,7 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
+        # This command has been optimized for TinyURL3 0.1.5
         if message.content.startswith(_bot_prefix + 'tinyurl'):
             if disabletinyurl is True:
                 return
@@ -1419,67 +1424,27 @@ class BotData:
                 if '<' and '>' in url:
                     url = url.strip('<')
                     url = url.strip('>')
-                if url != '':
-                    if url.startswith("http://"):
-                        link = TinyURL.TinyURL.create_one(url)
-                        link = str(link)
-                        result = str(botmessages['tinyurl_command_data'][0]).format(link)
-                        try:
-                            yield from client.send_message(message.channel, result)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    else:
-                        if url.startswith("https://"):
-                            pass
-                        elif url.startswith("ftp://"):
-                            pass
-                        else:
-                            try:
-                                yield from client.send_message(message.channel, str(
-                                    botmessages['tinyurl_command_data'][1]))
-                            except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(client, message)
-                    if url.startswith("https://"):
-                        link = TinyURL.TinyURL.create_one(url)
-                        link = str(link)
-                        result = str(botmessages['tinyurl_command_data'][0]).format(link)
-                        try:
-                            yield from client.send_message(message.channel, result)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    else:
-                        if url.startswith("ftp://"):
-                            pass
-                        elif url.startswith("http://"):
-                            pass
-                        else:
-                            try:
-                                yield from client.send_message(message.channel, str(
-                                    botmessages['tinyurl_command_data'][1]))
-                            except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(client, message)
-                    if url.startswith("ftp://"):
-                        link = TinyURL.TinyURL.create_one(url)
-                        link = str(link)
-                        result = str(botmessages['tinyurl_command_data'][0]).format(link)
-                        try:
-                            yield from client.send_message(message.channel, result)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    else:
-                        if url.startswith("http://"):
-                            pass
-                        elif url.startswith("https://"):
-                            pass
-                        else:
-                            try:
-                                yield from client.send_message(message.channel, str(
-                                    botmessages['tinyurl_command_data'][1]))
-                            except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(client, message)
-                else:
+                try:
+                    link = TinyURL.TinyURL.create_one(url)
+                    self.tinyurlerror = False
+                except TinyURL.errors.URLError:
+                    self.tinyurlerror = True
                     try:
                         yield from client.send_message(message.channel, str(botmessages['tinyurl_command_data'][2]))
+                    except discord.errors.Forbidden:
+                        yield from BotPMError.resolve_send_message_error(client, message)
+                except TinyURL.errors.InvalidURL:
+                    self.tinyurlerror = True
+                    try:
+                        result = str(botmessages['tinyurl_command_data'][1])
+                        yield from client.send_message(message.channel, result)
+                    except discord.errors.Forbidden:
+                        yield from BotPMError.resolve_send_message_error(client, message)
+                if not self.tinyurlerror:
+                    link = str(link)
+                    result = str(botmessages['tinyurl_command_data'][0]).format(link)
+                    try:
+                        yield from client.send_message(message.channel, result)
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
 

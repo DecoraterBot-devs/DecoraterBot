@@ -35,7 +35,10 @@ try:
 except SyntaxError:
     sepa = os.sep
     exception_data = 'Fatal exception caused in BotCommands.py:\n{0}'.format(str(traceback.format_exc()))
-    logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(sys.path[0], sepa)
+    path = sys.path[0]
+    if path.find('\\AppData\\Local\\Temp') != -1:
+        path = sys.executable.strip('DecoraterBot.exe')
+    logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(path, sepa)
     try:
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
@@ -52,30 +55,33 @@ try:
     import BotPMError
 except ImportError:
     print('Some Unknown thing happened which made a critical bot code file unable to be found.')
-try:
-    import BotVoiceCommands
-except ImportError:
-    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
+#try:
+import BotVoiceCommands
+#except ImportError:
+#    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import BotConfigReader
 
 sepa = os.sep
+path = sys.path[0]
+if path.find('\\AppData\\Local\\Temp') != -1:
+    path = sys.executable.strip('DecoraterBot.exe')
 
 try:
-    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
+    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
     consoletext = json.load(consoledatafile)
     consoledatafile.close()
 except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
 try:
-    jsonfile = io.open('{0}{1}resources{1}ConfigData{1}IgnoreList.json'.format(sys.path[0], sepa))
+    jsonfile = io.open('{0}{1}resources{1}ConfigData{1}IgnoreList.json'.format(path, sepa))
     somedict = json.load(jsonfile)
     jsonfile.close()
 except FileNotFoundError:
     print(str(consoletext['Missing_JSON_Errors'][0]))
     sys.exit(2)
 try:
-    botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
+    botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
     botmessages = json.load(botmessagesdata)
     botmessagesdata.close()
 except FileNotFoundError:
@@ -118,7 +124,7 @@ log_member_join = True
 enable_error_handler = True
 
 
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     BotConfig = BotConfigReader.BotConfigVars()
     discord_user_id = BotConfig.discord_user_id
@@ -190,7 +196,7 @@ class BotData001:
             if message.channel.id not in somedict["channels"]:
                 try:
                     somedict["channels"].append(message.channel.id)
-                    json.dump(somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(sys.path[0],
+                    json.dump(somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(path,
                                                                                                      sepa), "w"))
                     try:
                         yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][0]))
@@ -207,7 +213,7 @@ class BotData001:
                 try:
                     ignored = somedict["channels"]
                     ignored.remove(message.channel.id)
-                    json.dump(somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(sys.path[0],
+                    json.dump(somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(path,
                                                                                                      sepa), "w"))
                     msg_info = str(botmessages['Unignore_Channel_Data'][0])
                     try:
@@ -414,7 +420,7 @@ class BotData001:
         :return: Nothing.
         """
         yield from self.enable_all_commands_with_logs_code(client, message)
-        serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(sys.path[0],
+        serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(path,
                                                                                                          sepa))
         serveridslist = json.load(serveridslistfile)
         serveridslistfile.close()
@@ -425,16 +431,16 @@ class BotData001:
         filename_3 = 'verifyrole.json'
         filename_4 = 'verifymessages.json'
         filename_5 = 'verifycache.json'
-        joinedlistfile = io.open(sys.path[0] + file_path + filename_1)
+        joinedlistfile = io.open(path + file_path + filename_1)
         newlyjoinedlist = json.load(joinedlistfile)
         joinedlistfile.close()
-        memberjoinverifymessagefile = io.open(sys.path[0] + file_path + filename_2)
+        memberjoinverifymessagefile = io.open(path + file_path + filename_2)
         memberjoinverifymessagedata = json.load(memberjoinverifymessagefile)
         memberjoinverifymessagefile.close()
-        memberjoinverifyrolefile = io.open(sys.path[0] + file_path + filename_3)
+        memberjoinverifyrolefile = io.open(path + file_path + filename_3)
         memberjoinverifyroledata = json.load(memberjoinverifyrolefile)
         memberjoinverifyrolefile.close()
-        memberjoinverifymessagefile2 = io.open(sys.path[0] + file_path + filename_4)
+        memberjoinverifymessagefile2 = io.open(path + file_path + filename_4)
         memberjoinverifymessagedata2 = json.load(memberjoinverifymessagefile2)
         memberjoinverifymessagefile2.close()
         role_name = str(memberjoinverifyroledata['verify_role_id'][0])
@@ -453,7 +459,7 @@ class BotData001:
                     yield from client.add_roles(message.author, role2)
                     yield from client.send_message(message.author, msg_data)
                     newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
-                    json.dump(newlyjoinedlist, open(sys.path[0] + file_path + filename_5, "w"))
+                    json.dump(newlyjoinedlist, open(path + file_path + filename_5, "w"))
                 else:
                     yield from client.delete_message(message)
                     yield from client.send_message(message.channel, str(
@@ -630,13 +636,13 @@ class BotData003:
         """
         try:
             serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
-                sys.path[0], sepa))
+                path, sepa))
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
             file_path = ('{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa, serverid))
             filename_1 = 'verifycache.json'
-            joinedlistfile = io.open(sys.path[0] + file_path + filename_1)
+            joinedlistfile = io.open(path + file_path + filename_1)
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
             if member.id in newlyjoinedlist['users_to_be_verified']:
@@ -645,7 +651,7 @@ class BotData003:
                                                    member.mention, member.server.name))
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
                 file_name = "{0}verifications{0}verifycache.json".format(sepa)
-                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(sys.path[0],
+                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(path,
                                                                                                         sepa, file_name)
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
@@ -662,19 +668,19 @@ class BotData003:
         """
         try:
             serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
-                sys.path[0], sepa))
+                path, sepa))
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
             file_path = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa, serverid)
             filename_1 = 'verifycache.json'
-            joinedlistfile = io.open(sys.path[0] + file_path + filename_1)
+            joinedlistfile = io.open(path + file_path + filename_1)
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
             if member.id in newlyjoinedlist['users_to_be_verified']:
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
                 file_name = "{0}verifications{0}verifycache.json".format(sepa)
-                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(sys.path[0],
+                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(path,
                                                                                                         sepa, file_name)
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
@@ -712,7 +718,7 @@ class BotData003:
         str(client)
         try:
             if _logunbans:
-                yield from DBLogs.onunban(user)
+                yield from DBLogs.onunban(user.server, user)
         except Exception as e:
             funcname = '_resolve_onunban_code'
             tbinfo = str(traceback.format_exc())
@@ -757,7 +763,7 @@ class BotData003:
             if member.server.id == '71324306319093760' and member.bot is not True:
                 file_path_join_1 = '{0}resources{0}ConfigData{0}serverconfigs{0}'.format(sepa)
                 filename_join_1 = 'servers.json'
-                serveridslistfile = io.open(sys.path[0] + file_path_join_1 + filename_join_1)
+                serveridslistfile = io.open(path + file_path_join_1 + filename_join_1)
                 serveridslist = json.load(serveridslistfile)
                 serveridslistfile.close()
                 serverid = str(serveridslist['config_server_ids'][0])
@@ -766,13 +772,13 @@ class BotData003:
                 filename_join_2 = 'verifymessages.json'
                 filename_join_3 = 'verifycache.json'
                 filename_join_4 = 'verifycache.json'
-                memberjoinmessagedatafile = io.open(sys.path[0] + file_path_join_2 + filename_join_2)
+                memberjoinmessagedatafile = io.open(path + file_path_join_2 + filename_join_2)
                 memberjoinmessagedata = json.load(memberjoinmessagedatafile)
                 memberjoinmessagedatafile.close()
                 msg_info = str(memberjoinmessagedata['verify_messages'][0])
                 message_data = msg_info.format(member.id, member.server.name)
                 des_channel = str(memberjoinmessagedata['verify_messages_channel'][0])
-                joinedlistfile = io.open(sys.path[0] + file_path_join_2 + filename_join_3)
+                joinedlistfile = io.open(path + file_path_join_2 + filename_join_3)
                 newlyjoinedlist = json.load(joinedlistfile)
                 joinedlistfile.close()
                 yield from client.send_message(discord.Object(id=des_channel), message_data)
@@ -781,7 +787,7 @@ class BotData003:
                     pass
                 else:
                     newlyjoinedlist['users_to_be_verified'].append(member.id)
-                    json.dump(newlyjoinedlist, open(sys.path[0] + file_path_join_2 + filename_join_4, "w"))
+                    json.dump(newlyjoinedlist, open(path + file_path_join_2 + filename_join_4, "w"))
         except Exception as e:
             funcname = '_resolve_onjoin_code'
             tbinfo = str(traceback.format_exc())

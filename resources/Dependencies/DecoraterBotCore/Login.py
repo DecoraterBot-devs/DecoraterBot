@@ -36,18 +36,21 @@ from colorama import Fore, Back, Style
 import BotConfigReader
 
 sepa = os.sep
+path = sys.path[0]
+if path.find('\\AppData\\Local\\Temp') != -1:
+    path = sys.executable.strip('DecoraterBot.exe')
 
 init()
 
-consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
+consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
 consoletext = json.load(consoledatafile)
 consoledatafile.close()
 
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
 botmessages = json.load(botmessagesdata)
 botmessagesdata.close()
 
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
 
 BotConfig = BotConfigReader.BotConfigVars()
 

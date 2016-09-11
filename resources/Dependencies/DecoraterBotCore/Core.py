@@ -36,7 +36,10 @@ try:
     import Ignore
 except ImportError:
     sepa = os.sep
-    sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(sys.path[0], sepa))
+    path = sys.path[0]
+    if path.find('\\AppData\\Local\\Temp') != -1:
+        path = sys.executable.strip('DecoraterBot.exe')
+    sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(path, sepa))
     import Ignore
 try:
     import Login
@@ -50,17 +53,20 @@ except ImportError:
 import BotConfigReader
 
 sepa = os.sep
+path = sys.path[0]
+if path.find('\\AppData\\Local\\Temp') != -1:
+    path = sys.executable.strip('DecoraterBot.exe')
 
 DBLogin = Login.BotLogin()
 DBEvents = Ignore.BotEvents()
 DBIgnores = Ignore.BotIgnores()
-jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(sys.path[0], sepa))
+jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(path, sepa))
 somedict = json.load(jsonfile)
 jsonfile.close()
-consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
+consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
 consoletext = json.load(consoledatafile)
 consoledatafile.close()
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(sys.path[0], sepa))
+botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
 botmessages = json.load(botmessagesdata)
 botmessagesdata.close()
 
@@ -68,7 +74,7 @@ version = str(consoletext['WindowVersion'][0])
 start = time.time()
 DBLogin.variable()
 
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
+PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
 
 if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     BotConfig = BotConfigReader.BotConfigVars()
@@ -82,7 +88,7 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     _bot_prefix = BotConfig.bot_prefix
 
 # The platform list I have so far.
-if not (sys.platform.startswith('win') or sys.platform.startswith('freebsd') and sys.platform.startswith('linux')):
+if not (sys.platform.startswith('win') or sys.platform.startswith('linux')):
     platerrormsg = str(consoletext['Unsupported_Platform'][0])
     raise UnsupportedPlatform(platerrormsg.format(sys.platform))
 

@@ -33,7 +33,10 @@ class BotConfigVars:
     """
     def __init__(self):
         sepa = os.sep
-        self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(sys.path[0], sepa)
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip('DecoraterBot.exe')
+        self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, sepa)
         self.credentials = None
         self.value = None
         self.load()

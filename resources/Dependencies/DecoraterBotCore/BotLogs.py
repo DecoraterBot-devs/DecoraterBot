@@ -32,16 +32,19 @@ import logging
 import json
 
 sepa = os.sep
+path = sys.path[0]
+if path.find('\\AppData\\Local\\Temp') != -1:
+    path = sys.executable.strip('DecoraterBot.exe')
 
 try:
-    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(sys.path[0], sepa))
+    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
     consoletext = json.load(consoledatafile)
     consoledatafile.close()
 except FileNotFoundError:
     print('ConsoleWindow.json is not Found. Cannot Continue.')
     sys.exit(2)
 try:
-    LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.json'.format(sys.path[0], sepa))
+    LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.json'.format(path, sepa))
     LogData = json.load(LogDataFile)
     LogDataFile.close()
 except FileNotFoundError:
@@ -67,7 +70,7 @@ class BotData:
             if loggers == 'discord':
                 logger = logging.getLogger('discord')
                 logger.setLevel(logging.DEBUG)
-                handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(sys.path[0],
+                handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(path,
                                                                                                        sepa),
                                               encoding='utf-8', mode='w')
                 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
@@ -76,7 +79,7 @@ class BotData:
                 asynciologger = logging.getLogger('asyncio')
                 asynciologger.setLevel(logging.DEBUG)
                 asynciologgerhandler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(
-                    sys.path[0], sepa), encoding='utf-8', mode='w')
+                    path, sepa), encoding='utf-8', mode='w')
                 asynciologgerhandler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 asynciologger.addHandler(asynciologgerhandler)
 
@@ -95,7 +98,7 @@ class BotData:
                                                                 message.channel.name, message.content)
             logsservers = logs003
         if message.content is not None:
-            logfile = '{0}{1}resources{1}Logs{1}log.txt'.format(sys.path[0], sepa)
+            logfile = '{0}{1}resources{1}Logs{1}log.txt'.format(path, sepa)
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
@@ -119,7 +122,7 @@ class BotData:
         """
         old = str(before.content)
         new = str(after.content)
-        logfile = '{0}{1}resources{1}Logs{1}edit log.txt'.format(sys.path[0], sepa)
+        logfile = '{0}{1}resources{1}Logs{1}edit log.txt'.format(path, sepa)
         usr_name = before.author.name
         usr_id = before.author.id
         msg_time = str(before.timestamp)
@@ -179,7 +182,7 @@ class BotData:
             dellogsservers = dellogs003
         if message.content is not None:
             try:
-                logfile = '{0}{1}resources{1}Logs{1}delete log.txt'.format(sys.path[0], sepa)
+                logfile = '{0}{1}resources{1}Logs{1}delete log.txt'.format(path, sepa)
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
                 if size >= 32102400:
@@ -204,7 +207,7 @@ class BotData:
             data = str(LogData['Embed_Logs'][0])
         else:
             data = str(LogData['Embed_Logs'][1])
-        logfile = '{0}{1}resources{1}Logs{1}embeds.txt'.format(sys.path[0], sepa)
+        logfile = '{0}{1}resources{1}Logs{1}embeds.txt'.format(path, sepa)
         try:
             file2 = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -283,7 +286,7 @@ class BotData:
         if bool(funcname):
             if bool(tbinfo):
                 exception_data = 'Ignoring exception caused at {0}:\n{1}'.format(funcname, tbinfo)
-                logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(sys.path[0], sepa)
+                logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(path, sepa)
                 try:
                     file = io.open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -312,7 +315,7 @@ class BotData:
         if message.channel.is_private is False:
             gmelog001 = str(LogData['On_Message_Logs'][1]).format(message.author.name, desgame, message.author.id)
             gmelogsservers = gmelog001
-            logfile = '{0}{1}resources{1}Logs{1}gamelog.txt'.format(sys.path[0], sepa)
+            logfile = '{0}{1}resources{1}Logs{1}gamelog.txt'.format(path, sepa)
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
@@ -339,7 +342,7 @@ class BotData:
         mem_dis = member.discriminator
         mem_svr_name = member.server.name
         ban_log_data = str(LogData['Ban_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}bans.txt'.format(sys.path[0], sepa)
+        logfile = '{0}{1}resources{1}Logs{1}bans.txt'.format(path, sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -355,7 +358,7 @@ class BotData:
         :return: Nothing.
         """
         available_log_data = str(LogData['On_Server_Available'][0]).format(server)
-        logfile = '{0}{1}resources{1}Logs{1}available_servers.txt'.format(sys.path[0], sepa)
+        logfile = '{0}{1}resources{1}Logs{1}available_servers.txt'.format(path, sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -371,7 +374,7 @@ class BotData:
         :return: Nothing.
         """
         unavailable_log_data = str(LogData['On_Server_Unavailable'][0]).format(server)
-        logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.txt'.format(sys.path[0], sepa)
+        logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.txt'.format(path, sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -388,7 +391,7 @@ class BotData:
         :return: Nothing.
         """
         unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
-        logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(sys.path[0], sepa)
+        logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(path, sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -429,7 +432,7 @@ class BotData:
         mem_dis = member.discriminator
         mem_svr_name = member.server.name
         kick_log_data = str(LogData['Kick_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}kicks.txt'.format(sys.path[0], sepa)
+        logfile = '{0}{1}resources{1}Logs{1}kicks.txt'.format(path, sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -549,14 +552,13 @@ class BotLogs:
         self.bot.gamelog_code(message, desgame)
 
     @asyncio.coroutine
-    def onban(self, client, member):
+    def onban(self, member):
         """
         Logs Bans.
-        :param client: Discord Client.
         :param member: Members.
         :return: Nothing.
         """
-        yield from self.bot.onban_code(client, member)
+        yield from self.bot.onban_code(member)
 
     @asyncio.coroutine
     def onavailable(self, server):

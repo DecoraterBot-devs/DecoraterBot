@@ -29,21 +29,27 @@ try:
     import discord
 except ImportError:
     sepa = os.sep
-    appendpath = "{0}{1}resources{1}Dependencies".format(sys.path[0], sepa)
+    path = sys.path[0]
+    if path.find('\\AppData\\Local\\Temp') != -1:
+        path = sys.executable.strip('DecoraterBot.exe')
+    appendpath = "{0}{1}resources{1}Dependencies".format(path, sepa)
     appendpath2 = "{0}{1}dependencies.{2}.{3.name}-{4.major}{4.minor}{4.micro}.zip".format(appendpath, sepa,
                                                                                            sys.platform,
                                                                                            sys.implementation,
                                                                                            sys.version_info)
     sys.path.append(appendpath2)
     if sys.platform.startswith("win"):
-        appendpath3 = "{0}{1}resources{1}Dependencies{1}win32-deps".format(sys.path[0], sepa)
+        appendpath3 = "{0}{1}resources{1}Dependencies{1}win32-deps".format(path, sepa)
         sys.path.append(appendpath3)
     import discord
 try:
     import DecoraterBotCore
 except ImportError:
     sepa = os.sep
-    appendpath = "{0}{1}resources{1}Dependencies".format(sys.path[0], sepa)
+    path = sys.path[0]
+    if path.find('\\AppData\\Local\\Temp') != -1:
+        path = sys.executable.strip('DecoraterBot.exe')
+    appendpath = "{0}{1}resources{1}Dependencies".format(path, sepa)
     sys.path.append(appendpath)
     import DecoraterBotCore
 

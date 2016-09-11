@@ -609,11 +609,10 @@ class BotLogs:
         yield from self.bot.ongroupremove_code(channel, user)
 
     @asyncio.coroutine
-    def onkick(self, client, member):
+    def onkick(self, member):
         """
         Logs Kicks.
-        :param client: Discord client.
         :param member: Members.
         :return: Nothing.
         """
-        yield from self.bot.onkick_code(client, member)
+        yield from self.bot.onkick_code(member)

@@ -29,6 +29,7 @@ import os.path
 import aiohttp
 import sys
 import json
+import ctypes
 import io
 from discord.__init__ import __version__
 from colorama import init
@@ -36,9 +37,14 @@ from colorama import Fore, Back, Style
 import BotConfigReader
 
 sepa = os.sep
+bits = ctypes.sizeof(ctypes.c_voidp)
+if bits == 4:
+    platform = 'x86'
+elif bits == 8:
+    platform = 'x64'
 path = sys.path[0]
 if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.exe')
+    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
 
 init()
 

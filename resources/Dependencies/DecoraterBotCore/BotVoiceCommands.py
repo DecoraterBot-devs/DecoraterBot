@@ -40,9 +40,29 @@ except ImportError:
 import BotConfigReader
 
 sepa = os.sep
+bits = ctypes.sizeof(ctypes.c_voidp)
+if bits == 4:
+    platform = 'x86'
+elif bits == 8:
+    platform = 'x64'
 path = sys.path[0]
 if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.exe')
+    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
+
+if bits == 4:
+    if not (sys.platform.startswith('linux')):
+        opusdll = '{0}{1}resources{1}opus{1}win32{1}{2}{1}opus.dll'.format(path, sepa, platform)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(path, sepa, platform))
+    else:
+        opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}{1}opus.dll'.format(path, sepa, platform)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(path, sepa, platform))
+elif bits == 8:
+    if not (sys.platform.startswith('linux')):
+        opusdll = '{0}{1}resources{1}opus{1}win32{1}{2}{1}opus.dll'.format(path, sepa, platform)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(path, sepa, platform))
+    else:
+        opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}{1}opus.dll'.format(path, sepa, platform)
+        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(path, sepa, platform))
 
 botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(path, sepa))
 banlist = json.load(botbanslist)
@@ -62,22 +82,6 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     BotConfig = BotConfigReader.BotConfigVars()
     _bot_prefix = BotConfig.bot_prefix
     _log_ytdl = BotConfig.log_ytdl
-
-bits = ctypes.sizeof(ctypes.c_voidp)
-if bits == 4:
-    if not (sys.platform.startswith('linux')):
-        opusdll = '{0}{1}resources{1}opus{1}win32{1}x86{1}opus.dll'.format(path, sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}x86'.format(path, sepa))
-    else:
-        opusdll = '{0}{1}resources{1}opus{1}linux{1}x86{1}opus.dll'.format(path, sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x86'.format(path, sepa))
-elif bits == 8:
-    if not (sys.platform.startswith('linux')):
-        opusdll = '{0}{1}resources{1}opus{1}win32{1}x64{1}opus.dll'.format(path, sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}win32(1)x64'.format(path, sepa))
-    else:
-        opusdll = '{0}{1}resources{1}opus{1}linux{1}x64{1}opus.dll'.format(path, sepa)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}x64'.format(path, sepa))
 
 
 class YTDLLogger(object):
@@ -226,6 +230,53 @@ class BotData:
         commands as they would drastically screw up.
         """
         self.lock_join_voice_channel_command = False
+
+    def resolve_bot_playlist_issue(self):
+        """
+        This should fix the Memory leaks of ffmpeg processes from the temp players when a song stops playing.
+        :return: Nothing.
+        """
+        if self.is_bot_playing is False:
+            if self._temp_player_1 is not None:
+                self._temp_player_1.start()
+                self._temp_player_1.stop()
+                self._temp_player_1 = None
+            if self._temp_player_2 is not None:
+                self._temp_player_2.start()
+                self._temp_player_2.stop()
+                self._temp_player_2 = None
+            if self._temp_player_3 is not None:
+                self._temp_player_3.start()
+                self._temp_player_3.stop()
+                self._temp_player_3 = None
+            if self._temp_player_4 is not None:
+                self._temp_player_4.start()
+                self._temp_player_4.stop()
+                self._temp_player_4 = None
+            if self._temp_player_5 is not None:
+                self._temp_player_5.start()
+                self._temp_player_5.stop()
+                self._temp_player_5 = None
+            if self._temp_player_6 is not None:
+                self._temp_player_6.start()
+                self._temp_player_6.stop()
+                self._temp_player_6 = None
+            if self._temp_player_7 is not None:
+                self._temp_player_7.start()
+                self._temp_player_7.stop()
+                self._temp_player_7 = None
+            if self._temp_player_8 is not None:
+                self._temp_player_8.start()
+                self._temp_player_8.stop()
+                self._temp_player_8 = None
+            if self._temp_player_9 is not None:
+                self._temp_player_9.start()
+                self._temp_player_9.stop()
+                self._temp_player_9 = None
+            if self._temp_player_10 is not None:
+                self._temp_player_10.start()
+                self._temp_player_10.stop()
+                self._temp_player_10 = None
 
     @asyncio.coroutine
     def voice_stuff_new_code(self, client, message):
@@ -482,10 +533,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track1, track1time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_1.start()
-                                    self._temp_player_1.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -518,10 +565,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track2, track2time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_2.start()
-                                    self._temp_player_2.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -550,10 +593,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track3, track3time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_3.start()
-                                    self._temp_player_3.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -582,10 +621,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track4, track4time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_4.start()
-                                    self._temp_player_4.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -614,10 +649,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track5, track5time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_5.start()
-                                    self._temp_player_5.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -646,10 +677,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track6, track6time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_6.start()
-                                    self._temp_player_6.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -678,10 +705,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track7, track7time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_7.start()
-                                    self._temp_player_7.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -710,10 +733,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track8, track8time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_8.start()
-                                    self._temp_player_8.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -742,10 +761,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track9, track9time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_9.start()
-                                    self._temp_player_9.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -774,10 +789,6 @@ class BotData:
                                     msgdata = str(botmessages['play_command_data'][13]).format(track10, track10time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
-                                    # Thread Exception here when it gets to this line when the normal "player" is
-                                    # playing. I need some workarround to clear the temp players.
-                                    self._temp_player_10.start()
-                                    self._temp_player_10.stop()
                                 except AttributeError:
                                     message_data = str(botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
@@ -806,6 +817,8 @@ class BotData:
                         self.player.stop()
                         self.player = None
                         self.is_bot_playing = False
+                        # Clean the temp players now...
+                        self.resolve_bot_playlist_issue()
                         if len(self.bot_playlist) >= 1:
                             try:
                                 track_data = None
@@ -845,6 +858,7 @@ class BotData:
                                                 pass
                                         except discord.errors.Forbidden:
                                             yield from BotPMError.resolve_send_message_error(client, message)
+                                        if self.player is not None:
                                             self.player.start()
                             except UnboundLocalError:
                                 self.player = None
@@ -960,6 +974,8 @@ class BotData:
                     if self._sent_finished_message is False:
                         self._sent_finished_message = True
                         self.is_bot_playing = False
+                        # Clean the temp players now...
+                        self.resolve_bot_playlist_issue()
                         try:
                             message_data = str(botmessages['auto_playlist_data'][0]).format(
                                 str(self.player.title), str(self.player.uploader), minutes, seconds)
@@ -1076,143 +1092,146 @@ class BotData:
                 message_data = msgdata
                 yield from client.send_message(message.channel, message_data)
         if message.content.startswith(_bot_prefix + 'Playlist'):
-            track1 = str(botmessages['playlist_command_data'][0])
-            track2 = str(botmessages['playlist_command_data'][0])
-            track3 = str(botmessages['playlist_command_data'][0])
-            track4 = str(botmessages['playlist_command_data'][0])
-            track5 = str(botmessages['playlist_command_data'][0])
-            track6 = str(botmessages['playlist_command_data'][0])
-            track7 = str(botmessages['playlist_command_data'][0])
-            track8 = str(botmessages['playlist_command_data'][0])
-            track9 = str(botmessages['playlist_command_data'][0])
-            track10 = str(botmessages['playlist_command_data'][0])
             if message.author.id in banlist['Users']:
                 return
-            elif len(self.bot_playlist_entries) == 0:
-                track1 = str(botmessages['playlist_command_data'][0])
-                track2 = str(botmessages['playlist_command_data'][0])
-                track3 = str(botmessages['playlist_command_data'][0])
-                track4 = str(botmessages['playlist_command_data'][0])
-                track5 = str(botmessages['playlist_command_data'][0])
-                track6 = str(botmessages['playlist_command_data'][0])
-                track7 = str(botmessages['playlist_command_data'][0])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 1:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(botmessages['playlist_command_data'][0])
-                track3 = str(botmessages['playlist_command_data'][0])
-                track4 = str(botmessages['playlist_command_data'][0])
-                track5 = str(botmessages['playlist_command_data'][0])
-                track6 = str(botmessages['playlist_command_data'][0])
-                track7 = str(botmessages['playlist_command_data'][0])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 2:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(botmessages['playlist_command_data'][0])
-                track4 = str(botmessages['playlist_command_data'][0])
-                track5 = str(botmessages['playlist_command_data'][0])
-                track6 = str(botmessages['playlist_command_data'][0])
-                track7 = str(botmessages['playlist_command_data'][0])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 3:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(botmessages['playlist_command_data'][0])
-                track5 = str(botmessages['playlist_command_data'][0])
-                track6 = str(botmessages['playlist_command_data'][0])
-                track7 = str(botmessages['playlist_command_data'][0])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 4:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(self.bot_playlist_entries[3])
-                track5 = str(botmessages['playlist_command_data'][0])
-                track6 = str(botmessages['playlist_command_data'][0])
-                track7 = str(botmessages['playlist_command_data'][0])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 5:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(self.bot_playlist_entries[3])
-                track5 = str(self.bot_playlist_entries[4])
-                track6 = str(botmessages['playlist_command_data'][0])
-                track7 = str(botmessages['playlist_command_data'][0])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 6:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(self.bot_playlist_entries[3])
-                track5 = str(self.bot_playlist_entries[4])
-                track6 = str(self.bot_playlist_entries[5])
-                track7 = str(botmessages['playlist_command_data'][0])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 7:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(self.bot_playlist_entries[3])
-                track5 = str(self.bot_playlist_entries[4])
-                track6 = str(self.bot_playlist_entries[5])
-                track7 = str(self.bot_playlist_entries[6])
-                track8 = str(botmessages['playlist_command_data'][0])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 8:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(self.bot_playlist_entries[3])
-                track5 = str(self.bot_playlist_entries[4])
-                track6 = str(self.bot_playlist_entries[5])
-                track7 = str(self.bot_playlist_entries[6])
-                track8 = str(self.bot_playlist_entries[7])
-                track9 = str(botmessages['playlist_command_data'][0])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 9:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(self.bot_playlist_entries[3])
-                track5 = str(self.bot_playlist_entries[4])
-                track6 = str(self.bot_playlist_entries[5])
-                track7 = str(self.bot_playlist_entries[6])
-                track8 = str(self.bot_playlist_entries[7])
-                track9 = str(self.bot_playlist_entries[8])
-                track10 = str(botmessages['playlist_command_data'][0])
-            elif len(self.bot_playlist_entries) == 10:
-                track1 = str(self.bot_playlist_entries[0])
-                track2 = str(self.bot_playlist_entries[1])
-                track3 = str(self.bot_playlist_entries[2])
-                track4 = str(self.bot_playlist_entries[3])
-                track5 = str(self.bot_playlist_entries[4])
-                track6 = str(self.bot_playlist_entries[5])
-                track7 = str(self.bot_playlist_entries[6])
-                track8 = str(self.bot_playlist_entries[7])
-                track9 = str(self.bot_playlist_entries[8])
-                track10 = str(self.bot_playlist_entries[9])
-            msgdata = str(botmessages['playlist_command_data'][1]).format(track1, track2, track3, track4, track5,
-                                                                          track6, track7, track8, track9, track10)
-            message_data = msgdata
-            yield from client.send_message(message.channel, message_data)
+            elif self.voice is not None:
+                if self.voice_message_channel is not None:
+                    if message.channel.id == self.voice_message_channel.id:
+                        track1 = str(botmessages['playlist_command_data'][0])
+                        track2 = str(botmessages['playlist_command_data'][0])
+                        track3 = str(botmessages['playlist_command_data'][0])
+                        track4 = str(botmessages['playlist_command_data'][0])
+                        track5 = str(botmessages['playlist_command_data'][0])
+                        track6 = str(botmessages['playlist_command_data'][0])
+                        track7 = str(botmessages['playlist_command_data'][0])
+                        track8 = str(botmessages['playlist_command_data'][0])
+                        track9 = str(botmessages['playlist_command_data'][0])
+                        track10 = str(botmessages['playlist_command_data'][0])
+                        if len(self.bot_playlist_entries) == 0:
+                            track1 = str(botmessages['playlist_command_data'][0])
+                            track2 = str(botmessages['playlist_command_data'][0])
+                            track3 = str(botmessages['playlist_command_data'][0])
+                            track4 = str(botmessages['playlist_command_data'][0])
+                            track5 = str(botmessages['playlist_command_data'][0])
+                            track6 = str(botmessages['playlist_command_data'][0])
+                            track7 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 1:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(botmessages['playlist_command_data'][0])
+                            track3 = str(botmessages['playlist_command_data'][0])
+                            track4 = str(botmessages['playlist_command_data'][0])
+                            track5 = str(botmessages['playlist_command_data'][0])
+                            track6 = str(botmessages['playlist_command_data'][0])
+                            track7 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 2:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(botmessages['playlist_command_data'][0])
+                            track4 = str(botmessages['playlist_command_data'][0])
+                            track5 = str(botmessages['playlist_command_data'][0])
+                            track6 = str(botmessages['playlist_command_data'][0])
+                            track7 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 3:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(botmessages['playlist_command_data'][0])
+                            track5 = str(botmessages['playlist_command_data'][0])
+                            track6 = str(botmessages['playlist_command_data'][0])
+                            track7 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 4:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(self.bot_playlist_entries[3])
+                            track5 = str(botmessages['playlist_command_data'][0])
+                            track6 = str(botmessages['playlist_command_data'][0])
+                            track7 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 5:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(self.bot_playlist_entries[3])
+                            track5 = str(self.bot_playlist_entries[4])
+                            track6 = str(botmessages['playlist_command_data'][0])
+                            track7 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 6:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(self.bot_playlist_entries[3])
+                            track5 = str(self.bot_playlist_entries[4])
+                            track6 = str(self.bot_playlist_entries[5])
+                            track7 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 7:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(self.bot_playlist_entries[3])
+                            track5 = str(self.bot_playlist_entries[4])
+                            track6 = str(self.bot_playlist_entries[5])
+                            track7 = str(self.bot_playlist_entries[6])
+                            track8 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 8:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(self.bot_playlist_entries[3])
+                            track5 = str(self.bot_playlist_entries[4])
+                            track6 = str(self.bot_playlist_entries[5])
+                            track7 = str(self.bot_playlist_entries[6])
+                            track8 = str(self.bot_playlist_entries[7])
+                            track9 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 9:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(self.bot_playlist_entries[3])
+                            track5 = str(self.bot_playlist_entries[4])
+                            track6 = str(self.bot_playlist_entries[5])
+                            track7 = str(self.bot_playlist_entries[6])
+                            track8 = str(self.bot_playlist_entries[7])
+                            track9 = str(self.bot_playlist_entries[8])
+                            track10 = str(botmessages['playlist_command_data'][0])
+                        elif len(self.bot_playlist_entries) == 10:
+                            track1 = str(self.bot_playlist_entries[0])
+                            track2 = str(self.bot_playlist_entries[1])
+                            track3 = str(self.bot_playlist_entries[2])
+                            track4 = str(self.bot_playlist_entries[3])
+                            track5 = str(self.bot_playlist_entries[4])
+                            track6 = str(self.bot_playlist_entries[5])
+                            track7 = str(self.bot_playlist_entries[6])
+                            track8 = str(self.bot_playlist_entries[7])
+                            track9 = str(self.bot_playlist_entries[8])
+                            track10 = str(self.bot_playlist_entries[9])
+                        msgdata = str(botmessages['playlist_command_data'][1]).format(track1, track2, track3, track4, track5,
+                                                                                      track6, track7, track8, track9, track10)
+                        message_data = msgdata
+                        yield from client.send_message(message.channel, message_data)
         if message.content.startswith(_bot_prefix + "vol"):
             if message.author.id in banlist['Users']:
                 return

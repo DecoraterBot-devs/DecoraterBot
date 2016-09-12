@@ -36,9 +36,14 @@ try:
     import Ignore
 except ImportError:
     sepa = os.sep
+    bits = ctypes.sizeof(ctypes.c_voidp)
+    if bits == 4:
+        platform = 'x86'
+    elif bits == 8:
+        platform = 'x64'
     path = sys.path[0]
     if path.find('\\AppData\\Local\\Temp') != -1:
-        path = sys.executable.strip('DecoraterBot.exe')
+        path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
     sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(path, sepa))
     import Ignore
 try:
@@ -53,9 +58,14 @@ except ImportError:
 import BotConfigReader
 
 sepa = os.sep
+bits = ctypes.sizeof(ctypes.c_voidp)
+if bits == 4:
+    platform = 'x86'
+elif bits == 8:
+    platform = 'x64'
 path = sys.path[0]
 if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.exe')
+    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
 
 DBLogin = Login.BotLogin()
 DBEvents = Ignore.BotEvents()

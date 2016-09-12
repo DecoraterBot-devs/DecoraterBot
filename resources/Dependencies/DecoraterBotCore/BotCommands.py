@@ -42,11 +42,15 @@ import discord
 import BotConfigReader
 
 sepa = os.sep
+bits = ctypes.sizeof(ctypes.c_voidp)
+if bits == 4:
+    platform2 = 'x86'
+elif bits == 8:
+    platform2 = 'x64'
 path = sys.path[0]
 if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.exe')
+    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform2, sys.platform, sys.implementation, sys.version_info))
 
-bits = ctypes.sizeof(ctypes.c_voidp)
 PY36 = sys.version_info >= (3, 6)
 PY35 = sys.version_info >= (3, 5)
 

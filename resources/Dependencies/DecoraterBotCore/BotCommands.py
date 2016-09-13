@@ -116,10 +116,6 @@ if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
     _pm_commands_list = BotConfig.pm_commands_list
     _bot_prefix = BotConfig.bot_prefix
 
-if _log_games:
-    import BotLogs
-    DBLogs = BotLogs.BotLogs()
-
 
 class BotData:
     """
@@ -128,6 +124,9 @@ class BotData:
     def __init__(self):
         self.sent_prune_error_message = False
         self.tinyurlerror = False
+        if _log_games:
+            import BotLogs
+            self.DBLogs = BotLogs.BotLogs()
 
     @asyncio.coroutine
     def attack_code(self, client, message):
@@ -369,7 +368,7 @@ class BotData:
                             stream_url = "https://twitch.tv/decoraterbot"
                     if desgametype is not None:
                         if _log_games:
-                            DBLogs.gamelog(client, message, desgame)
+                            self.DBLogs.gamelog(client, message, desgame)
                         yield from client.change_status(game=discord.Game(name=desgame, type=desgametype,
                                                                           url=stream_url))
                         try:
@@ -380,7 +379,7 @@ class BotData:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     else:
                         if _log_games:
-                            DBLogs.gamelog(client, message, desgame)
+                            self.DBLogs.gamelog(client, message, desgame)
                         yield from client.change_status(game=discord.Game(name=desgame), idle=True)
                         try:
                             msgdata = str(botmessages['game_command_data'][0]).format(desgame)
@@ -444,7 +443,7 @@ class BotData:
                 return
             else:
                 data = message.content[len(_bot_prefix + "kill "):].strip()
-                if message.channel.is_private is not False:
+                if message.channel.is_private:
                     msg = random.randint(1, 4)
                     if msg == 1:
                         message_data = str(botmessages['kill_command_data'][0]).format(message.author)
@@ -552,7 +551,7 @@ class BotData:
         """
         if message.author.id in banlist['Users']:
             return
-        elif message.author.bot is True:
+        elif message.author.bot:
             return
         else:
             pref = _bot_prefix
@@ -785,15 +784,15 @@ class BotData:
             if message.author.id in banlist['Users']:
                 return
             else:
-                if message.channel.is_private is not False:
-                    if disabletinyurl is True:
+                if message.channel.is_private:
+                    if disabletinyurl:
                         yield from client.send_message(message.channel, botcommandsPM)
                     else:
                         yield from client.send_message(message.channel, botcommandsPMwithtinyurl)
                 else:
-                    if disabletinyurl is True:
+                    if disabletinyurl:
                         try:
-                            if _pm_commands_list is True:
+                            if _pm_commands_list:
                                 yield from client.send_message(message.author, botcommands)
                             else:
                                 yield from client.send_message(message.channel, botcommands)
@@ -801,7 +800,7 @@ class BotData:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     else:
                         try:
-                            if _pm_commands_list is True:
+                            if _pm_commands_list:
                                 yield from client.send_message(message.author, botcommandswithtinyurl)
                                 msgdata = str(botmessages['commands_command_data'][6])
                                 message_data = msgdata.format(message.author.mention)
@@ -825,7 +824,7 @@ class BotData:
             if message.author.id in banlist['Users']:
                 return
             else:
-                if message.channel.is_private is not False:
+                if message.channel.is_private:
                     return
                 else:
                     result = message.content.replace("::raid", "")
@@ -840,7 +839,7 @@ class BotData:
             if message.author.id in banlist['Users']:
                 return
             else:
-                if message.channel.is_private is not False:
+                if message.channel.is_private:
                     return
                 else:
                     try:
@@ -876,7 +875,7 @@ class BotData:
             if message.author.id in banlist['Users']:
                 return
             else:
-                if message.channel.is_private is not False:
+                if message.channel.is_private:
                     return
                 else:
                     python_platform = None
@@ -1059,85 +1058,89 @@ class BotData:
                     yield from client.send_message(message.channel, "```" + roleinfo + "```")
             """
 
-    if PY35 or PY36:
-        async def prune_command_iterater_helper(self, client, message, num):
-            """
-            Prunes Messages.
-            :param client: Discord Client.
-            :param message: Message
-            :param num:
-            :return: Nothing.
-            """
-            try:
-                await client.purge_from(message.channel, limit=num + 1)
-            except discord.HTTPException:
-                if self.sent_prune_error_message is False:
-                    self.sent_prune_error_message = True
-                    await client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
-                else:
-                    return
+    # Sorry guys if you have python 3.5 or 4.6 you can uncomment this.
+    # This is because python 3.4 would still detect this as a SyntaxError.
+    #if PY35 or PY36:
+    #    async def prune_command_iterater_helper(self, client, message, num):
+    #        """
+    #        Prunes Messages.
+    #        :param client: Discord Client.
+    #        :param message: Message
+    #        :param num:
+    #        :return: Nothing.
+    #        """
+    #        try:
+    #            await client.purge_from(message.channel, limit=num + 1)
+    #        except discord.HTTPException:
+    #            if self.sent_prune_error_message is False:
+    #                self.sent_prune_error_message = True
+    #                await client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
+    #            else:
+    #                return
 
-        @staticmethod
-        async def clear_command_iterater_helper(client, message):
-            """
-            Clears the bot's messages.
-            :param client: Discord Client.
-            :param message: Message.
-            :return: Nothing.
-            """
-            def botauthor(m):
-                """
-                Checks if the messages are the bot's messages.
-                :param m: Messages.
-                :return: Messages from the bot.
-                """
-                return m.author == client.user
+    #    @staticmethod
+    #    async def clear_command_iterater_helper(client, message):
+    #        """
+    #        Clears the bot's messages.
+    #        :param client: Discord Client.
+    #        :param message: Message.
+    #        :return: Nothing.
+    #        """
+    #        def botauthor(m):
+    #            """
+    #            Checks if the messages are the bot's messages.
+    #            :param m: Messages.
+    #            :return: Messages from the bot.
+    #            """
+    #            return m.author == client.user
 
-            try:
-                await client.purge_from(message.channel, limit=100, check=botauthor)
-            except discord.HTTPException:
+    #        try:
+    #            await client.purge_from(message.channel, limit=100, check=botauthor)
+    #        except discord.HTTPException:
+    #            return
+    #else:
+    # Indent this code as well if you want this to work only in Python 3.5+ as well.
+    #Although you do not have to as this Syntax is valid in 3.5+ or should be. the async def is also optional.
+    @asyncio.coroutine
+    def prune_command_iterater_helper(self, client, message, num):
+        """
+        Prunes Messages.
+        :param self:
+        :param client: Discord Client.
+        :param message: Message
+        :param num:
+        :return: Nothing.
+        """
+        try:
+            yield from client.purge_from(message.channel, limit=num + 1)
+        except discord.HTTPException:
+            if self.sent_prune_error_message is False:
+                self.sent_prune_error_message = True
+                yield from client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
+            else:
                 return
-    else:
-        @asyncio.coroutine
-        def prune_command_iterater_helper(self, client, message, num):
-            """
-            Prunes Messages.
-            :param self:
-            :param client: Discord Client.
-            :param message: Message
-            :param num:
-            :return: Nothing.
-            """
-            try:
-                yield from client.purge_from(message.channel, limit=num + 1)
-            except discord.HTTPException:
-                if self.sent_prune_error_message is False:
-                    self.sent_prune_error_message = True
-                    yield from client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
-                else:
-                    return
 
-        @asyncio.coroutine
-        def clear_command_iterater_helper(self, client, message):
+    @asyncio.coroutine
+    def clear_command_iterater_helper(self, client, message):
+        """
+        Clears the bot's messages.
+        :param self:
+        :param client: Discord Client.
+        :param message: Message.
+        :return: Nothing.
+        """
+        def botauthor(m):
             """
-            Clears the bot's messages.
-            :param self:
-            :param client: Discord Client.
-            :param message: Message.
-            :return: Nothing.
+            Checks if the messages are the bot's messages.
+            :param m: Messages.
+            :return: Messages from the bot.
             """
-            def botauthor(m):
-                """
-                Checks if the messages are the bot's messages.
-                :param m: Messages.
-                :return: Messages from the bot.
-                """
-                return m.author == client.user
+            return m.author == client.user
 
-            try:
-                yield from client.purge_from(message.channel, limit=100, check=botauthor)
-            except discord.HTTPException:
-                return
+        try:
+            yield from client.purge_from(message.channel, limit=100, check=botauthor)
+        except discord.HTTPException:
+            return
 
     @asyncio.coroutine
     def prune_code(self, client, message):
@@ -1421,7 +1424,7 @@ class BotData:
         """
         # This command has been optimized for TinyURL3 0.1.5
         if message.content.startswith(_bot_prefix + 'tinyurl'):
-            if disabletinyurl is True:
+            if disabletinyurl:
                 return
             elif disabletinyurl is False:
                 url = message.content[len(_bot_prefix + "tinyurl "):].strip()

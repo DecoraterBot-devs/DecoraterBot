@@ -965,7 +965,7 @@ class BotData:
                     return
         if self.player is not None:
             if self.voice_message_channel is not None:
-                if self.player.is_done() is not False:
+                if self.player.is_done():
                     fulldir = self.player.duration
                     minutes = str(int((fulldir / 60) % 60))
                     seconds = str(int(fulldir % 60))
@@ -1083,7 +1083,7 @@ class BotData:
                         if self.player is not None:
                             self.player = None
                         self.voice_message_server = None
-                        if self.is_bot_playing is True:
+                        if self.is_bot_playing:
                             self.is_bot_playing = False
                     else:
                         return

@@ -32,41 +32,43 @@ import logging
 import json
 import ctypes
 
-sepa = os.sep
-bits = ctypes.sizeof(ctypes.c_voidp)
-if bits == 4:
-    platform = 'x86'
-elif bits == 8:
-    platform = 'x64'
-path = sys.path[0]
-if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
-
-try:
-    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
-    consoletext = json.load(consoledatafile)
-    consoledatafile.close()
-except FileNotFoundError:
-    print('ConsoleWindow.json is not Found. Cannot Continue.')
-    sys.exit(2)
-try:
-    LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.json'.format(path, sepa))
-    LogData = json.load(LogDataFile)
-    LogDataFile.close()
-except FileNotFoundError:
-    print(str(consoletext['Missing_JSON_Errors'][2]))
-    sys.exit(2)
-
 
 class BotData:
     """
         This class is for Internal use only!!!
     """
     def __init__(self):
-        pass
+        self.sepa = os.sep
+        self.bits = ctypes.sizeof(ctypes.c_voidp)
+        self.platform = None
+        if self.bits == 4:
+            self.platform = 'x86'
+        elif self.bits == 8:
+            self.platform = 'x64'
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
 
-    @staticmethod
-    def set_up_loggers(loggers=None):
+        try:
+            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path,
+                                                                                                      self.sepa))
+            self.consoletext = json.load(self.consoledatafile)
+            self.consoledatafile.close()
+        except FileNotFoundError:
+            print('ConsoleWindow.json is not Found. Cannot Continue.')
+            sys.exit(2)
+        try:
+            self.LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.json'.format(self.path, self.sepa))
+            self.LogData = json.load(self.LogDataFile)
+            self.LogDataFile.close()
+        except FileNotFoundError:
+            print(str(self.consoletext['Missing_JSON_Errors'][2]))
+            sys.exit(2)
+
+    def set_up_loggers(self, loggers=None):
         """
         Logs Events from discord and/or asyncio stuff.
         :param loggers: Name of the logger(s) to use.
@@ -76,8 +78,8 @@ class BotData:
             if loggers == 'discord':
                 logger = logging.getLogger('discord')
                 logger.setLevel(logging.DEBUG)
-                handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(path,
-                                                                                                       sepa),
+                handler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(self.path,
+                                                                                                       self.sepa),
                                               encoding='utf-8', mode='w')
                 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 logger.addHandler(handler)
@@ -85,26 +87,26 @@ class BotData:
                 asynciologger = logging.getLogger('asyncio')
                 asynciologger.setLevel(logging.DEBUG)
                 asynciologgerhandler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(
-                    path, sepa), encoding='utf-8', mode='w')
+                    self.path, self.sepa), encoding='utf-8', mode='w')
                 asynciologgerhandler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 asynciologger.addHandler(asynciologgerhandler)
 
-    @staticmethod
-    def logs_code(message):
+    def logs_code(self, message):
         """
             :param message: Message Object
         """
-        logs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
-                                                            str(message.timestamp), message.content)
+        logs001 = str(self.LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
+                                                                 str(message.timestamp), message.content)
         logspm = logs001
         logsservers = None
         if message.channel.is_private is False:
-            logs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
-                                                                str(message.timestamp), message.channel.server.name,
-                                                                message.channel.name, message.content)
+            logs003 = str(self.LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
+                                                                     str(message.timestamp),
+                                                                     message.channel.server.name,
+                                                                     message.channel.name, message.content)
             logsservers = logs003
         if message.content is not None:
-            logfile = '{0}{1}resources{1}Logs{1}log.txt'.format(path, sepa)
+            logfile = '{0}{1}resources{1}Logs{1}log.txt'.format(self.path, self.sepa)
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
@@ -128,18 +130,18 @@ class BotData:
         """
         old = str(before.content)
         new = str(after.content)
-        logfile = '{0}{1}resources{1}Logs{1}edit log.txt'.format(path, sepa)
+        logfile = '{0}{1}resources{1}Logs{1}edit log.txt'.format(self.path, self.sepa)
         usr_name = before.author.name
         usr_id = before.author.id
         msg_time = str(before.timestamp)
-        editlog001 = str(LogData['On_Message_Logs'][0]).format(usr_name, usr_id, msg_time, old, new)
+        editlog001 = str(self.LogData['On_Message_Logs'][0]).format(usr_name, usr_id, msg_time, old, new)
         edit_log_pm = editlog001
         editlogservers = None
         if before.channel.is_private is False:
             svr_name = before.channel.server.name
             chl_name = before.channel.name
-            editlog003 = str(LogData['On_Message_Logs'][1]).format(usr_name, usr_id, msg_time, svr_name,
-                                                                   chl_name, old, new)
+            editlog003 = str(self.LogData['On_Message_Logs'][1]).format(usr_name, usr_id, msg_time, svr_name,
+                                                                        chl_name, old, new)
             editlogservers = editlog003
         try:
             file = io.open(logfile, 'a', encoding='utf-8')
@@ -159,7 +161,7 @@ class BotData:
                 except Exception as e:
                     str(e)  # Empty string that is not used nor assigned to a variable. (for now)
                     if before.channel.is_private is False:
-                        print(str(LogData['On_Edit_Logs_Error'][0]))
+                        print(str(self.LogData['On_Edit_Logs_Error'][0]))
                     else:
                         if before.content == after.content:
                             self.resolve_embed_logs_code(before)
@@ -169,26 +171,25 @@ class BotData:
         except PermissionError:
             return
 
-    @staticmethod
-    def delete_logs_code(message):
+    def delete_logs_code(self, message):
         """
         Logs Deleted Messages.
         :param message: Messages.
         :return: Nothing.
         """
-        dellogs001 = str(LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
-                                                               str(message.timestamp), message.content)
+        dellogs001 = str(self.LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
+                                                                    str(message.timestamp), message.content)
         dellogspm = dellogs001
         dellogsservers = None
         if message.channel.is_private is False:
-            dellogs003 = str(LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
-                                                                   str(message.timestamp),
-                                                                   message.channel.server.name,
-                                                                   message.channel.name, message.content)
+            dellogs003 = str(self.LogData['On_Message_Logs'][1]).format(message.author.name, message.author.id,
+                                                                        str(message.timestamp),
+                                                                        message.channel.server.name,
+                                                                        message.channel.name, message.content)
             dellogsservers = dellogs003
         if message.content is not None:
             try:
-                logfile = '{0}{1}resources{1}Logs{1}delete log.txt'.format(path, sepa)
+                logfile = '{0}{1}resources{1}Logs{1}delete log.txt'.format(self.path, self.sepa)
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
                 if size >= 32102400:
@@ -202,18 +203,17 @@ class BotData:
             except PermissionError:
                 return
 
-    @staticmethod
-    def resolve_embed_logs_code(before):
+    def resolve_embed_logs_code(self, before):
         """
         helps with determining if the messages was edited or a embed instead.
         :param before: Messages.
         :return: Nothing.
         """
         if before.channel.is_private is True:
-            data = str(LogData['Embed_Logs'][0])
+            data = str(self.LogData['Embed_Logs'][0])
         else:
-            data = str(LogData['Embed_Logs'][1])
-        logfile = '{0}{1}resources{1}Logs{1}embeds.txt'.format(path, sepa)
+            data = str(self.LogData['Embed_Logs'][1])
+        logfile = '{0}{1}resources{1}Logs{1}embeds.txt'.format(self.path, self.sepa)
         try:
             file2 = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -232,10 +232,10 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        logs001 = str(LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
-                                                                 str(message.timestamp),
-                                                                 message.channel.server.name, message.channel.name,
-                                                                 message.content)
+        logs001 = str(self.LogData['Send_On_Message_Logs'][0]).format(message.author.name, message.author.id,
+                                                                      str(message.timestamp),
+                                                                      message.channel.server.name, message.channel.name,
+                                                                      message.content)
         sndmsglogs = logs001
         try:
             yield from client.send_message(discord.Object(id='153055192873566208'), sndmsglogs)
@@ -253,10 +253,10 @@ class BotData:
         """
         old = str(before.content)
         new = str(after.content)
-        editlog001 = str(LogData['Send_On_Message_Edit_Logs'][0]).format(before.author.name, before.author.id,
-                                                                         str(before.timestamp),
-                                                                         before.channel.server.name,
-                                                                         before.channel.name, old, new)
+        editlog001 = str(self.LogData['Send_On_Message_Edit_Logs'][0]).format(before.author.name, before.author.id,
+                                                                              str(before.timestamp),
+                                                                              before.channel.server.name,
+                                                                              before.channel.name, old, new)
         sendeditlogs = editlog001
         if before.content != after.content:
             try:
@@ -270,10 +270,10 @@ class BotData:
 
         :rtype: None
         """
-        dellogs001 = str(LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id,
-                                                                           str(message.timestamp),
-                                                                           message.channel.server.name,
-                                                                           message.channel.name, message.content)
+        dellogs001 = str(self.LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id,
+                                                                                str(message.timestamp),
+                                                                                message.channel.server.name,
+                                                                                message.channel.name, message.content)
         senddeletelogs = dellogs001
         try:
             yield from client.send_message(discord.Object(id='153055192873566208'), senddeletelogs)
@@ -292,7 +292,7 @@ class BotData:
         if bool(funcname):
             if bool(tbinfo):
                 exception_data = 'Ignoring exception caused at {0}:\n{1}'.format(funcname, tbinfo)
-                logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(path, sepa)
+                logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(self.path, self.sepa)
                 try:
                     file = io.open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -308,20 +308,19 @@ class BotData:
         else:
             raise err
 
-    @staticmethod
-    def gamelog_code(message, desgame):
+    def gamelog_code(self, message, desgame):
         """
         Logs the bot's game settings.
         :param message: Messages.
         :param desgame: Game Name.
         :return: Nothing.
         """
-        gmelogdata01 = str(LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
+        gmelogdata01 = str(self.LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
         gmelogspm = gmelogdata01
         if message.channel.is_private is False:
-            gmelog001 = str(LogData['On_Message_Logs'][1]).format(message.author.name, desgame, message.author.id)
+            gmelog001 = str(self.LogData['On_Message_Logs'][1]).format(message.author.name, desgame, message.author.id)
             gmelogsservers = gmelog001
-            logfile = '{0}{1}resources{1}Logs{1}gamelog.txt'.format(path, sepa)
+            logfile = '{0}{1}resources{1}Logs{1}gamelog.txt'.format(self.path, self.sepa)
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
@@ -347,8 +346,8 @@ class BotData:
         mem_id = member.id
         mem_dis = member.discriminator
         mem_svr_name = member.server.name
-        ban_log_data = str(LogData['Ban_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}bans.txt'.format(path, sepa)
+        ban_log_data = str(self.LogData['Ban_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
+        logfile = '{0}{1}resources{1}Logs{1}bans.txt'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -363,8 +362,8 @@ class BotData:
         :param server: Servers.
         :return: Nothing.
         """
-        available_log_data = str(LogData['On_Server_Available'][0]).format(server)
-        logfile = '{0}{1}resources{1}Logs{1}available_servers.txt'.format(path, sepa)
+        available_log_data = str(self.LogData['On_Server_Available'][0]).format(server)
+        logfile = '{0}{1}resources{1}Logs{1}available_servers.txt'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -379,8 +378,8 @@ class BotData:
         :param server: Servers.
         :return: Nothing.
         """
-        unavailable_log_data = str(LogData['On_Server_Unavailable'][0]).format(server)
-        logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.txt'.format(path, sepa)
+        unavailable_log_data = str(self.LogData['On_Server_Unavailable'][0]).format(server)
+        logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.txt'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -389,15 +388,15 @@ class BotData:
         file.close()
 
     @asyncio.coroutine
-    def onunban_code(self, server, user):
+    def onunban_code(self, client, user):
         """
         Logs Unbans.
-        :param server: Servers.
+        :param client: Discord client.
         :param user: Users.
         :return: Nothing.
         """
-        unban_log_data = str(LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, server.name)
-        logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(path, sepa)
+        unban_log_data = str(self.LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, client.server.name)
+        logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -437,8 +436,8 @@ class BotData:
         mem_id = member.id
         mem_dis = member.discriminator
         mem_svr_name = member.server.name
-        kick_log_data = str(LogData['Kick_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}kicks.txt'.format(path, sepa)
+        kick_log_data = str(self.LogData['Kick_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
+        logfile = '{0}{1}resources{1}Logs{1}kicks.txt'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -585,14 +584,14 @@ class BotLogs:
         yield from self.bot.onunavailable_code(server)
 
     @asyncio.coroutine
-    def onunban(self, server, user):
+    def onunban(self, client, user):
         """
         Logs Unbans.
-        :param server: Servers.
+        :param client: Discord client.
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.bot.onunban_code(server, user)
+        yield from self.bot.onunban_code(client, user)
 
     @asyncio.coroutine
     def ongroupjoin(self, channel, user):

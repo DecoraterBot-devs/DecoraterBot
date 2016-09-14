@@ -41,90 +41,98 @@ except ImportError:
 import discord
 import BotConfigReader
 
-sepa = os.sep
-bits = ctypes.sizeof(ctypes.c_voidp)
-if bits == 4:
-    platform2 = 'x86'
-elif bits == 8:
-    platform2 = 'x64'
-path = sys.path[0]
-if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform2, sys.platform, sys.implementation, sys.version_info))
-
-PY36 = sys.version_info >= (3, 6)
-PY35 = sys.version_info >= (3, 5)
-
-try:
-    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
-    consoletext = json.load(consoledatafile)
-    consoledatafile.close()
-except FileNotFoundError:
-    print('ConsoleWindow.json is not Found. Cannot Continue.')
-    sys.exit(2)
-try:
-    import TinyURL
-    disabletinyurl = False
-except ImportError:
-    print_data_001 = 'TinyURL for Python 3.x was not installed.\n'
-    print_data_002 = 'It can be found at: https://github.com/AraHaan/TinyURL\n'
-    print_data_003 = 'Disabled the tinyurl command for now.'
-    print(print_data_001 + print_data_002 + print_data_003)
-    disabletinyurl = True
-botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(path, sepa))
-banlist = json.load(botbanslist)
-botbanslist.close()
-try:
-    commandslist = io.open('{0}{1}resources{1}ConfigData{1}BotCommands.json'.format(path, sepa))
-    commandlist = json.load(commandslist)
-    commandslist.close()
-except FileNotFoundError:
-    print(str(consoletext['Missing_JSON_Errors'][3]))
-    sys.exit(2)
-try:
-    botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
-    botmessages = json.load(botmessagesdata)
-    botmessagesdata.close()
-except FileNotFoundError:
-    print(str(consoletext['Missing_JSON_Errors'][1]))
-    sys.exit(2)
-
-version = str(consoletext['WindowVersion'][0])
-rev = str(consoletext['Revision'][0])
-sourcelink = str(botmessages['source_command_data'][0])
-othercommands = str(botmessages['commands_command_data'][1])
-commandstuff = str(botmessages['commands_command_data'][4])
-botcommands = str(botmessages['commands_command_data'][0]) + othercommands + commandstuff
-botcommands_without_other_stuff = str(botmessages['commands_command_data'][0]) + othercommands
-othercommandthings = str(botmessages['commands_command_data'][4]) + str(botmessages['commands_command_data'][5])
-botcommandswithturl_01 = str(botmessages['commands_command_data'][3]) + othercommandthings
-botcommandswithtinyurl = botcommands_without_other_stuff + botcommandswithturl_01
-changelog = str(botmessages['changelog_data'][0])
-info = "``" + str(consoletext['WindowName'][0]) + version + rev + "``"
-botcommandsPM = str(botmessages['commands_command_data'][2])
-commandturlfix = str(botmessages['commands_command_data'][5])
-botcommandsPMwithtinyurl = botcommandsPM + str(botmessages['commands_command_data'][3]) + commandturlfix
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
-
-_log_games = True
-if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    BotConfig = BotConfigReader.BotConfigVars()
-    _log_games = BotConfig.log_games
-    owner_id = BotConfig.discord_user_id
-    if owner_id == 'None':
-        owner_id = None
-    _is_official_bot = BotConfig.is_official_bot
-    _pm_commands_list = BotConfig.pm_commands_list
-    _bot_prefix = BotConfig.bot_prefix
-
 
 class BotData:
     """
         This class is for Internal use only!!!
     """
     def __init__(self):
+        self.sepa = os.sep
+        self.bits = ctypes.sizeof(ctypes.c_voidp)
+        self.platform2 = None
+        if self.bits == 4:
+            self.platform2 = 'x86'
+        elif self.bits == 8:
+            self.platform2 = 'x64'
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform2, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
+
+        self.PY36 = sys.version_info >= (3, 6)
+        self.PY35 = sys.version_info >= (3, 5)
+
+        try:
+            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path,
+                                                                                                      self.sepa))
+            self.consoletext = json.load(self.consoledatafile)
+            self.consoledatafile.close()
+        except FileNotFoundError:
+            print('ConsoleWindow.json is not Found. Cannot Continue.')
+            sys.exit(2)
+        try:
+            import TinyURL
+            self.disabletinyurl = False
+        except ImportError:
+            self.print_data_001 = 'TinyURL for Python 3.x was not installed.\n'
+            self.print_data_002 = 'It can be found at: https://github.com/AraHaan/TinyURL\n'
+            self.print_data_003 = 'Disabled the tinyurl command for now.'
+            print(self.print_data_001 + self.print_data_002 + self.print_data_003)
+            self.disabletinyurl = True
+        self.botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
+        self.banlist = json.load(self.botbanslist)
+        self.botbanslist.close()
+        try:
+            self.commandslist = io.open('{0}{1}resources{1}ConfigData{1}BotCommands.json'.format(self.path,
+                                                                                                 self.sepa))
+            self.commandlist = json.load(self.commandslist)
+            self.commandslist.close()
+        except FileNotFoundError:
+            print(str(self.consoletext['Missing_JSON_Errors'][3]))
+            sys.exit(2)
+        try:
+            self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path,
+                                                                                                    self.sepa))
+            self.botmessages = json.load(self.botmessagesdata)
+            self.botmessagesdata.close()
+        except FileNotFoundError:
+            print(str(self.consoletext['Missing_JSON_Errors'][1]))
+            sys.exit(2)
+
+        self.version = str(self.consoletext['WindowVersion'][0])
+        self.rev = str(self.consoletext['Revision'][0])
+        self.sourcelink = str(self.botmessages['source_command_data'][0])
+        self.othercommands = str(self.botmessages['commands_command_data'][1])
+        self.commandstuff = str(self.botmessages['commands_command_data'][4])
+        self.botcommands = str(self.botmessages['commands_command_data'][0]) + self.othercommands + self.commandstuff
+        self.botcommands_without_other_stuff = str(self.botmessages['commands_command_data'][0]) + self.othercommands
+        self.othercommandthings = str(self.botmessages['commands_command_data'][4]) + str(
+            self.botmessages['commands_command_data'][5])
+        self.botcommandswithturl_01 = str(self.botmessages['commands_command_data'][3]) + self.othercommandthings
+        self.botcommandswithtinyurl = self.botcommands_without_other_stuff + self.botcommandswithturl_01
+        self.changelog = str(self.botmessages['changelog_data'][0])
+        self.info = "``" + str(self.consoletext['WindowName'][0]) + self.version + self.rev + "``"
+        self.botcommandsPM = str(self.botmessages['commands_command_data'][2])
+        self.commandturlfix = str(self.botmessages['commands_command_data'][5])
+        self.botcommandsPMwithtinyurl = self.botcommandsPM + str(
+            self.botmessages['commands_command_data'][3]) + self.commandturlfix
+        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
+
+        self._log_games = True
+        if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
+            self.BotConfig = BotConfigReader.BotConfigVars()
+            self._log_games = self.BotConfig.log_games
+            self.owner_id = self.BotConfig.discord_user_id
+            if self.owner_id == 'None':
+                self.owner_id = None
+            self._is_official_bot = self.BotConfig.is_official_bot
+            self._pm_commands_list = self.BotConfig.pm_commands_list
+            self._bot_prefix = self.BotConfig.bot_prefix
         self.sent_prune_error_message = False
         self.tinyurlerror = False
-        if _log_games:
+        if self._log_games:
             import BotLogs
             self.DBLogs = BotLogs.BotLogs()
 
@@ -136,15 +144,15 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'attack'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'attack'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 for user in message.mentions:
-                    yield from client.send_message(user, str(botmessages['attack_command_data'][0]))
+                    yield from client.send_message(user, str(self.botmessages['attack_command_data'][0]))
                     break
                 else:
-                    yield from client.send_message(message.author, str(botmessages['attack_command_data'][1]))
+                    yield from client.send_message(message.author, str(self.botmessages['attack_command_data'][1]))
 
     @asyncio.coroutine
     def randomcoin_code(self, client, message):
@@ -154,28 +162,28 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'coin'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'coin'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 msg = random.randint(0, 1)
                 if msg == 0:
-                    heads_coin = "{0}{1}resources{1}images{1}coins{1}Heads.png".format(path, sepa)
+                    heads_coin = "{0}{1}resources{1}images{1}coins{1}Heads.png".format(self.path, self.sepa)
                     try:
                         yield from client.send_file(message.channel, heads_coin)
                     except discord.errors.Forbidden:
                         try:
-                            message_data = str(botmessages['coin_command_data'][0])
+                            message_data = str(self.botmessages['coin_command_data'][0])
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                 if msg == 1:
-                    tails_coin = "{0}{1}resources{1}images{1}coins{1}Tails.png".format(path, sepa)
+                    tails_coin = "{0}{1}resources{1}images{1}coins{1}Tails.png".format(self.path, self.sepa)
                     try:
                         yield from client.send_file(message.channel, tails_coin)
                     except discord.errors.Forbidden:
                         try:
-                            message_data = str(botmessages['coin_command_data'][0])
+                            message_data = str(self.botmessages['coin_command_data'][0])
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -188,19 +196,19 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'color'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'color'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
-                if _bot_prefix + "pink" in message.content:
-                    desrole = message.content[len(_bot_prefix + "color " + _bot_prefix + "pink "):].strip()
+                if self._bot_prefix + "pink" in message.content:
+                    desrole = message.content[len(self._bot_prefix + "color " + self._bot_prefix + "pink "):].strip()
                     role2 = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
                     try:
                         yield from client.edit_role(message.channel.server, role2, color=discord.Colour(int(
                             'ff3054', 16)))
                     except discord.errors.Forbidden:
                         try:
-                            message_data = str(botmessages['color_command_data'][0])
+                            message_data = str(self.botmessages['color_command_data'][0])
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -208,15 +216,15 @@ class BotData:
                         return
                     except AttributeError:
                         return
-                if _bot_prefix + "brown" in message.content:
-                    desrole = message.content[len(_bot_prefix + "color " + _bot_prefix + "brown "):].strip()
+                if self._bot_prefix + "brown" in message.content:
+                    desrole = message.content[len(self._bot_prefix + "color " + self._bot_prefix + "brown "):].strip()
                     role2 = discord.utils.find(lambda role: role.name == desrole, message.channel.server.roles)
                     try:
                         yield from client.edit_role(message.channel.server, role2, color=discord.Colour(int(
                             '652d2d', 16)))
                     except discord.errors.Forbidden:
                         try:
-                            message_data = str(botmessages['color_command_data'][0])
+                            message_data = str(self.botmessages['color_command_data'][0])
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -233,9 +241,9 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'eval'):
-            if message.author.id == owner_id:
-                debugcode = message.content[len(_bot_prefix + "eval "):].strip()
+        if message.content.startswith(self._bot_prefix + 'eval'):
+            if message.author.id == self.owner_id:
+                debugcode = message.content[len(self._bot_prefix + "eval "):].strip()
                 if debugcode.rfind('yield from client.send_message(message.channel, ') is not -1:
                     debugcode = debugcode[len("yield from client.send_message(message.channel, "):].strip()
                     debugcode = debugcode.strip(")")
@@ -247,7 +255,7 @@ class BotData:
                         debugcode = debugcode.replace('message.author.mention + "', message.author.mention)
                     yield from client.send_message(message.channel, debugcode)
                 else:
-                    botowner = discord.utils.find(lambda member: member.id == owner_id,
+                    botowner = discord.utils.find(lambda member: member.id == self.owner_id,
                                                   message.channel.server.members)
                     try:
                         try:
@@ -258,13 +266,13 @@ class BotData:
                         try:
                             yield from client.send_message(message.channel, debugcode)
                         except discord.errors.Forbidden:
-                            msgdata = str(botmessages['eval_command_data'][0])
+                            msgdata = str(self.botmessages['eval_command_data'][0])
                             message_data = msgdata.format(message.channel.server.name, message.channel.name)
                             yield from client.send_message(botowner, message_data)
                             yield from client.send_message(botowner, debugcode)
                         except discord.errors.HTTPException:
                             if len(debugcode) > 2000:
-                                result_info = str(botmessages['eval_command_data'][1])
+                                result_info = str(self.botmessages['eval_command_data'][1])
                                 yield from client.send_message(message.channel, result_info)
                     except Exception as e:
                         str(e)
@@ -273,31 +281,31 @@ class BotData:
                         try:
                             yield from client.send_message(message.channel, "```py\n" + debugcode + "\n```")
                         except discord.errors.Forbidden:
-                            msgdata = str(botmessages['eval_command_data'][0])
+                            msgdata = str(self.botmessages['eval_command_data'][0])
                             message_data = msgdata.format(message.channel.server.name, message.channel.name)
                             yield from client.send_message(botowner, message_data)
                             yield from client.send_message(botowner, "```py\n" + debugcode + "\n```")
             else:
                 try:
-                    result_info = str(botmessages['eval_command_data'][2])
+                    result_info = str(self.botmessages['eval_command_data'][2])
                     yield from client.send_message(message.channel, result_info)
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'debug'):
+        if message.content.startswith(self._bot_prefix + 'debug'):
             # makes the owner AKA Creator of the bot only able to use this as this can be dangerous.
-            if message.author.id == owner_id:
-                debugcode_new = "# coding=utf-8\n" + message.content[len(_bot_prefix + "debug "):].strip()
-                botowner = discord.utils.find(lambda member: member.id == owner_id, message.channel.server.members)
+            if message.author.id == self.owner_id:
+                debugcode_new = "# coding=utf-8\n" + message.content[len(self._bot_prefix + "debug "):].strip()
+                botowner = discord.utils.find(lambda member: member.id == self.owner_id, message.channel.server.members)
                 try:
-                    evalcodefile = '{0}{1}resources{1}exec_files{1}exec_temp.py'.format(path, sepa)
+                    evalcodefile = '{0}{1}resources{1}exec_files{1}exec_temp.py'.format(self.path, self.sepa)
                     eval_temp_code = io.open(evalcodefile, 'w+', encoding='utf-8')
                     debugcode_new += '\n'
                     eval_temp_code.write(debugcode_new)
                     eval_temp_code.close()
-                    execoutputfile = '{0}{1}resources{1}exec_files{1}exec_output_temp.txt'.format(path, sepa)
+                    execoutputfile = '{0}{1}resources{1}exec_files{1}exec_output_temp.txt'.format(self.path, self.sepa)
                     eval_temp_result_output = io.open(execoutputfile, 'w', encoding='utf-8')
                     out = eval_temp_result_output
-                    p = subprocess.Popen("{0}{1}python {2}".format(sys.path[4], sepa, evalcodefile), stdout=out,
+                    p = subprocess.Popen("{0}{1}python {2}".format(sys.path[4], self.sepa, evalcodefile), stdout=out,
                                          stderr=out, shell=True)
                     p.wait()
                     eval_temp_result_output.close()
@@ -311,13 +319,13 @@ class BotData:
                     try:
                         yield from client.send_message(message.channel, "```py\n" + debugcode + "\n```")
                     except discord.errors.Forbidden:
-                        msgdata = str(botmessages['eval_command_data'][0])
+                        msgdata = str(self.botmessages['eval_command_data'][0])
                         message_data = msgdata.format(message.channel.server.name, message.channel.name)
                         yield from client.send_message(botowner, message_data)
                         yield from client.send_message(botowner, "```py\n" + debugcode + "\n```")
                     except discord.errors.HTTPException:
                         if len(debugcode) > 2000:
-                            result_info = str(botmessages['eval_command_data'][1])
+                            result_info = str(self.botmessages['eval_command_data'][1])
                             yield from client.send_message(message.channel, result_info)
                 except Exception as e:
                     str(e)
@@ -326,13 +334,13 @@ class BotData:
                     try:
                         yield from client.send_message(message.channel, "```py\n" + debugcode + "\n```")
                     except discord.errors.Forbidden:
-                        msgdata = str(botmessages['eval_command_data'][0])
+                        msgdata = str(self.botmessages['eval_command_data'][0])
                         message_data = msgdata.format(message.channel.server.name, message.channel.name)
                         yield from client.send_message(botowner, message_data)
                         yield from client.send_message(botowner, "```py\n" + debugcode + "\n```")
             else:
                 try:
-                    result_info = str(botmessages['debug_command_data'][0])
+                    result_info = str(self.botmessages['debug_command_data'][0])
                     yield from client.send_message(message.channel, result_info)
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
@@ -345,11 +353,11 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'game'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'game'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
-                desgame = message.content[len(_bot_prefix + "game "):].strip()
+                desgame = message.content[len(self._bot_prefix + "game "):].strip()
                 desgametype = None
                 stream_url = None
                 if len(desgame) > 0:
@@ -367,35 +375,35 @@ class BotData:
                             desgametype = 2
                             stream_url = "https://twitch.tv/decoraterbot"
                     if desgametype is not None:
-                        if _log_games:
-                            self.DBLogs.gamelog(client, message, desgame)
+                        if self._log_games:
+                            self.DBLogs.gamelog(message, desgame)
                         yield from client.change_status(game=discord.Game(name=desgame, type=desgametype,
                                                                           url=stream_url))
                         try:
-                            msgdata = str(botmessages['game_command_data'][0]).format(desgame)
+                            msgdata = str(self.botmessages['game_command_data'][0]).format(desgame)
                             message_data = msgdata.replace("idle", "streaming")
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     else:
-                        if _log_games:
-                            self.DBLogs.gamelog(client, message, desgame)
+                        if self._log_games:
+                            self.DBLogs.gamelog(message, desgame)
                         yield from client.change_status(game=discord.Game(name=desgame), idle=True)
                         try:
-                            msgdata = str(botmessages['game_command_data'][0]).format(desgame)
+                            msgdata = str(self.botmessages['game_command_data'][0]).format(desgame)
                             message_data = msgdata
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'remgame'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'remgame'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
-                game_name = str(consoletext['On_Ready_Game'][0])
+                game_name = str(self.consoletext['On_Ready_Game'][0])
                 stream_url = "https://twitch.tv/decoraterbot"
                 yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
                 try:
-                    yield from client.send_message(message.channel, str(botmessages['remgame_command_data'][0]))
+                    yield from client.send_message(message.channel, str(self.botmessages['remgame_command_data'][0]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -407,14 +415,14 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'join'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'join'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
-                if _is_official_bot:
-                    yield from client.send_message(message.channel, str(botmessages['join_command_data'][3]))
+                if self._is_official_bot:
+                    yield from client.send_message(message.channel, str(self.botmessages['join_command_data'][3]))
                 else:
-                    code = message.content[len(_bot_prefix + "join "):].strip()
+                    code = message.content[len(self._bot_prefix + "join "):].strip()
                     if code == '':
                         url = None
                     else:
@@ -422,13 +430,13 @@ class BotData:
                     if url is not None:
                         try:
                             yield from client.accept_invite(url)
-                            msg_data = str(botmessages['join_command_data'][0])
+                            msg_data = str(self.botmessages['join_command_data'][0])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.NotFound:
-                            msg_data = str(botmessages['join_command_data'][1])
+                            msg_data = str(self.botmessages['join_command_data'][1])
                             yield from client.send_message(message.channel, msg_data)
                     else:
-                        yield from client.send_message(message.channel, str(botmessages['join_command_data'][2]))
+                        yield from client.send_message(message.channel, str(self.botmessages['join_command_data'][2]))
 
     @asyncio.coroutine
     def kills_code(self, client, message):
@@ -438,29 +446,29 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'kill'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'kill'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
-                data = message.content[len(_bot_prefix + "kill "):].strip()
+                data = message.content[len(self._bot_prefix + "kill "):].strip()
                 if message.channel.is_private:
                     msg = random.randint(1, 4)
                     if msg == 1:
-                        message_data = str(botmessages['kill_command_data'][0]).format(message.author)
+                        message_data = str(self.botmessages['kill_command_data'][0]).format(message.author)
                         yield from client.send_message(message.channel, message_data)
                     if msg == 2:
-                        message_data = str(botmessages['kill_command_data'][1]).format(message.author)
+                        message_data = str(self.botmessages['kill_command_data'][1]).format(message.author)
                         yield from client.send_message(message.channel, message_data)
                     if msg == 3:
-                        message_data = str(botmessages['kill_command_data'][2]).format(message.author)
+                        message_data = str(self.botmessages['kill_command_data'][2]).format(message.author)
                         yield from client.send_message(message.channel, message_data)
                     if msg == 4:
-                        message_data = str(botmessages['kill_command_data'][3]).format(message.author)
+                        message_data = str(self.botmessages['kill_command_data'][3]).format(message.author)
                         yield from client.send_message(message.channel, message_data)
                 else:
                     if data.rfind(client.user.name) != -1:
                         try:
-                            msg_data = str(botmessages['kill_command_data'][4])
+                            msg_data = str(self.botmessages['kill_command_data'][4])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -469,14 +477,14 @@ class BotData:
                         for disuser in message.mentions:
                             if message.author == disuser:
                                 try:
-                                    msg_data = str(botmessages['kill_command_data'][4])
+                                    msg_data = str(self.botmessages['kill_command_data'][4])
                                     yield from client.send_message(message.channel, msg_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                                 break
                             if client.user == disuser:
                                 try:
-                                    msg_data = str(botmessages['kill_command_data'][4])
+                                    msg_data = str(self.botmessages['kill_command_data'][4])
                                     yield from client.send_message(message.channel, msg_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
@@ -485,7 +493,7 @@ class BotData:
                                                       message.channel.server.members)
                             if msg == 1:
                                 try:
-                                    msgdata = str(botmessages['kill_command_data'][5]).format(message.author, user)
+                                    msgdata = str(self.botmessages['kill_command_data'][5]).format(message.author, user)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
@@ -493,7 +501,7 @@ class BotData:
                                 break
                             if msg == 2:
                                 try:
-                                    msgdata = str(botmessages['kill_command_data'][6]).format(message.author, user)
+                                    msgdata = str(self.botmessages['kill_command_data'][6]).format(message.author, user)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
@@ -501,7 +509,7 @@ class BotData:
                                 break
                             if msg == 3:
                                 try:
-                                    msgdata = str(botmessages['kill_command_data'][7]).format(message.author, user)
+                                    msgdata = str(self.botmessages['kill_command_data'][7]).format(message.author, user)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
@@ -509,7 +517,7 @@ class BotData:
                                 break
                             if msg == 4:
                                 try:
-                                    msgdata = str(botmessages['kill_command_data'][8]).format(message.author, user)
+                                    msgdata = str(self.botmessages['kill_command_data'][8]).format(message.author, user)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
@@ -518,25 +526,25 @@ class BotData:
                         else:
                             if msg == 1:
                                 try:
-                                    message_data = str(botmessages['kill_command_data'][0]).format(message.author)
+                                    message_data = str(self.botmessages['kill_command_data'][0]).format(message.author)
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                             if msg == 2:
                                 try:
-                                    message_data = str(botmessages['kill_command_data'][1]).format(message.author)
+                                    message_data = str(self.botmessages['kill_command_data'][1]).format(message.author)
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                             if msg == 3:
                                 try:
-                                    message_data = str(botmessages['kill_command_data'][2]).format(message.author)
+                                    message_data = str(self.botmessages['kill_command_data'][2]).format(message.author)
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                             if msg == 4:
                                 try:
-                                    message_data = str(botmessages['kill_command_data'][3]).format(message.author)
+                                    message_data = str(self.botmessages['kill_command_data'][3]).format(message.author)
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
@@ -549,12 +557,12 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.author.id in banlist['Users']:
+        if message.author.id in self.banlist['Users']:
             return
         elif message.author.bot:
             return
         else:
-            pref = _bot_prefix
+            pref = self._bot_prefix
             unig = 'unignorechannel'
             # Allows Joining a Voice Channel.
             # This is handling if some idiot mentions the bot with this command in it.
@@ -602,16 +610,16 @@ class BotData:
                     if message.author.id == "103607047383166976":
                         return
                     else:
-                        info2 = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                        info2 = str(self.botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
                         yield from client.send_message(message.channel, info2)
                 elif message.channel.server.id == '101596364479135744':
                     if message.author.id == "110368240768679936":
                         return
                     else:
-                        info2 = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                        info2 = str(self.botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
                         yield from client.send_message(message.channel, info2)
                 else:
-                    info2 = str(botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                    info2 = str(self.botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
                     try:
                         yield from client.send_message(message.channel, info2)
                     except discord.errors.Forbidden:
@@ -629,26 +637,26 @@ class BotData:
             return
         if message.channel.server.id == "105010597954871296":
             return
-        if message.author.id == owner_id:
+        if message.author.id == self.owner_id:
             return
         else:
             try:
                 yield from client.ban(message.author)
                 try:
-                    message_data = str(botmessages['mention_spam_ban'][0]).format(message.author)
+                    message_data = str(self.botmessages['mention_spam_ban'][0]).format(message.author)
                     yield from client.send_message(message.channel, message_data)
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
             except discord.errors.Forbidden:
                 try:
-                    msgdata = str(botmessages['mention_spam_ban'][1]).format(message.author)
+                    msgdata = str(self.botmessages['mention_spam_ban'][1]).format(message.author)
                     message_data = msgdata
                     yield from client.send_message(message.channel, message_data)
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
             except discord.HTTPException:
                 try:
-                    msgdata = str(botmessages['mention_spam_ban'][2]).format(message.author)
+                    msgdata = str(self.botmessages['mention_spam_ban'][2]).format(message.author)
                     message_data = msgdata
                     yield from client.send_message(message.channel, message_data)
                 except discord.errors.Forbidden:
@@ -664,7 +672,7 @@ class BotData:
         """
         if len(message.mentions) > 5:
             yield from self.mention_ban_helper(client, message)
-        if message.content.startswith(_bot_prefix + "ban"):
+        if message.content.startswith(self._bot_prefix + "ban"):
             role2 = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
             if role2 in message.author.roles:
                 for disuser in message.mentions:
@@ -673,32 +681,34 @@ class BotData:
                     try:
                         yield from client.ban(member2, delete_message_days=7)
                         try:
-                            message_data = str(botmessages['ban_command_data'][0]).format(member2)
+                            message_data = str(self.botmessages['ban_command_data'][0]).format(member2)
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.Forbidden:
                         try:
-                            yield from client.send_message(message.channel, str(botmessages['ban_command_data'][1]))
+                            yield from client.send_message(message.channel, str(
+                                self.botmessages['ban_command_data'][1]))
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.HTTPException:
                         try:
-                            yield from client.send_message(message.channel, str(botmessages['ban_command_data'][2]))
+                            yield from client.send_message(message.channel, str(
+                                self.botmessages['ban_command_data'][2]))
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     break
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['ban_command_data'][3]))
+                        yield from client.send_message(message.channel, str(self.botmessages['ban_command_data'][3]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, str(botmessages['ban_command_data'][4]))
+                    yield from client.send_message(message.channel, str(self.botmessages['ban_command_data'][4]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + "softban"):
+        if message.content.startswith(self._bot_prefix + "softban"):
             role2 = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
             if role2 in message.author.roles:
                 for disuser in message.mentions:
@@ -708,34 +718,35 @@ class BotData:
                         yield from client.ban(member2, delete_message_days=7)
                         yield from client.unban(member2.server, member2)
                         try:
-                            message_data = str(botmessages['softban_command_data'][0]).format(member2)
+                            message_data = str(self.botmessages['softban_command_data'][0]).format(member2)
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.Forbidden:
                         try:
-                            msg_data = str(botmessages['softban_command_data'][1])
+                            msg_data = str(self.botmessages['softban_command_data'][1])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.HTTPException:
                         try:
-                            msg_data = str(botmessages['softban_command_data'][2])
+                            msg_data = str(self.botmessages['softban_command_data'][2])
                             yield from client.send_message(message.channel, msg_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     break
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['softban_command_data'][3]))
+                        yield from client.send_message(message.channel, str(
+                            self.botmessages['softban_command_data'][3]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, str(botmessages['softban_command_data'][4]))
+                    yield from client.send_message(message.channel, str(self.botmessages['softban_command_data'][4]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + "kick"):
+        if message.content.startswith(self._bot_prefix + "kick"):
             role2 = discord.utils.find(lambda role: role.name == 'Bot Commander', message.channel.server.roles)
             if role2 in message.author.roles:
                 for disuser in message.mentions:
@@ -744,31 +755,31 @@ class BotData:
                     try:
                         yield from client.kick(member2)
                         try:
-                            message_data = str(botmessages['kick_command_data'][0]).format(member2)
+                            message_data = str(self.botmessages['kick_command_data'][0]).format(member2)
                             yield from client.send_message(message.channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.Forbidden:
                         try:
                             yield from client.send_message(message.channel, str(
-                                botmessages['kick_command_data'][1]))
+                                self.botmessages['kick_command_data'][1]))
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.HTTPException:
                         try:
                             yield from client.send_message(message.channel, str(
-                                botmessages['kick_command_data'][2]))
+                                self.botmessages['kick_command_data'][2]))
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     break
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['kick_command_data'][3]))
+                        yield from client.send_message(message.channel, str(self.botmessages['kick_command_data'][3]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, str(botmessages['kick_command_data'][4]))
+                    yield from client.send_message(message.channel, str(self.botmessages['kick_command_data'][4]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -780,48 +791,48 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'commands'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'commands'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 if message.channel.is_private:
-                    if disabletinyurl:
-                        yield from client.send_message(message.channel, botcommandsPM)
+                    if self.disabletinyurl:
+                        yield from client.send_message(message.channel, self.botcommandsPM)
                     else:
-                        yield from client.send_message(message.channel, botcommandsPMwithtinyurl)
+                        yield from client.send_message(message.channel, self.botcommandsPMwithtinyurl)
                 else:
-                    if disabletinyurl:
+                    if self.disabletinyurl:
                         try:
-                            if _pm_commands_list:
-                                yield from client.send_message(message.author, botcommands)
+                            if self._pm_commands_list:
+                                yield from client.send_message(message.author, self.botcommands)
                             else:
-                                yield from client.send_message(message.channel, botcommands)
+                                yield from client.send_message(message.channel, self.botcommands)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     else:
                         try:
-                            if _pm_commands_list:
-                                yield from client.send_message(message.author, botcommandswithtinyurl)
-                                msgdata = str(botmessages['commands_command_data'][6])
+                            if self._pm_commands_list:
+                                yield from client.send_message(message.author, self.botcommandswithtinyurl)
+                                msgdata = str(self.botmessages['commands_command_data'][6])
                                 message_data = msgdata.format(message.author.mention)
                                 try:
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                             else:
-                                yield from client.send_message(message.channel, botcommandswithtinyurl)
+                                yield from client.send_message(message.channel, self.botcommandswithtinyurl)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'changelog'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'changelog'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 try:
-                    yield from client.send_message(message.channel, changelog.format(version + rev))
+                    yield from client.send_message(message.channel, self.changelog.format(self.version + self.rev))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'raid'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'raid'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 if message.channel.is_private:
@@ -831,12 +842,12 @@ class BotData:
                     if result.startswith(" "):
                         result = result[len(" "):].strip()
                     try:
-                        message_data = str(botmessages['raid_command_data'][0]).format(result)
+                        message_data = str(self.botmessages['raid_command_data'][0]).format(result)
                         yield from client.send_message(message.channel, message_data)
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'update'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'update'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 if message.channel.is_private:
@@ -844,114 +855,115 @@ class BotData:
                 else:
                     try:
                         yield from client.send_message(message.channel,
-                                                       str(botmessages['update_command_data'][0]).format(info))
+                                                       str(self.botmessages['update_command_data'][0]).format(
+                                                           self.info))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'Libs'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'Libs'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
-                libs = str(botmessages['Libs_command_data'][0])
+                libs = str(self.botmessages['Libs_command_data'][0])
                 try:
                     yield from client.send_message(message.channel, libs)
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'source'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'source'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 try:
-                    msgdata = sourcelink.format(message.author)
+                    msgdata = self.sourcelink.format(message.author)
                     message_data = msgdata
                     yield from client.send_message(message.channel, message_data)
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'type'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'type'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 yield from client.send_typing(message.channel)
-        if message.content.startswith(_bot_prefix + 'pyversion'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'pyversion'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 if message.channel.is_private:
                     return
                 else:
                     python_platform = None
-                    if bits == 8:
+                    if self.bits == 8:
                         python_platform = "64-Bit"
-                    elif bits == 4:
+                    elif self.bits == 4:
                         python_platform = "32-Bit"
                     vers = "```py\nPython v{0} {1}```".format(platform.python_version(), python_platform)
                     try:
                         yield from client.send_message(message.channel, vers)
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'AgarScrub'):
+        if message.content.startswith(self._bot_prefix + 'AgarScrub'):
             try:
                 reply = 'https://imgflip.com/i/12yq2n'
                 yield from client.send_message(message.channel, reply)
             except discord.errors.Forbidden:
                 yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'stats'):
+        if message.content.startswith(self._bot_prefix + 'stats'):
             server_count = str(len(client.servers))
             member_count = str(len(set([member for member in client.get_all_members()])))
             textchannels_count = str(len(set(
                 [channel for channel in client.get_all_channels() if channel.type == discord.ChannelType.text])))
             formatted_data = str(
-                botmessages['stats_command_data'][0]).format(server_count, member_count, textchannels_count)
+                self.botmessages['stats_command_data'][0]).format(server_count, member_count, textchannels_count)
             yield from client.send_message(message.channel, formatted_data)
-        if message.content.startswith(_bot_prefix + 'rs'):
-            filename1 = '{0}{1}resources{1}images{1}elsword{1}RS.jpg'.format(path, sepa)
+        if message.content.startswith(self._bot_prefix + 'rs'):
+            filename1 = '{0}{1}resources{1}images{1}elsword{1}RS.jpg'.format(self.path, self.sepa)
             file_object = open(filename1, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
-        if message.content.startswith(_bot_prefix + 'as'):
-            filename2 = '{0}{1}resources{1}images{1}elsword{1}AS.jpg'.format(path, sepa)
+        if message.content.startswith(self._bot_prefix + 'as'):
+            filename2 = '{0}{1}resources{1}images{1}elsword{1}AS.jpg'.format(self.path, self.sepa)
             file_object = open(filename2, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
-        if message.content.startswith(_bot_prefix + 'ai'):
-            filename3 = '{0}{1}resources{1}images{1}elsword{1}AI.jpg'.format(path, sepa)
+        if message.content.startswith(self._bot_prefix + 'ai'):
+            filename3 = '{0}{1}resources{1}images{1}elsword{1}AI.jpg'.format(self.path, self.sepa)
             file_object = open(filename3, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
-        if message.content.startswith(_bot_prefix + 'lk'):
-            filename4 = '{0}{1}resources{1}images{1}elsword{1}LK.jpg'.format(path, sepa)
+        if message.content.startswith(self._bot_prefix + 'lk'):
+            filename4 = '{0}{1}resources{1}images{1}elsword{1}LK.jpg'.format(self.path, self.sepa)
             file_object = open(filename4, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
-        if message.content.startswith(_bot_prefix + 'vp'):
-            filename5 = '{0}{1}resources{1}images{1}elsword{1}VP.jpg'.format(path, sepa)
+        if message.content.startswith(self._bot_prefix + 'vp'):
+            filename5 = '{0}{1}resources{1}images{1}elsword{1}VP.jpg'.format(self.path, self.sepa)
             file_object = open(filename5, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
-        if message.content.startswith(_bot_prefix + 'ws'):
-            filename6 = '{0}{1}resources{1}images{1}elsword{1}WS.jpg'.format(path, sepa)
+        if message.content.startswith(self._bot_prefix + 'ws'):
+            filename6 = '{0}{1}resources{1}images{1}elsword{1}WS.jpg'.format(self.path, self.sepa)
             file_object = open(filename6, 'rb')
             file_data = None
             if file_object is not None:
                 file_data = file_object.read()
                 file_object.close()
             yield from client.edit_profile(avatar=file_data)
-        if message.content.startswith(_bot_prefix + 'meme'):
-            desdata = message.content[len(_bot_prefix + 'meme'):].strip()
+        if message.content.startswith(self._bot_prefix + 'meme'):
+            desdata = message.content[len(self._bot_prefix + 'meme'):].strip()
             meme_error = False
             desdata = str(desdata)
             toptext = None
@@ -968,7 +980,7 @@ class BotData:
                         pic = message.mentions[msg_mention_list_len].avatar_url
                     except IndexError:
                         meme_error = True
-                        msgdata = str(botmessages['meme_command_data'][0])
+                        msgdata = str(self.botmessages['meme_command_data'][0])
                         yield from client.send_message(message.channel, msgdata)
                     if not meme_error:
                         try:
@@ -979,7 +991,7 @@ class BotData:
                             toptext = toptext.replace('<', '').replace('>', '').replace('@', '')
                         except IndexError:
                             meme_error = True
-                            msgdata = str(botmessages['meme_command_data'][1])
+                            msgdata = str(self.botmessages['meme_command_data'][1])
                             yield from client.send_message(message.channel, msgdata)
                     if not meme_error:
                         try:
@@ -990,7 +1002,7 @@ class BotData:
                             bottext = bottext.replace('<', '').replace('>', '').replace('@', '')
                         except IndexError:
                             meme_error = True
-                            msgdata = str(botmessages['meme_command_data'][2])
+                            msgdata = str(self.botmessages['meme_command_data'][2])
                             yield from client.send_message(message.channel, msgdata)
                     if not meme_error:
                         rep = "http://memegen.link/custom/{0}/{1}.jpg?alt={2}".format(toptext, bottext, pic)
@@ -1002,7 +1014,7 @@ class BotData:
                     pic = str(desdata[0])
                 except IndexError:
                     meme_error = True
-                    msgdata = str(botmessages['meme_command_data'][0])
+                    msgdata = str(self.botmessages['meme_command_data'][0])
                     yield from client.send_message(message.channel, msgdata)
                 if not meme_error:
                     try:
@@ -1013,7 +1025,7 @@ class BotData:
                         toptext = toptext.replace('<', '').replace('>', '').replace('@', '')
                     except IndexError:
                         meme_error = True
-                        msgdata = str(botmessages['meme_command_data'][1])
+                        msgdata = str(self.botmessages['meme_command_data'][1])
                         yield from client.send_message(message.channel, msgdata)
                 if not meme_error:
                     try:
@@ -1024,16 +1036,16 @@ class BotData:
                         bottext = bottext.replace('<', '').replace('>', '').replace('@', '')
                     except IndexError:
                         meme_error = True
-                        msgdata = str(botmessages['meme_command_data'][2])
+                        msgdata = str(self.botmessages['meme_command_data'][2])
                         yield from client.send_message(message.channel, msgdata)
                 if not meme_error:
                     rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
                     yield from client.send_message(message.channel, rep)
-        if message.content.startswith(_bot_prefix + 'givecreds'):
+        if message.content.startswith(self._bot_prefix + 'givecreds'):
             """
                 This command tricks a bot to giving the owner of this bot 200 credits.
             """
-            ownermentiondata = '<@' + owner_id + '>'
+            ownermentiondata = '<@' + self.owner_id + '>'
             yield from client.send_message(message.channel, 't!daily {0}'.format(ownermentiondata))
         """
             This below is left in so anyone could have a example of itterating through roles to find the right one
@@ -1060,47 +1072,47 @@ class BotData:
 
     # Sorry guys if you have python 3.5 or 4.6 you can uncomment this.
     # This is because python 3.4 would still detect this as a SyntaxError.
-    #if PY35 or PY36:
-    #    async def prune_command_iterater_helper(self, client, message, num):
-    #        """
-    #        Prunes Messages.
-    #        :param client: Discord Client.
-    #        :param message: Message
-    #        :param num:
-    #        :return: Nothing.
-    #        """
-    #        try:
-    #            await client.purge_from(message.channel, limit=num + 1)
-    #        except discord.HTTPException:
-    #            if self.sent_prune_error_message is False:
-    #                self.sent_prune_error_message = True
-    #                await client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
-    #            else:
-    #                return
+    # if PY35 or PY36:
+    #     async def prune_command_iterater_helper(self, client, message, num):
+    #         """
+    #         Prunes Messages.
+    #         :param client: Discord Client.
+    #         :param message: Message
+    #         :param num:
+    #         :return: Nothing.
+    #         """
+    #         try:
+    #             await client.purge_from(message.channel, limit=num + 1)
+    #         except discord.HTTPException:
+    #             if self.sent_prune_error_message is False:
+    #                 self.sent_prune_error_message = True
+    #                 await client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
+    #             else:
+    #                 return
 
-    #    @staticmethod
-    #    async def clear_command_iterater_helper(client, message):
-    #        """
-    #        Clears the bot's messages.
-    #        :param client: Discord Client.
-    #        :param message: Message.
-    #        :return: Nothing.
-    #        """
-    #        def botauthor(m):
-    #            """
-    #            Checks if the messages are the bot's messages.
-    #            :param m: Messages.
-    #            :return: Messages from the bot.
-    #            """
-    #            return m.author == client.user
+    #     @staticmethod
+    #     async def clear_command_iterater_helper(client, message):
+    #         """
+    #         Clears the bot's messages.
+    #         :param client: Discord Client.
+    #         :param message: Message.
+    #         :return: Nothing.
+    #         """
+    #         def botauthor(m):
+    #             """
+    #             Checks if the messages are the bot's messages.
+    #             :param m: Messages.
+    #             :return: Messages from the bot.
+    #             """
+    #             return m.author == client.user
 
-    #        try:
-    #            await client.purge_from(message.channel, limit=100, check=botauthor)
-    #        except discord.HTTPException:
-    #            return
-    #else:
+    #         try:
+    #             await client.purge_from(message.channel, limit=100, check=botauthor)
+    #         except discord.HTTPException:
+    #             return
+    # else:
     # Indent this code as well if you want this to work only in Python 3.5+ as well.
-    #Although you do not have to as this Syntax is valid in 3.5+ or should be. the async def is also optional.
+    # Although you do not have to as this Syntax is valid in 3.5+ or should be. the async def is also optional.
     @asyncio.coroutine
     def prune_command_iterater_helper(self, client, message, num):
         """
@@ -1116,7 +1128,7 @@ class BotData:
         except discord.HTTPException:
             if self.sent_prune_error_message is False:
                 self.sent_prune_error_message = True
-                yield from client.send_message(message.channel, str(botmessages['prune_command_data'][0]))
+                yield from client.send_message(message.channel, str(self.botmessages['prune_command_data'][0]))
             else:
                 return
 
@@ -1150,8 +1162,8 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'prune'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'prune'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 self.sent_prune_error_message = False
@@ -1169,7 +1181,7 @@ class BotData:
                 else:
                 """
                 if role2 in message.author.roles:
-                    opt = message.content[len(_bot_prefix + "prune "):].strip()
+                    opt = message.content[len(self._bot_prefix + "prune "):].strip()
                     num = 1
                     if opt:
                         try:
@@ -1180,7 +1192,7 @@ class BotData:
                     yield from self.prune_command_iterater_helper(client, message, num)
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['prune_command_data'][1]))
+                        yield from client.send_message(message.channel, str(self.botmessages['prune_command_data'][1]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -1194,26 +1206,26 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'giveme'):
+        if message.content.startswith(self._bot_prefix + 'giveme'):
             if message.channel.server and message.channel.server.id == "81812480254291968":
-                desrole = message.content[len(_bot_prefix + "giveme "):].strip()
+                desrole = message.content[len(self._bot_prefix + "giveme "):].strip()
                 role2 = discord.utils.find(lambda role: role.name == 'Muted', message.channel.server.roles)
                 role3 = discord.utils.find(lambda role: role.name == 'Students', message.channel.server.roles)
                 if 'admin' in desrole:
                     if 'Muted' in message.author.roles:
                         yield from client.add_roles(message.author, role2)
-                        yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][0]))
+                        yield from client.send_message(message.channel, str(self.botmessages['giveme_command_data'][0]))
                     else:
-                        yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][5]))
+                        yield from client.send_message(message.channel, str(self.botmessages['giveme_command_data'][5]))
                 elif 'student' in desrole:
                     if 'Students' in message.author.roles:
                         yield from client.add_roles(message.author, role3)
-                        yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][1]))
+                        yield from client.send_message(message.channel, str(self.botmessages['giveme_command_data'][1]))
                     else:
-                        yield from client.send_message(message.channel, str(botmessages['giveme_command_data'][6]))
+                        yield from client.send_message(message.channel, str(self.botmessages['giveme_command_data'][6]))
             else:
                 if message.channel.server and message.channel.server.id == "127233852182626304":
-                    desrole = message.content[len(_bot_prefix + "giveme "):].strip()
+                    desrole = message.content[len(self._bot_prefix + "giveme "):].strip()
                     rolelist = message.channel.server.roles
                     role2 = discord.utils.find(lambda role: role.name == '3rd Party Developer', rolelist)
                     role3 = discord.utils.find(lambda role: role.name == 'Streamer', rolelist)
@@ -1221,42 +1233,42 @@ class BotData:
                         if role2 not in message.author.roles:
                             yield from client.add_roles(message.author, role2)
                             yield from client.send_message(message.channel, str(
-                                botmessages['giveme_command_data'][2]))
+                                self.botmessages['giveme_command_data'][2]))
                         else:
                             yield from client.send_message(message.channel, str(
-                                botmessages['giveme_command_data'][7]))
+                                self.botmessages['giveme_command_data'][7]))
                     elif 'stream' in desrole:
                         if role3 not in message.author.roles:
                             yield from client.add_roles(message.author, role3)
                             yield from client.send_message(message.channel, str(
-                                botmessages['giveme_command_data'][3]))
+                                self.botmessages['giveme_command_data'][3]))
                         else:
                             yield from client.send_message(message.channel, str(
-                                botmessages['giveme_command_data'][8]))
+                                self.botmessages['giveme_command_data'][8]))
                 else:
                     try:
                         yield from client.send_message(message.channel, str(
-                            botmessages['giveme_command_data'][4]))
+                            self.botmessages['giveme_command_data'][4]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'remove'):
+        if message.content.startswith(self._bot_prefix + 'remove'):
             if message.channel.server and message.channel.server.id == "127233852182626304":
-                desrole = message.content[len(_bot_prefix + "remove "):].strip()
+                desrole = message.content[len(self._bot_prefix + "remove "):].strip()
                 rolelist = message.channel.server.roles
                 role2 = discord.utils.find(lambda role: role.name == '3rd Party Developer', rolelist)
                 role3 = discord.utils.find(lambda role: role.name == 'Streamer', rolelist)
                 if 'dev' in desrole:
                     if role2 in message.author.roles:
                         yield from client.remove_roles(message.author, role2)
-                        yield from client.send_message(message.channel, str(botmessages['remove_command_data'][0]))
+                        yield from client.send_message(message.channel, str(self.botmessages['remove_command_data'][0]))
                     else:
-                        yield from client.send_message(message.channel, str(botmessages['remove_command_data'][2]))
+                        yield from client.send_message(message.channel, str(self.botmessages['remove_command_data'][2]))
                 elif 'stream' in desrole:
                     if role3 in message.author.roles:
                         yield from client.remove_roles(message.author, role3)
-                        yield from client.send_message(message.channel, str(botmessages['remove_command_data'][1]))
+                        yield from client.send_message(message.channel, str(self.botmessages['remove_command_data'][1]))
                     else:
-                        yield from client.send_message(message.channel, str(botmessages['remove_command_data'][3]))
+                        yield from client.send_message(message.channel, str(self.botmessages['remove_command_data'][3]))
             else:
                 return
 
@@ -1268,16 +1280,16 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'say'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'say'):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
-                say = message.content[len(_bot_prefix + "say "):].strip()
-                if say.rfind(_bot_prefix) != -1:
-                    message_data = str(botmessages['say_command_data'][0]).format(message.author)
+                say = message.content[len(self._bot_prefix + "say "):].strip()
+                if say.rfind(self._bot_prefix) != -1:
+                    message_data = str(self.botmessages['say_command_data'][0]).format(message.author)
                     yield from client.send_message(message.channel, message_data)
                 elif say.rfind("@") != -1:
-                    message_data = str(botmessages['say_command_data'][1]).format(message.author)
+                    message_data = str(self.botmessages['say_command_data'][1]).format(message.author)
                     yield from client.send_message(message.channel, message_data)
                 else:
                     try:
@@ -1297,28 +1309,28 @@ class BotData:
         """
         if client.user.mention in message.content:
             yield from self.bot_mentioned_helper(client, message)
-        elif message.content.startswith(_bot_prefix + "clear"):
-            if message.author.id in banlist['Users']:
+        elif message.content.startswith(self._bot_prefix + "clear"):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 yield from self.clear_command_iterater_helper(client, message)
-        elif message.content.startswith(_bot_prefix + 'botban'):
-            if message.author.id == owner_id:
+        elif message.content.startswith(self._bot_prefix + 'botban'):
+            if message.author.id == self.owner_id:
                 if len(message.mentions) < 1:
                     try:
                         yield from client.send_message(message.channel, str(
-                            botmessages['bot_ban_command_data'][2]))
+                            self.botmessages['bot_ban_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 else:
-                    if message.mentions[0].id not in banlist['Users']:
+                    if message.mentions[0].id not in self.banlist['Users']:
                         try:
-                            banlist['Users'].append(message.mentions[0].id)
-                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(path,
-                                                                                                           sepa), "w"))
+                            self.banlist['Users'].append(message.mentions[0].id)
+                            json.dump(self.banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(
+                                self.path, self.sepa), "w"))
                             try:
                                 message_data = str(
-                                    botmessages['bot_ban_command_data'][0]).format(message.mentions[0])
+                                    self.botmessages['bot_ban_command_data'][0]).format(message.mentions[0])
                                 yield from client.send_message(message.channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -1326,31 +1338,31 @@ class BotData:
                                 str(e)
                                 try:
                                     messagedata = str(
-                                        botmessages['bot_ban_command_data'][1]).format(message.mentions[0])
-                                    message_data = messagedata + str(botmessages['bot_ban_command_data'][2])
+                                        self.botmessages['bot_ban_command_data'][1]).format(message.mentions[0])
+                                    message_data = messagedata + str(self.botmessages['bot_ban_command_data'][2])
                                     yield from client.send_message(message.channel, message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
-        elif message.content.startswith(_bot_prefix + 'botunban'):
-            if message.author.id == owner_id:
+        elif message.content.startswith(self._bot_prefix + 'botunban'):
+            if message.author.id == self.owner_id:
                 if len(message.mentions) < 1:
                     try:
                         yield from client.send_message(message.channel, str(
-                            botmessages['bot_unban_command_data'][2]))
+                            self.botmessages['bot_unban_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 else:
-                    if message.mentions[0].id in banlist['Users']:
+                    if message.mentions[0].id in self.banlist['Users']:
                         try:
-                            tobotunban = banlist['Users']
+                            tobotunban = self.banlist['Users']
                             tobotunban.remove(message.mentions[0].id)
-                            json.dump(banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(path,
-                                                                                                           sepa), "w"))
+                            json.dump(self.banlist, open("{0}{1}resources{1}ConfigData{1}BotBanned.json".format(
+                                self.path, self.sepa), "w"))
                             try:
                                 message_data = str(
-                                    botmessages['bot_unban_command_data'][0]).format(message.mentions[0])
+                                    self.botmessages['bot_unban_command_data'][0]).format(message.mentions[0])
                                 yield from client.send_message(message.channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -1358,8 +1370,8 @@ class BotData:
                             str(e)
                             try:
                                 messagedata = str(
-                                    botmessages['bot_unban_command_data'][1]).format(message.mentions[0])
-                                message_data = messagedata + str(botmessages['bot_unban_command_data'][2])
+                                    self.botmessages['bot_unban_command_data'][1]).format(message.mentions[0])
+                                message_data = messagedata + str(self.botmessages['bot_unban_command_data'][2])
                                 yield from client.send_message(message.channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -1372,8 +1384,8 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + "userinfo"):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + "userinfo"):
+            if message.author.id in self.banlist['Users']:
                 return
             else:
                 for disuser in message.mentions:
@@ -1383,12 +1395,12 @@ class BotData:
                     seenin = str(len(seenin))
                     if str(disuser.game) != 'None':
                         desuser = disuser
-                        msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(desuser, seenin)
+                        msgdata_1 = str(self.botmessages['userinfo_command_data'][0]).format(desuser, seenin)
                         message_data = msgdata_1
                         data = message_data
                     else:
                         desuser = disuser
-                        msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(desuser, seenin)
+                        msgdata_1 = str(self.botmessages['userinfo_command_data'][0]).format(desuser, seenin)
                         message_data = msgdata_1.replace("Playing ", "")
                         data = message_data
                     try:
@@ -1402,11 +1414,11 @@ class BotData:
                          if member.name == message.author.name])
                     seenin = str(len(seenin))
                     if str(message.author.game) != 'None':
-                        msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(message.author, seenin)
+                        msgdata_1 = str(self.botmessages['userinfo_command_data'][0]).format(message.author, seenin)
                         message_data = msgdata_1
                         data = message_data
                     else:
-                        msgdata_1 = str(botmessages['userinfo_command_data'][0]).format(message.author, seenin)
+                        msgdata_1 = str(self.botmessages['userinfo_command_data'][0]).format(message.author, seenin)
                         message_data = msgdata_1.replace("Playing ", "")
                         data = message_data
                     try:
@@ -1423,11 +1435,11 @@ class BotData:
         :return: Nothing.
         """
         # This command has been optimized for TinyURL3 0.1.5
-        if message.content.startswith(_bot_prefix + 'tinyurl'):
-            if disabletinyurl:
+        if message.content.startswith(self._bot_prefix + 'tinyurl'):
+            if self.disabletinyurl:
                 return
-            elif disabletinyurl is False:
-                url = message.content[len(_bot_prefix + "tinyurl "):].strip()
+            else:
+                url = message.content[len(self._bot_prefix + "tinyurl "):].strip()
                 if '<' and '>' in url:
                     url = url.strip('<')
                     url = url.strip('>')
@@ -1437,19 +1449,20 @@ class BotData:
                 except TinyURL.errors.URLError:
                     self.tinyurlerror = True
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['tinyurl_command_data'][2]))
+                        yield from client.send_message(message.channel, str(
+                            self.botmessages['tinyurl_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 except TinyURL.errors.InvalidURL:
                     self.tinyurlerror = True
                     try:
-                        result = str(botmessages['tinyurl_command_data'][1])
+                        result = str(self.botmessages['tinyurl_command_data'][1])
                         yield from client.send_message(message.channel, result)
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 if not self.tinyurlerror:
                     link = str(link)
-                    result = str(botmessages['tinyurl_command_data'][0]).format(link)
+                    result = str(self.botmessages['tinyurl_command_data'][0]).format(link)
                     try:
                         yield from client.send_message(message.channel, result)
                     except discord.errors.Forbidden:
@@ -1463,11 +1476,11 @@ class BotData:
         :param message: Messages.
         :return: Nothing.
         """
-        if _is_official_bot:
+        if self._is_official_bot:
             if message.content.startswith('https://discord.gg/'):
-                yield from client.send_message(message.channel, str(botmessages['join_command_data'][3]))
+                yield from client.send_message(message.channel, str(self.botmessages['join_command_data'][3]))
             if message.content.startswith('http://discord.gg/'):
-                yield from client.send_message(message.channel, str(botmessages['join_command_data'][3]))
+                yield from client.send_message(message.channel, str(self.botmessages['join_command_data'][3]))
 
 
 class BotCommands:

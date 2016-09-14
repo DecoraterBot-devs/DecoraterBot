@@ -37,13 +37,17 @@ except SyntaxError:
     sepa = os.sep
     exception_data = 'Fatal exception caused in BotCommands.py:\n{0}'.format(str(traceback.format_exc()))
     bits = ctypes.sizeof(ctypes.c_voidp)
+    platform = None
     if bits == 4:
         platform = 'x86'
     elif bits == 8:
         platform = 'x64'
     path = sys.path[0]
     if path.find('\\AppData\\Local\\Temp') != -1:
-        path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
+        path = sys.executable.strip(
+            'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
+                                                                                   sys.implementation,
+                                                                                   sys.version_info))
     logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(path, sepa)
     try:
         file = io.open(logfile, 'a', encoding='utf-8')
@@ -61,21 +65,21 @@ try:
     import BotPMError
 except ImportError:
     print('Some Unknown thing happened which made a critical bot code file unable to be found.')
-#try:
 import BotVoiceCommands
-#except ImportError:
-#    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import BotConfigReader
 
 sepa = os.sep
 bits = ctypes.sizeof(ctypes.c_voidp)
+platform = None
 if bits == 4:
     platform = 'x86'
 elif bits == 8:
     platform = 'x64'
 path = sys.path[0]
 if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
+    path = sys.executable.strip(
+        'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
+                                                                               sys.implementation, sys.version_info))
 
 try:
     consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
@@ -726,10 +730,9 @@ class BotData003:
         :param user: Member.
         :return: Nothing.
         """
-        str(client)
         try:
             if _logunbans:
-                yield from DBLogs.onunban(user.server, user)
+                yield from DBLogs.onunban(client, user)
         except Exception as e:
             funcname = '_resolve_onunban_code'
             tbinfo = str(traceback.format_exc())

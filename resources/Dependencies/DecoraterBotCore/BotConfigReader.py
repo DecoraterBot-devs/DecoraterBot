@@ -41,7 +41,10 @@ class BotConfigVars:
             self.platform = 'x64'
         self.path = sys.path[0]
         if self.path.find('\\AppData\\Local\\Temp') != -1:
-            self.path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform, sys.implementation, sys.version_info))
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
         self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, sepa)
         self.credentials = None
         self.value = None

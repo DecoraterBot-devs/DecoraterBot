@@ -39,57 +39,31 @@ except ImportError:
     print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import BotConfigReader
 
-sepa = os.sep
-bits = ctypes.sizeof(ctypes.c_voidp)
-if bits == 4:
-    platform = 'x86'
-elif bits == 8:
-    platform = 'x64'
-path = sys.path[0]
-if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
-
-if bits == 4:
-    if not (sys.platform.startswith('linux')):
-        opusdll = '{0}{1}resources{1}opus{1}win32{1}{2}{1}opus.dll'.format(path, sepa, platform)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(path, sepa, platform))
-    else:
-        opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}{1}opus.dll'.format(path, sepa, platform)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(path, sepa, platform))
-elif bits == 8:
-    if not (sys.platform.startswith('linux')):
-        opusdll = '{0}{1}resources{1}opus{1}win32{1}{2}{1}opus.dll'.format(path, sepa, platform)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(path, sepa, platform))
-    else:
-        opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}{1}opus.dll'.format(path, sepa, platform)
-        os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(path, sepa, platform))
-
-botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(path, sepa))
-banlist = json.load(botbanslist)
-botbanslist.close()
-try:
-    botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(path, sepa))
-    botvoicechannel = json.load(botvoicechannelfile)
-    botvoicechannelfile.close()
-except FileNotFoundError:
-    pass
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
-botmessages = json.load(botmessagesdata)
-botmessagesdata.close()
-
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
-if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    BotConfig = BotConfigReader.BotConfigVars()
-    _bot_prefix = BotConfig.bot_prefix
-    _log_ytdl = BotConfig.log_ytdl
-
 
 class YTDLLogger(object):
     """
     Class for Silencing all of the Youtube_DL Logging stuff that defaults to console.
     """
-    @staticmethod
-    def log_file_code(meth, msg):
+    def __init__(self):
+        self.sepa = os.sep
+        self.bits = ctypes.sizeof(ctypes.c_voidp)
+        self.platform = None
+        if self.bits == 4:
+            self.platform = 'x86'
+        elif self.bits == 8:
+            self.platform = 'x64'
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
+        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
+        if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
+            self.BotConfig = BotConfigReader.BotConfigVars()
+            self._log_ytdl = self.BotConfig.log_ytdl
+
+    def log_file_code(self, meth, msg):
         """
         Logs data to file (if set).
         :param meth: Method name.
@@ -98,7 +72,7 @@ class YTDLLogger(object):
         """
         if meth is not '':
             if meth == 'ytdl_debug':
-                logfile = '{0}{1}resources{1}Logs{1}ytdl_debug_logs.txt'.format(path, sepa)
+                logfile = '{0}{1}resources{1}Logs{1}ytdl_debug_logs.txt'.format(self.path, self.sepa)
                 try:
                     file = io.open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -110,7 +84,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_warning':
-                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warning_logs.txt'.format(path, sepa)
+                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warning_logs.txt'.format(self.path, self.sepa)
                 try:
                     file2 = io.open(logfile2, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile2)
@@ -122,7 +96,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_error':
-                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_error_logs.txt'.format(path, sepa)
+                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_error_logs.txt'.format(self.path, self.sepa)
                 try:
                     file3 = io.open(logfile3, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile3)
@@ -134,7 +108,7 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_info':
-                logfile4 = '{0}{1}resources{1}Logs{1}ytdl_info_logs.txt'.format(path, sepa)
+                logfile4 = '{0}{1}resources{1}Logs{1}ytdl_info_logs.txt'.format(self.path, self.sepa)
                 try:
                     file4 = io.open(logfile4, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile4)
@@ -154,7 +128,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if _log_ytdl:
+        if self._log_ytdl:
             self.log_file_code('ytdl_info', msg)
         else:
             pass
@@ -165,7 +139,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if _log_ytdl:
+        if self._log_ytdl:
             self.log_file_code('ytdl_debug', msg)
         else:
             pass
@@ -176,7 +150,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if _log_ytdl:
+        if self._log_ytdl:
             self.log_file_code('ytdl_warning', msg)
         else:
             pass
@@ -187,7 +161,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if _log_ytdl:
+        if self._log_ytdl:
             self.log_file_code('ytdl_error', msg)
         else:
             pass
@@ -198,6 +172,58 @@ class BotData:
         This class is for Internal use only!!!
     """
     def __init__(self):
+        self.sepa = os.sep
+        self.bits = ctypes.sizeof(ctypes.c_voidp)
+        self.platform = None
+        if self.bits == 4:
+            self.platform = 'x86'
+        elif self.bits == 8:
+            self.platform = 'x64'
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
+
+        if self.bits == 4:
+            if not (sys.platform.startswith('linux')):
+                self.opusdll = '{0}{1}resources{1}opus{1}win32{1}{2}{1}opus.dll'.format(self.path, self.sepa,
+                                                                                        self.platform)
+                os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(self.path, self.sepa, self.platform))
+            else:
+                self.opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}{1}opus.dll'.format(self.path, self.sepa,
+                                                                                        self.platform)
+                os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(self.path, self.sepa, self.platform))
+        elif self.bits == 8:
+            if not (sys.platform.startswith('linux')):
+                self.opusdll = '{0}{1}resources{1}opus{1}win32{1}{2}{1}opus.dll'.format(self.path, self.sepa,
+                                                                                        self.platform)
+                os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(self.path, self.sepa, self.platform))
+            else:
+                self.opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}{1}opus.dll'.format(self.path, self.sepa,
+                                                                                        self.platform)
+                os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(self.path, self.sepa, self.platform))
+
+        self.botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
+        self.banlist = json.load(self.botbanslist)
+        self.botbanslist.close()
+        try:
+            self.botvoicechannelfile = io.open('{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json'.format(self.path,
+                                                                                                            self.sepa))
+            self.botvoicechannel = json.load(self.botvoicechannelfile)
+            self.botvoicechannelfile.close()
+        except FileNotFoundError:
+            pass
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path, self.sepa))
+        self.botmessages = json.load(self.botmessagesdata)
+        self.botmessagesdata.close()
+
+        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
+        if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
+            self.BotConfig = BotConfigReader.BotConfigVars()
+            self._bot_prefix = self.BotConfig.bot_prefix
+            self._log_ytdl = self.BotConfig.log_ytdl
         self.ytdlo = {'verbose': False, 'logger': YTDLLogger(), 'default_search': "ytsearch"}
         self.player = None
         self.vchannel = None
@@ -222,7 +248,7 @@ class BotData:
         self._temp_player_9 = None
         self._temp_player_10 = None
         self.ffmop = "-nostats -loglevel quiet"
-        self.ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(path, sepa), 'w')
+        self.ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(self.path, self.sepa), 'w')
         self.verror = False
         """
         Global bool to prevent the bot from beign able to join a voice channel while logging in.
@@ -286,12 +312,12 @@ class BotData:
         :param message: Message.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'JoinVoiceChannel'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'JoinVoiceChannel'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.vchannel is not None:
                 try:
-                    messagedata = str(botmessages['join_voice_channel_command_data'][0])
+                    messagedata = str(self.botmessages['join_voice_channel_command_data'][0])
                     try:
                         message_data = messagedata.format(self.voice_message_server.name)
                     except AttributeError:
@@ -301,25 +327,25 @@ class BotData:
                     yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 if not self.lock_join_voice_channel_command:
-                    discord.opus.load_opus(opusdll)
+                    discord.opus.load_opus(self.opusdll)
                     self.voice_message_channel = message.channel
                     self.voice_message_server = message.channel.server
                     self.voice_message_server_name = message.channel.server.name
                     if message.author.voice_channel is not None:
                         self.vchannel = message.author.voice_channel
                         self.vchannel_name = message.author.voice_channel.name
-                        if self.vchannel.id not in botvoicechannel:
-                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel.id)
-                        if self.voice_message_server.id not in botvoicechannel:
-                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server.id)
-                        if self.voice_message_channel.id not in botvoicechannel:
-                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_channel.id)
-                        if self.voice_message_server_name not in botvoicechannel:
-                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server_name)
-                        if self.vchannel_name not in botvoicechannel:
-                            botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel_name)
-                        file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(path, sepa)
-                        json.dump(botvoicechannel, open(file_name, "w"))
+                        if self.vchannel.id not in self.botvoicechannel:
+                            self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel.id)
+                        if self.voice_message_server.id not in self.botvoicechannel:
+                            self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server.id)
+                        if self.voice_message_channel.id not in self.botvoicechannel:
+                            self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_channel.id)
+                        if self.voice_message_server_name not in self.botvoicechannel:
+                            self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server_name)
+                        if self.vchannel_name not in self.botvoicechannel:
+                            self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel_name)
+                        file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(self.path, self.sepa)
+                        json.dump(self.botvoicechannel, open(file_name, "w"))
                         try:
                             try:
                                 self.voice = yield from client.join_voice_channel(self.vchannel)
@@ -333,11 +359,11 @@ class BotData:
                                 self.voice_message_channel = None
                                 self.voice = None
                                 self.verror = True
-                                msgdata = str(botmessages['join_voice_channel_command_data'][6])
+                                msgdata = str(self.botmessages['join_voice_channel_command_data'][6])
                                 yield from client.send_message(self.voice_message_channel, msgdata)
                             if not self.verror:
                                 try:
-                                    msg_data = str(botmessages['join_voice_channel_command_data'][1]).format(
+                                    msg_data = str(self.botmessages['join_voice_channel_command_data'][1]).format(
                                         self.vchannel_name)
                                     yield from client.send_message(message.channel, msg_data)
                                 except discord.errors.Forbidden:
@@ -350,7 +376,7 @@ class BotData:
                             self.voice_message_server_name = None
                             self.vchannel_name = None
                             try:
-                                msg_data = str(botmessages['join_voice_channel_command_data'][2])
+                                msg_data = str(self.botmessages['join_voice_channel_command_data'][2])
                                 yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -362,7 +388,7 @@ class BotData:
                             self.voice_message_server_name = None
                             self.vchannel_name = None
                             try:
-                                msg_data = str(botmessages['join_voice_channel_command_data'][3])
+                                msg_data = str(self.botmessages['join_voice_channel_command_data'][3])
                                 yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -372,7 +398,7 @@ class BotData:
                             self.vchannel = None
                             self.voice_message_server = None
                             try:
-                                msg_data = str(botmessages['join_voice_channel_command_data'][4])
+                                msg_data = str(self.botmessages['join_voice_channel_command_data'][4])
                                 yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -384,24 +410,24 @@ class BotData:
                             self.voice_message_server_name = None
                             self.vchannel_name = None
                             try:
-                                msg_data = str(botmessages['join_voice_channel_command_data'][5])
+                                msg_data = str(self.botmessages['join_voice_channel_command_data'][5])
                                 yield from client.send_message(message.channel, msg_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
                         except IndexError:
                             return
-        if message.content.startswith(_bot_prefix + 'play'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'play'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.is_bot_playing is False:
                 if self.voice is not None:
                     if self.voice_message_channel is not None:
                         if message.channel.id == self.voice_message_channel.id:
                             try:
-                                data = message.content[len(_bot_prefix + "play "):].strip()
+                                data = message.content[len(self._bot_prefix + "play "):].strip()
                                 if data == "":
                                     try:
-                                        message_data = str(botmessages['play_command_data'][0])
+                                        message_data = str(self.botmessages['play_command_data'][0])
                                         yield from client.send_message(self.voice_message_channel, message_data)
                                     except discord.errors.Forbidden:
                                         yield from BotPMError.resolve_send_message_error(client, message)
@@ -421,7 +447,7 @@ class BotData:
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
                                             try:
-                                                message_data = str(botmessages['play_command_data'][1]).format(
+                                                message_data = str(self.botmessages['play_command_data'][1]).format(
                                                     str(self.player.title), str(self.player.uploader), minutes, seconds)
                                                 yield from client.send_message(self.voice_message_channel, message_data)
                                             except discord.errors.Forbidden:
@@ -431,7 +457,7 @@ class BotData:
                                             except RuntimeError:
                                                 pass
                                         except AttributeError:
-                                            message_data = str(botmessages['play_command_data'][2])
+                                            message_data = str(self.botmessages['play_command_data'][2])
                                             self.is_bot_playing = False
                                             yield from client.send_message(self.voice_message_channel, message_data)
                                 else:
@@ -453,7 +479,7 @@ class BotData:
                                                 if len(seconds) == 1:
                                                     seconds = "0" + seconds
                                                 try:
-                                                    message_data = str(botmessages['play_command_data'][1]).format(
+                                                    message_data = str(self.botmessages['play_command_data'][1]).format(
                                                         str(self.player.title), str(self.player.uploader), minutes,
                                                         seconds)
                                                     yield from client.send_message(self.voice_message_channel,
@@ -465,42 +491,42 @@ class BotData:
                                                 except RuntimeError:
                                                     pass
                                             except AttributeError:
-                                                message_data = str(botmessages['play_command_data'][2])
+                                                message_data = str(self.botmessages['play_command_data'][2])
                                                 self.is_bot_playing = False
                                                 yield from client.send_message(self.voice_message_channel, message_data)
                                     else:
-                                        message_data = str(botmessages['play_command_data'][3])
+                                        message_data = str(self.botmessages['play_command_data'][3])
                                         yield from client.send_message(self.voice_message_channel, message_data)
                                         self._temp_player_1 = None
                             except IndexError:
                                 return
                             except discord.errors.ClientException:
-                                message_data = str(botmessages['play_command_data'][4]).format(str(sys.path))
+                                message_data = str(self.botmessages['play_command_data'][4]).format(str(sys.path))
                                 yield from client.send_message(message.channel, message_data)
                                 self.player = None
                             except youtube_dl.utils.UnsupportedError:
                                 yield from client.send_message(message.channel,
-                                                               str(botmessages['play_command_data'][5]))
+                                                               str(self.botmessages['play_command_data'][5]))
                                 self.player = None
                             except youtube_dl.utils.ExtractorError:
-                                message_data = str(botmessages['play_command_data'][6])
+                                message_data = str(self.botmessages['play_command_data'][6])
                                 yield from client.send_message(message.channel, message_data)
                                 self.player = None
                             except youtube_dl.utils.DownloadError:
                                 yield from client.send_message(message.channel,
-                                                               str(botmessages['play_command_data'][7]))
+                                                               str(self.botmessages['play_command_data'][7]))
                                 self.player = None
                         else:
                             return
                 else:
-                    message_data = str(botmessages['play_command_data'][8])
+                    message_data = str(self.botmessages['play_command_data'][8])
                     yield from client.send_message(message.channel, message_data)
             else:
                 if self.player is not None:
-                    data = message.content[len(_bot_prefix + "play "):].strip()
+                    data = message.content[len(self._bot_prefix + "play "):].strip()
                     if data == "":
                         try:
-                            message_data = str(botmessages['play_command_data'][9])
+                            message_data = str(self.botmessages['play_command_data'][9])
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -517,27 +543,27 @@ class BotData:
                                 try:
                                     playlist01 = self._temp_player_1.title
                                     playlist01time = self._temp_player_1.duration
-                                    track1 = str(botmessages['play_command_data'][10]).format(playlist01)
+                                    track1 = str(self.botmessages['play_command_data'][10]).format(playlist01)
                                     fulldir = playlist01time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track1time = newdir
                                     track1uploader = str(self._temp_player_1.uploader)
-                                    track1info = str(botmessages['play_command_data'][12]).format(track1,
-                                                                                                  track1uploader,
-                                                                                                  track1time)
+                                    track1info = str(self.botmessages['play_command_data'][12]).format(track1,
+                                                                                                       track1uploader,
+                                                                                                       track1time)
                                     self.bot_playlist_entries.append(track1info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track1, track1time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track1, track1time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif data in self.bot_playlist:
-                                msgdata = str(botmessages['play_command_data'][14])
+                                msgdata = str(self.botmessages['play_command_data'][14])
                                 message_data = msgdata
                                 yield from client.send_message(message.channel, message_data)
                             elif len(self.bot_playlist) == 1:
@@ -549,24 +575,24 @@ class BotData:
                                 try:
                                     playlist02 = self._temp_player_2.title
                                     playlist02time = self._temp_player_2.duration
-                                    track2 = str(botmessages['play_command_data'][10]).format(playlist02)
+                                    track2 = str(self.botmessages['play_command_data'][10]).format(playlist02)
                                     fulldir = playlist02time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track2time = newdir
                                     track2uploader = str(self._temp_player_2.uploader)
-                                    track2info = str(botmessages['play_command_data'][12]).format(track2,
-                                                                                                  track2uploader,
-                                                                                                  track2time)
+                                    track2info = str(self.botmessages['play_command_data'][12]).format(track2,
+                                                                                                       track2uploader,
+                                                                                                       track2time)
                                     self.bot_playlist_entries.append(track2info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track2, track2time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track2, track2time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 2:
                                 self._temp_player_3 = yield from self.voice.create_ytdl_player(data,
@@ -577,24 +603,24 @@ class BotData:
                                 try:
                                     playlist03 = self._temp_player_3.title
                                     playlist03time = self._temp_player_3.duration
-                                    track3 = str(botmessages['play_command_data'][10]).format(playlist03)
+                                    track3 = str(self.botmessages['play_command_data'][10]).format(playlist03)
                                     fulldir = playlist03time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track3time = newdir
                                     track3uploader = str(self._temp_player_3.uploader)
-                                    track3info = str(botmessages['play_command_data'][12]).format(track3,
-                                                                                                  track3uploader,
-                                                                                                  track3time)
+                                    track3info = str(self.botmessages['play_command_data'][12]).format(track3,
+                                                                                                       track3uploader,
+                                                                                                       track3time)
                                     self.bot_playlist_entries.append(track3info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track3, track3time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track3, track3time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 3:
                                 self._temp_player_4 = yield from self.voice.create_ytdl_player(data,
@@ -605,24 +631,24 @@ class BotData:
                                 try:
                                     playlist04 = self._temp_player_4.title
                                     playlist04time = self._temp_player_4.duration
-                                    track4 = str(botmessages['play_command_data'][10]).format(playlist04)
+                                    track4 = str(self.botmessages['play_command_data'][10]).format(playlist04)
                                     fulldir = playlist04time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track4time = newdir
                                     track4uploader = str(self._temp_player_4.uploader)
-                                    track4info = str(botmessages['play_command_data'][12]).format(track4,
-                                                                                                  track4uploader,
-                                                                                                  track4time)
+                                    track4info = str(self.botmessages['play_command_data'][12]).format(track4,
+                                                                                                       track4uploader,
+                                                                                                       track4time)
                                     self.bot_playlist_entries.append(track4info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track4, track4time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track4, track4time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 4:
                                 self._temp_player_5 = yield from self.voice.create_ytdl_player(data,
@@ -633,24 +659,24 @@ class BotData:
                                 try:
                                     playlist05 = self._temp_player_5.title
                                     playlist05time = self._temp_player_5.duration
-                                    track5 = str(botmessages['play_command_data'][10]).format(playlist05)
+                                    track5 = str(self.botmessages['play_command_data'][10]).format(playlist05)
                                     fulldir = playlist05time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track5time = newdir
                                     track5uploader = str(self._temp_player_5.uploader)
-                                    track5info = str(botmessages['play_command_data'][12]).format(track5,
-                                                                                                  track5uploader,
-                                                                                                  track5time)
+                                    track5info = str(self.botmessages['play_command_data'][12]).format(track5,
+                                                                                                       track5uploader,
+                                                                                                       track5time)
                                     self.bot_playlist_entries.append(track5info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track5, track5time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track5, track5time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 5:
                                 self._temp_player_6 = yield from self.voice.create_ytdl_player(data,
@@ -661,24 +687,24 @@ class BotData:
                                 try:
                                     playlist06 = self._temp_player_6.title
                                     playlist06time = self._temp_player_6.duration
-                                    track6 = str(botmessages['play_command_data'][10]).format(playlist06)
+                                    track6 = str(self.botmessages['play_command_data'][10]).format(playlist06)
                                     fulldir = playlist06time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track6time = newdir
                                     track6uploader = str(self._temp_player_6.uploader)
-                                    track6info = str(botmessages['play_command_data'][12]).format(track6,
-                                                                                                  track6uploader,
-                                                                                                  track6time)
+                                    track6info = str(self.botmessages['play_command_data'][12]).format(track6,
+                                                                                                       track6uploader,
+                                                                                                       track6time)
                                     self.bot_playlist_entries.append(track6info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track6, track6time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track6, track6time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 6:
                                 self._temp_player_7 = yield from self.voice.create_ytdl_player(data,
@@ -689,24 +715,24 @@ class BotData:
                                 try:
                                     playlist07 = self._temp_player_7.title
                                     playlist07time = self._temp_player_7.duration
-                                    track7 = str(botmessages['play_command_data'][10]).format(playlist07)
+                                    track7 = str(self.botmessages['play_command_data'][10]).format(playlist07)
                                     fulldir = playlist07time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track7time = newdir
                                     track7uploader = str(self._temp_player_7.uploader)
-                                    track7info = str(botmessages['play_command_data'][12]).format(track7,
-                                                                                                  track7uploader,
-                                                                                                  track7time)
+                                    track7info = str(self.botmessages['play_command_data'][12]).format(track7,
+                                                                                                       track7uploader,
+                                                                                                       track7time)
                                     self.bot_playlist_entries.append(track7info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track7, track7time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track7, track7time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 7:
                                 self._temp_player_8 = yield from self.voice.create_ytdl_player(data,
@@ -717,24 +743,24 @@ class BotData:
                                 try:
                                     playlist08 = self._temp_player_8.title
                                     playlist08time = self._temp_player_8.duration
-                                    track8 = str(botmessages['play_command_data'][10]).format(playlist08)
+                                    track8 = str(self.botmessages['play_command_data'][10]).format(playlist08)
                                     fulldir = playlist08time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track8time = newdir
                                     track8uploader = str(self._temp_player_8.uploader)
-                                    track8info = str(botmessages['play_command_data'][12]).format(track8,
-                                                                                                  track8uploader,
-                                                                                                  track8time)
+                                    track8info = str(self.botmessages['play_command_data'][12]).format(track8,
+                                                                                                       track8uploader,
+                                                                                                       track8time)
                                     self.bot_playlist_entries.append(track8info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track8, track8time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track8, track8time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 8:
                                 self._temp_player_9 = yield from self.voice.create_ytdl_player(data,
@@ -745,24 +771,24 @@ class BotData:
                                 try:
                                     playlist09 = self._temp_player_9.title
                                     playlist09time = self._temp_player_9.duration
-                                    track9 = str(botmessages['play_command_data'][10]).format(playlist09)
+                                    track9 = str(self.botmessages['play_command_data'][10]).format(playlist09)
                                     fulldir = playlist09time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track9time = newdir
                                     track9uploader = str(self._temp_player_9.uploader)
-                                    track9info = str(botmessages['play_command_data'][12]).format(track9,
-                                                                                                  track9uploader,
-                                                                                                  track9time)
+                                    track9info = str(self.botmessages['play_command_data'][12]).format(track9,
+                                                                                                       track9uploader,
+                                                                                                       track9time)
                                     self.bot_playlist_entries.append(track9info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track9, track9time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track9, track9time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 9:
                                 self._temp_player_10 = yield from self.voice.create_ytdl_player(data,
@@ -773,31 +799,32 @@ class BotData:
                                 try:
                                     playlist10 = self._temp_player_10.title
                                     playlist10time = self._temp_player_10.duration
-                                    track10 = str(botmessages['play_command_data'][10]).format(playlist10)
+                                    track10 = str(self.botmessages['play_command_data'][10]).format(playlist10)
                                     fulldir = playlist10time
                                     minutes = str(int((fulldir / 60) % 60))
                                     seconds = str(int(fulldir % 60))
                                     if len(seconds) == 1:
                                         seconds = "0" + seconds
-                                    newdir = str(botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
                                     track10time = newdir
                                     track10uploader = str(self._temp_player_10.uploader)
-                                    track10info = str(botmessages['play_command_data'][12]).format(track10,
-                                                                                                   track10uploader,
-                                                                                                   track10time)
+                                    track10info = str(self.botmessages['play_command_data'][12]).format(track10,
+                                                                                                        track10uploader,
+                                                                                                        track10time)
                                     self.bot_playlist_entries.append(track10info)
-                                    msgdata = str(botmessages['play_command_data'][13]).format(track10, track10time)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track10,
+                                                                                                    track10time)
                                     message_data = msgdata
                                     yield from client.send_message(message.channel, message_data)
                                 except AttributeError:
-                                    message_data = str(botmessages['play_command_data'][2])
+                                    message_data = str(self.botmessages['play_command_data'][2])
                                     yield from client.send_message(self.voice_message_channel, message_data)
                             elif len(self.bot_playlist) == 10:
-                                msgdata = str(botmessages['play_command_data'][15])
+                                msgdata = str(self.botmessages['play_command_data'][15])
                                 message_data = msgdata
                                 yield from client.send_message(message.channel, message_data)
-        if message.content.startswith(_bot_prefix + 'stop'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'stop'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.voice_message_channel is not None:
                 if message.channel.id == self.voice_message_channel.id:
@@ -808,9 +835,9 @@ class BotData:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            message_data = str(botmessages['stop_command_data'][0]).format(str(self.player.title),
-                                                                                           str(self.player.uploader),
-                                                                                           minutes, seconds)
+                            message_data = str(self.botmessages['stop_command_data'][0]).format(str(self.player.title),
+                                                                                                str(self.player.uploader
+                                                                                                    ), minutes, seconds)
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
@@ -845,12 +872,11 @@ class BotData:
                                             seconds = str(int(fulldir % 60))
                                             if len(seconds) == 1:
                                                 seconds = "0" + seconds
-                                            track_info = str(botmessages['stop_command_data'][1]).format(
+                                            track_info = str(self.botmessages['stop_command_data'][1]).format(
                                                 str(self.player.title),
                                                 str(self.player.uploader))
-                                            message_data = str(botmessages['stop_command_data'][2]).format(track_info,
-                                                                                                           minutes,
-                                                                                                           seconds)
+                                            message_data = str(self.botmessages['stop_command_data'][2]).format(
+                                                track_info, minutes, seconds)
                                             yield from client.send_message(self.voice_message_channel, message_data)
                                             try:
                                                 self.bot_playlist_entries.remove(track_info)
@@ -865,14 +891,14 @@ class BotData:
                                 self.is_bot_playing = False
                     else:
                         try:
-                            message_data = str(botmessages['stop_command_data'][3])
+                            message_data = str(self.botmessages['stop_command_data'][3])
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     return
-        if message.content.startswith(_bot_prefix + 'pause'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'pause'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.voice_message_channel is not None:
                 if message.channel.id == self.voice_message_channel.id:
@@ -883,22 +909,22 @@ class BotData:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            message_data = str(botmessages['pause_command_data'][0]).format(
+                            message_data = str(self.botmessages['pause_command_data'][0]).format(
                                 str(self.player.title), str(self.player.uploader), minutes, seconds)
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                         self.player.pause()
                     else:
-                        message_data = str(botmessages['pause_command_data'][1])
+                        message_data = str(self.botmessages['pause_command_data'][1])
                         yield from client.send_message(self.voice_message_channel, message_data)
                 else:
                     return
             else:
-                message_data = str(botmessages['pause_command_data'][2])
+                message_data = str(self.botmessages['pause_command_data'][2])
                 yield from client.send_message(message.channel, message_data)
-        if message.content.startswith(_bot_prefix + 'unpause'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'unpause'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.voice_message_channel is not None:
                 if message.channel.id == self.voice_message_channel.id:
@@ -909,7 +935,7 @@ class BotData:
                         if len(seconds) == 1:
                             seconds = "0" + seconds
                         try:
-                            message_data = str(botmessages['unpause_command_data'][0]).format(
+                            message_data = str(self.botmessages['unpause_command_data'][0]).format(
                                 str(self.player.title), str(self.player.uploader), minutes, seconds)
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
@@ -917,7 +943,7 @@ class BotData:
                         self.player.resume()
                     else:
                         try:
-                            msgdata = str(botmessages['unpause_command_data'][1])
+                            msgdata = str(self.botmessages['unpause_command_data'][1])
                             message_data = msgdata
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
@@ -925,10 +951,10 @@ class BotData:
                 else:
                     return
             else:
-                message_data = str(botmessages['unpause_command_data'][2])
+                message_data = str(self.botmessages['unpause_command_data'][2])
                 yield from client.send_message(message.channel, message_data)
-        if message.content.startswith(_bot_prefix + 'move'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'move'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.voice_message_channel is not None:
                 if message.channel.id == self.voice_message_channel.id:
@@ -938,26 +964,26 @@ class BotData:
                     try:
                         yield from client.move_member(bot, self.vchannel)
                         try:
-                            message_data = str(botmessages['move_command_data'][0]).format(self.vchannel.name)
+                            message_data = str(self.botmessages['move_command_data'][0]).format(self.vchannel.name)
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.InvalidArgument:
                         try:
-                            message_data = str(botmessages['move_command_data'][1])
+                            message_data = str(self.botmessages['move_command_data'][1])
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                     except discord.errors.Forbidden:
                         try:
-                            msgdata = str(botmessages['move_command_data'][2]).format(self.vchannel.name)
+                            msgdata = str(self.botmessages['move_command_data'][2]).format(self.vchannel.name)
                             message_data = msgdata
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(client, message)
                         except discord.errors.HTTPException:
                             try:
-                                message_data = str(botmessages['move_command_data'][3]).format(self.vchannel.name)
+                                message_data = str(self.botmessages['move_command_data'][3]).format(self.vchannel.name)
                                 yield from client.send_message(self.voice_message_channel, message_data)
                             except discord.errors.Forbidden:
                                 yield from BotPMError.resolve_send_message_error(client, message)
@@ -977,7 +1003,7 @@ class BotData:
                         # Clean the temp players now...
                         self.resolve_bot_playlist_issue()
                         try:
-                            message_data = str(botmessages['auto_playlist_data'][0]).format(
+                            message_data = str(self.botmessages['auto_playlist_data'][0]).format(
                                 str(self.player.title), str(self.player.uploader), minutes, seconds)
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
@@ -1016,10 +1042,10 @@ class BotData:
                                         seconds = str(int(fulldir % 60))
                                         if len(seconds) == 1:
                                             seconds = "0" + seconds
-                                        track_info = str(botmessages['auto_playlist_data'][1]).format(
+                                        track_info = str(self.botmessages['auto_playlist_data'][1]).format(
                                             str(self.player.title),
                                             str(self.player.uploader))
-                                        message_data = str(botmessages['auto_playlist_data'][2]).format(
+                                        message_data = str(self.botmessages['auto_playlist_data'][2]).format(
                                             track_info, minutes, seconds)
                                         yield from client.send_message(self.voice_message_channel, message_data)
                                         try:
@@ -1032,8 +1058,8 @@ class BotData:
                                         self.player.start()
                         except UnboundLocalError:
                             self.is_bot_playing = False
-        if message.content.startswith(_bot_prefix + 'LeaveVoiceChannel'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'LeaveVoiceChannel'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.voice is not None:
                 if self.voice_message_channel is not None:
@@ -1045,33 +1071,33 @@ class BotData:
                             pass
                         if self.vchannel is not None:
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel.id)
+                                self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel.id)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server.id)
+                                self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server.id)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_channel.id)
+                                self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_channel.id)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server_name)
+                                self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server_name)
                             except ValueError:
                                 pass
                             try:
-                                botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel_name)
+                                self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel_name)
                             except ValueError:
                                 pass
-                        filename = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(path, sepa)
-                        json.dump(botvoicechannel, open(filename, "w"))
+                        filename = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(self.path, self.sepa)
+                        json.dump(self.botvoicechannel, open(filename, "w"))
                         try:
                             try:
-                                message_data = str(botmessages['leave_voice_channel_command_data'][0]).format(
+                                message_data = str(self.botmessages['leave_voice_channel_command_data'][0]).format(
                                     self.vchannel.name)
                             except AttributeError:
-                                message_data = str(botmessages['leave_voice_channel_command_data'][0]).format(
+                                message_data = str(self.botmessages['leave_voice_channel_command_data'][0]).format(
                                     self.vchannel_name)
                             yield from client.send_message(self.voice_message_channel, message_data)
                         except discord.errors.Forbidden:
@@ -1088,91 +1114,91 @@ class BotData:
                     else:
                         return
             else:
-                msgdata = str(botmessages['leave_voice_channel_command_data'][1])
+                msgdata = str(self.botmessages['leave_voice_channel_command_data'][1])
                 message_data = msgdata
                 yield from client.send_message(message.channel, message_data)
-        if message.content.startswith(_bot_prefix + 'Playlist'):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + 'Playlist'):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.voice is not None:
                 if self.voice_message_channel is not None:
                     if message.channel.id == self.voice_message_channel.id:
-                        track1 = str(botmessages['playlist_command_data'][0])
-                        track2 = str(botmessages['playlist_command_data'][0])
-                        track3 = str(botmessages['playlist_command_data'][0])
-                        track4 = str(botmessages['playlist_command_data'][0])
-                        track5 = str(botmessages['playlist_command_data'][0])
-                        track6 = str(botmessages['playlist_command_data'][0])
-                        track7 = str(botmessages['playlist_command_data'][0])
-                        track8 = str(botmessages['playlist_command_data'][0])
-                        track9 = str(botmessages['playlist_command_data'][0])
-                        track10 = str(botmessages['playlist_command_data'][0])
+                        track1 = str(self.botmessages['playlist_command_data'][0])
+                        track2 = str(self.botmessages['playlist_command_data'][0])
+                        track3 = str(self.botmessages['playlist_command_data'][0])
+                        track4 = str(self.botmessages['playlist_command_data'][0])
+                        track5 = str(self.botmessages['playlist_command_data'][0])
+                        track6 = str(self.botmessages['playlist_command_data'][0])
+                        track7 = str(self.botmessages['playlist_command_data'][0])
+                        track8 = str(self.botmessages['playlist_command_data'][0])
+                        track9 = str(self.botmessages['playlist_command_data'][0])
+                        track10 = str(self.botmessages['playlist_command_data'][0])
                         if len(self.bot_playlist_entries) == 0:
-                            track1 = str(botmessages['playlist_command_data'][0])
-                            track2 = str(botmessages['playlist_command_data'][0])
-                            track3 = str(botmessages['playlist_command_data'][0])
-                            track4 = str(botmessages['playlist_command_data'][0])
-                            track5 = str(botmessages['playlist_command_data'][0])
-                            track6 = str(botmessages['playlist_command_data'][0])
-                            track7 = str(botmessages['playlist_command_data'][0])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track1 = str(self.botmessages['playlist_command_data'][0])
+                            track2 = str(self.botmessages['playlist_command_data'][0])
+                            track3 = str(self.botmessages['playlist_command_data'][0])
+                            track4 = str(self.botmessages['playlist_command_data'][0])
+                            track5 = str(self.botmessages['playlist_command_data'][0])
+                            track6 = str(self.botmessages['playlist_command_data'][0])
+                            track7 = str(self.botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 1:
                             track1 = str(self.bot_playlist_entries[0])
-                            track2 = str(botmessages['playlist_command_data'][0])
-                            track3 = str(botmessages['playlist_command_data'][0])
-                            track4 = str(botmessages['playlist_command_data'][0])
-                            track5 = str(botmessages['playlist_command_data'][0])
-                            track6 = str(botmessages['playlist_command_data'][0])
-                            track7 = str(botmessages['playlist_command_data'][0])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track2 = str(self.botmessages['playlist_command_data'][0])
+                            track3 = str(self.botmessages['playlist_command_data'][0])
+                            track4 = str(self.botmessages['playlist_command_data'][0])
+                            track5 = str(self.botmessages['playlist_command_data'][0])
+                            track6 = str(self.botmessages['playlist_command_data'][0])
+                            track7 = str(self.botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 2:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
-                            track3 = str(botmessages['playlist_command_data'][0])
-                            track4 = str(botmessages['playlist_command_data'][0])
-                            track5 = str(botmessages['playlist_command_data'][0])
-                            track6 = str(botmessages['playlist_command_data'][0])
-                            track7 = str(botmessages['playlist_command_data'][0])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track3 = str(self.botmessages['playlist_command_data'][0])
+                            track4 = str(self.botmessages['playlist_command_data'][0])
+                            track5 = str(self.botmessages['playlist_command_data'][0])
+                            track6 = str(self.botmessages['playlist_command_data'][0])
+                            track7 = str(self.botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 3:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
                             track3 = str(self.bot_playlist_entries[2])
-                            track4 = str(botmessages['playlist_command_data'][0])
-                            track5 = str(botmessages['playlist_command_data'][0])
-                            track6 = str(botmessages['playlist_command_data'][0])
-                            track7 = str(botmessages['playlist_command_data'][0])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track4 = str(self.botmessages['playlist_command_data'][0])
+                            track5 = str(self.botmessages['playlist_command_data'][0])
+                            track6 = str(self.botmessages['playlist_command_data'][0])
+                            track7 = str(self.botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 4:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
                             track3 = str(self.bot_playlist_entries[2])
                             track4 = str(self.bot_playlist_entries[3])
-                            track5 = str(botmessages['playlist_command_data'][0])
-                            track6 = str(botmessages['playlist_command_data'][0])
-                            track7 = str(botmessages['playlist_command_data'][0])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track5 = str(self.botmessages['playlist_command_data'][0])
+                            track6 = str(self.botmessages['playlist_command_data'][0])
+                            track7 = str(self.botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 5:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
                             track3 = str(self.bot_playlist_entries[2])
                             track4 = str(self.bot_playlist_entries[3])
                             track5 = str(self.bot_playlist_entries[4])
-                            track6 = str(botmessages['playlist_command_data'][0])
-                            track7 = str(botmessages['playlist_command_data'][0])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track6 = str(self.botmessages['playlist_command_data'][0])
+                            track7 = str(self.botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 6:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
@@ -1180,10 +1206,10 @@ class BotData:
                             track4 = str(self.bot_playlist_entries[3])
                             track5 = str(self.bot_playlist_entries[4])
                             track6 = str(self.bot_playlist_entries[5])
-                            track7 = str(botmessages['playlist_command_data'][0])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track7 = str(self.botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 7:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
@@ -1192,9 +1218,9 @@ class BotData:
                             track5 = str(self.bot_playlist_entries[4])
                             track6 = str(self.bot_playlist_entries[5])
                             track7 = str(self.bot_playlist_entries[6])
-                            track8 = str(botmessages['playlist_command_data'][0])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track8 = str(self.botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 8:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
@@ -1204,8 +1230,8 @@ class BotData:
                             track6 = str(self.bot_playlist_entries[5])
                             track7 = str(self.bot_playlist_entries[6])
                             track8 = str(self.bot_playlist_entries[7])
-                            track9 = str(botmessages['playlist_command_data'][0])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track9 = str(self.botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 9:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
@@ -1216,7 +1242,7 @@ class BotData:
                             track7 = str(self.bot_playlist_entries[6])
                             track8 = str(self.bot_playlist_entries[7])
                             track9 = str(self.bot_playlist_entries[8])
-                            track10 = str(botmessages['playlist_command_data'][0])
+                            track10 = str(self.botmessages['playlist_command_data'][0])
                         elif len(self.bot_playlist_entries) == 10:
                             track1 = str(self.bot_playlist_entries[0])
                             track2 = str(self.bot_playlist_entries[1])
@@ -1228,32 +1254,34 @@ class BotData:
                             track8 = str(self.bot_playlist_entries[7])
                             track9 = str(self.bot_playlist_entries[8])
                             track10 = str(self.bot_playlist_entries[9])
-                        msgdata = str(botmessages['playlist_command_data'][1]).format(track1, track2, track3, track4, track5,
-                                                                                      track6, track7, track8, track9, track10)
+                        msgdata = str(self.botmessages['playlist_command_data'][1]).format(track1, track2, track3,
+                                                                                           track4, track5, track6,
+                                                                                           track7, track8, track9,
+                                                                                           track10)
                         message_data = msgdata
                         yield from client.send_message(message.channel, message_data)
-        if message.content.startswith(_bot_prefix + "vol"):
-            if message.author.id in banlist['Users']:
+        if message.content.startswith(self._bot_prefix + "vol"):
+            if message.author.id in self.banlist['Users']:
                 return
             elif self.voice_message_channel is not None:
                 if message.channel.id == self.voice_message_channel.id:
                     if self.player is not None:
-                        value_string = message.content.strip(_bot_prefix + "vol ")
+                        value_string = message.content.strip(self._bot_prefix + "vol ")
                         try:
                             value = int(value_string) / 100
                             if 0.0 <= value <= 2.0:
                                 self.player.volume = value
-                                value_message = str(botmessages['volume_command_data'][0]).format(str(value * 100))
+                                value_message = str(self.botmessages['volume_command_data'][0]).format(str(value * 100))
                                 yield from client.send_message(self.voice_message_channel, value_message)
                             else:
                                 yield from client.send_message(self.voice_message_channel,
-                                                               str(botmessages['volume_command_data'][1]))
+                                                               str(self.botmessages['volume_command_data'][1]))
                         except ValueError:
                             yield from client.send_message(self.voice_message_channel,
-                                                           str(botmessages['volume_command_data'][2]))
+                                                           str(self.botmessages['volume_command_data'][2]))
                 else:
                     yield from client.send_message(self.voice_message_channel,
-                                                   str(botmessages['volume_command_data'][3]))
+                                                   str(self.botmessages['volume_command_data'][3]))
 
     @asyncio.coroutine
     def voice_stuff_new_disabled_code(self, client, message):
@@ -1262,32 +1290,32 @@ class BotData:
             :param client: Discord.py Client Object
             :param message: Message Object
         """
-        if message.content.startswith(_bot_prefix + 'JoinVoiceChannel'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'JoinVoiceChannel'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + 'play'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'play'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + 'stop'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'stop'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + 'pause'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'pause'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + 'unpause'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'unpause'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + 'move'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'move'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + 'LeaveVoiceChannel'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'LeaveVoiceChannel'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + 'Playlist'):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + 'Playlist'):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
-        if message.content.startswith(_bot_prefix + "vol"):
-            msgdata = str(botmessages['voice_commands_disabled'][0])
+        if message.content.startswith(self._bot_prefix + "vol"):
+            msgdata = str(self.botmessages['voice_commands_disabled'][0])
             yield from client.send_message(message.channel, msgdata)
 
     @asyncio.coroutine
@@ -1306,18 +1334,18 @@ class BotData:
                 try:
                     if reload_reason is not None:
                         try:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel.name, reload_reason)
                         except AttributeError:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel_name, reload_reason)
                     else:
-                        reason = str(botmessages['reload_commands_voice_channels_bypass1'][1])
+                        reason = str(self.botmessages['reload_commands_voice_channels_bypass1'][1])
                         try:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel.name, reason)
                         except AttributeError:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel_name, reason)
                     yield from client.send_message(self.voice_message_channel, message_data)
                     self.voice_message_channel = None
@@ -1341,11 +1369,11 @@ class BotData:
         :return: Nothing.
         """
         try:
-            vchannel_2 = str(botvoicechannel['Bot_Current_Voice_Channel'][0])
-            vmserver = str(botvoicechannel['Bot_Current_Voice_Channel'][1])
-            vmchannel = str(botvoicechannel['Bot_Current_Voice_Channel'][2])
-            self.voice_message_server_name = str(botvoicechannel['Bot_Current_Voice_Channel'][3])
-            self.vchannel_name = str(botvoicechannel['Bot_Current_Voice_Channel'][4])
+            vchannel_2 = str(self.botvoicechannel['Bot_Current_Voice_Channel'][0])
+            vmserver = str(self.botvoicechannel['Bot_Current_Voice_Channel'][1])
+            vmchannel = str(self.botvoicechannel['Bot_Current_Voice_Channel'][2])
+            self.voice_message_server_name = str(self.botvoicechannel['Bot_Current_Voice_Channel'][3])
+            self.vchannel_name = str(self.botvoicechannel['Bot_Current_Voice_Channel'][4])
             self.vchannel = discord.Object(id=vchannel_2)
             self.voice_message_server = discord.Object(id=vmserver)
             self.voice_message_channel = discord.Object(id=vmchannel)
@@ -1364,7 +1392,7 @@ class BotData:
                 self.verror = True
             except concurrent.futures._base.TimeoutError:
                 yield from client.send_message(message.channel,
-                                               str(botmessages['reload_commands_voice_channels_bypass2'][0]))
+                                               str(self.botmessages['reload_commands_voice_channels_bypass2'][0]))
                 self.voice_message_server_name = None
                 self.vchannel_name = None
                 self.vchannel = None
@@ -1380,10 +1408,11 @@ class BotData:
                 self.voice_message_channel = None
                 self.voice = None
                 self.verror = True
-                msgdata = str(botmessages['reload_commands_voice_channels_bypass2'][1])
+                msgdata = str(self.botmessages['reload_commands_voice_channels_bypass2'][1])
                 yield from client.send_message(self.voice_message_channel, msgdata)
             if self.verror is not True:
-                message_data = str(botmessages['reload_commands_voice_channels_bypass2'][2]).format(self.vchannel_name)
+                message_data = str(self.botmessages['reload_commands_voice_channels_bypass2'][2]).format(
+                    self.vchannel_name)
                 yield from client.send_message(self.voice_message_channel, message_data)
         except IndexError:
             self.voice_message_server_name = None
@@ -1402,15 +1431,15 @@ class BotData:
         """
         self.lock_join_voice_channel_command = True
         try:
-            vchannel_2 = str(botvoicechannel['Bot_Current_Voice_Channel'][0])
-            vmserver = str(botvoicechannel['Bot_Current_Voice_Channel'][1])
-            vmchannel = str(botvoicechannel['Bot_Current_Voice_Channel'][2])
-            self.voice_message_server_name = str(botvoicechannel['Bot_Current_Voice_Channel'][3])
-            self.vchannel_name = str(botvoicechannel['Bot_Current_Voice_Channel'][4])
+            vchannel_2 = str(self.botvoicechannel['Bot_Current_Voice_Channel'][0])
+            vmserver = str(self.botvoicechannel['Bot_Current_Voice_Channel'][1])
+            vmchannel = str(self.botvoicechannel['Bot_Current_Voice_Channel'][2])
+            self.voice_message_server_name = str(self.botvoicechannel['Bot_Current_Voice_Channel'][3])
+            self.vchannel_name = str(self.botvoicechannel['Bot_Current_Voice_Channel'][4])
             self.vchannel = discord.Object(id=vchannel_2)
             self.voice_message_server = discord.Object(id=vmserver)
             self.voice_message_channel = discord.Object(id=vmchannel)
-            discord.opus.load_opus(opusdll)
+            discord.opus.load_opus(self.opusdll)
             try:
                 self.voice = yield from client.join_voice_channel(self.vchannel)
                 self.verror = False
@@ -1434,10 +1463,11 @@ class BotData:
                 self.voice = None
                 self.verror = True
                 self.lock_join_voice_channel_command = False
-                msgdata = str(botmessages['reload_commands_voice_channels_bypass2'][1])
+                msgdata = str(self.botmessages['reload_commands_voice_channels_bypass2'][1])
                 yield from client.send_message(self.voice_message_channel, msgdata)
             if self.verror is not True:
-                message_data = str(botmessages['reload_commands_voice_channels_bypass2'][2]).format(self.vchannel_name)
+                message_data = str(self.botmessages['reload_commands_voice_channels_bypass2'][2]).format(
+                    self.vchannel_name)
                 yield from client.send_message(self.voice_message_channel, message_data)
                 self.lock_join_voice_channel_command = False
         except IndexError:
@@ -1464,18 +1494,18 @@ class BotData:
                 try:
                     if reload_reason is not None:
                         try:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel.name, reload_reason)
                         except AttributeError:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel_name, reload_reason)
                     else:
-                        reason = str(botmessages['reload_commands_voice_channels_bypass4'][0])
+                        reason = str(self.botmessages['reload_commands_voice_channels_bypass4'][0])
                         try:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel.name, reason)
                         except AttributeError:
-                            message_data = str(botmessages['reload_commands_voice_channels_bypass1'][0]).format(
+                            message_data = str(self.botmessages['reload_commands_voice_channels_bypass1'][0]).format(
                                 self.vchannel_name, reason)
                     yield from client.send_message(self.voice_message_channel, message_data)
                     self.voice_message_channel = None

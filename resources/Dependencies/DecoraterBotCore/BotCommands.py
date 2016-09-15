@@ -61,7 +61,6 @@ class BotData:
                                                                                        sys.implementation,
                                                                                        sys.version_info))
 
-        self.PY36 = sys.version_info >= (3, 6)
         self.PY35 = sys.version_info >= (3, 5)
 
         try:
@@ -1072,7 +1071,7 @@ class BotData:
 
     # Sorry guys if you have python 3.5 or 4.6 you can uncomment this.
     # This is because python 3.4 would still detect this as a SyntaxError.
-    # if PY35 or PY36:
+    # if self.PY35:
     #     async def prune_command_iterater_helper(self, client, message, num):
     #         """
     #         Prunes Messages.

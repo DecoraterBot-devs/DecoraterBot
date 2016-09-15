@@ -395,7 +395,8 @@ class BotData:
         :param user: Users.
         :return: Nothing.
         """
-        unban_log_data = str(self.LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator, client.server.name)
+        unban_log_data = str(self.LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator,
+                                                                   client.server.name)
         logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)

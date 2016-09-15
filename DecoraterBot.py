@@ -31,13 +31,17 @@ try:
 except ImportError:
     sepa = os.sep
     bits = ctypes.sizeof(ctypes.c_voidp)
+    platform = None
     if bits == 4:
         platform = 'x86'
     elif bits == 8:
         platform = 'x64'
     path = sys.path[0]
     if path.find('\\AppData\\Local\\Temp') != -1:
-        path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
+        path = sys.executable.strip(
+            'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
+                                                                                   sys.implementation,
+                                                                                   sys.version_info))
     appendpath = "{0}{1}resources{1}Dependencies".format(path, sepa)
     appendpath2 = "{0}{1}dependencies.{2}.{3.name}-{4.major}{4.minor}{4.micro}.zip".format(appendpath, sepa,
                                                                                            sys.platform,
@@ -45,7 +49,15 @@ except ImportError:
                                                                                            sys.version_info)
     sys.path.append(appendpath2)
     if sys.platform.startswith("win"):
-        appendpath3 = "{0}{1}resources{1}Dependencies{1}win32-deps".format(path, sepa)
+        PY35 = sys.version_info >= (3, 5)
+        if PY35:
+            appendpath3 = "{0}{1}resources{1}Dependencies{1}win32-deps{1}{2.major}.{2.minor}".format(path, sepa,
+                                                                                                     sys.version_info)
+        else:
+            appendpath3 = (
+                "{0}{1}resources{1}Dependencies{1}win32-deps{1}{2.major}.{2.minor}{1}{3}".format(path, sepa,
+                                                                                                 sys.version_info,
+                                                                                                 platform))
         sys.path.append(appendpath3)
     import discord
 try:
@@ -53,13 +65,17 @@ try:
 except ImportError:
     sepa = os.sep
     bits = ctypes.sizeof(ctypes.c_voidp)
+    platform = None
     if bits == 4:
         platform = 'x86'
     elif bits == 8:
         platform = 'x64'
     path = sys.path[0]
     if path.find('\\AppData\\Local\\Temp') != -1:
-        path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
+        path = sys.executable.strip(
+            'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
+                                                                                   sys.implementation,
+                                                                                   sys.version_info))
     appendpath = "{0}{1}resources{1}Dependencies".format(path, sepa)
     sys.path.append(appendpath)
     import DecoraterBotCore

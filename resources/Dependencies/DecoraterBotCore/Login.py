@@ -36,36 +36,36 @@ from colorama import init
 from colorama import Fore, Back, Style
 import BotConfigReader
 
-sepa = os.sep
-bits = ctypes.sizeof(ctypes.c_voidp)
-if bits == 4:
-    platform = 'x86'
-elif bits == 8:
-    platform = 'x64'
-path = sys.path[0]
-if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip('DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform, sys.implementation, sys.version_info))
-
-init()
-
-consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
-consoletext = json.load(consoledatafile)
-consoledatafile.close()
-
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
-botmessages = json.load(botmessagesdata)
-botmessagesdata.close()
-
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
-
-BotConfig = BotConfigReader.BotConfigVars()
-
 
 class BotData:
     """
         This Class is for Internal Use only!!!
     """
     def __init__(self):
+        self.sepa = os.sep
+        self.bits = ctypes.sizeof(ctypes.c_voidp)
+        self.platform = None
+        if self.bits == 4:
+            self.platform = 'x86'
+        elif self.bits == 8:
+            self.platform = 'x64'
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
+        init()
+        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path, self.sepa))
+        self.consoletext = json.load(self.consoledatafile)
+        self.consoledatafile.close()
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path, self.sepa))
+        self.botmessages = json.load(self.botmessagesdata)
+        self.botmessagesdata.close()
+
+        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
+
+        self.BotConfig = BotConfigReader.BotConfigVars()
         self.reconnects = 0
         self.is_bot_logged_in = False
         self.logged_in = False
@@ -79,14 +79,14 @@ class BotData:
         :return: Nothing.
         """
         try:
-            if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-                discord_user_email = BotConfig.discord_user_email
+            if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
+                discord_user_email = self.BotConfig.discord_user_email
                 if discord_user_email == 'None':
                     discord_user_email = None
-                discord_user_password = BotConfig.discord_user_password
+                discord_user_password = self.BotConfig.discord_user_password
                 if discord_user_password == 'None':
                     discord_user_password = None
-                bot_token = BotConfig.bot_token
+                bot_token = self.BotConfig.bot_token
                 if bot_token == 'None':
                     bot_token = None
                 if self.is_bot_logged_in:
@@ -99,16 +99,16 @@ class BotData:
                         client.run(bot_token)
                         self.is_bot_logged_in = True
                 except discord.errors.GatewayNotFound:
-                    print(str(consoletext['Login_Gateway_No_Find'][0]))
+                    print(str(self.consoletext['Login_Gateway_No_Find'][0]))
                     return
                 except discord.errors.LoginFailure:
-                    print(str(consoletext['Login_Failure'][0]))
+                    print(str(self.consoletext['Login_Failure'][0]))
                     sys.exit(2)
                 except discord.errors.InvalidToken:
-                    print(str(consoletext['Invalid_Token'][0]))
+                    print(str(self.consoletext['Invalid_Token'][0]))
                     sys.exit(2)
                 except discord.errors.UnknownConnectionError:
-                    print(str(consoletext['Unknown_Connection_Error'][0]))
+                    print(str(self.consoletext['Unknown_Connection_Error'][0]))
                     sys.exit(2)
                 except TypeError:
                     return
@@ -139,7 +139,7 @@ class BotData:
                             # asyncio.sleep(sleeptime)
                             self.login_info_code(client)
             else:
-                print(str(consoletext['Credentials_Not_Found'][0]))
+                print(str(self.consoletext['Credentials_Not_Found'][0]))
                 sys.exit(2)
         except Exception as e:
             str(e)  # To Bypass issues later as this is a dummy thing. (for now)
@@ -155,7 +155,7 @@ class BotData:
         """
         if self.logged_in:
             self.logged_in = False
-            message_data = str(botmessages['On_Ready_Message'][0])
+            message_data = str(self.botmessages['On_Ready_Message'][0])
             try:
                 yield from client.send_message(discord.Object(id='118098998744580098'), message_data)
             except discord.errors.Forbidden:
@@ -166,9 +166,9 @@ class BotData:
                 return
             bot_name = client.user.name
             print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
-                consoletext['Window_Login_Text'][0]).format(bot_name, client.user.id, __version__))
+                self.consoletext['Window_Login_Text'][0]).format(bot_name, client.user.id, __version__))
         if not self.logged_in:
-            game_name = str(consoletext['On_Ready_Game'][0])
+            game_name = str(self.consoletext['On_Ready_Game'][0])
             stream_url = "https://twitch.tv/decoraterbot"
             yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
 

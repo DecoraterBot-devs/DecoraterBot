@@ -33,7 +33,7 @@ class BotConfigVars:
     Class for getting the Credentials.json config Values.
     """
     def __init__(self):
-        sepa = os.sep
+        self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         if self.bits == 4:
             self.platform = 'x86'
@@ -45,7 +45,7 @@ class BotConfigVars:
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
                                                                                        sys.implementation,
                                                                                        sys.version_info))
-        self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, sepa)
+        self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
         self.credentials = None
         self.value = None
         self.load()

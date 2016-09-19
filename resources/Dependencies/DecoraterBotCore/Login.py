@@ -62,9 +62,7 @@ class BotData:
         self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path, self.sepa))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
-
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
-
         self.BotConfig = BotConfigReader.BotConfigVars()
         self.reconnects = 0
         self.is_bot_logged_in = False

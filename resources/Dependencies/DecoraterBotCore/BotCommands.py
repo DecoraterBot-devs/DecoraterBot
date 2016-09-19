@@ -60,9 +60,7 @@ class BotData:
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform2, sys.platform,
                                                                                        sys.implementation,
                                                                                        sys.version_info))
-
         self.PY35 = sys.version_info >= (3, 5)
-
         try:
             self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path,
                                                                                                       self.sepa))
@@ -99,7 +97,6 @@ class BotData:
         except FileNotFoundError:
             print(str(self.consoletext['Missing_JSON_Errors'][1]))
             sys.exit(2)
-
         self.version = str(self.consoletext['WindowVersion'][0])
         self.rev = str(self.consoletext['Revision'][0])
         self.sourcelink = str(self.botmessages['source_command_data'][0])
@@ -118,7 +115,6 @@ class BotData:
         self.botcommandsPMwithtinyurl = self.botcommandsPM + str(
             self.botmessages['commands_command_data'][3]) + self.commandturlfix
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
-
         self._log_games = True
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             self.BotConfig = BotConfigReader.BotConfigVars()

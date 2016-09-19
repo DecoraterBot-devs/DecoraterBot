@@ -61,84 +61,77 @@ except ImportError:
     print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import BotConfigReader
 
-sepa = os.sep
-bits = ctypes.sizeof(ctypes.c_voidp)
-platform = None
-if bits == 4:
-    platform = 'x86'
-elif bits == 8:
-    platform = 'x64'
-path = sys.path[0]
-if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip(
-        'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
-                                                                               sys.implementation, sys.version_info))
-
-DBLogin = Login.BotLogin()
-DBEvents = Ignore.BotEvents()
-DBIgnores = Ignore.BotIgnores()
-jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(path, sepa))
-somedict = json.load(jsonfile)
-jsonfile.close()
-consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
-consoletext = json.load(consoledatafile)
-consoledatafile.close()
-botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
-botmessages = json.load(botmessagesdata)
-botmessagesdata.close()
-
-version = str(consoletext['WindowVersion'][0])
-start = time.time()
-DBLogin.variable()
-
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
-
-if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    BotConfig = BotConfigReader.BotConfigVars()
-    discord_user_id = BotConfig.discord_user_id
-    if discord_user_id == 'None':
-        discord_user_id = None
-    _logging = BotConfig.logging
-    _logbans = BotConfig.logbans
-    _logunbans = BotConfig.logunbans
-    _logkicks = BotConfig.logkicks
-    _bot_prefix = BotConfig.bot_prefix
-
-# The platform list I have so far.
-if not (sys.platform.startswith('win') or sys.platform.startswith('linux')):
-    platerrormsg = str(consoletext['Unsupported_Platform'][0])
-    raise UnsupportedPlatform(platerrormsg.format(sys.platform))
-
 
 class BotData:
     """
         This Class is for Internal Use only!!!
     """
     def __init__(self):
-        pass
+        self.sepa = os.sep
+        self.bits = ctypes.sizeof(ctypes.c_voidp)
+        self.platform = None
+        if self.bits == 4:
+            self.platform = 'x86'
+        elif self.bits == 8:
+            self.platform = 'x64'
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
+        self.DBLogin = Login.BotLogin()
+        self.DBEvents = Ignore.BotEvents()
+        self.DBIgnores = Ignore.BotIgnores()
+        self.jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
+        self.somedict = json.load(self.jsonfile)
+        self.jsonfile.close()
+        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path, self.sepa))
+        self.consoletext = json.load(self.consoledatafile)
+        self.consoledatafile.close()
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path, self.sepa))
+        self.botmessages = json.load(self.botmessagesdata)
+        self.botmessagesdata.close()
+        self.version = str(self.consoletext['WindowVersion'][0])
+        self.start = time.time()
+        self.DBLogin.variable()
+        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
+        if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
+            self.BotConfig = BotConfigReader.BotConfigVars()
+            self.discord_user_id = self.BotConfig.discord_user_id
+            if self.discord_user_id == 'None':
+                self.discord_user_id = None
+            self._logging = self.BotConfig.logging
+            self._logbans = self.BotConfig.logbans
+            self._logunbans = self.BotConfig.logunbans
+            self._logkicks = self.BotConfig.logkicks
+            self._bot_prefix = self.BotConfig.bot_prefix
+        # For Cionsole Window size. (windows only)
+            self.cmd = "mode con: cols=80 lines=23"
+        # The platform list I have so far.
+        self.reload_ignores_module = False
+        if not (sys.platform.startswith('win') or sys.platform.startswith('linux')):
+            self.platerrormsg = str(self.consoletext['Unsupported_Platform'][0])
+            raise UnsupportedPlatform(self.platerrormsg.format(sys.platform))
 
-    @staticmethod
-    def changewindowtitle_code():
+    def changewindowtitle_code(self):
         """
         Changes the console's window Title.
         :return: Nothing.
         """
-        # the Following is windows only.
         if not (sys.platform.startswith('linux')):
-            ctypes.windll.kernel32.SetConsoleTitleW(str(consoletext['WindowName'][0]) + version)
+            ctypes.windll.kernel32.SetConsoleTitleW(str(self.consoletext['WindowName'][0]) + self.version)
         else:
-            sys.stdout.write("\x1b]2;{0}\x07".format(str(consoletext['WindowName'][0]) + version))
+            sys.stdout.write("\x1b]2;{0}\x07".format(str(self.consoletext['WindowName'][0]) + self.version))
             # print('Canno\'t change Console window title for this platform.\nPlease help the Developer with this.')
 
-    @staticmethod
-    def changewindowsize_code():
+    def changewindowsize_code(self):
         """
         Changes the Console's size.
         :return: Nothing.
         """
         # the Following is windows only.
-        cmd = "mode con: cols=80 lines=23"
-        os.system(cmd)
+        os.system(self.cmd)
 
     @asyncio.coroutine
     def commands_code(self, client, message):
@@ -148,27 +141,27 @@ class BotData:
         :param message: Message.
         :return: Nothing.
         """
-        yield from DBIgnores.ignore(client, message)
-        if message.content.startswith(_bot_prefix + "uptime"):
-            if message.author.id in somedict['Users']:
+        yield from self.DBIgnores.ignore(client, message)
+        if message.content.startswith(self._bot_prefix + "uptime"):
+            if message.author.id in self.somedict['Users']:
                 return
             else:
                 stop = time.time()
-                seconds = stop - start
+                seconds = stop - self.start
                 days = int(((seconds / 60) / 60) / 24)
                 hours = str(int((seconds / 60) / 60 - (days * 24)))
                 minutes = str(int((seconds / 60) % 60))
                 seconds = str(int(seconds % 60))
                 days = str(days)
-                time_001 = str(botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
+                time_001 = str(self.botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
                 time_parse = time_001
                 try:
                     yield from client.send_message(message.channel, time_parse)
                 except discord.errors.Forbidden:
                     return
-        if message.content.startswith(_bot_prefix + "hlreload"):
-            if message.author.id == discord_user_id:
-                desmod_new = message.content.lower()[len(_bot_prefix + 'hlreload '):].strip()
+        if message.content.startswith(self._bot_prefix + "hlreload"):
+            if message.author.id == self.discord_user_id:
+                desmod_new = message.content.lower()[len(self._bot_prefix + 'hlreload '):].strip()
                 _somebool = False
                 desmod = None
                 reload_reason = None
@@ -179,21 +172,27 @@ class BotData:
                         reason = rsn.strip(' | ')
                         reload_reason = reason
                         _somebool = True
+                        self.reload_ignores_module = True
                     else:
                         reason = None
                         reload_reason = reason
                         _somebool = True
+                        self.reload_ignores_module = True
                 if _somebool is True:
                     if desmod_new is not None:
                         if desmod == 'Ignore':
                             try:
                                 rsn = reload_reason
-                                yield from DBEvents.high_level_reload_helper(client, message, rsn)
+                                yield from self.DBEvents.high_level_reload_helper(client, message, rsn)
                                 module = sys.modules.get(desmod)
                                 importlib.reload(module)
-                                yield from DBEvents.high_level_reload_helper2(client, message)
+                                if self.reload_ignores_module:
+                                    # This is to refresh the Class initializations with the updated data.
+                                    self.DBEvents = Ignore.BotEvents()
+                                    self.DBIgnores = Ignore.BotIgnores()
+                                yield from self.DBEvents.high_level_reload_helper2(client, message)
                                 try:
-                                    msgdata = str(botmessages['reload_command_data'][0])
+                                    msgdata = str(self.botmessages['reload_command_data'][0])
                                     message_data = msgdata + ' Reloaded ' + desmod + '.'
                                     if desmod == 'BotLogs':
                                         if rsn is not None:
@@ -209,18 +208,19 @@ class BotData:
                                 str(e)
                                 reloadexception = str(traceback.format_exc())
                                 try:
-                                    reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
+                                    reload_data = str(self.botmessages['reload_command_data'][1]).format(
+                                        reloadexception)
                                     yield from client.send_message(message.channel, reload_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
+                        yield from client.send_message(message.channel, str(self.botmessages['reload_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
+                    yield from client.send_message(message.channel, str(self.botmessages['reload_command_data'][3]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -232,7 +232,7 @@ class BotData:
         :param message: Message.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_delete_method(client, message)
+        yield from self.DBEvents.resolve_delete_method(client, message)
 
     @asyncio.coroutine
     def editmessage_code(self, client, before, after):
@@ -243,7 +243,7 @@ class BotData:
         :param after: Message.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_edit_method(client, before, after)
+        yield from self.DBEvents.resolve_edit_method(client, before, after)
 
     @asyncio.coroutine
     def memberban_code(self, client, member):
@@ -253,7 +253,7 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_onban(client, member)
+        yield from self.DBEvents.resolve_onban(client, member)
 
     @asyncio.coroutine
     def memberunban_code(self, server, member):
@@ -263,7 +263,7 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_onunban(server, member)
+        yield from self.DBEvents.resolve_onunban(server, member)
 
     @asyncio.coroutine
     def memberremove_code(self, client, member):
@@ -273,7 +273,7 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_onremove(client, member)
+        yield from self.DBEvents.resolve_onremove(client, member)
 
     @asyncio.coroutine
     def memberjoin_code(self, client, member):
@@ -283,32 +283,29 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_onjoin(client, member)
+        yield from self.DBEvents.resolve_onjoin(client, member)
 
-    @staticmethod
-    def login_helper_code(client):
+    def login_helper_code(self, client):
         """
         Bot Login Helper.
         :param client: Discord client.
         :return: Nothing.
         """
-        DBLogin.login_info(client)
+        self.DBLogin.login_info(client)
 
-    @staticmethod
-    def discord_logger_code():
+    def discord_logger_code(self):
         """
         Logger Data.
         :return: Nothing.
         """
-        DBEvents.resolve_discord_logger()
+        self.DBEvents.resolve_discord_logger()
 
-    @staticmethod
-    def asyncio_logger_code():
+    def asyncio_logger_code(self):
         """
         Asyncio Logger.
         :return: Nothing.
         """
-        DBEvents.resolve_asyncio_logger()
+        self.DBEvents.resolve_asyncio_logger()
 
     @asyncio.coroutine
     def server_available_code(self, server):
@@ -317,7 +314,7 @@ class BotData:
         :param server: Servers.
         :return: Nothing.
         """
-        yield from DBEvents.server_available(server)
+        yield from self.DBEvents.server_available(server)
 
     @asyncio.coroutine
     def server_unavailable_code(self, server):
@@ -326,7 +323,7 @@ class BotData:
         :param server: Servers.
         :return: Nothing.
         """
-        yield from DBEvents.server_unavailable(server)
+        yield from self.DBEvents.server_unavailable(server)
 
     @asyncio.coroutine
     def groupjoin_code(self, channel, user):
@@ -336,7 +333,7 @@ class BotData:
         :param user: Users.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_ongroupjoin(channel, user)
+        yield from self.DBEvents.resolve_ongroupjoin(channel, user)
 
     @asyncio.coroutine
     def groupremove_code(self, channel, user):
@@ -346,7 +343,7 @@ class BotData:
         :param user: Users.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_ongroupremove(channel, user)
+        yield from self.DBEvents.resolve_ongroupremove(channel, user)
 
     @asyncio.coroutine
     def raw_recv_code(self, msg):
@@ -523,8 +520,8 @@ class BotData:
         :param client: Discord Client.
         :return: Nothing.
         """
-        yield from DBLogin.on_login(client)
-        yield from DBEvents.resolve_on_login_voice_channel_join(client)
+        yield from self.DBLogin.on_login(client)
+        yield from self.DBEvents.resolve_on_login_voice_channel_join(client)
 
 
 class BotCore:

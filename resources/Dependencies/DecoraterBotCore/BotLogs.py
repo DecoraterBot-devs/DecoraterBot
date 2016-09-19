@@ -388,15 +388,15 @@ class BotData:
         file.close()
 
     @asyncio.coroutine
-    def onunban_code(self, client, user):
+    def onunban_code(self, server, user):
         """
         Logs Unbans.
-        :param client: Discord client.
+        :param server: Server.
         :param user: Users.
         :return: Nothing.
         """
         unban_log_data = str(self.LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator,
-                                                                   client.server.name)
+                                                                   server.name)
         logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
@@ -585,14 +585,14 @@ class BotLogs:
         yield from self.bot.onunavailable_code(server)
 
     @asyncio.coroutine
-    def onunban(self, client, user):
+    def onunban(self, server, user):
         """
         Logs Unbans.
-        :param client: Discord client.
+        :param server: Server.
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.bot.onunban_code(client, user)
+        yield from self.bot.onunban_code(server, user)
 
     @asyncio.coroutine
     def ongroupjoin(self, channel, user):

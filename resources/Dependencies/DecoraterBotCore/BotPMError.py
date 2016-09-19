@@ -39,7 +39,7 @@ def resolve_send_message_error(client, message):
     msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
     try:
-        yield from client.send_message(message.channel.server.owner, unabletosendmessageerror)
+        yield from client.send_message(message.author, unabletosendmessageerror)
     except discord.errors.Forbidden:
         return
 

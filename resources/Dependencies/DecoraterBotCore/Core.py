@@ -256,14 +256,14 @@ class BotData:
         yield from DBEvents.resolve_onban(client, member)
 
     @asyncio.coroutine
-    def memberunban_code(self, client, member):
+    def memberunban_code(self, server, member):
         """
         Bot Event.
-        :param client: Discord Client.
+        :param server: Server.
         :param member: Member.
         :return: Nothing.
         """
-        yield from DBEvents.resolve_onunban(client, member)
+        yield from DBEvents.resolve_onunban(server, member)
 
     @asyncio.coroutine
     def memberremove_code(self, client, member):
@@ -590,14 +590,14 @@ class BotCore:
         yield from self.bot.memberban_code(client, member)
 
     @asyncio.coroutine
-    def memberunban(self, client, member):
+    def memberunban(self, server, member):
         """
         Bot Event.
-        :param client: Discord Client.
+        :param server: Server.
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.bot.memberunban_code(client, member)
+        yield from self.bot.memberunban_code(server, member)
 
     @asyncio.coroutine
     def memberremove(self, client, member):

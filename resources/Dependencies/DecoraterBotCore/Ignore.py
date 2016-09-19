@@ -723,16 +723,16 @@ class BotData003:
             yield from DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
-    def resolve_onunban_code(self, client, user):
+    def resolve_onunban_code(self, server, user):
         """
         Lists users unbanned.
-        :param client: Discord client.
+        :param server: Server.
         :param user: Member.
         :return: Nothing.
         """
         try:
             if _logunbans:
-                yield from DBLogs.onunban(client, user)
+                yield from DBLogs.onunban(server, user)
         except Exception as e:
             funcname = '_resolve_onunban_code'
             tbinfo = str(traceback.format_exc())
@@ -1087,14 +1087,14 @@ class BotEvents:
         yield from self.bot.resolve_onban_code(client, member)
 
     @asyncio.coroutine
-    def resolve_onunban(self, client, user):
+    def resolve_onunban(self, server, user):
         """
         Lists users unbanned.
-        :param client: Discord client.
+        :param server: Server.
         :param user: Member.
         :return: Nothing.
         """
-        yield from self.bot.resolve_onunban_code(client, user)
+        yield from self.bot.resolve_onunban_code(server, user)
 
     @asyncio.coroutine
     def resolve_onremove(self, client, member):

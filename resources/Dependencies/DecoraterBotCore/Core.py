@@ -81,7 +81,6 @@ class BotData:
                                                                                        sys.implementation,
                                                                                        sys.version_info))
         self.DBLogin = Login.BotLogin()
-        self.DBEvents = Ignore.BotEvents()
         self.DBIgnores = Ignore.BotIgnores()
         self.jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
         self.somedict = json.load(self.jsonfile)
@@ -183,14 +182,13 @@ class BotData:
                         if desmod == 'Ignore':
                             try:
                                 rsn = reload_reason
-                                yield from self.DBEvents.high_level_reload_helper(client, message, rsn)
+                                yield from self.DBIgnores.high_level_reload_helper(client, message, rsn)
                                 module = sys.modules.get(desmod)
                                 importlib.reload(module)
                                 if self.reload_ignores_module:
                                     # This is to refresh the Class initializations with the updated data.
-                                    self.DBEvents = Ignore.BotEvents()
                                     self.DBIgnores = Ignore.BotIgnores()
-                                yield from self.DBEvents.high_level_reload_helper2(client, message)
+                                yield from self.DBIgnores.high_level_reload_helper2(client, message)
                                 try:
                                     msgdata = str(self.botmessages['reload_command_data'][0])
                                     message_data = msgdata + ' Reloaded ' + desmod + '.'
@@ -232,7 +230,7 @@ class BotData:
         :param message: Message.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_delete_method(client, message)
+        yield from self.DBIgnores.resolve_delete_method(client, message)
 
     @asyncio.coroutine
     def editmessage_code(self, client, before, after):
@@ -243,7 +241,7 @@ class BotData:
         :param after: Message.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_edit_method(client, before, after)
+        yield from self.DBIgnores.resolve_edit_method(client, before, after)
 
     @asyncio.coroutine
     def memberban_code(self, client, member):
@@ -253,7 +251,7 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_onban(client, member)
+        yield from self.DBIgnores.resolve_onban(client, member)
 
     @asyncio.coroutine
     def memberunban_code(self, server, member):
@@ -263,7 +261,7 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_onunban(server, member)
+        yield from self.DBIgnores.resolve_onunban(server, member)
 
     @asyncio.coroutine
     def memberremove_code(self, client, member):
@@ -273,7 +271,7 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_onremove(client, member)
+        yield from self.DBIgnores.resolve_onremove(client, member)
 
     @asyncio.coroutine
     def memberjoin_code(self, client, member):
@@ -283,7 +281,7 @@ class BotData:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_onjoin(client, member)
+        yield from self.DBIgnores.resolve_onjoin(client, member)
 
     def login_helper_code(self, client):
         """
@@ -298,14 +296,14 @@ class BotData:
         Logger Data.
         :return: Nothing.
         """
-        self.DBEvents.resolve_discord_logger()
+        self.DBIgnores.resolve_discord_logger()
 
     def asyncio_logger_code(self):
         """
         Asyncio Logger.
         :return: Nothing.
         """
-        self.DBEvents.resolve_asyncio_logger()
+        self.DBIgnores.resolve_asyncio_logger()
 
     @asyncio.coroutine
     def server_available_code(self, server):
@@ -314,7 +312,7 @@ class BotData:
         :param server: Servers.
         :return: Nothing.
         """
-        yield from self.DBEvents.server_available(server)
+        yield from self.DBIgnores.server_available(server)
 
     @asyncio.coroutine
     def server_unavailable_code(self, server):
@@ -323,7 +321,7 @@ class BotData:
         :param server: Servers.
         :return: Nothing.
         """
-        yield from self.DBEvents.server_unavailable(server)
+        yield from self.DBIgnores.server_unavailable(server)
 
     @asyncio.coroutine
     def groupjoin_code(self, channel, user):
@@ -333,7 +331,7 @@ class BotData:
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_ongroupjoin(channel, user)
+        yield from self.DBIgnores.resolve_ongroupjoin(channel, user)
 
     @asyncio.coroutine
     def groupremove_code(self, channel, user):
@@ -343,7 +341,7 @@ class BotData:
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.DBEvents.resolve_ongroupremove(channel, user)
+        yield from self.DBIgnores.resolve_ongroupremove(channel, user)
 
     @asyncio.coroutine
     def raw_recv_code(self, msg):
@@ -521,7 +519,7 @@ class BotData:
         :return: Nothing.
         """
         yield from self.DBLogin.on_login(client)
-        yield from self.DBEvents.resolve_on_login_voice_channel_join(client)
+        yield from self.DBIgnores.resolve_on_login_voice_channel_join(client)
 
 
 class BotCore:

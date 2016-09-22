@@ -40,6 +40,15 @@ except ImportError:
     print('Some Unknown thing happened which made a critical bot code file unable to be found.')
 import discord
 import BotConfigReader
+try:
+    import TinyURL
+    disabletinyurl = False
+except ImportError:
+    print_data_001 = 'TinyURL for Python 3.x was not installed.\n'
+    print_data_002 = 'It can be found at: https://github.com/AraHaan/TinyURL\n'
+    print_data_003 = 'Disabled the tinyurl command for now.'
+    print(print_data_001 + print_data_002 + print_data_003)
+    disabletinyurl = True
 
 
 class BotData:
@@ -69,15 +78,7 @@ class BotData:
         except FileNotFoundError:
             print('ConsoleWindow.json is not Found. Cannot Continue.')
             sys.exit(2)
-        try:
-            import TinyURL
-            self.disabletinyurl = False
-        except ImportError:
-            self.print_data_001 = 'TinyURL for Python 3.x was not installed.\n'
-            self.print_data_002 = 'It can be found at: https://github.com/AraHaan/TinyURL\n'
-            self.print_data_003 = 'Disabled the tinyurl command for now.'
-            print(self.print_data_001 + self.print_data_002 + self.print_data_003)
-            self.disabletinyurl = True
+        self.disabletinyurl = disabletinyurl
         self.botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
         self.banlist = json.load(self.botbanslist)
         self.botbanslist.close()
@@ -1439,7 +1440,7 @@ class BotData:
                     url = url.strip('<')
                     url = url.strip('>')
                 try:
-                    link = TinyURL.TinyURL.create_one(url)
+                    link = TinyURL.create_one(url)
                     self.tinyurlerror = False
                 except TinyURL.errors.URLError:
                     self.tinyurlerror = True

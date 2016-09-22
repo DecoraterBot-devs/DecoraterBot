@@ -68,136 +68,137 @@ except ImportError:
 import BotVoiceCommands
 import BotConfigReader
 
-sepa = os.sep
-bits = ctypes.sizeof(ctypes.c_voidp)
-platform = None
-if bits == 4:
-    platform = 'x86'
-elif bits == 8:
-    platform = 'x64'
-path = sys.path[0]
-if path.find('\\AppData\\Local\\Temp') != -1:
-    path = sys.executable.strip(
-        'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
-                                                                               sys.implementation, sys.version_info))
 
-try:
-    consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(path, sepa))
-    consoletext = json.load(consoledatafile)
-    consoledatafile.close()
-except FileNotFoundError:
-    print('ConsoleWindow.json is not Found. Cannot Continue.')
-    sys.exit(2)
-try:
-    jsonfile = io.open('{0}{1}resources{1}ConfigData{1}IgnoreList.json'.format(path, sepa))
-    somedict = json.load(jsonfile)
-    jsonfile.close()
-except FileNotFoundError:
-    print(str(consoletext['Missing_JSON_Errors'][0]))
-    sys.exit(2)
-try:
-    botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(path, sepa))
-    botmessages = json.load(botmessagesdata)
-    botmessagesdata.close()
-except FileNotFoundError:
-    print(str(consoletext['Missing_JSON_Errors'][1]))
-    sys.exit(2)
-
-DBCommands = BotCommands.BotCommands()
-DBVoiceCommands = BotVoiceCommands.VoiceBotCommands()
-
-# default to True in case options are not present in Credentials.json
-_logging = True
-_logbans = True
-_logunbans = True
-_logkicks = True
-_discord_logger = True
-_asyncio_logger = True
-_log_available = True
-_log_unavailable = True
-log_channel_create = True
-log_channel_delete = True
-log_channel_update = True
-log_member_update = True
-log_server_join = True
-log_server_remove = True
-log_server_update = True
-log_server_role_create = True
-log_server_role_delete = True
-log_server_role_update = True
-log_group_join = True
-log_group_remove = True
-log_error = True
-log_voice_state_update = True
-log_typing = True
-log_socket_raw_receive = True
-log_socket_raw_send = True
-log_resumed = True
-log_member_join = True
-# Will Always be True to prevent the Error Handler from Causing Issues later.
-# Well only if the PM Error handler is False.
-enable_error_handler = True
-
-
-PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
-if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-    BotConfig = BotConfigReader.BotConfigVars()
-    discord_user_id = BotConfig.discord_user_id
-    if discord_user_id == 'None':
-        discord_user_id = None
-    _logging = BotConfig.logging
-    _logbans = BotConfig.logbans
-    _logunbans = BotConfig.logunbans
-    _logkicks = BotConfig.logkicks
-    _bot_prefix = BotConfig.bot_prefix
-    if _bot_prefix == '':
-        _bot_prefix = None
-    if _bot_prefix is None:
-        print('No Prefix specified in Credentials.json. The Bot cannot continue.')
-        sys.exit(2)
-    _disable_voice_commands = BotConfig.disable_voice_commands
-    _pm_command_errors = BotConfig.pm_command_errors
-    _discord_logger = BotConfig.discord_logger
-    _asyncio_logger = BotConfig.asyncio_logger
-    _log_available = BotConfig.log_available
-    _log_unavailable = BotConfig.log_unavailable
-    log_channel_create = BotConfig.log_channel_create
-    log_channel_delete = BotConfig.log_channel_delete
-    log_channel_update = BotConfig.log_channel_update
-    log_member_update = BotConfig.log_member_update
-    log_server_join = BotConfig.log_server_join
-    log_server_remove = BotConfig.log_server_remove
-    log_server_update = BotConfig.log_server_update
-    log_server_role_create = BotConfig.log_server_role_create
-    log_server_role_delete = BotConfig.log_server_role_delete
-    log_server_role_update = BotConfig.log_server_role_update
-    log_group_join = BotConfig.log_group_join
-    log_group_remove = BotConfig.log_group_remove
-    log_error = BotConfig.log_error
-    log_voice_state_update = BotConfig.log_voice_state_update
-    log_typing = BotConfig.log_typing
-    log_socket_raw_receive = BotConfig.log_socket_raw_receive
-    log_socket_raw_send = BotConfig.log_socket_raw_send
-    log_resumed = BotConfig.log_resumed
-    log_member_join = BotConfig.log_member_join
-
-if (_logging or _logbans or _logunbans or _logkicks or _discord_logger or _asyncio_logger or _log_available or
-        _log_unavailable or log_channel_create or log_channel_delete or log_channel_update or 
-        log_member_update or log_server_join or log_server_remove or log_server_update or 
-        log_server_role_create or log_server_role_delete or log_server_role_update or log_group_join or 
-        log_group_remove or log_error or log_voice_state_update or log_typing or log_socket_raw_receive or 
-        log_socket_raw_send or log_resumed or log_member_join or enable_error_handler):
-    import BotLogs
-    DBLogs = BotLogs.BotLogs()
-
-
-class BotData001:
+class BotData:
     """
         This Class is for Internal Use only!!!
     """
 
     def __init__(self):
+        self.sepa = os.sep
+        self.bits = ctypes.sizeof(ctypes.c_voidp)
+        self.platform = None
+        if self.bits == 4:
+            self.platform = 'x86'
+        elif self.bits == 8:
+            self.platform = 'x64'
+        self.path = sys.path[0]
+        if self.path.find('\\AppData\\Local\\Temp') != -1:
+            self.path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
+
+        try:
+            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(
+                self.path, self.sepa))
+            self.consoletext = json.load(self.consoledatafile)
+            self.consoledatafile.close()
+        except FileNotFoundError:
+            print('ConsoleWindow.json is not Found. Cannot Continue.')
+            sys.exit(2)
+        try:
+            self.jsonfile = io.open('{0}{1}resources{1}ConfigData{1}IgnoreList.json'.format(self.path, self.sepa))
+            self.somedict = json.load(self.jsonfile)
+            self.jsonfile.close()
+        except FileNotFoundError:
+            print(str(self.consoletext['Missing_JSON_Errors'][0]))
+            sys.exit(2)
+        try:
+            self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(
+                self.path, self.sepa))
+            self.botmessages = json.load(self.botmessagesdata)
+            self.botmessagesdata.close()
+        except FileNotFoundError:
+            print(str(self.consoletext['Missing_JSON_Errors'][1]))
+            sys.exit(2)
+        self.DBCommands = BotCommands.BotCommands()
+        self.DBVoiceCommands = BotVoiceCommands.VoiceBotCommands()
+        # default to True in case options are not present in Credentials.json
+        self._logging = True
+        self._logbans = True
+        self._logunbans = True
+        self._logkicks = True
+        self._discord_logger = True
+        self._asyncio_logger = True
+        self._log_available = True
+        self._log_unavailable = True
+        self.log_channel_create = True
+        self.log_channel_delete = True
+        self.log_channel_update = True
+        self.log_member_update = True
+        self.log_server_join = True
+        self.log_server_remove = True
+        self.log_server_update = True
+        self.log_server_role_create = True
+        self.log_server_role_delete = True
+        self.log_server_role_update = True
+        self.log_group_join = True
+        self.log_group_remove = True
+        self.log_error = True
+        self.log_voice_state_update = True
+        self.log_typing = True
+        self.log_socket_raw_receive = True
+        self.log_socket_raw_send = True
+        self.log_resumed = True
+        self.log_member_join = True
+        # Will Always be True to prevent the Error Handler from Causing Issues later.
+        # Well only if the PM Error handler is False.
+        self.enable_error_handler = True
+        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
+        if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
+            self.BotConfig = BotConfigReader.BotConfigVars()
+            discord_user_id = self.BotConfig.discord_user_id
+            if discord_user_id == 'None':
+                self.discord_user_id = None
+            self._logging = self.BotConfig.logging
+            self._logbans = self.BotConfig.logbans
+            self._logunbans = self.BotConfig.logunbans
+            self._logkicks = self.BotConfig.logkicks
+            self._bot_prefix = self.BotConfig.bot_prefix
+            if self._bot_prefix == '':
+                self._bot_prefix = None
+            if self._bot_prefix is None:
+                print('No Prefix specified in Credentials.json. The Bot cannot continue.')
+                sys.exit(2)
+            self._disable_voice_commands = self.BotConfig.disable_voice_commands
+            self._pm_command_errors = self.BotConfig.pm_command_errors
+            self._discord_logger = self.BotConfig.discord_logger
+            self._asyncio_logger = self.BotConfig.asyncio_logger
+            self._log_available = self.BotConfig.log_available
+            self._log_unavailable = self.BotConfig.log_unavailable
+            self.log_channel_create = self.BotConfig.log_channel_create
+            self.log_channel_delete = self.BotConfig.log_channel_delete
+            self.log_channel_update = self.BotConfig.log_channel_update
+            self.log_member_update = self.BotConfig.log_member_update
+            self.log_server_join = self.BotConfig.log_server_join
+            self.log_server_remove = self.BotConfig.log_server_remove
+            self.log_server_update = self.BotConfig.log_server_update
+            self.log_server_role_create = self.BotConfig.log_server_role_create
+            self.log_server_role_delete = self.BotConfig.log_server_role_delete
+            self.log_server_role_update = self.BotConfig.log_server_role_update
+            self.log_group_join = self.BotConfig.log_group_join
+            self.log_group_remove = self.BotConfig.log_group_remove
+            self.log_error = self.BotConfig.log_error
+            self.log_voice_state_update = self.BotConfig.log_voice_state_update
+            self.log_typing = self.BotConfig.log_typing
+            self.log_socket_raw_receive = self.BotConfig.log_socket_raw_receive
+            self.log_socket_raw_send = self.BotConfig.log_socket_raw_send
+            self.log_resumed = self.BotConfig.log_resumed
+            self.log_member_join = self.BotConfig.log_member_join
+        if (self._logging or self._logbans or self._logunbans or self._logkicks or self._discord_logger or
+                self._asyncio_logger or self._log_available or self._log_unavailable or self.log_channel_create or
+                self.log_channel_delete or self.log_channel_update or self.log_member_update or self.log_server_join or
+                self.log_server_remove or self.log_server_update or self.log_server_role_create or
+                self.log_server_role_delete or self.log_server_role_update or self.log_group_join or
+                self.log_group_remove or self.log_error or self.log_voice_state_update or self.log_typing or
+                self.log_socket_raw_receive or self.log_socket_raw_send or self.log_resumed or self.log_member_join or
+                self.enable_error_handler):
+            import BotLogs
+            self.DBLogs = BotLogs.BotLogs()
         self._somebool = False
+        self.reload_normal_commands = False
+        self.reload_voice_commands = False
 
     @asyncio.coroutine
     def ignore_channel_code(self, client, message):
@@ -207,37 +208,37 @@ class BotData001:
         :param message: Message.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'ignorechannel'):
-            if message.channel.id not in somedict["channels"]:
+        if message.content.startswith(self._bot_prefix + 'ignorechannel'):
+            if message.channel.id not in self.somedict["channels"]:
                 try:
-                    somedict["channels"].append(message.channel.id)
-                    json.dump(somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(path,
-                                                                                                     sepa), "w"))
+                    self.somedict["channels"].append(message.channel.id)
+                    json.dump(self.somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(
+                        self.path, self.sepa), "w"))
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][0]))
+                        yield from client.send_message(message.channel, str(self.botmessages['Ignore_Channel_Data'][0]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 except Exception as e:
                     str(e)
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['Ignore_Channel_Data'][1]))
+                        yield from client.send_message(message.channel, str(self.botmessages['Ignore_Channel_Data'][1]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
-        if message.content.startswith(_bot_prefix + 'unignorechannel'):
-            if message.channel.id in somedict["channels"]:
+        if message.content.startswith(self._bot_prefix + 'unignorechannel'):
+            if message.channel.id in self.somedict["channels"]:
                 try:
-                    ignored = somedict["channels"]
+                    ignored = self.somedict["channels"]
                     ignored.remove(message.channel.id)
-                    json.dump(somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(path,
-                                                                                                     sepa), "w"))
-                    msg_info = str(botmessages['Unignore_Channel_Data'][0])
+                    json.dump(self.somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(
+                        self.path, self.sepa), "w"))
+                    msg_info = str(self.botmessages['Unignore_Channel_Data'][0])
                     try:
                         yield from client.send_message(message.channel, msg_info)
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 except Exception as e:
                     str(e)
-                    msg_info = str(botmessages['Unignore_Channel_Data'][1])
+                    msg_info = str(self.botmessages['Unignore_Channel_Data'][1])
                     try:
                         yield from client.send_message(message.channel, msg_info)
                     except discord.errors.Forbidden:
@@ -251,9 +252,9 @@ class BotData001:
         :param message: Message.
         :return: Nothing.
         """
-        if message.content.startswith(_bot_prefix + 'reload'):
-            if message.author.id == discord_user_id:
-                desmod_new = message.content.lower()[len(_bot_prefix + 'reload '):].strip()
+        if message.content.startswith(self._bot_prefix + 'reload'):
+            if message.author.id == self.discord_user_id:
+                desmod_new = message.content.lower()[len(self._bot_prefix + 'reload '):].strip()
                 rejoin_after_reload = False
                 self._somebool = False
                 desmod = None
@@ -278,10 +279,12 @@ class BotData001:
                         reason = rsn.strip(' | ')
                         reload_reason = reason
                         self._somebool = True
+                        self.reload_normal_commands = False
                     else:
                         reason = None
                         reload_reason = reason
                         self._somebool = True
+                        self.reload_normal_commands = False
                 elif desmod_new.rfind("botvoicecommands") is not -1:
                     desmod = "BotVoiceCommands"
                     rsn = desmod_new.replace('botvoicecommands', "")
@@ -289,10 +292,12 @@ class BotData001:
                         reason = rsn.replace(' | ', "")
                         reload_reason = reason
                         self._somebool = True
+                        self.reload_voice_commands = False
                     else:
                         reason = None
                         reload_reason = reason
                         self._somebool = True
+                        self.reload_voice_commands = False
                 else:
                     self._somebool = False
                 if self._somebool is True:
@@ -301,15 +306,19 @@ class BotData001:
                             if desmod == 'BotVoiceCommands':
                                 rsn = reload_reason
                                 rejoin_after_reload = True
-                                yield from DBVoiceCommands.reload_commands_bypass1_new(client, message, rsn)
+                                yield from self.DBVoiceCommands.reload_commands_bypass1_new(client, message, rsn)
                             try:
                                 module = sys.modules.get(desmod)
                                 importlib.reload(module)
+                                if self.reload_normal_commands:
+                                    self.DBCommands = BotCommands.BotCommands()
+                                if self.reload_voice_commands:
+                                    self.DBVoiceCommands = BotVoiceCommands.VoiceBotCommands()
                                 if rejoin_after_reload:
-                                    yield from DBVoiceCommands.reload_commands_bypass2_new(
+                                    yield from self.DBVoiceCommands.reload_commands_bypass2_new(
                                         client, message)
                                 try:
-                                    msgdata = str(botmessages['reload_command_data'][0])
+                                    msgdata = str(self.botmessages['reload_command_data'][0])
                                     message_data = msgdata + ' Reloaded ' + desmod + '.'
                                     if desmod == 'BotLogs':
                                         if reload_reason is not None:
@@ -325,18 +334,19 @@ class BotData001:
                                 str(e)
                                 reloadexception = str(traceback.format_exc())
                                 try:
-                                    reload_data = str(botmessages['reload_command_data'][1]).format(reloadexception)
+                                    reload_data = str(self.botmessages['reload_command_data'][1]).format(
+                                        reloadexception)
                                     yield from client.send_message(message.channel, reload_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(botmessages['reload_command_data'][2]))
+                        yield from client.send_message(message.channel, str(self.botmessages['reload_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, str(botmessages['reload_command_data'][3]))
+                    yield from client.send_message(message.channel, str(self.botmessages['reload_command_data'][3]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -359,28 +369,28 @@ class BotData001:
         :param message: Message.
         :return: Nothing.
         """
-        yield from DBCommands.prune(client, message)
-        yield from DBCommands.invite(client, message)
-        yield from DBCommands.kills(client, message)
-        yield from DBCommands.colors(client, message)
-        yield from DBCommands.games(client, message)
-        yield from DBCommands.attack(client, message)
-        yield from DBCommands.debug(client, message)
-        yield from DBCommands.other_commands(client, message)
-        yield from DBCommands.userdata(client, message)
-        yield from DBCommands.bot_say(client, message)
-        yield from DBCommands.randomcoin(client, message)
-        yield from DBCommands.mod_commands(client, message)
-        yield from DBCommands.bot_roles(client, message)
-        yield from DBCommands.more_commands(client, message)
-        yield from DBCommands.convert_url(client, message)
-        if _disable_voice_commands is not True and sys.platform.startswith('win'):
+        yield from self.DBCommands.prune(client, message)
+        yield from self.DBCommands.invite(client, message)
+        yield from self.DBCommands.kills(client, message)
+        yield from self.DBCommands.colors(client, message)
+        yield from self.DBCommands.games(client, message)
+        yield from self.DBCommands.attack(client, message)
+        yield from self.DBCommands.debug(client, message)
+        yield from self.DBCommands.other_commands(client, message)
+        yield from self.DBCommands.userdata(client, message)
+        yield from self.DBCommands.bot_say(client, message)
+        yield from self.DBCommands.randomcoin(client, message)
+        yield from self.DBCommands.mod_commands(client, message)
+        yield from self.DBCommands.bot_roles(client, message)
+        yield from self.DBCommands.more_commands(client, message)
+        yield from self.DBCommands.convert_url(client, message)
+        if self._disable_voice_commands is not True and sys.platform.startswith('win'):
             # Sorry but currently I only have opus for Windows and the same for ffmpeg.
             # You will have to get opus and ffmpeg for your platform and then add it to the list like you can see in
             # Core.py.
-            yield from DBVoiceCommands.voice_stuff_new(client, message)
+            yield from self.DBVoiceCommands.voice_stuff_new(client, message)
         else:
-            yield from DBVoiceCommands.voice_stuff_new_disabled(client, message)
+            yield from self.DBVoiceCommands.voice_stuff_new_disabled(client, message)
         yield from self.ignored_channel_commands_code(client, message)
 
     @asyncio.coroutine
@@ -392,8 +402,8 @@ class BotData001:
         :return: Nothing.
         """
         yield from self.enable_all_commands_code(client, message)
-        if _logging:
-            yield from DBLogs.send_logs(client, message)
+        if self._logging:
+            yield from self.DBLogs.send_logs(client, message)
 
     @asyncio.coroutine
     def enable_all_commands_with_logs_code(self, client, message):
@@ -404,8 +414,8 @@ class BotData001:
         :return: Nothing.
         """
         yield from self.enable_all_commands_code(client, message)
-        if _logging:
-            DBLogs.logs(message)
+        if self._logging:
+            self.DBLogs.logs(message)
 
     @asyncio.coroutine
     def pm_commands_code(self, client, message):
@@ -415,16 +425,16 @@ class BotData001:
         :param message: Message.
         :return: Nothing.
         """
-        yield from DBCommands.scan_for_invite_url_only_pm(client, message)
-        yield from DBCommands.invite(client, message)
-        yield from DBCommands.kills(client, message)
-        yield from DBCommands.games(client, message)
-        yield from DBCommands.other_commands(client, message)
-        yield from DBCommands.bot_say(client, message)
-        yield from DBCommands.randomcoin(client, message)
-        yield from DBCommands.convert_url(client, message)
-        if _logging:
-            DBLogs.logs(message)
+        yield from self.DBCommands.scan_for_invite_url_only_pm(client, message)
+        yield from self.DBCommands.invite(client, message)
+        yield from self.DBCommands.kills(client, message)
+        yield from self.DBCommands.games(client, message)
+        yield from self.DBCommands.other_commands(client, message)
+        yield from self.DBCommands.bot_say(client, message)
+        yield from self.DBCommands.randomcoin(client, message)
+        yield from self.DBCommands.convert_url(client, message)
+        if self._logging:
+            self.DBLogs.logs(message)
 
     @asyncio.coroutine
     def cheesy_commands_code(self, client, message):
@@ -435,27 +445,27 @@ class BotData001:
         :return: Nothing.
         """
         yield from self.enable_all_commands_with_logs_code(client, message)
-        serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(path,
-                                                                                                         sepa))
+        serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(self.path,
+                                                                                                         self.sepa))
         serveridslist = json.load(serveridslistfile)
         serveridslistfile.close()
         serverid = str(serveridslist['config_server_ids'][0])
-        file_path = ('{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa, serverid))
+        file_path = ('{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(self.sepa, serverid))
         filename_1 = 'verifycache.json'
         filename_2 = 'verifycommand.json'
         filename_3 = 'verifyrole.json'
         filename_4 = 'verifymessages.json'
         filename_5 = 'verifycache.json'
-        joinedlistfile = io.open(path + file_path + filename_1)
+        joinedlistfile = io.open(self.path + file_path + filename_1)
         newlyjoinedlist = json.load(joinedlistfile)
         joinedlistfile.close()
-        memberjoinverifymessagefile = io.open(path + file_path + filename_2)
+        memberjoinverifymessagefile = io.open(self.path + file_path + filename_2)
         memberjoinverifymessagedata = json.load(memberjoinverifymessagefile)
         memberjoinverifymessagefile.close()
-        memberjoinverifyrolefile = io.open(path + file_path + filename_3)
+        memberjoinverifyrolefile = io.open(self.path + file_path + filename_3)
         memberjoinverifyroledata = json.load(memberjoinverifyrolefile)
         memberjoinverifyrolefile.close()
-        memberjoinverifymessagefile2 = io.open(path + file_path + filename_4)
+        memberjoinverifymessagefile2 = io.open(self.path + file_path + filename_4)
         memberjoinverifymessagedata2 = json.load(memberjoinverifymessagefile2)
         memberjoinverifymessagefile2.close()
         role_name = str(memberjoinverifyroledata['verify_role_id'][0])
@@ -474,7 +484,7 @@ class BotData001:
                     yield from client.add_roles(message.author, role2)
                     yield from client.send_message(message.author, msg_data)
                     newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
-                    json.dump(newlyjoinedlist, open(path + file_path + filename_5, "w"))
+                    json.dump(newlyjoinedlist, open(self.path + file_path + filename_5, "w"))
                 else:
                     yield from client.delete_message(message)
                     yield from client.send_message(message.channel, str(
@@ -504,14 +514,6 @@ class BotData001:
         #                                        message.channel.server.name))
         pass  # this does not yet work right so commented this out.
 
-
-class BotData002:
-    """
-        This Class is for Internal Use only!!!
-    """
-    def __init__(self):
-        self.DBCommandData = BotCommandData()
-
     @asyncio.coroutine
     def ignore_code(self, client, message):
         """
@@ -520,31 +522,31 @@ class BotData002:
         :param message: Message.
         :return: Nothing.
         """
-        if message.channel.id not in somedict['channels']:
+        if message.channel.id not in self.somedict['channels']:
             try:
                 if message.channel.is_private is not False:
-                    yield from self.DBCommandData.pm_commands(client, message)
+                    yield from self.pm_commands_code(client, message)
                 elif message.channel.server and message.channel.server.id == "81812480254291968":
                     if message.author.id == client.user.id:
                         return
                     elif message.channel.id == "153055192873566208":
-                        yield from self.DBCommandData.enable_all_commands(client, message)
+                        yield from self.enable_all_commands_code(client, message)
                     elif message.channel.id == "87382611688689664":
-                        yield from self.DBCommandData.enable_all_commands(client, message)
+                        yield from self.enable_all_commands_code(client, message)
                     else:
-                        yield from self.DBCommandData.enable_all_commands_with_send_logs(client, message)
+                        yield from self.enable_all_commands_with_send_logs_code(client, message)
                 elif message.channel.server and message.channel.server.id == "71324306319093760":
                     if message.channel.id == '141489876200718336':
-                        yield from self.DBCommandData.cheesy_commands(client, message)
+                        yield from self.cheesy_commands_code(client, message)
                     else:
-                        yield from self.DBCommandData.everyone_mention_logger(client, message)
-                        yield from self.DBCommandData.enable_all_commands_with_logs(client, message)
+                        yield from self.everyone_mention_logger_code(client, message)
+                        yield from self.enable_all_commands_with_logs_code(client, message)
                 else:
-                    yield from self.DBCommandData.enable_all_commands_with_logs(client, message)
+                    yield from self.enable_all_commands_with_logs_code(client, message)
             except Exception as e:
-                if _pm_command_errors:
-                    if discord_user_id is not None:
-                        owner = discord_user_id
+                if self._pm_command_errors:
+                    if self.discord_user_id is not None:
+                        owner = self.discord_user_id
                         exception_data2 = str(traceback.format_exc())
                         message_data = '```py\n{0}\n```'.format(exception_data2)
                         try:
@@ -554,23 +556,15 @@ class BotData002:
                         except discord.errors.HTTPException:
                             funcname = 'ignore_code'
                             tbinfo = str(traceback.format_exc())
-                            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+                            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
                     else:
                         return
                 else:
                     funcname = 'ignore_code'
                     tbinfo = str(traceback.format_exc())
-                    yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+                    yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
         else:
-            yield from self.DBCommandData.ignored_channel_commands(client, message)
-
-
-class BotData003:
-    """
-        This Class is for Internal Use only!!!
-    """
-    def __init__(self):
-        pass
+            yield from self.ignored_channel_commands_code(client, message)
 
     @asyncio.coroutine
     def resolve_delete_method_code(self, client, message):
@@ -582,8 +576,8 @@ class BotData003:
         """
         try:
             if message.channel.is_private is not False:
-                if _logging:
-                    DBLogs.delete_logs(message)
+                if self._logging:
+                    self.DBLogs.delete_logs(message)
             elif message.channel.server and message.channel.server.id == "81812480254291968":
                 if message.author.id == client.user.id:
                     return
@@ -592,19 +586,19 @@ class BotData003:
                 elif message.channel.id == "87382611688689664":
                     return
                 else:
-                    yield from DBLogs.send_delete_logs(client, message)
+                    yield from self.DBLogs.send_delete_logs(client, message)
             else:
                 if message.channel.is_private is not False:
                     return
                 elif message.channel.server.id == '95342850102796288':
                     return
                 else:
-                    if _logging:
-                        DBLogs.delete_logs(message)
+                    if self._logging:
+                        self.DBLogs.delete_logs(message)
         except Exception as e:
             funcname = '_resolve_delete_method_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_edit_method_code(self, client, before, after):
@@ -617,8 +611,8 @@ class BotData003:
         """
         try:
             if before.channel.is_private is not False:
-                if _logging:
-                    DBLogs.edit_logs(before, after)
+                if self._logging:
+                    self.DBLogs.edit_logs(before, after)
             elif before.channel.server and before.channel.server.id == "81812480254291968":
                 if before.author.id == client.user.id:
                     return
@@ -627,19 +621,19 @@ class BotData003:
                 elif before.channel.id == "87382611688689664":
                     return
                 else:
-                    yield from DBLogs.send_edit_logs(client, before, after)
+                    yield from self.DBLogs.send_edit_logs(client, before, after)
             else:
                 if before.channel.is_private is not False:
                     return
                 elif before.channel.server.id == '95342850102796288':
                     return
                 else:
-                    if _logging:
-                        DBLogs.edit_logs(before, after)
+                    if self._logging:
+                        self.DBLogs.edit_logs(before, after)
         except Exception as e:
             funcname = '_resolve_edit_method_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_verify_cache_cleanup_2_code(self, client, member):
@@ -651,13 +645,14 @@ class BotData003:
         """
         try:
             serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
-                path, sepa))
+                self.path, self.sepa))
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
-            file_path = ('{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa, serverid))
+            file_path = ('{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(self.sepa,
+                                                                                                     serverid))
             filename_1 = 'verifycache.json'
-            joinedlistfile = io.open(path + file_path + filename_1)
+            joinedlistfile = io.open(self.path + file_path + filename_1)
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
             if member.id in newlyjoinedlist['users_to_be_verified']:
@@ -665,14 +660,15 @@ class BotData003:
                                                "{0} has left the {1} Server.".format(
                                                    member.mention, member.server.name))
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                file_name = "{0}verifications{0}verifycache.json".format(sepa)
-                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(path,
-                                                                                                        sepa, file_name)
+                file_name = "{0}verifications{0}verifycache.json".format(self.sepa)
+                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(self.path,
+                                                                                                        self.sepa,
+                                                                                                        file_name)
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
             funcname = '_resolve_verify_cache_cleanup_2_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_verify_cache_cleanup_code(self, member):
@@ -683,25 +679,26 @@ class BotData003:
         """
         try:
             serveridslistfile = io.open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
-                path, sepa))
+                self.path, self.sepa))
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
-            file_path = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa, serverid)
+            file_path = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(self.sepa, serverid)
             filename_1 = 'verifycache.json'
-            joinedlistfile = io.open(path + file_path + filename_1)
+            joinedlistfile = io.open(self.path + file_path + filename_1)
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
             if member.id in newlyjoinedlist['users_to_be_verified']:
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                file_name = "{0}verifications{0}verifycache.json".format(sepa)
-                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(path,
-                                                                                                        sepa, file_name)
+                file_name = "{0}verifications{0}verifycache.json".format(self.sepa)
+                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(self.path,
+                                                                                                        self.sepa,
+                                                                                                        file_name)
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
             funcname = '_resolve_verify_cache_cleanup_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onban_code(self, client, member):
@@ -713,14 +710,14 @@ class BotData003:
         """
         str(client)  # to bypass unused param.
         try:
-            if _logbans:
-                yield from DBLogs.onban(member)
+            if self._logbans:
+                yield from self.DBLogs.onban(member)
             if member.server and member.server.id == "71324306319093760":
                 yield from self.resolve_verify_cache_cleanup_code(member)
         except Exception as e:
             funcname = '_resolve_onban_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onunban_code(self, server, user):
@@ -731,12 +728,12 @@ class BotData003:
         :return: Nothing.
         """
         try:
-            if _logunbans:
-                yield from DBLogs.onunban(server, user)
+            if self._logunbans:
+                yield from self.DBLogs.onunban(server, user)
         except Exception as e:
             funcname = '_resolve_onunban_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onremove_code(self, client, member):
@@ -752,17 +749,17 @@ class BotData003:
                 if member in banslist:
                     return
                 else:
-                    if _logkicks:
-                        yield from DBLogs.onkick(member)
+                    if self._logkicks:
+                        yield from self.DBLogs.onkick(member)
             except (discord.errors.HTTPException, discord.errors.Forbidden):
-                if _logkicks:
-                    yield from DBLogs.onkick(member)
+                if self._logkicks:
+                    yield from self.DBLogs.onkick(member)
             if member.server and member.server.id == "71324306319093760":
                 yield from self.resolve_verify_cache_cleanup_2_code(client, member)
         except Exception as e:
             funcname = '_resolve_onremove_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_onjoin_code(self, client, member):
@@ -775,24 +772,24 @@ class BotData003:
         try:
             # TODO: Add logging for this.
             if member.server.id == '71324306319093760' and member.bot is not True:
-                file_path_join_1 = '{0}resources{0}ConfigData{0}serverconfigs{0}'.format(sepa)
+                file_path_join_1 = '{0}resources{0}ConfigData{0}serverconfigs{0}'.format(self.sepa)
                 filename_join_1 = 'servers.json'
-                serveridslistfile = io.open(path + file_path_join_1 + filename_join_1)
+                serveridslistfile = io.open(self.path + file_path_join_1 + filename_join_1)
                 serveridslist = json.load(serveridslistfile)
                 serveridslistfile.close()
                 serverid = str(serveridslist['config_server_ids'][0])
-                file_path_join_2 = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(sepa,
-                                                                                                               serverid)
+                file_path_join_2 = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(
+                    self.sepa, serverid)
                 filename_join_2 = 'verifymessages.json'
                 filename_join_3 = 'verifycache.json'
                 filename_join_4 = 'verifycache.json'
-                memberjoinmessagedatafile = io.open(path + file_path_join_2 + filename_join_2)
+                memberjoinmessagedatafile = io.open(self.path + file_path_join_2 + filename_join_2)
                 memberjoinmessagedata = json.load(memberjoinmessagedatafile)
                 memberjoinmessagedatafile.close()
                 msg_info = str(memberjoinmessagedata['verify_messages'][0])
                 message_data = msg_info.format(member.id, member.server.name)
                 des_channel = str(memberjoinmessagedata['verify_messages_channel'][0])
-                joinedlistfile = io.open(path + file_path_join_2 + filename_join_3)
+                joinedlistfile = io.open(self.path + file_path_join_2 + filename_join_3)
                 newlyjoinedlist = json.load(joinedlistfile)
                 joinedlistfile.close()
                 yield from client.send_message(discord.Object(id=des_channel), message_data)
@@ -801,11 +798,11 @@ class BotData003:
                     pass
                 else:
                     newlyjoinedlist['users_to_be_verified'].append(member.id)
-                    json.dump(newlyjoinedlist, open(path + file_path_join_2 + filename_join_4, "w"))
+                    json.dump(newlyjoinedlist, open(self.path + file_path_join_2 + filename_join_4, "w"))
         except Exception as e:
             funcname = '_resolve_onjoin_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_on_login_voice_channel_join_code(self, client):
@@ -815,14 +812,14 @@ class BotData003:
         :return: Nothing.
         """
         try:
-            if _disable_voice_commands is not True:
-                yield from DBVoiceCommands.reload_commands_bypass3_new(client)
+            if self._disable_voice_commands is not True:
+                yield from self.DBVoiceCommands.reload_commands_bypass3_new(client)
             else:
                 return
         except Exception as e:
             funcname = '_resolve_on_login_voice_channel_join_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def high_level_reload_helper_code(self, client, message, reload_reason):
@@ -834,32 +831,30 @@ class BotData003:
         :return: Nothing.
         """
         try:
-            if _disable_voice_commands is not True:
-                yield from DBVoiceCommands.reload_commands_bypass4_new(client, message, reload_reason)
+            if self._disable_voice_commands is not True:
+                yield from self.DBVoiceCommands.reload_commands_bypass4_new(client, message, reload_reason)
             else:
                 return
         except Exception as e:
             funcname = 'high_level_reload_helper_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
-    @staticmethod
-    def resolve_discord_logger_code():
+    def resolve_discord_logger_code(self):
         """
         Discord Logger.
         :return: Nothing.
         """
-        if _discord_logger:
-            DBLogs.set_up_discord_logger()
+        if self._discord_logger:
+            self.DBLogs.set_up_discord_logger()
 
-    @staticmethod
-    def resolve_asyncio_logger_code():
+    def resolve_asyncio_logger_code(self):
         """
         asyncio Logger (seems to still not work yet for some reason).
         :return: Nothing.
         """
-        if _asyncio_logger:
-            DBLogs.set_up_asyncio_logger()
+        if self._asyncio_logger:
+            self.DBLogs.set_up_asyncio_logger()
 
     @asyncio.coroutine
     def server_available_code(self, server):
@@ -868,8 +863,8 @@ class BotData003:
         :param server: Server.
         :return: Nothing.
         """
-        if _log_available:
-            yield from DBLogs.onavailable(server)
+        if self._log_available:
+            yield from self.DBLogs.onavailable(server)
 
     @asyncio.coroutine
     def server_unavailable_code(self, server):
@@ -878,8 +873,8 @@ class BotData003:
         :param server: Server.
         :return: Nothing.
         """
-        if _log_unavailable:
-            yield from DBLogs.onunavailable(server)
+        if self._log_unavailable:
+            yield from self.DBLogs.onunavailable(server)
 
     @asyncio.coroutine
     def resolve_ongroupjoin_code(self, channel, user):
@@ -890,12 +885,12 @@ class BotData003:
         :return: Nothing.
         """
         try:
-            if log_group_join:
-                yield from DBLogs.ongroupjoin(channel, user)
+            if self.log_group_join:
+                yield from self.DBLogs.ongroupjoin(channel, user)
         except Exception as e:
             funcname = '_resolve_ongroupjoin_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def resolve_ongroupremove_code(self, channel, user):
@@ -906,12 +901,12 @@ class BotData003:
         :return: Nothing.
         """
         try:
-            if log_group_remove:
-                yield from DBLogs.ongroupremove(channel, user)
+            if self.log_group_remove:
+                yield from self.DBLogs.ongroupremove(channel, user)
         except Exception as e:
             funcname = '_resolve_ongroupremove_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
     @asyncio.coroutine
     def high_level_reload_helper2_code(self, client, message):
@@ -922,22 +917,32 @@ class BotData003:
         :return: Nothing.
         """
         try:
-            if _disable_voice_commands is not True:
-                yield from DBVoiceCommands.reload_commands_bypass2_new(client, message)
+            if self._disable_voice_commands is not True:
+                yield from self.DBVoiceCommands.reload_commands_bypass2_new(client, message)
             else:
                 return
         except Exception as e:
             funcname = 'high_level_reload_helper2_code'
             tbinfo = str(traceback.format_exc())
-            yield from DBLogs.on_bot_error(funcname, tbinfo, e)
+            yield from self.DBLogs.on_bot_error(funcname, tbinfo, e)
 
 
-class BotCommandData:
+class BotIgnores:
     """
-    Bot Command Data Class.
+    Bot Ignores Class.
     """
     def __init__(self):
-        self.bot = BotData001()
+        self.bot = BotData()
+
+    @asyncio.coroutine
+    def ignore(self, client, message):
+        """
+        Listens for all Bot Commands.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
+        yield from self.bot.ignore_code(client, message)
 
     @asyncio.coroutine
     def ignore_channel(self, client, message):
@@ -1028,32 +1033,6 @@ class BotCommandData:
         :return: Nothing.
         """
         yield from self.bot.everyone_mention_logger_code(client, message)
-
-
-class BotIgnores:
-    """
-    Bot Ignores Class.
-    """
-    def __init__(self):
-        self.bot = BotData002()
-
-    @asyncio.coroutine
-    def ignore(self, client, message):
-        """
-        Listens for all Bot Commands.
-        :param client: Discord client.
-        :param message: Message.
-        :return: Nothing.
-        """
-        yield from self.bot.ignore_code(client, message)
-
-
-class BotEvents:
-    """
-    Bot Events Class.
-    """
-    def __init__(self):
-        self.bot = BotData003()
 
     @asyncio.coroutine
     def resolve_delete_method(self, client, message):

@@ -1,6 +1,5 @@
 import datetime
 import re
-import time
 from collections import defaultdict
 from collections.abc import Mapping
 from http.cookies import Morsel, SimpleCookie
@@ -22,19 +21,19 @@ class CookieJar(AbstractCookieJar):
 
     DATE_DAY_OF_MONTH_RE = re.compile("(\d{1,2})")
 
-    DATE_MONTH_RE = re.compile(
-        "(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)", re.I)
+    DATE_MONTH_RE = re.compile("(jan)|(feb)|(mar)|(apr)|(may)|(jun)|(jul)|"
+                               "(aug)|(sep)|(oct)|(nov)|(dec)", re.I)
 
     DATE_YEAR_RE = re.compile("(\d{2,4})")
 
-    MAX_TIME = time.mktime((2100, 1, 1, 1, 1, 1, 1, 1, 1,))  # so far in future
+    MAX_TIME = 2051215261.0  # so far in future (2035-01-01)
 
     def __init__(self, *, unsafe=False, loop=None):
         super().__init__(loop=loop)
         self._cookies = defaultdict(SimpleCookie)
         self._host_only_cookies = set()
         self._unsafe = unsafe
-        self._next_expiration = ceil(loop.time())
+        self._next_expiration = ceil(self._loop.time())
         self._expirations = {}
 
     def clear(self):
@@ -231,13 +230,13 @@ class CookieJar(AbstractCookieJar):
             return
 
         found_time = False
-        found_day_of_month = False
+        found_day = False
         found_month = False
         found_year = False
 
         hour = minute = second = 0
-        day_of_month = 0
-        month = ""
+        day = 0
+        month = 0
         year = 0
 
         for token_match in cls.DATE_TOKENS_RE.finditer(date_str):
@@ -252,18 +251,18 @@ class CookieJar(AbstractCookieJar):
                         int(s) for s in time_match.groups()]
                     continue
 
-            if not found_day_of_month:
-                day_of_month_match = cls.DATE_DAY_OF_MONTH_RE.match(token)
-                if day_of_month_match:
-                    found_day_of_month = True
-                    day_of_month = int(day_of_month_match.group())
+            if not found_day:
+                day_match = cls.DATE_DAY_OF_MONTH_RE.match(token)
+                if day_match:
+                    found_day = True
+                    day = int(day_match.group())
                     continue
 
             if not found_month:
                 month_match = cls.DATE_MONTH_RE.match(token)
                 if month_match:
                     found_month = True
-                    month = month_match.group()
+                    month = month_match.lastindex
                     continue
 
             if not found_year:
@@ -277,18 +276,15 @@ class CookieJar(AbstractCookieJar):
         elif 0 <= year <= 69:
             year += 2000
 
-        if False in (found_day_of_month, found_month, found_year, found_time):
+        if False in (found_day, found_month, found_year, found_time):
             return
 
-        if not 1 <= day_of_month <= 31:
+        if not 1 <= day <= 31:
             return
 
         if year < 1601 or hour > 23 or minute > 59 or second > 59:
             return
 
-        dt = datetime.datetime.strptime(
-            "%s %d %d:%d:%d %d" % (
-                month, day_of_month, hour, minute, second, year
-            ), "%b %d %H:%M:%S %Y")
-
-        return dt.replace(tzinfo=datetime.timezone.utc)
+        return datetime.datetime(year, month, day,
+                                 hour, minute, second,
+                                 tzinfo=datetime.timezone.utc)

@@ -241,6 +241,8 @@ class BotData:
             yield from client.send_message(discord.Object(id='153055192873566208'), sndmsglogs)
         except discord.errors.NotFound:
             return
+        except discord.errors.HTTPException:
+            return
 
     @asyncio.coroutine
     def send_edit_logs_code(self, client, before, after):
@@ -263,6 +265,8 @@ class BotData:
                 yield from client.send_message(discord.Object(id='153055192873566208'), sendeditlogs)
             except discord.errors.NotFound:
                 return
+            except discord.errors.HTTPException:
+                return
 
     @asyncio.coroutine
     def send_delete_logs_code(self, client, message):
@@ -278,6 +282,8 @@ class BotData:
         try:
             yield from client.send_message(discord.Object(id='153055192873566208'), senddeletelogs)
         except discord.errors.NotFound:
+            return
+        except discord.errors.HTTPException:
             return
 
     @asyncio.coroutine

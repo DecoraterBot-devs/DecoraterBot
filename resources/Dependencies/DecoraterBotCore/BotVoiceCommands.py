@@ -1445,6 +1445,15 @@ class BotData:
                 self.verror = False
             except discord.errors.ConnectionClosed:
                 pass
+            except discord.errors.InvalidServerError:
+                self.voice_message_server_name = None
+                self.vchannel_name = None
+                self.vchannel = None
+                self.voice_message_server = None
+                self.voice_message_channel = None
+                self.voice = None
+                self.verror = True
+                self.lock_join_voice_channel_command = False
             except discord.errors.InvalidArgument:
                 self.voice_message_server_name = None
                 self.vchannel_name = None

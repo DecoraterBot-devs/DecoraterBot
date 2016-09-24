@@ -5523,7 +5523,7 @@ static int __pyx_pf_9multidict_10_multidict_9MultiDict___init__(struct __pyx_obj
  * 
  *     cdef _extend(self, tuple args, dict kwargs, name, int do_add):             # <<<<<<<<<<<<<<
  *         cdef _Pair item
- *         cdef str key
+ *         cdef object key
  */
 
 static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx_obj_9multidict_10_multidict_MultiDict *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs, PyObject *__pyx_v_name, int __pyx_v_do_add) {
@@ -5548,7 +5548,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
   __Pyx_RefNannySetupContext("_extend", 0);
 
   /* "multidict/_multidict.pyx":257
- *         cdef str key
+ *         cdef object key
  * 
  *         if len(args) > 1:             # <<<<<<<<<<<<<<
  *             raise TypeError("{} takes at most 1 positional argument"
@@ -5626,7 +5626,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
     __PYX_ERR(0, 258, __pyx_L1_error)
 
     /* "multidict/_multidict.pyx":257
- *         cdef str key
+ *         cdef object key
  * 
  *         if len(args) > 1:             # <<<<<<<<<<<<<<
  *             raise TypeError("{} takes at most 1 positional argument"
@@ -5718,7 +5718,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
         __pyx_t_7 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._title(((struct __pyx_obj_9multidict_10_multidict__Base *)__pyx_v_self), __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_XDECREF_SET(__pyx_v_key, ((PyObject*)__pyx_t_7));
+        __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_7);
         __pyx_t_7 = 0;
 
         /* "multidict/_multidict.pyx":267
@@ -5772,7 +5772,8 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  *                 for i in arg.items():
  */
         /*else*/ {
-          __pyx_t_7 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, __pyx_v_key, __pyx_v_value); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 271, __pyx_L1_error)
+          if (!(likely(PyString_CheckExact(__pyx_v_key))||((__pyx_v_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_key)->tp_name), 0))) __PYX_ERR(0, 271, __pyx_L1_error)
+          __pyx_t_7 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, ((PyObject*)__pyx_v_key), __pyx_v_value); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 271, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         }
@@ -5909,10 +5910,9 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  *                         value = item._value
  *                     else:
  */
-          if (!(likely(PyString_CheckExact(__pyx_v_item->_key))||((__pyx_v_item->_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_item->_key)->tp_name), 0))) __PYX_ERR(0, 276, __pyx_L1_error)
           __pyx_t_3 = __pyx_v_item->_key;
           __Pyx_INCREF(__pyx_t_3);
-          __Pyx_XDECREF_SET(__pyx_v_key, ((PyObject*)__pyx_t_3));
+          __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_3);
           __pyx_t_3 = 0;
 
           /* "multidict/_multidict.pyx":277
@@ -5950,7 +5950,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
           __pyx_t_4 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._title(((struct __pyx_obj_9multidict_10_multidict__Base *)__pyx_v_self), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_key, ((PyObject*)__pyx_t_4));
+          __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_4);
           __pyx_t_4 = 0;
 
           /* "multidict/_multidict.pyx":280
@@ -6006,7 +6006,8 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  *                 for i in arg:
  */
         /*else*/ {
-          __pyx_t_4 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, __pyx_v_key, __pyx_v_value); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 284, __pyx_L1_error)
+          if (!(likely(PyString_CheckExact(__pyx_v_key))||((__pyx_v_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_key)->tp_name), 0))) __PYX_ERR(0, 284, __pyx_L1_error)
+          __pyx_t_4 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, ((PyObject*)__pyx_v_key), __pyx_v_value); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 284, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         }
@@ -6112,10 +6113,9 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  *                         value = item._value
  *                     else:
  */
-          if (!(likely(PyString_CheckExact(__pyx_v_item->_key))||((__pyx_v_item->_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_item->_key)->tp_name), 0))) __PYX_ERR(0, 289, __pyx_L1_error)
           __pyx_t_4 = __pyx_v_item->_key;
           __Pyx_INCREF(__pyx_t_4);
-          __Pyx_XDECREF_SET(__pyx_v_key, ((PyObject*)__pyx_t_4));
+          __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_4);
           __pyx_t_4 = 0;
 
           /* "multidict/_multidict.pyx":290
@@ -6227,7 +6227,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
           __pyx_t_3 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._title(((struct __pyx_obj_9multidict_10_multidict__Base *)__pyx_v_self), __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 296, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_key, ((PyObject*)__pyx_t_3));
+          __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_3);
           __pyx_t_3 = 0;
 
           /* "multidict/_multidict.pyx":297
@@ -6283,7 +6283,8 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  * 
  */
         /*else*/ {
-          __pyx_t_3 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, __pyx_v_key, __pyx_v_value); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 301, __pyx_L1_error)
+          if (!(likely(PyString_CheckExact(__pyx_v_key))||((__pyx_v_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_key)->tp_name), 0))) __PYX_ERR(0, 301, __pyx_L1_error)
+          __pyx_t_3 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, ((PyObject*)__pyx_v_key), __pyx_v_value); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 301, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
@@ -6413,8 +6414,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
       __PYX_ERR(0, 304, __pyx_L1_error)
       __pyx_L21_unpacking_done:;
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 304, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_key, ((PyObject*)__pyx_t_4));
+    __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_4);
     __pyx_t_4 = 0;
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_6);
     __pyx_t_6 = 0;
@@ -6428,7 +6428,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  */
     __pyx_t_7 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._title(((struct __pyx_obj_9multidict_10_multidict__Base *)__pyx_v_self), __pyx_v_key); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF_SET(__pyx_v_key, ((PyObject*)__pyx_t_7));
+    __Pyx_DECREF_SET(__pyx_v_key, __pyx_t_7);
     __pyx_t_7 = 0;
 
     /* "multidict/_multidict.pyx":306
@@ -6467,10 +6467,11 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  *             else:
  *                 self._replace(key, value)             # <<<<<<<<<<<<<<
  * 
- *     cdef _add(self, str key, value):
+ *     cdef _add(self, key, value):
  */
     /*else*/ {
-      __pyx_t_7 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, __pyx_v_key, __pyx_v_value); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_v_key))||((__pyx_v_key) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_key)->tp_name), 0))) __PYX_ERR(0, 309, __pyx_L1_error)
+      __pyx_t_7 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_replace(__pyx_v_self, ((PyObject*)__pyx_v_key), __pyx_v_value); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -6491,7 +6492,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
  * 
  *     cdef _extend(self, tuple args, dict kwargs, name, int do_add):             # <<<<<<<<<<<<<<
  *         cdef _Pair item
- *         cdef str key
+ *         cdef object key
  */
 
   /* function exit code */
@@ -6519,7 +6520,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__extend(struct __pyx
 /* "multidict/_multidict.pyx":311
  *                 self._replace(key, value)
  * 
- *     cdef _add(self, str key, value):             # <<<<<<<<<<<<<<
+ *     cdef _add(self, key, value):             # <<<<<<<<<<<<<<
  *         self._items.append(_Pair.__new__(_Pair, key, value))
  * 
  */
@@ -6534,7 +6535,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__add(struct __pyx_ob
 
   /* "multidict/_multidict.pyx":312
  * 
- *     cdef _add(self, str key, value):
+ *     cdef _add(self, key, value):
  *         self._items.append(_Pair.__new__(_Pair, key, value))             # <<<<<<<<<<<<<<
  * 
  *     cdef _replace(self, str key, value):
@@ -6560,7 +6561,7 @@ static PyObject *__pyx_f_9multidict_10_multidict_9MultiDict__add(struct __pyx_ob
   /* "multidict/_multidict.pyx":311
  *                 self._replace(key, value)
  * 
- *     cdef _add(self, str key, value):             # <<<<<<<<<<<<<<
+ *     cdef _add(self, key, value):             # <<<<<<<<<<<<<<
  *         self._items.append(_Pair.__new__(_Pair, key, value))
  * 
  */
@@ -6736,7 +6737,7 @@ static PyObject *__pyx_pf_9multidict_10_multidict_9MultiDict_2add(struct __pyx_o
  */
   __pyx_t_1 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._title(((struct __pyx_obj_9multidict_10_multidict__Base *)__pyx_v_self), __pyx_v_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_add(__pyx_v_self, ((PyObject*)__pyx_t_1), __pyx_v_value); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_9multidict_10_multidict_MultiDict *)__pyx_v_self->__pyx_base.__pyx_vtab)->_add(__pyx_v_self, __pyx_t_1, __pyx_v_value); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;

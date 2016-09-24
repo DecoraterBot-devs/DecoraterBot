@@ -464,7 +464,7 @@ class BotData:
                                     if '<' and '>' in data:
                                         data = data.strip('<')
                                         data = data.strip('>')
-                                    if 'www.youtube.com/watch?v=' in data:
+                                    if 'www.youtube.com/watch?v=' in data or 'soundcloud.com' in data:
                                         self.player = yield from self.voice.create_ytdl_player(data,
                                                                                                ytdl_options=self.ytdlo,
                                                                                                options=self.ffmop,
@@ -494,10 +494,6 @@ class BotData:
                                                 message_data = str(self.botmessages['play_command_data'][2])
                                                 self.is_bot_playing = False
                                                 yield from client.send_message(self.voice_message_channel, message_data)
-                                    else:
-                                        message_data = str(self.botmessages['play_command_data'][3])
-                                        yield from client.send_message(self.voice_message_channel, message_data)
-                                        self._temp_player_1 = None
                             except IndexError:
                                 return
                             except discord.errors.ClientException:
@@ -533,7 +529,7 @@ class BotData:
                     else:
                         if '<' and '>' in data:
                             data = data.replace('<', '').replace('>', '')
-                        if 'www.youtube.com/watch?v=' in data:
+                        if 'www.youtube.com/watch?v=' in data or 'soundcloud.com' in data:
                             if len(self.bot_playlist) == 0:
                                 self._temp_player_1 = yield from self.voice.create_ytdl_player(data,
                                                                                                ytdl_options=self.ytdlo,
@@ -989,75 +985,6 @@ class BotData:
                                 yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     return
-        if self.player is not None:
-            if self.voice_message_channel is not None:
-                if self.player.is_done():
-                    fulldir = self.player.duration
-                    minutes = str(int((fulldir / 60) % 60))
-                    seconds = str(int(fulldir % 60))
-                    if len(seconds) == 1:
-                        seconds = "0" + seconds
-                    if self._sent_finished_message is False:
-                        self._sent_finished_message = True
-                        self.is_bot_playing = False
-                        # Clean the temp players now...
-                        self.resolve_bot_playlist_issue()
-                        try:
-                            message_data = str(self.botmessages['auto_playlist_data'][0]).format(
-                                str(self.player.title), str(self.player.uploader), minutes, seconds)
-                            yield from client.send_message(self.voice_message_channel, message_data)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    if len(self.bot_playlist) == 0:
-                        self.player = None
-                    if len(self.bot_playlist) >= 1:
-                        try:
-                            track_data = None
-                            try:
-                                track_data = str(self.bot_playlist_entries[0])
-                            except IndexError:
-                                pass
-                            data = str(self.bot_playlist[0])
-                            try:
-                                self.player = yield from self.voice.create_ytdl_player(data, ytdl_options=self.ytdlo,
-                                                                                       options=self.ffmop,
-                                                                                       output=self.ffmout)
-                            except AttributeError:
-                                self.is_bot_playing = False
-                            if self.player is not None:
-                                self._sent_finished_message = False
-                                try:
-                                    self.bot_playlist.remove(data)
-                                except ValueError:
-                                    pass
-                                try:
-                                    self.bot_playlist_entries.remove(track_data)
-                                except ValueError:
-                                    pass
-                                if self.is_bot_playing is False:
-                                    self.is_bot_playing = True
-                                    try:
-                                        fulldir = self.player.duration
-                                        minutes = str(int((fulldir / 60) % 60))
-                                        seconds = str(int(fulldir % 60))
-                                        if len(seconds) == 1:
-                                            seconds = "0" + seconds
-                                        track_info = str(self.botmessages['auto_playlist_data'][1]).format(
-                                            str(self.player.title),
-                                            str(self.player.uploader))
-                                        message_data = str(self.botmessages['auto_playlist_data'][2]).format(
-                                            track_info, minutes, seconds)
-                                        yield from client.send_message(self.voice_message_channel, message_data)
-                                        try:
-                                            self.bot_playlist_entries.remove(track_info)
-                                        except ValueError:
-                                            pass
-                                    except discord.errors.Forbidden:
-                                        yield from BotPMError.resolve_send_message_error(client, message)
-                                    if self.player is not None:
-                                        self.player.start()
-                        except UnboundLocalError:
-                            self.is_bot_playing = False
         if message.content.startswith(self._bot_prefix + 'LeaveVoiceChannel'):
             if message.author.id in self.banlist['Users']:
                 return
@@ -1282,6 +1209,79 @@ class BotData:
                 else:
                     yield from client.send_message(self.voice_message_channel,
                                                    str(self.botmessages['volume_command_data'][3]))
+        yield from self.playlist_iterator_code(client, message)
+
+    @asyncio.coroutine
+    def playlist_iterator_code(self, client, message):
+        if self.player is not None:
+            if self.voice_message_channel is not None:
+                if self.player.is_done():
+                    fulldir = self.player.duration
+                    minutes = str(int((fulldir / 60) % 60))
+                    seconds = str(int(fulldir % 60))
+                    if len(seconds) == 1:
+                        seconds = "0" + seconds
+                    if self._sent_finished_message is False:
+                        self._sent_finished_message = True
+                        self.is_bot_playing = False
+                        # Clean the temp players now...
+                        self.resolve_bot_playlist_issue()
+                        try:
+                            message_data = str(self.botmessages['auto_playlist_data'][0]).format(
+                                str(self.player.title), str(self.player.uploader), minutes, seconds)
+                            yield from client.send_message(self.voice_message_channel, message_data)
+                        except discord.errors.Forbidden:
+                            yield from BotPMError.resolve_send_message_error(client, message)
+                    if len(self.bot_playlist) == 0:
+                        self.player = None
+                    if len(self.bot_playlist) >= 1:
+                        try:
+                            track_data = None
+                            try:
+                                track_data = str(self.bot_playlist_entries[0])
+                            except IndexError:
+                                pass
+                            data = str(self.bot_playlist[0])
+                            try:
+                                self.player = yield from self.voice.create_ytdl_player(data, ytdl_options=self.ytdlo,
+                                                                                       options=self.ffmop,
+                                                                                       output=self.ffmout)
+                            except AttributeError:
+                                self.is_bot_playing = False
+                            if self.player is not None:
+                                self._sent_finished_message = False
+                                try:
+                                    self.bot_playlist.remove(data)
+                                except ValueError:
+                                    pass
+                                try:
+                                    self.bot_playlist_entries.remove(track_data)
+                                except ValueError:
+                                    pass
+                                if self.is_bot_playing is False:
+                                    self.is_bot_playing = True
+                                    try:
+                                        fulldir = self.player.duration
+                                        minutes = str(int((fulldir / 60) % 60))
+                                        seconds = str(int(fulldir % 60))
+                                        if len(seconds) == 1:
+                                            seconds = "0" + seconds
+                                        track_info = str(self.botmessages['auto_playlist_data'][1]).format(
+                                            str(self.player.title),
+                                            str(self.player.uploader))
+                                        message_data = str(self.botmessages['auto_playlist_data'][2]).format(
+                                            track_info, minutes, seconds)
+                                        yield from client.send_message(self.voice_message_channel, message_data)
+                                        try:
+                                            self.bot_playlist_entries.remove(track_info)
+                                        except ValueError:
+                                            pass
+                                    except discord.errors.Forbidden:
+                                        yield from BotPMError.resolve_send_message_error(client, message)
+                                    if self.player is not None:
+                                        self.player.start()
+                        except UnboundLocalError:
+                            self.is_bot_playing = False
 
     @asyncio.coroutine
     def voice_stuff_new_disabled_code(self, client, message):

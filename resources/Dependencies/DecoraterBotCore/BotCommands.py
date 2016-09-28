@@ -373,7 +373,7 @@ class BotData:
                     if desgametype is not None:
                         if self._log_games:
                             self.DBLogs.gamelog(message, desgame)
-                        yield from client.change_status(game=discord.Game(name=desgame, type=desgametype,
+                        yield from client.change_presence(game=discord.Game(name=desgame, type=desgametype,
                                                                           url=stream_url))
                         try:
                             msgdata = str(self.botmessages['game_command_data'][0]).format(desgame)
@@ -384,7 +384,7 @@ class BotData:
                     else:
                         if self._log_games:
                             self.DBLogs.gamelog(message, desgame)
-                        yield from client.change_status(game=discord.Game(name=desgame), idle=True)
+                        yield from client.change_presence(game=discord.Game(name=desgame), idle=True)
                         try:
                             msgdata = str(self.botmessages['game_command_data'][0]).format(desgame)
                             message_data = msgdata
@@ -397,7 +397,7 @@ class BotData:
             else:
                 game_name = str(self.consoletext['On_Ready_Game'][0])
                 stream_url = "https://twitch.tv/decoraterbot"
-                yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
+                yield from client.change_presence(game=discord.Game(name=game_name, type=1, url=stream_url))
                 try:
                     yield from client.send_message(message.channel, str(self.botmessages['remgame_command_data'][0]))
                 except discord.errors.Forbidden:

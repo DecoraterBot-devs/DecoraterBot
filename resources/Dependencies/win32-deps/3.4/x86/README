@@ -1,2 +1,0 @@
-This folder is for Python 3.4 as it somehow has the old style naming for pyd files.
-If I did not do this then the 64 bit pyd's to the libs this bot uses would overwrite the 32 bit ones as they both have the same name.

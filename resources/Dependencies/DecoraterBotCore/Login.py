@@ -168,7 +168,7 @@ class BotData:
         if not self.logged_in:
             game_name = str(self.consoletext['On_Ready_Game'][0])
             stream_url = "https://twitch.tv/decoraterbot"
-            yield from client.change_status(game=discord.Game(name=game_name, type=1, url=stream_url))
+            yield from client.change_presence(game=discord.Game(name=game_name, type=1, url=stream_url))
 
     def variable_code(self):
         """

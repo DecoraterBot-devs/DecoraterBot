@@ -1213,6 +1213,12 @@ class BotData:
 
     @asyncio.coroutine
     def playlist_iterator_code(self, client, message):
+        """
+        Bot's Playlist code.
+        :param client: Discord client.
+        :param message: Message.
+        :return: Nothing.
+        """
         if self.player is not None:
             if self.voice_message_channel is not None:
                 if self.player.is_done():

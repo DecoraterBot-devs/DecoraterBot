@@ -148,8 +148,8 @@ class BotData:
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             self.BotConfig = BotConfigReader.BotConfigVars()
-            discord_user_id = self.BotConfig.discord_user_id
-            if discord_user_id == 'None':
+            self.discord_user_id = self.BotConfig.discord_user_id
+            if self.discord_user_id == 'None':
                 self.discord_user_id = None
             self._logging = self.BotConfig.logging
             self._logbans = self.BotConfig.logbans
@@ -199,6 +199,10 @@ class BotData:
         self._somebool = False
         self.reload_normal_commands = False
         self.reload_voice_commands = False
+        self.reload_reason = None
+        self.desmod = None
+        self.desmod_new = None
+        self.rejoin_after_reload = False
 
     @asyncio.coroutine
     def ignore_channel_code(self, client, message):
@@ -245,6 +249,52 @@ class BotData:
                         yield from BotPMError.resolve_send_message_error(client, message)
 
     @asyncio.coroutine
+    def reload_helper(self):
+        """
+        Bot Reload commands Helper.
+        :return: Nothing.
+        """
+        if self.desmod_new.rfind('botlogs') is not -1:
+            self.desmod = 'BotLogs'
+            rsn = self.desmod_new.replace('botlogs', "")
+            if rsn.rfind(' | ') is not -1:
+                reason = rsn.strip(' | ')
+                self.reload_reason = reason
+                self._somebool = True
+            else:
+                reason = None
+                self.reload_reason = reason
+                self._somebool = True
+        elif self.desmod_new.rfind('botcommands') is not -1:
+            self.desmod = 'BotCommands'
+            rsn = self.desmod_new.replace('botcommands', "")
+            if rsn.rfind(' | ') is not -1:
+                reason = rsn.strip(' | ')
+                self.reload_reason = reason
+                self._somebool = True
+                self.reload_normal_commands = True
+            else:
+                reason = None
+                self.reload_reason = reason
+                self._somebool = True
+                self.reload_normal_commands = False
+        elif self.desmod_new.rfind("botvoicecommands") is not -1:
+            self.desmod = "BotVoiceCommands"
+            rsn = self.desmod_new.replace('botvoicecommands', "")
+            if rsn.rfind(' | ') is not -1:
+                reason = rsn.replace(' | ', "")
+                self.reload_reason = reason
+                self._somebool = True
+                self.reload_voice_commands = True
+            else:
+                reason = None
+                self.reload_reason = reason
+                self._somebool = True
+                self.reload_voice_commands = False
+        else:
+            self._somebool = False
+
+    @asyncio.coroutine
     def reload_command_code(self, client, message):
         """
         Reloads Bot Command Files.
@@ -254,75 +304,37 @@ class BotData:
         """
         if message.content.startswith(self._bot_prefix + 'reload'):
             if message.author.id == self.discord_user_id:
-                desmod_new = message.content.lower()[len(self._bot_prefix + 'reload '):].strip()
-                rejoin_after_reload = False
+                self.desmod_new = message.content.lower()[len(self._bot_prefix + 'reload '):].strip()
+                self.rejoin_after_reload = False
                 self._somebool = False
-                desmod = None
-                reload_reason = None
-                if len(desmod_new) < 1:
-                    desmod = None
-                if desmod_new.rfind('botlogs') is not -1:
-                    desmod = 'BotLogs'
-                    rsn = desmod_new.replace('botlogs', "")
-                    if rsn.rfind(' | ') is not -1:
-                        reason = rsn.strip(' | ')
-                        reload_reason = reason
-                        self._somebool = True
-                    else:
-                        reason = None
-                        reload_reason = reason
-                        self._somebool = True
-                elif desmod_new.rfind('botcommands') is not -1:
-                    desmod = 'BotCommands'
-                    rsn = desmod_new.replace('botcommands', "")
-                    if rsn.rfind(' | ') is not -1:
-                        reason = rsn.strip(' | ')
-                        reload_reason = reason
-                        self._somebool = True
-                        self.reload_normal_commands = False
-                    else:
-                        reason = None
-                        reload_reason = reason
-                        self._somebool = True
-                        self.reload_normal_commands = False
-                elif desmod_new.rfind("botvoicecommands") is not -1:
-                    desmod = "BotVoiceCommands"
-                    rsn = desmod_new.replace('botvoicecommands', "")
-                    if rsn.rfind(' | ') is not -1:
-                        reason = rsn.replace(' | ', "")
-                        reload_reason = reason
-                        self._somebool = True
-                        self.reload_voice_commands = False
-                    else:
-                        reason = None
-                        reload_reason = reason
-                        self._somebool = True
-                        self.reload_voice_commands = False
-                else:
-                    self._somebool = False
+                self.reload_reason = None
+                if len(self.desmod_new) < 1:
+                    self.desmod = None
+                yield from self.reload_helper()
                 if self._somebool is True:
-                    if desmod_new is not None:
-                        if desmod == 'BotCommands' or desmod == 'BotLogs' or desmod == 'BotVoiceCommands':
-                            if desmod == 'BotVoiceCommands':
-                                rsn = reload_reason
-                                rejoin_after_reload = True
+                    if self.desmod is not None:
+                        if(self.desmod == 'BotCommands' or self.desmod == 'BotLogs' or
+                           self.desmod == 'BotVoiceCommands'):
+                            if self.desmod == 'BotVoiceCommands':
+                                rsn = self.reload_reason
+                                self.rejoin_after_reload = True
                                 yield from self.DBVoiceCommands.reload_commands_bypass1_new(client, message, rsn)
                             try:
-                                module = sys.modules.get(desmod)
+                                module = sys.modules.get(self.desmod)
                                 importlib.reload(module)
                                 if self.reload_normal_commands:
                                     self.DBCommands = BotCommands.BotCommands()
                                 if self.reload_voice_commands:
                                     self.DBVoiceCommands = BotVoiceCommands.VoiceBotCommands()
-                                if rejoin_after_reload:
+                                if self.rejoin_after_reload:
                                     yield from self.DBVoiceCommands.reload_commands_bypass2_new(
                                         client, message)
                                 try:
                                     msgdata = str(self.botmessages['reload_command_data'][0])
-                                    message_data = msgdata + ' Reloaded ' + desmod + '.'
-                                    if desmod == 'BotLogs':
-                                        if reload_reason is not None:
-                                            message_data = message_data + ' Reason: ' + reload_reason
+                                    message_data = msgdata + ' Reloaded ' + self.desmod + '.'
+                                    if self.desmod == 'BotLogs':
+                                        if self.reload_reason is not None:
+                                            message_data = message_data + ' Reason: ' + self.reload_reason
                                             yield from client.send_message(message.channel, message_data)
                                         else:
                                             yield from client.send_message(message.channel, message_data)

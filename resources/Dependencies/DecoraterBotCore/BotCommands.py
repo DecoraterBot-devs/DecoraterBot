@@ -128,6 +128,7 @@ class BotData:
             self._bot_prefix = self.BotConfig.bot_prefix
         self.sent_prune_error_message = False
         self.tinyurlerror = False
+        self.link = None
         if self._log_games:
             import BotLogs
             self.DBLogs = BotLogs.BotLogs()
@@ -374,7 +375,7 @@ class BotData:
                         if self._log_games:
                             self.DBLogs.gamelog(message, desgame)
                         yield from client.change_presence(game=discord.Game(name=desgame, type=desgametype,
-                                                                          url=stream_url))
+                                                                            url=stream_url))
                         try:
                             msgdata = str(self.botmessages['game_command_data'][0]).format(desgame)
                             message_data = msgdata.replace("idle", "streaming")
@@ -1440,7 +1441,7 @@ class BotData:
                     url = url.strip('<')
                     url = url.strip('>')
                 try:
-                    link = TinyURL.create_one(url)
+                    self.link = TinyURL.create_one(url)
                     self.tinyurlerror = False
                 except TinyURL.errors.URLError:
                     self.tinyurlerror = True
@@ -1457,8 +1458,8 @@ class BotData:
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 if not self.tinyurlerror:
-                    link = str(link)
-                    result = str(self.botmessages['tinyurl_command_data'][0]).format(link)
+                    self.link = str(self.link)
+                    result = str(self.botmessages['tinyurl_command_data'][0]).format(self.link)
                     try:
                         yield from client.send_message(message.channel, result)
                     except discord.errors.Forbidden:

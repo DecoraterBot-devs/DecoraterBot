@@ -41,6 +41,7 @@ class BotData:
     """
         This Class is for Internal Use only!!!
     """
+    #lets use our own event loop unlike Discord.py
     def __init__(self):
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
@@ -67,6 +68,9 @@ class BotData:
         self.reconnects = 0
         self.is_bot_logged_in = False
         self.logged_in = False
+        self.discord_user_email = None
+        self.discord_user_password = None
+        self.bot_token = None
 
     def login_info_code(self, client):
         """
@@ -76,72 +80,75 @@ class BotData:
         :param client: Discord Client.
         :return: Nothing.
         """
-        try:
-            if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
-                discord_user_email = self.BotConfig.discord_user_email
-                if discord_user_email == 'None':
-                    discord_user_email = None
-                discord_user_password = self.BotConfig.discord_user_password
-                if discord_user_password == 'None':
-                    discord_user_password = None
-                bot_token = self.BotConfig.bot_token
-                if bot_token == 'None':
-                    bot_token = None
-                if self.is_bot_logged_in:
-                    self.is_bot_logged_in = False
-                try:
-                    if discord_user_email and discord_user_password is not None:
-                        client.run(discord_user_email, discord_user_password)
-                    elif bot_token is not None:
-                        # This is for logging into the bot with a token.
-                        client.run(bot_token)
-                        self.is_bot_logged_in = True
-                except discord.errors.GatewayNotFound:
-                    print(str(self.consoletext['Login_Gateway_No_Find'][0]))
-                    return
-                except discord.errors.LoginFailure:
-                    print(str(self.consoletext['Login_Failure'][0]))
-                    sys.exit(2)
-                except discord.errors.InvalidToken:
-                    print(str(self.consoletext['Invalid_Token'][0]))
-                    sys.exit(2)
-                except discord.errors.UnknownConnectionError:
-                    print(str(self.consoletext['Unknown_Connection_Error'][0]))
-                    sys.exit(2)
-                except TypeError:
-                    return
-                except KeyboardInterrupt:
-                    return
-                except asyncio.futures.InvalidStateError:
-                    self.reconnects += 1
-                    if self.reconnects != 0:
-                        print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
-                        # sleeptime = reconnects * 5
-                        # asyncio.sleep(sleeptime)
-                        self.login_info_code(client)
-                except aiohttp.errors.ClientOSError:
-                    self.reconnects += 1
-                    if self.reconnects != 0:
-                        print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
-                        # sleeptime = reconnects * 5
-                        # asyncio.sleep(sleeptime)
-                        self.login_info_code(client)
-                if self.is_bot_logged_in:
-                    if not client.is_logged_in:
-                        pass
-                    else:
-                        self.reconnects += 1
-                        if self.reconnects != 0:
-                            print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
-                            # sleeptime = reconnects * 5
-                            # asyncio.sleep(sleeptime)
-                            self.login_info_code(client)
-            else:
-                print(str(self.consoletext['Credentials_Not_Found'][0]))
+        if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
+            self.discord_user_email = self.BotConfig.discord_user_email
+            self.discord_user_password = self.BotConfig.discord_user_password
+            self.bot_token = self.BotConfig.bot_token
+            if client.loop.is_closed():
+                # since loop from get_event_loop() is closed we call new_event_loop()
+                # see Lib\asyncio\events.py:587 for details.
+                client.loop = asyncio.new_event_loop() if loop is None else loop
+                self.reconnects += 1
+                if self.reconnects != 0:
+                    print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                    self.login_info_code(client)
+            if self.discord_user_email == 'None':
+                self.discord_user_email = None
+            if self.discord_user_password == 'None':
+                self.discord_user_password = None
+            if self.bot_token == 'None':
+                self.bot_token = None
+            if self.is_bot_logged_in:
+                self.is_bot_logged_in = False
+            try:
+                if self.discord_user_email and self.discord_user_password is not None:
+                    client.run(self.discord_user_email, self.discord_user_password)
+                elif self.bot_token is not None:
+                    # This is for logging into the bot with a token.
+                    client.run(self.bot_token)
+                    self.is_bot_logged_in = True
+            except discord.errors.GatewayNotFound:
+                print(str(self.consoletext['Login_Gateway_No_Find'][0]))
+                return
+            except discord.errors.LoginFailure:
+                print(str(self.consoletext['Login_Failure'][0]))
                 sys.exit(2)
-        except Exception as e:
-            str(e)  # To Bypass issues later as this is a dummy thing. (for now)
-            print("This Bot has Crashed for some reason.")
+            except discord.errors.InvalidToken:
+                print(str(self.consoletext['Invalid_Token'][0]))
+                sys.exit(2)
+            except discord.errors.UnknownConnectionError:
+                print(str(self.consoletext['Unknown_Connection_Error'][0]))
+                sys.exit(2)
+            except TypeError:
+                return
+            except KeyboardInterrupt:
+                return
+            except asyncio.futures.InvalidStateError:
+                self.reconnects += 1
+                if self.reconnects != 0:
+                    print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                    # sleeptime = reconnects * 5
+                    # asyncio.sleep(sleeptime)
+                    self.login_info_code(client)
+            except aiohttp.errors.ClientOSError:
+                self.reconnects += 1
+                if self.reconnects != 0:
+                    print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                    # sleeptime = reconnects * 5
+                    # asyncio.sleep(sleeptime)
+                    self.login_info_code(client)
+            if self.is_bot_logged_in:
+                if not client.is_logged_in:
+                    pass
+                else:
+                    self.reconnects += 1
+                    if self.reconnects != 0:
+                        print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                        # sleeptime = reconnects * 5
+                        # asyncio.sleep(sleeptime)
+                        self.login_info_code(client)
+        else:
+            print(str(self.consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)
 
     @asyncio.coroutine

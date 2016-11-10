@@ -24,6 +24,9 @@ DEALINGS IN THE SOFTWARE.
 """
 import os
 import discord
+from discord.state import ConnectionState
+from discord.http import HTTPClient
+from discord.voice_client import VoiceClient
 import ctypes
 import sys
 import time
@@ -841,14 +844,33 @@ class BotClient(discord.Client):
     Bot Main client Class.
     This is where the Events are Registered.
     """
-    # Hack to not overwrite the __init__ function in discord.Client()
-    # This is required to actually login and run the bot or you will be screwed. DO NOT REMOVE THIS HACK!!!
-    def not_a_async_function(self):
-        """
-        This is a bypass for overloading the __init__ function in Discord.py
-        which would be bad as then the bot would not be able to connect.
-        :return: Nothing.
-        """
+    def __init__(self, *, loop=None, **options):
+        self.ws = None
+        self.email = None
+        self.loop = asyncio.get_event_loop() if loop is None else loop
+        self._listeners = []
+        self.cache_auth = options.get('cache_auth', True)
+        self.shard_id = options.get('shard_id')
+        self.shard_count = options.get('shard_count')
+
+        max_messages = options.get('max_messages')
+        if max_messages is None or max_messages < 100:
+            max_messages = 5000
+
+        self.connection = ConnectionState(self.dispatch, self.request_offline_members,
+                                          self._syncer, max_messages, loop=self.loop)
+
+        connector = options.pop('connector', None)
+        self.http = HTTPClient(connector, loop=self.loop)
+
+        self._closed = asyncio.Event(loop=self.loop)
+        self._is_logged_in = asyncio.Event(loop=self.loop)
+        self._is_ready = asyncio.Event(loop=self.loop)
+
+        if VoiceClient.warn_nacl:
+            VoiceClient.warn_nacl = False
+            log.warning("PyNaCl is not installed, voice will NOT be supported")
+        # DecoraterBot Nessessities.
         self.DBCore = BotCore()
         self.DBCore.asyncio_logger()
         self.DBCore.discord_logger()

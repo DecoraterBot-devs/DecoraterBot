@@ -529,6 +529,296 @@ class BotData:
                     else:
                         if '<' and '>' in data:
                             data = data.replace('<', '').replace('>', '')
+                        if data.rfind('https://') == -1 and data.rfind('http://') == -1:
+                            if len(self.bot_playlist) == 0:
+                                self._temp_player_1 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist01 = self._temp_player_1.title
+                                    playlist01time = self._temp_player_1.duration
+                                    track1 = str(self.botmessages['play_command_data'][10]).format(playlist01)
+                                    fulldir = playlist01time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track1time = newdir
+                                    track1uploader = str(self._temp_player_1.uploader)
+                                    track1info = str(self.botmessages['play_command_data'][12]).format(track1,
+                                                                                                       track1uploader,
+                                                                                                       track1time)
+                                    self.bot_playlist_entries.append(track1info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track1, track1time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif data in self.bot_playlist:
+                                msgdata = str(self.botmessages['play_command_data'][14])
+                                message_data = msgdata
+                                yield from client.send_message(message.channel, message_data)
+                            elif len(self.bot_playlist) == 1:
+                                self._temp_player_2 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist02 = self._temp_player_2.title
+                                    playlist02time = self._temp_player_2.duration
+                                    track2 = str(self.botmessages['play_command_data'][10]).format(playlist02)
+                                    fulldir = playlist02time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track2time = newdir
+                                    track2uploader = str(self._temp_player_2.uploader)
+                                    track2info = str(self.botmessages['play_command_data'][12]).format(track2,
+                                                                                                       track2uploader,
+                                                                                                       track2time)
+                                    self.bot_playlist_entries.append(track2info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track2, track2time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 2:
+                                self._temp_player_3 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist03 = self._temp_player_3.title
+                                    playlist03time = self._temp_player_3.duration
+                                    track3 = str(self.botmessages['play_command_data'][10]).format(playlist03)
+                                    fulldir = playlist03time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track3time = newdir
+                                    track3uploader = str(self._temp_player_3.uploader)
+                                    track3info = str(self.botmessages['play_command_data'][12]).format(track3,
+                                                                                                       track3uploader,
+                                                                                                       track3time)
+                                    self.bot_playlist_entries.append(track3info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track3, track3time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 3:
+                                self._temp_player_4 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist04 = self._temp_player_4.title
+                                    playlist04time = self._temp_player_4.duration
+                                    track4 = str(self.botmessages['play_command_data'][10]).format(playlist04)
+                                    fulldir = playlist04time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track4time = newdir
+                                    track4uploader = str(self._temp_player_4.uploader)
+                                    track4info = str(self.botmessages['play_command_data'][12]).format(track4,
+                                                                                                       track4uploader,
+                                                                                                       track4time)
+                                    self.bot_playlist_entries.append(track4info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track4, track4time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 4:
+                                self._temp_player_5 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist05 = self._temp_player_5.title
+                                    playlist05time = self._temp_player_5.duration
+                                    track5 = str(self.botmessages['play_command_data'][10]).format(playlist05)
+                                    fulldir = playlist05time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track5time = newdir
+                                    track5uploader = str(self._temp_player_5.uploader)
+                                    track5info = str(self.botmessages['play_command_data'][12]).format(track5,
+                                                                                                       track5uploader,
+                                                                                                       track5time)
+                                    self.bot_playlist_entries.append(track5info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track5, track5time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 5:
+                                self._temp_player_6 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist06 = self._temp_player_6.title
+                                    playlist06time = self._temp_player_6.duration
+                                    track6 = str(self.botmessages['play_command_data'][10]).format(playlist06)
+                                    fulldir = playlist06time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track6time = newdir
+                                    track6uploader = str(self._temp_player_6.uploader)
+                                    track6info = str(self.botmessages['play_command_data'][12]).format(track6,
+                                                                                                       track6uploader,
+                                                                                                       track6time)
+                                    self.bot_playlist_entries.append(track6info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track6, track6time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 6:
+                                self._temp_player_7 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist07 = self._temp_player_7.title
+                                    playlist07time = self._temp_player_7.duration
+                                    track7 = str(self.botmessages['play_command_data'][10]).format(playlist07)
+                                    fulldir = playlist07time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track7time = newdir
+                                    track7uploader = str(self._temp_player_7.uploader)
+                                    track7info = str(self.botmessages['play_command_data'][12]).format(track7,
+                                                                                                       track7uploader,
+                                                                                                       track7time)
+                                    self.bot_playlist_entries.append(track7info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track7, track7time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 7:
+                                self._temp_player_8 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist08 = self._temp_player_8.title
+                                    playlist08time = self._temp_player_8.duration
+                                    track8 = str(self.botmessages['play_command_data'][10]).format(playlist08)
+                                    fulldir = playlist08time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track8time = newdir
+                                    track8uploader = str(self._temp_player_8.uploader)
+                                    track8info = str(self.botmessages['play_command_data'][12]).format(track8,
+                                                                                                       track8uploader,
+                                                                                                       track8time)
+                                    self.bot_playlist_entries.append(track8info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track8, track8time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 8:
+                                self._temp_player_9 = yield from self.voice.create_ytdl_player(data,
+                                                                                               ytdl_options=self.ytdlo,
+                                                                                               options=self.ffmop,
+                                                                                               output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist09 = self._temp_player_9.title
+                                    playlist09time = self._temp_player_9.duration
+                                    track9 = str(self.botmessages['play_command_data'][10]).format(playlist09)
+                                    fulldir = playlist09time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track9time = newdir
+                                    track9uploader = str(self._temp_player_9.uploader)
+                                    track9info = str(self.botmessages['play_command_data'][12]).format(track9,
+                                                                                                       track9uploader,
+                                                                                                       track9time)
+                                    self.bot_playlist_entries.append(track9info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track9, track9time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 9:
+                                self._temp_player_10 = yield from self.voice.create_ytdl_player(data,
+                                                                                                ytdl_options=self.ytdlo,
+                                                                                                options=self.ffmop,
+                                                                                                output=self.ffmout)
+                                self.bot_playlist.append(data)
+                                try:
+                                    playlist10 = self._temp_player_10.title
+                                    playlist10time = self._temp_player_10.duration
+                                    track10 = str(self.botmessages['play_command_data'][10]).format(playlist10)
+                                    fulldir = playlist10time
+                                    minutes = str(int((fulldir / 60) % 60))
+                                    seconds = str(int(fulldir % 60))
+                                    if len(seconds) == 1:
+                                        seconds = "0" + seconds
+                                    newdir = str(self.botmessages['play_command_data'][11]).format(minutes, seconds)
+                                    track10time = newdir
+                                    track10uploader = str(self._temp_player_10.uploader)
+                                    track10info = str(self.botmessages['play_command_data'][12]).format(track10,
+                                                                                                        track10uploader,
+                                                                                                        track10time)
+                                    self.bot_playlist_entries.append(track10info)
+                                    msgdata = str(self.botmessages['play_command_data'][13]).format(track10,
+                                                                                                    track10time)
+                                    message_data = msgdata
+                                    yield from client.send_message(message.channel, message_data)
+                                except AttributeError:
+                                    message_data = str(self.botmessages['play_command_data'][2])
+                                    yield from client.send_message(self.voice_message_channel, message_data)
+                            elif len(self.bot_playlist) == 10:
+                                msgdata = str(self.botmessages['play_command_data'][15])
+                                message_data = msgdata
+                                yield from client.send_message(message.channel, message_data)
                         if 'www.youtube.com/watch?v=' in data or 'soundcloud.com' in data:
                             if len(self.bot_playlist) == 0:
                                 self._temp_player_1 = yield from self.voice.create_ytdl_player(data,
@@ -1220,74 +1510,78 @@ class BotData:
         :return: Nothing.
         """
         if self.player is not None:
-            if self.voice_message_channel is not None:
-                if self.player.is_done():
-                    fulldir = self.player.duration
-                    minutes = str(int((fulldir / 60) % 60))
-                    seconds = str(int(fulldir % 60))
-                    if len(seconds) == 1:
-                        seconds = "0" + seconds
-                    if self._sent_finished_message is False:
-                        self._sent_finished_message = True
-                        self.is_bot_playing = False
-                        # Clean the temp players now...
-                        self.resolve_bot_playlist_issue()
-                        try:
-                            message_data = str(self.botmessages['auto_playlist_data'][0]).format(
-                                str(self.player.title), str(self.player.uploader), minutes, seconds)
-                            yield from client.send_message(self.voice_message_channel, message_data)
-                        except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(client, message)
-                    if len(self.bot_playlist) == 0:
-                        self.player = None
-                    if len(self.bot_playlist) >= 1:
-                        try:
-                            track_data = None
-                            try:
-                                track_data = str(self.bot_playlist_entries[0])
-                            except IndexError:
-                                pass
-                            data = str(self.bot_playlist[0])
-                            try:
-                                self.player = yield from self.voice.create_ytdl_player(data, ytdl_options=self.ytdlo,
-                                                                                       options=self.ffmop,
-                                                                                       output=self.ffmout)
-                            except AttributeError:
-                                self.is_bot_playing = False
-                            if self.player is not None:
-                                self._sent_finished_message = False
-                                try:
-                                    self.bot_playlist.remove(data)
-                                except ValueError:
-                                    pass
-                                try:
-                                    self.bot_playlist_entries.remove(track_data)
-                                except ValueError:
-                                    pass
-                                if self.is_bot_playing is False:
-                                    self.is_bot_playing = True
-                                    try:
-                                        fulldir = self.player.duration
-                                        minutes = str(int((fulldir / 60) % 60))
-                                        seconds = str(int(fulldir % 60))
-                                        if len(seconds) == 1:
-                                            seconds = "0" + seconds
-                                        track_info = str(self.botmessages['auto_playlist_data'][1]).format(
-                                            str(self.player.title),
-                                            str(self.player.uploader))
-                                        message_data = str(self.botmessages['auto_playlist_data'][2]).format(
-                                            track_info, minutes, seconds)
-                                        yield from client.send_message(self.voice_message_channel, message_data)
-                                        try:
-                                            self.bot_playlist_entries.remove(track_info)
-                                        except ValueError:
-                                            pass
-                                    except discord.errors.Forbidden:
-                                        yield from BotPMError.resolve_send_message_error(client, message)
-                                    if self.player is not None:
-                                        self.player.start()
-                        except UnboundLocalError:
+            if self.player.error is None:
+                if self.voice_message_channel is not None:
+                    if self.player.is_done():
+                        fulldir = self.player.duration
+                        minutes = str(int((fulldir / 60) % 60))
+                        seconds = str(int(fulldir % 60))
+                        if len(seconds) == 1:
+                            seconds = "0" + seconds
+                        if self._sent_finished_message is False:
+                            self._sent_finished_message = True
                             self.is_bot_playing = False
+                            # Clean the temp players now...
+                            self.resolve_bot_playlist_issue()
+                            try:
+                                message_data = str(self.botmessages['auto_playlist_data'][0]).format(
+                                    str(self.player.title), str(self.player.uploader), minutes, seconds)
+                                yield from client.send_message(self.voice_message_channel, message_data)
+                            except discord.errors.Forbidden:
+                                yield from BotPMError.resolve_send_message_error(client, message)
+                        if len(self.bot_playlist) == 0:
+                            self.player = None
+                        if len(self.bot_playlist) >= 1:
+                            try:
+                                track_data = None
+                                try:
+                                    track_data = str(self.bot_playlist_entries[0])
+                                except IndexError:
+                                    pass
+                                data = str(self.bot_playlist[0])
+                                try:
+                                    self.player = yield from self.voice.create_ytdl_player(data, ytdl_options=self.ytdlo,
+                                                                                           options=self.ffmop,
+                                                                                           output=self.ffmout)
+                                except AttributeError:
+                                    self.is_bot_playing = False
+                                if self.player is not None:
+                                    self._sent_finished_message = False
+                                    try:
+                                        self.bot_playlist.remove(data)
+                                    except ValueError:
+                                        pass
+                                    try:
+                                        self.bot_playlist_entries.remove(track_data)
+                                    except ValueError:
+                                        pass
+                                    if self.is_bot_playing is False:
+                                        self.is_bot_playing = True
+                                        try:
+                                            fulldir = self.player.duration
+                                            minutes = str(int((fulldir / 60) % 60))
+                                            seconds = str(int(fulldir % 60))
+                                            if len(seconds) == 1:
+                                                seconds = "0" + seconds
+                                            track_info = str(self.botmessages['auto_playlist_data'][1]).format(
+                                                str(self.player.title),
+                                                str(self.player.uploader))
+                                            message_data = str(self.botmessages['auto_playlist_data'][2]).format(
+                                                track_info, minutes, seconds)
+                                            yield from client.send_message(self.voice_message_channel, message_data)
+                                            try:
+                                                self.bot_playlist_entries.remove(track_info)
+                                            except ValueError:
+                                                pass
+                                        except discord.errors.Forbidden:
+                                            yield from BotPMError.resolve_send_message_error(client, message)
+                                        if self.player is not None:
+                                            self.player.start()
+                            except UnboundLocalError:
+                                self.is_bot_playing = False
+            else:
+                if self.voice_message_channel is not None:
+                    yield from client.send_message(self.voice_message_channel, "A Error Occured while playing. {0}".format(self.player.error))
 
     @asyncio.coroutine
     def voice_stuff_new_disabled_code(self, client, message):

@@ -15,7 +15,6 @@ __all__ = (
 PY_35 = sys.version_info >= (3, 5)
 PY_352 = sys.version_info >= (3, 5, 2)
 
-EOF_MARKER = b''
 DEFAULT_LIMIT = 2 ** 16
 
 
@@ -41,7 +40,7 @@ if PY_35:
                 rv = yield from self.read_func()
             except EofStream:
                 raise StopAsyncIteration  # NOQA
-            if rv == EOF_MARKER:
+            if rv == b'':
                 raise StopAsyncIteration  # NOQA
             return rv
 
@@ -242,7 +241,7 @@ class StreamReader(AsyncStreamReaderMixin):
                 offset = self._buffer_offset
                 ichar = self._buffer[0].find(b'\n', offset) + 1
                 # Read from current offset to found b'\n' or to the end.
-                data = self._read_nowait(ichar - offset if ichar else -1)
+                data = self._read_nowait_chunk(ichar - offset if ichar else -1)
                 line.append(data)
                 line_size += len(data)
                 if ichar:
@@ -278,7 +277,7 @@ class StreamReader(AsyncStreamReaderMixin):
                         'might be infinite loop: \n%s', stack)
 
         if not n:
-            return EOF_MARKER
+            return b''
 
         if n < 0:
             # This used to just loop creating a new waiter hoping to
@@ -340,10 +339,7 @@ class StreamReader(AsyncStreamReaderMixin):
 
         return self._read_nowait(n)
 
-    def _read_nowait(self, n):
-        if not self._buffer:
-            return EOF_MARKER
-
+    def _read_nowait_chunk(self, n):
         first_buffer = self._buffer[0]
         offset = self._buffer_offset
         if n != -1 and len(first_buffer) - offset > n:
@@ -360,6 +356,19 @@ class StreamReader(AsyncStreamReaderMixin):
 
         self._buffer_size -= len(data)
         return data
+
+    def _read_nowait(self, n):
+        chunks = []
+
+        while self._buffer:
+            chunk = self._read_nowait_chunk(n)
+            chunks.append(chunk)
+            if n != -1:
+                n -= len(chunk)
+                if n == 0:
+                    break
+
+        return b''.join(chunks) if chunks else b''
 
 
 class EmptyStreamReader(AsyncStreamReaderMixin):
@@ -388,22 +397,22 @@ class EmptyStreamReader(AsyncStreamReaderMixin):
 
     @asyncio.coroutine
     def readline(self):
-        return EOF_MARKER
+        return b''
 
     @asyncio.coroutine
     def read(self, n=-1):
-        return EOF_MARKER
+        return b''
 
     @asyncio.coroutine
     def readany(self):
-        return EOF_MARKER
+        return b''
 
     @asyncio.coroutine
     def readexactly(self, n):
         raise asyncio.streams.IncompleteReadError(b'', n)
 
     def read_nowait(self):
-        return EOF_MARKER
+        return b''
 
 
 class DataQueue:
@@ -494,36 +503,26 @@ class ChunksQueue(DataQueue):
         try:
             return (yield from super().read())
         except EofStream:
-            return EOF_MARKER
+            return b''
 
     readany = read
 
 
 def maybe_resume(func):
 
-    @asyncio.coroutine
-    @functools.wraps(func)
-    def wrapper(self, *args, **kw):
-        result = yield from func(self, *args, **kw)
-
-        if self._stream.paused:
-            if self._buffer_size < self._b_limit:
-                try:
-                    self._stream.transport.resume_reading()
-                except (AttributeError, NotImplementedError):
-                    pass
-                else:
-                    self._stream.paused = False
-        else:
-            if self._buffer_size > self._b_limit:
-                try:
-                    self._stream.transport.pause_reading()
-                except (AttributeError, NotImplementedError):
-                    pass
-                else:
-                    self._stream.paused = True
-
-        return result
+    if asyncio.iscoroutinefunction(func):
+        @asyncio.coroutine
+        @functools.wraps(func)
+        def wrapper(self, *args, **kw):
+            result = yield from func(self, *args, **kw)
+            self._check_buffer_size()
+            return result
+    else:
+        @functools.wraps(func)
+        def wrapper(self, *args, **kw):
+            result = func(self, *args, **kw)
+            self._check_buffer_size()
+            return result
 
     return wrapper
 
@@ -542,6 +541,26 @@ class FlowControlStreamReader(StreamReader):
                 self._stream.transport.resume_reading()
             except (AttributeError, NotImplementedError):
                 pass
+            else:
+                self._stream.paused = False
+
+    def _check_buffer_size(self):
+        if self._stream.paused:
+            if self._buffer_size < self._b_limit:
+                try:
+                    self._stream.transport.resume_reading()
+                except (AttributeError, NotImplementedError):
+                    pass
+                else:
+                    self._stream.paused = False
+        else:
+            if self._buffer_size > self._b_limit:
+                try:
+                    self._stream.transport.pause_reading()
+                except (AttributeError, NotImplementedError):
+                    pass
+                else:
+                    self._stream.paused = True
 
     def feed_data(self, data, size=0):
         has_waiter = self._waiter is not None and not self._waiter.cancelled()
@@ -558,20 +577,28 @@ class FlowControlStreamReader(StreamReader):
                 self._stream.paused = True
 
     @maybe_resume
+    @asyncio.coroutine
     def read(self, n=-1):
         return (yield from super().read(n))
 
     @maybe_resume
+    @asyncio.coroutine
     def readline(self):
         return (yield from super().readline())
 
     @maybe_resume
+    @asyncio.coroutine
     def readany(self):
         return (yield from super().readany())
 
     @maybe_resume
+    @asyncio.coroutine
     def readexactly(self, n):
         return (yield from super().readexactly(n))
+
+    @maybe_resume
+    def read_nowait(self, n=-1):
+        return super().read_nowait(n)
 
 
 class FlowControlDataQueue(DataQueue):
@@ -639,6 +666,6 @@ class FlowControlChunksQueue(FlowControlDataQueue):
         try:
             return (yield from super().read())
         except EofStream:
-            return EOF_MARKER
+            return b''
 
     readany = read

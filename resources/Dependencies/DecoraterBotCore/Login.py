@@ -41,7 +41,6 @@ class BotData:
     """
         This Class is for Internal Use only!!!
     """
-    #lets use our own event loop unlike Discord.py
     def __init__(self):
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
@@ -91,7 +90,7 @@ class BotData:
                 self.reconnects += 1
                 if self.reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
-                    self.login_info_code(client)
+                    return -1
             if self.discord_user_email == 'None':
                 self.discord_user_email = None
             if self.discord_user_password == 'None':
@@ -104,12 +103,11 @@ class BotData:
                 if self.discord_user_email and self.discord_user_password is not None:
                     client.run(self.discord_user_email, self.discord_user_password)
                 elif self.bot_token is not None:
-                    # This is for logging into the bot with a token.
                     client.run(self.bot_token)
                     self.is_bot_logged_in = True
             except discord.errors.GatewayNotFound:
                 print(str(self.consoletext['Login_Gateway_No_Find'][0]))
-                return
+                return -2
             except discord.errors.LoginFailure:
                 print(str(self.consoletext['Login_Failure'][0]))
                 sys.exit(2)
@@ -120,23 +118,19 @@ class BotData:
                 print(str(self.consoletext['Unknown_Connection_Error'][0]))
                 sys.exit(2)
             except TypeError:
-                return
+                pass
             except KeyboardInterrupt:
-                return
+                pass
             except asyncio.futures.InvalidStateError:
                 self.reconnects += 1
                 if self.reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
-                    # sleeptime = reconnects * 5
-                    # asyncio.sleep(sleeptime)
-                    self.login_info_code(client)
+                    return -1
             except aiohttp.errors.ClientOSError:
                 self.reconnects += 1
                 if self.reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
-                    # sleeptime = reconnects * 5
-                    # asyncio.sleep(sleeptime)
-                    self.login_info_code(client)
+                    return -1
             if self.is_bot_logged_in:
                 if not client.is_logged_in:
                     pass
@@ -144,9 +138,7 @@ class BotData:
                     self.reconnects += 1
                     if self.reconnects != 0:
                         print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
-                        # sleeptime = reconnects * 5
-                        # asyncio.sleep(sleeptime)
-                        self.login_info_code(client)
+                        return -1
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)
@@ -195,11 +187,12 @@ class BotLogin:
 
     def login_info(self, client):
         """
-        Function for Gettign the bot online.
+        Function for Getting the bot online.
         :param client: Discord Client.
         :return: Nothing.
         """
-        self.bot.login_info_code(client)
+        ret = self.bot.login_info_code(client)
+        return ret
 
     @asyncio.coroutine
     def on_login(self, client):

@@ -292,7 +292,10 @@ class BotData:
         :param client: Discord client.
         :return: Nothing.
         """
-        self.DBLogin.login_info(client)
+        while True:
+            ret = self.DBLogin.login_info(client)
+            if ret is not None and ret is not -1:
+                break
 
     def discord_logger_code(self):
         """

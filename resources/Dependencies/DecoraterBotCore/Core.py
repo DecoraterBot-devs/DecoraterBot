@@ -1143,3 +1143,20 @@ class BotClient(discord.Client):
         :return: Nothing.
         """
         yield from self.DBCore.bot_resumed()
+
+    # new events. (Since Discord.py v0.13.0+)
+
+    @asyncio.coroutine
+    def on_server_emojis_update(before, after):
+        # TODO: Impliment this.
+        pass
+
+    @asyncio.coroutine
+    def on_reaction_add(reaction, user):
+        # TODO: Impliment this.
+        pass
+
+    @asyncio.coroutine
+    def on_reaction_remove(reaction, user):
+        # TODO: Impliment this.
+        pass

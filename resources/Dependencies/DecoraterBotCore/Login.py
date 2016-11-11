@@ -108,15 +108,13 @@ class BotData:
             except discord.errors.GatewayNotFound:
                 print(str(self.consoletext['Login_Gateway_No_Find'][0]))
                 return -2
-            except discord.errors.LoginFailure:
-                print(str(self.consoletext['Login_Failure'][0]))
-                sys.exit(2)
-            except discord.errors.InvalidToken:
-                print(str(self.consoletext['Invalid_Token'][0]))
-                sys.exit(2)
-            except discord.errors.UnknownConnectionError:
-                print(str(self.consoletext['Unknown_Connection_Error'][0]))
-                sys.exit(2)
+            except discord.errors.LoginFailure as e:
+                if str(e) == "Improper credentials have been passed.":
+                    print(str(self.consoletext['Login_Failure'][0]))
+                    sys.exit(2)
+                elif str(e) == "Improper token has been passed.":
+                    print(str(self.consoletext['Invalid_Token'][0]))
+                    sys.exit(2)
             except TypeError:
                 pass
             except KeyboardInterrupt:

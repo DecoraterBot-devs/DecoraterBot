@@ -1,0 +1,45 @@
+{
+    "On_Message_Logs": [
+        "Name={0} ID={1} Time={2} Message={3}\n",
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Message={5}\n"
+    ],
+    "On_Message_Edit_Logs": [
+        "Name={0} ID={1} Time={2} Old Message={3} New Message={4}\n",
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Old Message={5} New Message={6}\n"
+    ],
+    "On_Edit_Logs_Error": [
+        "Not a PM, so there must me a error in the Server edit message logs code."
+    ],
+    "Embed_Logs": [
+        "Data is the same. Will not log this info at this time. (Embeds)(PM)",
+        "Data is the same. Will not log this info at this time. (Embeds)"
+    ],
+    "Send_On_Message_Logs": [
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Message={5} (sent)\n"
+    ],
+    "Send_On_Message_Edit_Logs": [
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Old Message={5} New Message={6} (edited)\n"
+    ],
+    "Send_On_Message_Delete_Logs": [
+        "Name={0} ID={1} Time={2} Server={3} Channel={4} Message={5} (deleted)"
+    ],
+    "Game_Logs": [
+        "Name={0} has set the game on bot to {1}. ({2})(PM)\n",
+        "Name={0} has set the game on bot to {1}. ({2})(Servers)\n"
+    ],
+    "Ban_Logs": [
+        "{0} with a ID of {1} and a discriminator of {2} has been banned from the {3} server.\n"
+    ],
+    "Unban_Logs": [
+        "{0} with a ID of {1} and a discriminator of {2} has been unbanned from the {3} server.\n"
+    ],
+    "Kick_Logs": [
+        "{0} with a ID of {1} and a discriminator of {2} has been kicked from the {3} server.\n"
+    ],
+    "On_Server_Available": [
+        "The {0.name} server with the ID of {0.id} has become Available.\n"
+    ],
+    "On_Server_Unavailable": [
+        "The {0.name} server with the ID of {0.id} has become Unavailable.\n"
+    ]
+}

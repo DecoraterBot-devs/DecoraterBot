@@ -53,6 +53,7 @@ class YTDLLogger(object):
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
+        self.BotConfig = BotConfigReader.BotConfigVars()
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
@@ -180,12 +181,12 @@ class BotData:
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
+        self.BotConfig = BotConfigReader.BotConfigVars()
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
                                                                                        sys.implementation,
                                                                                        sys.version_info))
-
         if self.bits == 4:
             if not (sys.platform.startswith('linux')):
                 self.opusdll = '{0}{1}resources{1}opus{1}win32{1}{2}{1}opus.dll'.format(self.path, self.sepa,
@@ -204,7 +205,6 @@ class BotData:
                 self.opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}{1}opus.dll'.format(self.path, self.sepa,
                                                                                         self.platform)
                 os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(self.path, self.sepa, self.platform))
-
         self.botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
         self.banlist = json.load(self.botbanslist)
         self.botbanslist.close()
@@ -215,13 +215,11 @@ class BotData:
             self.botvoicechannelfile.close()
         except FileNotFoundError:
             pass
-        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path, self.sepa))
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
-
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
-            self.BotConfig = BotConfigReader.BotConfigVars()
             self._bot_prefix = self.BotConfig.bot_prefix
             self._log_ytdl = self.BotConfig.log_ytdl
         self.ytdlo = {'verbose': False, 'logger': YTDLLogger(), 'default_search': "ytsearch"}
@@ -251,7 +249,7 @@ class BotData:
         self.ffmout = io.open('{0}{1}resources{1}Logs{1}ffmpeg.shit'.format(self.path, self.sepa), 'w')
         self.verror = False
         """
-        Global bool to prevent the bot from beign able to join a voice channel while logging in.
+        Global bool to prevent the bot from being able to join a voice channel while logging in.
         This is Essentially a fix to the bot not being able to actually send messages in the voice
         commands as they would drastically screw up.
         """

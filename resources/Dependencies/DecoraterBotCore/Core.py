@@ -78,6 +78,7 @@ class BotData:
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
+        self.BotConfig = BotConfigReader.BotConfigVars()
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
@@ -88,10 +89,10 @@ class BotData:
         self.jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
         self.somedict = json.load(self.jsonfile)
         self.jsonfile.close()
-        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path, self.sepa))
+        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
         self.consoletext = json.load(self.consoledatafile)
         self.consoledatafile.close()
-        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path, self.sepa))
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
         self.version = str(self.consoletext['WindowVersion'][0])
@@ -99,7 +100,6 @@ class BotData:
         self.DBLogin.variable()
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
-            self.BotConfig = BotConfigReader.BotConfigVars()
             self.discord_user_id = self.BotConfig.discord_user_id
             if self.discord_user_id == 'None':
                 self.discord_user_id = None

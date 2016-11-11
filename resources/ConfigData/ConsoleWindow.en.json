@@ -31,8 +31,8 @@
     ],
     "Missing_JSON_Errors": [
         "IgnoreList.json is not Found. Cannot Continue.",
-        "BotMessages.json is not Found. Cannot Continue.",
-        "LogData.json is not Found. Cannot Continue.",
+        "BotMessages.en.json is not Found. Cannot Continue.",
+        "LogData.en.json is not Found. Cannot Continue.",
         "BotCommands.json is not Found. Cannot Continue."
     ],
     "Unsupported_Platform": [

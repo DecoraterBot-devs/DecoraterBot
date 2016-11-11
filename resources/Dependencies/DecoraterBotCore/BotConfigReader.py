@@ -90,6 +90,7 @@ class BotConfigVars:
         self.discord_user_password = self.credentials['password']  # string
         self.bot_token = self.credentials['token']  # string
         self.disable_voice_commands = self.credentials['disable_voice']  # bool
+        self.language = self.credentials['language']# string
 
     def load(self):
         """

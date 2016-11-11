@@ -50,20 +50,20 @@ class BotData:
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
+        self.BotConfig = BotConfigReader.BotConfigVars()
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
                                                                                        sys.implementation,
                                                                                        sys.version_info))
         init()
-        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path, self.sepa))
+        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
         self.consoletext = json.load(self.consoledatafile)
         self.consoledatafile.close()
-        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path, self.sepa))
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
-        self.BotConfig = BotConfigReader.BotConfigVars()
         self.reconnects = 0
         self.is_bot_logged_in = False
         self.logged_in = False

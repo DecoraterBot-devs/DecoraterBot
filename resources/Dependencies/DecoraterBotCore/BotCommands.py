@@ -70,13 +70,14 @@ class BotData:
                                                                                        sys.implementation,
                                                                                        sys.version_info))
         self.PY35 = sys.version_info >= (3, 5)
+        self.BotConfig = BotConfigReader.BotConfigVars()
         try:
-            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path,
-                                                                                                      self.sepa))
+            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path,
+                                                                                                      self.sepa, self.BotConfig.language))
             self.consoletext = json.load(self.consoledatafile)
             self.consoledatafile.close()
         except FileNotFoundError:
-            print('ConsoleWindow.json is not Found. Cannot Continue.')
+            print('ConsoleWindow.{0}.json is not Found. Cannot Continue.'.format(self.BotConfig.language))
             sys.exit(2)
         self.disabletinyurl = disabletinyurl
         self.botbanslist = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
@@ -91,8 +92,8 @@ class BotData:
             print(str(self.consoletext['Missing_JSON_Errors'][3]))
             sys.exit(2)
         try:
-            self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.json'.format(self.path,
-                                                                                                    self.sepa))
+            self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(self.path,
+                                                                                                    self.sepa, self.BotConfig.language))
             self.botmessages = json.load(self.botmessagesdata)
             self.botmessagesdata.close()
         except FileNotFoundError:
@@ -118,7 +119,6 @@ class BotData:
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
         self._log_games = True
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
-            self.BotConfig = BotConfigReader.BotConfigVars()
             self._log_games = self.BotConfig.log_games
             self.owner_id = self.BotConfig.discord_user_id
             if self.owner_id == 'None':

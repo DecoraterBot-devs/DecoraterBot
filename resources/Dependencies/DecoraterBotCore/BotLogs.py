@@ -29,6 +29,7 @@ import sys
 import os.path
 import asyncio
 import logging
+import BotConfigReader
 import json
 import ctypes
 
@@ -46,6 +47,7 @@ class BotData:
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
+        self.BotConfig = BotConfigReader.BotConfigVars()
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
@@ -53,15 +55,15 @@ class BotData:
                                                                                        sys.version_info))
 
         try:
-            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(self.path,
-                                                                                                      self.sepa))
+            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path,
+                                                                                                      self.sepa, self.BotConfig.language))
             self.consoletext = json.load(self.consoledatafile)
             self.consoledatafile.close()
         except FileNotFoundError:
-            print('ConsoleWindow.json is not Found. Cannot Continue.')
+            print('ConsoleWindow.{0}.json is not Found. Cannot Continue.'.format(self.BotConfig.language))
             sys.exit(2)
         try:
-            self.LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.json'.format(self.path, self.sepa))
+            self.LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
             self.LogData = json.load(self.LogDataFile)
             self.LogDataFile.close()
         except FileNotFoundError:

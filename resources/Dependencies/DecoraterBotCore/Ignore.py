@@ -69,6 +69,7 @@ import BotVoiceCommands
 import BotConfigReader
 global BotLogs
 
+
 class BotData:
     """
         This Class is for Internal Use only!!!

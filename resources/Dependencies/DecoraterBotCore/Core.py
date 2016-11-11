@@ -24,9 +24,6 @@ DEALINGS IN THE SOFTWARE.
 """
 import os
 import discord
-from discord.state import ConnectionState
-from discord.http import HTTPClient
-from discord.voice_client import VoiceClient
 import ctypes
 import sys
 import time
@@ -89,10 +86,12 @@ class BotData:
         self.jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
         self.somedict = json.load(self.jsonfile)
         self.jsonfile.close()
-        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
+        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
+            self.path, self.sepa, self.BotConfig.language))
         self.consoletext = json.load(self.consoledatafile)
         self.consoledatafile.close()
-        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(
+            self.path, self.sepa, self.BotConfig.language))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
         self.version = str(self.consoletext['WindowVersion'][0])
@@ -848,31 +847,8 @@ class BotClient(discord.Client):
     This is where the Events are Registered.
     """
     def __init__(self, *, loop=None, **options):
-        self.ws = None
-        self.email = None
-        self.loop = asyncio.get_event_loop() if loop is None else loop
-        self._listeners = []
-        self.cache_auth = options.get('cache_auth', True)
-        self.shard_id = options.get('shard_id')
-        self.shard_count = options.get('shard_count')
-
-        max_messages = options.get('max_messages')
-        if max_messages is None or max_messages < 100:
-            max_messages = 5000
-
-        self.connection = ConnectionState(self.dispatch, self.request_offline_members,
-                                          self._syncer, max_messages, loop=self.loop)
-
-        connector = options.pop('connector', None)
-        self.http = HTTPClient(connector, loop=self.loop)
-
-        self._closed = asyncio.Event(loop=self.loop)
-        self._is_logged_in = asyncio.Event(loop=self.loop)
-        self._is_ready = asyncio.Event(loop=self.loop)
-
-        if VoiceClient.warn_nacl:
-            VoiceClient.warn_nacl = False
-            log.warning("PyNaCl is not installed, voice will NOT be supported")
+        # Execute Overridden __init__() function.
+        super(BotClient, self).__init__(loop=loop, **options)
         # DecoraterBot Nessessities.
         self.DBCore = BotCore()
         self.DBCore.asyncio_logger()
@@ -1147,16 +1123,28 @@ class BotClient(discord.Client):
     # new events. (Since Discord.py v0.13.0+)
 
     @asyncio.coroutine
-    def on_server_emojis_update(before, after):
+    def on_server_emojis_update(self, before, after):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
         # TODO: Impliment this.
         pass
 
     @asyncio.coroutine
-    def on_reaction_add(reaction, user):
+    def on_reaction_add(self, reaction, user):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
         # TODO: Impliment this.
         pass
 
     @asyncio.coroutine
-    def on_reaction_remove(reaction, user):
+    def on_reaction_remove(self, reaction, user):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
         # TODO: Impliment this.
         pass

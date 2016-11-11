@@ -72,8 +72,8 @@ class BotData:
         self.PY35 = sys.version_info >= (3, 5)
         self.BotConfig = BotConfigReader.BotConfigVars()
         try:
-            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path,
-                                                                                                      self.sepa, self.BotConfig.language))
+            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
+                self.path, self.sepa, self.BotConfig.language))
             self.consoletext = json.load(self.consoledatafile)
             self.consoledatafile.close()
         except FileNotFoundError:
@@ -92,8 +92,8 @@ class BotData:
             print(str(self.consoletext['Missing_JSON_Errors'][3]))
             sys.exit(2)
         try:
-            self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(self.path,
-                                                                                                    self.sepa, self.BotConfig.language))
+            self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(
+                self.path, self.sepa, self.BotConfig.language))
             self.botmessages = json.load(self.botmessagesdata)
             self.botmessagesdata.close()
         except FileNotFoundError:
@@ -136,14 +136,6 @@ class BotData:
         if self._log_games:
             import BotLogs
             self.DBLogs = BotLogs.BotLogs()
-
-    @asyncio.coroutine
-    def webhook_helper(self):
-        print("POST: sending test webhook command payload.")
-        resp = yield from client.session.request('POST', self.hook_url, data=json.dumps(self.payload), headers=self.header)
-        response = yield from resp.read()
-        print(response)
-
 
     @asyncio.coroutine
     def attack_code(self, client, message):
@@ -1050,46 +1042,23 @@ class BotData:
                 if not meme_error:
                     rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
                     yield from client.send_message(message.channel, rep)
+        # Since the bot for this was updated it is not needed anymore.
+        '''
         if message.content.startswith(self._bot_prefix + 'givecreds'):
             """
-                This command tricks a bot to giving the owner of this bot 200 credits.
+                This command tricks a bot into giving the owner of this bot 200 credits.
             """
             ownermentiondata = '<@' + self.owner_id + '>'
             yield from client.send_message(message.channel, 't!daily {0}'.format(ownermentiondata))
+        '''
         if message.content.startswith(self._bot_prefix + 'discrim'):
             for member in client.get_all_members():
                 if member.discriminator == message.author.discriminator:
                     if member != message.author:
                         self.member_list.append(member.name)
-            client.send_message(message.channel, "Found {0} members with the same discriminator of {1}: ```{2}```.".format(len(self.member_list), message.author.discriminator, eval(self.member_list)))
-        if message.content.startswith(self._bot_prefix + 'testhook'):
-            if message.channel.server.id == '232732041261613056':
-                self.hook_url = "https://canary.discordapp.com/api/webhooks/232732041261613056/Hs1qG-7dICw4SB5VKwzW8V-KqvYW_L8WR_8gcYC0jNNwt8WAKQ-Vcq0s_TBZabtbd-j2"
-                self.payload = {'content': 'A webhook test.',
-                                'username': 'Reply to: ' + message.author.name,
-                                'avatar_url': message.author.id}
-                self.header = {'content-type': 'multipart/form-data'}
-                #self.payload = {
-                #                "username": "Skype",
-                #                "title": "Stuff and things",
-                #                "text": "[https://skype.com/](https://discordapp.com)",
-                #                "attachments": [{
-                #                                 "title": "Skype",
-                #                                 "title_link": "https://discordapp.com/",
-                #                                 "color": "#00aff0",
-                #                                 "fields": [{
-                #                                             "title": "Updating?",
-                #                                             "value": "Don't use it. Use Discord.",
-                #                                             "short": true
-                #                                            }],
-                #                                 "footer": "Skype, Inc.",
-                #                                 "footer_icon": "https://upload.wikimedia.org/wikipedia/commons/8/86/Microsoft_Skype_for_Business_logo.png",
-                #                                 "ts": 1475288673
-                #                                }]
-                #                }
-                yield from self.webhook_helper()
-                self.payload = {}
-                self.header = {}
+            client.send_message(message.channel,
+                                "Found {0} members with the same discriminator of {1}: ```{2}```.".format(
+                                    len(self.member_list), message.author.discriminator, eval(self.member_list)))
         """
             This below is left in so anyone could have a example of itterating through roles to find the right one
             that they want.

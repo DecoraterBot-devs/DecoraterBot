@@ -27,18 +27,27 @@ import discord
 import io
 import sys
 import os.path
-import asyncio
 import logging
-import BotConfigReader
+from . import BotConfigReader
 import json
 import ctypes
+from sasync import *
 
 
-class BotData:
+def dummy():
+    """
+    Dummy Function for __init__.py for this package on pycharm.
+    :return: Nothing.
+    """
+    pass
+
+
+class BotData(BotConfigReader.BotConfigVars):
     """
         This class is for Internal use only!!!
     """
     def __init__(self):
+        super(BotData, self).__init__()
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         self.platform = None
@@ -47,7 +56,6 @@ class BotData:
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
-        self.BotConfig = BotConfigReader.BotConfigVars()
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
@@ -55,15 +63,16 @@ class BotData:
                                                                                        sys.version_info))
 
         try:
-            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path,
-                                                                                                      self.sepa, self.BotConfig.language))
+            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
+                self.path, self.sepa, self.language))
             self.consoletext = json.load(self.consoledatafile)
             self.consoledatafile.close()
         except FileNotFoundError:
-            print('ConsoleWindow.{0}.json is not Found. Cannot Continue.'.format(self.BotConfig.language))
+            print('ConsoleWindow.{0}.json is not Found. Cannot Continue.'.format(self.language))
             sys.exit(2)
         try:
-            self.LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
+            self.LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.{2}.json'.format(
+                self.path, self.sepa, self.language))
             self.LogData = json.load(self.LogDataFile)
             self.LogDataFile.close()
         except FileNotFoundError:
@@ -108,7 +117,7 @@ class BotData:
                                                                      message.channel.name, message.content)
             logsservers = logs003
         if message.content is not None:
-            logfile = '{0}{1}resources{1}Logs{1}log.txt'.format(self.path, self.sepa)
+            logfile = '{0}{1}resources{1}Logs{1}log.log'.format(self.path, self.sepa)
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
@@ -132,7 +141,7 @@ class BotData:
         """
         old = str(before.content)
         new = str(after.content)
-        logfile = '{0}{1}resources{1}Logs{1}edit log.txt'.format(self.path, self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}edit_log.log'.format(self.path, self.sepa)
         usr_name = before.author.name
         usr_id = before.author.id
         msg_time = str(before.timestamp)
@@ -191,7 +200,7 @@ class BotData:
             dellogsservers = dellogs003
         if message.content is not None:
             try:
-                logfile = '{0}{1}resources{1}Logs{1}delete log.txt'.format(self.path, self.sepa)
+                logfile = '{0}{1}resources{1}Logs{1}delete_log.log'.format(self.path, self.sepa)
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
                 if size >= 32102400:
@@ -215,7 +224,7 @@ class BotData:
             data = str(self.LogData['Embed_Logs'][0])
         else:
             data = str(self.LogData['Embed_Logs'][1])
-        logfile = '{0}{1}resources{1}Logs{1}embeds.txt'.format(self.path, self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}embeds.log'.format(self.path, self.sepa)
         try:
             file2 = io.open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -226,7 +235,7 @@ class BotData:
         except PermissionError:
             return
 
-    @asyncio.coroutine
+    @async
     def send_logs_code(self, client, message):
         """
         Sends Sent Lessages.
@@ -240,13 +249,13 @@ class BotData:
                                                                       message.content)
         sndmsglogs = logs001
         try:
-            yield from client.send_message(discord.Object(id='153055192873566208'), sndmsglogs)
+            yield from client.send_message(discord.Object(id='153055192873566208'), content=sndmsglogs)
         except discord.errors.NotFound:
             return
         except discord.errors.HTTPException:
             return
 
-    @asyncio.coroutine
+    @async
     def send_edit_logs_code(self, client, before, after):
         """
         Sends Edited Messages.
@@ -264,13 +273,13 @@ class BotData:
         sendeditlogs = editlog001
         if before.content != after.content:
             try:
-                yield from client.send_message(discord.Object(id='153055192873566208'), sendeditlogs)
+                yield from client.send_message(discord.Object(id='153055192873566208'), content=sendeditlogs)
             except discord.errors.NotFound:
                 return
             except discord.errors.HTTPException:
                 return
 
-    @asyncio.coroutine
+    @async
     def send_delete_logs_code(self, client, message):
         """
 
@@ -282,13 +291,13 @@ class BotData:
                                                                                 message.channel.name, message.content)
         senddeletelogs = dellogs001
         try:
-            yield from client.send_message(discord.Object(id='153055192873566208'), senddeletelogs)
+            yield from client.send_message(discord.Object(id='153055192873566208'), content=senddeletelogs)
         except discord.errors.NotFound:
             return
         except discord.errors.HTTPException:
             return
 
-    @asyncio.coroutine
+    @async
     def on_bot_error_code(self, funcname, tbinfo, err):
         """
         Handles Event Bot Errors
@@ -300,7 +309,7 @@ class BotData:
         if bool(funcname):
             if bool(tbinfo):
                 exception_data = 'Ignoring exception caused at {0}:\n{1}'.format(funcname, tbinfo)
-                logfile = '{0}{1}resources{1}Logs{1}error_log.txt'.format(self.path, self.sepa)
+                logfile = '{0}{1}resources{1}Logs{1}error_log.log'.format(self.path, self.sepa)
                 try:
                     file = io.open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -328,7 +337,7 @@ class BotData:
         if message.channel.is_private is False:
             gmelog001 = str(self.LogData['On_Message_Logs'][1]).format(message.author.name, desgame, message.author.id)
             gmelogsservers = gmelog001
-            logfile = '{0}{1}resources{1}Logs{1}gamelog.txt'.format(self.path, self.sepa)
+            logfile = '{0}{1}resources{1}Logs{1}gamelog.log'.format(self.path, self.sepa)
             try:
                 file = io.open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
@@ -343,7 +352,7 @@ class BotData:
             except PermissionError:
                 return
 
-    @asyncio.coroutine
+    @async
     def onban_code(self, member):
         """
         Logs Bans.
@@ -355,7 +364,7 @@ class BotData:
         mem_dis = member.discriminator
         mem_svr_name = member.server.name
         ban_log_data = str(self.LogData['Ban_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}bans.txt'.format(self.path, self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}bans.log'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -363,7 +372,7 @@ class BotData:
         file.write(ban_log_data)
         file.close()
 
-    @asyncio.coroutine
+    @async
     def onavailable_code(self, server):
         """
         Logs available Servers.
@@ -371,7 +380,7 @@ class BotData:
         :return: Nothing.
         """
         available_log_data = str(self.LogData['On_Server_Available'][0]).format(server)
-        logfile = '{0}{1}resources{1}Logs{1}available_servers.txt'.format(self.path, self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}available_servers.log'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -379,7 +388,7 @@ class BotData:
         file.write(available_log_data)
         file.close()
 
-    @asyncio.coroutine
+    @async
     def onunavailable_code(self, server):
         """
         Logs Unavailable Servers.
@@ -387,7 +396,7 @@ class BotData:
         :return: Nothing.
         """
         unavailable_log_data = str(self.LogData['On_Server_Unavailable'][0]).format(server)
-        logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.txt'.format(self.path, self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.log'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -395,7 +404,7 @@ class BotData:
         file.write(unavailable_log_data)
         file.close()
 
-    @asyncio.coroutine
+    @async
     def onunban_code(self, server, user):
         """
         Logs Unbans.
@@ -405,7 +414,7 @@ class BotData:
         """
         unban_log_data = str(self.LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator,
                                                                    server.name)
-        logfile = '{0}{1}resources{1}Logs{1}unbans.txt'.format(self.path, self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}unbans.log'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -413,7 +422,7 @@ class BotData:
         file.write(unban_log_data)
         file.close()
 
-    @asyncio.coroutine
+    @async
     def ongroupjoin_code(self, channel, user):
         """
         logs group join.
@@ -424,7 +433,7 @@ class BotData:
         # TODO: Impliment this.
         pass
 
-    @asyncio.coroutine
+    @async
     def ongroupremove_code(self, channel, user):
         """
         Removed from group.
@@ -435,7 +444,7 @@ class BotData:
         # TODO: Impliment this.
         pass
 
-    @asyncio.coroutine
+    @async
     def onkick_code(self, member):
         """
 
@@ -446,7 +455,7 @@ class BotData:
         mem_dis = member.discriminator
         mem_svr_name = member.server.name
         kick_log_data = str(self.LogData['Kick_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}kicks.txt'.format(self.path, self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}kicks.log'.format(self.path, self.sepa)
         file = io.open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -455,26 +464,26 @@ class BotData:
         file.close()
 
 
-class BotLogs:
+class BotLogs(BotData):
     """
     Main Bot logging Class.
     """
     def __init__(self):
-        self.bot = BotData()
+        super(BotLogs, self).__init__()
 
     def set_up_discord_logger(self):
         """
         Sets up the Discord Logger.
         :return: Nothing.
         """
-        self.bot.set_up_loggers(loggers='discord')
+        self.set_up_loggers(loggers='discord')
 
     def set_up_asyncio_logger(self):
         """
         Sets up the asyncio Logger.
         :return: Nothing.
         """
-        self.bot.set_up_loggers(loggers='asyncio')
+        self.set_up_loggers(loggers='asyncio')
 
     def logs(self, message):
         """
@@ -482,7 +491,7 @@ class BotLogs:
         :param message: Messages.
         :return: Nothing.
         """
-        self.bot.logs_code(message)
+        self.logs_code(message)
 
     def edit_logs(self, before, after):
         """
@@ -491,7 +500,7 @@ class BotLogs:
         :param after: Messages.
         :return: Nothing.
         """
-        self.bot.edit_logs_code(before, after)
+        self.edit_logs_code(before, after)
 
     def delete_logs(self, message):
         """
@@ -499,7 +508,7 @@ class BotLogs:
         :param message: Messages.
         :return: Nothing.
         """
-        self.bot.delete_logs_code(message)
+        self.delete_logs_code(message)
 
     def resolve_embed_logs(self, before):
         """
@@ -507,9 +516,9 @@ class BotLogs:
         :param before: Messages.
         :return: Nothing.
         """
-        self.bot.resolve_embed_logs_code(before)
+        self.resolve_embed_logs_code(before)
 
-    @asyncio.coroutine
+    @async
     def send_logs(self, client, message):
         """
         Sends Sent Messages.
@@ -517,9 +526,9 @@ class BotLogs:
         :param message: Messages.
         :return: Nothing.
         """
-        yield from self.bot.send_logs_code(client, message)
+        yield from self.send_logs_code(client, message)
 
-    @asyncio.coroutine
+    @async
     def send_edit_logs(self, client, before, after):
         """
         Sends Edited Messages.
@@ -528,9 +537,9 @@ class BotLogs:
         :param after: Messages.
         :return: Nothing.
         """
-        yield from self.bot.send_edit_logs_code(client, before, after)
+        yield from self.send_edit_logs_code(client, before, after)
 
-    @asyncio.coroutine
+    @async
     def send_delete_logs(self, client, message):
         """
         Sends Deleted Messages.
@@ -538,9 +547,9 @@ class BotLogs:
         :param message: Messages.
         :return: Nothing.
         """
-        yield from self.bot.send_delete_logs_code(client, message)
+        yield from self.send_delete_logs_code(client, message)
 
-    @asyncio.coroutine
+    @async
     def on_bot_error(self, funcname, tbinfo, err):
         """
             This Function is for Internal Bot use only.
@@ -554,7 +563,7 @@ class BotLogs:
                 raises the Errors that happened if empty string or None is given.
             :param err: Error Data from Traceback. (RAW)
         """
-        yield from self.bot.on_bot_error_code(funcname, tbinfo, err)
+        yield from self.on_bot_error_code(funcname, tbinfo, err)
 
     def gamelog(self, message, desgame):
         """
@@ -563,36 +572,36 @@ class BotLogs:
         :param desgame: Game Name.
         :return: Nothing.
         """
-        self.bot.gamelog_code(message, desgame)
+        self.gamelog_code(message, desgame)
 
-    @asyncio.coroutine
+    @async
     def onban(self, member):
         """
         Logs Bans.
         :param member: Members.
         :return: Nothing.
         """
-        yield from self.bot.onban_code(member)
+        yield from self.onban_code(member)
 
-    @asyncio.coroutine
+    @async
     def onavailable(self, server):
         """
         Logs Available Servers.
         :param server:
         :return: Nothing.
         """
-        yield from self.bot.onavailable_code(server)
+        yield from self.onavailable_code(server)
 
-    @asyncio.coroutine
+    @async
     def onunavailable(self, server):
         """
         Logs Unavailable Servers
         :param server: Servers.
         :return: Nothing.
         """
-        yield from self.bot.onunavailable_code(server)
+        yield from self.onunavailable_code(server)
 
-    @asyncio.coroutine
+    @async
     def onunban(self, server, user):
         """
         Logs Unbans.
@@ -600,9 +609,9 @@ class BotLogs:
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.bot.onunban_code(server, user)
+        yield from self.onunban_code(server, user)
 
-    @asyncio.coroutine
+    @async
     def ongroupjoin(self, channel, user):
         """
         Logs group join.
@@ -610,9 +619,9 @@ class BotLogs:
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.bot.ongroupjoin_code(channel, user)
+        yield from self.ongroupjoin_code(channel, user)
 
-    @asyncio.coroutine
+    @async
     def ongroupremove(self, channel, user):
         """
         Logs group remove.
@@ -620,13 +629,13 @@ class BotLogs:
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.bot.ongroupremove_code(channel, user)
+        yield from self.ongroupremove_code(channel, user)
 
-    @asyncio.coroutine
+    @async
     def onkick(self, member):
         """
         Logs Kicks.
         :param member: Members.
         :return: Nothing.
         """
-        yield from self.bot.onkick_code(member)
+        yield from self.onkick_code(member)

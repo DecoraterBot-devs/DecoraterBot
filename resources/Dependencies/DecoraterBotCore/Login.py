@@ -22,19 +22,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
-import discord
-import asyncio
-import os
-import os.path
-import aiohttp
-import sys
-import json
 import ctypes
 import io
-from discord.__init__ import __version__
-from colorama import init
+import json
+import os
+import os.path
+import sys
+import aiohttp
+import discord
 from colorama import Fore, Back, Style
-import BotConfigReader
+from colorama import init
+from discord.__init__ import __version__
+from sasync import *
+from . import BotConfigReader
+
+
+def dummy():
+    """
+    Dummy Function for __init__.py for this package on pycharm.
+    :return: Nothing.
+    """
+    pass
 
 
 class BotData:
@@ -57,10 +65,12 @@ class BotData:
                                                                                        sys.implementation,
                                                                                        sys.version_info))
         init()
-        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
+        self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
+            self.path, self.sepa, self.BotConfig.language))
         self.consoletext = json.load(self.consoledatafile)
         self.consoledatafile.close()
-        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(self.path, self.sepa, self.BotConfig.language))
+        self.botmessagesdata = io.open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(
+            self.path, self.sepa, self.BotConfig.language))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
@@ -86,7 +96,7 @@ class BotData:
             if client.loop.is_closed():
                 # since loop from get_event_loop() is closed we call new_event_loop()
                 # see Lib\asyncio\events.py:587 for details.
-                client.loop = asyncio.new_event_loop() if loop is None else loop
+                client.loop = new_event_loop()
                 self.reconnects += 1
                 if self.reconnects != 0:
                     print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
@@ -141,7 +151,7 @@ class BotData:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)
 
-    @asyncio.coroutine
+    @async
     def on_login_code(self, client):
         """
         Function that does the on_ready event stuff after logging in.
@@ -152,16 +162,18 @@ class BotData:
             self.logged_in = False
             message_data = str(self.botmessages['On_Ready_Message'][0])
             try:
-                yield from client.send_message(discord.Object(id='118098998744580098'), message_data)
+                yield from client.send_message(discord.Object(id='118098998744580098'), content=message_data)
             except discord.errors.Forbidden:
                 return
             try:
-                yield from client.send_message(discord.Object(id='103685935593435136'), message_data)
+                yield from client.send_message(discord.Object(id='103685935593435136'), content=message_data)
             except discord.errors.Forbidden:
                 return
             bot_name = client.user.name
             print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
                 self.consoletext['Window_Login_Text'][0]).format(bot_name, client.user.id, __version__))
+            sys.stdout = open('{0}{1}resources{1}Logs{1}console.log'.format(self.path, self.sepa), 'w')
+            sys.stderr = open('{0}{1}resources{1}Logs{1}unhandled_tracebacks.log'.format(self.path, self.sepa), 'w')
         if not self.logged_in:
             game_name = str(self.consoletext['On_Ready_Game'][0])
             stream_url = "https://twitch.tv/decoraterbot"
@@ -176,12 +188,12 @@ class BotData:
         self.logged_in = True
 
 
-class BotLogin:
+class BotLogin(BotData):
     """
     Base Class for getting the bot login.
     """
     def __init__(self):
-        self.bot = BotData()
+        super(BotLogin, self).__init__()
 
     def login_info(self, client):
         """
@@ -189,21 +201,21 @@ class BotLogin:
         :param client: Discord Client.
         :return: Nothing.
         """
-        ret = self.bot.login_info_code(client)
+        ret = self.login_info_code(client)
         return ret
 
-    @asyncio.coroutine
+    @async
     def on_login(self, client):
         """
         Calls the Function that does the on_ready event stuff.
         :param client: Discord Client.
         :return: Nothing.
         """
-        yield from self.bot.on_login_code(client)
+        yield from self.on_login_code(client)
 
     def variable(self):
         """
         For catching things and only making certain things on the ready event only done 1 time.
         :return: Nothing.
         """
-        self.bot.variable_code()
+        self.variable_code()

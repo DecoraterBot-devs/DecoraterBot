@@ -27,46 +27,44 @@ import discord
 import ctypes
 import sys
 import time
-import asyncio
 import json
 import traceback
 import importlib
 import io
 try:
-    import Ignore
-except ImportError:
-    sepa = os.sep
-    bits = ctypes.sizeof(ctypes.c_voidp)
-    platform = None
-    if bits == 4:
-        platform = 'x86'
-    elif bits == 8:
-        platform = 'x64'
-    path = sys.path[0]
-    if path.find('\\AppData\\Local\\Temp') != -1:
-        path = sys.executable.strip(
-            'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
-                                                                                   sys.implementation,
-                                                                                   sys.version_info))
-    sys.path.append("{0}{1}resources{1}Dependencies{1}DecoraterBotCore".format(path, sepa))
-    import Ignore
-try:
-    import Login
+    from . import Ignore
 except ImportError:
     print('Some Unknown thing happened which made a critical bot code file unable to be found.')
+    Ignore = None
+try:
+    from . import Login
+except ImportError:
+    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
+    Login = None
 from .BotErrors import *
 try:
-    import BotPMError
+    from . import BotPMError
 except ImportError:
     print('Some Unknown thing happened which made a critical bot code file unable to be found.')
-import BotConfigReader
+    BotPMError = None
+from . import BotConfigReader
+from sasync import *
 
 
-class BotData:
+def dummy():
+    """
+    Dummy Function for __init__.py for this package on pycharm.
+    :return: Nothing.
+    """
+    pass
+
+
+class BotData(Login.BotLogin):
     """
         This Class is for Internal Use only!!!
     """
     def __init__(self):
+        super(BotData, self).__init__()
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         self.platform = None
@@ -81,7 +79,6 @@ class BotData:
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
                                                                                        sys.implementation,
                                                                                        sys.version_info))
-        self.DBLogin = Login.BotLogin()
         self.DBIgnores = Ignore.BotIgnores()
         self.jsonfile = io.open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
         self.somedict = json.load(self.jsonfile)
@@ -96,7 +93,7 @@ class BotData:
         self.botmessagesdata.close()
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
-        self.DBLogin.variable()
+        self.variable()
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             self.discord_user_id = self.BotConfig.discord_user_id
@@ -124,7 +121,7 @@ class BotData:
             ctypes.windll.kernel32.SetConsoleTitleW(str(self.consoletext['WindowName'][0]) + self.version)
         else:
             sys.stdout.write("\x1b]2;{0}\x07".format(str(self.consoletext['WindowName'][0]) + self.version))
-            # print('Canno\'t change Console window title for this platform.\nPlease help the Developer with this.')
+            # print('Can not change Console window title for this platform.\nPlease help the Developer with this.')
 
     def changewindowsize_code(self):
         """
@@ -134,7 +131,7 @@ class BotData:
         # the Following is windows only.
         os.system(self.cmd)
 
-    @asyncio.coroutine
+    @async
     def commands_code(self, client, message):
         """
         Cental place where all Commands are Registered/Created at.
@@ -157,7 +154,7 @@ class BotData:
                 time_001 = str(self.botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
                 time_parse = time_001
                 try:
-                    yield from client.send_message(message.channel, time_parse)
+                    yield from client.send_message(message.channel, content=time_parse)
                 except discord.errors.Forbidden:
                     return
         if message.content.startswith(self._bot_prefix + "hlreload"):
@@ -197,11 +194,11 @@ class BotData:
                                     if desmod == 'BotLogs':
                                         if rsn is not None:
                                             message_data = message_data + ' Reason: ' + rsn
-                                            yield from client.send_message(message.channel, message_data)
+                                            yield from client.send_message(message.channel, content=message_data)
                                         else:
-                                            yield from client.send_message(message.channel, message_data)
+                                            yield from client.send_message(message.channel, content=message_data)
                                     else:
-                                        yield from client.send_message(message.channel, message_data)
+                                        yield from client.send_message(message.channel, content=message_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                             except Exception as e:
@@ -210,21 +207,21 @@ class BotData:
                                 try:
                                     reload_data = str(self.botmessages['reload_command_data'][1]).format(
                                         reloadexception)
-                                    yield from client.send_message(message.channel, reload_data)
+                                    yield from client.send_message(message.channel, content=reload_data)
                                 except discord.errors.Forbidden:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     try:
-                        yield from client.send_message(message.channel, str(self.botmessages['reload_command_data'][2]))
+                        yield from client.send_message(message.channel, content=str(self.botmessages['reload_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, str(self.botmessages['reload_command_data'][3]))
+                    yield from client.send_message(message.channel, content=str(self.botmessages['reload_command_data'][3]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
-    @asyncio.coroutine
+    @async
     def deletemessage_code(self, client, message):
         """
         Bot Event.
@@ -234,7 +231,7 @@ class BotData:
         """
         yield from self.DBIgnores.resolve_delete_method(client, message)
 
-    @asyncio.coroutine
+    @async
     def editmessage_code(self, client, before, after):
         """
         Bot Event.
@@ -245,7 +242,7 @@ class BotData:
         """
         yield from self.DBIgnores.resolve_edit_method(client, before, after)
 
-    @asyncio.coroutine
+    @async
     def memberban_code(self, client, member):
         """
         Bot Event.
@@ -255,7 +252,7 @@ class BotData:
         """
         yield from self.DBIgnores.resolve_onban(client, member)
 
-    @asyncio.coroutine
+    @async
     def memberunban_code(self, server, member):
         """
         Bot Event.
@@ -265,7 +262,7 @@ class BotData:
         """
         yield from self.DBIgnores.resolve_onunban(server, member)
 
-    @asyncio.coroutine
+    @async
     def memberremove_code(self, client, member):
         """
         Bot Event.
@@ -275,7 +272,7 @@ class BotData:
         """
         yield from self.DBIgnores.resolve_onremove(client, member)
 
-    @asyncio.coroutine
+    @async
     def memberjoin_code(self, client, member):
         """
         Bot Event.
@@ -292,7 +289,7 @@ class BotData:
         :return: Nothing.
         """
         while True:
-            ret = self.DBLogin.login_info(client)
+            ret = self.login_info(client)
             if ret is not None and ret is not -1:
                 break
 
@@ -310,7 +307,7 @@ class BotData:
         """
         self.DBIgnores.resolve_asyncio_logger()
 
-    @asyncio.coroutine
+    @async
     def server_available_code(self, server):
         """
         Bot Event.
@@ -319,7 +316,7 @@ class BotData:
         """
         yield from self.DBIgnores.server_available(server)
 
-    @asyncio.coroutine
+    @async
     def server_unavailable_code(self, server):
         """
         Bot Event.
@@ -328,7 +325,7 @@ class BotData:
         """
         yield from self.DBIgnores.server_unavailable(server)
 
-    @asyncio.coroutine
+    @async
     def groupjoin_code(self, channel, user):
         """
         Bot Event.
@@ -338,7 +335,7 @@ class BotData:
         """
         yield from self.DBIgnores.resolve_ongroupjoin(channel, user)
 
-    @asyncio.coroutine
+    @async
     def groupremove_code(self, channel, user):
         """
         Bot Event.
@@ -348,7 +345,7 @@ class BotData:
         """
         yield from self.DBIgnores.resolve_ongroupremove(channel, user)
 
-    @asyncio.coroutine
+    @async
     def raw_recv_code(self, msg):
         """
         Bot Event.
@@ -358,7 +355,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def raw_send_code(self, payload):
         """
         Bot Event.
@@ -368,7 +365,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def bot_resumed_code(self):
         """
         Bot Event.
@@ -377,7 +374,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def typing_code(self, channel, user, when):
         """
         Bot Event.
@@ -389,7 +386,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def errors_code(self, event, *args, **kwargs):
         """
         Bot Event.
@@ -401,7 +398,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def channeldelete_code(self, channel):
         """
         Bot Event.
@@ -411,7 +408,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def voiceupdate_code(self, before, after):
         """
         Bot Event.
@@ -422,7 +419,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def serverrolecreate_code(self, role):
         """
         Bot Event.
@@ -432,7 +429,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def serverroledelete_code(self, role):
         """
         Bot Event.
@@ -442,7 +439,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def serverroleupdate_code(self, before, after):
         """
         Bot Event.
@@ -453,7 +450,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def serverjoin_code(self, server):
         """
         Bot Event.
@@ -463,7 +460,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def serverremove_code(self, server):
         """
         Bot Event.
@@ -473,7 +470,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def serverupdate_code(self, before, after):
         """
         Bot Event.
@@ -484,7 +481,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def channelcreate_code(self, channel):
         """
         Bot Event.
@@ -494,7 +491,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def channelupdate_code(self, before, after):
         """
         Bot Event.
@@ -505,7 +502,7 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def memberupdate_code(self, before, after):
         """
         Bot Event.
@@ -516,39 +513,50 @@ class BotData:
         # TODO: Add a Event function for this in the Ignores module.
         pass
 
-    @asyncio.coroutine
+    @async
     def bot_ready_code(self, client):
         """
         Bot Event.
         :param client: Discord Client.
         :return: Nothing.
         """
-        yield from self.DBLogin.on_login(client)
+        yield from self.on_login(client)
         yield from self.DBIgnores.resolve_on_login_voice_channel_join(client)
 
+    # new events (Since Discord.py v0.13.0+).
 
-class BotCore:
+    @async
+    def serveremojisupdate_code(self, before, after):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
+        # TODO: Impliment this.
+        pass
+
+
+class BotCore(BotData):
     """
     Bot Core for the bot's Events.
     """
     def __init__(self):
-        self.bot = BotData()
+        super(BotCore, self).__init__()
 
     def changewindowtitle(self):
         """
         Changes the console's window Title.
         :return: Nothing.
         """
-        self.bot.changewindowtitle_code()
+        self.changewindowtitle_code()
 
     def changewindowsize(self):
         """
         Changes the Console's size.
         :return: Nothing.
         """
-        self.bot.changewindowsize_code()
+        self.changewindowsize_code()
 
-    @asyncio.coroutine
+    @async
     def commands(self, client, message):
         """
         Cental place where all Commands are Registered/Created at.
@@ -556,9 +564,9 @@ class BotCore:
         :param message: Message.
         :return: Nothing.
         """
-        yield from self.bot.commands_code(client, message)
+        yield from self.commands_code(client, message)
 
-    @asyncio.coroutine
+    @async
     def deletemessage(self, client, message):
         """
         Bot Event.
@@ -566,9 +574,9 @@ class BotCore:
         :param message: Message.
         :return: Nothing.
         """
-        yield from self.bot.deletemessage_code(client, message)
+        yield from self.deletemessage_code(client, message)
 
-    @asyncio.coroutine
+    @async
     def editmessage(self, client, before, after):
         """
         Bot Event.
@@ -577,9 +585,9 @@ class BotCore:
         :param after: Message.
         :return: Nothing.
         """
-        yield from self.bot.editmessage_code(client, before, after)
+        yield from self.editmessage_code(client, before, after)
 
-    @asyncio.coroutine
+    @async
     def memberban(self, client, member):
         """
         Bot Event.
@@ -587,9 +595,9 @@ class BotCore:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.bot.memberban_code(client, member)
+        yield from self.memberban_code(client, member)
 
-    @asyncio.coroutine
+    @async
     def memberunban(self, server, member):
         """
         Bot Event.
@@ -597,9 +605,9 @@ class BotCore:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.bot.memberunban_code(server, member)
+        yield from self.memberunban_code(server, member)
 
-    @asyncio.coroutine
+    @async
     def memberremove(self, client, member):
         """
         Bot Event.
@@ -607,9 +615,9 @@ class BotCore:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.bot.memberremove_code(client, member)
+        yield from self.memberremove_code(client, member)
 
-    @asyncio.coroutine
+    @async
     def memberjoin(self, client, member):
         """
         Bot Event.
@@ -617,7 +625,7 @@ class BotCore:
         :param member: Member.
         :return: Nothing.
         """
-        yield from self.bot.memberjoin_code(client, member)
+        yield from self.memberjoin_code(client, member)
 
     def login_helper(self, client):
         """
@@ -625,41 +633,41 @@ class BotCore:
         :param client: Discord client.
         :return: Nothing.
         """
-        self.bot.login_helper_code(client)
+        self.login_helper_code(client)
 
     def discord_logger(self):
         """
         Logger Data.
         :return: Nothing.
         """
-        self.bot.discord_logger_code()
+        self.discord_logger_code()
 
     def asyncio_logger(self):
         """
         Asyncio Logger.
         :return: Nothing.
         """
-        self.bot.asyncio_logger_code()
+        self.asyncio_logger_code()
 
-    @asyncio.coroutine
+    @async
     def server_available(self, server):
         """
         Bot Event.
         :param server: Servers.
         :return: Nothing.
         """
-        yield from self.bot.server_available_code(server)
+        yield from self.server_available_code(server)
 
-    @asyncio.coroutine
+    @async
     def server_unavailable(self, server):
         """
         Bot Event.
         :param server: Servers.
         :return: Nothing.
         """
-        yield from self.bot.server_unavailable_code(server)
+        yield from self.server_unavailable_code(server)
 
-    @asyncio.coroutine
+    @async
     def groupjoin(self, channel, user):
         """
         Bot Event.
@@ -667,9 +675,9 @@ class BotCore:
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.bot.groupjoin_code(channel, user)
+        yield from self.groupjoin_code(channel, user)
 
-    @asyncio.coroutine
+    @async
     def groupremove(self, channel, user):
         """
         Bot Event.
@@ -677,35 +685,35 @@ class BotCore:
         :param user: Users.
         :return: Nothing.
         """
-        yield from self.bot.groupremove_code(channel, user)
+        yield from self.groupremove_code(channel, user)
 
-    @asyncio.coroutine
+    @async
     def raw_recv(self, msg):
         """
         Bot Event.
         :param msg: Message.
         :return: Nothing.
         """
-        yield from self.bot.raw_recv_code(msg)
+        yield from self.raw_recv_code(msg)
 
-    @asyncio.coroutine
+    @async
     def raw_send(self, payload):
         """
         Bot Event.
         :param payload: Payload.
         :return: Nothing.
         """
-        yield from self.bot.raw_send_code(payload)
+        yield from self.raw_send_code(payload)
 
-    @asyncio.coroutine
+    @async
     def bot_resumed(self):
         """
         Bot Event.
         :return: Nothing.
         """
-        yield from self.bot.bot_resumed_code()
+        yield from self.bot_resumed_code()
 
-    @asyncio.coroutine
+    @async
     def typing(self, channel, user, when):
         """
         Bot Event.
@@ -714,9 +722,9 @@ class BotCore:
         :param when: Time.
         :return: Nothing.
         """
-        yield from self.bot.typing_code(channel, user, when)
+        yield from self.typing_code(channel, user, when)
 
-    @asyncio.coroutine
+    @async
     def errors(self, event, *args, **kwargs):
         """
         Bot Event.
@@ -725,18 +733,18 @@ class BotCore:
         :param kwargs: Other Args.
         :return: Nothing.
         """
-        yield from self.bot.errors_code(event, *args, **kwargs)
+        yield from self.errors_code(event, *args, **kwargs)
 
-    @asyncio.coroutine
+    @async
     def channeldelete(self, channel):
         """
         Bot Event.
         :param channel: Channels.
         :return: Nothing.
         """
-        yield from self.bot.channeldelete_code(channel)
+        yield from self.channeldelete_code(channel)
 
-    @asyncio.coroutine
+    @async
     def voiceupdate(self, before, after):
         """
         Bot Event.
@@ -744,27 +752,27 @@ class BotCore:
         :param after: State.
         :return: Nothing.
         """
-        yield from self.bot.voiceupdate_code(before, after)
+        yield from self.voiceupdate_code(before, after)
 
-    @asyncio.coroutine
+    @async
     def serverrolecreate(self, role):
         """
         Bot Event.
         :param role: Role.
         :return: Nothing.
         """
-        yield from self.bot.serverrolecreate_code(role)
+        yield from self.serverrolecreate_code(role)
 
-    @asyncio.coroutine
+    @async
     def serverroledelete(self, role):
         """
         Bot Event.
         :param role: Role.
         :return: Nothing.
         """
-        yield from self.bot.serverroledelete_code(role)
+        yield from self.serverroledelete_code(role)
 
-    @asyncio.coroutine
+    @async
     def serverroleupdate(self, before, after):
         """
         Bot Event.
@@ -772,27 +780,27 @@ class BotCore:
         :param after: Role.
         :return: Nothing.
         """
-        yield from self.bot.serverroleupdate_code(before, after)
+        yield from self.serverroleupdate_code(before, after)
 
-    @asyncio.coroutine
+    @async
     def serverjoin(self, server):
         """
         Bot Event.
         :param server: Server.
         :return: Nothing.
         """
-        yield from self.bot.serverjoin_code(server)
+        yield from self.serverjoin_code(server)
 
-    @asyncio.coroutine
+    @async
     def serverremove(self, server):
         """
         Bot Event.
         :param server: Server.
         :return: Nothing.
         """
-        yield from self.bot.serverremove_code(server)
+        yield from self.serverremove_code(server)
 
-    @asyncio.coroutine
+    @async
     def serverupdate(self, before, after):
         """
         Bot Event.
@@ -800,18 +808,18 @@ class BotCore:
         :param after: Server.
         :return: Nothing.
         """
-        yield from self.bot.serverupdate_code(before, after)
+        yield from self.serverupdate_code(before, after)
 
-    @asyncio.coroutine
+    @async
     def channelcreate(self, channel):
         """
         Bot Event.
         :param channel: Channel.
         :return: Nothing.
         """
-        yield from self.bot.channelcreate_code(channel)
+        yield from self.channelcreate_code(channel)
 
-    @asyncio.coroutine
+    @async
     def channelupdate(self, before, after):
         """
         Bot Event.
@@ -819,9 +827,9 @@ class BotCore:
         :param after: Channel.
         :return: Nothing.
         """
-        yield from self.bot.channelupdate_code(before, after)
+        yield from self.channelupdate_code(before, after)
 
-    @asyncio.coroutine
+    @async
     def memberupdate(self, before, after):
         """
         Bot Event.
@@ -829,16 +837,26 @@ class BotCore:
         :param after: Member.
         :return: Nothing.
         """
-        yield from self.bot.memberupdate_code(before, after)
+        yield from self.memberupdate_code(before, after)
 
-    @asyncio.coroutine
+    @async
     def bot_ready(self, client):
         """
         Bot Event.
         :param client: Discord client.
         :return: Nothing.
         """
-        yield from self.bot.bot_ready_code(client)
+        yield from self.bot_ready_code(client)
+
+    # new events (Since Discord.py v0.13.0+).
+
+    @async
+    def serveremojisupdate(self, before, after):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
+        yield from self.serveremojisupdate_code(before, after)
 
 
 class BotClient(discord.Client):
@@ -857,16 +875,16 @@ class BotClient(discord.Client):
         # self.DBCore.changewindowsize()
         self.DBCore.login_helper(self)
 
-    @asyncio.coroutine
+    @async
     def on_message(self, message):
         """
-        Bo9t Event.
+        Bot Event.
         :param message: Messages.
         :return: Nothing.
         """
         yield from self.DBCore.commands(self, message)
 
-    @asyncio.coroutine
+    @async
     def on_message_delete(self, message):
         """
         Bot Event.
@@ -875,7 +893,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.deletemessage(self, message)
 
-    @asyncio.coroutine
+    @async
     def on_message_edit(self, before, after):
         """
         Bot Event.
@@ -885,7 +903,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.editmessage(self, before, after)
 
-    @asyncio.coroutine
+    @async
     def on_channel_delete(self, channel):
         """
         Bot Event.
@@ -894,7 +912,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.channeldelete(channel)
 
-    @asyncio.coroutine
+    @async
     def on_channel_create(self, channel):
         """
         Bot Event.
@@ -903,7 +921,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.channelcreate(channel)
 
-    @asyncio.coroutine
+    @async
     def on_channel_update(self, before, after):
         """
         Bot Event.
@@ -913,7 +931,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.channelupdate(before, after)
 
-    @asyncio.coroutine
+    @async
     def on_member_ban(self, member):
         """
         Bot Event.
@@ -922,7 +940,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.memberban(self, member)
 
-    @asyncio.coroutine
+    @async
     def on_member_unban(self, server, user):
         """
         Bot Event.
@@ -932,7 +950,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.memberunban(server, user)
 
-    @asyncio.coroutine
+    @async
     def on_member_remove(self, member):
         """
         Bot Event.
@@ -941,7 +959,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.memberremove(self, member)
 
-    @asyncio.coroutine
+    @async
     def on_member_update(self, before, after):
         """
         Bot Event.
@@ -951,7 +969,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.memberupdate(before, after)
 
-    @asyncio.coroutine
+    @async
     def on_member_join(self, member):
         """
         Bot Event.
@@ -960,7 +978,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.memberjoin(self, member)
 
-    @asyncio.coroutine
+    @async
     def on_server_available(self, server):
         """
         Bot Event.
@@ -969,7 +987,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.server_available(server)
 
-    @asyncio.coroutine
+    @async
     def on_server_unavailable(self, server):
         """
         Bot Event.
@@ -978,7 +996,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.server_unavailable(server)
 
-    @asyncio.coroutine
+    @async
     def on_server_join(self, server):
         """
         Bot Event.
@@ -987,7 +1005,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.serverjoin(server)
 
-    @asyncio.coroutine
+    @async
     def on_server_remove(self, server):
         """
         Bot Event.
@@ -996,7 +1014,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.serverremove(server)
 
-    @asyncio.coroutine
+    @async
     def on_server_update(self, before, after):
         """
         Bot Event.
@@ -1006,7 +1024,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.serverupdate(before, after)
 
-    @asyncio.coroutine
+    @async
     def on_server_role_create(self, role):
         """
         Bot Event.
@@ -1015,7 +1033,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.serverrolecreate(role)
 
-    @asyncio.coroutine
+    @async
     def on_server_role_delete(self, role):
         """
         Bot Event.
@@ -1024,7 +1042,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.serverroledelete(role)
 
-    @asyncio.coroutine
+    @async
     def on_server_role_update(self, before, after):
         """
         Bot Event.
@@ -1034,7 +1052,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.serverroleupdate(before, after)
 
-    @asyncio.coroutine
+    @async
     def on_group_join(self, channel, user):
         """
         Bot Event.
@@ -1044,7 +1062,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.groupjoin(channel, user)
 
-    @asyncio.coroutine
+    @async
     def on_group_remove(self, channel, user):
         """
         Bot Event.
@@ -1054,7 +1072,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.groupremove(channel, user)
 
-    @asyncio.coroutine
+    @async
     def on_error(self, event, *args, **kwargs):
         """
         Bot Event.
@@ -1065,7 +1083,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.errors(event, *args, **kwargs)
 
-    @asyncio.coroutine
+    @async
     def on_voice_state_update(self, before, after):
         """
         Bot Event.
@@ -1075,7 +1093,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.voiceupdate(before, after)
 
-    @asyncio.coroutine
+    @async
     def on_typing(self, channel, user, when):
         """
         Bot Event.
@@ -1086,7 +1104,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.typing(channel, user, when)
 
-    @asyncio.coroutine
+    @async
     def on_socket_raw_receive(self, msg):
         """
         Bot Event.
@@ -1095,7 +1113,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.raw_recv(msg)
 
-    @asyncio.coroutine
+    @async
     def on_socket_raw_send(self, payload):
         """
         Bot Event.
@@ -1104,7 +1122,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.raw_send(payload)
 
-    @asyncio.coroutine
+    @async
     def on_ready(self):
         """
         Bot Event.
@@ -1112,7 +1130,7 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.bot_ready(self)
 
-    @asyncio.coroutine
+    @async
     def on_resumed(self):
         """
         Bot Event.
@@ -1120,18 +1138,17 @@ class BotClient(discord.Client):
         """
         yield from self.DBCore.bot_resumed()
 
-    # new events. (Since Discord.py v0.13.0+)
+    # new events (Since Discord.py v0.13.0+).
 
-    @asyncio.coroutine
+    @async
     def on_server_emojis_update(self, before, after):
         """
         Bot Event.
         :return: Nothing.
         """
-        # TODO: Impliment this.
-        pass
+        yield from self.serveremojisupdate(before, after)
 
-    @asyncio.coroutine
+    @async
     def on_reaction_add(self, reaction, user):
         """
         Bot Event.
@@ -1140,7 +1157,7 @@ class BotClient(discord.Client):
         # TODO: Impliment this.
         pass
 
-    @asyncio.coroutine
+    @async
     def on_reaction_remove(self, reaction, user):
         """
         Bot Event.

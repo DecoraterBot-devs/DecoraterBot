@@ -28,9 +28,17 @@ import sys
 import ctypes
 
 
-class BotConfigVars:
+def dummy():
     """
-    Class for getting the Credentials.json config Values.
+    Dummy Function for __init__.py for this package on pycharm.
+    :return: Nothing.
+    """
+    pass
+
+
+class BotData:
+    """
+        This class is for Internal use only!!!
     """
     def __init__(self):
         self.sepa = os.sep
@@ -114,3 +122,11 @@ class BotConfigVars:
         else:
             self.value = True
         return self.value
+
+
+class BotConfigVars(BotData):
+    """
+    Class for getting the Credentials.json config Values.
+    """
+    def __init__(self):
+        super(BotConfigVars, self).__init__()

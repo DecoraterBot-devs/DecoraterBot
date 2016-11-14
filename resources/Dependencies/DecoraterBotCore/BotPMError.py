@@ -23,10 +23,18 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 import discord
-import asyncio
+from sasync import *
 
 
-@asyncio.coroutine
+def dummy():
+    """
+    Dummy Function for __init__.py for this package on pycharm.
+    :return: Nothing.
+    """
+    pass
+
+
+@async
 def resolve_send_message_error(client, message):
     """
     Relolves Errors when Sending messages.
@@ -39,12 +47,12 @@ def resolve_send_message_error(client, message):
     msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
     try:
-        yield from client.send_message(message.author, unabletosendmessageerror)
+        yield from client.send_message(message.author, content=unabletosendmessageerror)
     except discord.errors.Forbidden:
         return
 
 
-@asyncio.coroutine
+@async
 def resolve_unloaded_commands_error(client, message):
     """
     Resolves Unloaded Commands.
@@ -54,6 +62,6 @@ def resolve_unloaded_commands_error(client, message):
     """
     msgdata = 'Sorry, Commands was unloaded by my owner for now (He might be updating them).'
     try:
-        yield from client.send_message(message.channel, msgdata)
+        yield from client.send_message(message.channel, content=msgdata)
     except discord.errors.Forbidden:
         resolve_send_message_error(client, message)

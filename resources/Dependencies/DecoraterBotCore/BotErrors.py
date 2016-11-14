@@ -24,14 +24,22 @@ DEALINGS IN THE SOFTWARE.
 """
 
 
-class BotErrors(Exception):
+def dummy():
+    """
+    Dummy Function for __init__.py for this package on pycharm.
+    :return: Nothing.
+    """
+    pass
+
+
+class BotException(Exception):
     """
         Base Class for Bot Errors.
     """
     pass
 
 
-class UnsupportedPlatform(BotErrors):
+class UnsupportedPlatform(BotException):
     """
         Error Thrown When the Bot is run on a Platform Not Windows Currently.
 

@@ -1,6 +1,7 @@
 # DecoraterBot Portable Version
 
-[![Coverage Status](https://coveralls.io/repos/github/Cheeselab/DecoraterBot/badge.svg)](https://coveralls.io/github/Cheeselab/DecoraterBot)
+[![Coverage Status](https://coveralls.io/repos/github/AraHaan/DecoraterBot/badge.svg)](https://coveralls.io/github/AraHaan/DecoraterBot)
+[![issues](https://img.shields.io/github/issues/{AraHaan}/DecoraterBot.svg)](https://github.com/{AraHaan}/DecoraterBot/issues)
 
 
 ## What is DecoraterBot?

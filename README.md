@@ -1,7 +1,7 @@
 # DecoraterBot Portable Version
 
 [![Coverage Status](https://coveralls.io/repos/github/AraHaan/DecoraterBot/badge.svg)](https://coveralls.io/github/AraHaan/DecoraterBot)
-[![issues](https://img.shields.io/github/issues/{AraHaan}/DecoraterBot.svg)](https://github.com/{AraHaan}/DecoraterBot/issues)
+[![issues](https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg)](https://github.com/AraHaan/DecoraterBot/issues)
 
 
 ## What is DecoraterBot?
@@ -72,7 +72,7 @@ Well send me it's sys.platform value. The only thing stopping me is a few lines 
 
 ## Commands
 
-View the list of bot commands [here](https://github.com/Cheeselab/DecoraterBot/blob/Async-Portable/Commands.MD)
+View the list of bot commands [here](https://github.com/AraHaan/DecoraterBot/blob/Async-Portable/Commands.MD)
 
 ## Want to help with the bot? 
 

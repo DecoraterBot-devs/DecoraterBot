@@ -22,6 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
+import concurrent.futures
 
 
 def dummy():
@@ -44,5 +45,12 @@ class UnsupportedPlatform(BotException):
         Error Thrown When the Bot is run on a Platform Not Windows Currently.
 
         This is Because I am Missing Python Binaries for Mac and Linux.
+    """
+    pass
+
+
+class CommandTimeoutError(concurrent.futures.TimeoutError):
+    """
+    Class to bypass the Issues with Timeout Errors in the bot.
     """
     pass

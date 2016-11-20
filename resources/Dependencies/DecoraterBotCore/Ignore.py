@@ -226,13 +226,15 @@ class BotData:
                     json.dump(self.somedict, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(
                         self.path, self.sepa), "w"))
                     try:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['Ignore_Channel_Data'][0]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['Ignore_Channel_Data'][0]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
                 except Exception as e:
                     str(e)
                     try:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['Ignore_Channel_Data'][1]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['Ignore_Channel_Data'][1]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(self._bot_prefix + 'unignorechannel'):
@@ -362,12 +364,14 @@ class BotData:
                                     yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     try:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['reload_command_data'][2]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['reload_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, content=str(self.botmessages['reload_command_data'][3]))
+                    yield from client.send_message(message.channel,
+                                                   content=str(self.botmessages['reload_command_data'][3]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 

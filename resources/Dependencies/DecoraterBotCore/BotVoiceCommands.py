@@ -29,9 +29,9 @@ import io
 import sys
 import os
 import os.path
-import concurrent.futures._base
 import youtube_dl
 import ctypes
+from . import BotErrors
 try:
     from . import BotPMError
 except ImportError:
@@ -455,7 +455,8 @@ class BotData(BotConfigReader.BotConfigVars):
                                             try:
                                                 message_data = str(self.botmessages['play_command_data'][1]).format(
                                                     str(self.player.title), str(self.player.uploader), minutes, seconds)
-                                                yield from client.send_message(self.voice_message_channel, content=message_data)
+                                                yield from client.send_message(self.voice_message_channel,
+                                                                               content=message_data)
                                             except discord.errors.Forbidden:
                                                 yield from BotPMError.resolve_send_message_error(client, message)
                                             try:
@@ -465,7 +466,8 @@ class BotData(BotConfigReader.BotConfigVars):
                                         except AttributeError:
                                             message_data = str(self.botmessages['play_command_data'][2])
                                             self.is_bot_playing = False
-                                            yield from client.send_message(self.voice_message_channel, content=message_data)
+                                            yield from client.send_message(self.voice_message_channel,
+                                                                           content=message_data)
                                 else:
                                     if '<' and '>' in data:
                                         data = data.strip('<')
@@ -498,7 +500,8 @@ class BotData(BotConfigReader.BotConfigVars):
                                             except AttributeError:
                                                 message_data = str(self.botmessages['play_command_data'][2])
                                                 self.is_bot_playing = False
-                                                yield from client.send_message(self.voice_message_channel, content=message_data)
+                                                yield from client.send_message(self.voice_message_channel,
+                                                                               content=message_data)
                             except IndexError:
                                 return
                             except discord.errors.ClientException:
@@ -1147,7 +1150,8 @@ class BotData(BotConfigReader.BotConfigVars):
                                                 str(self.player.uploader))
                                             message_data = str(self.botmessages['stop_command_data'][2]).format(
                                                 track_info, minutes, seconds)
-                                            yield from client.send_message(self.voice_message_channel, content=message_data)
+                                            yield from client.send_message(self.voice_message_channel,
+                                                                           content=message_data)
                                             try:
                                                 self.bot_playlist_entries.remove(track_info)
                                             except ValueError:
@@ -1551,7 +1555,8 @@ class BotData(BotConfigReader.BotConfigVars):
                                                 str(self.player.uploader))
                                             message_data = str(self.botmessages['auto_playlist_data'][2]).format(
                                                 track_info, minutes, seconds)
-                                            yield from client.send_message(self.voice_message_channel, content=message_data)
+                                            yield from client.send_message(self.voice_message_channel,
+                                                                           content=message_data)
                                             try:
                                                 self.bot_playlist_entries.remove(track_info)
                                             except ValueError:
@@ -1566,7 +1571,8 @@ class BotData(BotConfigReader.BotConfigVars):
                 if self.voice_message_channel is not None:
                     # TODO: Fix this on being spammed when an exception happens. e.g. send once.
                     yield from client.send_message(self.voice_message_channel,
-                                                   content="A Error Occured while playing. {0}".format(self.player.error))
+                                                   content="A Error Occured while playing. {0}".format(
+                                                       self.player.error))
 
     @async
     def voice_stuff_new_disabled_code(self, client, message):
@@ -1612,7 +1618,6 @@ class BotData(BotConfigReader.BotConfigVars):
         :param reload_reason: Reason for reloading.
         :return: Nothing.
         """
-        self.ffmout.close()
         if self.voice is not None:
             yield from self.voice.disconnect()
             if self.voice_message_channel is not None:
@@ -1675,9 +1680,10 @@ class BotData(BotConfigReader.BotConfigVars):
                 self.voice_message_channel = None
                 self.voice = None
                 self.verror = True
-            except concurrent.futures.TimeoutError:
+            except BotErrors.CommandTimeoutError:
                 yield from client.send_message(message.channel,
-                                               content=str(self.botmessages['reload_commands_voice_channels_bypass2'][0]))
+                                               content=str(
+                                                   self.botmessages['reload_commands_voice_channels_bypass2'][0]))
                 self.voice_message_server_name = None
                 self.vchannel_name = None
                 self.vchannel = None

@@ -24,8 +24,38 @@ DEALINGS IN THE SOFTWARE.
 """
 import discord
 from sasync import *
+import warnings
+import functools
 
 
+# This file is deprecated to favor the Commands Extension to Discord.py.
+
+
+def deprecated(func):
+    """
+    This is a decorator which can be used to mark functions
+     as deprecated. It will result in a warning being emitted
+     when the function is used.
+    """
+    @functools.wraps(func)
+    def new_func(*args, **kwargs):
+        """
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        warnings.warn_explicit(
+            "This file is deprecated to favor the Commands Extension to Discord.py.",
+            category=DeprecationWarning,
+            filename=func.func_code.co_filename,
+            lineno=func.func_code.co_firstlineno + 1
+        )
+        return func(*args, **kwargs)
+
+    return new_func
+
+
+@deprecated
 def dummy():
     """
     Dummy Function for __init__.py for this package on pycharm.
@@ -35,6 +65,7 @@ def dummy():
 
 
 @async
+@deprecated
 def resolve_send_message_error(client, message):
     """
     Relolves Errors when Sending messages.
@@ -53,6 +84,7 @@ def resolve_send_message_error(client, message):
 
 
 @async
+@deprecated
 def resolve_unloaded_commands_error(client, message):
     """
     Resolves Unloaded Commands.

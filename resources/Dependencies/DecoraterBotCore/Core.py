@@ -212,12 +212,14 @@ class BotData(Login.BotLogin):
                                     yield from BotPMError.resolve_send_message_error(client, message)
                 else:
                     try:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['reload_command_data'][2]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['reload_command_data'][2]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, content=str(self.botmessages['reload_command_data'][3]))
+                    yield from client.send_message(message.channel,
+                                                   content=str(self.botmessages['reload_command_data'][3]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 

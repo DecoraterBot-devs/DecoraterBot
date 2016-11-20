@@ -36,9 +36,9 @@ def dummy():
     pass
 
 
-class BotData:
+class BotConfigVars:
     """
-        This class is for Internal use only!!!
+    Class for getting the Credentials.json config Values.
     """
     def __init__(self):
         self.sepa = os.sep
@@ -122,11 +122,3 @@ class BotData:
         else:
             self.value = True
         return self.value
-
-
-class BotConfigVars(BotData):
-    """
-    Class for getting the Credentials.json config Values.
-    """
-    def __init__(self):
-        super(BotConfigVars, self).__init__()

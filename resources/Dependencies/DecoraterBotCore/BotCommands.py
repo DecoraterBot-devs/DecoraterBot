@@ -50,6 +50,7 @@ except ImportError:
     print(print_data_001)
     disabletinyurl = True
     TinyURL = None
+from . import BotLogs
 
 
 def dummy():
@@ -143,7 +144,6 @@ class BotData(BotConfigReader.BotConfigVars):
         self.payload = {}
         self.header = {}
         if self._log_games:
-            import BotLogs
             self.DBLogs = BotLogs.BotLogs()
 
     @async
@@ -162,7 +162,8 @@ class BotData(BotConfigReader.BotConfigVars):
                     yield from client.send_message(user, content=str(self.botmessages['attack_command_data'][0]))
                     break
                 else:
-                    yield from client.send_message(message.author, content=str(self.botmessages['attack_command_data'][1]))
+                    yield from client.send_message(message.author,
+                                                   content=str(self.botmessages['attack_command_data'][1]))
 
     @async
     def randomcoin_code(self, client, message):
@@ -413,7 +414,8 @@ class BotData(BotConfigReader.BotConfigVars):
                 stream_url = "https://twitch.tv/decoraterbot"
                 yield from client.change_presence(game=discord.Game(name=game_name, type=1, url=stream_url))
                 try:
-                    yield from client.send_message(message.channel, content=str(self.botmessages['remgame_command_data'][0]))
+                    yield from client.send_message(message.channel,
+                                                   content=str(self.botmessages['remgame_command_data'][0]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -430,7 +432,8 @@ class BotData(BotConfigReader.BotConfigVars):
                 return
             else:
                 if self._is_official_bot:
-                    yield from client.send_message(message.channel, content=str(self.botmessages['join_command_data'][3]))
+                    yield from client.send_message(message.channel,
+                                                   content=str(self.botmessages['join_command_data'][3]))
                 else:
                     code = message.content[len(self._bot_prefix + "join "):].strip()
                     if code == '':
@@ -446,7 +449,8 @@ class BotData(BotConfigReader.BotConfigVars):
                             msg_data = str(self.botmessages['join_command_data'][1])
                             yield from client.send_message(message.channel, content=msg_data)
                     else:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['join_command_data'][2]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['join_command_data'][2]))
 
     @async
     def kills_code(self, client, message):
@@ -710,12 +714,14 @@ class BotData(BotConfigReader.BotConfigVars):
                     break
                 else:
                     try:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['ban_command_data'][3]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['ban_command_data'][3]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, content=str(self.botmessages['ban_command_data'][4]))
+                    yield from client.send_message(message.channel,
+                                                   content=str(self.botmessages['ban_command_data'][4]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(self._bot_prefix + "softban"):
@@ -753,7 +759,8 @@ class BotData(BotConfigReader.BotConfigVars):
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, content=str(self.botmessages['softban_command_data'][4]))
+                    yield from client.send_message(message.channel,
+                                                   content=str(self.botmessages['softban_command_data'][4]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(self._bot_prefix + "kick"):
@@ -784,12 +791,14 @@ class BotData(BotConfigReader.BotConfigVars):
                     break
                 else:
                     try:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['kick_command_data'][3]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['kick_command_data'][3]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
             else:
                 try:
-                    yield from client.send_message(message.channel, content=str(self.botmessages['kick_command_data'][4]))
+                    yield from client.send_message(message.channel,
+                                                   content=str(self.botmessages['kick_command_data'][4]))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -838,7 +847,8 @@ class BotData(BotConfigReader.BotConfigVars):
                 return
             else:
                 try:
-                    yield from client.send_message(message.channel, content=self.changelog.format(self.version + self.rev))
+                    yield from client.send_message(message.channel,
+                                                   content=self.changelog.format(self.version + self.rev))
                 except discord.errors.Forbidden:
                     yield from BotPMError.resolve_send_message_error(client, message)
         if message.content.startswith(self._bot_prefix + 'raid'):
@@ -1213,7 +1223,8 @@ class BotData(BotConfigReader.BotConfigVars):
                     yield from self.prune_command_iterater_helper(client, message, num)
                 else:
                     try:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['prune_command_data'][1]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['prune_command_data'][1]))
                     except discord.errors.Forbidden:
                         yield from BotPMError.resolve_send_message_error(client, message)
 
@@ -1236,15 +1247,19 @@ class BotData(BotConfigReader.BotConfigVars):
                 if 'admin' in desrole:
                     if 'Muted' in message.author.roles:
                         yield from client.add_roles(message.author, role2)
-                        yield from client.send_message(message.channel, content=str(self.botmessages['giveme_command_data'][0]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['giveme_command_data'][0]))
                     else:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['giveme_command_data'][5]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['giveme_command_data'][5]))
                 elif 'student' in desrole:
                     if 'Students' in message.author.roles:
                         yield from client.add_roles(message.author, role3)
-                        yield from client.send_message(message.channel, content=str(self.botmessages['giveme_command_data'][1]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['giveme_command_data'][1]))
                     else:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['giveme_command_data'][6]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['giveme_command_data'][6]))
             else:
                 if message.channel.server and message.channel.server.id == "127233852182626304":
                     desrole = message.content[len(self._bot_prefix + "giveme "):].strip()
@@ -1282,15 +1297,19 @@ class BotData(BotConfigReader.BotConfigVars):
                 if 'dev' in desrole:
                     if role2 in message.author.roles:
                         yield from client.remove_roles(message.author, role2)
-                        yield from client.send_message(message.channel, content=str(self.botmessages['remove_command_data'][0]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['remove_command_data'][0]))
                     else:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['remove_command_data'][2]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['remove_command_data'][2]))
                 elif 'stream' in desrole:
                     if role3 in message.author.roles:
                         yield from client.remove_roles(message.author, role3)
-                        yield from client.send_message(message.channel, content=str(self.botmessages['remove_command_data'][1]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['remove_command_data'][1]))
                     else:
-                        yield from client.send_message(message.channel, content=str(self.botmessages['remove_command_data'][3]))
+                        yield from client.send_message(message.channel,
+                                                       content=str(self.botmessages['remove_command_data'][3]))
             else:
                 return
 

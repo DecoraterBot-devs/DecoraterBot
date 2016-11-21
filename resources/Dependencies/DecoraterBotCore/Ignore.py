@@ -409,10 +409,7 @@ class BotData:
         yield from self.DBCommands.bot_roles(client, message)
         yield from self.DBCommands.more_commands(client, message)
         yield from self.DBCommands.convert_url(client, message)
-        if self._disable_voice_commands is not True and sys.platform.startswith('win'):
-            # Sorry but currently I only have opus for Windows and the same for ffmpeg.
-            # You will have to get opus and ffmpeg for your platform and then add it to the list like you can see in
-            # Core.py.
+        if self._disable_voice_commands is not True:
             yield from self.DBVoiceCommands.voice_stuff_new(client, message)
         else:
             yield from self.DBVoiceCommands.voice_stuff_new_disabled(client, message)

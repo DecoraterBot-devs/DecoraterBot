@@ -24,53 +24,34 @@ DEALINGS IN THE SOFTWARE.
 """
 import discord
 from sasync import *
-import warnings
-import functools
 
-
-# This file is deprecated to favor the Commands Extension to Discord.py.
-
-
-def deprecated(func):
-    """
-    This is a decorator which can be used to mark functions
-     as deprecated. It will result in a warning being emitted
-     when the function is used.
-    """
-    @functools.wraps(func)
-    def new_func(*args, **kwargs):
-        """
-        :param args:
-        :param kwargs:
-        :return:
-        """
-        warnings.warn_explicit(
-            "This file is deprecated to favor the Commands Extension to Discord.py.",
-            category=DeprecationWarning,
-            filename=func.func_code.co_filename,
-            lineno=func.func_code.co_firstlineno + 1
-        )
-        return func(*args, **kwargs)
-
-    return new_func
-
-
-@deprecated
-def dummy():
-    """
-    Dummy Function for __init__.py for this package on pycharm.
-    :return: Nothing.
-    """
-    pass
+__all__ = ['resolve_send_message_error', 'resolve_send_message_error_old']
 
 
 @async
-@deprecated
-def resolve_send_message_error(client, message):
+def resolve_send_message_error(bot, ctx):
     """
     Relolves Errors when Sending messages.
-    :param client: Discord Client.
-    :param message: Messages.
+    :param bot: Discord Client.
+    :param ctx: Merssage Context.
+    :return: Nothing.
+    """
+    svr_name = ctx.message.channel.server.name
+    cnl_name = ctx.message.channel.name
+    msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
+    unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
+    try:
+        yield from bot.send_message(ctx.message.author, content=unabletosendmessageerror)
+    except discord.errors.Forbidden:
+        return
+
+
+@async
+def resolve_send_message_error_old(bot, message):
+    """
+    Relolves Errors when Sending messages.
+    :param bot: Discord Client.
+    :param message: Merssage.
     :return: Nothing.
     """
     svr_name = message.channel.server.name
@@ -78,22 +59,6 @@ def resolve_send_message_error(client, message):
     msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
     try:
-        yield from client.send_message(message.author, content=unabletosendmessageerror)
+        yield from bot.send_message(message.author, content=unabletosendmessageerror)
     except discord.errors.Forbidden:
         return
-
-
-@async
-@deprecated
-def resolve_unloaded_commands_error(client, message):
-    """
-    Resolves Unloaded Commands.
-    :param client: Discord Client.
-    :param message: Messages.
-    :return: Nothing.
-    """
-    msgdata = 'Sorry, Commands was unloaded by my owner for now (He might be updating them).'
-    try:
-        yield from client.send_message(message.channel, content=msgdata)
-    except discord.errors.Forbidden:
-        resolve_send_message_error(client, message)

@@ -27,13 +27,7 @@ import os
 import sys
 import ctypes
 
-
-def dummy():
-    """
-    Dummy Function for __init__.py for this package on pycharm.
-    :return: Nothing.
-    """
-    pass
+__all__ = ['BotConfigVars']
 
 
 class BotConfigVars:
@@ -99,6 +93,7 @@ class BotConfigVars:
         self.bot_token = self.credentials['token']  # string
         self.disable_voice_commands = self.credentials['disable_voice']  # bool
         self.language = self.credentials['language']  # string
+        self.description = self.credentials['description']  # string
 
     def load(self):
         """

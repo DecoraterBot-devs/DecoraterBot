@@ -23,15 +23,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 from . import Core
-from . import BotConfigReader
-from . import BotErrors
-from . import Login
-from . import BotCommands
-from . import BotVoiceCommands
-from . import BotLogs
-from . import BotPMError
-from . import Ignore
 import logging
+
 """
 DecoraterBotCore
 ~~~~~~~~~~~~~~~~~~~
@@ -49,34 +42,7 @@ __copyright__ = 'Copyright 2016 Decorater'
 __version__ = '1.0.0.12'
 __build__ = 0x100000c
 
-
-class DummyClass:
-    """
-        Class that is created solely for silencing PyCharm.
-    """
-    @staticmethod
-    def __dummy2():
-        Core.dummy()
-        Login.dummy()
-        BotCommands.dummy()
-        BotConfigReader.dummy()
-        BotVoiceCommands.dummy()
-        BotLogs.dummy()
-        BotPMError.dummy()
-        BotErrors.dummy()
-        Ignore.dummy()
-
-del DummyClass
-del Core.dummy
-del Login.dummy
-del BotCommands.dummy
-del BotConfigReader.dummy
-del BotVoiceCommands.dummy
-del BotLogs.dummy
-del BotPMError.dummy
-del BotErrors.dummy
-del Ignore.dummy
-
+__all__ = Core.__all__
 
 try:
     from logging import NullHandler
@@ -85,6 +51,7 @@ except ImportError:
         """
         Logger for DecoraterBot (Not really used but idrc).
         """
+
         def emit(self, record):
             """
             some random function that I dont care to use.

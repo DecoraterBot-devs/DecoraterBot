@@ -28,26 +28,20 @@ import io
 import sys
 import os.path
 import logging
-from . import BotConfigReader
 import json
 import ctypes
+from . import BotConfigReader
+
 from sasync import *
 
-
-def dummy():
-    """
-    Dummy Function for __init__.py for this package on pycharm.
-    :return: Nothing.
-    """
-    pass
+__all__ = ['BotLogger']
 
 
-class BotData(BotConfigReader.BotConfigVars):
+class BotLogger:
     """
-        This class is for Internal use only!!!
+    Main Bot logging Class.
     """
     def __init__(self):
-        super(BotData, self).__init__()
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         self.platform = None
@@ -56,6 +50,7 @@ class BotData(BotConfigReader.BotConfigVars):
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
+        self.BotConfig = BotConfigReader.BotConfigVars()
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
                 'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
@@ -64,24 +59,25 @@ class BotData(BotConfigReader.BotConfigVars):
 
         try:
             self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
-                self.path, self.sepa, self.language))
+                self.path, self.sepa, self.BotConfig.language))
             self.consoletext = json.load(self.consoledatafile)
             self.consoledatafile.close()
         except FileNotFoundError:
-            print('ConsoleWindow.{0}.json is not Found. Cannot Continue.'.format(self.language))
+            print('ConsoleWindow.{0}.json is not Found. Cannot Continue.'.format(self.BotConfig.language))
             sys.exit(2)
         try:
             self.LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.{2}.json'.format(
-                self.path, self.sepa, self.language))
+                self.path, self.sepa, self.BotConfig.language))
             self.LogData = json.load(self.LogDataFile)
             self.LogDataFile.close()
         except FileNotFoundError:
             print(str(self.consoletext['Missing_JSON_Errors'][2]))
             sys.exit(2)
 
-    def set_up_loggers(self, loggers=None):
+    def set_up_loggers(self, bot=None, loggers=None):
         """
         Logs Events from discord and/or asyncio stuff.
+        :param bot: (Optional) Arg that is only Required for enabling the Asyncio logger.
         :param loggers: Name of the logger(s) to use.
         :return: Nothing.
         """
@@ -94,7 +90,8 @@ class BotData(BotConfigReader.BotConfigVars):
                                               encoding='utf-8', mode='w')
                 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 logger.addHandler(handler)
-            elif loggers == 'asyncio':
+            elif loggers == 'asyncio' and bot is not None:
+                bot.loop.set_debug(True)
                 asynciologger = logging.getLogger('asyncio')
                 asynciologger.setLevel(logging.DEBUG)
                 asynciologgerhandler = logging.FileHandler(filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(
@@ -102,9 +99,25 @@ class BotData(BotConfigReader.BotConfigVars):
                 asynciologgerhandler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 asynciologger.addHandler(asynciologgerhandler)
 
-    def logs_code(self, message):
+    def set_up_discord_logger(self):
         """
-            :param message: Message Object
+        Sets up the Discord Logger.
+        :return: Nothing.
+        """
+        self.set_up_loggers(loggers='discord')
+
+    def set_up_asyncio_logger(self, bot=None):
+        """
+        Sets up the asyncio Logger.
+        :return: Nothing.
+        """
+        self.set_up_loggers(bot=bot, loggers='asyncio')
+
+    def logs(self, message):
+        """
+        Logs Sent Messages.
+        :param message: Messages.
+        :return: Nothing.
         """
         logs001 = str(self.LogData['On_Message_Logs'][0]).format(message.author.name, message.author.id,
                                                                  str(message.timestamp), message.content)
@@ -132,11 +145,11 @@ class BotData(BotConfigReader.BotConfigVars):
             except PermissionError:
                 return
 
-    def edit_logs_code(self, before, after):
+    def edit_logs(self, before, after):
         """
-        Logs Edited messages.
-        :param before: Message.
-        :param after: Message.
+        Logs Edited Messages.
+        :param before: Messages.
+        :param after: Messages.
         :return: Nothing.
         """
         old = str(before.content)
@@ -162,7 +175,7 @@ class BotData(BotConfigReader.BotConfigVars):
                 file.truncate()
                 try:
                     if before.content == after.content:
-                        self.resolve_embed_logs_code(before)
+                        self.resolve_embed_logs(before)
                     else:
                         try:
                             file.write(editlogservers)
@@ -175,14 +188,14 @@ class BotData(BotConfigReader.BotConfigVars):
                         print(str(self.LogData['On_Edit_Logs_Error'][0]))
                     else:
                         if before.content == after.content:
-                            self.resolve_embed_logs_code(before)
+                            self.resolve_embed_logs(before)
                         else:
                             file.write(edit_log_pm)
                         file.close()
         except PermissionError:
             return
 
-    def delete_logs_code(self, message):
+    def delete_logs(self, message):
         """
         Logs Deleted Messages.
         :param message: Messages.
@@ -214,9 +227,9 @@ class BotData(BotConfigReader.BotConfigVars):
             except PermissionError:
                 return
 
-    def resolve_embed_logs_code(self, before):
+    def resolve_embed_logs(self, before):
         """
-        helps with determining if the messages was edited or a embed instead.
+        Resolves if the message was edited or not.
         :param before: Messages.
         :return: Nothing.
         """
@@ -236,9 +249,9 @@ class BotData(BotConfigReader.BotConfigVars):
             return
 
     @async
-    def send_logs_code(self, client, message):
+    def send_logs(self, client, message):
         """
-        Sends Sent Lessages.
+        Sends Sent Messages.
         :param client: Discord Client.
         :param message: Messages.
         :return: Nothing.
@@ -256,7 +269,7 @@ class BotData(BotConfigReader.BotConfigVars):
             return
 
     @async
-    def send_edit_logs_code(self, client, before, after):
+    def send_edit_logs(self, client, before, after):
         """
         Sends Edited Messages.
         :param client: Discord Client.
@@ -280,10 +293,12 @@ class BotData(BotConfigReader.BotConfigVars):
                 return
 
     @async
-    def send_delete_logs_code(self, client, message):
+    def send_delete_logs(self, client, message):
         """
-
-        :rtype: None
+        Sends Deleted Messages.
+        :param client: Discord Client.
+        :param message: Messages.
+        :return: Nothing.
         """
         dellogs001 = str(self.LogData['Send_On_Message_Delete_Logs'][0]).format(message.author.name, message.author.id,
                                                                                 str(message.timestamp),
@@ -298,13 +313,18 @@ class BotData(BotConfigReader.BotConfigVars):
             return
 
     @async
-    def on_bot_error_code(self, funcname, tbinfo, err):
+    def on_bot_error(self, funcname, tbinfo, err):
         """
-        Handles Event Bot Errors
-        :param funcname: Function names that Had a .
-        :param tbinfo: Original Traceback.
-        :param err: RAW traceback Error Data.
-        :return: Nothing.
+            This Function is for Internal Bot use only.
+            It is for catching any Errors and writing them to a file.
+
+            Usage
+            =====
+            :param funcname: Must be a string with the name of the function that caused a Error.
+                raises the Errors that happened if empty string or None is given.
+            :param tbinfo: string data of the traceback info. Must be a string for this to not Error itself.
+                raises the Errors that happened if empty string or None is given.
+            :param err: Error Data from Traceback. (RAW)
         """
         if bool(funcname):
             if bool(tbinfo):
@@ -325,35 +345,38 @@ class BotData(BotConfigReader.BotConfigVars):
         else:
             raise err
 
-    def gamelog_code(self, message, desgame):
+    def gamelog(self, ctx, desgame):
         """
-        Logs the bot's game settings.
-        :param message: Messages.
+        Logs Game Names.
+        :param ctx: Message Context.
         :param desgame: Game Name.
         :return: Nothing.
         """
-        gmelogdata01 = str(self.LogData['On_Message_Logs'][0]).format(message.author.name, desgame, message.author.id)
+        gmelogdata01 = str(self.LogData['On_Message_Logs'][0]).format(ctx.message.author.name, desgame,
+                                                                      ctx.message.author.id)
         gmelogspm = gmelogdata01
-        if message.channel.is_private is False:
-            gmelog001 = str(self.LogData['On_Message_Logs'][1]).format(message.author.name, desgame, message.author.id)
+        gmelogsservers = ""
+        if ctx.message.channel.is_private is False:
+            gmelog001 = str(self.LogData['On_Message_Logs'][1]).format(ctx.message.author.name, desgame,
+                                                                       ctx.message.author.id)
             gmelogsservers = gmelog001
-            logfile = '{0}{1}resources{1}Logs{1}gamelog.log'.format(self.path, self.sepa)
-            try:
-                file = io.open(logfile, 'a', encoding='utf-8')
-                size = os.path.getsize(logfile)
-                if size >= 32102400:
-                    file.seek(0)
-                    file.truncate()
-                if message.channel.is_private is True:
-                    file.write(gmelogspm)
-                else:
-                    file.write(gmelogsservers)
-                file.close()
-            except PermissionError:
-                return
+        logfile = '{0}{1}resources{1}Logs{1}gamelog.log'.format(self.path, self.sepa)
+        try:
+            file = io.open(logfile, 'a', encoding='utf-8')
+            size = os.path.getsize(logfile)
+            if size >= 32102400:
+                file.seek(0)
+                file.truncate()
+            if ctx.message.channel.is_private is True:
+                file.write(gmelogspm)
+            else:
+                file.write(gmelogsservers)
+            file.close()
+        except PermissionError:
+            return
 
     @async
-    def onban_code(self, member):
+    def onban(self, member):
         """
         Logs Bans.
         :param member: Members.
@@ -373,10 +396,10 @@ class BotData(BotConfigReader.BotConfigVars):
         file.close()
 
     @async
-    def onavailable_code(self, server):
+    def onavailable(self, server):
         """
-        Logs available Servers.
-        :param server: Servers.
+        Logs Available Servers.
+        :param server:
         :return: Nothing.
         """
         available_log_data = str(self.LogData['On_Server_Available'][0]).format(server)
@@ -389,9 +412,9 @@ class BotData(BotConfigReader.BotConfigVars):
         file.close()
 
     @async
-    def onunavailable_code(self, server):
+    def onunavailable(self, server):
         """
-        Logs Unavailable Servers.
+        Logs Unavailable Servers
         :param server: Servers.
         :return: Nothing.
         """
@@ -405,7 +428,7 @@ class BotData(BotConfigReader.BotConfigVars):
         file.close()
 
     @async
-    def onunban_code(self, server, user):
+    def onunban(self, server, user):
         """
         Logs Unbans.
         :param server: Server.
@@ -423,9 +446,9 @@ class BotData(BotConfigReader.BotConfigVars):
         file.close()
 
     @async
-    def ongroupjoin_code(self, channel, user):
+    def ongroupjoin(self, channel, user):
         """
-        logs group join.
+        Logs group join.
         :param channel: Channels.
         :param user: Users.
         :return: Nothing.
@@ -434,9 +457,9 @@ class BotData(BotConfigReader.BotConfigVars):
         pass
 
     @async
-    def ongroupremove_code(self, channel, user):
+    def ongroupremove(self, channel, user):
         """
-        Removed from group.
+        Logs group remove.
         :param channel: Channels.
         :param user: Users.
         :return: Nothing.
@@ -445,10 +468,11 @@ class BotData(BotConfigReader.BotConfigVars):
         pass
 
     @async
-    def onkick_code(self, member):
+    def onkick(self, member):
         """
-
-        :rtype: None
+        Logs Kicks.
+        :param member: Members.
+        :return: Nothing.
         """
         mem_name = member.name
         mem_id = member.id
@@ -462,180 +486,3 @@ class BotData(BotConfigReader.BotConfigVars):
             file.truncate()
         file.write(kick_log_data)
         file.close()
-
-
-class BotLogs(BotData):
-    """
-    Main Bot logging Class.
-    """
-    def __init__(self):
-        super(BotLogs, self).__init__()
-
-    def set_up_discord_logger(self):
-        """
-        Sets up the Discord Logger.
-        :return: Nothing.
-        """
-        self.set_up_loggers(loggers='discord')
-
-    def set_up_asyncio_logger(self):
-        """
-        Sets up the asyncio Logger.
-        :return: Nothing.
-        """
-        self.set_up_loggers(loggers='asyncio')
-
-    def logs(self, message):
-        """
-        Logs Sent Messages.
-        :param message: Messages.
-        :return: Nothing.
-        """
-        self.logs_code(message)
-
-    def edit_logs(self, before, after):
-        """
-        Logs Edited Messages.
-        :param before: Messages.
-        :param after: Messages.
-        :return: Nothing.
-        """
-        self.edit_logs_code(before, after)
-
-    def delete_logs(self, message):
-        """
-        Logs Deleted Messages.
-        :param message: Messages.
-        :return: Nothing.
-        """
-        self.delete_logs_code(message)
-
-    def resolve_embed_logs(self, before):
-        """
-        Resolves if the message was edited or not.
-        :param before: Messages.
-        :return: Nothing.
-        """
-        self.resolve_embed_logs_code(before)
-
-    @async
-    def send_logs(self, client, message):
-        """
-        Sends Sent Messages.
-        :param client: Discord Client.
-        :param message: Messages.
-        :return: Nothing.
-        """
-        yield from self.send_logs_code(client, message)
-
-    @async
-    def send_edit_logs(self, client, before, after):
-        """
-        Sends Edited Messages.
-        :param client: Discord Client.
-        :param before: Messages.
-        :param after: Messages.
-        :return: Nothing.
-        """
-        yield from self.send_edit_logs_code(client, before, after)
-
-    @async
-    def send_delete_logs(self, client, message):
-        """
-        Sends Deleted Messages.
-        :param client: Discord Client.
-        :param message: Messages.
-        :return: Nothing.
-        """
-        yield from self.send_delete_logs_code(client, message)
-
-    @async
-    def on_bot_error(self, funcname, tbinfo, err):
-        """
-            This Function is for Internal Bot use only.
-            It is for catching any Errors and writing them to a file.
-
-            Usage
-            =====
-            :param funcname: Must be a string with the name of the function that caused a Error.
-                raises the Errors that happened if empty string or None is given.
-            :param tbinfo: string data of the traceback info. Must be a string for this to not Error itself.
-                raises the Errors that happened if empty string or None is given.
-            :param err: Error Data from Traceback. (RAW)
-        """
-        yield from self.on_bot_error_code(funcname, tbinfo, err)
-
-    def gamelog(self, message, desgame):
-        """
-        Logs Game Names.
-        :param message: Messages.
-        :param desgame: Game Name.
-        :return: Nothing.
-        """
-        self.gamelog_code(message, desgame)
-
-    @async
-    def onban(self, member):
-        """
-        Logs Bans.
-        :param member: Members.
-        :return: Nothing.
-        """
-        yield from self.onban_code(member)
-
-    @async
-    def onavailable(self, server):
-        """
-        Logs Available Servers.
-        :param server:
-        :return: Nothing.
-        """
-        yield from self.onavailable_code(server)
-
-    @async
-    def onunavailable(self, server):
-        """
-        Logs Unavailable Servers
-        :param server: Servers.
-        :return: Nothing.
-        """
-        yield from self.onunavailable_code(server)
-
-    @async
-    def onunban(self, server, user):
-        """
-        Logs Unbans.
-        :param server: Server.
-        :param user: Users.
-        :return: Nothing.
-        """
-        yield from self.onunban_code(server, user)
-
-    @async
-    def ongroupjoin(self, channel, user):
-        """
-        Logs group join.
-        :param channel: Channels.
-        :param user: Users.
-        :return: Nothing.
-        """
-        yield from self.ongroupjoin_code(channel, user)
-
-    @async
-    def ongroupremove(self, channel, user):
-        """
-        Logs group remove.
-        :param channel: Channels.
-        :param user: Users.
-        :return: Nothing.
-        """
-        yield from self.ongroupremove_code(channel, user)
-
-    @async
-    def onkick(self, member):
-        """
-        Logs Kicks.
-        :param member: Members.
-        :return: Nothing.
-        """
-        yield from self.onkick_code(member)

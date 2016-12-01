@@ -24,13 +24,7 @@ DEALINGS IN THE SOFTWARE.
 """
 import concurrent.futures
 
-
-def dummy():
-    """
-    Dummy Function for __init__.py for this package on pycharm.
-    :return: Nothing.
-    """
-    pass
+__all__ = ['BotException', 'UnsupportedPlatform', 'CommandTimeoutError']
 
 
 class BotException(Exception):
@@ -49,8 +43,4 @@ class UnsupportedPlatform(BotException):
     pass
 
 
-class CommandTimeoutError(concurrent.futures.TimeoutError):
-    """
-    Class to bypass the Issues with Timeout Errors in the bot.
-    """
-    pass
+CommandTimeoutError = concurrent.futures.TimeoutError

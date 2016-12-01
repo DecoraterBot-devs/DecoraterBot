@@ -49,9 +49,6 @@ except ImportError:
     TinyURL = None
 
 
-# Commands that are not working currently are marked.
-
-
 class BotCommands:
     """
     Basic Message Commands.

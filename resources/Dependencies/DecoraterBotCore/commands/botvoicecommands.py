@@ -1451,35 +1451,43 @@ class VoiceBotCommands:
             return
         elif self.voice_message_channel is not None:
             if ctx.message.channel.id == self.voice_message_channel.id:
-                self.vchannel = ctx.message.author.voice_channel
-                bot = ctx.message.channel.server.get_member_named('{0}#{1}'.format(self.bot.user.name,
-                                                                                   self.bot.user.discriminator))
-                try:
-                    yield from self.bot.move_member(bot, self.vchannel)
+                if ctx.message.author.voice_channel != ctx.message.channel.server.me.voice_channel:
+                    self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel.id)
+                    self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server.id)
+                    self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_channel.id)
+                    self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.voice_message_server_name)
+                    self.botvoicechannel['Bot_Current_Voice_Channel'].remove(self.vchannel_name)
+                    self.vchannel = ctx.message.author.voice_channel
+                    self.vchannel_name = ctx.message.author.voice_channel.name
+                    if self.vchannel.id not in self.botvoicechannel:
+                        self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel.id)
+                    if self.voice_message_server.id not in self.botvoicechannel:
+                        self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server.id)
+                    if self.voice_message_channel.id not in self.botvoicechannel:
+                        self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_channel.id)
+                    if self.voice_message_server_name not in self.botvoicechannel:
+                        self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.voice_message_server_name)
+                    if self.vchannel_name not in self.botvoicechannel:
+                        self.botvoicechannel['Bot_Current_Voice_Channel'].append(self.vchannel_name)
+                    file_name = "{0}{1}resources{1}ConfigData{1}BotVoiceChannel.json".format(self.bot.path,
+                                                                                             self.bot.sepa)
+                    json.dump(self.botvoicechannel, open(file_name, "w"))
                     try:
-                        message_data = str(self.bot.botmessages['move_command_data'][0]).format(self.vchannel.name)
-                        yield from self.bot.send_message(self.voice_message_channel, content=message_data)
-                    except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
-                except discord.errors.InvalidArgument:
-                    try:
-                        message_data = str(self.bot.botmessages['move_command_data'][1])
-                        yield from self.bot.send_message(self.voice_message_channel, content=message_data)
-                    except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
-                except discord.errors.Forbidden:
-                    try:
-                        msgdata = str(self.bot.botmessages['move_command_data'][2]).format(self.vchannel.name)
-                        message_data = msgdata
-                        yield from self.bot.send_message(self.voice_message_channel, content=message_data)
-                    except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
-                    except discord.errors.HTTPException:
+                        yield from self.voice.move_to(self.vchannel)
                         try:
-                            message_data = str(self.bot.botmessages['move_command_data'][3]).format(self.vchannel.name)
+                            message_data = str(self.bot.botmessages['move_command_data'][0]).format(self.vchannel.name)
                             yield from self.bot.send_message(self.voice_message_channel, content=message_data)
                         except discord.errors.Forbidden:
                             yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    except discord.errors.InvalidArgument:
+                        try:
+                            message_data = str(self.bot.botmessages['move_command_data'][1])
+                            yield from self.bot.send_message(self.voice_message_channel, content=message_data)
+                        except discord.errors.Forbidden:
+                            yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                else:
+                    message_data = str(self.bot.botmessages['move_command_data'][2])
+                    yield from self.bot.send_message(self.voice_message_channel, content=message_data)
             else:
                 return
 

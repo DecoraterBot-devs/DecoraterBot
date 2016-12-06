@@ -25,9 +25,6 @@ DEALINGS IN THE SOFTWARE.
 import time
 import discord
 from discord.ext import commands
-from sasync import *
-from .. import BotPMError
-from .. import containers
 
 
 class BotCoreCommands:
@@ -38,8 +35,7 @@ class BotCoreCommands:
         self.bot = bot
 
     @commands.command(name='uptime', pass_context=True, no_pm=False)
-    @async
-    def uptime_command(self, ctx):
+    async def uptime_command(self, ctx):
         """
         Command.
         """
@@ -58,13 +54,12 @@ class BotCoreCommands:
             time_001 = str(self.bot.botmessages['Uptime_command_data'][0]).format(days, hours, minutes, seconds)
             time_parse = time_001
             try:
-                yield from self.bot.send_message(ctx.message.channel, content=time_parse)
+                await self.bot.send_message(ctx.message.channel, content=time_parse)
             except discord.errors.Forbidden:
                 return
 
     @commands.command(name='reload', pass_context=True, no_pm=True)
-    @async
-    def reload_commands_command(self, ctx):
+    async def reload_commands_command(self, ctx):
         """
         Command.
         """
@@ -74,38 +69,37 @@ class BotCoreCommands:
             ret = ""
             if desmod_new is not None:
                 self.bot._somebool = True
-                ret = containers.reload_command(self.bot, desmod_new)
+                ret = self.bot.containers.reload_command(self.bot, desmod_new)
             if self.bot._somebool is True:
                 if ret is not None:
                     try:
                         reload_data = str(self.bot.botmessages['reload_command_data'][1]).format(
                             ret)
-                        yield from self.bot.send_message(ctx.message.channel, content=reload_data)
+                        await self.bot.send_message(ctx.message.channel, content=reload_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 else:
                     try:
                         msgdata = str(self.bot.botmessages['reload_command_data'][0])
                         message_data = msgdata + ' Reloaded ' + desmod_new + '.'
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['reload_command_data'][2]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['reload_command_data'][2]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
         else:
             try:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['reload_command_data'][3]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['reload_command_data'][3]))
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='loadplugin', pass_context=True, no_pm=True)
-    @async
-    def load_plugin_command(self, ctx):
+    async def load_plugin_command(self, ctx):
         """
         Command.
         """
@@ -115,34 +109,74 @@ class BotCoreCommands:
             ret = ""
             if desmod_new is not None:
                 self.bot._somebool = True
-                ret = containers.load_plugin(self.bot, desmod_new)
+                ret = self.bot.containers.load_plugin(self.bot, desmod_new)
             if self.bot._somebool is True:
                 if ret is not None:
                     try:
                         reload_data = str(self.bot.botmessages['reload_command_data'][1]).format(
                             ret).replace('Reloading', 'Loading Plugin')
-                        yield from self.bot.send_message(ctx.message.channel, content=reload_data)
+                        await self.bot.send_message(ctx.message.channel, content=reload_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 else:
                     try:
                         msgdata = str(self.bot.botmessages['reload_command_data'][0])
                         message_data = msgdata + ' Loaded ' + desmod_new + '.'
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['reload_command_data'][2]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['reload_command_data'][2]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
         else:
             try:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['reload_command_data'][3]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['reload_command_data'][3]))
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
+
+    @commands.command(name='unloadplugin', pass_context=True, no_pm=True)
+    async def unload_plugin_command(self, ctx):
+        """
+        Command.
+        """
+        if ctx.message.author.id == self.bot.discord_user_id:
+            desmod_new = ctx.message.content.lower()[len(self.bot.bot_prefix + 'unloadplugin '):].strip()
+            self.bot._somebool = False
+            ret = ""
+            if desmod_new is not None:
+                self.bot._somebool = True
+                ret = self.bot.containers.unload_plugin(self.bot, desmod_new)
+            if self.bot._somebool is True:
+                if ret is not None:
+                    try:
+                        reload_data = str(self.bot.botmessages['reload_command_data'][1]).format(
+                            ret).replace('Reloading', 'Loading Plugin')
+                        await self.bot.send_message(ctx.message.channel, content=reload_data)
+                    except discord.errors.Forbidden:
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
+                else:
+                    try:
+                        msgdata = str(self.bot.botmessages['reload_command_data'][0])
+                        message_data = msgdata + ' Unloaded ' + desmod_new + '.'
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
+                    except discord.errors.Forbidden:
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
+            else:
+                try:
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['reload_command_data'][2]))
+                except discord.errors.Forbidden:
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
+        else:
+            try:
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['reload_command_data'][3]))
+            except discord.errors.Forbidden:
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
 
 def setup(bot):

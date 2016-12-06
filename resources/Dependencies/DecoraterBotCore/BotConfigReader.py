@@ -30,27 +30,46 @@ import ctypes
 __all__ = ['BotConfigVars']
 
 
-class BotConfigVars:
+class __BaseConfig(object):
+    """
+    Base config Class.
+    """
+    def __init__(self):
+        self.credentials = None
+        self.load()
+
+    def load(self):
+        """
+        Loads the JSON config Data.
+        :return: List.
+        """
+        sepa = os.sep
+        bits = ctypes.sizeof(ctypes.c_voidp)
+        platform = ''
+        if bits == 4:
+            platform = 'x86'
+        elif bits == 8:
+            platform = 'x64'
+        path = sys.path[0]
+        if path.find('\\AppData\\Local\\Temp') != -1:
+            path = sys.executable.strip(
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(platform, sys.platform,
+                                                                                       sys.implementation,
+                                                                                       sys.version_info))
+        json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(path, sepa)
+        try:
+            with open(json_file) as file:
+                self.credentials = json.load(file)
+        except(OSError, IOError):
+            pass
+
+
+class BotConfigVars(__BaseConfig):
     """
     Class for getting the Credentials.json config Values.
     """
     def __init__(self):
-        self.sepa = os.sep
-        self.bits = ctypes.sizeof(ctypes.c_voidp)
-        if self.bits == 4:
-            self.platform = 'x86'
-        elif self.bits == 8:
-            self.platform = 'x64'
-        self.path = sys.path[0]
-        if self.path.find('\\AppData\\Local\\Temp') != -1:
-            self.path = sys.executable.strip(
-                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
-                                                                                       sys.implementation,
-                                                                                       sys.version_info))
-        self.json_file = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
-        self.credentials = None
-        self.value = None
-        self.load()
+        super(BotConfigVars, self).__init__()
 
         # Properties.
         self.logging = self.credentials['logging']  # bool
@@ -85,7 +104,7 @@ class BotConfigVars:
         self.log_resumed = self.credentials['log_resumed']  # bool
         self.log_member_join = self.credentials['log_member_join']  # bool
         self.pm_command_errors = self.credentials['pm_command_errors']  # bool
-        self.enable_error_handler = self.enable_error_handler_code  # bool
+        self.enable_error_handler = True if not self.pm_command_errors else False  # bool
         self.bot_prefix = self.credentials['bot_prefix']  # string
         self.discord_user_id = self.credentials['ownerid']  # string
         self.discord_user_email = self.credentials['email']  # string
@@ -94,26 +113,9 @@ class BotConfigVars:
         self.disable_voice_commands = self.credentials['disable_voice']  # bool
         self.language = self.credentials['language']  # string
         self.description = self.credentials['description']  # string
-
-    def load(self):
-        """
-        Loads the JSON config Data.
-        :return: List.
-        """
-        try:
-            with open(self.json_file) as file:
-                self.credentials = json.load(file)
-        except(OSError, IOError):
-            pass
-
-    @property
-    def enable_error_handler_code(self):
-        """
-        Returns weather to use the Error Handler or not.
-        :return: Bool
-        """
-        if self.pm_command_errors:
-            self.value = False
-        else:
-            self.value = True
-        return self.value
+        # newly added settings for DecoraterBotCore.
+        self.log_server_emojis_update = self.credentials['log_server_emojis_update']  # bool
+        self.log_reaction_add = self.credentials['log_reaction_add']  # bool
+        self.log_reaction_remove = self.credentials['log_reaction_remove']  # bool
+        self.log_reaction_clear = self.credentials['log_reaction_clear']  # bool
+        self.shards = self.credentials['shards']  # int

@@ -12,13 +12,11 @@ from libc.stdint cimport uint8_t, uint64_t
 from string import ascii_letters, digits
 
 cdef str GEN_DELIMS = ":/?#[]@"
-cdef str SUB_DELIMS = "!$&'()*+,;="
+cdef str SUB_DELIMS_WITHOUT_QS = "!$'()*,;"
+cdef str SUB_DELIMS = SUB_DELIMS_WITHOUT_QS + '+?='
 cdef str RESERVED = GEN_DELIMS + SUB_DELIMS
 cdef str UNRESERVED = ascii_letters + digits + '-._~'
-
-cdef set PCT_ALLOWED = {'%{:02X}'.format(i) for i in range(256)}
-cdef dict UNRESERVED_QUOTED = {'%{:02X}'.format(ord(ch)): ord(ch)
-                               for ch in UNRESERVED}
+cdef str ALLOWED = UNRESERVED + SUB_DELIMS_WITHOUT_QS
 
 
 cdef inline Py_UCS4 _hex(uint8_t v):
@@ -39,17 +37,17 @@ cdef inline int _from_hex(Py_UCS4 v):
         return -1
 
 
-def _quote(val, *, str safe='', bint plus=False):
+def _quote(val, *, str safe='', str protected='', bint qs=False):
     if val is None:
         return None
     if not isinstance(val, str):
         raise TypeError("Argument should be str")
     if not val:
         return ''
-    return _do_quote(<str>val, safe, plus)
+    return _do_quote(<str>val, safe, protected, qs)
 
 
-cdef str _do_quote(str val, str safe, bint plus):
+cdef str _do_quote(str val, str safe, str protected, bint qs):
     cdef uint8_t b
     cdef Py_UCS4 ch, unquoted
     cdef str tmp
@@ -63,6 +61,10 @@ cdef str _do_quote(str val, str safe, bint plus):
     cdef int has_pct = 0
     cdef Py_UCS4 pct[2]
     cdef int digit1, digit2
+    safe += ALLOWED
+    if not qs:
+        safe += '+&='
+    safe += protected
     for ch in val:
         if has_pct:
             pct[has_pct-1] = ch
@@ -76,7 +78,14 @@ cdef str _do_quote(str val, str safe, bint plus):
                 ch = <Py_UCS4>(digit1 << 4 | digit2)
                 has_pct = 0
 
-                if ch in UNRESERVED:
+                if ch in protected:
+                    PyUnicode_WriteChar(ret, ret_idx, '%')
+                    ret_idx += 1
+                    PyUnicode_WriteChar(ret, ret_idx, _hex(<uint8_t>ch >> 4))
+                    ret_idx += 1
+                    PyUnicode_WriteChar(ret, ret_idx, _hex(<uint8_t>ch & 0x0f))
+                    ret_idx += 1
+                elif ch in safe:
                     PyUnicode_WriteChar(ret, ret_idx, ch)
                     ret_idx += 1
                 else:
@@ -91,16 +100,16 @@ cdef str _do_quote(str val, str safe, bint plus):
             has_pct = 1
             continue
 
-        if plus:
+        if qs:
             if ch == ' ':
                 PyUnicode_WriteChar(ret, ret_idx, '+')
                 ret_idx += 1
                 continue
-        if ch in UNRESERVED:
+        if ch in safe:
             PyUnicode_WriteChar(ret, ret_idx, ch)
             ret_idx +=1
             continue
-        if ch in safe:
+        if ch in ALLOWED:
             PyUnicode_WriteChar(ret, ret_idx, ch)
             ret_idx +=1
             continue
@@ -120,17 +129,17 @@ cdef str _do_quote(str val, str safe, bint plus):
     return PyUnicode_Substring(ret, 0, ret_idx)
 
 
-def _unquote(val, *, unsafe='', plus=False):
+def _unquote(val, *, unsafe='', qs=False):
     if val is None:
         return None
     if not isinstance(val, str):
         raise TypeError("Argument should be str")
     if not val:
         return ''
-    return _do_unquote(<str>val, unsafe, plus)
+    return _do_unquote(<str>val, unsafe, qs)
 
 
-cdef str _do_unquote(str val, str unsafe='', bint plus=False):
+cdef str _do_unquote(str val, str unsafe='', bint qs=False):
     cdef str pct = ''
     cdef str last_pct = ''
     cdef bytearray pcts = bytearray()
@@ -150,8 +159,10 @@ cdef str _do_unquote(str val, str unsafe='', bint plus=False):
             except UnicodeDecodeError:
                 pass
             else:
-                if unquoted in unsafe:
-                    ret.append(_do_quote(unquoted, '', False))
+                if qs and unquoted in '+=&':
+                    ret.append(_do_quote(unquoted, '', '', True))
+                elif unquoted in unsafe:
+                    ret.append(_do_quote(unquoted, '', '', False))
                 else:
                     ret.append(unquoted)
                 del pcts[:]
@@ -164,6 +175,20 @@ cdef str _do_unquote(str val, str unsafe='', bint plus=False):
             ret.append(last_pct)  # %F8ab
             last_pct = ''
 
+        if ch == '+':
+            if ch in unsafe:
+                ret.append('+')
+            else:
+                ret.append(' ')
+            continue
+
+        if ch in unsafe:
+            ret.append('%')
+            h = hex(ord(ch)).upper()[2:]
+            for ch in h:
+                ret.append(ch)
+            continue
+
         ret.append(ch)
 
     if pcts:
@@ -172,8 +197,10 @@ cdef str _do_unquote(str val, str unsafe='', bint plus=False):
         except UnicodeDecodeError:
             ret.append(last_pct)  # %F8
         else:
-            if unquoted in unsafe:
-                ret.append(_do_quote(unquoted, '', False))
+            if qs and unquoted in '+=&':
+                ret.append(_do_quote(unquoted, '', '', True))
+            elif unquoted in unsafe:
+                ret.append(_do_quote(unquoted, '', '', False))
             else:
                 ret.append(unquoted)
     return ''.join(ret)

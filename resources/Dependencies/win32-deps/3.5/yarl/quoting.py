@@ -3,15 +3,14 @@ from string import ascii_letters, ascii_lowercase, digits
 BASCII_LOWERCASE = ascii_lowercase.encode('ascii')
 BPCT_ALLOWED = {'%{:02X}'.format(i).encode('ascii') for i in range(256)}
 GEN_DELIMS = ":/?#[]@"
-SUB_DELIMS = "!$&'()*+,;="
+SUB_DELIMS_WITHOUT_QS = "!$'()*,;"
+SUB_DELIMS = SUB_DELIMS_WITHOUT_QS + '+&='
 RESERVED = GEN_DELIMS + SUB_DELIMS
 UNRESERVED = ascii_letters + digits + '-._~'
-BUNRESERVED = UNRESERVED.encode('ascii')
-BUNRESERVED_QUOTED = {'%{:02X}'.format(ord(ch)).encode('ascii'): ord(ch)
-                      for ch in UNRESERVED}
+ALLOWED = UNRESERVED + SUB_DELIMS_WITHOUT_QS
 
 
-def _py_quote(val, *, safe='', plus=False):
+def _py_quote(val, *, safe='', protected='', qs=False):
     if val is None:
         return None
     if not isinstance(val, str):
@@ -21,7 +20,10 @@ def _py_quote(val, *, safe='', plus=False):
     val = val.encode('utf8')
     ret = bytearray()
     pct = b''
-    safe += UNRESERVED
+    safe += ALLOWED
+    if not qs:
+        safe += '+&='
+    safe += protected
     bsafe = safe.encode('ascii')
     for ch in val:
         if pct:
@@ -30,11 +32,14 @@ def _py_quote(val, *, safe='', plus=False):
             pct.append(ch)
             if len(pct) == 3:  # pragma: no branch   # peephole optimizer
                 pct = bytes(pct)
-                unquoted = BUNRESERVED_QUOTED.get(pct)
-                if unquoted:
-                    ret.append(unquoted)
-                elif pct not in BPCT_ALLOWED:
+                try:
+                    unquoted = chr(int(pct[1:].decode('ascii'), base=16))
+                except ValueError:
                     raise ValueError("Unallowed PCT {}".format(pct))
+                if unquoted in protected:
+                    ret.extend(pct)
+                elif unquoted in safe:
+                    ret.append(ord(unquoted))
                 else:
                     ret.extend(pct)
                 pct = b''
@@ -44,7 +49,7 @@ def _py_quote(val, *, safe='', plus=False):
             pct.append(ch)
             continue
 
-        if plus:
+        if qs:
             if ch == ord(' '):
                 ret.append(ord('+'))
                 continue
@@ -57,7 +62,7 @@ def _py_quote(val, *, safe='', plus=False):
     return ret.decode('ascii')
 
 
-def _py_unquote(val, *, unsafe='', plus=False):
+def _py_unquote(val, *, unsafe='', qs=False):
     if val is None:
         return None
     if not isinstance(val, str):
@@ -82,7 +87,9 @@ def _py_unquote(val, *, unsafe='', plus=False):
             except UnicodeDecodeError:
                 pass
             else:
-                if unquoted in unsafe:
+                if qs and unquoted in '+=&':
+                    ret.append(_py_quote(unquoted, qs=True))
+                elif unquoted in unsafe:
                     ret.append(_py_quote(unquoted))
                 else:
                     ret.append(unquoted)
@@ -96,6 +103,20 @@ def _py_unquote(val, *, unsafe='', plus=False):
             ret.append(last_pct)  # %F8ab
             last_pct = ''
 
+        if ch == '+':
+            if ch in unsafe:
+                ret.append('+')
+            else:
+                ret.append(' ')
+            continue
+
+        if ch in unsafe:
+            ret.append('%')
+            h = hex(ord(ch)).upper()[2:]
+            for ch in h:
+                ret.append(ch)
+            continue
+
         ret.append(ch)
 
     if pcts:
@@ -104,7 +125,9 @@ def _py_unquote(val, *, unsafe='', plus=False):
         except UnicodeDecodeError:
             ret.append(last_pct)  # %F8
         else:
-            if unquoted in unsafe:
+            if qs and unquoted in '+=&':
+                ret.append(_py_quote(unquoted, qs=True))
+            elif unquoted in unsafe:
                 ret.append(_py_quote(unquoted))
             else:
                 ret.append(unquoted)

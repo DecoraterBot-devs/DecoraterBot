@@ -23,13 +23,11 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 import discord
-from sasync import *
 
 __all__ = ['resolve_send_message_error', 'resolve_send_message_error_old']
 
 
-@async
-def resolve_send_message_error(bot, ctx):
+async def resolve_send_message_error(bot, ctx):
     """
     Relolves Errors when Sending messages.
     :param bot: Discord Client.
@@ -41,13 +39,12 @@ def resolve_send_message_error(bot, ctx):
     msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
     try:
-        yield from bot.send_message(ctx.message.author, content=unabletosendmessageerror)
+        await bot.send_message(ctx.message.author, content=unabletosendmessageerror)
     except discord.errors.Forbidden:
         return
 
 
-@async
-def resolve_send_message_error_old(bot, message):
+async def resolve_send_message_error_old(bot, message):
     """
     Relolves Errors when Sending messages.
     :param bot: Discord Client.
@@ -59,6 +56,6 @@ def resolve_send_message_error_old(bot, message):
     msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
     try:
-        yield from bot.send_message(message.author, content=unabletosendmessageerror)
+        await bot.send_message(message.author, content=unabletosendmessageerror)
     except discord.errors.Forbidden:
         return

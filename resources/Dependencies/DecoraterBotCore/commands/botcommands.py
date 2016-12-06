@@ -22,19 +22,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
-import io
 import json
 import platform
 import random
 import subprocess
 import sys
 import traceback
-from sasync import *
-try:
-    from .. import BotPMError
-except ImportError:
-    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
-    BotPMError = None
 import discord
 from discord.ext import commands
 try:
@@ -84,8 +77,7 @@ class BotCommands:
         self.header = {}
 
     @commands.command(name='attack', pass_context=True, no_pm=True)
-    @async
-    def attack_command(self, ctx):
+    async def attack_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Message Context.
@@ -97,15 +89,14 @@ class BotCommands:
             return
         else:
             for user in ctx.message.mentions:
-                yield from self.bot.send_message(user, content=str(self.bot.botmessages['attack_command_data'][0]))
+                await self.bot.send_message(user, content=str(self.bot.botmessages['attack_command_data'][0]))
                 break
             else:
-                yield from self.bot.send_message(ctx.message.author,
-                                                 content=str(self.bot.botmessages['attack_command_data'][1]))
+                await self.bot.send_message(ctx.message.author,
+                                            content=str(self.bot.botmessages['attack_command_data'][1]))
 
     @commands.command(name='coin', pass_context=True, no_pm=True)
-    @async
-    def coin_command(self, ctx):
+    async def coin_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -120,27 +111,26 @@ class BotCommands:
             if msg == 0:
                 heads_coin = "{0}{1}resources{1}images{1}coins{1}Heads.png".format(self.bot.path, self.bot.sepa)
                 try:
-                    yield from self.bot.send_file(ctx.message.channel, heads_coin)
+                    await self.bot.send_file(ctx.message.channel, heads_coin)
                 except discord.errors.Forbidden:
                     try:
                         message_data = str(self.bot.botmessages['coin_command_data'][0])
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             if msg == 1:
                 tails_coin = "{0}{1}resources{1}images{1}coins{1}Tails.png".format(self.bot.path, self.bot.sepa)
                 try:
-                    yield from self.bot.send_file(ctx.message.channel, tails_coin)
+                    await self.bot.send_file(ctx.message.channel, tails_coin)
                 except discord.errors.Forbidden:
                     try:
                         message_data = str(self.bot.botmessages['coin_command_data'][0])
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.group(name='color', pass_context=True, no_pm=True)
-    @async
-    def color_command(self, ctx):
+    async def color_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -154,8 +144,7 @@ class BotCommands:
             return
 
     @color_command.command(name='pink', pass_context=True, no_pm=True)
-    @async
-    def pink_subcommand(self, ctx):
+    async def pink_subcommand(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -167,21 +156,20 @@ class BotCommands:
                   len(self.bot.bot_prefix + "color " + self.bot.bot_prefix + "pink "):].strip()
         role2 = discord.utils.find(lambda role: role.name == desrole, ctx.message.channel.server.roles)
         try:
-            yield from self.bot.edit_role(ctx.message.channel.server, role2, color=discord.Colour(int('ff3054', 16)))
+            await self.bot.edit_role(ctx.message.channel.server, role2, color=discord.Colour(int('ff3054', 16)))
         except discord.errors.Forbidden:
             try:
                 message_data = str(self.bot.botmessages['color_command_data'][0])
-                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                await self.bot.send_message(ctx.message.channel, content=message_data)
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
         except discord.errors.HTTPException:
             return
         except AttributeError:
             return
 
     @color_command.command(name='brown', pass_context=True, no_pm=True)
-    @async
-    def brown_subcommand(self, ctx):
+    async def brown_subcommand(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -193,21 +181,20 @@ class BotCommands:
                   len(self.bot.bot_prefix + "color " + self.bot.bot_prefix + "brown "):].strip()
         role2 = discord.utils.find(lambda role: role.name == desrole, ctx.message.channel.server.roles)
         try:
-            yield from self.bot.edit_role(ctx.message.channel.server, role2, color=discord.Colour(int('652d2d', 16)))
+            await self.bot.edit_role(ctx.message.channel.server, role2, color=discord.Colour(int('652d2d', 16)))
         except discord.errors.Forbidden:
             try:
                 message_data = str(self.bot.botmessages['color_command_data'][0])
-                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                await self.bot.send_message(ctx.message.channel, content=message_data)
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
         except discord.errors.HTTPException:
             pass
         except AttributeError:
             pass
 
     @commands.command(name='eval', pass_context=True, no_pm=True)
-    @async
-    def eval_command(self, ctx):
+    async def eval_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -217,8 +204,8 @@ class BotCommands:
             return
         if ctx.message.author.id == self.bot.owner_id:
             debugcode = ctx.message.content[len(self.bot.bot_prefix + "eval "):].strip()
-            if debugcode.rfind('yield from self.bot.send_message(ctx.message.channel, content=') is not -1:
-                debugcode = debugcode[len("yield from self.bot.send_message(ctx.message.channel, content="):].strip()
+            if debugcode.rfind('await self.bot.send_message(ctx.message.channel, content=') is not -1:
+                debugcode = debugcode[len("await self.bot.send_message(ctx.message.channel, content="):].strip()
                 debugcode = debugcode.strip(")")
                 if debugcode.find("'") is not -1:
                     debugcode = debugcode.strip("'")
@@ -226,7 +213,7 @@ class BotCommands:
                     debugcode = debugcode.strip('"')
                 if debugcode.find('ctx.message.author.mention') is not -1:
                     debugcode = debugcode.replace('ctx.message.author.mention + "', ctx.message.author.mention)
-                yield from self.bot.send_message(ctx.message.channel, content=debugcode)
+                    await self.bot.send_message(ctx.message.channel, content=debugcode)
             else:
                 botowner = discord.utils.find(lambda member: member.id == self.bot.owner_id,
                                               ctx.message.channel.server.members)
@@ -237,37 +224,36 @@ class BotCommands:
                         pass
                     debugcode = "```py\n" + str(debugcode) + "\n```"
                     try:
-                        yield from self.bot.send_message(ctx.message.channel, content=debugcode)
+                        await self.bot.send_message(ctx.message.channel, content=debugcode)
                     except discord.errors.Forbidden:
                         msgdata = str(self.bot.botmessages['eval_command_data'][0])
                         message_data = msgdata.format(ctx.message.channel.server.name, ctx.message.channel.name)
-                        yield from self.bot.send_message(botowner, content=message_data)
-                        yield from self.bot.send_message(botowner, content=debugcode)
+                        await self.bot.send_message(botowner, content=message_data)
+                        await self.bot.send_message(botowner, content=debugcode)
                     except discord.errors.HTTPException:
                         if len(debugcode) > 2000:
                             result_info = str(self.bot.botmessages['eval_command_data'][1])
-                            yield from self.bot.send_message(ctx.message.channel, content=result_info)
+                            await self.bot.send_message(ctx.message.channel, content=result_info)
                 except Exception as e:
                     str(e)
                     debugcode = traceback.format_exc()
                     debugcode = str(debugcode)
                     try:
-                        yield from self.bot.send_message(ctx.message.channel, content="```py\n" + debugcode + "\n```")
+                        await self.bot.send_message(ctx.message.channel, content="```py\n" + debugcode + "\n```")
                     except discord.errors.Forbidden:
                         msgdata = str(self.bot.botmessages['eval_command_data'][0])
                         message_data = msgdata.format(ctx.message.channel.server.name, ctx.message.channel.name)
-                        yield from self.bot.send_message(botowner, content=message_data)
-                        yield from self.bot.send_message(botowner, content="```py\n" + debugcode + "\n```")
+                        await self.bot.send_message(botowner, content=message_data)
+                        await self.bot.send_message(botowner, content="```py\n" + debugcode + "\n```")
         else:
             try:
                 result_info = str(self.bot.botmessages['eval_command_data'][2])
-                yield from self.bot.send_message(ctx.message.channel, content=result_info)
+                await self.bot.send_message(ctx.message.channel, content=result_info)
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='debug', pass_context=True, no_pm=True)
-    @async
-    def debug_command(self, ctx):
+    async def debug_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -281,20 +267,20 @@ class BotCommands:
                                           ctx.message.channel.server.members)
             try:
                 evalcodefile = '{0}{1}resources{1}exec_files{1}exec_temp.py'.format(self.bot.path, self.bot.sepa)
-                eval_temp_code = io.open(evalcodefile, 'w+', encoding='utf-8')
+                eval_temp_code = open(evalcodefile, 'w+', encoding='utf-8')
                 debugcode_new += '\n'
                 eval_temp_code.write(debugcode_new)
                 eval_temp_code.close()
                 execoutputfile = '{0}{1}resources{1}exec_files{1}exec_output_temp.txt'.format(self.bot.path,
                                                                                               self.bot.sepa)
-                eval_temp_result_output = io.open(execoutputfile, 'w', encoding='utf-8')
+                eval_temp_result_output = open(execoutputfile, 'w', encoding='utf-8')
                 out = eval_temp_result_output
                 p = subprocess.Popen("{0}{1}python {2}".format(sys.path[4], self.bot.sepa, evalcodefile),
                                      stdout=out,
                                      stderr=out, shell=True)
                 p.wait()
                 eval_temp_result_output.close()
-                eval_temp_result_read = io.open(execoutputfile, encoding='utf-8')
+                eval_temp_result_read = open(execoutputfile, encoding='utf-8')
                 eval_result = eval_temp_result_read.read()
                 if eval_result is not '':
                     debugcode = eval_result
@@ -302,39 +288,38 @@ class BotCommands:
                     debugcode = 'None'
                 eval_temp_result_read.close()
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content="```py\n" + debugcode + "\n```")
+                    await self.bot.send_message(ctx.message.channel, content="```py\n" + debugcode + "\n```")
                 except discord.errors.Forbidden:
                     msgdata = str(self.bot.botmessages['eval_command_data'][0])
                     message_data = msgdata.format(ctx.message.channel.server.name, ctx.message.channel.name)
-                    yield from self.bot.send_message(botowner, content=message_data)
-                    yield from self.bot.send_message(botowner, content="```py\n" + debugcode + "\n```")
+                    await self.bot.send_message(botowner, content=message_data)
+                    await self.bot.send_message(botowner, content="```py\n" + debugcode + "\n```")
                 except discord.errors.HTTPException:
                     if len(debugcode) > 2000:
                         result_info = str(self.bot.botmessages['eval_command_data'][1])
-                        yield from self.bot.send_message(ctx.message.channel, content=result_info)
+                        await self.bot.send_message(ctx.message.channel, content=result_info)
             except Exception as e:
                 str(e)
                 debugcode = traceback.format_exc()
                 debugcode = str(debugcode)
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content="```py\n" + debugcode + "\n```")
+                    await self.bot.send_message(ctx.message.channel, content="```py\n" + debugcode + "\n```")
                 except discord.errors.Forbidden:
                     msgdata = str(self.bot.botmessages['eval_command_data'][0])
                     message_data = msgdata.format(ctx.message.channel.server.name, ctx.message.channel.name)
-                    yield from self.bot.send_message(botowner, content=message_data)
-                    yield from self.bot.send_message(botowner, content="```py\n" + debugcode + "\n```")
+                    await self.bot.send_message(botowner, content=message_data)
+                    await self.bot.send_message(botowner, content="```py\n" + debugcode + "\n```")
         else:
             try:
                 result_info = str(self.bot.botmessages['debug_command_data'][0])
-                yield from self.bot.send_message(ctx.message.channel, content=result_info)
+                await self.bot.send_message(ctx.message.channel, content=result_info)
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     # This command below is not working well.
 
     @commands.command(name='game', pass_context=True, no_pm=False)
-    @async
-    def game_command(self, ctx):
+    async def game_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -342,51 +327,34 @@ class BotCommands:
         """
         if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
             return
-        if ctx.message.author.id in self.bot.banlist['Users']:
+        elif ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
-            desgame = ctx.message.content[len(self.bot.bot_prefix + "game "):].strip()
-            desgametype = None
-            stream_url = None
-            if len(desgame) > 0:
-                if len(ctx.message.mentions) > 0:
-                    for x in ctx.message.mentions:
-                        desgame = desgame.replace(x.mention, x.name)
-                desgame = str(desgame)
-                if desgame.find(" | type=") is not -1:
-                    if desgame.find(" | type=1") is not -1:
-                        desgame = desgame.replace(" | type=1", "")
-                        desgametype = 1
-                        stream_url = "https://twitch.tv/decoraterbot"
-                    elif desgame.find(" | type=2") is not -1:
-                        desgame = desgame.replace(" | type=2", "")
-                        desgametype = 2
-                        stream_url = "https://twitch.tv/decoraterbot"
-                if desgametype is not None:
-                    if self.bot.log_games:
-                        self.bot.DBLogs.gamelog(ctx, desgame)
-                    yield from self.bot.change_presence(
-                        game=discord.Game(name=desgame, type=desgametype, url=stream_url), status=None, afk=False)
-                    try:
-                        msgdata = str(self.bot.botmessages['game_command_data'][0]).format(desgame)
-                        message_data = msgdata.replace("idle", "streaming")
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
-                    except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
-                else:
-                    if self.bot.log_games:
-                        self.bot.DBLogs.gamelog(ctx, desgame)
-                    yield from self.bot.change_presence(game=discord.Game(name=desgame), afk=True)
-                    try:
-                        msgdata = str(self.bot.botmessages['game_command_data'][0]).format(desgame)
-                        message_data = msgdata
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
-                    except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+            desgame, desgametype, stream_url = self.bot.game_command_helper(ctx)
+            if len(desgame) < 1:
+                await self.bot.send_message(ctx.message.channel, 'No game name was provided.')
+            elif desgametype is not None:
+                if self.bot.log_games:
+                    self.bot.DBLogs.gamelog(ctx, desgame)
+                await self.bot.change_presence(
+                    game=discord.Game(name=desgame, type=desgametype, url=stream_url), status='online')
+                try:
+                    await self.bot.send_message(ctx.message.channel, content=str(
+                        self.bot.botmessages['game_command_data'][0]).format(desgame).replace("idle", "streaming"))
+                except discord.errors.Forbidden:
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
+            elif desgametype is None:
+                if self.bot.log_games:
+                    self.bot.DBLogs.gamelog(ctx, desgame)
+                await self.bot.change_presence(game=discord.Game(name=desgame), status='idle')
+                try:
+                    await self.bot.send_message(ctx.message.channel, content=str(
+                        self.bot.botmessages['game_command_data'][0]).format(desgame))
+                except discord.errors.Forbidden:
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='remgame', pass_context=True, no_pm=False)
-    @async
-    def remgame_command(self, ctx):
+    async def remgame_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -399,16 +367,15 @@ class BotCommands:
         else:
             game_name = str(self.bot.consoletext['On_Ready_Game'][0])
             stream_url = "https://twitch.tv/decoraterbot"
-            yield from self.bot.change_presence(game=discord.Game(name=game_name, type=1, url=stream_url))
+            await self.bot.change_presence(game=discord.Game(name=game_name, type=1, url=stream_url))
             try:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['remgame_command_data'][0]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['remgame_command_data'][0]))
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='join', pass_context=True, no_pm=False)
-    @async
-    def join_command(self, ctx):
+    async def join_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -420,8 +387,8 @@ class BotCommands:
             return
         else:
             if self.bot.is_official_bot:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['join_command_data'][3]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['join_command_data'][3]))
             else:
                 code = ctx.message.content[len(self.bot.bot_prefix + "join "):].strip()
                 if code == '':
@@ -430,19 +397,18 @@ class BotCommands:
                     url = code
                 if url is not None:
                     try:
-                        yield from self.bot.accept_invite(url)
+                        await self.bot.accept_invite(url)
                         msg_data = str(self.bot.botmessages['join_command_data'][0])
-                        yield from self.bot.send_message(ctx.message.channel, content=msg_data)
+                        await self.bot.send_message(ctx.message.channel, content=msg_data)
                     except discord.errors.NotFound:
                         msg_data = str(self.bot.botmessages['join_command_data'][1])
-                        yield from self.bot.send_message(ctx.message.channel, content=msg_data)
+                        await self.bot.send_message(ctx.message.channel, content=msg_data)
                 else:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['join_command_data'][2]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['join_command_data'][2]))
 
     @commands.command(name='kill', pass_context=True, no_pm=False)
-    @async
-    def kill_command(self, ctx):
+    async def kill_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -458,39 +424,39 @@ class BotCommands:
                 msg = random.randint(1, 4)
                 if msg == 1:
                     message_data = str(self.bot.botmessages['kill_command_data'][0]).format(ctx.message.author)
-                    yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                    await self.bot.send_message(ctx.message.channel, content=message_data)
                 if msg == 2:
                     message_data = str(self.bot.botmessages['kill_command_data'][1]).format(ctx.message.author)
-                    yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                    await self.bot.send_message(ctx.message.channel, content=message_data)
                 if msg == 3:
                     message_data = str(self.bot.botmessages['kill_command_data'][2]).format(ctx.message.author)
-                    yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                    await self.bot.send_message(ctx.message.channel, content=message_data)
                 if msg == 4:
                     message_data = str(self.bot.botmessages['kill_command_data'][3]).format(ctx.message.author)
-                    yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                    await self.bot.send_message(ctx.message.channel, content=message_data)
             else:
                 if data.rfind(self.bot.user.name) != -1:
                     try:
                         msg_data = str(self.bot.botmessages['kill_command_data'][4])
-                        yield from self.bot.send_message(ctx.message.channel, content=msg_data)
+                        await self.bot.send_message(ctx.message.channel, content=msg_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 else:
                     msg = random.randint(1, 4)
                     for disuser in ctx.message.mentions:
                         if ctx.message.author == disuser:
                             try:
                                 msg_data = str(self.bot.botmessages['kill_command_data'][4])
-                                yield from self.bot.send_message(ctx.message.channel, content=msg_data)
+                                await self.bot.send_message(ctx.message.channel, content=msg_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                             break
                         if self.bot.user == disuser:
                             try:
                                 msg_data = str(self.bot.botmessages['kill_command_data'][4])
-                                yield from self.bot.send_message(ctx.message.channel, content=msg_data)
+                                await self.bot.send_message(ctx.message.channel, content=msg_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                             break
                         user = discord.utils.find(lambda member: member.name == disuser.name,
                                                   ctx.message.channel.server.members)
@@ -499,70 +465,69 @@ class BotCommands:
                                 msgdata = str(self.bot.botmessages['kill_command_data'][5]).format(ctx.message.author,
                                                                                                    user)
                                 message_data = msgdata
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                             break
                         if msg == 2:
                             try:
                                 msgdata = str(self.bot.botmessages['kill_command_data'][6]).format(ctx.message.author,
                                                                                                    user)
                                 message_data = msgdata
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                             break
                         if msg == 3:
                             try:
                                 msgdata = str(self.bot.botmessages['kill_command_data'][7]).format(ctx.message.author,
                                                                                                    user)
                                 message_data = msgdata
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                             break
                         if msg == 4:
                             try:
                                 msgdata = str(self.bot.botmessages['kill_command_data'][8]).format(ctx.message.author,
                                                                                                    user)
                                 message_data = msgdata
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                             break
                     else:
                         if msg == 1:
                             try:
                                 message_data = str(self.bot.botmessages['kill_command_data'][0]).format(
                                     ctx.message.author)
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                         if msg == 2:
                             try:
                                 message_data = str(self.bot.botmessages['kill_command_data'][1]).format(
                                     ctx.message.author)
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                         if msg == 3:
                             try:
                                 message_data = str(self.bot.botmessages['kill_command_data'][2]).format(
                                     ctx.message.author)
-                                yield from self.bot.send_message(ctx.message.channel, message_data)
+                                await self.bot.send_message(ctx.message.channel, message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                         if msg == 4:
                             try:
                                 message_data = str(self.bot.botmessages['kill_command_data'][3]).format(
                                     ctx.message.author)
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='ignorechannel', pass_context=True, no_pm=False)
-    @async
-    def ignorechannel_command(self, ctx):
+    async def ignorechannel_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -574,21 +539,20 @@ class BotCommands:
                 json.dump(self.bot.ignoreslist, open("{0}{1}resources{1}ConfigData{1}IgnoreList.json".format(
                     self.bot.path, self.bot.sepa), "w"))
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['Ignore_Channel_Data'][0]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['Ignore_Channel_Data'][0]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             except Exception as e:
                 str(e)
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['Ignore_Channel_Data'][1]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['Ignore_Channel_Data'][1]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='unignorechannel', pass_context=True, no_pm=False)
-    @async
-    def unignorechannel_command(self, ctx):
+    async def unignorechannel_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -602,20 +566,19 @@ class BotCommands:
                     self.bot.path, self.bot.sepa), "w"))
                 msg_info = str(self.bot.botmessages['Unignore_Channel_Data'][0])
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=msg_info)
+                    await self.bot.send_message(ctx.message.channel, content=msg_info)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             except Exception as e:
                 str(e)
                 msg_info = str(self.bot.botmessages['Unignore_Channel_Data'][1])
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=msg_info)
+                    await self.bot.send_message(ctx.message.channel, content=msg_info)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='ban', pass_context=True, no_pm=True)
-    @async
-    def ban_command(self, ctx):
+    async def ban_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -629,41 +592,40 @@ class BotCommands:
                 listdata = ctx.message.channel.server.members
                 member2 = discord.utils.find(lambda member: member.name == disuser.name, listdata)
                 try:
-                    yield from self.bot.ban(member2, delete_message_days=7)
+                    await self.bot.ban(member2, delete_message_days=7)
                     try:
                         message_data = str(self.bot.botmessages['ban_command_data'][0]).format(member2)
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 except discord.Forbidden:
                     try:
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['ban_command_data'][1]))
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 except discord.HTTPException:
                     try:
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['ban_command_data'][2]))
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 break
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['ban_command_data'][3]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['ban_command_data'][3]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
         else:
             try:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['ban_command_data'][4]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['ban_command_data'][4]))
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='softban', pass_context=True, no_pm=True)
-    @async
-    def softban_command(self, ctx):
+    async def softban_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -677,42 +639,41 @@ class BotCommands:
                 memberlist = ctx.message.channel.server.members
                 member2 = discord.utils.find(lambda member: member.name == disuser.name, memberlist)
                 try:
-                    yield from self.bot.ban(member2, delete_message_days=7)
-                    yield from self.bot.unban(member2.server, member2)
+                    await self.bot.ban(member2, delete_message_days=7)
+                    await self.bot.unban(member2.server, member2)
                     try:
                         message_data = str(self.bot.botmessages['softban_command_data'][0]).format(member2)
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 except discord.Forbidden:
                     try:
                         msg_data = str(self.bot.botmessages['softban_command_data'][1])
-                        yield from self.bot.send_message(ctx.message.channel, content=msg_data)
+                        await self.bot.send_message(ctx.message.channel, content=msg_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 except discord.HTTPException:
                     try:
                         msg_data = str(self.bot.botmessages['softban_command_data'][2])
-                        yield from self.bot.send_message(ctx.message.channel, content=msg_data)
+                        await self.bot.send_message(ctx.message.channel, content=msg_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 break
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=str(
+                    await self.bot.send_message(ctx.message.channel, content=str(
                         self.bot.botmessages['softban_command_data'][3]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
         else:
             try:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['softban_command_data'][4]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['softban_command_data'][4]))
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='kick', pass_context=True, no_pm=True)
-    @async
-    def kick_command(self, ctx):
+    async def kick_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -726,41 +687,40 @@ class BotCommands:
                 memberlist = ctx.message.channel.server.members
                 member2 = discord.utils.find(lambda member: member.name == disuser.name, memberlist)
                 try:
-                    yield from self.bot.kick(member2)
+                    await self.bot.kick(member2)
                     try:
                         message_data = str(self.bot.botmessages['kick_command_data'][0]).format(member2)
-                        yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                        await self.bot.send_message(ctx.message.channel, content=message_data)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 except discord.Forbidden:
                     try:
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['kick_command_data'][1]))
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 except discord.HTTPException:
                     try:
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['kick_command_data'][2]))
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 break
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['kick_command_data'][3]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['kick_command_data'][3]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
         else:
             try:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['kick_command_data'][4]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['kick_command_data'][4]))
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='commands', pass_context=True, no_pm=False)
-    @async
-    def commands_command(self, ctx):
+    async def commands_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -773,36 +733,35 @@ class BotCommands:
         else:
             if ctx.message.channel.is_private:
                 if self.disabletinyurl:
-                    yield from self.bot.send_message(ctx.message.channel, content=self.botcommandsPM)
+                    await self.bot.send_message(ctx.message.channel, content=self.botcommandsPM)
                 else:
-                    yield from self.bot.send_message(ctx.message.channel, content=self.botcommandsPMwithtinyurl)
+                    await self.bot.send_message(ctx.message.channel, content=self.botcommandsPMwithtinyurl)
             else:
                 if self.disabletinyurl:
                     try:
                         if self.bot.pm_commands_list:
-                            yield from self.bot.send_message(ctx.message.author, content=self.botcommands)
+                            await self.bot.send_message(ctx.message.author, content=self.botcommands)
                         else:
-                            yield from self.bot.send_message(ctx.message.channel, content=self.botcommands)
+                            await self.bot.send_message(ctx.message.channel, content=self.botcommands)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 else:
                     try:
                         if self.bot.pm_commands_list:
-                            yield from self.bot.send_message(ctx.message.author, content=self.botcommandswithtinyurl)
+                            await self.bot.send_message(ctx.message.author, content=self.botcommandswithtinyurl)
                             msgdata = str(self.bot.botmessages['commands_command_data'][6])
                             message_data = msgdata.format(ctx.message.author.mention)
                             try:
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                         else:
-                            yield from self.bot.send_message(ctx.message.channel, content=self.botcommandswithtinyurl)
+                            await self.bot.send_message(ctx.message.channel, content=self.botcommandswithtinyurl)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='changelog', pass_context=True, no_pm=False)
-    @async
-    def changelog_command(self, ctx):
+    async def changelog_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -814,14 +773,13 @@ class BotCommands:
             return
         else:
             try:
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=self.changelog.format(self.version + self.rev))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=self.changelog.format(self.version + self.rev))
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='raid', pass_context=True, no_pm=True)
-    @async
-    def raid_command(self, ctx):
+    async def raid_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -840,13 +798,12 @@ class BotCommands:
                     result = result[len(" "):].strip()
                 try:
                     message_data = str(self.bot.botmessages['raid_command_data'][0]).format(result)
-                    yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                    await self.bot.send_message(ctx.message.channel, content=message_data)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='update', pass_context=True, no_pm=True)
-    @async
-    def update_command(self, ctx):
+    async def update_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -861,16 +818,15 @@ class BotCommands:
                 return
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(
-                                                         self.bot.botmessages['update_command_data'][0]).format(
-                                                         self.info))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(
+                                                    self.bot.botmessages['update_command_data'][0]).format(
+                                                    self.info))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='Libs', pass_context=True, no_pm=False)
-    @async
-    def libs_command(self, ctx):
+    async def libs_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -883,13 +839,12 @@ class BotCommands:
         else:
             libs = str(self.bot.botmessages['Libs_command_data'][0])
             try:
-                yield from self.bot.send_message(ctx.message.channel, content=libs)
+                await self.bot.send_message(ctx.message.channel, content=libs)
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='source', pass_context=True, no_pm=False)
-    @async
-    def source_command(self, ctx):
+    async def source_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -903,13 +858,12 @@ class BotCommands:
             try:
                 msgdata = self.sourcelink.format(ctx.message.author)
                 message_data = msgdata
-                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                await self.bot.send_message(ctx.message.channel, content=message_data)
             except discord.errors.Forbidden:
-                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='type', pass_context=True, no_pm=False)
-    @async
-    def type_command(self, ctx):
+    async def type_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -920,11 +874,10 @@ class BotCommands:
         if ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
-            yield from self.bot.send_typing(ctx.message.channel)
+            await self.bot.send_typing(ctx.message.channel)
 
     @commands.command(name='pyversion', pass_context=True, no_pm=True)
-    @async
-    def pyversion_command(self, ctx):
+    async def pyversion_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -945,13 +898,12 @@ class BotCommands:
                     python_platform = "32-Bit"
                 vers = "```py\nPython v{0} {1}```".format(platform.python_version(), python_platform)
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=vers)
+                    await self.bot.send_message(ctx.message.channel, content=vers)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='AgarScrub', pass_context=True, no_pm=True)
-    @async
-    def agarscrub_command(self, ctx):
+    async def agarscrub_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -961,13 +913,12 @@ class BotCommands:
             return
         try:
             reply = 'https://imgflip.com/i/12yq2n'
-            yield from self.bot.send_message(ctx.message.channel, content=reply)
+            await self.bot.send_message(ctx.message.channel, content=reply)
         except discord.errors.Forbidden:
-            yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+            await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='stats', pass_context=True, no_pm=True)
-    @async
-    def stats_command(self, ctx):
+    async def stats_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -981,11 +932,10 @@ class BotCommands:
             [channel for channel in self.bot.get_all_channels() if channel.type == discord.ChannelType.text])))
         formatted_data = str(
             self.bot.botmessages['stats_command_data'][0]).format(server_count, member_count, textchannels_count)
-        yield from self.bot.send_message(ctx.message.channel, content=formatted_data)
+        await self.bot.send_message(ctx.message.channel, content=formatted_data)
 
     @commands.command(name='rs', pass_context=True, no_pm=False)
-    @async
-    def rs_command(self, ctx):
+    async def rs_command(self, ctx):
         """
         Bot Commands.
         :return: Nothing.
@@ -998,11 +948,10 @@ class BotCommands:
         if file_object is not None:
             file_data = file_object.read()
             file_object.close()
-        yield from self.bot.edit_profile(avatar=file_data)
+        await self.bot.edit_profile(avatar=file_data)
 
     @commands.command(name='as', pass_context=True, no_pm=False)
-    @async
-    def as_command(self, ctx):
+    async def as_command(self, ctx):
         """
         Bot Commands.
         :return: Nothing.
@@ -1015,11 +964,10 @@ class BotCommands:
         if file_object is not None:
             file_data = file_object.read()
             file_object.close()
-        yield from self.bot.edit_profile(avatar=file_data)
+        await self.bot.edit_profile(avatar=file_data)
 
     @commands.command(name='ai', pass_context=True, no_pm=False)
-    @async
-    def ai_command(self, ctx):
+    async def ai_command(self, ctx):
         """
         Bot Commands.
         :return: Nothing.
@@ -1032,11 +980,10 @@ class BotCommands:
         if file_object is not None:
             file_data = file_object.read()
             file_object.close()
-        yield from self.bot.edit_profile(avatar=file_data)
+        await self.bot.edit_profile(avatar=file_data)
 
     @commands.command(name='lk', pass_context=True, no_pm=False)
-    @async
-    def lk_command(self, ctx):
+    async def lk_command(self, ctx):
         """
         Bot Commands.
         :return: Nothing.
@@ -1049,11 +996,10 @@ class BotCommands:
         if file_object is not None:
             file_data = file_object.read()
             file_object.close()
-        yield from self.bot.edit_profile(avatar=file_data)
+        await self.bot.edit_profile(avatar=file_data)
 
     @commands.command(name='vp', pass_context=True, no_pm=False)
-    @async
-    def vp_command(self, ctx):
+    async def vp_command(self, ctx):
         """
         Bot Commands.
         :return: Nothing.
@@ -1066,11 +1012,10 @@ class BotCommands:
         if file_object is not None:
             file_data = file_object.read()
             file_object.close()
-        yield from self.bot.edit_profile(avatar=file_data)
+        await self.bot.edit_profile(avatar=file_data)
 
     @commands.command(name='ws', pass_context=True, no_pm=False)
-    @async
-    def ws_command(self, ctx):
+    async def ws_command(self, ctx):
         """
         Bot Commands.
         :return: Nothing.
@@ -1083,11 +1028,10 @@ class BotCommands:
         if file_object is not None:
             file_data = file_object.read()
             file_object.close()
-        yield from self.bot.edit_profile(avatar=file_data)
+        await self.bot.edit_profile(avatar=file_data)
 
     @commands.command(name='meme', pass_context=True, no_pm=False)
-    @async
-    def meme_command(self, ctx):
+    async def meme_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1113,7 +1057,7 @@ class BotCommands:
                 except IndexError:
                     meme_error = True
                     msgdata = str(self.bot.botmessages['meme_command_data'][0])
-                    yield from self.bot.send_message(ctx.message.channel, content=msgdata)
+                    await self.bot.send_message(ctx.message.channel, content=msgdata)
                 if not meme_error:
                     try:
                         toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
@@ -1124,7 +1068,7 @@ class BotCommands:
                     except IndexError:
                         meme_error = True
                         msgdata = str(self.bot.botmessages['meme_command_data'][1])
-                        yield from self.bot.send_message(ctx.message.channel, content=msgdata)
+                        await self.bot.send_message(ctx.message.channel, content=msgdata)
                 if not meme_error:
                     try:
                         bottext = desdata[2].replace('_', '__').replace(
@@ -1135,10 +1079,10 @@ class BotCommands:
                     except IndexError:
                         meme_error = True
                         msgdata = str(self.bot.botmessages['meme_command_data'][2])
-                        yield from self.bot.send_message(ctx.message.channel, content=msgdata)
+                        await self.bot.send_message(ctx.message.channel, content=msgdata)
                 if not meme_error:
                     rep = "http://memegen.link/custom/{0}/{1}.jpg?alt={2}".format(toptext, bottext, pic)
-                    yield from self.bot.send_message(ctx.message.channel, content=rep)
+                    await self.bot.send_message(ctx.message.channel, content=rep)
         else:
             desdata = desdata.replace(" | ", "\n").replace('-', '--').replace(' ', '-')
             desdata = desdata.splitlines()
@@ -1147,7 +1091,7 @@ class BotCommands:
             except IndexError:
                 meme_error = True
                 msgdata = str(self.bot.botmessages['meme_command_data'][0])
-                yield from self.bot.send_message(ctx.message.channel, content=msgdata)
+                await self.bot.send_message(ctx.message.channel, content=msgdata)
             if not meme_error:
                 try:
                     toptext = desdata[1].replace('_', '__').replace('?', '~q').replace(
@@ -1158,7 +1102,7 @@ class BotCommands:
                 except IndexError:
                     meme_error = True
                     msgdata = str(self.bot.botmessages['meme_command_data'][1])
-                    yield from self.bot.send_message(ctx.message.channel, content=msgdata)
+                    await self.bot.send_message(ctx.message.channel, content=msgdata)
             if not meme_error:
                 try:
                     bottext = desdata[2].replace('_', '__').replace('?', '~q').replace(
@@ -1169,14 +1113,13 @@ class BotCommands:
                 except IndexError:
                     meme_error = True
                     msgdata = str(self.bot.botmessages['meme_command_data'][2])
-                    yield from self.bot.send_message(ctx.message.channel, content=msgdata)
+                    await self.bot.send_message(ctx.message.channel, content=msgdata)
             if not meme_error:
                 rep = "http://memegen.link/{0}/{1}/{2}.jpg".format(pic, toptext, bottext)
-                yield from self.bot.send_message(ctx.message.channel, content=rep)
+                await self.bot.send_message(ctx.message.channel, content=rep)
 
     @commands.command(name='discrim', pass_context=True, no_pm=True)
-    @async
-    def discrim_command(self, ctx):
+    async def discrim_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1189,19 +1132,18 @@ class BotCommands:
                 if member != ctx.message.author:
                     self.member_list.append(member.name)
         if len(self.member_list) > 0:
-            yield from self.bot.send_message(ctx.message.channel,
-                                             content=(
-                                                 "Found {0} members with the same discriminator of {1}: ```{2}```."
-                                             ).format(
-                                                 len(self.member_list), ctx.message.author.discriminator,
-                                                 self.member_list))
+            await self.bot.send_message(ctx.message.channel,
+                                        content=(
+                                            "Found {0} members with the same discriminator of {1}: ```{2}```."
+                                        ).format(
+                                            len(self.member_list), ctx.message.author.discriminator,
+                                            self.member_list))
             self.member_list.clear()
         else:
-            yield from self.bot.send_message(ctx.message.channel, content="Sorry, no members share your discriminator.")
+            await self.bot.send_message(ctx.message.channel, content="Sorry, no members share your discriminator.")
 
     @commands.command(name='prune', pass_context=True, no_pm=True)
-    @async
-    def prune_command(self, ctx):
+    async def prune_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1223,7 +1165,7 @@ class BotCommands:
                         num = int(opt)
                     except:
                         return
-                yield from self.prune_command_iterater_helper(ctx, num)
+                await self.prune_command_iterater_helper(ctx, num)
             else:
             """
             if role2 in ctx.message.author.roles:
@@ -1235,17 +1177,16 @@ class BotCommands:
                     except Exception as e:
                         str(e)
                         return
-                yield from self.prune_command_iterater_helper(ctx, num)
+                await self.prune_command_iterater_helper(ctx, num)
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['prune_command_data'][1]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['prune_command_data'][1]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='say', pass_context=True, no_pm=False)
-    @async
-    def say_command(self, ctx):
+    async def say_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1259,21 +1200,20 @@ class BotCommands:
             say = ctx.message.content[len(self.bot.bot_prefix + "say "):].strip()
             if say.rfind(self.bot.bot_prefix) != -1:
                 message_data = str(self.bot.botmessages['say_command_data'][0]).format(ctx.message.author)
-                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                await self.bot.send_message(ctx.message.channel, content=message_data)
             elif say.rfind("@") != -1:
                 message_data = str(self.bot.botmessages['say_command_data'][1]).format(ctx.message.author)
-                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                await self.bot.send_message(ctx.message.channel, content=message_data)
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=say)
+                    await self.bot.send_message(ctx.message.channel, content=say)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 except discord.errors.HTTPException:
                     return
 
     @commands.command(name='clear', pass_context=True, no_pm=True)
-    @async
-    def clear_command(self, ctx):
+    async def clear_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1284,11 +1224,10 @@ class BotCommands:
         if ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
-            yield from self.clear_command_iterater_helper(ctx)
+            await self.clear_command_iterater_helper(ctx)
 
     @commands.command(name='botban', pass_context=True, no_pm=True)
-    @async
-    def botban_command(self, ctx):
+    async def botban_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1299,10 +1238,10 @@ class BotCommands:
         if ctx.message.author.id == self.bot.owner_id:
             if len(ctx.message.mentions) < 1:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=str(
+                    await self.bot.send_message(ctx.message.channel, content=str(
                         self.bot.botmessages['bot_ban_command_data'][2]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             else:
                 if ctx.message.mentions[0].id not in self.bot.banlist['Users']:
                     try:
@@ -1314,9 +1253,9 @@ class BotCommands:
                             message_data = str(
                                 self.bot.botmessages['bot_ban_command_data'][0]).format(
                                 ctx.message.mentions[0])
-                            yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                            await self.bot.send_message(ctx.message.channel, content=message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                            await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                         except Exception as e:
                             str(e)
                             try:
@@ -1325,15 +1264,14 @@ class BotCommands:
                                     ctx.message.mentions[0])
                                 message_data = messagedata + str(
                                     self.bot.botmessages['bot_ban_command_data'][2])
-                                yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                                await self.bot.send_message(ctx.message.channel, content=message_data)
                             except discord.errors.Forbidden:
-                                yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                                await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                     except discord.errors.Forbidden:
-                        yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                        await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='botunban', pass_context=True, no_pm=True)
-    @async
-    def botunban_command(self, ctx):
+    async def botunban_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1344,10 +1282,10 @@ class BotCommands:
         if ctx.message.author.id == self.bot.owner_id:
             if len(ctx.message.mentions) < 1:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=str(
+                    await self.bot.send_message(ctx.message.channel, content=str(
                         self.bot.botmessages['bot_unban_command_data'][2]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             else:
                 if ctx.message.mentions[0].id in self.bot.banlist['Users']:
                     try:
@@ -1360,9 +1298,9 @@ class BotCommands:
                             message_data = str(
                                 self.bot.botmessages['bot_unban_command_data'][0]).format(
                                 ctx.message.mentions[0])
-                            yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                            await self.bot.send_message(ctx.message.channel, content=message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                            await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                     except Exception as e:
                         str(e)
                         try:
@@ -1371,13 +1309,12 @@ class BotCommands:
                                 ctx.message.mentions[0])
                             message_data = messagedata + str(
                                 self.bot.botmessages['bot_unban_command_data'][2])
-                            yield from self.bot.send_message(ctx.message.channel, content=message_data)
+                            await self.bot.send_message(ctx.message.channel, content=message_data)
                         except discord.errors.Forbidden:
-                            yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                            await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='userinfo', pass_context=True, no_pm=True)
-    @async
-    def userinfo_command(self, ctx):
+    async def userinfo_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1405,9 +1342,9 @@ class BotCommands:
                     message_data = msgdata_1.replace("Playing ", "")
                     data = message_data
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=data)
+                    await self.bot.send_message(ctx.message.channel, content=data)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
                 break
             else:
                 seenin = set(
@@ -1425,15 +1362,14 @@ class BotCommands:
                     message_data = msgdata_1.replace("Playing ", "")
                     data = message_data
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=data)
+                    await self.bot.send_message(ctx.message.channel, content=data)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     # This command has been optimized for TinyURL3 0.1.7
 
     @commands.command(name='tinyurl', pass_context=True, no_pm=False)
-    @async
-    def tinyurl_command(self, ctx):
+    async def tinyurl_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1454,31 +1390,30 @@ class BotCommands:
             except TinyURL.errors.URLError:
                 self.tinyurlerror = True
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=str(
+                    await self.bot.send_message(ctx.message.channel, content=str(
                         self.bot.botmessages['tinyurl_command_data'][2]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             except TinyURL.errors.InvalidURL:
                 self.tinyurlerror = True
                 try:
                     result = str(self.bot.botmessages['tinyurl_command_data'][1])
-                    yield from self.bot.send_message(ctx.message.channel, content=result)
+                    await self.bot.send_message(ctx.message.channel, content=result)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
             if not self.tinyurlerror:
                 self.link = str(self.link)
                 result = str(self.bot.botmessages['tinyurl_command_data'][0]).format(self.link)
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=result)
+                    await self.bot.send_message(ctx.message.channel, content=result)
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     # Unused but too lazy to remove this.
     # Might make this more universal with per server config on these.
 
     @commands.command(name='giveme', pass_context=True, no_pm=True)
-    @async
-    def giveme_command(self, ctx):
+    async def giveme_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1492,20 +1427,20 @@ class BotCommands:
             role3 = discord.utils.find(lambda role: role.name == 'Students', ctx.message.channel.server.roles)
             if 'admin' in desrole:
                 if 'Muted' in ctx.message.author.roles:
-                    yield from self.bot.add_roles(ctx.message.author, role2)
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['giveme_command_data'][0]))
+                    await self.bot.add_roles(ctx.message.author, role2)
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['giveme_command_data'][0]))
                 else:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['giveme_command_data'][5]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['giveme_command_data'][5]))
             elif 'student' in desrole:
                 if 'Students' in ctx.message.author.roles:
-                    yield from self.bot.add_roles(ctx.message.author, role3)
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['giveme_command_data'][1]))
+                    await self.bot.add_roles(ctx.message.author, role3)
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['giveme_command_data'][1]))
                 else:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['giveme_command_data'][6]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['giveme_command_data'][6]))
         else:
             if ctx.message.channel.server and ctx.message.channel.server.id == "127233852182626304":
                 desrole = ctx.message.content[len(self.bot.bot_prefix + "giveme "):].strip()
@@ -1514,30 +1449,29 @@ class BotCommands:
                 role3 = discord.utils.find(lambda role: role.name == 'Streamer', rolelist)
                 if 'dev' in desrole:
                     if role2 not in ctx.message.author.roles:
-                        yield from self.bot.add_roles(ctx.message.author, role2)
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.add_roles(ctx.message.author, role2)
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['giveme_command_data'][2]))
                     else:
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['giveme_command_data'][7]))
                 elif 'stream' in desrole:
                     if role3 not in ctx.message.author.roles:
-                        yield from self.bot.add_roles(ctx.message.author, role3)
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.add_roles(ctx.message.author, role3)
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['giveme_command_data'][3]))
                     else:
-                        yield from self.bot.send_message(ctx.message.channel, content=str(
+                        await self.bot.send_message(ctx.message.channel, content=str(
                             self.bot.botmessages['giveme_command_data'][8]))
             else:
                 try:
-                    yield from self.bot.send_message(ctx.message.channel, content=str(
+                    await self.bot.send_message(ctx.message.channel, content=str(
                         self.bot.botmessages['giveme_command_data'][4]))
                 except discord.errors.Forbidden:
-                    yield from BotPMError.resolve_send_message_error(self.bot, ctx)
+                    await self.bot.BotPMError.resolve_send_message_error(self.bot, ctx)
 
     @commands.command(name='remove', pass_context=True, no_pm=True)
-    @async
-    def remove_command(self, ctx):
+    async def remove_command(self, ctx):
         """
         Bot Commands.
         :param ctx: Messages.
@@ -1552,20 +1486,20 @@ class BotCommands:
             role3 = discord.utils.find(lambda role: role.name == 'Streamer', rolelist)
             if 'dev' in desrole:
                 if role2 in ctx.message.author.roles:
-                    yield from self.bot.remove_roles(ctx.message.author, role2)
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['remove_command_data'][0]))
+                    await self.bot.remove_roles(ctx.message.author, role2)
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['remove_command_data'][0]))
                 else:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['remove_command_data'][2]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['remove_command_data'][2]))
             elif 'stream' in desrole:
                 if role3 in ctx.message.author.roles:
-                    yield from self.bot.remove_roles(ctx.message.author, role3)
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['remove_command_data'][1]))
+                    await self.bot.remove_roles(ctx.message.author, role3)
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['remove_command_data'][1]))
                 else:
-                    yield from self.bot.send_message(ctx.message.channel,
-                                                     content=str(self.bot.botmessages['remove_command_data'][3]))
+                    await self.bot.send_message(ctx.message.channel,
+                                                content=str(self.bot.botmessages['remove_command_data'][3]))
         else:
             return
 
@@ -1589,7 +1523,7 @@ class BotCommands:
             except discord.HTTPException:
                 if self.sent_prune_error_message is False:
                     self.sent_prune_error_message = True
-                    await self.bot.send_message(ctx.message.channel, content=str(botmessages['prune_command_data'][0]))
+                    await self.bot.send_message(ctx.message.channel, content=str(self.bot.botmessages['prune_command_data'][0]))
                 else:
                     return
 
@@ -1610,8 +1544,8 @@ class BotCommands:
     Indent this code as well if you want this to work only in Python 3.5+ as well.
     Although you do not have to as this Syntax is valid in 3.5+ or should be. the async def is also optional.
     '''
-    @async
-    def prune_command_iterater_helper(self, ctx, num):
+
+    async def prune_command_iterater_helper(self, ctx, num):
         """
         Prunes Messages.
         :param self:
@@ -1620,17 +1554,16 @@ class BotCommands:
         :return: Nothing.
         """
         try:
-            yield from self.bot.purge_from(ctx.message.channel, limit=num + 1)
+            await self.bot.purge_from(ctx.message.channel, limit=num + 1)
         except discord.HTTPException:
             if self.sent_prune_error_message is False:
                 self.sent_prune_error_message = True
-                yield from self.bot.send_message(ctx.message.channel,
-                                                 content=str(self.bot.botmessages['prune_command_data'][0]))
+                await self.bot.send_message(ctx.message.channel,
+                                            content=str(self.bot.botmessages['prune_command_data'][0]))
             else:
                 return
 
-    @async
-    def clear_command_iterater_helper(self, ctx):
+    async def clear_command_iterater_helper(self, ctx):
         """
         Clears the bot's messages.
         :param self:
@@ -1639,8 +1572,8 @@ class BotCommands:
         """
 
         try:
-            yield from self.bot.purge_from(ctx.message.channel, limit=100,
-                                           check=lambda e: e.author == ctx.message.server.me)
+            await self.bot.purge_from(ctx.message.channel, limit=100,
+                                      check=lambda e: e.author == ctx.message.server.me)
         except discord.HTTPException:
             return
 

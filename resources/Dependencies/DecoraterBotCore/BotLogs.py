@@ -24,15 +24,11 @@ DEALINGS IN THE SOFTWARE.
 """
 import os
 import discord
-import io
 import sys
-import os.path
 import logging
 import json
 import ctypes
 from . import BotConfigReader
-
-from sasync import *
 
 __all__ = ['BotLogger']
 
@@ -58,7 +54,7 @@ class BotLogger:
                                                                                        sys.version_info))
 
         try:
-            self.consoledatafile = io.open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
+            self.consoledatafile = open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
                 self.path, self.sepa, self.BotConfig.language))
             self.consoletext = json.load(self.consoledatafile)
             self.consoledatafile.close()
@@ -66,7 +62,7 @@ class BotLogger:
             print('ConsoleWindow.{0}.json is not Found. Cannot Continue.'.format(self.BotConfig.language))
             sys.exit(2)
         try:
-            self.LogDataFile = io.open('{0}{1}resources{1}ConfigData{1}LogData.{2}.json'.format(
+            self.LogDataFile = open('{0}{1}resources{1}ConfigData{1}LogData.{2}.json'.format(
                 self.path, self.sepa, self.BotConfig.language))
             self.LogData = json.load(self.LogDataFile)
             self.LogDataFile.close()
@@ -132,7 +128,7 @@ class BotLogger:
         if message.content is not None:
             logfile = '{0}{1}resources{1}Logs{1}log.log'.format(self.path, self.sepa)
             try:
-                file = io.open(logfile, 'a', encoding='utf-8')
+                file = open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
                 if size >= 32102400:
                     file.seek(0)
@@ -168,7 +164,7 @@ class BotLogger:
                                                                         chl_name, old, new)
             editlogservers = editlog003
         try:
-            file = io.open(logfile, 'a', encoding='utf-8')
+            file = open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
             if size >= 32102400:
                 file.seek(0)
@@ -214,7 +210,7 @@ class BotLogger:
         if message.content is not None:
             try:
                 logfile = '{0}{1}resources{1}Logs{1}delete_log.log'.format(self.path, self.sepa)
-                file = io.open(logfile, 'a', encoding='utf-8')
+                file = open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
                 if size >= 32102400:
                     file.seek(0)
@@ -239,7 +235,7 @@ class BotLogger:
             data = str(self.LogData['Embed_Logs'][1])
         logfile = '{0}{1}resources{1}Logs{1}embeds.log'.format(self.path, self.sepa)
         try:
-            file2 = io.open(logfile, 'a', encoding='utf-8')
+            file2 = open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
             if size >= 32102400:
                 file2.seek(0)
@@ -248,8 +244,7 @@ class BotLogger:
         except PermissionError:
             return
 
-    @async
-    def send_logs(self, client, message):
+    async def send_logs(self, client, message):
         """
         Sends Sent Messages.
         :param client: Discord Client.
@@ -262,14 +257,13 @@ class BotLogger:
                                                                       message.content)
         sndmsglogs = logs001
         try:
-            yield from client.send_message(discord.Object(id='153055192873566208'), content=sndmsglogs)
+            await client.send_message(discord.Object(id='153055192873566208'), content=sndmsglogs)
         except discord.errors.NotFound:
             return
         except discord.errors.HTTPException:
             return
 
-    @async
-    def send_edit_logs(self, client, before, after):
+    async def send_edit_logs(self, client, before, after):
         """
         Sends Edited Messages.
         :param client: Discord Client.
@@ -286,14 +280,13 @@ class BotLogger:
         sendeditlogs = editlog001
         if before.content != after.content:
             try:
-                yield from client.send_message(discord.Object(id='153055192873566208'), content=sendeditlogs)
+                await client.send_message(discord.Object(id='153055192873566208'), content=sendeditlogs)
             except discord.errors.NotFound:
                 return
             except discord.errors.HTTPException:
                 return
 
-    @async
-    def send_delete_logs(self, client, message):
+    async def send_delete_logs(self, client, message):
         """
         Sends Deleted Messages.
         :param client: Discord Client.
@@ -306,13 +299,12 @@ class BotLogger:
                                                                                 message.channel.name, message.content)
         senddeletelogs = dellogs001
         try:
-            yield from client.send_message(discord.Object(id='153055192873566208'), content=senddeletelogs)
+            await client.send_message(discord.Object(id='153055192873566208'), content=senddeletelogs)
         except discord.errors.NotFound:
             return
         except discord.errors.HTTPException:
             return
 
-    @async
     def on_bot_error(self, funcname, tbinfo, err):
         """
             This Function is for Internal Bot use only.
@@ -331,7 +323,7 @@ class BotLogger:
                 exception_data = 'Ignoring exception caused at {0}:\n{1}'.format(funcname, tbinfo)
                 logfile = '{0}{1}resources{1}Logs{1}error_log.log'.format(self.path, self.sepa)
                 try:
-                    file = io.open(logfile, 'a', encoding='utf-8')
+                    file = open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
                     if size >= 32102400:
                         file.seek(0)
@@ -352,17 +344,17 @@ class BotLogger:
         :param desgame: Game Name.
         :return: Nothing.
         """
-        gmelogdata01 = str(self.LogData['On_Message_Logs'][0]).format(ctx.message.author.name, desgame,
-                                                                      ctx.message.author.id)
+        gmelogdata01 = str(self.LogData['Game_Logs'][0]).format(ctx.message.author.name, desgame,
+                                                                ctx.message.author.id)
         gmelogspm = gmelogdata01
         gmelogsservers = ""
         if ctx.message.channel.is_private is False:
-            gmelog001 = str(self.LogData['On_Message_Logs'][1]).format(ctx.message.author.name, desgame,
-                                                                       ctx.message.author.id)
+            gmelog001 = str(self.LogData['Game_Logs'][1]).format(ctx.message.author.name, desgame,
+                                                                 ctx.message.author.id)
             gmelogsservers = gmelog001
         logfile = '{0}{1}resources{1}Logs{1}gamelog.log'.format(self.path, self.sepa)
         try:
-            file = io.open(logfile, 'a', encoding='utf-8')
+            file = open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
             if size >= 32102400:
                 file.seek(0)
@@ -375,7 +367,6 @@ class BotLogger:
         except PermissionError:
             return
 
-    @async
     def onban(self, member):
         """
         Logs Bans.
@@ -388,14 +379,13 @@ class BotLogger:
         mem_svr_name = member.server.name
         ban_log_data = str(self.LogData['Ban_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
         logfile = '{0}{1}resources{1}Logs{1}bans.log'.format(self.path, self.sepa)
-        file = io.open(logfile, 'a', encoding='utf-8')
+        file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
             file.truncate()
         file.write(ban_log_data)
         file.close()
 
-    @async
     def onavailable(self, server):
         """
         Logs Available Servers.
@@ -404,14 +394,13 @@ class BotLogger:
         """
         available_log_data = str(self.LogData['On_Server_Available'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}available_servers.log'.format(self.path, self.sepa)
-        file = io.open(logfile, 'a', encoding='utf-8')
+        file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
             file.truncate()
         file.write(available_log_data)
         file.close()
 
-    @async
     def onunavailable(self, server):
         """
         Logs Unavailable Servers
@@ -420,14 +409,13 @@ class BotLogger:
         """
         unavailable_log_data = str(self.LogData['On_Server_Unavailable'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.log'.format(self.path, self.sepa)
-        file = io.open(logfile, 'a', encoding='utf-8')
+        file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
             file.truncate()
         file.write(unavailable_log_data)
         file.close()
 
-    @async
     def onunban(self, server, user):
         """
         Logs Unbans.
@@ -438,14 +426,13 @@ class BotLogger:
         unban_log_data = str(self.LogData['Unban_Logs'][0]).format(user.name, user.id, user.discriminator,
                                                                    server.name)
         logfile = '{0}{1}resources{1}Logs{1}unbans.log'.format(self.path, self.sepa)
-        file = io.open(logfile, 'a', encoding='utf-8')
+        file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
             file.truncate()
         file.write(unban_log_data)
         file.close()
 
-    @async
     def ongroupjoin(self, channel, user):
         """
         Logs group join.
@@ -453,10 +440,12 @@ class BotLogger:
         :param user: Users.
         :return: Nothing.
         """
-        # TODO: Impliment this.
+        type(self)
+        type(channel)
+        type(user)
+        # TODO: Implement this.
         pass
 
-    @async
     def ongroupremove(self, channel, user):
         """
         Logs group remove.
@@ -464,10 +453,250 @@ class BotLogger:
         :param user: Users.
         :return: Nothing.
         """
-        # TODO: Impliment this.
+        type(self)
+        type(channel)
+        type(user)
+        # TODO: Implement this.
         pass
 
-    @async
+    def ontyping(self, channel, user, when):
+        """
+        Logs when a user is typing.
+        :param channel: Channels.
+        :param user: Users.
+        :param when: Time.
+        :return: Nothing.
+        """
+        type(self)
+        type(channel)
+        type(user)
+        type(when)
+        # TODO: Implement this.
+        pass
+
+    def onvoicestateupdate(self, before, after):
+        """
+        Logs When someone updates their voice state.
+        :param before: State.
+        :param after: State.
+        :return: Nothing.
+        """
+        type(self)
+        type(before)
+        type(after)
+        # TODO: Implement this.
+        pass
+
+    def onchanneldelete(self, channel):
+        """
+        Logs Channel Deletion.
+        :param channel: Channel.
+        """
+        type(self)
+        type(channel)
+        # TODO: Implement this.
+        pass
+
+    def onchannelcreate(self, channel):
+        """
+        Logs Channel Creation.
+        :param channel: Channel.
+        """
+        type(self)
+        type(channel)
+        # TODO: Implement this.
+        pass
+
+    def onchannelupdate(self, before, after):
+        """
+        Logs Channel Updates.
+        :param before: Channel before.
+        :param after: Channel after.
+        :return: Nothing.
+        """
+        type(self)
+        type(before)
+        type(after)
+        # TODO: Implement this.
+        pass
+
+    def onmemberupdate(self, before, after):
+        """
+        Logs Member Updates.
+        :param before: Member before.
+        :param after: Member after.
+        :return: Nothing.
+        """
+        type(self)
+        type(before)
+        type(after)
+        # TODO: Implement this.
+        pass
+
+    def onserverjoin(self, server):
+        """
+        Logs server Joins.
+        :param server: Server.
+        :return: Nothing.
+        """
+        type(self)
+        type(server)
+        # TODO: Implement this.
+        pass
+
+    def onserverremove(self, server):
+        """
+        Logs server Removes.
+        :param server: Server.
+        :return: Nothing.
+        """
+        type(self)
+        type(server)
+        # TODO: Implement this.
+        pass
+
+    def onserverupdate(self, before, after):
+        """
+        Logs Server Updates.
+        :param before: Server before.
+        :param after: Server after.
+        :return: Nothing.
+        """
+        type(self)
+        type(before)
+        type(after)
+        # TODO: Implement this.
+        pass
+
+    def onserverrolecreate(self, role):
+        """
+        Logs role Creation.
+        :param role: Role.
+        :return: Nothing.
+        """
+        type(self)
+        type(role)
+        # TODO: Implement this.
+        pass
+
+    def onserverroledelete(self, role):
+        """
+        Logs role Deletion.
+        :param role: Role.
+        :return: Nothing.
+        """
+        type(self)
+        type(role)
+        # TODO: Implement this.
+        pass
+
+    def onserverroleupdate(self, before, after):
+        """
+        Logs Role updates.
+        :param before: Role before.
+        :param after: Role after.
+        :return: Nothing.
+        """
+        type(self)
+        type(before)
+        type(after)
+        # TODO: Implement this.
+        pass
+
+    def onsocketrawreceive(self, msg):
+        """
+        Logs socket Raw recieves.
+        :param msg: Message from socket.
+        :return: Nothing.
+        """
+        type(self)
+        type(msg)
+        # TODO: Implement this.
+        pass
+
+    def onsocketrawsend(self, payload):
+        """
+        Logs socket raw sends.
+        :param payload: Payload that was sent.
+        :return: Nothing.
+        """
+        type(self)
+        type(payload)
+        # TODO: Implement this.
+        pass
+
+    def onresumed(self):
+        """
+        Logs when bot resumes.
+        :return: Nothing.
+        """
+        type(self)
+        # TODO: Implement this.
+        pass
+
+    def onserveremojisupdate(self, before, after):
+        """
+        Logs Server emoji updates.
+        :param before: Emoji before.
+        :param after: Emoji after.
+        :return: Nothing.
+        """
+        type(self)
+        type(before)
+        type(after)
+        # TODO: Implement this.
+        pass
+
+    def onreactionadd(self, reaction, user):
+        """
+        Logs Reactions Added.
+        :param reaction: Reaction.
+        :param user: User.
+        :return: Nothing.
+        """
+        type(self)
+        type(reaction)
+        type(user)
+        # TODO: Implement this.
+        pass
+
+    def onreactionremove(self, reaction, user):
+        """
+        Logs Reaction Removals.
+        :param reaction: Reaction.
+        :param user: User.
+        :return: Nothing.
+        """
+        type(self)
+        type(reaction)
+        type(user)
+        # TODO: Implement this.
+        pass
+
+    def onreactionclear(self, message, reactions):
+        """
+        Logs Reaction clears.
+        :param message: Message.
+        :param reactions: Reactions.
+        :return: Nothing.
+        """
+        type(self)
+        type(message)
+        type(reactions)
+        # TODO: Implement this.
+        pass
+
+    def onmemberjoin(self, member):
+        """
+        Logs Member Joins.
+        :param member: Member.
+        :return: Nothing.
+        """
+        type(self)
+        type(member)
+        # TODO: Implement this.
+        pass
+
     def onkick(self, member):
         """
         Logs Kicks.
@@ -480,7 +709,7 @@ class BotLogger:
         mem_svr_name = member.server.name
         kick_log_data = str(self.LogData['Kick_Logs'][0]).format(mem_name, mem_id, mem_dis, mem_svr_name)
         logfile = '{0}{1}resources{1}Logs{1}kicks.log'.format(self.path, self.sepa)
-        file = io.open(logfile, 'a', encoding='utf-8')
+        file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
             file.truncate()

@@ -1,13 +1,13 @@
 # Used Discord.py Events in DecoraterBot
 
-here is a list of the Discortd.py Events that are used as well as what they are used for.
+Here is a list of the Discortd.py Events that are used as well as what they are used for.
 Note: Events that use Optional Logs are Controlled by ``\\resources\\ConfigData\\Credentials.json``
 
 Documentation on Setting it up is **not** Complete.
 
 | Event	| Usage	|
 |:------:	|:-:	|
-| ``on_message``	| Commands. This is how the Bot Actually Responds to the commands. Also has Built in Error Handler for this Event.	|
+| ``on_message``	| Commands. This is how the Bot Actually Responds to the commands. Also has Built in Error Handler for this Event. Also has optional logs.	|
 | ``on_message_delete``	| Optional Logs & Built in Error Handler.	|
 | ``on_message_edit``	| Optional Logs & Built in Error Handler.	|
 | ``on_channel_delete``	| Optional Logs (Not Done yet)	|
@@ -35,3 +35,7 @@ Documentation on Setting it up is **not** Complete.
 | ``on_socket_raw_send``	| Optional Logs (Not Done yet)	|
 | ``on_ready``	| Bot Status messages on 2 Servers & Initial Streaming Status saying to ``type ::commands for info``.	|
 | ``on_resumed``	| Optional Logs (Not Done yet)	|
+| ``on_server_emojis_update``	| Optional Logs (Not Done yet)	|
+| ``on_reaction_add``	| Optional Logs (Not Done yet)	|
+| ``on_reaction_remove``	| Optional Logs (Not Done yet)	|
+| ``on_reaction_clear``	| Optional Logs (Not Done yet)	|

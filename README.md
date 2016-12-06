@@ -12,6 +12,16 @@ DecoraterBot is a Discord bot that is written in [Python](https://www.python.org
 
 The bot gets updated and tested regularly. Pushes are released when features are stable.
 
+## Rewrites
+
+This bot from time to time might go through some rewrites to fix major and minor bugs in code.
+
+Because of such it might sometimes means that it drops support for other things.
+
+A suck major rewrite was the commands extension one and then soon after a rewrite yet again to drop support for Python 3.4.
+
+The reason for dropping support for 3.4 is because Discord.py will do the same soon as well when 3.5 is released on Debian systems.
+
 ## Configuration
 
 To run this bot you will need 2 things:
@@ -61,7 +71,7 @@ Luckily the following file should be able to handle the installation:
 
 Not available yet.
 
-I need command line things to execute python 3.4.2+ (3.5.2 recommended).
+I need command line things to execute python 3.5.0+ (3.5.2 recommended).
 You have any other platforms you want the bot to support?
 Well send me it's sys.platform value. The only thing stopping me is a few lines of platform specific code.
 

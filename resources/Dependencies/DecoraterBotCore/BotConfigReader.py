@@ -119,3 +119,5 @@ class BotConfigVars(__BaseConfig):
         self.log_reaction_remove = self.credentials['log_reaction_remove']  # bool
         self.log_reaction_clear = self.credentials['log_reaction_clear']  # bool
         self.shards = self.credentials['shards']  # int
+        self.twitch_url = self.credentials['twitch_url']  # string
+        self.youtube_url = self.credentials['youtube_url']  # string

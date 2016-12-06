@@ -724,12 +724,12 @@ class BotClient(commands.Bot):
                 if desgame.find(" | type=1") is not -1:
                     desgame = desgame.replace(" | type=1", "")
                     desgametype = 1
-                    stream_url = "https://twitch.tv/decoraterbot"
+                    stream_url = self.BotConfig.twitch_url
                     return desgame, desgametype, stream_url
                 elif desgame.find(" | type=2") is not -1:
                     desgame = desgame.replace(" | type=2", "")
                     desgametype = 2
-                    stream_url = "https://twitch.tv/decoraterbot"
+                    stream_url = self.BotConfig.youtube_url
                     return desgame, desgametype, stream_url
             else:
                 return desgame, desgametype, stream_url

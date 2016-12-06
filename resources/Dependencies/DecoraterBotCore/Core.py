@@ -433,7 +433,7 @@ class BotClient(commands.Bot):
         if not message.channel.is_private:
             try:
                 if message.channel.server and message.channel.server.id == "81812480254291968":
-                    if message.author.id == self.bot.user.id:
+                    if message.author.id == self.user.id:
                         return
                     elif message.channel.id == "153055192873566208":
                         pass
@@ -441,7 +441,7 @@ class BotClient(commands.Bot):
                         pass
                     else:
                         if self.logging:
-                            await self.DBLogs.send_logs(self.bot, message)
+                            await self.DBLogs.send_logs(self, message)
                 elif message.channel.server and message.channel.server.id == "71324306319093760":
                     if message.channel.id == '141489876200718336':
                         if self.logging:
@@ -713,7 +713,7 @@ class BotClient(commands.Bot):
         :param ctx: Message Context.
         :return: game data.
         """
-        desgame = ctx.message.content[len(self.bot.bot_prefix + "game "):].strip()
+        desgame = ctx.message.content[len(self.bot_prefix + "game "):].strip()
         desgametype = None
         stream_url = None
         if len(desgame) > 0:

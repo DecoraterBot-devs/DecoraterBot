@@ -4,6 +4,8 @@ Logs plugin for DecoraterBot.
 
 This is the default logger for DecoraterBot.
 """
+import traceback
+import discord
 
 
 class BotLogger:

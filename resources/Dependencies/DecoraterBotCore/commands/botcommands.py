@@ -330,8 +330,8 @@ class BotCommands:
         elif ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
-            desgame, desgametype, stream_url = self.bot.game_command_helper(ctx)
-            if len(desgame) < 1:
+            desgame, desgametype, stream_url, desgamesize = self.bot.game_command_helper(ctx)
+            if desgamesize < 1:
                 await self.bot.send_message(ctx.message.channel, 'No game name was provided.')
             elif desgametype is not None:
                 if self.bot.log_games:

@@ -18,7 +18,7 @@ This bot from time to time might go through some rewrites to fix major and minor
 
 Because of such it might sometimes means that it drops support for other things.
 
-A suck major rewrite was the commands extension one and then soon after a rewrite yet again to drop support for Python 3.4.
+A such major rewrite was the commands extension one and then soon after a rewrite yet again to drop support for Python 3.4.
 
 The reason for dropping support for 3.4 is because Discord.py will do the same soon as well when 3.5 is released on Debian systems.
 

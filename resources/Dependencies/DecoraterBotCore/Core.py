@@ -716,7 +716,8 @@ class BotClient(commands.Bot):
         desgame = ctx.message.content[len(self.bot_prefix + "game "):].strip()
         desgametype = None
         stream_url = None
-        if len(desgame) > 0:
+        desgamesize = len(desgame)
+        if desgamesize > 0:
             if len(ctx.message.mentions) > 0:
                 for x in ctx.message.mentions:
                     desgame = desgame.replace(x.mention, x.name)
@@ -725,14 +726,17 @@ class BotClient(commands.Bot):
                     desgame = desgame.replace(" | type=1", "")
                     desgametype = 1
                     stream_url = self.BotConfig.twitch_url
-                    return desgame, desgametype, stream_url
+                    return desgame, desgametype, stream_url, desgamesize
                 elif desgame.find(" | type=2") is not -1:
                     desgame = desgame.replace(" | type=2", "")
                     desgametype = 2
                     stream_url = self.BotConfig.youtube_url
-                    return desgame, desgametype, stream_url
+                    return desgame, desgametype, stream_url, desgamesize
             else:
-                return desgame, desgametype, stream_url
+                return desgame, desgametype, stream_url, desgamesize
+        else:
+            desgame = None
+            return desgame, desgametype, stream_url, desgamesize
 
     async def cheesy_commands_helper(self, message):
         """

@@ -6,6 +6,7 @@ This is the default logger for DecoraterBot.
 """
 import traceback
 import discord
+from .. import BotErrors
 
 
 class BotLogger:
@@ -121,7 +122,7 @@ class BotLogger:
                 else:
                     if self.bot.logkicks:
                         self.bot.DBLogs.onkick(member)
-            except (discord.errors.HTTPException, discord.errors.Forbidden):
+            except (discord.errors.HTTPException, discord.errors.Forbidden, BotErrors.CommandTimeoutError):
                 if self.bot.logkicks:
                     self.bot.DBLogs.onkick(member)
             if member.server and member.server.id == "71324306319093760":

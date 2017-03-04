@@ -36,10 +36,12 @@ async def resolve_send_message_error(bot, ctx):
     """
     svr_name = ctx.message.channel.server.name
     cnl_name = ctx.message.channel.name
-    msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
+    msginfo = 'Missing the Send Message Permssions in the ' \
+              '{0} server on the {1} channel.'
     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
     try:
-        await bot.send_message(ctx.message.author, content=unabletosendmessageerror)
+        await bot.send_message(ctx.message.author,
+                               content=unabletosendmessageerror)
     except discord.errors.Forbidden:
         return
 
@@ -53,9 +55,11 @@ async def resolve_send_message_error_old(bot, message):
     """
     svr_name = message.channel.server.name
     cnl_name = message.channel.name
-    msginfo = 'Missing the Send Message Permssions in the {0} server on the {1} channel.'
+    msginfo = 'Missing the Send Message Permssions in the ' \
+              '{0} server on the {1} channel.'
     unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
     try:
-        await bot.send_message(message.author, content=unabletosendmessageerror)
+        await bot.send_message(message.author,
+                               content=unabletosendmessageerror)
     except discord.errors.Forbidden:
         return

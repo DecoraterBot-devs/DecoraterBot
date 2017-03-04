@@ -5,7 +5,11 @@ Logs plugin for DecoraterBot.
 This is the default logger for DecoraterBot.
 """
 import traceback
+import json
+import re
+
 import discord
+
 from .. import BotErrors
 
 
@@ -15,6 +19,81 @@ class BotLogger:
     """
     def __init__(self, bot):
         self.bot = bot
+
+    async def on_command_error(self, exception, context):
+        """..."""
+        await self.bot.send_message(context.message.channel, "exception in command {0}:```py\n{1}```".format(context.command, str(exception)))
+
+    async def on_message(self, message):
+        """
+        Bot Event.
+        :param message: Messages.
+        :return: Nothing.
+        """
+        if self.bot.user.mention in message.content:
+            await self.bot.bot_mentioned_helper(message)
+        # if len(message.mentions) > 5:
+        #    await self.bot.mention_ban_helper(message)
+        if not message.channel.is_private:
+            try:
+                if message.channel.server and message.channel.server.id == \
+                        "81812480254291968":
+                    if message.author.id == self.bot.user.id:
+                        return
+                    elif message.channel.id == "153055192873566208":
+                        pass
+                    elif message.channel.id == "87382611688689664":
+                        pass
+                    else:
+                        if self.bot.logging:
+                            await self.bot.DBLogs.send_logs(self.bot, message)
+                elif message.channel.server and message.channel.server.id == \
+                        "71324306319093760":
+                    if message.channel.id == '141489876200718336':
+                        if self.bot.logging:
+                            self.bot.DBLogs.logs(message)
+                        await self.bot.cheesy_commands_helper(message)
+                    else:
+                        # await self.bot.everyone_mention_logger(message)
+                        if self.bot.logging:
+                            self.bot.DBLogs.logs(message)
+                else:
+                    if self.bot.logging:
+                        self.bot.DBLogs.logs(message)
+            except Exception as e:
+                if self.bot.pm_command_errors:
+                    if self.bot.discord_user_id is not None:
+                        owner = self.bot.discord_user_id
+                        exception_data2 = str(traceback.format_exc())
+                        message_data = '```py\n{0}\n```'.format(
+                            exception_data2)
+                        try:
+                            await self.bot.send_message(discord.User(id=owner),
+                                                        content=message_data)
+                        except discord.errors.Forbidden:
+                            pass
+                        except discord.errors.HTTPException:
+                            funcname = 'on_message'
+                            tbinfo = str(traceback.format_exc())
+                            await self.bot.DBLogs.on_bot_error(funcname,
+                                                               tbinfo, e)
+                    else:
+                        return
+                else:
+                    funcname = 'on_message'
+                    tbinfo = str(traceback.format_exc())
+                    await self.bot.DBLogs.on_bot_error(funcname, tbinfo, e)
+        if message.channel.is_private:
+            if self.bot.is_official_bot:
+                pattern = '(https?:\/\/)?discord\.gg\/'
+                regex = re.compile(pattern)
+                searchres = regex.search(message.content)
+                if searchres is not None:
+                    await self.bot.send_message(message.channel,
+                                                content=str(
+                                                    self.bot.botmessages[
+                                                        'join_command_data'][
+                                                        3]))
 
     async def on_message_edit(self, before, after):
         """
@@ -27,7 +106,8 @@ class BotLogger:
             if before.channel.is_private is not False:
                 if self.bot.logging:
                     self.bot.DBLogs.edit_logs(before, after)
-            elif before.channel.server and before.channel.server.id == "81812480254291968":
+            elif before.channel.server and before.channel.server.id == \
+                    "81812480254291968":
                 if before.author.id == self.bot.user.id:
                     return
                 elif before.channel.id == "153055192873566208":
@@ -35,7 +115,8 @@ class BotLogger:
                 elif before.channel.id == "87382611688689664":
                     return
                 else:
-                    await self.bot.DBLogs.send_edit_logs(self.bot, before, after)
+                    await self.bot.DBLogs.send_edit_logs(before,
+                                                         after)
             else:
                 if before.channel.is_private is not False:
                     return
@@ -46,6 +127,39 @@ class BotLogger:
                         self.bot.DBLogs.edit_logs(before, after)
         except Exception as e:
             funcname = 'on_message_edit'
+            tbinfo = str(traceback.format_exc())
+            self.bot.DBLogs.on_bot_error(funcname, tbinfo, e)
+
+    async def on_message_delete(self, message):
+        """
+        Bot Event.
+        :param message: Message.
+        :return: Nothing.
+        """
+        try:
+            if message.channel.is_private is not False:
+                if self.bot.logging:
+                    self.bot.DBLogs.delete_logs(message)
+            elif message.channel.server and message.channel.server.id == \
+                    "81812480254291968":
+                if message.author.id == self.bot.user.id:
+                    return
+                elif message.channel.id == "153055192873566208":
+                    return
+                elif message.channel.id == "87382611688689664":
+                    return
+                else:
+                    await self.bot.DBLogs.send_delete_logs(self.bot, message)
+            else:
+                if message.channel.is_private is not False:
+                    return
+                elif message.channel.server.id == '95342850102796288':
+                    return
+                else:
+                    if self.bot.logging:
+                        self.bot.DBLogs.delete_logs(message)
+        except Exception as e:
+            funcname = 'on_message_delete'
             tbinfo = str(traceback.format_exc())
             self.bot.DBLogs.on_bot_error(funcname, tbinfo, e)
 
@@ -122,7 +236,8 @@ class BotLogger:
                 else:
                     if self.bot.logkicks:
                         self.bot.DBLogs.onkick(member)
-            except (discord.errors.HTTPException, discord.errors.Forbidden, BotErrors.CommandTimeoutError):
+            except (discord.errors.HTTPException, discord.errors.Forbidden,
+                    BotErrors.CommandTimeoutError):
                 if self.bot.logkicks:
                     self.bot.DBLogs.onkick(member)
             if member.server and member.server.id == "71324306319093760":
@@ -151,6 +266,45 @@ class BotLogger:
         try:
             if self.bot.log_member_join:
                 self.bot.DBLogs.onmemberjoin(member)
+            if member.server.id == '71324306319093760' and member.bot is not \
+                    True:
+                file_path_join_1 = '{0}resources{0}ConfigData{0}' \
+                                   'serverconfigs{0}'.format(self.bot.sepa)
+                filename_join_1 = 'servers.json'
+                serveridslistfile = open(
+                    self.bot.path + file_path_join_1 + filename_join_1)
+                serveridslist = json.load(serveridslistfile)
+                serveridslistfile.close()
+                serverid = str(serveridslist['config_server_ids'][0])
+                file_path_join_2 = '{0}resources{0}ConfigData{0}' \
+                                   'serverconfigs{0}{1}{0}verificat' \
+                                   'ions{0}'.format(self.bot.sepa, serverid)
+                filename_join_2 = 'verifymessages.json'
+                filename_join_3 = 'verifycache.json'
+                filename_join_4 = 'verifycache.json'
+                memberjoinmessagedatafile = open(
+                    self.bot.path + file_path_join_2 + filename_join_2)
+                memberjoinmessagedata = json.load(memberjoinmessagedatafile)
+                memberjoinmessagedatafile.close()
+                msg_info = str(memberjoinmessagedata['verify_messages'][0])
+                message_data = msg_info.format(member.id, member.server.name)
+                des_channel = str(
+                    memberjoinmessagedata['verify_messages_channel'][0])
+                joinedlistfile = open(
+                    self.bot.path + file_path_join_2 + filename_join_3)
+                newlyjoinedlist = json.load(joinedlistfile)
+                joinedlistfile.close()
+                await self.bot.send_message(discord.Object(id=des_channel),
+                                            content=message_data)
+                if member.id in newlyjoinedlist['users_to_be_verified']:
+                    # since this person is already in the list lets
+                    #  not readd them.
+                    pass
+                else:
+                    newlyjoinedlist['users_to_be_verified'].append(member.id)
+                    json.dump(newlyjoinedlist, open(
+                        self.bot.path + file_path_join_2 + filename_join_4,
+                        "w"))
         except Exception as e:
             funcname = 'on_member_join'
             tbinfo = str(traceback.format_exc())
@@ -202,6 +356,25 @@ class BotLogger:
         if self.bot.log_server_update:
             self.bot.DBLogs.onserverupdate(before, after)
 
+    async def on_ready(self):
+        """
+        Bot Event.
+        :return: Nothing.
+        """
+        await self.bot.on_login()
+        """
+        try:
+            if self.bot.disable_voice_commands is not True:
+                await self.bot.DBVoiceCommands.reload_commands_bypass3_new(
+                    self.bot)
+            else:
+                return
+        except Exception as e:
+            funcname = 'on_ready'
+            tbinfo = str(traceback.format_exc())
+            self.bot.DBLogs.on_bot_error(funcname, tbinfo, e)
+        """
+
     async def on_server_role_create(self, role):
         """
         Bot Event.
@@ -219,6 +392,20 @@ class BotLogger:
         """
         if self.bot.log_server_role_delete:
             self.bot.DBLogs.onserverroledelete(role)
+
+    async def on_error(self, event, *args, **kwargs):
+        """
+        Bot Event.
+        :param event: Event.
+        :param args: Args.
+        :param kwargs: Other Args.
+        :return: Nothing.
+        """
+        str(args)
+        str(kwargs)
+        funcname = event
+        tbinfo = str(traceback.format_exc())
+        self.bot.DBLogs.on_bot_error(funcname, tbinfo, None)
 
     async def on_server_role_update(self, before, after):
         """

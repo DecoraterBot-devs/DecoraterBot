@@ -25,35 +25,52 @@ DEALINGS IN THE SOFTWARE.
 import os
 import ctypes
 import sys
-import aiohttp
-import discord
-from discord.ext import commands
 import time
 import json
 import traceback
+import asyncio
+
+import aiohttp
+import discord
+from discord.ext import commands
+from colorama import Fore, Back, Style
+from colorama import init
+try:
+    import TinyURL
+    disabletinyurl = False
+except ImportError:
+    print_data_001 = 'TinyURL for Python 3.x was not installed.\n' \
+                     'It can be found at: https://github.com/AraHaan/Tin' \
+                     'yURL\nDisabled the tinyurl command for now.'
+    print(print_data_001)
+    disabletinyurl = True
+    TinyURL = None
+
 from .BotErrors import *
 try:
     from . import BotPMError
 except ImportError:
-    print('Some Unknown thing happened which made a critical bot code file unable to be found.')
+    print('Some Unknown thing happened which made a critical bot c'
+          'ode file unable to be found.')
     BotPMError = None
 from . import BotConfigReader
 from .BotLogs import *
-import asyncio
+from .web.database import Db
+from .web.datadog import DDAgent
 from . import containers
-from colorama import Fore, Back, Style
-from colorama import init
-import re
 
-__all__ = ['main', 'BotClient']
 
-config = BotConfigReader.BotConfigVars()
+__all__ = ['main', 'BotClient', 'botcommand']
+
+config = BotConfigReader.BotCredentialsVars()
 
 
 class YTDLLogger(object):
     """
-    Class for Silencing all of the Youtube_DL Logging stuff that defaults to console.
+    Class for Silencing all of the Youtube_DL Logging stuff that defaults to
+    console.
     """
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -66,7 +83,8 @@ class YTDLLogger(object):
         """
         if meth is not '':
             if meth == 'ytdl_debug':
-                logfile = '{0}{1}resources{1}Logs{1}ytdl_debug_logs.txt'.format(self.bot.path, self.bot.sepa)
+                logfile = '{0}{1}resources{1}Logs{1}ytdl_deb' \
+                          'ug_logs.txt'.format(self.bot.path, self.bot.sepa)
                 try:
                     file = open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -78,7 +96,8 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_warning':
-                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warning_logs.txt'.format(self.bot.path, self.bot.sepa)
+                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warnin' \
+                           'g_logs.txt'.format(self.bot.path, self.bot.sepa)
                 try:
                     file2 = open(logfile2, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile2)
@@ -90,7 +109,8 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_error':
-                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_error_logs.txt'.format(self.bot.path, self.bot.sepa)
+                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_er' \
+                           'ror_logs.txt'.format(self.bot.path, self.bot.sepa)
                 try:
                     file3 = open(logfile3, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile3)
@@ -102,7 +122,9 @@ class YTDLLogger(object):
                 except PermissionError:
                     return
             elif meth == 'ytdl_info':
-                logfile4 = '{0}{1}resources{1}Logs{1}ytdl_info_logs.txt'.format(self.bot.path, self.bot.sepa)
+                logfile4 = '{0}{1}resources{1}Logs{1}ytd' \
+                           'l_info_logs.txt'.format(self.bot.path,
+                                                    self.bot.sepa)
                 try:
                     file4 = open(logfile4, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile4)
@@ -118,7 +140,8 @@ class YTDLLogger(object):
 
     def info(self, msg):
         """
-        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        Reroutes the Youtube_DL Messages of this type to teither a file or
+        silences them.
         :param msg: Message.
         :return: Nothing.
         """
@@ -129,7 +152,8 @@ class YTDLLogger(object):
 
     def debug(self, msg):
         """
-        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        Reroutes the Youtube_DL Messages of this type to teither a file or
+        silences them.
         :param msg: Message.
         :return: Nothing.
         """
@@ -140,7 +164,8 @@ class YTDLLogger(object):
 
     def warning(self, msg):
         """
-        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        Reroutes the Youtube_DL Messages of this type to teither a file or
+        silences them.
         :param msg: Message.
         :return: Nothing.
         """
@@ -151,7 +176,8 @@ class YTDLLogger(object):
 
     def error(self, msg):
         """
-        Reroutes the Youtube_DL Messages of this type to teither a file or silences them.
+        Reroutes the Youtube_DL Messages of this type to teither a file or
+        silences them.
         :param msg: Message.
         :return: Nothing.
         """
@@ -174,6 +200,7 @@ class BotClient(commands.Bot):
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         self.containers = containers
+        self.commands_list = []
         self.YTDLLogger = YTDLLogger
         self.platform = None
         if self.bits == 4:
@@ -183,31 +210,39 @@ class BotClient(commands.Bot):
         self.path = sys.path[0]
         if self.path.find('\\AppData\\Local\\Temp') != -1:
             self.path = sys.executable.strip(
-                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}{3.micro}.exe'.format(self.platform, sys.platform,
-                                                                                       sys.implementation,
-                                                                                       sys.version_info))
-        self.botbanslist = open('{0}{1}resources{1}ConfigData{1}BotBanned.json'.format(self.path, self.sepa))
+                'DecoraterBot.{0}.{1}.{2.name}-{3.major}{3.minor}'
+                '{3.micro}.exe'.format(self.platform, sys.platform,
+                                       sys.implementation, sys.version_info))
+        self.botbanslist = open('{0}{1}resources{1}Conf'
+                                'igData{1}BotBanned.json'.format(self.path,
+                                                                 self.sepa))
         self.banlist = json.load(self.botbanslist)
         self.botbanslist.close()
-        self.consoledatafile = open('{0}{1}resources{1}ConfigData{1}ConsoleWindow.{2}.json'.format(
-            self.path, self.sepa, self.BotConfig.language))
+        self.consoledatafile = open('{0}{1}resources{1}'
+                                    'ConfigData{1}ConsoleWindow.{2}.'
+                                    'json'.format(self.path, self.sepa,
+                                                  self.BotConfig.language))
         self.consoletext = json.load(self.consoledatafile)
         self.consoledatafile.close()
         try:
-            self.ignoreslistfile = open('{0}{1}resources{1}ConfigData{1}IgnoreList.json'.format(
-                self.path, self.sepa))
+            self.ignoreslistfile = open('{0}{1}resources{1}ConfigDa'
+                                        'ta{1}IgnoreList.'
+                                        'json'.format(self.path, self.sepa))
             self.ignoreslist = json.load(self.ignoreslistfile)
             self.ignoreslistfile.close()
         except FileNotFoundError:
             print(str(self.consoletext['Missing_JSON_Errors'][0]))
             sys.exit(2)
-        self.botmessagesdata = open('{0}{1}resources{1}ConfigData{1}BotMessages.{2}.json'.format(
-            self.path, self.sepa, self.BotConfig.language))
+        self.botmessagesdata = open('{0}{1}resources{1}ConfigD'
+                                    'ata{1}BotMessages.{2}.'
+                                    'json'.format(self.path, self.sepa,
+                                                  self.BotConfig.language))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
         try:
-            self.commandslist = open('{0}{1}resources{1}ConfigData{1}BotCommands.json'.format(self.path,
-                                                                                              self.sepa))
+            self.commandslist = open('{0}{1}resources{1}ConfigD'
+                                     'ata{1}BotCommands.'
+                                     'json'.format(self.path, self.sepa))
             self.commandlist = json.load(self.commandslist)
             self.commandslist.close()
         except FileNotFoundError:
@@ -215,7 +250,8 @@ class BotClient(commands.Bot):
             sys.exit(2)
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
-        # Bool to help let the bot know weather or not to actually print the logged in stuff.
+        # Bool to help let the bot know weather or not to actually print
+        # the logged in stuff.
         self.logged_in_ = BotClient.logged_in
         # default to True in case options are not present in Credentials.json
         self.reconnects = 0
@@ -262,10 +298,12 @@ class BotClient(commands.Bot):
         self.log_reaction_remove = True
         self.log_reaction_clear = True
         self.bot_prefix = ''
-        # Will Always be True to prevent the Error Handler from Causing Issues later.
+        # Will Always be True to prevent the Error Handler from Causing Issues
+        # later.
         # Well only if the PM Error handler is False.
         self.enable_error_handler = True
-        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(self.path, self.sepa)
+        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(
+            self.path, self.sepa)
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             self.discord_user_email = self.BotConfig.discord_user_email
             self.discord_user_password = self.BotConfig.discord_user_password
@@ -292,7 +330,9 @@ class BotClient(commands.Bot):
             if self.bot_prefix == '':
                 self.bot_prefix = None
             if self.bot_prefix is None:
-                print('No Prefix specified in Credentials.json. The Bot cannot continue.')
+                print(
+                    'No Prefix specified in Credentials.json. The '
+                    'Bot cannot continue.')
                 sys.exit(2)
             self.disable_voice_commands = self.BotConfig.disable_voice_commands
             self.pm_command_errors = self.BotConfig.pm_command_errors
@@ -311,7 +351,8 @@ class BotClient(commands.Bot):
             self.log_server_role_create = self.BotConfig.log_server_role_create
             self.log_server_role_delete = self.BotConfig.log_server_role_delete
             self.log_server_role_update = self.BotConfig.log_server_role_update
-            self.log_server_emojis_update = self.BotConfig.log_server_emojis_update
+            self.log_server_emojis_update = (
+                self.BotConfig.log_server_emojis_update)
             self.log_group_join = self.BotConfig.log_group_join
             self.log_group_remove = self.BotConfig.log_group_remove
             self.log_error = self.BotConfig.log_error
@@ -325,28 +366,38 @@ class BotClient(commands.Bot):
             self.log_reaction_add = self.BotConfig.log_reaction_add
             self.log_reaction_remove = self.BotConfig.log_reaction_remove
             self.log_reaction_clear = self.BotConfig.log_reaction_clear
-        if (self.logging or self.logbans or self.logunbans or self.logkicks or self.discord_logger_ or
-                self.asyncio_logger_ or self.log_available or self.log_unavailable or self.log_channel_create or
-                self.log_channel_delete or self.log_channel_update or self.log_member_update or self.log_server_join or
-                self.log_server_remove or self.log_server_update or self.log_server_role_create or
-                self.log_server_role_delete or self.log_server_role_update or self.log_group_join or
-                self.log_group_remove or self.log_error or self.log_voice_state_update or self.log_typing or
-                self.log_socket_raw_receive or self.log_socket_raw_send or self.log_resumed or self.log_member_join or
-                self.enable_error_handler or self.log_games or self.log_ytdl or self.log_server_emojis_update or
-                self.log_reaction_add or self.log_reaction_remove or self.log_reaction_clear):
-            self.DBLogs = BotLogger()
+        if (self.logging or self.logbans or self.logunbans or self.logkicks or
+                self.discord_logger_ or self.asyncio_logger_ or
+                self.log_available or self.log_unavailable or
+                self.log_channel_create or self.log_channel_delete or
+                self.log_channel_update or self.log_member_update or
+                self.log_server_join or self.log_server_remove or
+                self.log_server_update or self.log_server_role_create or
+                self.log_server_role_delete or self.log_server_role_update or
+                self.log_group_join or self.log_group_remove or
+                self.log_error or self.log_voice_state_update or
+                self.log_typing or self.log_socket_raw_receive or
+                self.log_socket_raw_send or self.log_resumed or
+                self.log_member_join or self.enable_error_handler or
+                self.log_games or self.log_ytdl or
+                self.log_server_emojis_update or self.log_reaction_add or
+                self.log_reaction_remove or self.log_reaction_clear):
+            self.DBLogs = BotLogger(self)
         self.somebool = False
         self.reload_normal_commands = False
         self.reload_voice_commands = False
         self.reload_reason = None
+        self.initial_rejoin_voice_channel = True
         self.desmod = None
         self.desmod_new = None
         self.rejoin_after_reload = False
         # For Console Window size. (windows only)
         self.cmd = "mode con: cols=80 lines=23"
         # The platform list I have so far.
-        if not (sys.platform.startswith('win') or sys.platform.startswith('linux')):
-            self.platerrormsg = str(self.consoletext['Unsupported_Platform'][0])
+        if not (sys.platform.startswith('win') or sys.platform.startswith(
+                'linux')):
+            self.platerrormsg = str(
+                self.consoletext['Unsupported_Platform'][0])
             raise UnsupportedPlatform(self.platerrormsg.format(sys.platform))
         # DecoraterBot Necessities.
         self.asyncio_logger()
@@ -355,16 +406,23 @@ class BotClient(commands.Bot):
         # self.changewindowsize()
         super(BotClient, self).__init__(**kwargs)
         if (self.logging or self.logbans or self.logunbans or self.logkicks or
-                self.log_available or self.log_unavailable or self.log_channel_create or
-                self.log_channel_delete or self.log_channel_update or self.log_member_update or self.log_server_join or
-                self.log_server_remove or self.log_server_update or self.log_server_role_create or
-                self.log_server_role_delete or self.log_server_role_update or self.log_group_join or
-                self.log_group_remove or self.log_error or self.log_voice_state_update or self.log_typing or
-                self.log_socket_raw_receive or self.log_socket_raw_send or self.log_resumed or self.log_member_join or
-                self.enable_error_handler or self.log_ytdl or self.log_server_emojis_update or
-                self.log_reaction_add or self.log_reaction_remove or self.log_reaction_clear):
+                self.log_available or self.log_unavailable or
+                self.log_channel_create or self.log_channel_delete or
+                self.log_channel_update or self.log_member_update or
+                self.log_server_join or self.log_server_remove or
+                self.log_server_update or self.log_server_role_create or
+                self.log_server_role_delete or self.log_server_role_update or
+                self.log_group_join or self.log_group_remove or
+                self.log_error or self.log_voice_state_update or
+                self.log_typing or self.log_socket_raw_receive or
+                self.log_socket_raw_send or self.log_resumed or
+                self.log_member_join or self.enable_error_handler or
+                self.log_ytdl or self.log_server_emojis_update or
+                self.log_reaction_add or self.log_reaction_remove or
+                self.log_reaction_clear):
             self.initial_plugins_cogs = [
-                'logs'
+                'logs',
+                'moderation'
             ]
             for plugins_cog in self.initial_plugins_cogs:
                 ret = self.containers.load_plugin(self, plugins_cog)
@@ -379,9 +437,61 @@ class BotClient(commands.Bot):
             ret = self.containers.load_command(self, commands_cog)
             if isinstance(ret, str):
                 print(ret)
+        self.disabletinyurl = disabletinyurl
+        self.TinyURL = TinyURL
+        self.version = str(self.consoletext['WindowVersion'][0])
+        self.rev = str(self.consoletext['Revision'][0])
+        self.sourcelink = str(self.botmessages['source_command_data'][0])
+        self.othercommands = str(
+            self.botmessages['commands_command_data'][1])
+        self.commandstuff = str(
+            self.botmessages['commands_command_data'][4])
+        self.botcommands = str(
+            self.botmessages['commands_command_data'][
+                0]) + self.othercommands + self.commandstuff
+        self.botcommands_without_other_stuff = (str(
+            self.botmessages['commands_command_data'][0]) +
+                                                self.othercommands)
+        self.othercommandthings = str(
+            self.botmessages['commands_command_data'][4]) + str(
+            self.botmessages['commands_command_data'][5])
+        self.botcommandswithturl_01 = str(
+            self.botmessages['commands_command_data'][
+                3]) + self.othercommandthings
+        self.botcommandswithtinyurl = (self.botcommands_without_other_stuff +
+                                       self.botcommandswithturl_01)
+        self.changelog = str(self.botmessages['changelog_data'][0])
+        self.info = "``" + str(self.consoletext['WindowName'][
+                                   0]) + self.version + self.rev + "``"
+        self.botcommandsPM = str(
+            self.botmessages['commands_command_data'][2])
+        self.commandturlfix = str(
+            self.botmessages['commands_command_data'][5])
+        self.botcommandsPMwithtinyurl = self.botcommandsPM + str(
+            self.botmessages['commands_command_data'][
+                3]) + self.commandturlfix
+        self.sent_prune_error_message = False
+        self.tinyurlerror = False
+        self.link = None
+        self.member_list = []
+        self.hook_url = None
+        self.payload = {}
+        self.header = {}
+        self.resolve_send_message_error = (
+            self.BotPMError.resolve_send_message_error)
         self.remove_command("help")
         init()
         self.variable()
+        self.credits = BotConfigReader.CreditsReader(file="credits.json")
+        self.redis_url = self.BotConfig.redis_url
+        self.mongo_url = self.BotConfig.mongo_url
+        self.dd_agent_url = self.BotConfig.dd_agent_url
+        self.sentry_dsn = self.BotConfig.sentry_dsn
+        # self.db = Db(self.redis_url, self.mongo_url, self.loop)
+        # self.plugin_manager = PluginManager(self)
+        # self.plugin_manager.load_all()
+        self.last_messages = []
+        # self.stats = DDAgent(self.dd_agent_url)
         self.login_helper()  # handles login.
 
     def changewindowtitle(self):
@@ -390,11 +500,15 @@ class BotClient(commands.Bot):
         :return: Nothing.
         """
         if sys.platform.startswith('win'):
-            ctypes.windll.kernel32.SetConsoleTitleW(str(self.consoletext['WindowName'][0]) + self.version)
+            ctypes.windll.kernel32.SetConsoleTitleW(
+                str(self.consoletext['WindowName'][0]) + self.version)
         elif sys.platform.startswith('linux'):
-            sys.stdout.write("\x1b]2;{0}\x07".format(str(self.consoletext['WindowName'][0]) + self.version))
+            sys.stdout.write("\x1b]2;{0}\x07".format(
+                str(self.consoletext['WindowName'][0]) + self.version))
         else:
-            print('Can not change Console window title for this platform.\nPlease help the Developer with this.')
+            print(
+                'Can not change Console window title for this platf'
+                'orm.\nPlease help the Developer with this.')
 
     def changewindowsize(self):
         """
@@ -418,173 +532,7 @@ class BotClient(commands.Bot):
         :return: Nothing.
         """
         if self.asyncio_logger_:
-            self.DBLogs.set_up_asyncio_logger(bot=self)
-
-    async def on_message(self, message):
-        """
-        Bot Event.
-        :param message: Messages.
-        :return: Nothing.
-        """
-        if self.user.mention in message.content:
-            await self.bot_mentioned_helper(message)
-        if len(message.mentions) > 5:
-            await self.mention_ban_helper(message)
-        if not message.channel.is_private:
-            try:
-                if message.channel.server and message.channel.server.id == "81812480254291968":
-                    if message.author.id == self.user.id:
-                        return
-                    elif message.channel.id == "153055192873566208":
-                        pass
-                    elif message.channel.id == "87382611688689664":
-                        pass
-                    else:
-                        if self.logging:
-                            await self.DBLogs.send_logs(self, message)
-                elif message.channel.server and message.channel.server.id == "71324306319093760":
-                    if message.channel.id == '141489876200718336':
-                        if self.logging:
-                            self.DBLogs.logs(message)
-                        await self.cheesy_commands_helper(message)
-                    else:
-                        # await self.everyone_mention_logger(message)
-                        if self.logging:
-                            self.DBLogs.logs(message)
-                else:
-                    if self.logging:
-                        self.DBLogs.logs(message)
-            except Exception as e:
-                if self.pm_command_errors:
-                    if self.discord_user_id is not None:
-                        owner = self.discord_user_id
-                        exception_data2 = str(traceback.format_exc())
-                        message_data = '```py\n{0}\n```'.format(exception_data2)
-                        try:
-                            await self.send_message(discord.User(id=owner), content=message_data)
-                        except discord.errors.Forbidden:
-                            pass
-                        except discord.errors.HTTPException:
-                            funcname = 'on_message'
-                            tbinfo = str(traceback.format_exc())
-                            await self.DBLogs.on_bot_error(funcname, tbinfo, e)
-                    else:
-                        return
-                else:
-                    funcname = 'on_message'
-                    tbinfo = str(traceback.format_exc())
-                    await self.DBLogs.on_bot_error(funcname, tbinfo, e)
-        if message.channel.is_private:
-            if self.is_official_bot:
-                pattern = '(https?:\/\/)?discord\.gg\/'
-                regex = re.compile(pattern)
-                searchres = regex.search(message.content)
-                if searchres is not None:
-                    await self.send_message(message.channel,
-                                            content=str(self.botmessages['join_command_data'][3]))
-        await self.process_commands(message)
-
-    async def on_message_delete(self, message):
-        """
-        Bot Event.
-        :param message: Message.
-        :return: Nothing.
-        """
-        try:
-            if message.channel.is_private is not False:
-                if self.logging:
-                    self.DBLogs.delete_logs(message)
-            elif message.channel.server and message.channel.server.id == "81812480254291968":
-                if message.author.id == self.user.id:
-                    return
-                elif message.channel.id == "153055192873566208":
-                    return
-                elif message.channel.id == "87382611688689664":
-                    return
-                else:
-                    await self.DBLogs.send_delete_logs(self, message)
-            else:
-                if message.channel.is_private is not False:
-                    return
-                elif message.channel.server.id == '95342850102796288':
-                    return
-                else:
-                    if self.logging:
-                        self.DBLogs.delete_logs(message)
-        except Exception as e:
-            funcname = 'on_message_delete'
-            tbinfo = str(traceback.format_exc())
-            self.DBLogs.on_bot_error(funcname, tbinfo, e)
-
-    async def on_member_join(self, member):
-        """
-        Bot Event.
-        :param member: Member.
-        :return: Nothing.
-        """
-        try:
-            if member.server.id == '71324306319093760' and member.bot is not True:
-                file_path_join_1 = '{0}resources{0}ConfigData{0}serverconfigs{0}'.format(self.sepa)
-                filename_join_1 = 'servers.json'
-                serveridslistfile = open(self.path + file_path_join_1 + filename_join_1)
-                serveridslist = json.load(serveridslistfile)
-                serveridslistfile.close()
-                serverid = str(serveridslist['config_server_ids'][0])
-                file_path_join_2 = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(
-                    self.sepa, serverid)
-                filename_join_2 = 'verifymessages.json'
-                filename_join_3 = 'verifycache.json'
-                filename_join_4 = 'verifycache.json'
-                memberjoinmessagedatafile = open(self.path + file_path_join_2 + filename_join_2)
-                memberjoinmessagedata = json.load(memberjoinmessagedatafile)
-                memberjoinmessagedatafile.close()
-                msg_info = str(memberjoinmessagedata['verify_messages'][0])
-                message_data = msg_info.format(member.id, member.server.name)
-                des_channel = str(memberjoinmessagedata['verify_messages_channel'][0])
-                joinedlistfile = open(self.path + file_path_join_2 + filename_join_3)
-                newlyjoinedlist = json.load(joinedlistfile)
-                joinedlistfile.close()
-                await self.send_message(discord.Object(id=des_channel), content=message_data)
-                if member.id in newlyjoinedlist['users_to_be_verified']:
-                    # since this person is already in the list lets not readd them.
-                    pass
-                else:
-                    newlyjoinedlist['users_to_be_verified'].append(member.id)
-                    json.dump(newlyjoinedlist, open(self.path + file_path_join_2 + filename_join_4, "w"))
-        except Exception as e:
-            funcname = 'on_member_join'
-            tbinfo = str(traceback.format_exc())
-            self.DBLogs.on_bot_error(funcname, tbinfo, e)
-
-    async def on_error(self, event, *args, **kwargs):
-        """
-        Bot Event.
-        :param event: Event.
-        :param args: Args.
-        :param kwargs: Other Args.
-        :return: Nothing.
-        """
-        funcname = event
-        tbinfo = str(traceback.format_exc())
-        self.DBLogs.on_bot_error(funcname, tbinfo, None)
-
-    async def on_ready(self):
-        """
-        Bot Event.
-        :return: Nothing.
-        """
-        await self.on_login()
-        """
-        try:
-            if self.disable_voice_commands is not True:
-                await self.DBVoiceCommands.reload_commands_bypass3_new(self)
-            else:
-                return
-        except Exception as e:
-            funcname = 'on_ready'
-            tbinfo = str(traceback.format_exc())
-            self.DBLogs.on_bot_error(funcname, tbinfo, e)
-        """
+            self.DBLogs.set_up_asyncio_logger()
 
     # Helpers.
 
@@ -604,24 +552,36 @@ class BotClient(commands.Bot):
             try:
                 await self.ban(message.author)
                 try:
-                    message_data = str(self.botmessages['mention_spam_ban'][0]).format(message.author)
-                    await self.send_message(message.channel, content=message_data)
+                    message_data = str(
+                        self.botmessages['mention_spam_ban'][0]).format(
+                        message.author)
+                    await self.send_message(message.channel,
+                                            content=message_data)
                 except discord.errors.Forbidden:
-                    await self.BotPMError.resolve_send_message_error_old(self, message)
+                    await self.BotPMError.resolve_send_message_error_old(
+                        self, message)
             except discord.errors.Forbidden:
                 try:
-                    msgdata = str(self.botmessages['mention_spam_ban'][1]).format(message.author)
+                    msgdata = str(
+                        self.botmessages['mention_spam_ban'][1]).format(
+                        message.author)
                     message_data = msgdata
-                    await self.send_message(message.channel, content=message_data)
+                    await self.send_message(message.channel,
+                                            content=message_data)
                 except discord.errors.Forbidden:
-                    await self.BotPMError.resolve_send_message_error_old(self, message)
+                    await self.BotPMError.resolve_send_message_error_old(
+                        self, message)
             except discord.HTTPException:
                 try:
-                    msgdata = str(self.botmessages['mention_spam_ban'][2]).format(message.author)
+                    msgdata = str(
+                        self.botmessages['mention_spam_ban'][2]).format(
+                        message.author)
                     message_data = msgdata
-                    await self.send_message(message.channel, content=message_data)
+                    await self.send_message(message.channel,
+                                            content=message_data)
                 except discord.errors.Forbidden:
-                    await self.BotPMError.resolve_send_message_error_old(self, message)
+                    await self.BotPMError.resolve_send_message_error_old(
+                        self, message)
 
     async def bot_mentioned_helper(self, message):
         """
@@ -637,39 +597,63 @@ class BotClient(commands.Bot):
             pref = self.bot_prefix
             unig = 'unignorechannel'
             # Allows Joining a Voice Channel.
-            # This is handling if some idiot mentions the bot with this command in it.
-            # This also bypasses the PEP 8 Bullshit.
+            # This is handling if some idiot mentions the bot with
+            # this command in it. This also bypasses the PEP 8 Bullcrap.
             jovo = pref + 'JoinVoiceChannel'
-            if message.content.startswith(pref + 'kill') or message.content.startswith(pref + 'changelog'):
+            if message.content.startswith(
+                            pref + 'kill') or message.content.startswith(
+                        pref + 'changelog'):
                 return
-            elif message.content.startswith(pref + 'raid') or message.content.startswith(pref + 'source'):
+            elif message.content.startswith(
+                            pref + 'raid') or message.content.startswith(
+                        pref + 'source'):
                 return
-            elif message.content.startswith(pref + 'prune') or message.content.startswith(pref + 'game'):
+            elif message.content.startswith(
+                            pref + 'prune') or message.content.startswith(
+                        pref + 'game'):
                 return
-            elif message.content.startswith(pref + 'remgame') or message.content.startswith(pref + 'join'):
+            elif message.content.startswith(
+                            pref + 'remgame') or message.content.startswith(
+                        pref + 'join'):
                 return
-            elif message.content.startswith(pref + 'update') or message.content.startswith(pref + 'say'):
+            elif message.content.startswith(
+                            pref + 'update') or message.content.startswith(
+                        pref + 'say'):
                 return
-            elif message.content.startswith(pref + 'type') or message.content.startswith(pref + 'uptime'):
+            elif message.content.startswith(
+                            pref + 'type') or message.content.startswith(
+                        pref + 'uptime'):
                 return
-            elif message.content.startswith(pref + 'reload') or message.content.startswith(pref + 'pyversion'):
+            elif message.content.startswith(
+                            pref + 'reload') or message.content.startswith(
+                        pref + 'pyversion'):
                 return
-            elif message.content.startswith(pref + 'Libs') or message.content.startswith(pref + 'userinfo'):
+            elif message.content.startswith(
+                            pref + 'Libs') or message.content.startswith(
+                        pref + 'userinfo'):
                 return
-            elif message.content.startswith(pref + 'kick') or message.content.startswith(pref + 'ban'):
+            elif message.content.startswith(
+                            pref + 'kick') or message.content.startswith(
+                        pref + 'ban'):
                 return
-            elif message.content.startswith(pref + 'softban') or message.content.startswith(pref + 'clear'):
+            elif message.content.startswith(
+                            pref + 'softban') or message.content.startswith(
+                        pref + 'clear'):
                 return
-            elif message.content.startswith(pref + 'ignorechannel') or message.content.startswith(pref + unig):
+            elif message.content.startswith(pref + 'ignorechannel') or \
+                    message.content.startswith(pref + unig):
                 return
-            elif message.content.startswith(pref + 'tinyurl') or message.content.startswith(jovo):
+            elif message.content.startswith(pref + 'tinyurl') or \
+                    message.content.startswith(jovo):
                 return
-            elif message.content.startswith(pref + 'play') or message.content.startswith(pref + 'pause'):
+            elif message.content.startswith(pref + 'play') or \
+                    message.content.startswith(pref + 'pause'):
                 return
-            elif message.content.startswith(pref + 'unpause') or message.content.startswith(pref + 'stop'):
+            elif message.content.startswith(pref + 'unpause') or \
+                    message.content.startswith(pref + 'stop'):
                 return
-            elif message.content.startswith(pref + 'move') or message.content.startswith(pref + 'LeaveVoiceChannel'
-                                                                                         ):
+            elif message.content.startswith(pref + 'move') or \
+                    message.content.startswith(pref + 'LeaveVoiceChannel'):
                 return
             elif message.content.startswith(pref + 'Playlist'):
                 return
@@ -682,20 +666,27 @@ class BotClient(commands.Bot):
                     if message.author.id == "103607047383166976":
                         return
                     else:
-                        info2 = str(self.botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                        info2 = str(
+                            self.botmessages['On_Bot_Mention_Message_Data'][
+                                0]).format(message.author)
                         await self.send_message(message.channel, content=info2)
                 elif message.channel.server.id == '101596364479135744':
                     if message.author.id == "110368240768679936":
                         return
                     else:
-                        info2 = str(self.botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                        info2 = str(
+                            self.botmessages['On_Bot_Mention_Message_Data'][
+                                0]).format(message.author)
                         await self.send_message(message.channel, content=info2)
                 else:
-                    info2 = str(self.botmessages['On_Bot_Mention_Message_Data'][0]).format(message.author)
+                    info2 = str(
+                        self.botmessages['On_Bot_Mention_Message_Data'][
+                            0]).format(message.author)
                     try:
                         await self.send_message(message.channel, content=info2)
                     except discord.errors.Forbidden:
-                        await self.BotPMError.resolve_send_message_error_old(self, message)
+                        await self.BotPMError.resolve_send_message_error_old(
+                            self, message)
 
     def login_helper(self):
         """
@@ -745,13 +736,14 @@ class BotClient(commands.Bot):
         :return: Nothing.
         """
         serveridslistfile = open(
-            '{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(self.path,
-                                                                                 self.sepa))
+            '{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.'
+            'json'.format(self.path, self.sepa))
         serveridslist = json.load(serveridslistfile)
         serveridslistfile.close()
         serverid = str(serveridslist['config_server_ids'][0])
-        file_path = ('{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(
-            self.sepa, serverid))
+        file_path = (
+            '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}'
+            'verifications{0}'.format(self.sepa, serverid))
         filename_1 = 'verifycache.json'
         filename_2 = 'verifycommand.json'
         filename_3 = 'verifyrole.json'
@@ -773,32 +765,44 @@ class BotClient(commands.Bot):
         msg_command = str(memberjoinverifymessagedata['verify_command'][0])
         try:
             if '>' or '<' or '`' in message.content:
-                msgdata = message.content.replace('<', '').replace('>', '').replace('`', '')
+                msgdata = message.content.replace('<', '').replace('>',
+                                                                   '').replace(
+                    '`', '')
             else:
                 msgdata = message.content
             if msg_command == msgdata:
-                if message.author.id in newlyjoinedlist['users_to_be_verified']:
+                if message.author.id in newlyjoinedlist[
+                        'users_to_be_verified']:
                     await self.delete_message(message)
-                    role2 = discord.utils.find(lambda role: role.id == role_name, message.channel.server.roles)
-                    msg_data = str(memberjoinverifymessagedata2['verify_messages'][1]).format(
+                    role2 = discord.utils.find(
+                        lambda role: role.id == role_name,
+                        message.channel.server.roles)
+                    msg_data = str(
+                        memberjoinverifymessagedata2['verify_messages'][
+                            1]).format(
                         message.server.name)
                     await self.add_roles(message.author, role2)
                     await self.send_message(message.author, content=msg_data)
-                    newlyjoinedlist['users_to_be_verified'].remove(message.author.id)
-                    json.dump(newlyjoinedlist, open(self.path + file_path + filename_5, "w"))
+                    newlyjoinedlist['users_to_be_verified'].remove(
+                        message.author.id)
+                    json.dump(newlyjoinedlist,
+                              open(self.path + file_path + filename_5, "w"))
                 else:
                     await self.delete_message(message)
                     await self.send_message(message.channel, content=str(
                         memberjoinverifymessagedata2['verify_messages'][2]))
             else:
                 if message.author.id != self.user.id:
-                    if message.author.id in newlyjoinedlist['users_to_be_verified']:
+                    if message.author.id in newlyjoinedlist[
+                            'users_to_be_verified']:
                         await self.delete_message(message)
                         await self.send_message(message.channel, content=str(
-                            memberjoinverifymessagedata2['verify_messages'][3]).format(message.author.mention))
+                            memberjoinverifymessagedata2['verify_messages'][
+                                3]).format(message.author.mention))
         except NameError:
             await self.send_message(message.channel, content=str(
-                memberjoinverifymessagedata2['verify_messages'][4]).format(message.author.mention))
+                memberjoinverifymessagedata2['verify_messages'][4]).format(
+                message.author.mention))
 
     # Login stuff.
 
@@ -809,15 +813,16 @@ class BotClient(commands.Bot):
     def login_info(self):
         """
         Allows the bot to Connect / Reconnect.
-        NOTE: Reconnection is not always 100% due to sometimes throwing a RuntimeError because of a Event loop getting
-        closed in Discord.py. Sadly the run fucntion does not reopen/recreate that loop.
         :return: Nothing.
         """
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             try:
-                if self.discord_user_email and self.discord_user_password is not None:
+                if self.discord_user_email and self.discord_user_password is \
+                        not None:
                     self.is_bot_logged_in = True
-                    self.loop.run_until_complete(self.__ffs__(self.discord_user_email, self.discord_user_password))
+                    self.loop.run_until_complete(
+                        self.__ffs__(self.discord_user_email,
+                                     self.discord_user_password))
                 elif self.bot_token is not None:
                     self.is_bot_logged_in = True
                     self.loop.run_until_complete(self.__ffs__(self.bot_token))
@@ -838,17 +843,23 @@ class BotClient(commands.Bot):
             except asyncio.futures.InvalidStateError:
                 self.reconnects += 1
                 if self.reconnects != 0:
-                    print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                    print(
+                        'Bot is currently reconnecting for {0} times.'.format(
+                            str(self.reconnects)))
                     return -1
             except aiohttp.errors.ClientResponseError:
                 self.reconnects += 1
                 if self.reconnects != 0:
-                    print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                    print(
+                        'Bot is currently reconnecting for {0} times.'.format(
+                            str(self.reconnects)))
                     return -1
             except aiohttp.errors.ClientOSError:
                 self.reconnects += 1
                 if self.reconnects != 0:
-                    print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                    print(
+                        'Bot is currently reconnecting for {0} times.'.format(
+                            str(self.reconnects)))
                     return -1
             if self.is_bot_logged_in:
                 if not self.is_logged_in:
@@ -856,7 +867,9 @@ class BotClient(commands.Bot):
                 else:
                     self.reconnects += 1
                     if self.reconnects != 0:
-                        print('Bot is currently reconnecting for {0} times.'.format(str(self.reconnects)))
+                        print(
+                            'Bot is currently reconnecting for {0} '
+                            'times.'.format(str(self.reconnects)))
                         return -1
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
@@ -871,28 +884,38 @@ class BotClient(commands.Bot):
             self.logged_in_ = False
             message_data = str(self.botmessages['On_Ready_Message'][0])
             try:
-                await self.send_message(discord.Object(id='118098998744580098'), content=message_data)
+                await self.send_message(
+                    discord.Object(id='118098998744580098'),
+                    content=message_data)
             except discord.errors.Forbidden:
                 return
             try:
-                await self.send_message(discord.Object(id='103685935593435136'), content=message_data)
+                await self.send_message(
+                    discord.Object(id='103685935593435136'),
+                    content=message_data)
             except discord.errors.Forbidden:
                 return
             bot_name = self.user.name
             print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
-                self.consoletext['Window_Login_Text'][0]).format(bot_name, self.user.id, discord.__version__))
-            sys.stdout = open('{0}{1}resources{1}Logs{1}console.log'.format(self.path, self.sepa), 'w')
-            sys.stderr = open('{0}{1}resources{1}Logs{1}unhandled_tracebacks.log'.format(self.path, self.sepa),
-                              'w')
+                self.consoletext['Window_Login_Text'][0]).format(
+                bot_name, self.user.id, discord.__version__))
+            sys.stdout = open(
+                '{0}{1}resources{1}Logs{1}console.log'.format(self.path,
+                                                              self.sepa), 'w')
+            sys.stderr = open(
+                '{0}{1}resources{1}Logs{1}unhandled_tracebacks.log'.format(
+                    self.path, self.sepa),
+                'w')
         if not self.logged_in:
             game_name = str(self.consoletext['On_Ready_Game'][0])
             stream_url = "https://twitch.tv/decoraterbot"
-            await self.change_presence(game=discord.Game(name=game_name, type=1, url=stream_url))
+            await self.change_presence(
+                game=discord.Game(name=game_name, type=1, url=stream_url))
 
     def variable(self):
         """
-        Function that makes Certain things on the on_ready event only happen 1 time only. (eg the logged in printing
-        stuff)
+        Function that makes Certain things on the on_ready event only happen 1
+        time only. (e.g. the logged in printing stuff)
         :return: Nothing.
         """
         if not BotClient.logged_in:
@@ -908,26 +931,30 @@ class BotClient(commands.Bot):
         :return: Nothing.
         """
         try:
-            serveridslistfile = open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
-                self.path, self.sepa))
+            serveridslistfile = open(
+                '{0}{1}resources{1}ConfigData{1}serverconfigs{1}'
+                'servers.json'.format(self.path, self.sepa))
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
-            file_path = ('{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(self.sepa,
-                                                                                                     serverid))
+            file_path = (
+                '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}'
+                'verifications{0}'.format(self.sepa, serverid))
             filename_1 = 'verifycache.json'
             joinedlistfile = open(self.path + file_path + filename_1)
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
             if member.id in newlyjoinedlist['users_to_be_verified']:
-                await self.send_message(discord.Object(id='141489876200718336'),
-                                        content="{0} has left the {1} Server.".format(
-                                            member.mention, member.server.name))
+                await self.send_message(
+                    discord.Object(id='141489876200718336'),
+                    content="{0} has left the {1} Server.".format(
+                        member.mention, member.server.name))
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                file_name = "{0}verifications{0}verifycache.json".format(self.sepa)
-                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(self.path,
-                                                                                                        self.sepa,
-                                                                                                        file_name)
+                file_name = "{0}verifications{0}verifycache.json".format(
+                    self.sepa)
+                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}" \
+                           "71324306319093760{2}".format(self.path, self.sepa,
+                                                         file_name)
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
             funcname = 'verify_cache_cleanup_2'
@@ -941,22 +968,27 @@ class BotClient(commands.Bot):
         :return: Nothing.
         """
         try:
-            serveridslistfile = open('{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.json'.format(
-                self.path, self.sepa))
+            serveridslistfile = open(
+                '{0}{1}resources{1}ConfigData{1}serverconfigs{1}'
+                'servers.json'.format(
+                    self.path, self.sepa))
             serveridslist = json.load(serveridslistfile)
             serveridslistfile.close()
             serverid = str(serveridslist['config_server_ids'][0])
-            file_path = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}verifications{0}'.format(self.sepa, serverid)
+            file_path = '{0}resources{0}ConfigData{0}serverconfigs{0}{1}' \
+                        '{0}verifications{0}'.format(self.sepa, serverid)
             filename_1 = 'verifycache.json'
             joinedlistfile = open(self.path + file_path + filename_1)
             newlyjoinedlist = json.load(joinedlistfile)
             joinedlistfile.close()
             if member.id in newlyjoinedlist['users_to_be_verified']:
                 newlyjoinedlist['users_to_be_verified'].remove(member.id)
-                file_name = "{0}verifications{0}verifycache.json".format(self.sepa)
-                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs{1}71324306319093760{2}".format(self.path,
-                                                                                                        self.sepa,
-                                                                                                        file_name)
+                file_name = "{0}verifications{0}verifycache.json".format(
+                    self.sepa)
+                filename = "{0}{1}resources{1}ConfigData{1}serverconfigs" \
+                           "{1}71324306319093760{2}".format(self.path,
+                                                            self.sepa,
+                                                            file_name)
                 json.dump(newlyjoinedlist, open(filename, "w"))
         except Exception as e:
             funcname = 'verify_cache_cleanup'
@@ -970,4 +1002,5 @@ def main():
     :return: Nothing.
     """
     # TODO: Maybe add shard support?
-    BotClient(command_prefix=config.bot_prefix, description=config.description, pm_help=False)
+    BotClient(command_prefix=config.bot_prefix, description=config.description,
+              pm_help=False)

@@ -39,10 +39,9 @@ After you have configurated the bot with a token you can run the bot with 1 of t
 
 # Windows
 
-> with ``DecoraterBot.bat`` that uses the 32-bit version of the Embedded Python 3.5 interpreter.
+> with ``DecoraterBot.bat`` that uses the 32-bit version of the system installed Python 3.5+ interpreter on windows.
 
-(Will use 3.6 when it is released as a replacement so stay tuned)(Voice Compatibility is #1).
-> with ``DecoraterBot64.bat`` that uses the 64-bit version of the Embedded Python 3.5 interpreter.
+> with ``DecoraterBot64.bat`` that uses the 64-bit version of the system installed Python 3.5+ interpreter on windows.
 
 (Will be replaced with 3.6 when released too.)
 
@@ -71,6 +70,8 @@ Luckily the following file should be able to handle the installation:
 # Other Platforms
 
 Not available yet.
+
+Some of the other platforms however could easily be unofficially supported. Some of those platforms could be mingw on Windows or if you can get the bot to work on python 3.6.1 on cygwin that could work to. Note: you would then need to compile ffmpeg from source.
 
 I need command line things to execute python 3.5.0+ (3.5.2 recommended).
 You have any other platforms you want the bot to support?

@@ -1,7 +1,6 @@
 # DecoraterBot Portable Version
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa)](https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger)
-[![Coverage Status](https://coveralls.io/repos/github/AraHaan/DecoraterBot/badge.svg)](https://coveralls.io/github/AraHaan/DecoraterBot)
 [![issues](https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg)](https://github.com/AraHaan/DecoraterBot/issues)
 
 

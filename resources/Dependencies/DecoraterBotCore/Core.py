@@ -55,9 +55,9 @@ except ImportError:
     BotPMError = None
 from . import BotConfigReader
 from .BotLogs import *
-from .web.database import Db
-from .web.datadog import DDAgent
 from . import containers
+# from .web.database import Db
+# from .web.datadog import DDAgent
 
 
 __all__ = ['main', 'BotClient', 'botcommand']

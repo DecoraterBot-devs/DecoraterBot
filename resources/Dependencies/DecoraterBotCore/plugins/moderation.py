@@ -5,8 +5,6 @@ moderation plugin for DecoraterBot.
 import random
 import json
 
-import regex
-
 import discord
 from discord.ext import commands
 

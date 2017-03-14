@@ -97,7 +97,7 @@ And the Bot's Original Server (Kinda dead right now):
 [![](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/kSYStUq)
 
 The Bots Partnered Server (Bot created by DavidNeon)
-[![](<iframe src="https://discordapp.com/widget?id=288018843304198144&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>l(https://discord.gg/dxqFtjR)
+[![](https.//discordapp.com/api/guilds/288018843304198144/widget.png?style=banner2)](https://discord.gg/dxqFtjR)
 
 *Documentation isn't finished yet.*
 

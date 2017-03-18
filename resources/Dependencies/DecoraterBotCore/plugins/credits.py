@@ -49,7 +49,7 @@ class Credits:
                     "Error: ```py\n{0}```".format(traceback.format_exc()))
 
     @commands.command(name='givecredits', pass_context=True)
-    async def credits_command(self, ctx):
+    async def givecredits_command(self, ctx):
         """
         ::givecredits Command for DecoraterBot.
         """

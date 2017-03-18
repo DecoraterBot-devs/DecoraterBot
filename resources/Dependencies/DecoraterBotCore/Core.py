@@ -189,6 +189,11 @@ class BotClient(commands.Bot):
         self.containers = containers
         self.commands_list = []
         self.YTDLLogger = YTDLLogger
+        self.platform = None
+        if self.bits == 4:
+            self.platform = 'x86'
+        elif self.bits == 8:
+            self.platform = 'x64'
         self.path = sys.path[0]
         self.botbanslist = open('{0}{1}resources{1}Conf'
                                 'igData{1}BotBanned.json'.format(self.path,

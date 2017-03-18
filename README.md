@@ -90,13 +90,14 @@ View the list of bot commands [here](https://github.com/AraHaan/DecoraterBot/blo
 
 Join the official Cheese.lab servers to help test and contribute to the development of the bot.
 
-[![](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
+[![Cheese.lab Discord Server](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
 
 And the Bot's Original Server (Kinda dead right now):
 
-[![](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/kSYStUq)
+[![#DecoraterBot Hangout Discord Server](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/kSYStUq)
 
-The Bots Partnered Server (Bot created by DavidNeon)
+The Bots Partnered Server (Bot created by DavidNeon):
+
 [![](https.//discordapp.com/api/guilds/288018843304198144/widget.png?style=banner2)](https://discord.gg/dxqFtjR)
 
 *Documentation isn't finished yet.*

@@ -90,7 +90,7 @@ View the list of bot commands [here](https://github.com/AraHaan/DecoraterBot/blo
 
 Join the official Cheese.lab servers to help test and contribute to the development of the bot.
 
-[![](https://discordapp.com/api/guilds/71324306319093760/widget.png?style=banner2)](https://discord.gg/lab)
+[![](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
 
 And the Bot's Original Server (Kinda dead right now):
 

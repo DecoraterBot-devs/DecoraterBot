@@ -1,4 +1,0 @@
-Python 3.7 Dependencies go here.
-
-Note: This is Development Python this is not Meant for the bot to be able to use Voice Channels.
-The reason for this is because PyNacl will fail to install on Python 3.7 currently.

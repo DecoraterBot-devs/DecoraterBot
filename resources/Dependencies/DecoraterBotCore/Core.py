@@ -594,69 +594,9 @@ class BotClient(commands.Bot):
         elif message.author.bot:
             return
         else:
-            pref = self.bot_prefix
-            unig = 'unignorechannel'
-            # Allows Joining a Voice Channel.
-            # This is handling if some idiot mentions the bot with
-            # this command in it. This also bypasses the PEP 8 Bullcrap.
-            jovo = pref + 'JoinVoiceChannel'
-            if message.content.startswith(
-                            pref + 'kill') or message.content.startswith(
-                        pref + 'changelog'):
-                return
-            elif message.content.startswith(
-                            pref + 'raid') or message.content.startswith(
-                        pref + 'source'):
-                return
-            elif message.content.startswith(
-                            pref + 'prune') or message.content.startswith(
-                        pref + 'game'):
-                return
-            elif message.content.startswith(
-                            pref + 'remgame') or message.content.startswith(
-                        pref + 'join'):
-                return
-            elif message.content.startswith(
-                            pref + 'update') or message.content.startswith(
-                        pref + 'say'):
-                return
-            elif message.content.startswith(
-                            pref + 'type') or message.content.startswith(
-                        pref + 'uptime'):
-                return
-            elif message.content.startswith(
-                            pref + 'reload') or message.content.startswith(
-                        pref + 'pyversion'):
-                return
-            elif message.content.startswith(
-                            pref + 'Libs') or message.content.startswith(
-                        pref + 'userinfo'):
-                return
-            elif message.content.startswith(
-                            pref + 'kick') or message.content.startswith(
-                        pref + 'ban'):
-                return
-            elif message.content.startswith(
-                            pref + 'softban') or message.content.startswith(
-                        pref + 'clear'):
-                return
-            elif message.content.startswith(pref + 'ignorechannel') or \
-                    message.content.startswith(pref + unig):
-                return
-            elif message.content.startswith(pref + 'tinyurl') or \
-                    message.content.startswith(jovo):
-                return
-            elif message.content.startswith(pref + 'play') or \
-                    message.content.startswith(pref + 'pause'):
-                return
-            elif message.content.startswith(pref + 'unpause') or \
-                    message.content.startswith(pref + 'stop'):
-                return
-            elif message.content.startswith(pref + 'move') or \
-                    message.content.startswith(pref + 'LeaveVoiceChannel'):
-                return
-            elif message.content.startswith(pref + 'Playlist'):
-                return
+            for command in self.commands_list:
+                if message.content.startswith(command):
+                    return
             else:
                 if message.channel.server.id == "140849390079180800":
                     return

@@ -27,6 +27,16 @@ import discord
 __all__ = ['resolve_send_message_error', 'resolve_send_message_error_old']
 
 
+def construct_reply(message):
+    """Constructs an bot reply."""
+    svr_name = message.channel.server.name
+    cnl_name = message.channel.name
+    msginfo = 'Missing the Send Message Permssions in the ' \
+              '{0} server on the {1} channel.'
+    unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
+    return unabletosendmessageerror
+
+
 async def resolve_send_message_error(bot, ctx):
     """
     Relolves Errors when Sending messages.
@@ -34,11 +44,7 @@ async def resolve_send_message_error(bot, ctx):
     :param ctx: Merssage Context.
     :return: Nothing.
     """
-    svr_name = ctx.message.channel.server.name
-    cnl_name = ctx.message.channel.name
-    msginfo = 'Missing the Send Message Permssions in the ' \
-              '{0} server on the {1} channel.'
-    unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
+    unabletosendmessageerror = construct_reply(ctx.message)
     try:
         await bot.send_message(ctx.message.author,
                                content=unabletosendmessageerror)
@@ -53,11 +59,7 @@ async def resolve_send_message_error_old(bot, message):
     :param message: Merssage.
     :return: Nothing.
     """
-    svr_name = message.channel.server.name
-    cnl_name = message.channel.name
-    msginfo = 'Missing the Send Message Permssions in the ' \
-              '{0} server on the {1} channel.'
-    unabletosendmessageerror = msginfo.format(svr_name, cnl_name)
+    unabletosendmessageerror = construct_reply(ctx.message)
     try:
         await bot.send_message(message.author,
                                content=unabletosendmessageerror)

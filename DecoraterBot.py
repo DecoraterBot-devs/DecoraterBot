@@ -25,7 +25,6 @@ DEALINGS IN THE SOFTWARE.
 import os
 import sys
 import gc
-import ctypes
 sys.dont_write_bytecode = True
 try:
     import DecoraterBotCore

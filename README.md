@@ -105,7 +105,7 @@ Join the official Cheese.lab servers to help test and contribute to the developm
 
 And the Bot's Original Server (Kinda dead right now):
 
-[![#DecoraterBot Hangout Discord Server](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/kSYStUq)
+[![#DecoraterBot Hangout Discord Server](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/hNMKZ5Z)
 
 The Bots Partnered Server (Bot created by DavidNeon):
 

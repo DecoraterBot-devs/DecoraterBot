@@ -440,6 +440,8 @@ class BotClient(commands.Bot):
             for command in self.commands_list:
                 if message.content.startswith(command):
                     return
+                else:
+                    break
             else:
                 if message.channel.server.id == "140849390079180800":
                     return

@@ -28,7 +28,7 @@ class VoiceBotCommands:
     def __init__(self, bot):
         self.bot = bot
         if self.bot.bits == 4:
-            if not (sys.platform.startswith('linux')):
+            if sys.platform.startswith('win32'):
                 self.opusdll = '{0}{1}resources{1}opus{1}win32{1}' \
                                '{2}{1}opus.dll'.format(self.bot.path,
                                                        self.bot.sepa,
@@ -36,29 +36,13 @@ class VoiceBotCommands:
                 os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(
                     self.bot.path, self.bot.sepa,
                     self.bot.platform))
-            else:
-                self.opusdll = '{0}{1}resources{1}opus{1}linux{1}{2}' \
-                               '{1}opus.so'.format(self.bot.path,
-                                                   self.bot.sepa,
-                                                   self.bot.platform)
-                os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(
-                    self.bot.path, self.bot.sepa,
-                    self.bot.platform))
         elif self.bot.bits == 8:
-            if not (sys.platform.startswith('linux')):
+            if sys.platform.startswith('win32'):
                 self.opusdll = '{0}{1}resources{1}opus{1}' \
                                'win32{1}{2}{1}opus.' \
                                'dll'.format(self.bot.path, self.bot.sepa,
                                             self.bot.platform)
                 os.chdir('{0}{1}resources{1}ffmpeg{1}win32{1}{2}'.format(
-                    self.bot.path, self.bot.sepa,
-                    self.bot.platform))
-            else:
-                self.opusdll = '{0}{1}resources{1}opus{1}' \
-                               'linux{1}{2}{1}opus.' \
-                               'so'.format(self.bot.path, self.bot.sepa,
-                                           self.bot.platform)
-                os.chdir('{0}{1}resources{1}ffmpeg{1}linux{1}{2}'.format(
                     self.bot.path, self.bot.sepa,
                     self.bot.platform))
         try:
@@ -334,7 +318,9 @@ class VoiceBotCommands:
                 self.vchannel = discord.Object(id=vchannel_2)
                 self.voice_message_server = discord.Object(id=vmserver)
                 self.voice_message_channel = discord.Object(id=vmchannel)
-                discord.opus.load_opus(self.opusdll)
+                # fix part of issue #6 to load linux system opus instead.
+                if sys.platform.startswith('win32'):
+                    discord.opus.load_opus(self.opusdll)
                 try:
                     self.voice = await self.bot.join_voice_channel(
                         self.vchannel)
@@ -419,7 +405,9 @@ class VoiceBotCommands:
                                                                      ctx)
         else:
             if not self.lock_join_voice_channel_command:
-                discord.opus.load_opus(self.opusdll)
+                # fix part of issue #6 to load linux system opus instead.
+                if sys.platform.startswith('win32'):
+                    discord.opus.load_opus(self.opusdll)
                 self.voice_message_channel = ctx.message.channel
                 self.voice_message_server = ctx.message.channel.server
                 self.voice_message_server_name = (

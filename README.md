@@ -73,7 +73,9 @@ Note *Before running any of those above patch files you need to run one of these
 
 # Linux
 
-> with ``DecoraterBot.sh`` that uses the current installed Python Interpreter (Python 3.5.2 recommended).
+> with ``DecoraterBot-35.sh`` that uses the current installed Python 3.5 Interpreter.
+
+> with ``DecoraterBot-36.sh`` that uses the current installed Python 3.6 Interpreter.
 
 First things first you need to install to ensure you have ``libffi-dev`` installed. You will have to also install ``ffmpeg``.
 
@@ -83,7 +85,7 @@ Now you have to install all dependencies to the bot using these files (only afte
 
 > install_deps-3.6.sh
 
-However 
+However you will also need to ensure you have the latest ``libopus`` installed.
 
 # Other Platforms
 

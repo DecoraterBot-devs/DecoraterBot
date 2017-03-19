@@ -2,8 +2,7 @@
 """
 moderation plugin for DecoraterBot.
 """
-import random
-import json
+import regex
 
 import discord
 from discord.ext import commands
@@ -23,6 +22,7 @@ class ModerationCommands:
         default DecoraterBot Moderation commands.
     """
     def __init__(self, bot):
+        self.sent_prune_error_message = False
         self.bot = bot
 
     def botcommand(self):
@@ -263,7 +263,8 @@ class ModerationCommands:
         if ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
-            self.sent_prune_error_message = False
+            if self.sent_prune_error_message:
+                self.sent_prune_error_message = False
             role2 = discord.utils.find(
                 lambda role: role.name == 'Bot Commander',
                 ctx.message.channel.server.roles)
@@ -325,7 +326,8 @@ class ModerationCommands:
         role2 = discord.utils.find(lambda role: role.name == 'Bot Commander',
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
-            match = regex.match('warn[ ]+(<@(.+?)>[ ])+(.+)', ctx.message.content[len(ctx.prefix):].strip())
+            match = regex.match('warn[ ]+(<@(.+?)>[ ])+(.+)',
+                                ctx.message.content[len(ctx.prefix):].strip())
             if match:
                 warning = match.captures(3)[0]
                 targets = match.captures(2)
@@ -342,10 +344,11 @@ class ModerationCommands:
         role2 = discord.utils.find(lambda role: role.name == 'Bot Commander',
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
-            match = regex.match(ctx.prefix + 'mute[ ]+(<@(.+?)>[ ])+(.+)', ctx.message.content)
+            match = regex.match(ctx.prefix + 'mute[ ]+(<@(.+?)>[ ])+(.+)',
+                                ctx.message.content)
             if match:
                 mute_time = match.captures(3)[0]
-                targets = match.captures(2)
+                # targets = match.captures(2)
                 if mute_time is not None:
                     # s = seconds
                     # m = minutes
@@ -358,7 +361,7 @@ class ModerationCommands:
                     searchres = regex.match(pattern, mute_time)
                     if searchres is not None:
                         # TODO: Finish this command.
-                        pass
+                        return
 
     # Helpers.
 
@@ -370,12 +373,13 @@ class ModerationCommands:
         :param num:
         :return: Nothing.
         """
-        #messages = []
-        #async for message in self.bot.logs_from(ctx.message.channel, limit=num + 1):
-        #    messages.append(message)
-        #for message in messages:
-        # try:
-        #     await self.bot.delete_message(message)
+        # messages = []
+        # async for message in self.bot.logs_from(ctx.message.channel,
+        #                                         limit=num + 1):
+        #     messages.append(message)
+        # for message in messages:
+        #     try:
+        #         await self.bot.delete_message(message)
         try:
             await self.bot.purge_from(ctx.message.channel, limit=num + 1)
         except discord.HTTPException:

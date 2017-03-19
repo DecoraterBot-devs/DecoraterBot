@@ -237,134 +237,13 @@ class BotClient(commands.Bot):
         self.logged_in_ = BotClient.logged_in
         # default to True in case options are not present in Credentials.json
         self.reconnects = 0
-        self.DBLogs = None
-        self.is_bot_logged_in = False
-        self.discord_user_email = None
-        self.owner_id = None
-        self.discord_user_password = None
-        self.bot_token = None
-        self.logging = True
-        self.pm_commands_list = True
-        self.logbans = True
-        self.logunbans = True
-        self.logkicks = True
-        self.discord_logger_ = True
-        self.asyncio_logger_ = True
-        self.log_available = True
-        self.log_unavailable = True
-        self.log_channel_create = True
-        self.log_channel_delete = True
-        self.log_channel_update = True
-        self.log_member_update = True
-        self.log_server_join = True
-        self.log_ytdl = True
-        self.log_server_remove = True
-        self.log_server_update = True
-        self.log_server_role_create = True
-        self.log_server_role_delete = True
-        self.log_server_role_update = True
-        self.log_server_emojis_update = True
-        self.pm_command_errors = True
-        self.is_official_bot = True
-        self.log_group_join = True
-        self.log_group_remove = True
-        self.log_error = True
-        self.log_voice_state_update = True
-        self.log_typing = True
-        self.log_socket_raw_receive = True
-        self.log_socket_raw_send = True
-        self.log_resumed = True
-        self.log_member_join = True
-        self.log_games = True
-        self.log_reaction_add = True
-        self.log_reaction_remove = True
-        self.log_reaction_clear = True
-        self.bot_prefix = ''
         # Will Always be True to prevent the Error Handler from Causing Issues
         # later.
         # Well only if the PM Error handler is False.
         self.enable_error_handler = True
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(
             self.path, self.sepa)
-        if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
-            self.discord_user_email = self.BotConfig.discord_user_email
-            self.discord_user_password = self.BotConfig.discord_user_password
-            self.bot_token = self.BotConfig.bot_token
-            self.pm_commands_list = self.BotConfig.pm_commands_list
-            if self.discord_user_email == 'None':
-                self.discord_user_email = None
-            if self.discord_user_password == 'None':
-                self.discord_user_password = None
-            if self.bot_token == 'None':
-                self.bot_token = None
-            if self.is_bot_logged_in:
-                self.is_bot_logged_in = False
-            self.discord_user_id = self.BotConfig.discord_user_id
-            if self.discord_user_id == 'None':
-                self.discord_user_id = None
-            self.owner_id = self.discord_user_id
-            self.logging = self.BotConfig.logging
-            self.logbans = self.BotConfig.logbans
-            self.log_ytdl = self.BotConfig.log_ytdl
-            self.logunbans = self.BotConfig.logunbans
-            self.logkicks = self.BotConfig.logkicks
-            self.bot_prefix = self.BotConfig.bot_prefix
-            if self.bot_prefix == '':
-                self.bot_prefix = None
-            if self.bot_prefix is None:
-                print(
-                    'No Prefix specified in Credentials.json. The '
-                    'Bot cannot continue.')
-                sys.exit(2)
-            self.disable_voice_commands = self.BotConfig.disable_voice_commands
-            self.pm_command_errors = self.BotConfig.pm_command_errors
-            self.discord_logger_ = self.BotConfig.discord_logger
-            self.asyncio_logger_ = self.BotConfig.asyncio_logger
-            self.log_available = self.BotConfig.log_available
-            self.log_unavailable = self.BotConfig.log_unavailable
-            self.log_channel_create = self.BotConfig.log_channel_create
-            self.log_channel_delete = self.BotConfig.log_channel_delete
-            self.log_channel_update = self.BotConfig.log_channel_update
-            self.log_member_update = self.BotConfig.log_member_update
-            self.is_official_bot = self.BotConfig.is_official_bot
-            self.log_server_join = self.BotConfig.log_server_join
-            self.log_server_remove = self.BotConfig.log_server_remove
-            self.log_server_update = self.BotConfig.log_server_update
-            self.log_server_role_create = self.BotConfig.log_server_role_create
-            self.log_server_role_delete = self.BotConfig.log_server_role_delete
-            self.log_server_role_update = self.BotConfig.log_server_role_update
-            self.log_server_emojis_update = (
-                self.BotConfig.log_server_emojis_update)
-            self.log_group_join = self.BotConfig.log_group_join
-            self.log_group_remove = self.BotConfig.log_group_remove
-            self.log_error = self.BotConfig.log_error
-            self.log_voice_state_update = self.BotConfig.log_voice_state_update
-            self.log_typing = self.BotConfig.log_typing
-            self.log_socket_raw_receive = self.BotConfig.log_socket_raw_receive
-            self.log_socket_raw_send = self.BotConfig.log_socket_raw_send
-            self.log_resumed = self.BotConfig.log_resumed
-            self.log_member_join = self.BotConfig.log_member_join
-            self.log_games = self.BotConfig.log_games
-            self.log_reaction_add = self.BotConfig.log_reaction_add
-            self.log_reaction_remove = self.BotConfig.log_reaction_remove
-            self.log_reaction_clear = self.BotConfig.log_reaction_clear
-        if (self.logging or self.logbans or self.logunbans or self.logkicks or
-                self.discord_logger_ or self.asyncio_logger_ or
-                self.log_available or self.log_unavailable or
-                self.log_channel_create or self.log_channel_delete or
-                self.log_channel_update or self.log_member_update or
-                self.log_server_join or self.log_server_remove or
-                self.log_server_update or self.log_server_role_create or
-                self.log_server_role_delete or self.log_server_role_update or
-                self.log_group_join or self.log_group_remove or
-                self.log_error or self.log_voice_state_update or
-                self.log_typing or self.log_socket_raw_receive or
-                self.log_socket_raw_send or self.log_resumed or
-                self.log_member_join or self.enable_error_handler or
-                self.log_games or self.log_ytdl or
-                self.log_server_emojis_update or self.log_reaction_add or
-                self.log_reaction_remove or self.log_reaction_clear):
-            self.DBLogs = BotLogger(self)
+        self.DBLogs = BotLogger(self)
         self.somebool = False
         self.reload_normal_commands = False
         self.reload_voice_commands = False
@@ -387,29 +266,14 @@ class BotClient(commands.Bot):
         self.changewindowtitle()
         # self.changewindowsize()
         super(BotClient, self).__init__(**kwargs)
-        if (self.logging or self.logbans or self.logunbans or self.logkicks or
-                self.log_available or self.log_unavailable or
-                self.log_channel_create or self.log_channel_delete or
-                self.log_channel_update or self.log_member_update or
-                self.log_server_join or self.log_server_remove or
-                self.log_server_update or self.log_server_role_create or
-                self.log_server_role_delete or self.log_server_role_update or
-                self.log_group_join or self.log_group_remove or
-                self.log_error or self.log_voice_state_update or
-                self.log_typing or self.log_socket_raw_receive or
-                self.log_socket_raw_send or self.log_resumed or
-                self.log_member_join or self.enable_error_handler or
-                self.log_ytdl or self.log_server_emojis_update or
-                self.log_reaction_add or self.log_reaction_remove or
-                self.log_reaction_clear):
-            self.initial_plugins_cogs = [
-                'logs',
-                'moderation'
-            ]
-            for plugins_cog in self.initial_plugins_cogs:
-                ret = self.containers.load_plugin(self, plugins_cog)
-                if isinstance(ret, str):
-                    print(ret)
+        self.initial_plugins_cogs = [
+            'logs',
+            'moderation'
+        ]
+        for plugins_cog in self.initial_plugins_cogs:
+            ret = self.containers.load_plugin(self, plugins_cog)
+            if isinstance(ret, str):
+                print(ret)
         self.initial_commands_cogs = [
             'botcorecommands',
             'botcommands',
@@ -465,15 +329,12 @@ class BotClient(commands.Bot):
         init()
         self.variable()
         self.credits = BotConfigReader.CreditsReader(file="credits.json")
-        self.redis_url = self.BotConfig.redis_url
-        self.mongo_url = self.BotConfig.mongo_url
-        self.dd_agent_url = self.BotConfig.dd_agent_url
-        self.sentry_dsn = self.BotConfig.sentry_dsn
         # self.db = Db(self.redis_url, self.mongo_url, self.loop)
         # self.plugin_manager = PluginManager(self)
         # self.plugin_manager.load_all()
         self.last_messages = []
         # self.stats = DDAgent(self.dd_agent_url)
+        self.is_bot_logged_in = False
         self.login_helper()  # handles login.
 
     def changewindowtitle(self):
@@ -828,7 +689,7 @@ class BotClient(commands.Bot):
                 '{0}{1}resources{1}Logs{1}unhandled_tracebacks.log'.format(
                     self.path, self.sepa),
                 'w')
-        if not self.logged_in:
+        if not self.logged_in_:
             game_name = str(self.consoletext['On_Ready_Game'][0])
             stream_url = "https://twitch.tv/decoraterbot"
             await self.change_presence(

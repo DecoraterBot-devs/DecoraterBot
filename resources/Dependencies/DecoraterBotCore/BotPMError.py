@@ -46,7 +46,7 @@ async def resolve_send_message_error_old(bot, message):
     :param message: Merssage.
     :return: Nothing.
     """
-    unabletosendmessageerror = construct_reply(ctx.message)
+    unabletosendmessageerror = construct_reply(message)
     try:
         await bot.send_message(message.author,
                                content=unabletosendmessageerror)

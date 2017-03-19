@@ -2,12 +2,14 @@
 """
 repl plugin for DecoraterBot.
 """
-from discord.ext import commands
+
 import traceback
-import discord
 import inspect
 from contextlib import redirect_stdout
 import io
+
+import discord
+from discord.ext import commands
 
 
 class REPL:

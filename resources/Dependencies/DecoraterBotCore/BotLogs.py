@@ -464,7 +464,6 @@ class BotLogger:
         type(channel)
         type(user)
         # TODO: Implement this.
-        pass
 
     def ongroupremove(self, channel, user):
         """
@@ -477,7 +476,6 @@ class BotLogger:
         type(channel)
         type(user)
         # TODO: Implement this.
-        pass
 
     def ontyping(self, channel, user, when):
         """
@@ -492,7 +490,6 @@ class BotLogger:
         type(user)
         type(when)
         # TODO: Implement this.
-        pass
 
     def onvoicestateupdate(self, before, after):
         """
@@ -505,7 +502,6 @@ class BotLogger:
         type(before)
         type(after)
         # TODO: Implement this.
-        pass
 
     def onchanneldelete(self, channel):
         """
@@ -515,7 +511,6 @@ class BotLogger:
         type(self)
         type(channel)
         # TODO: Implement this.
-        pass
 
     def onchannelcreate(self, channel):
         """
@@ -525,7 +520,6 @@ class BotLogger:
         type(self)
         type(channel)
         # TODO: Implement this.
-        pass
 
     def onchannelupdate(self, before, after):
         """
@@ -538,7 +532,6 @@ class BotLogger:
         type(before)
         type(after)
         # TODO: Implement this.
-        pass
 
     def onmemberupdate(self, before, after):
         """
@@ -551,7 +544,6 @@ class BotLogger:
         type(before)
         type(after)
         # TODO: Implement this.
-        pass
 
     def onserverjoin(self, server):
         """
@@ -562,7 +554,6 @@ class BotLogger:
         type(self)
         type(server)
         # TODO: Implement this.
-        pass
 
     def onserverremove(self, server):
         """
@@ -573,7 +564,6 @@ class BotLogger:
         type(self)
         type(server)
         # TODO: Implement this.
-        pass
 
     def onserverupdate(self, before, after):
         """
@@ -586,7 +576,6 @@ class BotLogger:
         type(before)
         type(after)
         # TODO: Implement this.
-        pass
 
     def onserverrolecreate(self, role):
         """
@@ -597,7 +586,6 @@ class BotLogger:
         type(self)
         type(role)
         # TODO: Implement this.
-        pass
 
     def onserverroledelete(self, role):
         """
@@ -608,7 +596,6 @@ class BotLogger:
         type(self)
         type(role)
         # TODO: Implement this.
-        pass
 
     def onserverroleupdate(self, before, after):
         """
@@ -621,7 +608,6 @@ class BotLogger:
         type(before)
         type(after)
         # TODO: Implement this.
-        pass
 
     def onsocketrawreceive(self, msg):
         """
@@ -632,7 +618,6 @@ class BotLogger:
         type(self)
         type(msg)
         # TODO: Implement this.
-        pass
 
     def onsocketrawsend(self, payload):
         """
@@ -643,7 +628,6 @@ class BotLogger:
         type(self)
         type(payload)
         # TODO: Implement this.
-        pass
 
     def onresumed(self):
         """
@@ -652,7 +636,6 @@ class BotLogger:
         """
         type(self)
         # TODO: Implement this.
-        pass
 
     def onserveremojisupdate(self, before, after):
         """
@@ -665,7 +648,6 @@ class BotLogger:
         type(before)
         type(after)
         # TODO: Implement this.
-        pass
 
     def onreactionadd(self, reaction, user):
         """
@@ -678,7 +660,6 @@ class BotLogger:
         type(reaction)
         type(user)
         # TODO: Implement this.
-        pass
 
     def onreactionremove(self, reaction, user):
         """
@@ -691,7 +672,6 @@ class BotLogger:
         type(reaction)
         type(user)
         # TODO: Implement this.
-        pass
 
     def onreactionclear(self, message, reactions):
         """
@@ -704,7 +684,6 @@ class BotLogger:
         type(message)
         type(reactions)
         # TODO: Implement this.
-        pass
 
     def onmemberjoin(self, member):
         """
@@ -715,7 +694,6 @@ class BotLogger:
         type(self)
         type(member)
         # TODO: Implement this.
-        pass
 
     def onkick(self, member):
         """

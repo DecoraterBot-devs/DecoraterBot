@@ -3,9 +3,9 @@
 levels plugin for DecoraterBot.
 """
 
+import discord
 from discord.ext import commands
 from discord_webhooks import *
-import discord
 
 
 class WebHooks:
@@ -44,10 +44,14 @@ class WebHooks:
         if role2 in ctx.message.author.roles:
             if ctx.message.server.id == '273134655702827008':
                 await self.request_webhook(
-                    '/284510404162355200/F2CFGqlX9UpC_hRpLIbFLzTnXncgqFdaLz09fOI92fihzfQT6lT0VB2ZjW4FtEZPcurS',
+                    '/284510404162355200/F2CFGqlX9UpC_hRpLIbFLzTnXncgqFdaLz'
+                    '09fOI92fihzfQT6lT0VB2ZjW4FtEZPcurS',
                     content=msgdata)
         else:
-            await self.bot.send_message(ctx.message.channel, 'Sorry, you do not have the ``Webhook Manager`` role to use this command.')
+            await self.bot.send_message(
+                ctx.message.channel,
+                'Sorry, you do not have the ``Webhook Manager`` role to use '
+                'this command.')
 
     @commands.command(name='sendimages', pass_context=True, no_pm=True)
     async def webhookimages_command(self, ctx):
@@ -60,20 +64,27 @@ class WebHooks:
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
             if ctx.message.server.id == '273134655702827008':
-                file = open('{0}{1}resources{1}images{1}other{1}image.jpg'.format(self.bot.path, self.bot.sepa), 'rb')
+                file = open(
+                    '{0}{1}resources{1}images{1}other{1}image.jpg'.format(
+                        self.bot.path, self.bot.sepa), 'rb')
                 data = file.read()
                 await self.request_webhook(
-                    '/284510404162355200/F2CFGqlX9UpC_hRpLIbFLzTnXncgqFdaLz09fOI92fihzfQT6lT0VB2ZjW4FtEZPcurS',
+                    '/284510404162355200/F2CFGqlX9UpC_hRpLIbFLzTnXncgqFdaLz'
+                    '09fOI92fihzfQT6lT0VB2ZjW4FtEZPcurS',
                     file=data)
         else:
-            await self.bot.send_message(ctx.message.channel, 'Sorry, you do not have the ``Webhook Manager`` role to use this command.')
+            await self.bot.send_message(
+                ctx.message.channel,
+                'Sorry, you do not have the ``Webhook Manager`` role to use '
+                'this command.')
 
     @commands.command(name='sendannouncement', pass_context=True, no_pm=True)
     async def webhookannouncement_command(self, ctx):
         """
         ::sendannouncement request command for DecoraterBot.
         """
-        msgdata = ctx.message.content[len(ctx.prefix + "sendannouncement"):].strip()
+        msgdata = ctx.message.content[
+                  len(ctx.prefix + "sendannouncement"):].strip()
         # if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
         #     return
         role2 = discord.utils.find(lambda role: role.name == 'Webhook Manager',
@@ -81,10 +92,15 @@ class WebHooks:
         if role2 in ctx.message.author.roles:
             if ctx.message.server.id == '273134655702827008':
                 await self.request_webhook(
-                    '/290106516927807488/sFYC40I0VjSPr_f4I0NsgEr40K813Hj-4beuIdDuU4cGfMmvqgTfh-UguLPXdHVZaVAq',
+                    '/290106516927807488/sFYC40I0VjSPr_f4I0NsgEr40K813Hj-4b'
+                    'euIdDuU4cGfMmvqgTfh-UguLPXdHVZaVAq',
                     content=msgdata)
         else:
-            await self.bot.send_message(ctx.message.channel, 'Sorry, you do not have the ``Webhook Manager`` role to use this command.')
+            await self.bot.send_message(
+                ctx.message.channel,
+                'Sorry, you do not have the ``Webhook Manager`` role to use '
+                'this command.')
+
 
 def setup(bot):
     """

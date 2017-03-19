@@ -22,7 +22,10 @@ class BotLogger:
 
     async def on_command_error(self, exception, context):
         """..."""
-        await self.bot.send_message(context.message.channel, "exception in command {0}:```py\n{1}```".format(context.command, str(exception)))
+        await self.bot.send_message(
+            context.message.channel,
+            "exception in command {0}:```py\n{1}```".format(
+                context.command, str(exception)))
 
     async def on_message(self, message):
         """
@@ -45,7 +48,7 @@ class BotLogger:
                     elif message.channel.id == "87382611688689664":
                         pass
                     else:
-                        if self.bot.logging:
+                        if self.bot.BotConfig.logging:
                             await self.bot.DBLogs.send_logs(self.bot, message)
                 elif message.channel.server and message.channel.server.id == \
                         "71324306319093760":
@@ -55,15 +58,15 @@ class BotLogger:
                         await self.bot.cheesy_commands_helper(message)
                     else:
                         # await self.bot.everyone_mention_logger(message)
-                        if self.bot.logging:
+                        if self.bot.BotConfig.logging:
                             self.bot.DBLogs.logs(message)
                 else:
-                    if self.bot.logging:
+                    if self.bot.BotConfig.logging:
                         self.bot.DBLogs.logs(message)
             except Exception as e:
-                if self.bot.pm_command_errors:
-                    if self.bot.discord_user_id is not None:
-                        owner = self.bot.discord_user_id
+                if self.bot.BotConfig.pm_command_errors:
+                    if self.bot.BotConfig.discord_user_id is not None:
+                        owner = self.bot.BotConfig.discord_user_id
                         exception_data2 = str(traceback.format_exc())
                         message_data = '```py\n{0}\n```'.format(
                             exception_data2)
@@ -84,7 +87,7 @@ class BotLogger:
                     tbinfo = str(traceback.format_exc())
                     await self.bot.DBLogs.on_bot_error(funcname, tbinfo, e)
         if message.channel.is_private:
-            if self.bot.is_official_bot:
+            if self.bot.BotConfig.is_official_bot:
                 pattern = '(https?:\/\/)?discord\.gg\/'
                 regex = re.compile(pattern)
                 searchres = regex.search(message.content)
@@ -104,7 +107,7 @@ class BotLogger:
         """
         try:
             if before.channel.is_private is not False:
-                if self.bot.logging:
+                if self.bot.BotConfig.logging:
                     self.bot.DBLogs.edit_logs(before, after)
             elif before.channel.server and before.channel.server.id == \
                     "81812480254291968":
@@ -123,7 +126,7 @@ class BotLogger:
                 elif before.channel.server.id == '95342850102796288':
                     return
                 else:
-                    if self.bot.logging:
+                    if self.bot.BotConfig.logging:
                         self.bot.DBLogs.edit_logs(before, after)
         except Exception as e:
             funcname = 'on_message_edit'
@@ -138,7 +141,7 @@ class BotLogger:
         """
         try:
             if message.channel.is_private is not False:
-                if self.bot.logging:
+                if self.bot.BotConfig.logging:
                     self.bot.DBLogs.delete_logs(message)
             elif message.channel.server and message.channel.server.id == \
                     "81812480254291968":
@@ -156,7 +159,7 @@ class BotLogger:
                 elif message.channel.server.id == '95342850102796288':
                     return
                 else:
-                    if self.bot.logging:
+                    if self.bot.BotConfig.logging:
                         self.bot.DBLogs.delete_logs(message)
         except Exception as e:
             funcname = 'on_message_delete'
@@ -169,7 +172,7 @@ class BotLogger:
         :param channel: Channels.
         :return: Nothing.
         """
-        if self.bot.log_channel_delete:
+        if self.bot.BotConfig.log_channel_delete:
             self.bot.DBLogs.onchanneldelete(channel)
 
     async def on_channel_create(self, channel):
@@ -178,7 +181,7 @@ class BotLogger:
         :param channel: Channel.
         :return: Nothing.
         """
-        if self.bot.log_channel_create:
+        if self.bot.BotConfig.log_channel_create:
             self.bot.DBLogs.onchannelcreate(channel)
 
     async def on_channel_update(self, before, after):
@@ -188,7 +191,7 @@ class BotLogger:
         :param after: Channel.
         :return: Nothing.
         """
-        if self.bot.log_channel_update:
+        if self.bot.BotConfig.log_channel_update:
             self.bot.DBLogs.onchannelupdate(before, after)
 
     async def on_member_ban(self, member):
@@ -198,7 +201,7 @@ class BotLogger:
         :return: Nothing.
         """
         try:
-            if self.bot.logbans:
+            if self.bot.BotConfig.logbans:
                 self.bot.DBLogs.onban(member)
             if member.server.id == "71324306319093760":
                 await self.bot.verify_cache_cleanup(member)
@@ -215,7 +218,7 @@ class BotLogger:
         :return: Nothing.
         """
         try:
-            if self.bot.logunbans:
+            if self.bot.BotConfig.logunbans:
                 self.bot.DBLogs.onunban(server, user)
         except Exception as e:
             funcname = 'on_member_unban'
@@ -234,11 +237,11 @@ class BotLogger:
                 if member in banslist:
                     return
                 else:
-                    if self.bot.logkicks:
+                    if self.bot.BotConfig.logkicks:
                         self.bot.DBLogs.onkick(member)
             except (discord.errors.HTTPException, discord.errors.Forbidden,
                     BotErrors.CommandTimeoutError):
-                if self.bot.logkicks:
+                if self.bot.BotConfig.logkicks:
                     self.bot.DBLogs.onkick(member)
             if member.server and member.server.id == "71324306319093760":
                 await self.bot.verify_cache_cleanup_2(member)
@@ -254,7 +257,7 @@ class BotLogger:
         :param after: Member.
         :return: Nothing.
         """
-        if self.bot.log_member_update:
+        if self.bot.BotConfig.log_member_update:
             self.bot.DBLogs.onmemberupdate(before, after)
 
     async def on_member_join(self, member):
@@ -264,7 +267,7 @@ class BotLogger:
         :return: Nothing.
         """
         try:
-            if self.bot.log_member_join:
+            if self.bot.BotConfig.log_member_join:
                 self.bot.DBLogs.onmemberjoin(member)
             if member.server.id == '71324306319093760' and member.bot is not \
                     True:
@@ -316,7 +319,7 @@ class BotLogger:
         :param server: Servers.
         :return: Nothing.
         """
-        if self.bot.log_available:
+        if self.bot.BotConfig.log_available:
             self.bot.DBLogs.onavailable(server)
 
     async def on_server_unavailable(self, server):
@@ -325,7 +328,7 @@ class BotLogger:
         :param server: Servers.
         :return: Nothing.
         """
-        if self.bot.log_unavailable:
+        if self.bot.BotConfig.log_unavailable:
             self.bot.DBLogs.onunavailable(server)
 
     async def on_server_join(self, server):
@@ -334,7 +337,7 @@ class BotLogger:
         :param server: Server.
         :return: Nothing.
         """
-        if self.bot.log_server_join:
+        if self.bot.BotConfig.log_server_join:
             self.bot.DBLogs.onserverjoin(server)
 
     async def on_server_remove(self, server):
@@ -343,7 +346,7 @@ class BotLogger:
         :param server: Server.
         :return: Nothing.
         """
-        if self.bot.log_server_remove:
+        if self.bot.BotConfig.log_server_remove:
             self.bot.DBLogs.onserverremove(server)
 
     async def on_server_update(self, before, after):
@@ -353,7 +356,7 @@ class BotLogger:
         :param after: Server.
         :return: Nothing.
         """
-        if self.bot.log_server_update:
+        if self.bot.BotConfig.log_server_update:
             self.bot.DBLogs.onserverupdate(before, after)
 
     async def on_ready(self):
@@ -381,7 +384,7 @@ class BotLogger:
         :param role: Role.
         :return: Nothing.
         """
-        if self.bot.log_server_role_create:
+        if self.bot.BotConfig.log_server_role_create:
             self.bot.DBLogs.onserverrolecreate(role)
 
     async def on_server_role_delete(self, role):
@@ -390,7 +393,7 @@ class BotLogger:
         :param role: Role.
         :return: Nothing.
         """
-        if self.bot.log_server_role_delete:
+        if self.bot.BotConfig.log_server_role_delete:
             self.bot.DBLogs.onserverroledelete(role)
 
     async def on_error(self, event, *args, **kwargs):
@@ -414,7 +417,7 @@ class BotLogger:
         :param after: Role.
         :return: Nothing.
         """
-        if self.bot.log_server_role_update:
+        if self.bot.BotConfig.log_server_role_update:
             self.bot.DBLogs.onserverroleupdate(before, after)
 
     async def on_group_join(self, channel, user):
@@ -425,7 +428,7 @@ class BotLogger:
         :return: Nothing.
         """
         try:
-            if self.bot.log_group_join:
+            if self.bot.BotConfig.log_group_join:
                 self.bot.DBLogs.ongroupjoin(channel, user)
         except Exception as e:
             funcname = 'on_group_join'
@@ -440,7 +443,7 @@ class BotLogger:
         :return: Nothing.
         """
         try:
-            if self.bot.log_group_remove:
+            if self.bot.BotConfig.log_group_remove:
                 self.bot.DBLogs.ongroupremove(channel, user)
         except Exception as e:
             funcname = 'on_group_remove'
@@ -454,7 +457,7 @@ class BotLogger:
         :param after: State.
         :return: Nothing.
         """
-        if self.bot.log_voice_state_update:
+        if self.bot.BotConfig.log_voice_state_update:
             self.bot.DBLogs.onvoicestateupdate(before, after)
 
     async def on_typing(self, channel, user, when):
@@ -465,7 +468,7 @@ class BotLogger:
         :param when: Time.
         :return: Nothing.
         """
-        if self.bot.log_typing:
+        if self.bot.BotConfig.log_typing:
             self.bot.DBLogs.ontyping(channel, user, when)
 
     async def on_socket_raw_receive(self, msg):
@@ -474,7 +477,7 @@ class BotLogger:
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.log_socket_raw_receive:
+        if self.bot.BotConfig.log_socket_raw_receive:
             self.bot.DBLogs.onsocketrawreceive(msg)
 
     async def on_socket_raw_send(self, payload):
@@ -483,7 +486,7 @@ class BotLogger:
         :param payload: Payload.
         :return: Nothing.
         """
-        if self.bot.log_socket_raw_send:
+        if self.bot.BotConfig.log_socket_raw_send:
             self.bot.DBLogs.onsocketrawsend(payload)
 
     async def on_resumed(self):
@@ -491,7 +494,7 @@ class BotLogger:
         Bot Event.
         :return: Nothing.
         """
-        if self.bot.log_resumed:
+        if self.bot.BotConfig.log_resumed:
             self.bot.DBLogs.onresumed()
 
     # new events (Since Discord.py v0.13.0+).
@@ -501,7 +504,7 @@ class BotLogger:
         Bot Event.
         :return: Nothing.
         """
-        if self.bot.log_server_emojis_update:
+        if self.bot.BotConfig.log_server_emojis_update:
             self.bot.DBLogs.onserveremojisupdate(before, after)
 
     # added in Discord.py v0.14.3.
@@ -511,7 +514,7 @@ class BotLogger:
         Bot Event.
         :return: Nothing.
         """
-        if self.bot.log_reaction_add:
+        if self.bot.BotConfig.log_reaction_add:
             self.bot.DBLogs.onreactionadd(reaction, user)
 
     async def on_reaction_remove(self, reaction, user):
@@ -519,7 +522,7 @@ class BotLogger:
         Bot Event.
         :return: Nothing.
         """
-        if self.bot.log_reaction_remove:
+        if self.bot.BotConfig.log_reaction_remove:
             self.bot.DBLogs.onreactionremove(reaction, user)
 
     # added in Discord.py v0.15.0.
@@ -529,7 +532,7 @@ class BotLogger:
         Bot Event.
         :return: Nothing.
         """
-        if self.bot.log_reaction_clear:
+        if self.bot.BotConfig.log_reaction_clear:
             self.bot.DBLogs.onreactionclear(message, reactions)
 
 

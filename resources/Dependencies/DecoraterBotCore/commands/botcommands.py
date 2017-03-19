@@ -817,7 +817,7 @@ class BotCommands:
             else:
                 if self.bot.disabletinyurl:
                     try:
-                        if self.bot.pm_commands_list:
+                        if self.bot.BotConfig.pm_commands_list:
                             await self.bot.send_message(
                                 ctx.message.author,
                                 content=self.bot.botcommands)
@@ -830,7 +830,7 @@ class BotCommands:
                             self.bot, ctx)
                 else:
                     try:
-                        if self.bot.pm_commands_list:
+                        if self.bot.BotConfig.pm_commands_list:
                             await self.bot.send_message(
                                 ctx.message.author,
                                 content=self.bot.botcommandswithtinyurl)

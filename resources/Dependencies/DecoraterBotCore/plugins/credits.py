@@ -36,14 +36,19 @@ class Credits:
         try:
             current_credits = 0
             try:
-                current_credits = self.bot.credits.getcredits(str(ctx.message.author.id), 'credits')
+                current_credits = self.bot.credits.getcredits(
+                    str(ctx.message.author.id), 'credits')
             except (KeyError, TypeError):
                 pass
-            self.bot.credits.setcredits(str(ctx.message.author.id), 'credits', current_credits + 200)
+            self.bot.credits.setcredits(
+                str(ctx.message.author.id), 'credits', current_credits + 500)
             await self.bot.send_message(
                     ctx.message.channel,
-                    ":atm:  |  {0}, you received :dollar: 200 credits!".format(ctx.message.author.name))
+                    ":atm:  |  {0}, you received your :dollar: 500 daily "
+                    "credits!".format(
+                        ctx.message.author.name))
         except Exception as ex:
+            str(ex)
             await self.bot.send_message(
                     ctx.message.channel,
                     "Error: ```py\n{0}```".format(traceback.format_exc()))
@@ -56,33 +61,45 @@ class Credits:
         try:
             current_credits = 0
             try:
-                current_credits = self.bot.credits.getcredits(str(ctx.message.author.id), 'credits')
+                current_credits = self.bot.credits.getcredits(
+                    str(ctx.message.author.id), 'credits')
             except (KeyError, TypeError):
                 pass
-            self.bot.credits.setcredits(str(ctx.message.author.id), 'credits', current_credits + 5000000)
+            self.bot.credits.setcredits(
+                str(ctx.message.author.id), 'credits',
+                current_credits + 5000000)
             await self.bot.send_message(
                     ctx.message.channel,
-                    ":atm:  |  {0}, you received :dollar: 5000000 credits!".format(ctx.message.author.name))
+                    ":atm:  |  {0}, you received :dollar: 5000000 "
+                    "credits!".format(ctx.message.author.name))
         except Exception as ex:
+            str(ex)
             await self.bot.send_message(
                     ctx.message.channel,
                     "Error: ```py\n{0}```".format(traceback.format_exc()))
 
     @commands.command(name='balance', pass_context=True)
     async def balance_command(self, ctx):
+        """
+        ::balance Command for DecoraterBot.
+        """
         try:
             current_credits = 0
             try:
-                current_credits = self.bot.credits.getcredits(str(ctx.message.author.id), 'credits')
+                current_credits = self.bot.credits.getcredits(
+                    str(ctx.message.author.id), 'credits')
             except (KeyError, TypeError):
                 pass
             await self.bot.send_message(
                     ctx.message.channel,
-                    "{0}, you have {1} credits!".format(ctx.message.author.name, current_credits))
+                    "{0}, you have {1} credits!".format(
+                        ctx.message.author.name, current_credits))
         except Exception as ex:
+            str(ex)
             await self.bot.send_message(
                     ctx.message.channel,
                     "Error: ```py\n{0}```".format(traceback.format_exc()))
+
 
 def setup(bot):
     """

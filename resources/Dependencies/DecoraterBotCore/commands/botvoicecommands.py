@@ -108,6 +108,7 @@ class VoiceBotCommands:
         self.lock_join_voice_channel_command = False
         self.resolve_send_message_error = (
             self.bot.BotPMError.resolve_send_message_error)
+        self.rsme = self.resolve_send_message_error
 
     def setup(self):
         """
@@ -677,10 +678,7 @@ class VoiceBotCommands:
                                                     self.voice_message_channel,
                                                     content=message_data)
                                             except discord.errors.Forbidden:
-                                                await (
-                                                    (self.bot
-                                                     ).resolve_send_message_error(
-                                                        self.bot, ctx))
+                                                await self.rsme(self.bot, ctx)
                                             try:
                                                 self.player.start()
                                             except RuntimeError:
@@ -2236,7 +2234,7 @@ class VoiceBotCommands:
                     value_string = ctx.message.content.strip(
                         self.bot.bot_prefix + "vol ")
                     try:
-                        value = int(value_string) / 100
+                        value = float(value_string) / 100
                         if 0.0 <= value <= 2.0:
                             self.player.volume = value
                             value_message = str(

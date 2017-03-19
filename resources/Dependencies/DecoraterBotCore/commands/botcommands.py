@@ -200,8 +200,8 @@ class BotCommands:
             return
         desrole = ctx.message.content[
                   len(
-                      self.bot.bot_prefix + "color " +
-                      self.bot.bot_prefix + "pink "):].strip()
+                      ctx.prefix + "color " +
+                      ctx.prefix + "pink "):].strip()
         role2 = discord.utils.find(lambda role: role.name == desrole,
                                    ctx.message.channel.server.roles)
         try:
@@ -232,8 +232,8 @@ class BotCommands:
             return
         desrole = ctx.message.content[
                   len(
-                      self.bot.bot_prefix + "color " +
-                      self.bot.bot_prefix + "brown "):].strip()
+                      ctx.prefix + "color " +
+                      ctx.prefix + "brown "):].strip()
         role2 = discord.utils.find(lambda role: role.name == desrole,
                                    ctx.message.channel.server.roles)
         try:
@@ -264,7 +264,7 @@ class BotCommands:
             return
         if ctx.message.author.id == self.bot.owner_id:
             debugcode = ctx.message.content[
-                        len(self.bot.bot_prefix + "eval "):].strip()
+                        len(ctx.prefix + "eval "):].strip()
             if debugcode.rfind(
                     'await self.bot.send_message(ctx.message.channel, content='
             ) is not -1:
@@ -352,7 +352,7 @@ class BotCommands:
             return
         if ctx.message.author.id == self.bot.owner_id:
             debugcode_new = "# coding=utf-8\n" + ctx.message.content[len(
-                self.bot.bot_prefix + "debug "):].strip()
+                ctx.prefix + "debug "):].strip()
             botowner = discord.utils.find(
                 lambda member: member.id == self.bot.owner_id,
                 ctx.message.channel.server.members)
@@ -527,7 +527,7 @@ class BotCommands:
                                                     'join_command_data'][3]))
             else:
                 code = ctx.message.content[
-                       len(self.bot.bot_prefix + "join "):].strip()
+                       len(ctx.prefix + "join "):].strip()
                 if code == '':
                     url = None
                 else:
@@ -564,7 +564,7 @@ class BotCommands:
             return
         else:
             data = ctx.message.content[
-                   len(self.bot.bot_prefix + "kill "):].strip()
+                   len(ctx.prefix + "kill "):].strip()
             if ctx.message.channel.is_private:
                 msg = random.randint(1, 4)
                 if msg == 1:
@@ -1159,7 +1159,7 @@ class BotCommands:
         if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
             return
         desdata = ctx.message.content[
-                  len(self.bot.bot_prefix + 'meme'):].strip()
+                  len(ctx.prefix + 'meme'):].strip()
         meme_error = False
         desdata = str(desdata)
         toptext = None
@@ -1315,8 +1315,8 @@ class BotCommands:
             return
         else:
             say = ctx.message.content[
-                  len(self.bot.bot_prefix + "say "):].strip()
-            if say.rfind(self.bot.bot_prefix) != -1:
+                  len(ctx.prefix + "say "):].strip()
+            if say.rfind(ctx.prefix) != -1:
                 message_data = str(
                     self.bot.botmessages['say_command_data'][0]).format(
                     ctx.message.author)
@@ -1537,7 +1537,7 @@ class BotCommands:
             return
         else:
             url = ctx.message.content[
-                  len(self.bot.bot_prefix + "tinyurl "):].strip()
+                  len(ctx.prefix + "tinyurl "):].strip()
             if '<' and '>' in url:
                 url = url.strip('<')
                 url = url.strip('>')
@@ -1592,7 +1592,7 @@ class BotCommands:
         if ctx.message.channel.server and ctx.message.channel.server.id == \
                 "81812480254291968":
             desrole = ctx.message.content[
-                      len(self.bot.bot_prefix + "giveme "):].strip()
+                      len(ctx.prefix + "giveme "):].strip()
             role2 = discord.utils.find(lambda role: role.name == 'Muted',
                                        ctx.message.channel.server.roles)
             role3 = discord.utils.find(lambda role: role.name == 'Students',
@@ -1630,7 +1630,7 @@ class BotCommands:
                     ctx.message.channel.server.id == \
                     "127233852182626304":
                 desrole = ctx.message.content[
-                          len(self.bot.bot_prefix + "giveme "):].strip()
+                          len(ctx.prefix + "giveme "):].strip()
                 rolelist = ctx.message.channel.server.roles
                 role2 = discord.utils.find(
                     lambda role: role.name == '3rd Party Developer', rolelist)
@@ -1687,7 +1687,7 @@ class BotCommands:
         if ctx.message.channel.server and ctx.message.channel.server.id == \
                 "127233852182626304":
             desrole = ctx.message.content[
-                      len(self.bot.bot_prefix + "remove "):].strip()
+                      len(ctx.prefix + "remove "):].strip()
             rolelist = ctx.message.channel.server.roles
             role2 = discord.utils.find(
                 lambda role: role.name == '3rd Party Developer', rolelist)

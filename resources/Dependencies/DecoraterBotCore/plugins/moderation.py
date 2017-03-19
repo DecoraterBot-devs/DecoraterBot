@@ -282,7 +282,7 @@ class ModerationCommands:
             """
             if role2 in ctx.message.author.roles:
                 opt = ctx.message.content[
-                      len(self.bot.bot_prefix + "prune "):].strip()
+                      len(ctx.prefix + "prune "):].strip()
                 num = 1
                 if opt:
                     try:

@@ -71,7 +71,7 @@ class BotCoreCommands:
         """
         if ctx.message.author.id == self.bot.discord_user_id:
             desmod_new = ctx.message.content.lower()[len(
-                self.bot.bot_prefix + 'reload '):].strip()
+                ctx.prefix + 'reload '):].strip()
             self.bot._somebool = False
             ret = ""
             if desmod_new is not None:
@@ -126,7 +126,7 @@ class BotCoreCommands:
         """
         if ctx.message.author.id == self.bot.discord_user_id:
             desmod_new = ctx.message.content.lower()[len(
-                self.bot.bot_prefix + 'loadplugin '):].strip()
+                ctx.prefix + 'loadplugin '):].strip()
             self.bot._somebool = False
             ret = ""
             if desmod_new is not None:
@@ -180,7 +180,7 @@ class BotCoreCommands:
         """
         if ctx.message.author.id == self.bot.discord_user_id:
             desmod_new = ctx.message.content.lower()[len(
-                self.bot.bot_prefix + 'unloadplugin '):].strip()
+                ctx.prefix + 'unloadplugin '):].strip()
             self.bot._somebool = False
             ret = ""
             if desmod_new is not None:

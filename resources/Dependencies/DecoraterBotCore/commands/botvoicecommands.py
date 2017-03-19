@@ -584,7 +584,7 @@ class VoiceBotCommands:
                     if ctx.message.channel.id == self.voice_message_channel.id:
                         try:
                             data = ctx.message.content[
-                                   len(self.bot.bot_prefix + "play "):].strip()
+                                   len(ctx.prefix + "play "):].strip()
                             if data == "":
                                 try:
                                     message_data = str(
@@ -730,7 +730,7 @@ class VoiceBotCommands:
         else:
             if self.player is not None:
                 data = ctx.message.content[
-                       len(self.bot.bot_prefix + "play "):].strip()
+                       len(ctx.prefix + "play "):].strip()
                 if data == "":
                     try:
                         message_data = str(
@@ -2232,7 +2232,7 @@ class VoiceBotCommands:
             if ctx.message.channel.id == self.voice_message_channel.id:
                 if self.player is not None:
                     value_string = ctx.message.content.strip(
-                        self.bot.bot_prefix + "vol ")
+                        ctx.prefix + "vol ")
                     try:
                         value = float(value_string) / 100
                         if 0.0 <= value <= 2.0:

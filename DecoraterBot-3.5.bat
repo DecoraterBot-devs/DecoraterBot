@@ -1,3 +1,3 @@
 @echo off
-"%SystemDrive%\Python35\python.exe" "%~dp0DecoraterBot.py" 2>resources\Logs\unhandled_tracebacks.txt
+"%SystemDrive%\Python35\python.exe" "%~dp0DecoraterBot.py"
 pause - stop

@@ -1,7 +1,10 @@
+regex
+aioredis
+colorama
+pycares
 discord.py
 aiohttp
 PyNacl
-pycares
 cchardet
 cffi
 multidict

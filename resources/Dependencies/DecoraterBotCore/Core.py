@@ -132,7 +132,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.log_ytdl:
+        if self.bot.BotConfig.log_ytdl:
             self.log_file_code('ytdl_info', msg)
         else:
             pass
@@ -144,7 +144,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.log_ytdl:
+        if self.bot.BotConfig.log_ytdl:
             self.log_file_code('ytdl_debug', msg)
         else:
             pass
@@ -156,7 +156,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.log_ytdl:
+        if self.bot.BotConfig.log_ytdl:
             self.log_file_code('ytdl_warning', msg)
         else:
             pass
@@ -168,7 +168,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.log_ytdl:
+        if self.bot.BotConfig.log_ytdl:
             self.log_file_code('ytdl_error', msg)
         else:
             pass
@@ -366,7 +366,7 @@ class BotClient(commands.Bot):
         Logger Data.
         :return: Nothing.
         """
-        if self.discord_logger_:
+        if self.BotConfig.discord_logger:
             self.DBLogs.set_up_discord_logger()
 
     def asyncio_logger(self):
@@ -374,7 +374,7 @@ class BotClient(commands.Bot):
         Asyncio Logger.
         :return: Nothing.
         """
-        if self.asyncio_logger_:
+        if self.BotConfig.asyncio_logger:
             self.DBLogs.set_up_asyncio_logger()
 
     # Helpers.
@@ -600,15 +600,15 @@ class BotClient(commands.Bot):
         """
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             try:
-                if self.discord_user_email and self.discord_user_password is \
+                if self.BotConfig.discord_user_email and self.BotConfig.discord_user_password is \
                         not None:
                     self.is_bot_logged_in = True
                     self.loop.run_until_complete(
-                        self.__ffs__(self.discord_user_email,
-                                     self.discord_user_password))
-                elif self.bot_token is not None:
+                        self.__ffs__(self.BotConfig.discord_user_email,
+                                     self.BotConfig.discord_user_password))
+                elif self.BotConfig.bot_token is not None:
                     self.is_bot_logged_in = True
-                    self.loop.run_until_complete(self.__ffs__(self.bot_token))
+                    self.loop.run_until_complete(self.__ffs__(self.BotConfig.bot_token))
             except discord.errors.GatewayNotFound:
                 print(str(self.consoletext['Login_Gateway_No_Find'][0]))
                 return -2

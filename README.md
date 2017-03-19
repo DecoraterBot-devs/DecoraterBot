@@ -21,7 +21,7 @@ DecoraterBot is a Discord bot that is written in [Python](https://www.python.org
 
 ## Commands
 
-View the list of bot commands [here](https://github.com/AraHaan/DecoraterBot/blob/Async-Portable/Commands.MD)
+View the list of bot commands [here](/Commands.MD)
 
 ## Future Updates
 

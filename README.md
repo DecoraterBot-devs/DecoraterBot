@@ -1,4 +1,4 @@
-# DecoraterBot Portable Version
+# DecoraterBot Async Version
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa)](https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger)
 [![issues](https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg)](https://github.com/AraHaan/DecoraterBot/issues)
@@ -6,7 +6,21 @@
 
 ## What is DecoraterBot?
 
-DecoraterBot is a Discord bot that is written in [Python](https://www.python.org/). It is currently maintained and developed by @[AraHaan](https://github.com/AraHaan)
+DecoraterBot is a Discord bot that is written in [Python](https://www.python.org/). It is currently maintained and developed by @[AraHaan](https://github.com/AraHaan), @[DavidNeon](https://github.com/DavidNeon), and rarely @[JakesDen](https://github.com/jakesden).
+
+## Contributors
+
+@[AraHaan](https://github.com/AraHaan) - Bot Developer
+
+@[CheeseCast](https://github.com/CheeseCast) - Documentation & Spell-checker.. (hue)
+
+@[DavidNeon](https://github.com/DavidNeon) - Bot Developer, Code Changer, & More.
+
+@[JakesDen](https://github.com/jakesden) - Assistant Bot Developer, Code Changer, & More.
+
+## Commands
+
+View the list of bot commands [here](https://github.com/AraHaan/DecoraterBot/blob/Async-Portable/Commands.MD)
 
 ## Future Updates
 
@@ -38,16 +52,23 @@ After you have configurated the bot with a token you can run the bot with 1 of t
 
 # Windows
 
-> with ``DecoraterBot.bat`` that uses the 32-bit version of the system installed Python 3.5+ interpreter on windows.
+> with ``DecoraterBot-3.5.bat`` that uses the 32-bit version of the system installed Python 3.5 interpreter on windows.
 
-> with ``DecoraterBot64.bat`` that uses the 64-bit version of the system installed Python 3.5+ interpreter on windows.
+> with ``DecoraterBot-3.6.bat`` that uses the 32-bit version of the system installed Python 3.6 interpreter on windows.
 
-(Will be replaced with 3.6 when released too.)
+> with ``DecoraterBot64-3.5.bat`` that uses the 64-bit version of the system installed Python 3.5 interpreter on windows.
 
-> with ``DecoraterBot.sln`` in Visual Studio 2015 Update 3.
+> with ``DecoraterBot64-3.6.bat`` that uses the 64-bit version of the system installed Python 3.6 interpreter on windows.
 
-Note: You Will have to use the Bat files above by right clicking them in the solution file.
-Also I might be thinking about finally removing some of the folders with py files as I am thinking of makign most of them pyd's to have further optimizations to the bot's Error logs (eg function names to files that do not hold the specific errors). With that Said the lines that calls some functions then will not show.
+Note *Before running any of those above patch files you need to run one of these two batch files to install dependencies on your version of python you installed to ``%SystemDrive\Python35``/``%SystemDrive%\Python35x64`` for Python 3.5 or  ``%SystemDrive\Python36``/``%SystemDrive%\Python36x64`` for Python 3.6*
+
+> ``install_deps-3.5.bat`` installs dependencies on to the 32-bit version of the system installed Python 3.5 interpreter on windows.
+
+> ``install_deps-3.6.bat`` installs dependencies on to the 32-bit version of the system installed Python 3.6 interpreter on windows.
+
+> ``install_deps64-3.5.bat`` installs dependencies on to the 64-bit version of the system installed Python 3.5 interpreter on windows.
+
+> ``install_deps64-3.6.bat`` installs dependencies on to the 64-bit version of the system installed Python 3.6 interpreter on windows.
 
 # Linux
 
@@ -62,9 +83,11 @@ You will also have to install the following as well in order to run the bot:
 > cffi (should be installed when pynacl is installed usually)
 
 
-Luckily the following file should be able to handle the installation:
+Luckily the following files should be able to handle the installation:
 
-> install_deps.linux.sh
+> install_deps-3.5.sh
+
+> install_deps-3.6.sh
 
 # Other Platforms
 
@@ -72,19 +95,9 @@ Not available yet.
 
 Some of the other platforms however could easily be unofficially supported. Some of those platforms could be mingw on Windows or if you can get the bot to work on python 3.6.1 on cygwin that could work to. Note: you would then need to compile ffmpeg from source.
 
-I need command line things to execute python 3.5.0+ (3.5.2 recommended).
+I need command line things to execute python 3.5.0+ (3.6.1 recommended).
 You have any other platforms you want the bot to support?
 Well send me it's sys.platform value. The only thing stopping me is a few lines of platform specific code.
-
-## Contributors
-
-@[AraHaan](https://github.com/AraHaan) - Bot Developer |
-@[CheeseCast](https://github.com/CheeseCast) - Documentation & Spell-checker.. (hue)
-@[DavidNeon](https://github.com/DavidNeon) - Bot Developer | Code Changer & More.
-
-## Commands
-
-View the list of bot commands [here](https://github.com/AraHaan/DecoraterBot/blob/Async-Portable/Commands.MD)
 
 ## Want to help with the bot? 
 

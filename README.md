@@ -74,20 +74,15 @@ Note *Before running any of those above patch files you need to run one of these
 
 > with ``DecoraterBot.sh`` that uses the current installed Python Interpreter (Python 3.5.2 recommended).
 
-You will also have to install the following as well in order to run the bot:
+First things first you need to install to ensure you have ``libffi-dev`` installed. You will have to also install ``ffmpeg``.
 
-> aiohttp (latest perfered)
-
-> pynacl
-
-> cffi (should be installed when pynacl is installed usually)
-
-
-Luckily the following files should be able to handle the installation:
+Now you have to install all dependencies to the bot using these files (only after you install ``libffi-dev`` and ``ffmpeg``):
 
 > install_deps-3.5.sh
 
 > install_deps-3.6.sh
+
+However 
 
 # Other Platforms
 

@@ -10,3 +10,4 @@ cffi
 multidict
 yarl
 discord.webhooks
+TinyURL3

@@ -262,7 +262,7 @@ class BotCommands:
         """
         if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
             return
-        if ctx.message.author.id == self.bot.owner_id:
+        if ctx.message.author.id == self.bot.BotConfig.discord_user_id:
             debugcode = ctx.message.content[
                         len(ctx.prefix + "eval "):].strip()
             if debugcode.rfind(
@@ -284,7 +284,7 @@ class BotCommands:
                                                 content=debugcode)
             else:
                 botowner = discord.utils.find(
-                    lambda member: member.id == self.bot.owner_id,
+                    lambda member: member.id == self.bot.BotConfig.discord_user_id,
                     ctx.message.channel.server.members)
                 try:
                     try:
@@ -350,11 +350,11 @@ class BotCommands:
         """
         if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
             return
-        if ctx.message.author.id == self.bot.owner_id:
+        if ctx.message.author.id == self.bot.BotConfig.discord_user_id:
             debugcode_new = "# coding=utf-8\n" + ctx.message.content[len(
                 ctx.prefix + "debug "):].strip()
             botowner = discord.utils.find(
-                lambda member: member.id == self.bot.owner_id,
+                lambda member: member.id == self.bot.BotConfig.discord_user_id,
                 ctx.message.channel.server.members)
             try:
                 evalcodefile = '{0}{1}resources{1}exec_files{1}' \
@@ -1347,7 +1347,7 @@ class BotCommands:
         """
         if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
             return
-        if ctx.message.author.id == self.bot.owner_id:
+        if ctx.message.author.id == self.bot.BotConfig.discord_user_id:
             if len(ctx.message.mentions) < 1:
                 try:
                     await self.bot.send_message(ctx.message.channel,
@@ -1407,7 +1407,7 @@ class BotCommands:
         """
         if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
             return
-        if ctx.message.author.id == self.bot.owner_id:
+        if ctx.message.author.id == self.bot.BotConfig.discord_user_id:
             if len(ctx.message.mentions) < 1:
                 try:
                     await self.bot.send_message(ctx.message.channel,

@@ -268,18 +268,16 @@ class ModerationCommands:
             role2 = discord.utils.find(
                 lambda role: role.name == 'Bot Commander',
                 ctx.message.channel.server.roles)
-            """
-            if ctx.message.author.id == owner_id:
-                opt = ctx.message.content[len(_bot_prefix + "prune "):].strip()
-                num = 1
-                if opt:
-                    try:
-                        num = int(opt)
-                    except:
-                        return
-                await self.prune_command_iterater_helper(ctx, num)
-            else:
-            """
+            # if ctx.message.author.id == owner_id:
+            #     opt = ctx.message.content[len(_bot_prefix + "prune "):].strip()
+            #     num = 1
+            #     if opt:
+            #         try:
+            #             num = int(opt)
+            #         except:
+            #             return
+            #     await self.prune_command_iterater_helper(ctx, num)
+            # else:
             if role2 in ctx.message.author.roles:
                 opt = ctx.message.content[
                       len(ctx.prefix + "prune "):].strip()

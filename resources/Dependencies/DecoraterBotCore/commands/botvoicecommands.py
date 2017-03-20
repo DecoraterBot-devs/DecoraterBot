@@ -12,7 +12,6 @@ Core to DecoraterBot
 import json
 import sys
 import os
-import asyncio
 
 import youtube_dl
 import discord
@@ -247,7 +246,7 @@ class VoiceBotCommands:
                         pass
         except Exception as e:
             str(e)
-            pass
+            return
 
     def resolve_bot_playlist_issue(self):
         """
@@ -490,7 +489,7 @@ class VoiceBotCommands:
                         except discord.errors.Forbidden:
                             await self.resolve_send_message_error(
                                 self.bot, ctx)
-                    except asyncio.TimeoutError:
+                    except BotErrors.CommandTimeoutError:
                         self.voice_message_channel = None
                         self.voice = None
                         self.vchannel = None
@@ -507,18 +506,6 @@ class VoiceBotCommands:
                         except discord.errors.Forbidden:
                             await self.resolve_send_message_error(
                                 self.bot, ctx)
-                    except BotErrors.CommandTimeoutError:
-                        await self.bot.send_message(
-                            self.voice_message_channel, content=str(
-                                self.bot.botmessages[
-                                    'reload_commands_voice_channels_bypass2'][
-                                    0]))
-                        self.voice_message_server_name = None
-                        self.vchannel_name = None
-                        self.vchannel = None
-                        self.voice_message_server = None
-                        self.voice_message_channel = None
-                        self.voice = None
                         self.verror = True
                     except discord.errors.HTTPException:
                         self.voice_message_channel = None

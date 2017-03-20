@@ -364,19 +364,17 @@ class BotLogger:
         Bot Event.
         :return: Nothing.
         """
-        await self.bot.on_login()
-        """
         try:
-            if self.bot.disable_voice_commands is not True:
-                await self.bot.DBVoiceCommands.reload_commands_bypass3_new(
-                    self.bot)
-            else:
-                return
+            await self.bot.on_login()
+        #     if self.bot.disable_voice_commands is not True:
+        #         await self.bot.DBVoiceCommands.reload_commands_bypass3_new(
+        #             self.bot)
+        #     else:
+        #         return
         except Exception as e:
             funcname = 'on_ready'
             tbinfo = str(traceback.format_exc())
             self.bot.DBLogs.on_bot_error(funcname, tbinfo, e)
-        """
 
     async def on_server_role_create(self, role):
         """

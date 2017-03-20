@@ -47,12 +47,16 @@
         "{0.mention} took a lamp out and hit them on the head, killing them.",
         "{0.mention} Binds, gags and throws them off a cliff to their death.",
         "{0.mention} Took Poor Raven out and he raped them to death.",
-        "{0.mention} Took a Laser pointer and stabbed them half to death.",
-        "Something went wrong...",
+        "{0.mention} Took a Laser pointer and stabbed them half to death."
+    ],
+    "kill_command_mentioned_data": [
         "{0.mention} took a lamp out and hit {1.mention} on the head, killing them.",
         "{0.mention} Binds, gags and throws {1.mention} off a cliff to their death.",
         "{0.mention} Took Poor Raven out and he raped {1.mention} to death.",
         "{0.mention} Took a Laser pointer and stabbed {1.mention} half to death."
+    ],
+    "kill_command_error": [
+        "Something went wrong..."
     ],
     "mention_spam_ban": [
         "{0.name} was banned due to message spamming (over 5 mentions).\nDo not over react the user has been punished with a ban and will not be back unless server owner unbans them.",

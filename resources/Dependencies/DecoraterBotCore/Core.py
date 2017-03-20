@@ -602,15 +602,16 @@ class BotClient(commands.Bot):
         """
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             try:
-                if self.BotConfig.discord_user_email and self.BotConfig.discord_user_password is \
-                        not None:
+                if (self.BotConfig.discord_user_email and
+                        self.BotConfig.discord_user_password is not None):
                     self.is_bot_logged_in = True
                     self.loop.run_until_complete(
                         self.__ffs__(self.BotConfig.discord_user_email,
                                      self.BotConfig.discord_user_password))
                 elif self.BotConfig.bot_token is not None:
                     self.is_bot_logged_in = True
-                    self.loop.run_until_complete(self.__ffs__(self.BotConfig.bot_token))
+                    self.loop.run_until_complete(self.__ffs__(
+                        self.BotConfig.bot_token))
             except discord.errors.GatewayNotFound:
                 print(str(self.consoletext['Login_Gateway_No_Find'][0]))
                 return -2

@@ -24,7 +24,9 @@ class BotCommands:
     """
     Basic Message Commands.
     """
+
     def __init__(self, bot):
+        self.randint = random.randint
         self.bot = bot
 
     def botcommand(self):
@@ -145,7 +147,7 @@ class BotCommands:
         if ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
-            msg = random.randint(0, 1)
+            msg = self.randint(0, 1)
             if msg == 0:
                 heads_coin = "{0}{1}resources{1}images{1}coins{1}" \
                              "Heads.png".format(self.bot.path, self.bot.sepa)
@@ -284,7 +286,8 @@ class BotCommands:
                                                 content=debugcode)
             else:
                 botowner = discord.utils.find(
-                    lambda member: member.id == self.bot.BotConfig.discord_user_id,
+                    (lambda member: member.id ==
+                        self.bot.BotConfig.discord_user_id),
                     ctx.message.channel.server.members)
                 try:
                     try:
@@ -566,49 +569,34 @@ class BotCommands:
             data = ctx.message.content[
                    len(ctx.prefix + "kill "):].strip()
             if ctx.message.channel.is_private:
-                msg = random.randint(1, 4)
-                if msg == 1:
-                    message_data = str(
-                        self.bot.botmessages['kill_command_data'][0]).format(
-                        ctx.message.author)
-                    await self.bot.send_message(ctx.message.channel,
-                                                content=message_data)
-                if msg == 2:
-                    message_data = str(
-                        self.bot.botmessages['kill_command_data'][1]).format(
-                        ctx.message.author)
-                    await self.bot.send_message(ctx.message.channel,
-                                                content=message_data)
-                if msg == 3:
-                    message_data = str(
-                        self.bot.botmessages['kill_command_data'][2]).format(
-                        ctx.message.author)
-                    await self.bot.send_message(ctx.message.channel,
-                                                content=message_data)
-                if msg == 4:
-                    message_data = str(
-                        self.bot.botmessages['kill_command_data'][3]).format(
-                        ctx.message.author)
-                    await self.bot.send_message(ctx.message.channel,
-                                                content=message_data)
+                msg = self.randint(0, len(
+                    self.bot.botmessages['kill_command_data']) - 1)
+                message_data = str(
+                    self.bot.botmessages['kill_command_data'][msg]).format(
+                    ctx.message.author)
+                await self.bot.send_message(ctx.message.channel,
+                                            content=message_data)
             else:
                 if data.rfind(self.bot.user.name) != -1:
                     try:
                         msg_data = str(
-                            self.bot.botmessages['kill_command_data'][4])
+                            self.bot.botmessages['kill_command_error'][0])
                         await self.bot.send_message(ctx.message.channel,
                                                     content=msg_data)
                     except discord.errors.Forbidden:
                         await self.bot.BotPMError.resolve_send_message_error(
                             self.bot, ctx)
                 else:
-                    msg = random.randint(1, 4)
                     for disuser in ctx.message.mentions:
+                        msg = self.randint(0, len(
+                            self.bot.botmessages[
+                                'kill_command_mentioned_data'
+                            ]) - 1)
                         if ctx.message.author == disuser:
                             try:
                                 msg_data = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        4])
+                                    self.bot.botmessages['kill_command_error'][
+                                        0])
                                 await self.bot.send_message(
                                     ctx.message.channel, content=msg_data)
                             except discord.errors.Forbidden:
@@ -618,8 +606,8 @@ class BotCommands:
                         if self.bot.user == disuser:
                             try:
                                 msg_data = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        4])
+                                    self.bot.botmessages['kill_command_error'][
+                                        0])
                                 await self.bot.send_message(
                                     ctx.message.channel, content=msg_data)
                             except discord.errors.Forbidden:
@@ -629,103 +617,32 @@ class BotCommands:
                         user = discord.utils.find(
                             lambda member: member.name == disuser.name,
                             ctx.message.channel.server.members)
-                        if msg == 1:
-                            try:
-                                msgdata = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        5]).format(ctx.message.author,
-                                                   user)
-                                message_data = msgdata
-                                await self.bot.send_message(
-                                    ctx.message.channel, content=message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
-                            break
-                        if msg == 2:
-                            try:
-                                msgdata = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        6]).format(ctx.message.author,
-                                                   user)
-                                message_data = msgdata
-                                await self.bot.send_message(
-                                    ctx.message.channel, content=message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
-                            break
-                        if msg == 3:
-                            try:
-                                msgdata = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        7]).format(ctx.message.author,
-                                                   user)
-                                message_data = msgdata
-                                await self.bot.send_message(
-                                    ctx.message.channel, content=message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
-                            break
-                        if msg == 4:
-                            try:
-                                msgdata = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        8]).format(ctx.message.author,
-                                                   user)
-                                message_data = msgdata
-                                await self.bot.send_message(
-                                    ctx.message.channel, content=message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
-                            break
+                        try:
+                            msgdata = str(
+                                self.bot.botmessages[
+                                    'kill_command_mentioned_data'][
+                                    msg]).format(ctx.message.author,
+                                                 user)
+                            message_data = msgdata
+                            await self.bot.send_message(
+                                ctx.message.channel, content=message_data)
+                        except discord.errors.Forbidden:
+                            await self.bot.resolve_send_message_error(
+                                self.bot, ctx)
+                        break
                     else:
-                        if msg == 1:
-                            try:
-                                message_data = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        0]).format(
-                                    ctx.message.author)
-                                await self.bot.send_message(
-                                    ctx.message.channel, content=message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
-                        if msg == 2:
-                            try:
-                                message_data = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        1]).format(
-                                    ctx.message.author)
-                                await self.bot.send_message(
-                                    ctx.message.channel, content=message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
-                        if msg == 3:
-                            try:
-                                message_data = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        2]).format(
-                                    ctx.message.author)
-                                await self.bot.send_message(
-                                    ctx.message.channel, message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
-                        if msg == 4:
-                            try:
-                                message_data = str(
-                                    self.bot.botmessages['kill_command_data'][
-                                        3]).format(
-                                    ctx.message.author)
-                                await self.bot.send_message(
-                                    ctx.message.channel, content=message_data)
-                            except discord.errors.Forbidden:
-                                await self.bot.resolve_send_message_error(
-                                    self.bot, ctx)
+                        msg = self.randint(0, len(
+                            self.bot.botmessages['kill_command_data']) - 1)
+                        try:
+                            message_data = str(
+                                self.bot.botmessages['kill_command_data'][
+                                    msg]).format(
+                                ctx.message.author)
+                            await self.bot.send_message(
+                                ctx.message.channel, content=message_data)
+                        except discord.errors.Forbidden:
+                            await self.bot.resolve_send_message_error(
+                                self.bot, ctx)
 
     @commands.command(name='ignorechannel', pass_context=True, no_pm=False)
     async def ignorechannel_command(self, ctx):
@@ -1627,8 +1544,8 @@ class BotCommands:
                                                         6]))
         else:
             if ctx.message.channel.server and \
-                    ctx.message.channel.server.id == \
-                    "127233852182626304":
+                            ctx.message.channel.server.id == \
+                            "127233852182626304":
                 desrole = ctx.message.content[
                           len(ctx.prefix + "giveme "):].strip()
                 rolelist = ctx.message.channel.server.roles

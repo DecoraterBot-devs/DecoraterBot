@@ -47,7 +47,7 @@ from . import containers
 # from .web.datadog import DDAgent
 
 
-__all__ = ["main", "BotClient", "botcommand"]
+__all__ = ['main', 'BotClient']
 
 config = BotConfigReader.BotCredentialsVars()
 

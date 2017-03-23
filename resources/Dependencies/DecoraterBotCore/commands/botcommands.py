@@ -1395,14 +1395,16 @@ class BotCommands:
                     desuser = disuser
                     msgdata_1 = str(
                         self.bot.botmessages['userinfo_command_data'][
-                            0]).format(desuser, seenin)
+                            0]).format(desuser, seenin,
+                                       desuser.joined_at.ctime())
                     message_data = msgdata_1
                     data = message_data
                 else:
                     desuser = disuser
                     msgdata_1 = str(
                         self.bot.botmessages['userinfo_command_data'][
-                            0]).format(desuser, seenin)
+                            0]).format(desuser, seenin,
+                                       desuser.joined_at.ctime())
                     message_data = msgdata_1.replace("Playing ", "")
                     data = message_data
                 try:
@@ -1422,14 +1424,16 @@ class BotCommands:
                     msgdata_1 = str(
                         self.bot.botmessages['userinfo_command_data'][
                             0]).format(
-                        ctx.message.author, seenin)
+                        ctx.message.author, seenin,
+                        ctx.message.author.joined_at.ctime())
                     message_data = msgdata_1
                     data = message_data
                 else:
                     msgdata_1 = str(
                         self.bot.botmessages['userinfo_command_data'][
                             0]).format(
-                        ctx.message.author, seenin)
+                        ctx.message.author, seenin,
+                        ctx.message.author.joined_at.ctime())
                     message_data = msgdata_1.replace("Playing ", "")
                     data = message_data
                 try:

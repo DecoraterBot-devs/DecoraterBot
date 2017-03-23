@@ -147,7 +147,7 @@
         "You must mention a user to Bot Unban."
     ],
     "userinfo_command_data": [
-        "```ruby\nName: {0.name}\nID: {0.id}\nDiscriminator: #{0.discriminator}\nAvatar: {0.avatar_url} \nStatus: {0.status}\nVoice Channels: {0.voice_channel}\nJoined: {0.joined_at}\nGame: Playing {0.game}\nSeen In: {1} servers.\nIs Bot Account: {0.bot}\nNickname: {0.nick}\n```"
+        "```ruby\nNickname: {0.nick}\nName: {0.name}\nID: {0.id}\nDiscriminator: #{0.discriminator}\nAvatar: {0.avatar_url} \nStatus: {0.status}\nVoice Channels: {0.voice_channel}\nJoined: {2}\nGame: Playing {0.game}\nSeen In: {1} servers.\nIs Bot Account: {0.bot}\n```"
     ],
     "tinyurl_command_data": [
         "Shortened URL: <{0}>",

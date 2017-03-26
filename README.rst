@@ -90,9 +90,9 @@ Windows
 
 Note *Before running any of those above patch files you need to run one
 of these two batch files to install dependencies on your version of
-python you installed to ``%SystemDrive\Python35`` /
-``%SystemDrive%\Python35x64`` for Python 3.5 or
-``%SystemDrive\Python36`` / ``%SystemDrive%\Python36x64`` for Python
+python you installed to*
+``%SystemDrive\Python35``/``%SystemDrive%\Python35x64`` *for Python 3.5
+or* ``%SystemDrive\Python36``/``%SystemDrive%\Python36x64`` *for Python
 3.6*
 
     ``install_deps-3.5.bat`` installs dependencies on to the 32-bit

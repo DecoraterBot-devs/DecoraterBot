@@ -4,9 +4,6 @@ DecoraterBot Async Version
 |image0| |image1|
 
 .. figure:: /resources/images/AppIcon/AS.png
-   :alt: DecoraterBot icon
-
-   DecoraterBot icon
 
 What is DecoraterBot?
 ---------------------

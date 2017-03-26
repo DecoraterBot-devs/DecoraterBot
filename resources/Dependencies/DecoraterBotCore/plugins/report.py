@@ -37,6 +37,6 @@ def setup(bot):
     """
     DecoraterBot's Bug Reporting Plugin.
     """
-    new_cog = WebHooks(bot)
+    new_cog = Report(bot)
     new_cog.botcommand()
     bot.add_cog(new_cog)

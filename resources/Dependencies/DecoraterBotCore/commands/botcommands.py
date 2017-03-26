@@ -15,6 +15,7 @@ import random
 import subprocess
 import sys
 import traceback
+import re
 
 import discord
 from discord.ext import commands
@@ -24,7 +25,6 @@ class BotCommands:
     """
     Basic Message Commands.
     """
-
     def __init__(self, bot):
         self.randint = random.randint
         self.bot = bot
@@ -447,43 +447,50 @@ class BotCommands:
         elif ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
-            desgame, desgametype, stream_url, desgamesize = (
-                self.bot.game_command_helper(ctx))
-            if desgamesize < 1:
-                await self.bot.send_message(ctx.message.channel,
-                                            'No game name was provided.')
-            elif desgametype is not None:
-                if self.bot.log_games:
-                    self.bot.DBLogs.gamelog(ctx, desgame)
-                await self.bot.change_presence(
-                    game=discord.Game(name=desgame, type=desgametype,
-                                      url=stream_url), status='online')
-                try:
+            pattern = '(https?:\/\/)?discord\.gg\/'
+            regex = re.compile(pattern)
+            searchres = regex.search(ctx.message.content)
+            if searchres is not None:
+                await self.bot.send_message(
+                    ctx.message.channel,
+                    content="Sorry, This command does not allow you to "
+                            "set it to an discord server invite link.")
+            else:
+                desgame, desgametype, stream_url, desgamesize = (
+                    self.bot.game_command_helper(ctx))
+                if desgamesize < 1:
                     await self.bot.send_message(ctx.message.channel,
-                                                content=str(
-                                                    self.bot.botmessages[
-                                                        'game_command_data'][
-                                                        0]).format(
-                                                    desgame).replace("idle",
-                                                                     "strea"
-                                                                     "ming"))
-                except discord.errors.Forbidden:
-                    await self.bot.BotPMError.resolve_send_message_error(
-                        self.bot, ctx)
-            elif desgametype is None:
-                if self.bot.log_games:
-                    self.bot.DBLogs.gamelog(ctx, desgame)
-                await self.bot.change_presence(game=discord.Game(name=desgame),
-                                               status='idle')
-                try:
-                    await self.bot.send_message(ctx.message.channel,
-                                                content=str(
-                                                    self.bot.botmessages[
-                                                        'game_command_data'][
-                                                        0]).format(desgame))
-                except discord.errors.Forbidden:
-                    await self.bot.BotPMError.resolve_send_message_error(
-                        self.bot, ctx)
+                                                'No game name was provided.')
+                elif desgametype is not None:
+                    if self.bot.log_games:
+                        self.bot.DBLogs.gamelog(ctx, desgame)
+                    await self.bot.change_presence(
+                        game=discord.Game(name=desgame, type=desgametype,
+                                          url=stream_url), status='online')
+                    try:
+                        await self.bot.send_message(
+                            ctx.message.channel, content=str(
+                                self.bot.botmessages[
+                                    'game_command_data'
+                                ][0]).format(
+                                desgame).replace("idle", "streaming"))
+                    except discord.errors.Forbidden:
+                        await self.bot.BotPMError.resolve_send_message_error(
+                            self.bot, ctx)
+                elif desgametype is None:
+                    if self.bot.log_games:
+                        self.bot.DBLogs.gamelog(ctx, desgame)
+                    await self.bot.change_presence(
+                        game=discord.Game(name=desgame), status='idle')
+                    try:
+                        await self.bot.send_message(
+                            ctx.message.channel, content=str(
+                                self.bot.botmessages[
+                                    'game_command_data'
+                                ][0]).format(desgame))
+                    except discord.errors.Forbidden:
+                        await self.bot.BotPMError.resolve_send_message_error(
+                            self.bot, ctx)
 
     @commands.command(name='remgame', pass_context=True, no_pm=False)
     async def remgame_command(self, ctx):

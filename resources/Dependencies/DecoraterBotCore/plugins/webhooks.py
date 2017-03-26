@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-levels plugin for DecoraterBot.
+Webhooks plugin for DecoraterBot.
 """
 
 import discord
@@ -92,8 +92,8 @@ class WebHooks:
         if role2 in ctx.message.author.roles:
             if ctx.message.server.id == '273134655702827008':
                 await self.request_webhook(
-                    '/290106516927807488/sFYC40I0VjSPr_f4I0NsgEr40K813Hj-4b'
-                    'euIdDuU4cGfMmvqgTfh-UguLPXdHVZaVAq',
+                    '/294680827579727873/Op_LqGeUQiC2MgeNS-EFhbaNj1ZGH5VGH0'
+                    '_5eshfdkSQYPPGo6r0RllOdHGXPrlV0XVW',
                     content=msgdata)
         else:
             await self.bot.send_message(
@@ -104,7 +104,7 @@ class WebHooks:
 
 def setup(bot):
     """
-    DecoraterBot's Moderation Plugin.
+    DecoraterBot's Webhook Plugin.
     """
     new_cog = WebHooks(bot)
     new_cog.botcommand()

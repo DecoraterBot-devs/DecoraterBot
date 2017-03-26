@@ -267,11 +267,11 @@ class BotCoreCommands:
                             self.bot, ctx)
             else:
                 try:
-                    await self.bot.send_message(ctx.message.channel,
-                                                content=str(
-                                self.bot.botmessages[
-                                                        'reload_command_data'][
-                                                        2]))
+                    await self.bot.send_message(
+                        ctx.message.channel, content=str(
+                            self.bot.botmessages[
+                                'reload_command_data'
+                            ][2]))
                 except discord.errors.Forbidden:
                     await self.bot.BotPMError.resolve_send_message_error(
                         self.bot, ctx)

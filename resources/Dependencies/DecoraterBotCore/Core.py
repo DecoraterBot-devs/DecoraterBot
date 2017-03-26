@@ -221,15 +221,6 @@ class BotClient(commands.Bot):
                                                   self.BotConfig.language))
         self.botmessages = json.load(self.botmessagesdata)
         self.botmessagesdata.close()
-        try:
-            self.commandslist = open('{0}{1}resources{1}ConfigD'
-                                     'ata{1}BotCommands.'
-                                     'json'.format(self.path, self.sepa))
-            self.commandlist = json.load(self.commandslist)
-            self.commandslist.close()
-        except FileNotFoundError:
-            print(str(self.consoletext['Missing_JSON_Errors'][3]))
-            sys.exit(2)
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
         # Bool to help let the bot know weather or not to actually print

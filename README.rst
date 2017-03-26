@@ -1,13 +1,12 @@
 DecoraterBot Async Version
 ==========================
 
-.. image:: https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa
-   :target: https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger
-.. image:: https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg
-   :target: https://github.com/AraHaan/DecoraterBot/issues
+|image0| |image1|
 
 .. figure:: /resources/images/AppIcon/AS.png
    :alt: DecoraterBot icon
+
+   DecoraterBot icon
 
 What is DecoraterBot?
 ---------------------
@@ -91,9 +90,9 @@ Windows
 
 Note *Before running any of those above patch files you need to run one
 of these two batch files to install dependencies on your version of
-python you installed to
-``%SystemDrive\Python35``/``%SystemDrive%\Python35x64`` for Python 3.5
-or ``%SystemDrive\Python36``/``%SystemDrive%\Python36x64`` for Python
+python you installed to ``%SystemDrive\Python35`` /
+``%SystemDrive%\Python35x64`` for Python 3.5 or
+``%SystemDrive\Python36`` / ``%SystemDrive%\Python36x64`` for Python
 3.6*
 
     ``install_deps-3.5.bat`` installs dependencies on to the 32-bit
@@ -151,19 +150,25 @@ Want to help with the bot?
 Join the official Cheese.lab servers to help test and contribute to the
 development of the bot.
 
-.. image:: https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2
-   :target: https://discord.gg/lab
+|image2|
 
 And the Bot's Original Server (Kinda dead right now):
 
-.. image:: https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2
-   :target: https://discord.gg/hNMKZ5Z
+|image3|
 
 The Bots Partnered Server (Bot created by DavidNeon):
 
-.. image:: https.//discordapp.com/api/guilds/288018843304198144/widget.png?style=banner2
-   :target: https://discord.gg/dxqFtjR
+|image4|
 
 *Documentation isn't finished yet.*
 
-
+.. |image0| image:: https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa
+   :target: https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger
+.. |image1| image:: https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg
+   :target: https://github.com/AraHaan/DecoraterBot/issues
+.. |image2| image:: https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2
+   :target: https://discord.gg/lab
+.. |image3| image:: https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2
+   :target: https://discord.gg/hNMKZ5Z
+.. |image4| image:: https.//discordapp.com/api/guilds/288018843304198144/widget.png?style=banner2
+   :target: https://discord.gg/dxqFtjR

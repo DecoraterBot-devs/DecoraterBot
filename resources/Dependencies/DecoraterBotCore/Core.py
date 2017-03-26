@@ -625,14 +625,14 @@ class BotClient(commands.Bot):
                         'Bot is currently reconnecting for {0} times.'.format(
                             str(self.reconnects)))
                     return -1
-            except aiohttp.errors.ClientResponseError:
+            except aiohttp.ClientResponseError:
                 self.reconnects += 1
                 if self.reconnects != 0:
                     print(
                         'Bot is currently reconnecting for {0} times.'.format(
                             str(self.reconnects)))
                     return -1
-            except aiohttp.errors.ClientOSError:
+            except aiohttp.ClientOSError:
                 self.reconnects += 1
                 if self.reconnects != 0:
                     print(

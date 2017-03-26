@@ -54,8 +54,6 @@ class ModerationCommands:
         :param ctx: Messages.
         :return: Nothing.
         """
-        if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
-            return
         role2 = discord.utils.find(lambda role: role.name == 'Bot Commander',
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
@@ -122,8 +120,6 @@ class ModerationCommands:
         :param ctx: Messages.
         :return: Nothing.
         """
-        if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
-            return
         role2 = discord.utils.find(lambda role: role.name == 'Bot Commander',
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
@@ -190,8 +186,6 @@ class ModerationCommands:
         :param ctx: Messages.
         :return: Nothing.
         """
-        if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
-            return
         role2 = discord.utils.find(lambda role: role.name == 'Bot Commander',
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
@@ -307,8 +301,6 @@ class ModerationCommands:
         :param ctx: Messages.
         :return: Nothing.
         """
-        if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
-            return
         if ctx.message.author.id in self.bot.banlist['Users']:
             return
         else:
@@ -319,8 +311,6 @@ class ModerationCommands:
         """
         ::warn Command for DecoraterBot.
         """
-        if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
-            return
         role2 = discord.utils.find(lambda role: role.name == 'Bot Commander',
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
@@ -337,8 +327,6 @@ class ModerationCommands:
         """
         ::mute Search Command for DecoraterBot.
         """
-        if ctx.message.channel.id in self.bot.ignoreslist["channels"]:
-            return
         role2 = discord.utils.find(lambda role: role.name == 'Bot Commander',
                                    ctx.message.channel.server.roles)
         if role2 in ctx.message.author.roles:
@@ -371,16 +359,17 @@ class ModerationCommands:
         :param num:
         :return: Nothing.
         """
-        # messages = []
-        # async for message in self.bot.logs_from(ctx.message.channel,
-        #                                         limit=num + 1):
-        #     messages.append(message)
-        # for message in messages:
-        #     try:
-        #         await self.bot.delete_message(message)
         try:
             await self.bot.purge_from(ctx.message.channel, limit=num + 1)
         except discord.HTTPException:
+            # messages = []
+            # async for message in self.bot.logs_from(ctx.message.channel,
+            #                                         limit=num + 1):
+            #     messages.append(message)
+            # for message in messages:
+            #     try:
+            #         await self.bot.delete_message(message)
+            #     except discord.HTTPException:
             if self.sent_prune_error_message is False:
                 self.sent_prune_error_message = True
                 await self.bot.send_message(ctx.message.channel,

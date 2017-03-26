@@ -481,7 +481,7 @@ class BotClient(commands.Bot):
         :param ctx: Message Context.
         :return: game data.
         """
-        desgame = ctx.message.content[len(self.bot_prefix + "game "):].strip()
+        desgame = ctx.message.content[len(ctx.prefix + "game "):].strip()
         desgametype = None
         stream_url = None
         desgamesize = len(desgame)

@@ -462,7 +462,7 @@ class BotCommands:
                     await self.bot.send_message(ctx.message.channel,
                                                 'No game name was provided.')
                 elif desgametype is not None:
-                    if self.bot.log_games:
+                    if self.bot.BotConfig.log_games:
                         self.bot.DBLogs.gamelog(ctx, desgame)
                     await self.bot.change_presence(
                         game=discord.Game(name=desgame, type=desgametype,
@@ -478,7 +478,7 @@ class BotCommands:
                         await self.bot.BotPMError.resolve_send_message_error(
                             self.bot, ctx)
                 elif desgametype is None:
-                    if self.bot.log_games:
+                    if self.bot.BotConfig.log_games:
                         self.bot.DBLogs.gamelog(ctx, desgame)
                     await self.bot.change_presence(
                         game=discord.Game(name=desgame), status='idle')

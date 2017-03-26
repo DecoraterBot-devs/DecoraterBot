@@ -259,7 +259,8 @@ class BotClient(commands.Bot):
         super(BotClient, self).__init__(**kwargs)
         self.initial_plugins_cogs = [
             'logs',
-            'moderation'
+            'moderation',
+            'report'
         ]
         for plugins_cog in self.initial_plugins_cogs:
             ret = self.containers.load_plugin(self, plugins_cog)

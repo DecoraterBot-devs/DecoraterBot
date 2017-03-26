@@ -2,8 +2,6 @@
 
 Commands are usually using the `::` prefix.
 
-WARNING: Voice Commands are old and need a total rewrite and if used in current state expect tons of breakage from thread Exceptions.
-
 |   	| Voice Channel Commands	|
 |:------:	|:-:	|
 | ``::JoinVoiceChannel``	| Allows the bot to Join a Voice Channel. (You must be in a Voice Channel foor it to work)	|

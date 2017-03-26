@@ -1,7 +1,7 @@
 # DecoraterBot Async Version
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa)](https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger)
-[![issues](https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg)](https://github.com/AraHaan/DecoraterBot/issues)
+[![](https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa)](https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger)
+[![](https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg)](https://github.com/AraHaan/DecoraterBot/issues)
 
 ![DecoraterBot icon](/resources/images/AppIcon/AS.png)
 
@@ -21,7 +21,7 @@ DecoraterBot is a Discord bot that is written in [Python](https://www.python.org
 
 ## Commands
 
-View the list of bot commands [here](/Commands.MD)
+View the list of bot commands [here](/Commands.rst).
 
 ## Future Updates
 
@@ -101,11 +101,11 @@ Well send me it's sys.platform value. The only thing stopping me is a few lines 
 
 Join the official Cheese.lab servers to help test and contribute to the development of the bot.
 
-[![Cheese.lab Discord Server](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
+[![](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
 
 And the Bot's Original Server (Kinda dead right now):
 
-[![#DecoraterBot Hangout Discord Server](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/hNMKZ5Z)
+[![](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/hNMKZ5Z)
 
 The Bots Partnered Server (Bot created by DavidNeon):
 

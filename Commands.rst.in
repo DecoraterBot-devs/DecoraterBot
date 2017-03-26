@@ -43,10 +43,10 @@ Commands are usually using the `::` prefix.
 | ``::ws``	| Changes bot's avatar to Wind Sneeker's image.	|
 | ``::tinyurl <URL to shorten here>``	| Makes the bot shorten the URL Provided. (Supports ``<`` and ``>`` between the URL to excape embedding of it with [oEmbed](http://oembed.com/))	|
 
-*The commands below are from p[lugins. They might be moved to an markdown file in another github repository or branch depending on what we decide to place plugins that are not loaded on bot's startup by default. From now on all new bot commands are going to be added via plugins so they should be optional to install. (excluding the commands to be able to install plugins. Those would have to go into the main commands core file that contains the reloading functionality of normal commands and able to load, unload, and reload plugins.*
+*The commands below are from plugins. They might be moved to an documentation file in another GitHub or BitBucket repository or branch depending on what we decide to place plugins that are not loaded on bot's startup by default. From now on all new bot commands are going to be added via plugins so they should be optional to install. (excluding the commands to be able to install plugins. Those would have to go into the main commands core file that contains the reloading functionality of normal commands and able to load, unload, and reload plugins.)*
 
 |   	| Text Channel Commands (Plugins)	|
 |:------:	|:-:	|
 | ``::givecreds``	| Gives the Bot's Owner Daily Credits if and only if the Tatsumaki bot is present in the server this command is sent from.	|
 
-View the list of Voice Channel Commands [here](/VoiceCommands.md).
+View the list of Voice Channel Commands [here](/VoiceCommands.rst).

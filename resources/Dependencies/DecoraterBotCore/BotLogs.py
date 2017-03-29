@@ -9,7 +9,6 @@ Core to DecoraterBot
 :license: MIT, see LICENSE for more details.
 
 """
-import os
 import sys
 import logging
 import json
@@ -24,27 +23,24 @@ class BotLogger:
     Main Bot logging Class.
     """
     def __init__(self, bot):
-        self.sepa = os.sep
         self.bot = bot
-        self.path = sys.path[0]
-        self.BotConfig = self.bot.BotConfig
 
         try:
             self.consoledatafile = open('{0}{1}resources{1}ConfigData'
                                         '{1}ConsoleWindow.{2}.'
-                                        'json'.format(self.path, self.sepa,
-                                                      self.BotConfig.language))
+                                        'json'.format(self.bot.path, self.bot.sepa,
+                                                      self.bot.BotConfig.language))
             self.consoletext = json.load(self.consoledatafile)
             self.consoledatafile.close()
         except FileNotFoundError:
             print('ConsoleWindow.{0}.json is not Found. '
-                  'Cannot Continue.'.format(self.BotConfig.language))
+                  'Cannot Continue.'.format(self.bot.BotConfig.language))
             sys.exit(2)
         try:
             self.LogDataFile = open('{0}{1}resources{1}'
                                     'ConfigData{1}LogData.{2}.'
-                                    'json'.format(self.path, self.sepa,
-                                                  self.BotConfig.language))
+                                    'json'.format(self.bot.path, self.bot.sepa,
+                                                  self.bot.BotConfig.language))
             self.LogData = json.load(self.LogDataFile)
             self.LogDataFile.close()
         except FileNotFoundError:
@@ -63,7 +59,7 @@ class BotLogger:
                 logger.setLevel(logging.DEBUG)
                 handler = logging.FileHandler(
                     filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(
-                        self.path, self.sepa), encoding='utf-8', mode='w')
+                        self.bot.path, self.bot.sepa), encoding='utf-8', mode='w')
                 handler.setFormatter(logging.Formatter(
                     '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 logger.addHandler(handler)
@@ -73,7 +69,7 @@ class BotLogger:
                 asynciologger.setLevel(logging.DEBUG)
                 asynciologgerhandler = logging.FileHandler(
                     filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(
-                        self.path, self.sepa), encoding='utf-8', mode='w')
+                        self.bot.path, self.bot.sepa), encoding='utf-8', mode='w')
                 asynciologgerhandler.setFormatter(logging.Formatter(
                     '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 asynciologger.addHandler(asynciologgerhandler)
@@ -111,7 +107,7 @@ class BotLogger:
             logsservers = logs003
         if message.content is not None:
             logfile = '{0}{1}resources{1}Logs{1}log.log'.format(
-                self.path, self.sepa)
+                self.bot.path, self.bot.sepa)
             try:
                 file = open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
@@ -135,8 +131,8 @@ class BotLogger:
         """
         old = str(before.content)
         new = str(after.content)
-        logfile = '{0}{1}resources{1}Logs{1}edit_log.log'.format(self.path,
-                                                                 self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}edit_log.log'.format(self.bot.path,
+                                                                 self.bot.sepa)
         usr_name = before.author.name
         usr_id = before.author.id
         msg_time = str(before.timestamp)
@@ -204,7 +200,7 @@ class BotLogger:
         if message.content is not None:
             try:
                 logfile = '{0}{1}resources{1}Logs{1}delete_log.log'.format(
-                    self.path, self.sepa)
+                    self.bot.path, self.bot.sepa)
                 file = open(logfile, 'a', encoding='utf-8')
                 size = os.path.getsize(logfile)
                 if size >= 32102400:
@@ -228,8 +224,8 @@ class BotLogger:
             data = str(self.LogData['Embed_Logs'][0])
         else:
             data = str(self.LogData['Embed_Logs'][1])
-        logfile = '{0}{1}resources{1}Logs{1}embeds.log'.format(self.path,
-                                                               self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}embeds.log'.format(self.bot.path,
+                                                               self.bot.sepa)
         try:
             file2 = open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -329,7 +325,7 @@ class BotLogger:
                 exception_data = 'Ignoring exception caused at {0}:\n' \
                                  '{1}'.format(funcname, tbinfo)
                 logfile = '{0}{1}resources{1}Logs{1}error_log.log'.format(
-                    self.path, self.sepa)
+                    self.bot.path, self.bot.sepa)
                 try:
                     file = open(logfile, 'a', encoding='utf-8')
                     size = os.path.getsize(logfile)
@@ -362,8 +358,8 @@ class BotLogger:
                 ctx.message.author.name, desgame,
                 ctx.message.author.id)
             gmelogsservers = gmelog001
-        logfile = '{0}{1}resources{1}Logs{1}gamelog.log'.format(self.path,
-                                                                self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}gamelog.log'.format(self.bot.path,
+                                                                self.bot.sepa)
         try:
             file = open(logfile, 'a', encoding='utf-8')
             size = os.path.getsize(logfile)
@@ -391,8 +387,8 @@ class BotLogger:
         ban_log_data = str(self.LogData['Ban_Logs'][0]).format(mem_name,
                                                                mem_id, mem_dis,
                                                                mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}bans.log'.format(self.path,
-                                                             self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}bans.log'.format(self.bot.path,
+                                                             self.bot.sepa)
         file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -409,7 +405,7 @@ class BotLogger:
         available_log_data = str(
             self.LogData['On_Server_Available'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}available_servers.log'.format(
-            self.path, self.sepa)
+            self.bot.path, self.bot.sepa)
         file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -426,7 +422,7 @@ class BotLogger:
         unavailable_log_data = str(
             self.LogData['On_Server_Unavailable'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.log'.format(
-            self.path, self.sepa)
+            self.bot.path, self.bot.sepa)
         file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -444,8 +440,8 @@ class BotLogger:
         unban_log_data = str(self.LogData['Unban_Logs'][0]
                              ).format(user.name, user.id, user.discriminator,
                                       server.name)
-        logfile = '{0}{1}resources{1}Logs{1}unbans.log'.format(self.path,
-                                                               self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}unbans.log'.format(self.bot.path,
+                                                               self.bot.sepa)
         file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:
@@ -709,8 +705,8 @@ class BotLogger:
                                                                  mem_id,
                                                                  mem_dis,
                                                                  mem_svr_name)
-        logfile = '{0}{1}resources{1}Logs{1}kicks.log'.format(self.path,
-                                                              self.sepa)
+        logfile = '{0}{1}resources{1}Logs{1}kicks.log'.format(self.bot.path,
+                                                              self.bot.sepa)
         file = open(logfile, 'a', encoding='utf-8')
         size = os.path.getsize(logfile)
         if size >= 32102400:

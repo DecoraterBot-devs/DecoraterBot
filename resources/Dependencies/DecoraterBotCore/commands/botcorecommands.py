@@ -29,6 +29,7 @@ class BotCoreCommands:
         self.bot.commands_list.append('loadplugin')
         self.bot.commands_list.append('unloadplugin')
         self.bot.commands_list.append('reloadplugin')
+        self.bot.commands_list.append('installplugins')
 
     def __unload(self):
         """
@@ -39,6 +40,7 @@ class BotCoreCommands:
         self.bot.commands_list.remove('loadplugin')
         self.bot.commands_list.remove('unloadplugin')
         self.bot.commands_list.remove('reloadplugin')
+        self.bot.commands_list.remove('installplugins')
 
     @commands.command(name='uptime', pass_context=True, no_pm=False)
     async def uptime_command(self, ctx):
@@ -284,6 +286,11 @@ class BotCoreCommands:
             except discord.errors.Forbidden:
                 await self.bot.BotPMError.resolve_send_message_error(
                     self.bot, ctx)
+
+    @commands.command(name='installplugins', pass_context=True, no_pm=True)
+    async def installplugins_command(self, ctx):
+       # TODO: finish command.
+       pass
 
 
 def setup(bot):

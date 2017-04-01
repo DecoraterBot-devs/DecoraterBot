@@ -1177,59 +1177,11 @@ the commands to be able to install plugins. Those would have to go into
 the main commands core file that contains the reloading functionality of
 normal commands and able to load, unload, and reload plugins.)*
 
-+-----------+-----+
-|           | Tex |
-|           | t   |
-|           | Cha |
-|           | nne |
-|           | l   |
-|           | Com |
-|           | man |
-|           | ds  |
-|           | (Pl |
-|           | ugi |
-|           | ns) |
-+===========+=====+
-| ``::givec | Giv |
-| reds``    | es  |
-|           | the |
-|           | Bot |
-|           | 's  |
-|           | Own |
-|           | er  |
-|           | Dai |
-|           | ly  |
-|           | Cre |
-|           | dit |
-|           | s   |
-|           | if  |
-|           | and |
-|           | onl |
-|           | y   |
-|           | if  |
-|           | the |
-|           | Tat |
-|           | sum |
-|           | aki |
-|           | bot |
-|           | is  |
-|           | pre |
-|           | sen |
-|           | t   |
-|           | in  |
-|           | the |
-|           | ser |
-|           | ver |
-|           | thi |
-|           | s   |
-|           | com |
-|           | man |
-|           | d   |
-|           | is  |
-|           | sen |
-|           | t   |
-|           | fro |
-|           | m.  |
-+-----------+-----+
++-----------+----------------------------------------------------------------+
+|           | Text Channel Commands (Plugins)                                |
++===========+================================================================+
+| ``::givec | Gives the Bot's Owner Daily Credits even if the Tatsumaki bot  |
+| reds``    | is present in the server this command is sent from.            |
++-----------+----------------------------------------------------------------+
 
 View the list of Voice Channel Commands `here </VoiceCommands.rst>`__.

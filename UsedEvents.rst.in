@@ -6,7 +6,7 @@ Note: Events that use Optional Logs are Controlled by ``\\resources\\ConfigData\
 Documentation on Setting it up is **not** Complete.
 
 | Event	| Usage	|
-|:------:	|:-:	|
+|:--------------------------:	|:----------------------------------------------------------------------------------------------------------------------:	|
 | ``on_message``	| Commands. This is how the Bot Actually Responds to the commands. Also has Built in Error Handler for this Event. Also has optional logs.	|
 | ``on_message_delete``	| Optional Logs & Built in Error Handler.	|
 | ``on_message_edit``	| Optional Logs & Built in Error Handler.	|

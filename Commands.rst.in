@@ -46,7 +46,7 @@ Commands are usually using the `::` prefix.
 *The commands below are from plugins. They might be moved to an documentation file in another GitHub or BitBucket repository or branch depending on what we decide to place plugins that are not loaded on bot's startup by default. From now on all new bot commands are going to be added via plugins so they should be optional to install. (excluding the commands to be able to install plugins. Those would have to go into the main commands core file that contains the reloading functionality of normal commands and able to load, unload, and reload plugins.)*
 
 |   	| Text Channel Commands (Plugins)	|
-|:------:	|:-:	|
-| ``::givecreds``	| Gives the Bot's Owner Daily Credits if and only if the Tatsumaki bot is present in the server this command is sent from.	|
+|:---------------:	|:--------------------------------------------------------------------------------------------------------------:	|
+| ``::givecreds``	| Gives the Bot's Owner Daily Credits even if the Tatsumaki bot is present in the server this command is sent from.	|
 
 View the list of Voice Channel Commands [here](/VoiceCommands.rst).

@@ -7,500 +7,102 @@ they are used for. Note: Events that use Optional Logs are Controlled by
 
 Documentation on Setting it up is **not** Complete.
 
-+-----------+-----+
-| Event     | Usa |
-|           | ge  |
-+===========+=====+
-| ``on_mess | Com |
-| age``     | man |
-|           | ds. |
-|           | Thi |
-|           | s   |
-|           | is  |
-|           | how |
-|           | the |
-|           | Bot |
-|           | Act |
-|           | ual |
-|           | ly  |
-|           | Res |
-|           | pon |
-|           | ds  |
-|           | to  |
-|           | the |
-|           | com |
-|           | man |
-|           | ds. |
-|           | Als |
-|           | o   |
-|           | has |
-|           | Bui |
-|           | lt  |
-|           | in  |
-|           | Err |
-|           | or  |
-|           | Han |
-|           | dle |
-|           | r   |
-|           | for |
-|           | thi |
-|           | s   |
-|           | Eve |
-|           | nt. |
-|           | Als |
-|           | o   |
-|           | has |
-|           | opt |
-|           | ion |
-|           | al  |
-|           | log |
-|           | s.  |
-+-----------+-----+
-| ``on_mess | Opt |
-| age_delet | ion |
-| e``       | al  |
-|           | Log |
-|           | s   |
-|           | &   |
-|           | Bui |
-|           | lt  |
-|           | in  |
-|           | Err |
-|           | or  |
-|           | Han |
-|           | dle |
-|           | r.  |
-+-----------+-----+
-| ``on_mess | Opt |
-| age_edit` | ion |
-| `         | al  |
-|           | Log |
-|           | s   |
-|           | &   |
-|           | Bui |
-|           | lt  |
-|           | in  |
-|           | Err |
-|           | or  |
-|           | Han |
-|           | dle |
-|           | r.  |
-+-----------+-----+
-| ``on_chan | Opt |
-| nel_delet | ion |
-| e``       | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_chan | Opt |
-| nel_creat | ion |
-| e``       | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_chan | Opt |
-| nel_updat | ion |
-| e``       | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_memb | Opt |
-| er_ban``  | ion |
-|           | al  |
-|           | Log |
-|           | s   |
-|           | &   |
-|           | Che |
-|           | ese |
-|           | .la |
-|           | b   |
-|           | ver |
-|           | ifi |
-|           | cat |
-|           | ion |
-|           | s   |
-|           | (re |
-|           | mov |
-|           | ing |
-|           | use |
-|           | rs  |
-|           | fro |
-|           | m   |
-|           | ver |
-|           | ify |
-|           | cac |
-|           | he  |
-|           | lis |
-|           | t)  |
-+-----------+-----+
-| ``on_memb | Opt |
-| er_unban` | ion |
-| `         | al  |
-|           | Log |
-|           | s   |
-|           | &   |
-|           | Bui |
-|           | lt  |
-|           | in  |
-|           | Err |
-|           | or  |
-|           | Han |
-|           | dle |
-|           | r.  |
-+-----------+-----+
-| ``on_memb | Opt |
-| er_remove | ion |
-| ``        | al  |
-|           | Log |
-|           | s   |
-|           | &   |
-|           | Che |
-|           | ese |
-|           | .la |
-|           | b   |
-|           | ver |
-|           | ifi |
-|           | cat |
-|           | ion |
-|           | s   |
-|           | (re |
-|           | mov |
-|           | ing |
-|           | use |
-|           | rs  |
-|           | fro |
-|           | m   |
-|           | ver |
-|           | ify |
-|           | cac |
-|           | he  |
-|           | lis |
-|           | t)  |
-+-----------+-----+
-| ``on_memb | Opt |
-| er_update | ion |
-| ``        | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_memb | Opt |
-| er_join`` | ion |
-|           | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-|           | &   |
-|           | Che |
-|           | ese |
-|           | .la |
-|           | b   |
-|           | ver |
-|           | ifi |
-|           | cat |
-|           | ion |
-|           | stu |
-|           | ff. |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_availa | ion |
-| ble``     | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_unavai | ion |
-| lable``   | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_join`` | ion |
-|           | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_remove | ion |
-| ``        | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_update | ion |
-| ``        | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_role_c | ion |
-| reate``   | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_role_d | ion |
-| elete``   | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_role_u | ion |
-| pdate``   | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_grou | Opt |
-| p_join``  | ion |
-|           | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_grou | Opt |
-| p_remove` | ion |
-| `         | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_erro | Opt |
-| r``       | ion |
-|           | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_voic | Opt |
-| e_state_u | ion |
-| pdate``   | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_typi | Opt |
-| ng``      | ion |
-|           | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_sock | Opt |
-| et_raw_re | ion |
-| ceive``   | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_sock | Opt |
-| et_raw_se | ion |
-| nd``      | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_read | Bot |
-| y``       | Sta |
-|           | tus |
-|           | mes |
-|           | sag |
-|           | es  |
-|           | on  |
-|           | 2   |
-|           | Ser |
-|           | ver |
-|           | s   |
-|           | &   |
-|           | Ini |
-|           | tia |
-|           | l   |
-|           | Str |
-|           | eam |
-|           | ing |
-|           | Sta |
-|           | tus |
-|           | say |
-|           | ing |
-|           | to  |
-|           | ``t |
-|           | ype |
-|           |  :: |
-|           | com |
-|           | man |
-|           | ds  |
-|           | for |
-|           |  in |
-|           | fo` |
-|           | `.  |
-+-----------+-----+
-| ``on_resu | Opt |
-| med``     | ion |
-|           | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_serv | Opt |
-| er_emojis | ion |
-| _update`` | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_reac | Opt |
-| tion_add` | ion |
-| `         | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_reac | Opt |
-| tion_remo | ion |
-| ve``      | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
-| ``on_reac | Opt |
-| tion_clea | ion |
-| r``       | al  |
-|           | Log |
-|           | s   |
-|           | (No |
-|           | t   |
-|           | Don |
-|           | e   |
-|           | yet |
-|           | )   |
-+-----------+-----+
++---------------+------------------------------------------------------------+
+| Event         | Usage                                                      |
++===============+============================================================+
+| ``on_message` | Commands. This is how the Bot Actually Responds to the     |
+| `             | commands. Also has Built in Error Handler for this Event.  |
+|               | Also has optional logs.                                    |
++---------------+------------------------------------------------------------+
+| ``on_message_ | Optional Logs & Built in Error Handler.                    |
+| delete``      |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_message_ | Optional Logs & Built in Error Handler.                    |
+| edit``        |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_channel_ | Optional Logs (Not Done yet)                               |
+| delete``      |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_channel_ | Optional Logs (Not Done yet)                               |
+| create``      |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_channel_ | Optional Logs (Not Done yet)                               |
+| update``      |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_member_b | Optional Logs & Cheese.lab verifications (removing users   |
+| an``          | from verify cache list)                                    |
++---------------+------------------------------------------------------------+
+| ``on_member_u | Optional Logs & Built in Error Handler.                    |
+| nban``        |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_member_r | Optional Logs & Cheese.lab verifications (removing users   |
+| emove``       | from verify cache list)                                    |
++---------------+------------------------------------------------------------+
+| ``on_member_u | Optional Logs (Not Done yet)                               |
+| pdate``       |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_member_j | Optional Logs (Not Done yet) & Cheese.lab verification     |
+| oin``         | stuff.                                                     |
++---------------+------------------------------------------------------------+
+| ``on_server_a | Optional Logs (Not Done yet)                               |
+| vailable``    |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_u | Optional Logs (Not Done yet)                               |
+| navailable``  |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_j | Optional Logs (Not Done yet)                               |
+| oin``         |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_r | Optional Logs (Not Done yet)                               |
+| emove``       |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_u | Optional Logs (Not Done yet)                               |
+| pdate``       |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_r | Optional Logs (Not Done yet)                               |
+| ole_create``  |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_r | Optional Logs (Not Done yet)                               |
+| ole_delete``  |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_r | Optional Logs (Not Done yet)                               |
+| ole_update``  |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_group_jo | Optional Logs (Not Done yet)                               |
+| in``          |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_group_re | Optional Logs (Not Done yet)                               |
+| move``        |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_error``  | Optional Logs (Not Done yet)                               |
++---------------+------------------------------------------------------------+
+| ``on_voice_st | Optional Logs (Not Done yet)                               |
+| ate_update``  |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_typing`` | Optional Logs (Not Done yet)                               |
++---------------+------------------------------------------------------------+
+| ``on_socket_r | Optional Logs (Not Done yet)                               |
+| aw_receive``  |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_socket_r | Optional Logs (Not Done yet)                               |
+| aw_send``     |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_ready``  | Bot Status messages on 2 Servers & Initial Streaming       |
+|               | Status saying to ``type ::commands for info``.             |
++---------------+------------------------------------------------------------+
+| ``on_resumed` | Optional Logs (Not Done yet)                               |
+| `             |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_server_e | Optional Logs (Not Done yet)                               |
+| mojis_update` |                                                            |
+| `             |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_reaction | Optional Logs (Not Done yet)                               |
+| _add``        |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_reaction | Optional Logs (Not Done yet)                               |
+| _remove``     |                                                            |
++---------------+------------------------------------------------------------+
+| ``on_reaction | Optional Logs (Not Done yet)                               |
+| _clear``      |                                                            |
++---------------+------------------------------------------------------------+

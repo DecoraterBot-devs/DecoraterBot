@@ -22,6 +22,7 @@ import discord
 from discord.ext import commands
 from colorama import Fore, Back, Style
 from colorama import init
+import consolechange
 try:
     import TinyURL
     disabletinyurl = False
@@ -334,16 +335,7 @@ class BotClient(commands.Bot):
         Changes the console's window Title.
         :return: Nothing.
         """
-        if sys.platform.startswith('win'):
-            ctypes.windll.kernel32.SetConsoleTitleW(
-                str(self.consoletext['WindowName'][0]) + self.version)
-        elif sys.platform.startswith('linux'):
-            sys.stdout.write("\x1b]2;{0}\x07".format(
-                str(self.consoletext['WindowName'][0]) + self.version))
-        else:
-            print(
-                'Can not change Console window title for this platf'
-                'orm.\nPlease help the Developer with this.')
+        consolechange.consoletitle(str(self.consoletext['WindowName'][0]) + self.version)
 
     def changewindowsize(self):
         """

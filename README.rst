@@ -27,7 +27,7 @@ Changer, & More.
 Commands
 --------
 
-View the list of bot commands `here </Commands.rst>`__.
+View the list of bot commands `here </Commands.md>`__.
 
 Future Updates
 --------------

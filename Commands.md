@@ -49,4 +49,4 @@ Commands are usually using the `::` prefix.
 |:---------------:	|:--------------------------------------------------------------------------------------------------------------:	|
 | ``::givecreds``	| Gives the Bot's Owner Daily Credits even if the Tatsumaki bot is present in the server this command is sent from.	|
 
-View the list of Voice Channel Commands [here](/VoiceCommands.rst).
+View the list of Voice Channel Commands [here](/VoiceCommands.md).

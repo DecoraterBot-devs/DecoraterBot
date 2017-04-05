@@ -142,6 +142,5 @@ Events
 Plugins and all commands inside them can have events to listen to. This
 can allow someone that can make a plugin that can log information.
 
-For this I plan to rewrite DecoraterBot a bit to have all logging
-(except for the game command logs) to be loged from a Default plugin to
-load.
+For more information on logging see `discord.py's
+documentation <http://discordpy.readthedocs.io/en/latest/api.html>`__

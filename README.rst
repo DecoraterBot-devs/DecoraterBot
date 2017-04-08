@@ -10,8 +10,9 @@ What is DecoraterBot?
 
 DecoraterBot is a Discord bot that is written in
 `Python <https://www.python.org/>`__. It is currently maintained and
-developed by @\ `AraHaan <https://github.com/AraHaan>`__, and
-@\ `DavidNeon <https://github.com/DavidNeon>`__.
+developed by @\ `AraHaan <https://github.com/AraHaan>`__,
+@\ `DavidNeon <https://github.com/DavidNeon>`__, and rarely
+@\ `JakesDen <https://github.com/jakesden>`__.
 
 Contributors
 ------------
@@ -23,6 +24,9 @@ Spell-checker.. (hue)
 
 @\ `DavidNeon <https://github.com/DavidNeon>`__ - Bot Developer, Code
 Changer, & More.
+
+@\ `JakesDen <https://github.com/jakesden>`__ - Assistant Bot Developer,
+Code Changer, & More.
 
 Commands
 --------

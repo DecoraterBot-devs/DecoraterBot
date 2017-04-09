@@ -236,6 +236,8 @@ class BotClient(commands.Bot):
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(
             self.path, self.sepa)
         self.DBLogs = BotLogger(self)
+        # for the bot's plugins to be able to read their text json files.
+        self.PluginTextReader = BotConfigReader.PluginTextReader
         self.somebool = False
         self.reload_normal_commands = False
         self.reload_voice_commands = False
@@ -327,8 +329,6 @@ class BotClient(commands.Bot):
         # self.plugin_manager.load_all()
         self.last_messages = []
         # self.stats = DDAgent(self.dd_agent_url)
-        # for the bot's plugins to be able to read their text json files.
-        self.PluginTextReader = BotConfigReader.PluginTextReader
         self.is_bot_logged_in = False
         self.login_helper()  # handles login.
 

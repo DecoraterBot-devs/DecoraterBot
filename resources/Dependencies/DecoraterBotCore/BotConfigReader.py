@@ -148,19 +148,18 @@ class CreditsReader(object):
 
 
 def plugintextreader(file=None):
-    """Obtains data from plugin json files that contains text for commands."""
-    __json = []
-    filename = file
-    sepa = os.sep
-    path = sys.path[0]
+    """
+    Obtains data from plugin json files
+    that contains text for commands.
+    """
     json_file = '{0}{1}resources{1}ConfigData{1}plugins{1}{2}'.format(
-        path, sepa, filename)
+        sys.path[0], os.sep, file)
     try:
-        with open(json_file) as file:
-            __json = json.load(file)
+        with open(json_file) as fileobj:
+            return json.load(fileobj)
     except(OSError, IOError):
         pass
-    return __json
+    return None
 
 
 PluginTextReader = plugintextreader

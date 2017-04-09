@@ -330,6 +330,16 @@ class BotClient(commands.Bot):
         self.is_bot_logged_in = False
         self.login_helper()  # handles login.
 
+    def add_commands(self, data):
+        """Adds commands to commands_list."""
+        for command in data:
+            self.commands_list.append(command)
+
+    def remove_commands(self):
+        """Removes commands from commands_list."""
+        for command in data:
+            self.commands_list.remove(command)
+
     def changewindowtitle(self):
         """
         Changes the console's window Title.

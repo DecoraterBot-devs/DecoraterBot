@@ -21,7 +21,7 @@ DecoraterBot is a Discord bot that is written in [Python](https://www.python.org
 
 ## Commands
 
-View the list of bot commands [here](/Commands.md).
+View the list of bot commands [here](https://github.com/DecoraterBot-devs/DecoraterBot-cogs/blob/master/Commands.md).
 
 ## Future Updates
 
@@ -36,6 +36,14 @@ Because of such it might sometimes means that it drops support for other things.
 A such major rewrite was the commands extension one and then soon after a rewrite yet again to drop support for Python 3.4.
 
 The reason for dropping support for 3.4 is because Discord.py will do the same soon as well when 3.5 is released on Debian systems.
+
+## Submitting Plugins
+
+As of April 8th 2017 it is now not recommended to submit plugins to this repository. Submit them to [here](https://github.com/DecoraterBot-devs/DecoraterBot-cogs) as a pull request instead.
+
+## Used Events
+
+View the list of used events [here](/UsedEvents.md).
 
 ## Configuration
 

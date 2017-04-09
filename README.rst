@@ -31,7 +31,8 @@ Code Changer, & More.
 Commands
 --------
 
-View the list of bot commands `here </Commands.md>`__.
+View the list of bot commands
+`here <https://github.com/DecoraterBot-devs/DecoraterBot-cogs/blob/master/Commands.md>`__.
 
 Future Updates
 --------------
@@ -53,6 +54,19 @@ a rewrite yet again to drop support for Python 3.4.
 
 The reason for dropping support for 3.4 is because Discord.py will do
 the same soon as well when 3.5 is released on Debian systems.
+
+Submitting Plugins
+------------------
+
+As of April 8th 2017 it is now not recommended to submit plugins to this
+repository. Submit them to
+`here <https://github.com/DecoraterBot-devs/DecoraterBot-cogs>`__ as a
+pull request instead.
+
+Used Events
+-----------
+
+View the list of used events `here </UsedEvents.md>`__.
 
 Configuration
 -------------

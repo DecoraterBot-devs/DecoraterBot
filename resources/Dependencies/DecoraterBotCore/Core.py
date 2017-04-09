@@ -327,6 +327,8 @@ class BotClient(commands.Bot):
         # self.plugin_manager.load_all()
         self.last_messages = []
         # self.stats = DDAgent(self.dd_agent_url)
+        # for the bot's plugins to be able to read their text json files.
+        self.PluginTextReader = BotConfigReader.PluginTextReader
         self.is_bot_logged_in = False
         self.login_helper()  # handles login.
 

@@ -147,32 +147,23 @@ class CreditsReader(object):
             pass
 
 
-class PluginTextReader(object):
-    """Optains data from plugin json files that contains text for commands."""
-    def __init__(self, file=None):
-        self.__json = []
-        self.filename = file
-        self.json_file = None
-        self.__load()
+def plugintextreader(file=None):
+    """Obtains data from plugin json files that contains text for commands."""
+    __json = []
+    filename = file
+    sepa = os.sep
+    path = sys.path[0]
+    json_file = '{0}{1}resources{1}ConfigData{1}plugins{1}{2}'.format(
+        path, sepa, filename)
+    try:
+        with open(json_file) as file:
+            __json = json.load(file)
+    except(OSError, IOError):
+        pass
+    return __json
 
-    def __load(self):
-        """
-        Loads the JSON config Data.
-        :return: List.
-        """
-        sepa = os.sep
-        path = sys.path[0]
-        self.json_file = '{0}{1}resources{1}ConfigData{1}plugins{1}{2}'.format(
-            path, sepa, self.filename)
-        try:
-            with open(self.json_file) as file:
-                self.__json = json.load(file)
-        except(OSError, IOError):
-            pass
 
-    def get(self):
-        """gets the json data from the class and returns it."""
-        return self.__json
+PluginTextReader = plugintextreader
 
 
 class BotCredentialsVars(__BaseCredentialsReader):

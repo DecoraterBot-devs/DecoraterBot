@@ -219,6 +219,7 @@ class BotCredentialsVars(__BaseCredentialsReader):
         self.log_reaction_remove = False  # bool
         self.log_reaction_clear = False  # bool
         self.shards = 0  # int
+        self.run_on_shard = 0  # int
         self.twitch_url = ''  # string
         self.youtube_url = ''  # string
         self.redis_url = ''  # string
@@ -319,6 +320,8 @@ class BotCredentialsVars(__BaseCredentialsReader):
             'log_reaction_clear')  # bool
         self.shards = self.getconfig(
             'shards')  # int
+        self.run_on_shard = self.getconfig(
+            'run_on_shard')  # int
         self.twitch_url = self.getconfig(
             'twitch_url')  # string
         self.youtube_url = self.getconfig(

@@ -228,112 +228,268 @@ class BotCredentialsVars(__BaseCredentialsReader):
         self.sentry_dsn = ''  # string
 
         # Properties.
-        self.logging = self.getconfig(
-            'logging')  # bool
-        self.logbans = self.getconfig(
-            'logbans')  # bool
-        self.logunbans = self.getconfig(
-            'logunbans')  # bool
-        self.logkicks = self.getconfig(
-            'logkicks')  # bool
-        self.log_games = self.getconfig(
-            'loggames')  # bool
-        self.discord_logger = self.getconfig(
-            'discord_py_logger')  # bool
-        self.asyncio_logger = self.getconfig(
-            'asyncio_logger')  # bool
-        self.log_available = self.getconfig(
-            'LogServerAvailable')  # bool
-        self.log_unavailable = self.getconfig(
-            'LogServerUnavailable')  # bool
-        self.log_channel_create = self.getconfig(
-            'log_channel_create')  # bool
-        self.is_official_bot = self.getconfig(
-            'Is_Official_Bot_Account')  # bool
-        self.log_ytdl = self.getconfig(
-            'ytdl_logs')  # bool
-        self.pm_commands_list = self.getconfig(
-            'PM_Commands')  # bool
-        self.log_channel_delete = self.getconfig(
-            'log_channel_delete')  # bool
-        self.log_channel_update = self.getconfig(
-            'log_channel_update')  # bool
-        self.log_member_update = self.getconfig(
-            'log_member_update')  # bool
-        self.log_server_join = self.getconfig(
-            'log_server_join')  # bool
-        self.log_server_remove = self.getconfig(
-            'log_server_remove')  # bool
-        self.log_server_update = self.getconfig(
-            'log_server_update')  # bool
-        self.log_server_role_create = self.getconfig(
-            'log_server_role_create')  # bool
-        self.log_server_role_delete = self.getconfig(
-            'log_server_role_delete')  # bool
-        self.log_server_role_update = self.getconfig(
-            'log_server_role_update')  # bool
-        self.log_group_join = self.getconfig(
-            'log_group_join')  # bool
-        self.log_group_remove = self.getconfig(
-            'log_group_remove')  # bool
-        self.log_error = self.getconfig(
-            'log_error')  # bool
-        self.log_voice_state_update = self.getconfig(
-            'log_voice_state_update')  # bool
-        self.log_typing = self.getconfig(
-            'log_typing')  # bool
-        self.log_socket_raw_receive = self.getconfig(
-            'log_socket_raw_receive')  # bool
-        self.log_socket_raw_send = self.getconfig(
-            'log_socket_raw_send')  # bool
-        self.log_resumed = self.getconfig(
-            'log_resumed')  # bool
-        self.log_member_join = self.getconfig(
-            'log_member_join')  # bool
-        self.pm_command_errors = self.getconfig(
-            'pm_command_errors')  # bool
+        try:
+            self.logging = self.getconfig(
+                'logging')  # bool
+        except KeyError:
+            pass
+        try:
+            self.logbans = self.getconfig(
+                'logbans')  # bool
+        except KeyError:
+            pass
+        try:
+            self.logunbans = self.getconfig(
+                'logunbans')  # bool
+        except KeyError:
+            pass
+        try:
+            self.logkicks = self.getconfig(
+                'logkicks')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_games = self.getconfig(
+                'loggames')  # bool
+        except KeyError:
+            pass
+        try:
+            self.discord_logger = self.getconfig(
+                'discord_py_logger')  # bool
+        except KeyError:
+            pass
+        try:
+            self.asyncio_logger = self.getconfig(
+                'asyncio_logger')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_available = self.getconfig(
+                'LogServerAvailable')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_unavailable = self.getconfig(
+                'LogServerUnavailable')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_channel_create = self.getconfig(
+                'log_channel_create')  # bool
+        except KeyError:
+            pass
+        try:
+            self.is_official_bot = self.getconfig(
+                'Is_Official_Bot_Account')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_ytdl = self.getconfig(
+                'ytdl_logs')  # bool
+        except KeyError:
+            pass
+        try:
+            self.pm_commands_list = self.getconfig(
+                'PM_Commands')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_channel_delete = self.getconfig(
+                'log_channel_delete')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_channel_update = self.getconfig(
+                'log_channel_update')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_member_update = self.getconfig(
+                'log_member_update')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_server_join = self.getconfig(
+                'log_server_join')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_server_remove = self.getconfig(
+                'log_server_remove')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_server_update = self.getconfig(
+                'log_server_update')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_server_role_create = self.getconfig(
+                'log_server_role_create')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_server_role_delete = self.getconfig(
+                'log_server_role_delete')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_server_role_update = self.getconfig(
+                'log_server_role_update')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_group_join = self.getconfig(
+                'log_group_join')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_group_remove = self.getconfig(
+                'log_group_remove')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_error = self.getconfig(
+                'log_error')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_voice_state_update = self.getconfig(
+                'log_voice_state_update')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_typing = self.getconfig(
+                'log_typing')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_socket_raw_receive = self.getconfig(
+                'log_socket_raw_receive')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_socket_raw_send = self.getconfig(
+                'log_socket_raw_send')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_resumed = self.getconfig(
+                'log_resumed')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_member_join = self.getconfig(
+                'log_member_join')  # bool
+        except KeyError:
+            pass
+        try:
+            self.pm_command_errors = self.getconfig(
+                'pm_command_errors')  # bool
+        except KeyError:
+            pass
         self.enable_error_handler = (
             True if not self.pm_command_errors else False)  # bool
-        self.bot_prefix = self.getconfig(
-            'bot_prefix')  # string
-        self.discord_user_id = self.getconfig(
-            'ownerid')  # string
-        self.discord_user_email = self.getconfig(
-            'email')  # string
-        self.discord_user_password = self.getconfig(
-            'password')  # string
-        self.bot_token = self.getconfig(
-            'token')  # string
-        self.disable_voice_commands = self.getconfig(
-            'disable_voice')  # bool
-        self.language = self.getconfig(
-            'language')  # string
-        self.description = self.getconfig(
-            'description')  # string
-        self.log_server_emojis_update = self.getconfig(
-            'log_server_emojis_update')  # bool
-        self.log_reaction_add = self.getconfig(
-            'log_reaction_add')  # bool
-        self.log_reaction_remove = self.getconfig(
-            'log_reaction_remove')  # bool
-        self.log_reaction_clear = self.getconfig(
-            'log_reaction_clear')  # bool
-        self.shards = self.getconfig(
-            'shards')  # int
-        self.run_on_shard = self.getconfig(
-            'run_on_shard')  # int
-        self.twitch_url = self.getconfig(
-            'twitch_url')  # string
-        self.youtube_url = self.getconfig(
-            'youtube_url')  # string
-        self.redis_url = self.getconfig(
-            'redis_url')  # string
-        self.mongo_url = self.getconfig(
-            'mongo_url')  # string
-        self.dd_agent_url = self.getconfig(
-            'dd_agent_url')  # string
-        self.sentry_dsn = self.getconfig(
-            'sentry_dsn')  # string
+        try:
+            self.bot_prefix = self.getconfig(
+                'bot_prefix')  # string
+        except KeyError:
+            pass
+        try:
+            self.discord_user_id = self.getconfig(
+                'ownerid')  # string
+        except KeyError:
+            pass
+        try:
+            self.discord_user_email = self.getconfig(
+                'email')  # string
+        except KeyError:
+            pass
+        try:
+            self.discord_user_password = self.getconfig(
+                'password')  # string
+        except KeyError:
+            pass
+        try:
+            self.bot_token = self.getconfig(
+                'token')  # string
+        except KeyError:
+            pass
+        try:
+            self.disable_voice_commands = self.getconfig(
+                'disable_voice')  # bool
+        except KeyError:
+            pass
+        try:
+            self.language = self.getconfig(
+                'language')  # string
+        except KeyError:
+            pass
+        try:
+            self.description = self.getconfig(
+                'description')  # string
+        except KeyError:
+            pass
+        try:
+            self.log_server_emojis_update = self.getconfig(
+                'log_server_emojis_update')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_reaction_add = self.getconfig(
+                'log_reaction_add')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_reaction_remove = self.getconfig(
+                'log_reaction_remove')  # bool
+        except KeyError:
+            pass
+        try:
+            self.log_reaction_clear = self.getconfig(
+                'log_reaction_clear')  # bool
+        except KeyError:
+            pass
+        try:
+            self.shards = self.getconfig(
+                'shards')  # int
+        except KeyError:
+            pass
+        try:
+            self.run_on_shard = self.getconfig(
+                'run_on_shard')  # int
+        except KeyError:
+            pass
+        try:
+            self.twitch_url = self.getconfig(
+                'twitch_url')  # string
+        except KeyError:
+            pass
+        try:
+            self.youtube_url = self.getconfig(
+                'youtube_url')  # string
+        except KeyError:
+            pass
+        try:
+            self.redis_url = self.getconfig(
+                'redis_url')  # string
+        except KeyError:
+            pass
+        try:
+            self.mongo_url = self.getconfig(
+                'mongo_url')  # string
+        except KeyError:
+            pass
+        try:
+            self.dd_agent_url = self.getconfig(
+                'dd_agent_url')  # string
+        except KeyError:
+            pass
+        try:
+            self.sentry_dsn = self.getconfig(
+                'sentry_dsn')  # string
+        except KeyError:
+            pass
 
         # checks
         if self.discord_user_email == 'None':

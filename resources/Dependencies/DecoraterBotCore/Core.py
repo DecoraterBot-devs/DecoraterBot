@@ -337,7 +337,7 @@ class BotClient(commands.Bot):
         for command in data:
             self.commands_list.append(command)
 
-    def remove_commands(self):
+    def remove_commands(self, data):
         """Removes commands from commands_list."""
         for command in data:
             self.commands_list.remove(command)

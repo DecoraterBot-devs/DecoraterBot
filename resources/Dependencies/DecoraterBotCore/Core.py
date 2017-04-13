@@ -216,11 +216,14 @@ class BotClient(commands.Bot):
         except FileNotFoundError:
             print(str(self.consoletext['Missing_JSON_Errors'][0]))
             sys.exit(2)
+        # deprecated, will be removed when remaing default cogs become plugins.
         self.botmessagesdata = open('{0}{1}resources{1}ConfigD'
                                     'ata{1}BotMessages.{2}.'
                                     'json'.format(self.path, self.sepa,
                                                   self.BotConfig.language))
+        # deprecated, will be removed when remaing default cogs become plugins.
         self.botmessages = json.load(self.botmessagesdata)
+        # deprecated, will be removed when remaing default cogs become plugins.
         self.botmessagesdata.close()
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
@@ -331,6 +334,19 @@ class BotClient(commands.Bot):
         # self.stats = DDAgent(self.dd_agent_url)
         self.is_bot_logged_in = False
         self.login_helper()  # handles login.
+
+    @staticmethod
+    def make_voice_info(server_id, textchannel_id, voice_id):
+        """
+        Makes the Text, Voice Channel, and Server objects
+        with the cached id's for Voice Channels.
+        """
+        retserver = discord.server.Server(id=server_id)
+        rettextchannel = discord.channel.Channel(
+            server=retserver, id=textchannel_id)
+        retvoicechannel = discord.channel.Channel(
+            server=retserver, id=voice_id)
+        return retserver, rettextchannel, retvoicechannel
 
     def add_commands(self, data):
         """Adds commands to commands_list."""

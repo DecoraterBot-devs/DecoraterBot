@@ -157,15 +157,6 @@
     "stats_command_data": [
         "Connected to {0} servers with {1} members in {2} text-channels."
     ],
-    "join_voice_channel_command_data": [
-        "The bot is already in a voice channel in the {0} server.",
-        "Joined the {0} Voice Channel.",
-        "The channel Specified is not a voice channel.",
-        "The request to join a voice channel has timed out.",
-        "Already connected to a voice channel on this server.",
-        "Could not load 'opus.dll' or 'libopus.so'.",
-        "This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in."
-    ],
     "eval_command_data": [
         "Server owner of {0} does not allow this bot to send messages in {1}.",
         "Result was too large to send.",
@@ -184,78 +175,5 @@
         "A picture is required for this to work properly.",
         "Top Text is required for this to work properly.",
         "Bottom Text is required for this to work properly."
-    ],
-    "voice_commands_disabled": [
-        "Sorry, Voice Commands are Disabled."
-    ],
-    "play_command_data": [
-        "You must Specify a URL in this command.",
-        "**Now Playing [{0}] by [{1}] [{2}:{3}]**",
-        "Sorry, This Video must have either been deleted by the owner. And/or their account was supspended/terminated by Youtube. **Or** the video is not available in the United States.",
-        "The URL specified is not a valid Youtube Video/Music or not a valid soundcloud Video/Music URL.",
-        "Error: ffmpeg not found.\nCurrent Path Vars(With appeneds last 2 on end):```py\n{0}\n```",
-        "Unsupported Youtube video URL or not a valid soundcloud Video/Music.",
-        "Error When trying to extract the video from the Youtube video URL.",
-        "Invalid Youtube video or not a valid soundcloud video URL.",
-        "This bot needs to be in a voice channel to be able to use this command.",
-        "You must Specify a URL or a search term of a video in this command.",
-        "[{0}]",
-        "[{0}:{1}]",
-        "{0} by [{1}] {2}",
-        "**{0}{1}** has been added to my playlist.",
-        "Sorry, that url is already in my playlist.",
-        "Sorry, my playlist is full right now."
-    ],
-    "stop_command_data": [
-        "**Stopped [{0}] by [{1}] [{2}:{3}]**",
-        "[{0}] by [{1}]",
-        "**Now Playing {0} [{1}:{2}]**",
-        "Failed to stop the currently playing song/whatever it is as player is None."
-    ],
-    "pause_command_data": [
-        "**Paused [{0}] by [{1}] [{2}:{3}]**",
-        "Failed to pause the currently playing song/whatever it is as player is None.",
-        "This bot must be in a voice channel to be able to pause a Youtube Video/Music."
-    ],
-    "unpause_command_data": [
-        "**Resumed [{0}] by [{1}] [{2}:{3}]**",
-        "Failed to resume the currently playing song/whatever it is as player is None.",
-        "This bot must be in a voice channel to be able to resume a Youtube Video/Music."
-    ],
-    "move_command_data": [
-        "Moved to the {0} Voice Channel.",
-        "The Channel specified is not a voice channel.",
-        "This bot is already in this voice channel."
-    ],
-    "auto_playlist_data": [
-        "**Finished [{0}] by [{1}] [{2}:{3}]**",
-        "[{0}] by [{1}]",
-        "**Now Playing {0} [{1}:{2}]**"
-    ],
-    "leave_voice_channel_command_data": [
-        "Left the {0} Voice Channel.",
-        "This bot does not have a Voice Channel to leave."
-    ],
-    "playlist_command_data": [
-        "[Empty] by [Nobody] [00:00]",
-        "Track 0 : **{0}**\nTrack 1 : **{1}**\nTrack 2 : **{2}**\nTrack 3 : **{3}**\nTrack 4 : **{4}**\nTrack 5 : **{5}**\nTrack 6 : **{6}**\nTrack 7 : **{7}**\nTrack 8 : **{8}**\nTrack 9 : **{9}**"
-    ],
-    "volume_command_data": [
-        "Volume changed to ``{0}%``",
-        "Sorry, volume can only be within the range of 0~200. Please try again.",
-        "Sorry, you must specify a actual int value to change the volume.",
-        "Sorry, you can only use this when the bot is playing something."
-    ],
-    "reload_commands_voice_channels_bypass1": [
-        "Left the {0} Voice Channel. Reason: {1}",
-        "Owner is reloading Voice Channel Commands."
-    ],
-    "reload_commands_voice_channels_bypass2": [
-        "A Timeout Error Kept the bot from Rejoining the Voice Channel.",
-        "This Bot needs the PyNaCl library in order to use the voice commands. Please tell the Host of this bot to Add it in.",
-        "Rejoined the {0} Voice Channel."
-    ],
-    "reload_commands_voice_channels_bypass4": [
-        "Owner is doing a high level reload."
     ]
 }

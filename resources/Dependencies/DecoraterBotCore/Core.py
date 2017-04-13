@@ -263,7 +263,8 @@ class BotClient(commands.Bot):
         self.initial_plugins_cogs = [
             'logs',
             'moderation',
-            'report'
+            'report',
+            'voice'
         ]
         for plugins_cog in self.initial_plugins_cogs:
             ret = self.containers.load_plugin(self, plugins_cog)
@@ -271,8 +272,7 @@ class BotClient(commands.Bot):
                 print(ret)
         self.initial_commands_cogs = [
             'botcorecommands',
-            'botcommands',
-            'botvoicecommands'
+            'botcommands'
         ]
         for commands_cog in self.initial_commands_cogs:
             ret = self.containers.load_command(self, commands_cog)

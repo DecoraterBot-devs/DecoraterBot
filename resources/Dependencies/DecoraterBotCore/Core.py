@@ -216,15 +216,6 @@ class BotClient(commands.Bot):
         except FileNotFoundError:
             print(str(self.consoletext['Missing_JSON_Errors'][0]))
             sys.exit(2)
-        # deprecated, will be removed when remaing default cogs become plugins.
-        self.botmessagesdata = open('{0}{1}resources{1}ConfigD'
-                                    'ata{1}BotMessages.{2}.'
-                                    'json'.format(self.path, self.sepa,
-                                                  self.BotConfig.language))
-        # deprecated, will be removed when remaing default cogs become plugins.
-        self.botmessages = json.load(self.botmessagesdata)
-        # deprecated, will be removed when remaing default cogs become plugins.
-        self.botmessagesdata.close()
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
         # Bool to help let the bot know weather or not to actually print
@@ -281,37 +272,6 @@ class BotClient(commands.Bot):
                 print(ret)
         self.disabletinyurl = disabletinyurl
         self.TinyURL = TinyURL
-        self.version = str(self.consoletext['WindowVersion'][0])
-        self.rev = str(self.consoletext['Revision'][0])
-        self.sourcelink = str(self.botmessages['source_command_data'][0])
-        self.othercommands = str(
-            self.botmessages['commands_command_data'][1])
-        self.commandstuff = str(
-            self.botmessages['commands_command_data'][4])
-        self.botcommands = str(
-            self.botmessages['commands_command_data'][
-                0]) + self.othercommands + self.commandstuff
-        self.botcommands_without_other_stuff = (str(
-            self.botmessages['commands_command_data'][0]) +
-                                                self.othercommands)
-        self.othercommandthings = str(
-            self.botmessages['commands_command_data'][4]) + str(
-            self.botmessages['commands_command_data'][5])
-        self.botcommandswithturl_01 = str(
-            self.botmessages['commands_command_data'][
-                3]) + self.othercommandthings
-        self.botcommandswithtinyurl = (self.botcommands_without_other_stuff +
-                                       self.botcommandswithturl_01)
-        self.changelog = str(self.botmessages['changelog_data'][0])
-        self.info = "``" + str(self.consoletext['WindowName'][
-                                   0]) + self.version + self.rev + "``"
-        self.botcommandsPM = str(
-            self.botmessages['commands_command_data'][2])
-        self.commandturlfix = str(
-            self.botmessages['commands_command_data'][5])
-        self.botcommandsPMwithtinyurl = self.botcommandsPM + str(
-            self.botmessages['commands_command_data'][
-                3]) + self.commandturlfix
         self.sent_prune_error_message = False
         self.tinyurlerror = False
         self.link = None
@@ -389,100 +349,6 @@ class BotClient(commands.Bot):
 
     # Helpers.
 
-    async def mention_ban_helper(self, message):
-        """
-        Bot Commands.
-        :param message: Messages.
-        :return: Nothing.
-        """
-        if message.author.id == self.user.id:
-            return
-        if message.channel.server.id == "105010597954871296":
-            return
-        if message.author.id == self.owner_id:
-            return
-        else:
-            try:
-                await self.ban(message.author)
-                try:
-                    message_data = str(
-                        self.botmessages['mention_spam_ban'][0]).format(
-                        message.author)
-                    await self.send_message(message.channel,
-                                            content=message_data)
-                except discord.errors.Forbidden:
-                    await self.BotPMError.resolve_send_message_error_old(
-                        self, message)
-            except discord.errors.Forbidden:
-                try:
-                    msgdata = str(
-                        self.botmessages['mention_spam_ban'][1]).format(
-                        message.author)
-                    message_data = msgdata
-                    await self.send_message(message.channel,
-                                            content=message_data)
-                except discord.errors.Forbidden:
-                    await self.BotPMError.resolve_send_message_error_old(
-                        self, message)
-            except discord.HTTPException:
-                try:
-                    msgdata = str(
-                        self.botmessages['mention_spam_ban'][2]).format(
-                        message.author)
-                    message_data = msgdata
-                    await self.send_message(message.channel,
-                                            content=message_data)
-                except discord.errors.Forbidden:
-                    await self.BotPMError.resolve_send_message_error_old(
-                        self, message)
-
-    async def bot_mentioned_helper(self, message):
-        """
-        Bot Commands.
-        :param message: Messages.
-        :return: Nothing.
-        """
-        if message.author.id in self.banlist['Users']:
-            return
-        elif message.author.bot:
-            return
-        else:
-            for command in self.commands_list:
-                if message.content.startswith(command):
-                    return
-                else:
-                    break
-            else:
-                if message.channel.server.id == "140849390079180800":
-                    return
-                elif message.author.id == self.user.id:
-                    return
-                elif message.channel.server.id == "110373943822540800":
-                    if message.author.id == "103607047383166976":
-                        return
-                    else:
-                        info2 = str(
-                            self.botmessages['On_Bot_Mention_Message_Data'][
-                                0]).format(message.author)
-                        await self.send_message(message.channel, content=info2)
-                elif message.channel.server.id == '101596364479135744':
-                    if message.author.id == "110368240768679936":
-                        return
-                    else:
-                        info2 = str(
-                            self.botmessages['On_Bot_Mention_Message_Data'][
-                                0]).format(message.author)
-                        await self.send_message(message.channel, content=info2)
-                else:
-                    info2 = str(
-                        self.botmessages['On_Bot_Mention_Message_Data'][
-                            0]).format(message.author)
-                    try:
-                        await self.send_message(message.channel, content=info2)
-                    except discord.errors.Forbidden:
-                        await self.BotPMError.resolve_send_message_error_old(
-                            self, message)
-
     def login_helper(self):
         """
         Bot Login Helper.
@@ -492,112 +358,6 @@ class BotClient(commands.Bot):
             ret = self.login_info()
             if ret is not None and ret is not -1:
                 break
-
-    def game_command_helper(self, ctx):
-        """
-        Bot `::game` command Helper.
-        :param ctx: Message Context.
-        :return: game data.
-        """
-        desgame = ctx.message.content[len(ctx.prefix + "game "):].strip()
-        desgametype = None
-        stream_url = None
-        desgamesize = len(desgame)
-        if desgamesize > 0:
-            if len(ctx.message.mentions) > 0:
-                for x in ctx.message.mentions:
-                    desgame = desgame.replace(x.mention, x.name)
-            if desgame.find(" | type=") is not -1:
-                if desgame.find(" | type=1") is not -1:
-                    desgame = desgame.replace(" | type=1", "")
-                    desgametype = 1
-                    stream_url = self.BotConfig.twitch_url
-                    return desgame, desgametype, stream_url, desgamesize
-                elif desgame.find(" | type=2") is not -1:
-                    desgame = desgame.replace(" | type=2", "")
-                    desgametype = 2
-                    stream_url = self.BotConfig.youtube_url
-                    return desgame, desgametype, stream_url, desgamesize
-            else:
-                return desgame, desgametype, stream_url, desgamesize
-        else:
-            desgame = None
-            return desgame, desgametype, stream_url, desgamesize
-
-    async def cheesy_commands_helper(self, message):
-        """
-        Listens fCheese.lab Specific Server commands.
-        :param message: Message.
-        :return: Nothing.
-        """
-        serveridslistfile = open(
-            '{0}{1}resources{1}ConfigData{1}serverconfigs{1}servers.'
-            'json'.format(self.path, self.sepa))
-        serveridslist = json.load(serveridslistfile)
-        serveridslistfile.close()
-        serverid = str(serveridslist['config_server_ids'][0])
-        file_path = (
-            '{0}resources{0}ConfigData{0}serverconfigs{0}{1}{0}'
-            'verifications{0}'.format(self.sepa, serverid))
-        filename_1 = 'verifycache.json'
-        filename_2 = 'verifycommand.json'
-        filename_3 = 'verifyrole.json'
-        filename_4 = 'verifymessages.json'
-        filename_5 = 'verifycache.json'
-        joinedlistfile = open(self.path + file_path + filename_1)
-        newlyjoinedlist = json.load(joinedlistfile)
-        joinedlistfile.close()
-        memberjoinverifymessagefile = open(self.path + file_path + filename_2)
-        memberjoinverifymessagedata = json.load(memberjoinverifymessagefile)
-        memberjoinverifymessagefile.close()
-        memberjoinverifyrolefile = open(self.path + file_path + filename_3)
-        memberjoinverifyroledata = json.load(memberjoinverifyrolefile)
-        memberjoinverifyrolefile.close()
-        memberjoinverifymessagefile2 = open(self.path + file_path + filename_4)
-        memberjoinverifymessagedata2 = json.load(memberjoinverifymessagefile2)
-        memberjoinverifymessagefile2.close()
-        role_name = str(memberjoinverifyroledata['verify_role_id'][0])
-        msg_command = str(memberjoinverifymessagedata['verify_command'][0])
-        try:
-            if '>' or '<' or '`' in message.content:
-                msgdata = message.content.replace('<', '').replace('>',
-                                                                   '').replace(
-                    '`', '')
-            else:
-                msgdata = message.content
-            if msg_command == msgdata:
-                if message.author.id in newlyjoinedlist[
-                        'users_to_be_verified']:
-                    await self.delete_message(message)
-                    role2 = discord.utils.find(
-                        lambda role: role.id == role_name,
-                        message.channel.server.roles)
-                    msg_data = str(
-                        memberjoinverifymessagedata2['verify_messages'][
-                            1]).format(
-                        message.server.name)
-                    await self.add_roles(message.author, role2)
-                    await self.send_message(message.author, content=msg_data)
-                    newlyjoinedlist['users_to_be_verified'].remove(
-                        message.author.id)
-                    json.dump(newlyjoinedlist,
-                              open(self.path + file_path + filename_5, "w"))
-                else:
-                    await self.delete_message(message)
-                    await self.send_message(message.channel, content=str(
-                        memberjoinverifymessagedata2['verify_messages'][2]))
-            else:
-                if message.author.id != self.user.id:
-                    if message.author.id in newlyjoinedlist[
-                            'users_to_be_verified']:
-                        await self.delete_message(message)
-                        await self.send_message(message.channel, content=str(
-                            memberjoinverifymessagedata2['verify_messages'][
-                                3]).format(message.author.mention))
-        except NameError:
-            await self.send_message(message.channel, content=str(
-                memberjoinverifymessagedata2['verify_messages'][4]).format(
-                message.author.mention))
 
     # Login stuff.
 
@@ -670,43 +430,6 @@ class BotClient(commands.Bot):
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)
-
-    async def on_login(self):
-        """
-        Function that does the on_ready event stuff after logging in.
-        :return: Nothing.
-        """
-        if self.logged_in_:
-            self.logged_in_ = False
-            message_data = str(self.botmessages['On_Ready_Message'][0])
-            try:
-                await self.send_message(
-                    discord.Object(id='118098998744580098'),
-                    content=message_data)
-            except discord.errors.Forbidden:
-                return
-            try:
-                await self.send_message(
-                    discord.Object(id='103685935593435136'),
-                    content=message_data)
-            except discord.errors.Forbidden:
-                return
-            bot_name = self.user.name
-            print(Fore.GREEN + Back.BLACK + Style.BRIGHT + str(
-                self.consoletext['Window_Login_Text'][0]).format(
-                bot_name, self.user.id, discord.__version__))
-            sys.stdout = open(
-                '{0}{1}resources{1}Logs{1}console.log'.format(self.path,
-                                                              self.sepa), 'w')
-            sys.stderr = open(
-                '{0}{1}resources{1}Logs{1}unhandled_tracebacks.log'.format(
-                    self.path, self.sepa),
-                'w')
-        if not self.logged_in_:
-            game_name = str(self.consoletext['On_Ready_Game'][0])
-            stream_url = "https://twitch.tv/decoraterbot"
-            await self.change_presence(
-                game=discord.Game(name=game_name, type=1, url=stream_url))
 
     def variable(self):
         """

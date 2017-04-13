@@ -175,8 +175,8 @@ The Bots Partnered Server (Bot created by DavidNeon):
 
 .. |image0| image:: https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa
    :target: https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger
-.. |image1| image:: https://img.shields.io/github/issues/AraHaan/DecoraterBot.svg
-   :target: https://github.com/AraHaan/DecoraterBot/issues
+.. |image1| image:: https://img.shields.io/github/issues/DecoraterBot-devs/DecoraterBot.svg
+   :target: https://github.com/DecoraterBot-devs/DecoraterBot/issues
 .. |image2| image:: https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2
    :target: https://discord.gg/lab
 .. |image3| image:: https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2

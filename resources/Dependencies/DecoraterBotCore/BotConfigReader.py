@@ -96,28 +96,12 @@ class BaseConfigReader(object):
             json.dump(self.config, self.file, indent=4, sort_keys=True)
 
 
-class CreditsReader(object):
+class CreditsReader(BaseConfigReader):
     """Obtains Data from credits.json"""
     def __init__(self, file=None):
-        self.config = []
-        self.filename = file
-        self.json_file = None
-        self.load()
-
-    def load(self):
-        """
-        Loads the JSON config Data.
-        :return: List.
-        """
-        sepa = os.sep
-        path = sys.path[0]
-        self.json_file = '{0}{1}resources{1}ConfigData{1}{2}'.format(
-            path, sepa, self.filename)
-        try:
-            with open(self.json_file) as file:
-                self.config = json.load(file)
-        except(OSError, IOError):
-            pass
+        super().__init__(file=file)
+        del self.getconfig
+        del self.setconfig
 
     def getcredits(self, key, key2):
         """
@@ -170,7 +154,7 @@ class BotCredentialsVars(__BaseCredentialsReader):
     Class for getting the Credentials.json config Values.
     """
     def __init__(self):
-        super(BotCredentialsVars, self).__init__(file='Credentials.json')
+        super().__init__(file='Credentials.json')
 
         # defaults.
         self.logging = False  # bool

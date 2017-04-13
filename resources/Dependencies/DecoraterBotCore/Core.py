@@ -260,7 +260,7 @@ class BotClient(commands.Bot):
         self.discord_logger()
         self.changewindowtitle()
         # self.changewindowsize()
-        super(BotClient, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.initial_plugins_cogs = [
             'logs',
             'moderation',

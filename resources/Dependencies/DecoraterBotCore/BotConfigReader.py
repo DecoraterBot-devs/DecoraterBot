@@ -17,40 +17,6 @@ import sys
 __all__ = ['BotCredentialsVars', 'CreditsReader', 'PluginTextReader']
 
 
-class __BaseCredentialsReader(object):
-    """
-    Base config Class.
-    """
-    def __init__(self, file=None):
-        self.__credentials = []
-        self.filename = file
-        self.json_file = None
-        self.__load()
-
-    def __load(self):
-        """
-        Loads the JSON config Data.
-        :return: List.
-        """
-        sepa = os.sep
-        path = sys.path[0]
-        self.json_file = '{0}{1}resources{1}ConfigData{1}{2}'.format(
-            path, sepa, self.filename)
-        try:
-            with open(self.json_file) as file:
-                self.__credentials = json.load(file)
-        except(OSError, IOError):
-            pass
-
-    def getconfig(self, key):
-        """
-        Gets a Credentials Config Value basted on the key provided.
-        :param key: String key to the entry in Credentials.json
-        :return: JSON config Value.
-        """
-        return self.__credentials[key]
-
-
 class BaseConfigReader(object):
     """
     Base config Class.
@@ -94,6 +60,15 @@ class BaseConfigReader(object):
         self.config[key] = data
         with open(self.json_file) as self.file:
             json.dump(self.config, self.file, indent=4, sort_keys=True)
+
+
+class __BaseCredentialsReader(BaseConfigReader):
+    """
+    Base config Class.
+    """
+    def __init__(self, file=None):
+        super().__init__(file=file)
+        del self.setconfig
 
 
 class CreditsReader(BaseConfigReader):

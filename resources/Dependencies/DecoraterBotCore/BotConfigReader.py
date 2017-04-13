@@ -62,21 +62,18 @@ class BaseConfigReader(object):
             json.dump(self.config, self.file, indent=4, sort_keys=True)
 
 
-class __BaseCredentialsReader(BaseConfigReader):
+class BaseCredentialsReader(BaseConfigReader):
     """
     Base config Class.
     """
     def __init__(self, file=None):
-        super().__init__(file=file)
-        del self.setconfig
+        super(BaseCredentialsReader, self).__init__(file=file)
 
 
 class CreditsReader(BaseConfigReader):
     """Obtains Data from credits.json"""
     def __init__(self, file=None):
-        super().__init__(file=file)
-        del self.getconfig
-        del self.setconfig
+        super(CreditsReader, self).__init__(file=file)
 
     def getcredits(self, key, key2):
         """
@@ -124,12 +121,12 @@ def plugintextreader(file=None):
 PluginTextReader = plugintextreader
 
 
-class BotCredentialsVars(__BaseCredentialsReader):
+class BotCredentialsVars(BaseCredentialsReader):
     """
     Class for getting the Credentials.json config Values.
     """
     def __init__(self):
-        super().__init__(file='Credentials.json')
+        super(BotCredentialsVars, self).__init__(file='Credentials.json')
 
         # defaults.
         self.logging = False  # bool

@@ -12,6 +12,7 @@ Core to DecoraterBot
 import sys
 import logging
 import json
+import os
 
 import discord
 

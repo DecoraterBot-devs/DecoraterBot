@@ -20,7 +20,6 @@ import asyncio
 import aiohttp
 import discord
 from discord.ext import commands
-from colorama import Fore, Back, Style
 from colorama import init
 import consolechange
 try:
@@ -251,23 +250,17 @@ class BotClient(commands.Bot):
         self.discord_logger()
         self.changewindowtitle()
         # self.changewindowsize()
-        super().__init__(**kwargs)
+        super(BotClient, self).__init__(**kwargs)
         self.initial_plugins_cogs = [
             'logs',
             'moderation',
             'report',
-            'voice'
+            'voice',
+            'corecommands',
+            'commands'
         ]
         for plugins_cog in self.initial_plugins_cogs:
             ret = self.containers.load_plugin(self, plugins_cog)
-            if isinstance(ret, str):
-                print(ret)
-        self.initial_commands_cogs = [
-            'botcorecommands',
-            'botcommands'
-        ]
-        for commands_cog in self.initial_commands_cogs:
-            ret = self.containers.load_command(self, commands_cog)
             if isinstance(ret, str):
                 print(ret)
         self.disabletinyurl = disabletinyurl

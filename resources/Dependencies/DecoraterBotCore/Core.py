@@ -249,8 +249,6 @@ class BotClient(commands.Bot):
         self.desmod = None
         self.desmod_new = None
         self.rejoin_after_reload = False
-        # For Console Window size. (windows only)
-        self.cmd = "mode con: cols=80 lines=23"
         # The platform list I have so far.
         if not (sys.platform.startswith('win') or sys.platform.startswith(
                 'linux')):
@@ -370,8 +368,7 @@ class BotClient(commands.Bot):
         Changes the Console's size.
         :return: Nothing.
         """
-        # the Following is windows only.
-        os.system(self.cmd)
+        consolechange.consolesize(80, 23)
 
     def discord_logger(self):
         """

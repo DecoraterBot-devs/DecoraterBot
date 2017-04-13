@@ -363,7 +363,8 @@ class BotClient(commands.Bot):
         """
         consolechange.consoletitle(str(self.consoletext['WindowName'][0]) + self.version)
 
-    def changewindowsize(self):
+    @staticmethod
+    def changewindowsize():
         """
         Changes the Console's size.
         :return: Nothing.

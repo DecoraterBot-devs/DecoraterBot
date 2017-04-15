@@ -316,6 +316,43 @@ class BotClient(commands.Bot):
         """
         consolechange.consoletitle(str(self.consoletext['WindowName'][0]) + self.version)
 
+    def checkupdate(self, pluginlist):
+        """
+        checks a plugin provided for updates.
+        :returns: string considing of plugin's name
+        and plugin's current version.
+        """
+        # TODO: finish this.
+        pass
+
+    def checkupdates(self, pluginlist):
+       """
+       Checks for updates for plugins
+       in the plugin list.
+       """
+       update_list = []
+       for plugin in pluginlist:
+           update_list.append(self.checkupdate(plugin))
+       # so bot can know which plugins have updates.
+       return update_list
+
+    def install_plugin(self, pluginname):
+        """
+        installs a plugin provided.
+        Also gets and sets an cached
+        version of them too.
+        """
+        # TODO: finish this.
+        pass
+
+    def install_plugins(self, pluginnames):
+        """
+        installs all the plugins listed.
+        """
+        for pluginname in pluginnames:
+            # install each plugin individually.
+            self.install_plugin(pluginname)
+
     @staticmethod
     def changewindowsize():
         """

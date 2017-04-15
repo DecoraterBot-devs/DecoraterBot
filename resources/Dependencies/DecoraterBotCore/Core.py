@@ -52,6 +52,28 @@ __all__ = ['main', 'BotClient']
 config = BotConfigReader.BotCredentialsVars()
 
 
+class GitHubRoute:
+    """gets the route information to the an github resource/file."""
+    HEAD = "https://raw.githubusercontent.com"
+
+    def __init__(self, link : str):
+        if self.HEAD not in link:
+            self.url = self.HEAD + link
+        else:
+            self.url = link
+
+
+class PluginData:
+    """
+    Stores the data to plugins.
+    """
+    def __init__(self, plugincode=None, version=None,
+                 textjson=None):
+        self.plugincode = plugincode
+        self.version = version
+        self.textjson = textjson
+
+
 class YTDLLogger(object):
     """
     Class for Silencing all of the Youtube_DL Logging stuff that defaults to
@@ -316,14 +338,36 @@ class BotClient(commands.Bot):
         """
         consolechange.consoletitle(str(self.consoletext['WindowName'][0]) + self.version)
 
-    def checkupdate(self, pluginlist):
+    def request_repo(self, pluginname):
+        """
+        requests the bot's plugin
+        repository for an particualar plugin.
+        """
+        url = (
+            GitHubRoute(
+                "/DecoraterBot-devs/DecoraterBot-cogs/"
+                "master/cogslist.json")).url
+        data = await self.bot.http.session.get(url)
+        resp1 = await data.json(content_type='text/plain')
+        version = resp1[pluginname]['version']
+        url2 = resp1[pluginname]['downloadurl']
+        url3 = resp1[pluginname]['textjson']
+        data2 = await session.get(url2)
+        data3 = await session.get(url3)
+        plugincode = await data2.text()
+        textjson = await data3.text()
+        return PluginData(plugincode=plugincode,
+                          version=version,
+                          textjson=textjson)
+
+    def checkupdate(self, pluginname):
         """
         checks a plugin provided for updates.
         :returns: string considing of plugin's name
         and plugin's current version.
         """
-        # TODO: finish this.
-        pass
+        requestrepo = self.request_repo(pluginname)
+        # TODO: Finish this.
 
     def checkupdates(self, pluginlist):
        """
@@ -342,7 +386,7 @@ class BotClient(commands.Bot):
         Also gets and sets an cached
         version of them too.
         """
-        # TODO: finish this.
+        # TODO: Finish this.
         pass
 
     def install_plugins(self, pluginnames):

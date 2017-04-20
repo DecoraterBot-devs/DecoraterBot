@@ -54,13 +54,13 @@ config = BotConfigReader.BotCredentialsVars()
 
 class GitHubRoute:
     """gets the route information to the an github resource/file."""
-    HEAD = "https://raw.githubusercontent.com"
+    HEAD = "https://raw.githubusercontent.com/"
 
-    def __init__(self, link : str):
-        if self.HEAD not in link:
-            self.url = self.HEAD + link
-        else:
-            self.url = link
+    def __init__(self, user : str, repo : str,
+                 branch : str, filename : str):
+        self.url = (self.HEAD + user + "/" +
+                    repo + "/" + branch + "/" +
+                    filename)
 
 
 class PluginData:
@@ -338,6 +338,21 @@ class BotClient(commands.Bot):
         """
         consolechange.consoletitle(str(self.consoletext['WindowName'][0]) + self.version)
 
+    @staticmethod
+    def make_version(pluginname, pluginversion,
+                     version=None):
+        """
+        Makes or remakes the contents to the plugin list
+        json that stores the installed versions.
+
+        Used for installing / updating plugins.
+        """
+        if version is None:
+            version = {}
+        version[pluginname] = {}
+        version[pluginname]['version'] = pluginversion
+        return version
+
     def request_repo(self, pluginname):
         """
         requests the bot's plugin
@@ -345,8 +360,8 @@ class BotClient(commands.Bot):
         """
         url = (
             GitHubRoute(
-                "/DecoraterBot-devs/DecoraterBot-cogs/"
-                "master/cogslist.json")).url
+                "DecoraterBot-devs", "DecoraterBot-cogs",
+                "master", "cogslist.json")).url
         data = await self.bot.http.session.get(url)
         resp1 = await data.json(content_type='text/plain')
         version = resp1[pluginname]['version']
@@ -366,8 +381,11 @@ class BotClient(commands.Bot):
         :returns: string considing of plugin's name
         and plugin's current version.
         """
+        pluginversion = None  # for now until this is complete.
         requestrepo = self.request_repo(pluginname)
-        # TODO: Finish this.
+        if requestrepo.version != pluginversion:
+            # TODO: Finish this.
+            pass
 
     def checkupdates(self, pluginlist):
        """

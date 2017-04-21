@@ -1,6 +1,6 @@
 ### Setting Credentials.json
 
-After copying ``Credentials_example.json`` to ``Credentials.json`` you can set these values.
+After copying ``Credentials_example.json`` to ``Credentials.json`` you can set these values:
 
 |   	| Credentials.json values	|
 |:------:	|:-:	|

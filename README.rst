@@ -82,7 +82,7 @@ Configuration is in ``\\resources\\ConfigData\\``.
 Before setting configuration be sure to copy
 ``Credentials_example.json`` to ``Credentials.json``.
 
-More Documentation on setting that file is `here </Credentials.md>`__..
+More Documentation on setting that file is `here </Credentials.md>`__.
 
 After you have configurated the bot with a token you can run the bot
 with 1 of the following ways:

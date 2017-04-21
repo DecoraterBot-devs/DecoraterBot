@@ -3,4 +3,6 @@ resources/ConfigData/plugins/*
 !resources/ConfigData/plugins/README
 resources/Dependencies/DecoraterBotCore/plugins/*
 !resources/Dependencies/DecoraterBotCore/plugins/__init__.py
+resources/Logs/*
+!resources/Logs/ffmpeg.shit
 resources/ConfigData/Credentials.json

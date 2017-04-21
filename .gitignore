@@ -1,5 +1,6 @@
 *.cmd
 resources/ConfigData/plugins/*
+!resources/ConfigData/plugins/README
 resources/Dependencies/DecoraterBotCore/plugins/*
 !resources/Dependencies/DecoraterBotCore/plugins/__init__.py
 resources/ConfigData/Credentials.json

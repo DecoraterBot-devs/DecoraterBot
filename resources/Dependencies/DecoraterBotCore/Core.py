@@ -353,7 +353,7 @@ class BotClient(commands.Bot):
         version[pluginname]['version'] = pluginversion
         return version
 
-    def request_repo(self, pluginname):
+    async def request_repo(self, pluginname):
         """
         requests the bot's plugin
         repository for an particualar plugin.
@@ -362,7 +362,7 @@ class BotClient(commands.Bot):
             GitHubRoute(
                 "DecoraterBot-devs", "DecoraterBot-cogs",
                 "master", "cogslist.json")).url
-        data = await self.bot.http.session.get(url)
+        data = await self.http.session.get(url)
         resp1 = await data.json(content_type='text/plain')
         version = resp1[pluginname]['version']
         url2 = resp1[pluginname]['downloadurl']
@@ -375,30 +375,30 @@ class BotClient(commands.Bot):
                           version=version,
                           textjson=textjson)
 
-    def checkupdate(self, pluginname):
+    async def checkupdate(self, pluginname):
         """
         checks a plugin provided for updates.
         :returns: string considing of plugin's name
         and plugin's current version.
         """
         pluginversion = None  # for now until this is complete.
-        requestrepo = self.request_repo(pluginname)
+        requestrepo = await self.request_repo(pluginname)
         if requestrepo.version != pluginversion:
             # TODO: Finish this.
             pass
 
-    def checkupdates(self, pluginlist):
+    async def checkupdates(self, pluginlist):
        """
        Checks for updates for plugins
        in the plugin list.
        """
        update_list = []
        for plugin in pluginlist:
-           update_list.append(self.checkupdate(plugin))
+           update_list.append(await self.checkupdate(plugin))
        # so bot can know which plugins have updates.
        return update_list
 
-    def install_plugin(self, pluginname):
+    async def install_plugin(self, pluginname):
         """
         installs a plugin provided.
         Also gets and sets an cached
@@ -407,7 +407,7 @@ class BotClient(commands.Bot):
         # TODO: Finish this.
         pass
 
-    def install_plugins(self, pluginnames):
+    async def install_plugins(self, pluginnames):
         """
         installs all the plugins listed.
         """

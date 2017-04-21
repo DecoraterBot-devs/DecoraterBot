@@ -80,7 +80,7 @@ To run this bot you will need 2 things:
 Configuration is in ``\\resources\\ConfigData\\``.
 
 Before setting configuration be sure to copy
-``Credentials_example.json`` to ``Credentials.json``
+``Credentials_example.json`` to ``Credentials.json``.
 
 More Documentation on setting that file **coming Soon™**.
 

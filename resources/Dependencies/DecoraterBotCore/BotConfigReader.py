@@ -124,11 +124,11 @@ def pluginconfigreader(file=None):
     Obtains data from plugin json files
     that contains text for commands.
     """
-    json_file = '{0}{1}resources{1}ConfigData{1}{2}'.format(
+    jsonfile = '{0}{1}resources{1}ConfigData{1}{2}'.format(
         sys.path[0], os.sep, file)
     try:
-        with open(json_file) as fileobj:
-            return json.load(fileobj)
+        with open(jsonfile) as fileobje:
+            return json.load(fileobje)
     except(OSError, IOError):
         pass
     return None

@@ -119,7 +119,22 @@ def plugintextreader(file=None):
     return None
 
 
-PluginConfigReader = plugintextreader
+def pluginconfigreader(file=None):
+    """
+    Obtains data from plugin json files
+    that contains text for commands.
+    """
+    json_file = '{0}{1}resources{1}ConfigData{1}{2}'.format(
+        sys.path[0], os.sep, file)
+    try:
+        with open(json_file) as fileobj:
+            return json.load(fileobj)
+    except(OSError, IOError):
+        pass
+    return None
+
+
+PluginConfigReader = pluginconfigreader
 PluginTextReader = plugintextreader
 
 

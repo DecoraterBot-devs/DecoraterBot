@@ -30,4 +30,13 @@ class UnsupportedPlatform(BotException):
     pass
 
 
+class MaxPlayersError(BotException):
+    """
+    Exception thrown when the user tries
+    to add more players than the maximum
+    number set.
+    """
+    pass
+
+
 CommandTimeoutError = concurrent.futures.TimeoutError

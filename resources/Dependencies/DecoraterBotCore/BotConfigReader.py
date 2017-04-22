@@ -182,6 +182,7 @@ class BotCredentialsVars(BaseCredentialsReader):
         self.mongo_url = ''  # string
         self.dd_agent_url = ''  # string
         self.sentry_dsn = ''  # string
+        self.default_plugins = []  # dict
 
         # Properties.
         try:
@@ -444,6 +445,11 @@ class BotCredentialsVars(BaseCredentialsReader):
         try:
             self.sentry_dsn = self.getconfig(
                 'sentry_dsn')  # string
+        except KeyError:
+            pass
+        try:
+            self.default_plugins = self.getconfig(
+                'default_plugins')  # dict
         except KeyError:
             pass
 

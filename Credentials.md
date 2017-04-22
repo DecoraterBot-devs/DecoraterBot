@@ -56,4 +56,5 @@ After copying ``Credentials_example.json`` to ``Credentials.json`` you can set t
 | ``mongo_url``	| ... Type: ``string``	|
 | ``dd_agent_url``	| ... Type: ``string``	|
 | ``sentry_dsn``	| ... Type: ``string``	|
+| ``default_plugins``	| Default plugins the bot loads. Type: ``dict``	|
 

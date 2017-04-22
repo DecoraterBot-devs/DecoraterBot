@@ -273,14 +273,7 @@ class BotClient(commands.Bot):
         self.changewindowtitle()
         # self.changewindowsize()
         super(BotClient, self).__init__(**kwargs)
-        self.initial_plugins_cogs = [
-            'logs',
-            'moderation',
-            'report',
-            'voice',
-            'corecommands',
-            'commands'
-        ]
+        self.initial_plugins_cogs = self.BotConfig.default_plugins
         for plugins_cog in self.initial_plugins_cogs:
             ret = self.containers.load_plugin(self, plugins_cog)
             if isinstance(ret, str):

@@ -252,6 +252,7 @@ class BotClient(commands.Bot):
             self.path, self.sepa)
         self.DBLogs = BotLogger(self)
         # for the bot's plugins to be able to read their text json files.
+        self.PluginConfigReader = BotConfigReader.PluginConfigReader
         self.PluginTextReader = BotConfigReader.PluginTextReader
         self.somebool = False
         self.reload_normal_commands = False

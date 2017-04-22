@@ -14,7 +14,8 @@ import os
 import sys
 
 
-__all__ = ['BotCredentialsVars', 'CreditsReader', 'PluginTextReader']
+__all__ = ['BotCredentialsVars', 'CreditsReader', 'PluginTextReader',
+           'PluginConfigReader']
 
 
 class BaseConfigReader(object):
@@ -118,6 +119,7 @@ def plugintextreader(file=None):
     return None
 
 
+PluginConfigReader = plugintextreader
 PluginTextReader = plugintextreader
 
 

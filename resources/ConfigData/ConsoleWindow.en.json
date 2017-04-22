@@ -27,7 +27,7 @@
         "The Gateway was not found. API Downtime?"
     ],
     "On_Ready_Game": [
-        "Type ::commands for info"
+        "Type {0}commands for info"
     ],
     "Missing_JSON_Errors": [
         "IgnoreList.json is not Found. Cannot Continue.",

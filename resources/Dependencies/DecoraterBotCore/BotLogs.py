@@ -93,6 +93,17 @@ class BotLogger:
         """
         self.set_up_loggers(loggers='asyncio')
 
+    def log_data_reader(entry, index, *args):
+        """
+        log data reader that also
+        does the needed formatting.
+
+        method specifically to fix the
+        stupid Codacy duplication bug.
+        """
+        return str(self.LogData[entry][index]).format(
+            *args)
+
     def logs(self, message):
         """
         Logs Sent Messages.
@@ -223,7 +234,8 @@ class BotLogger:
         :param message: Messages.
         :return: Nothing.
         """
-        logs001 = str(self.LogData['Send_On_Message_Logs'][0]).format(
+        logs001 = log_data_reader(
+            'Send_On_Message_Logs', 0,
             message.author.name, message.author.id,
             str(message.timestamp),
             message.channel.server.name, message.channel.name,
@@ -268,8 +280,8 @@ class BotLogger:
         :param message: Messages.
         :return: Nothing.
         """
-        dellogs001 = str(
-            self.LogData['Send_On_Message_Delete_Logs'][0]).format(
+        dellogs001 = log_data_reader(
+            'Send_On_Message_Delete_Logs', 0,
             message.author.name, message.author.id, str(message.timestamp),
             message.channel.server.name, message.channel.name,
             message.content)

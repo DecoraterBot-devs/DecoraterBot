@@ -94,39 +94,21 @@ class YTDLLogger(object):
                 logfile = '{0}{1}resources{1}Logs{1}ytdl_deb' \
                           'ug_logs.txt'.format(self.bot.path, self.bot.sepa)
                 try:
-                    file = open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(msg + '\n')
-                    file.close()
+                    self.bot.DBLogs.log_writter(logfile, msg + '\n')
                 except PermissionError:
                     return
             elif meth == 'ytdl_warning':
                 logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warnin' \
                            'g_logs.txt'.format(self.bot.path, self.bot.sepa)
                 try:
-                    file2 = open(logfile2, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile2)
-                    if size >= 32102400:
-                        file2.seek(0)
-                        file2.truncate()
-                    file2.write(msg + '\n')
-                    file2.close()
+                    self.bot.DBLogs.log_writter(logfile2, msg + '\n')
                 except PermissionError:
                     return
             elif meth == 'ytdl_error':
                 logfile3 = '{0}{1}resources{1}Logs{1}ytdl_er' \
                            'ror_logs.txt'.format(self.bot.path, self.bot.sepa)
                 try:
-                    file3 = open(logfile3, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile3)
-                    if size >= 32102400:
-                        file3.seek(0)
-                        file3.truncate()
-                    file3.write(msg + '\n')
-                    file3.close()
+                    self.bot.DBLogs.log_writter(logfile3, msg + '\n')
                 except PermissionError:
                     return
             elif meth == 'ytdl_info':
@@ -134,17 +116,18 @@ class YTDLLogger(object):
                            'l_info_logs.txt'.format(self.bot.path,
                                                     self.bot.sepa)
                 try:
-                    file4 = open(logfile4, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile4)
-                    if size >= 32102400:
-                        file4.seek(0)
-                        file4.truncate()
-                    file4.write(msg + '\n')
-                    file4.close()
+                    self.bot.DBLogs.log_writter(logfile4, msg + '\n')
                 except PermissionError:
                     return
         else:
             return
+
+    def log_setting_check(self, meth, msg):
+        """
+        checks the log youtube_dl setting.
+        """
+        if self.bot.BotConfig.log_ytdl:
+            self.log_file_code(meth, msg)
 
     def info(self, msg):
         """
@@ -153,10 +136,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.BotConfig.log_ytdl:
-            self.log_file_code('ytdl_info', msg)
-        else:
-            pass
+        self.log_setting_check('ytdl_info', msg)
 
     def debug(self, msg):
         """
@@ -165,10 +145,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.BotConfig.log_ytdl:
-            self.log_file_code('ytdl_debug', msg)
-        else:
-            pass
+        self.log_setting_check('ytdl_debug', msg)
 
     def warning(self, msg):
         """
@@ -177,10 +154,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.BotConfig.log_ytdl:
-            self.log_file_code('ytdl_warning', msg)
-        else:
-            pass
+        self.log_setting_check('ytdl_warning', msg)
 
     def error(self, msg):
         """
@@ -189,10 +163,7 @@ class YTDLLogger(object):
         :param msg: Message.
         :return: Nothing.
         """
-        if self.bot.BotConfig.log_ytdl:
-            self.log_file_code('ytdl_error', msg)
-        else:
-            pass
+        self.log_setting_check('ytdl_error', msg)
 
 
 class BotClient(commands.Bot):

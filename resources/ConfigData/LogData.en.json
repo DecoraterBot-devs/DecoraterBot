@@ -33,6 +33,18 @@
     "Group_Join_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has joined from the {3} group.\n"
     ],
+    "Group_Remove_Logs": [
+        "{0} with a ID of {1} and a discriminator of {2} has been removed from the {3} group.\n"
+    ],
+    "voice_update": [
+        "{0} with a ID of {1} and a discriminator of {2} has moved from the {3} voice channel to the {4} voice channel.\n"
+    ],
+    "channel_delete": [
+        "The channel named {0} with an ID if {1} has been deleted."
+    ],
+    "channel_create": [
+        "The channel named {0} with an ID if {1} has been created."
+    ],
     "Unban_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has been unbanned from the {3} server.\n"
     ],

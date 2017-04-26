@@ -422,10 +422,15 @@ class BotLogger:
         :param user: Users.
         :return: Nothing.
         """
-        type(self)
-        type(channel)
-        type(user)
-        # TODO: Implement this.
+        mem_name = user.name
+        mem_id = user.id
+        mem_dis = user.discriminator
+        mem_channel_name = channel.name
+        group_remove_log_data = str(self.LogData['Group_Remove_Logs'][0]).format(
+            mem_name, mem_id, mem_dis, mem_channel_name)
+        logfile = '{0}{1}resources{1}Logs{1}group_remove.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, group_remove_log_data)
 
     def ontyping(self, channel, user, when):
         """
@@ -448,28 +453,39 @@ class BotLogger:
         :param after: State.
         :return: Nothing.
         """
-        type(self)
-        type(before)
-        type(after)
-        # TODO: Implement this.
+        mem_name = before.user.name
+        mem_id = before.user.id
+        mem_dis = before.user.discriminator
+        before_channel_name = before.channel.name
+        after_channel_name = after.channel.name
+        voice_update_log_data = str(self.LogData['voice_update'][0]).format(
+            mem_name, mem_id, mem_dis, before_channel_name,
+            after_channel_name)
+        logfile = '{0}{1}resources{1}Logs{1}voice_update.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, voice_update_log_data)
 
     def onchanneldelete(self, channel):
         """
         Logs Channel Deletion.
         :param channel: Channel.
         """
-        type(self)
-        type(channel)
-        # TODO: Implement this.
+        channel_delete_log_data = str(self.LogData['channel_delete'][0]).format(
+            channel.name, channel.id)
+        logfile = '{0}{1}resources{1}Logs{1}channel_delete.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, channel_delete_log_data)
 
     def onchannelcreate(self, channel):
         """
         Logs Channel Creation.
         :param channel: Channel.
         """
-        type(self)
-        type(channel)
-        # TODO: Implement this.
+        channel_create_log_data = str(self.LogData['channel_create'][0]).format(
+            channel.name, channel.id)
+        logfile = '{0}{1}resources{1}Logs{1}channel_create.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, channel_create_log_data)
 
     def onchannelupdate(self, before, after):
         """

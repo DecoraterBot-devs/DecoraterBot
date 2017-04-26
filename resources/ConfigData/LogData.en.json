@@ -67,7 +67,7 @@
         "The {0} role with an ID of {1} has been deleted."
     ],
     "role_update": [
-        "The {0} role with an ID of {1} has been updated to {2}.""
+        "The {0} role with an ID of {1} has been updated to {2}."
     ],
     "Unban_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has been unbanned from the {3} server.\n"

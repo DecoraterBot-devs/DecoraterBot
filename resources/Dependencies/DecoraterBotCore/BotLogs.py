@@ -234,7 +234,7 @@ class BotLogger:
         :param message: Messages.
         :return: Nothing.
         """
-        logs001 = log_data_reader(
+        logs001 = self.log_data_reader(
             'Send_On_Message_Logs', 0,
             message.author.name, message.author.id,
             str(message.timestamp),
@@ -280,7 +280,7 @@ class BotLogger:
         :param message: Messages.
         :return: Nothing.
         """
-        dellogs001 = log_data_reader(
+        dellogs001 = self.log_data_reader(
             'Send_On_Message_Delete_Logs', 0,
             message.author.name, message.author.id, str(message.timestamp),
             message.channel.server.name, message.channel.name,

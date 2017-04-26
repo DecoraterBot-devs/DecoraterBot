@@ -85,41 +85,20 @@ Before setting configuration be sure to copy
 More Documentation on setting that file is `here </Credentials.md>`__.
 
 After you have configurated the bot with a token you can run the bot
-with 1 of the following ways:
+like so:
 
 Windows
 =======
 
-    with ``DecoraterBot-3.5.bat`` that uses the 32-bit version of the
-    system installed Python 3.5 interpreter on windows.
+    with ``DecoraterBot.bat`` that uses the version of python you have
+    on the windows path environment variable.
 
-    with ``DecoraterBot-3.6.bat`` that uses the 32-bit version of the
-    system installed Python 3.6 interpreter on windows.
+Note: *Before running any of those above patch files you need to run
+this file below to install dependencies on your version of python you
+installed.*
 
-    with ``DecoraterBot64-3.5.bat`` that uses the 64-bit version of the
-    system installed Python 3.5 interpreter on windows.
-
-    with ``DecoraterBot64-3.6.bat`` that uses the 64-bit version of the
-    system installed Python 3.6 interpreter on windows.
-
-Note *Before running any of those above patch files you need to run one
-of these two batch files to install dependencies on your version of
-python you installed to*
-``%SystemDrive\Python35``/``%SystemDrive%\Python35x64`` *for Python 3.5
-or* ``%SystemDrive\Python36``/``%SystemDrive%\Python36x64`` *for Python
-3.6*
-
-    ``install_deps-3.5.bat`` installs dependencies on to the 32-bit
-    version of the system installed Python 3.5 interpreter on windows.
-
-    ``install_deps-3.6.bat`` installs dependencies on to the 32-bit
-    version of the system installed Python 3.6 interpreter on windows.
-
-    ``install_deps64-3.5.bat`` installs dependencies on to the 64-bit
-    version of the system installed Python 3.5 interpreter on windows.
-
-    ``install_deps64-3.6.bat`` installs dependencies on to the 64-bit
-    version of the system installed Python 3.6 interpreter on windows.
+    ``install_deps.bat`` installs dependencies on the version of python
+    you have on the windows path environment variable.
 
 Linux
 =====

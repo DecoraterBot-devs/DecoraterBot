@@ -25,18 +25,6 @@ class BotLogger:
     """
     def __init__(self, bot):
         self.bot = bot
-
-        try:
-            self.consoledatafile = open('{0}{1}resources{1}ConfigData'
-                                        '{1}ConsoleWindow.{2}.'
-                                        'json'.format(self.bot.path, self.bot.sepa,
-                                                      self.bot.BotConfig.language))
-            self.consoletext = json.load(self.consoledatafile)
-            self.consoledatafile.close()
-        except FileNotFoundError:
-            print('ConsoleWindow.{0}.json is not Found. '
-                  'Cannot Continue.'.format(self.bot.BotConfig.language))
-            sys.exit(2)
         try:
             self.LogDataFile = open('{0}{1}resources{1}'
                                     'ConfigData{1}LogData.{2}.'
@@ -45,8 +33,24 @@ class BotLogger:
             self.LogData = json.load(self.LogDataFile)
             self.LogDataFile.close()
         except FileNotFoundError:
-            print(str(self.consoletext['Missing_JSON_Errors'][2]))
+            print(str(self.bot.consoletext['Missing_JSON_Errors'][2]))
             sys.exit(2)
+
+    def log_writter(self, filename, data):
+        """
+        Log file writter.
+
+        This is where all the common
+        log file writes go to.
+        """
+        str(self)
+        file = open(filename, 'a', encoding='utf-8')
+        size = os.path.getsize(filename)
+        if size >= 32102400:
+            file.seek(0)
+            file.truncate()
+        file.write(data)
+        file.close()
 
     def set_up_loggers(self, loggers=None):
         """
@@ -110,16 +114,10 @@ class BotLogger:
             logfile = '{0}{1}resources{1}Logs{1}log.log'.format(
                 self.bot.path, self.bot.sepa)
             try:
-                file = open(logfile, 'a', encoding='utf-8')
-                size = os.path.getsize(logfile)
-                if size >= 32102400:
-                    file.seek(0)
-                    file.truncate()
                 if message.channel.is_private is True:
-                    file.write(logspm)
+                    self.log_writter(logfile, logspm)
                 else:
-                    file.write(logsservers)
-                file.close()
+                    self.log_writter(logfile, logsservers)
             except PermissionError:
                 return
 
@@ -151,32 +149,25 @@ class BotLogger:
                 chl_name, old, new)
             editlogservers = editlog003
         try:
-            file = open(logfile, 'a', encoding='utf-8')
-            size = os.path.getsize(logfile)
-            if size >= 32102400:
-                file.seek(0)
-                file.truncate()
-                try:
+            try:
+                if before.content == after.content:
+                    self.resolve_embed_logs(before)
+                else:
+                    try:
+                        self.log_writter(logfile, editlogservers)
+                    except PermissionError:
+                        return
+            except Exception as e:
+                # Empty string that is not used nor assigned
+                # to a variable. (for now)
+                str(e)
+                if before.channel.is_private is False:
+                    print(str(self.LogData['On_Edit_Logs_Error'][0]))
+                else:
                     if before.content == after.content:
                         self.resolve_embed_logs(before)
                     else:
-                        try:
-                            file.write(editlogservers)
-                        except PermissionError:
-                            return
-                        file.close()
-                except Exception as e:
-                    # Empty string that is not used nor assigned
-                    # to a variable. (for now)
-                    str(e)
-                    if before.channel.is_private is False:
-                        print(str(self.LogData['On_Edit_Logs_Error'][0]))
-                    else:
-                        if before.content == after.content:
-                            self.resolve_embed_logs(before)
-                        else:
-                            file.write(edit_log_pm)
-                        file.close()
+                        self.log_writter(logfile, edit_log_pm)
         except PermissionError:
             return
 
@@ -202,16 +193,10 @@ class BotLogger:
             try:
                 logfile = '{0}{1}resources{1}Logs{1}delete_log.log'.format(
                     self.bot.path, self.bot.sepa)
-                file = open(logfile, 'a', encoding='utf-8')
-                size = os.path.getsize(logfile)
-                if size >= 32102400:
-                    file.seek(0)
-                    file.truncate()
                 if message.channel.is_private is True:
-                    file.write(dellogspm)
+                    self.log_writter(logfile, dellogspm)
                 else:
-                    file.write(dellogsservers)
-                file.close()
+                    self.log_writter(logfile, dellogsservers)
             except PermissionError:
                 return
 
@@ -228,12 +213,7 @@ class BotLogger:
         logfile = '{0}{1}resources{1}Logs{1}embeds.log'.format(self.bot.path,
                                                                self.bot.sepa)
         try:
-            file2 = open(logfile, 'a', encoding='utf-8')
-            size = os.path.getsize(logfile)
-            if size >= 32102400:
-                file2.seek(0)
-                file2.truncate()
-            file2.write(data + "\n")
+            self.log_writter(logfile, data + "\n")
         except PermissionError:
             return
 
@@ -328,13 +308,7 @@ class BotLogger:
                 logfile = '{0}{1}resources{1}Logs{1}error_log.log'.format(
                     self.bot.path, self.bot.sepa)
                 try:
-                    file = open(logfile, 'a', encoding='utf-8')
-                    size = os.path.getsize(logfile)
-                    if size >= 32102400:
-                        file.seek(0)
-                        file.truncate()
-                    file.write(exception_data)
-                    file.close()
+                    self.log_writter(logfile, exception_data)
                 except PermissionError:
                     return
             else:
@@ -362,16 +336,10 @@ class BotLogger:
         logfile = '{0}{1}resources{1}Logs{1}gamelog.log'.format(self.bot.path,
                                                                 self.bot.sepa)
         try:
-            file = open(logfile, 'a', encoding='utf-8')
-            size = os.path.getsize(logfile)
-            if size >= 32102400:
-                file.seek(0)
-                file.truncate()
             if ctx.message.channel.is_private is True:
-                file.write(gmelogspm)
+                self.log_writter(logfile, gmelogspm)
             else:
-                file.write(gmelogsservers)
-            file.close()
+                self.log_writter(logfile, gmelogsservers)
         except PermissionError:
             return
 
@@ -390,12 +358,7 @@ class BotLogger:
                                                                mem_svr_name)
         logfile = '{0}{1}resources{1}Logs{1}bans.log'.format(self.bot.path,
                                                              self.bot.sepa)
-        file = open(logfile, 'a', encoding='utf-8')
-        size = os.path.getsize(logfile)
-        if size >= 32102400:
-            file.truncate()
-        file.write(ban_log_data)
-        file.close()
+        self.log_writter(logfile, ban_log_data)
 
     def onavailable(self, server):
         """
@@ -407,12 +370,7 @@ class BotLogger:
             self.LogData['On_Server_Available'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}available_servers.log'.format(
             self.bot.path, self.bot.sepa)
-        file = open(logfile, 'a', encoding='utf-8')
-        size = os.path.getsize(logfile)
-        if size >= 32102400:
-            file.truncate()
-        file.write(available_log_data)
-        file.close()
+        self.log_writter(logfile, available_log_data)
 
     def onunavailable(self, server):
         """
@@ -424,12 +382,7 @@ class BotLogger:
             self.LogData['On_Server_Unavailable'][0]).format(server)
         logfile = '{0}{1}resources{1}Logs{1}unavailable_servers.log'.format(
             self.bot.path, self.bot.sepa)
-        file = open(logfile, 'a', encoding='utf-8')
-        size = os.path.getsize(logfile)
-        if size >= 32102400:
-            file.truncate()
-        file.write(unavailable_log_data)
-        file.close()
+        self.log_writter(logfile, unavailable_log_data)
 
     def onunban(self, server, user):
         """
@@ -443,12 +396,7 @@ class BotLogger:
                                       server.name)
         logfile = '{0}{1}resources{1}Logs{1}unbans.log'.format(self.bot.path,
                                                                self.bot.sepa)
-        file = open(logfile, 'a', encoding='utf-8')
-        size = os.path.getsize(logfile)
-        if size >= 32102400:
-            file.truncate()
-        file.write(unban_log_data)
-        file.close()
+        self.log_writter(logfile, unban_log_data)
 
     def ongroupjoin(self, channel, user):
         """
@@ -457,10 +405,15 @@ class BotLogger:
         :param user: Users.
         :return: Nothing.
         """
-        type(self)
-        type(channel)
-        type(user)
-        # TODO: Implement this.
+        mem_name = user.name
+        mem_id = user.id
+        mem_dis = user.discriminator
+        mem_channel_name = channel.name
+        group_join_log_data = str(self.LogData['Group_Join_Logs'][0]).format(
+            mem_name, mem_id, mem_dis, mem_channel_name)
+        logfile = '{0}{1}resources{1}Logs{1}group_join.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, group_join_log_data)
 
     def ongroupremove(self, channel, user):
         """
@@ -708,9 +661,4 @@ class BotLogger:
                                                                  mem_svr_name)
         logfile = '{0}{1}resources{1}Logs{1}kicks.log'.format(self.bot.path,
                                                               self.bot.sepa)
-        file = open(logfile, 'a', encoding='utf-8')
-        size = os.path.getsize(logfile)
-        if size >= 32102400:
-            file.truncate()
-        file.write(kick_log_data)
-        file.close()
+        self.log_writter(logfile, kick_log_data)

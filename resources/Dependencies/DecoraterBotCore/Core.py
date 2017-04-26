@@ -79,7 +79,6 @@ class YTDLLogger(object):
     Class for Silencing all of the Youtube_DL Logging stuff that defaults to
     console.
     """
-
     def __init__(self, bot):
         self.bot = bot
 
@@ -379,8 +378,8 @@ class BotClient(commands.Bot):
         pluginversion = None  # for now until this is complete.
         requestrepo = await self.request_repo(pluginname)
         if requestrepo.version != pluginversion:
-            # TODO: Finish this.
-            pass
+            # return every instance of 'PluginData'.
+            return requestrepo
 
     async def checkupdates(self, pluginlist):
        """

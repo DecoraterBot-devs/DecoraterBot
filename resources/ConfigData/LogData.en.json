@@ -30,6 +30,9 @@
     "Ban_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has been banned from the {3} server.\n"
     ],
+    "Group_Join_Logs": [
+        "{0} with a ID of {1} and a discriminator of {2} has joined from the {3} group.\n"
+    ],
     "Unban_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has been unbanned from the {3} server.\n"
     ],

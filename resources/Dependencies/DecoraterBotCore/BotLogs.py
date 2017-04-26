@@ -270,10 +270,9 @@ class BotLogger:
         """
         dellogs001 = str(
             self.LogData['Send_On_Message_Delete_Logs'][0]).format(
-            message.author.name, message.author.id,
-            str(message.timestamp),
-            message.channel.server.name,
-            message.channel.name, message.content)
+            message.author.name, message.author.id, str(message.timestamp),
+            message.channel.server.name, message.channel.name,
+            message.content)
         senddeletelogs = dellogs001
         try:
             await self.bot.send_message(

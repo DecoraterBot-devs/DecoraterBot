@@ -244,6 +244,7 @@ class BotClient(commands.Bot):
         self.changewindowtitle()
         # self.changewindowsize()
         super(BotClient, self).__init__(**kwargs)
+        self.remove_command("help")
         self.initial_plugins_cogs = self.BotConfig.default_plugins
         for plugins_cog in self.initial_plugins_cogs:
             ret = self.containers.load_plugin(self, plugins_cog)
@@ -260,7 +261,6 @@ class BotClient(commands.Bot):
         self.header = {}
         self.resolve_send_message_error = (
             self.BotPMError.resolve_send_message_error)
-        self.remove_command("help")
         init()
         self.variable()
         self.credits = BotConfigReader.CreditsReader(file="credits.json")

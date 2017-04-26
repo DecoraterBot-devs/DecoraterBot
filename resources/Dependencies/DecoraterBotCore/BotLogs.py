@@ -19,6 +19,10 @@ import discord
 __all__ = ['BotLogger']
 
 
+# Some loggers lack the ability to get the server
+# the event fired on.
+
+
 class BotLogger:
     """
     Main Bot logging Class.
@@ -505,10 +509,12 @@ class BotLogger:
         :param after: Channel after.
         :return: Nothing.
         """
-        type(self)
-        type(before)
-        type(after)
-        # TODO: Implement this.
+        # change of permittions trigger this???
+        channel_update_log_data = str(self.LogData['channel_update'][0]).format(
+            before.name, before.id, after.name)
+        logfile = '{0}{1}resources{1}Logs{1}channel_update.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, channel_update_log_data)
 
     def onmemberupdate(self, before, after):
         """
@@ -517,10 +523,12 @@ class BotLogger:
         :param after: Member after.
         :return: Nothing.
         """
-        type(self)
-        type(before)
-        type(after)
-        # TODO: Implement this.
+        # change of permittions trigger this???
+        member_update_log_data = str(self.LogData['member_update'][0]).format(
+            before.name, before.id, after.name)
+        logfile = '{0}{1}resources{1}Logs{1}member_update.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, member_update_log_data)
 
     def onserverjoin(self, server):
         """
@@ -528,9 +536,11 @@ class BotLogger:
         :param server: Server.
         :return: Nothing.
         """
-        type(self)
-        type(server)
-        # TODO: Implement this.
+        server_join_log_data = str(self.LogData['server_join'][0]).format(
+            server.member.name, server.member.id, server.name)
+        logfile = '{0}{1}resources{1}Logs{1}server_join.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, server_join_log_data)
 
     def onserverremove(self, server):
         """
@@ -538,9 +548,11 @@ class BotLogger:
         :param server: Server.
         :return: Nothing.
         """
-        type(self)
-        type(server)
-        # TODO: Implement this.
+        server_remove_log_data = str(self.LogData['server_remove'][0]).format(
+            server.member.name, server.member.id, server.name)
+        logfile = '{0}{1}resources{1}Logs{1}server_remove.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, server_remove_log_data)
 
     def onserverupdate(self, before, after):
         """
@@ -549,10 +561,11 @@ class BotLogger:
         :param after: Server after.
         :return: Nothing.
         """
-        type(self)
-        type(before)
-        type(after)
-        # TODO: Implement this.
+        server_update_log_data = str(self.LogData['server_update'][0]).format(
+            before.name, before.id, after.name)
+        logfile = '{0}{1}resources{1}Logs{1}server_update.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, server_update_log_data)
 
     def onserverrolecreate(self, role):
         """
@@ -560,9 +573,11 @@ class BotLogger:
         :param role: Role.
         :return: Nothing.
         """
-        type(self)
-        type(role)
-        # TODO: Implement this.
+        role_create_log_data = str(self.LogData['role_create'][0]).format(
+            role.name, role.id)
+        logfile = '{0}{1}resources{1}Logs{1}role_create.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, role_create_log_data)
 
     def onserverroledelete(self, role):
         """
@@ -570,9 +585,11 @@ class BotLogger:
         :param role: Role.
         :return: Nothing.
         """
-        type(self)
-        type(role)
-        # TODO: Implement this.
+        role_delete_log_data = str(self.LogData['role_delete'][0]).format(
+            role.name, role.id)
+        logfile = '{0}{1}resources{1}Logs{1}role_delete.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, role_delete_log_data)
 
     def onserverroleupdate(self, before, after):
         """
@@ -581,10 +598,12 @@ class BotLogger:
         :param after: Role after.
         :return: Nothing.
         """
-        type(self)
-        type(before)
-        type(after)
-        # TODO: Implement this.
+        # change of permittions trigger this???
+        role_update_log_data = str(self.LogData['role_update'][0]).format(
+            before.name, before.id, after.name)
+        logfile = '{0}{1}resources{1}Logs{1}role_update.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, role_update_log_data)
 
     def onsocketrawreceive(self, msg):
         """

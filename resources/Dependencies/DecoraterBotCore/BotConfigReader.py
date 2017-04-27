@@ -200,6 +200,7 @@ class BotCredentialsVars(BaseCredentialsReader):
         self.dd_agent_url = ''  # string
         self.sentry_dsn = ''  # string
         self.default_plugins = []  # dict
+        self.api_token = ''  # string
 
         # Properties.
         try:
@@ -467,6 +468,11 @@ class BotCredentialsVars(BaseCredentialsReader):
         try:
             self.default_plugins = self.getconfig(
                 'default_plugins')  # dict
+        except KeyError:
+            pass
+        try:
+            self.api_token = self.getconfig(
+                'api_token')  # string
         except KeyError:
             pass
 

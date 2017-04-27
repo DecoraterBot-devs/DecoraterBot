@@ -12,3 +12,4 @@ yarl
 discord.webhooks
 TinyURL3
 consolechange
+dbapi

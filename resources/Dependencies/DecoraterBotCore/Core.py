@@ -22,6 +22,7 @@ import discord
 from discord.ext import commands
 from colorama import init
 import consolechange
+import dbapi
 try:
     import TinyURL
     disabletinyurl = False
@@ -246,6 +247,7 @@ class BotClient(commands.Bot):
         super(BotClient, self).__init__(**kwargs)
         self.remove_command("help")
         self.initial_plugins_cogs = self.BotConfig.default_plugins
+        self.dbapi = dbapi.DBAPI(self, self.BotConfig.api_token)
         for plugins_cog in self.initial_plugins_cogs:
             ret = self.containers.load_plugin(self, plugins_cog)
             if isinstance(ret, str):

@@ -375,6 +375,20 @@ class BotLogger:
                                                              self.bot.sepa)
         self.log_writter(logfile, ban_log_data)
 
+    async def send_ban_logs(self, channel, member):
+        """
+        sends the ban log data to a specific channel.
+        """
+        ban_log_data = str(self.LogData['Send_Ban_Logs'][0]).format(
+            member.name, member.id, member.discriminator)
+        try:
+            await self.bot.send_message(
+                channel, content=ban_log_data)
+        except discord.errors.NotFound:
+            return
+        except discord.errors.HTTPException:
+            return
+
     def onavailable(self, server):
         """
         Logs Available Servers.
@@ -412,6 +426,20 @@ class BotLogger:
         logfile = '{0}{1}resources{1}Logs{1}unbans.log'.format(self.bot.path,
                                                                self.bot.sepa)
         self.log_writter(logfile, unban_log_data)
+
+    async def send_unban_logs(self, channel, user):
+        """
+        sends the unban log data to a specific channel.
+        """
+        unban_log_data = str(self.LogData['Send_Unban_Logs'][0]).format(
+            user.name, user.id, user.discriminator)
+        try:
+            await self.bot.send_message(
+                channel, content=unban_log_data)
+        except discord.errors.NotFound:
+            return
+        except discord.errors.HTTPException:
+            return
 
     def ongroupjoin(self, channel, user):
         """

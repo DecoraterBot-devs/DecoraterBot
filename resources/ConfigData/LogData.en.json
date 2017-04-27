@@ -30,6 +30,9 @@
     "Ban_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has been banned from the {3} server.\n"
     ],
+    "Send_Ban_Logs": [
+        "{0} with a ID of {1} and a discriminator of {2} has been banned."
+    ],
     "Group_Join_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has joined from the {3} group.\n"
     ],
@@ -71,6 +74,9 @@
     ],
     "Unban_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has been unbanned from the {3} server.\n"
+    ],
+    "Send_Unban_Logs": [
+        "{0} with a ID of {1} and a discriminator of {2} has been unbanned."
     ],
     "Kick_Logs": [
         "{0} with a ID of {1} and a discriminator of {2} has been kicked from the {3} server.\n"

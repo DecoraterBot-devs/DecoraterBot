@@ -565,7 +565,7 @@ class BotLogger:
         :return: Nothing.
         """
         server_join_log_data = str(self.LogData['server_join'][0]).format(
-            server.member.name, server.member.id, server.name)
+            self.bot.user.name, self.bot.user.id, server.name)
         logfile = '{0}{1}resources{1}Logs{1}server_join.log'.format(
             self.bot.path, self.bot.sepa)
         self.log_writter(logfile, server_join_log_data)
@@ -577,7 +577,7 @@ class BotLogger:
         :return: Nothing.
         """
         server_remove_log_data = str(self.LogData['server_remove'][0]).format(
-            server.member.name, server.member.id, server.name)
+            self.bot.user.name, self.bot.user.id, server.name)
         logfile = '{0}{1}resources{1}Logs{1}server_remove.log'.format(
             self.bot.path, self.bot.sepa)
         self.log_writter(logfile, server_remove_log_data)

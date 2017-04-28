@@ -12,4 +12,4 @@ yarl
 discord.webhooks
 TinyURL3
 consolechange
-dbapi
+git+https://github.com/AraHaan/dbapi.git

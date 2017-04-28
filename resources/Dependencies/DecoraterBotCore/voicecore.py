@@ -9,7 +9,23 @@ Core to DecoraterBot
 :license: MIT, see LICENSE for more details.
 
 """
+import discord
+
 from . import BotErrors
+
+
+def make_voice_info(self, server_id, textchannel_id,
+                    voice_id):
+    """
+    Makes the Text, Voice Channel, and Server objects
+    with the cached id's for Voice Channels.
+    """
+    serverobj = discord.server.Server(id=server_id)
+    textchannelobj = discord.channel.Channel(
+        server=serverobj, id=textchannel_id)
+    voicechannelobj = discord.channel.Channel(
+        server=serverobj, id=voice_id)
+    return voicechannelobj, textchannelobj
 
 
 class VoiceChannel:

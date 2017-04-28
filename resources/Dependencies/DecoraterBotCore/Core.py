@@ -274,20 +274,6 @@ class BotClient(commands.Bot):
         self.is_bot_logged_in = False
         self.login_helper()  # handles login.
 
-    def make_voice_info(self, server_id, textchannel_id,
-                        voice_id):
-        """
-        Makes the Text, Voice Channel, and Server objects
-        with the cached id's for Voice Channels.
-        """
-        str(self)
-        retserver = discord.server.Server(id=server_id)
-        rettextchannel = discord.channel.Channel(
-            server=retserver, id=textchannel_id)
-        retvoicechannel = discord.channel.Channel(
-            server=retserver, id=voice_id)
-        return retvoicechannel, rettextchannel
-
     def add_commands(self, data):
         """Adds commands to commands_list."""
         for command in data:

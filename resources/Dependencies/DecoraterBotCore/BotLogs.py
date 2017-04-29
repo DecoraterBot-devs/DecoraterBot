@@ -117,22 +117,19 @@ class BotLogger:
         logs001 = str(self.LogData['On_Message_Logs'][0]).format(
             message.author.name, message.author.id, str(
                 message.timestamp), message.content)
-        logspm = logs001
-        logsservers = None
         if message.channel.is_private is False:
             logs003 = str(self.LogData['On_Message_Logs'][1]).format(
                 message.author.name, message.author.id, str(
                     message.timestamp), message.channel.server.name,
                 message.channel.name, message.content)
-            logsservers = logs003
         if message.content is not None:
             logfile = '{0}{1}resources{1}Logs{1}log.log'.format(
                 self.bot.path, self.bot.sepa)
             try:
                 if message.channel.is_private is True:
-                    self.log_writter(logfile, logspm)
+                    self.log_writter(logfile, logs001)
                 else:
-                    self.log_writter(logfile, logsservers)
+                    self.log_writter(logfile, logs003)
             except PermissionError:
                 return
 
@@ -143,33 +140,25 @@ class BotLogger:
         :param after: Messages.
         :return: Nothing.
         """
-        old = str(before.content)
-        new = str(after.content)
-        logfile = '{0}{1}resources{1}Logs{1}edit_log.log'.format(self.bot.path,
-                                                                 self.bot.sepa)
-        usr_name = before.author.name
-        usr_id = before.author.id
-        msg_time = str(before.timestamp)
-        editlog001 = str(self.LogData['On_Message_Logs'][0]).format(usr_name,
-                                                                    usr_id,
-                                                                    msg_time,
-                                                                    old, new)
-        edit_log_pm = editlog001
-        editlogservers = None
+        logfile = '{0}{1}resources{1}Logs{1}edit_log.log'.format(
+            self.bot.path, self.bot.sepa)
+        editlog001 = str(self.LogData['On_Message_Logs'][0]).format(
+            before.author.name, before.author.id,
+            str(before.timestamp), str(before.content),
+            str(after.content))
         if before.channel.is_private is False:
-            svr_name = before.channel.server.name
-            chl_name = before.channel.name
             editlog003 = str(self.LogData['On_Message_Logs'][1]).format(
-                usr_name, usr_id, msg_time, svr_name,
-                chl_name, old, new)
-            editlogservers = editlog003
+                before.author.name, before.author.id,
+                str(before.timestamp), before.channel.server.name,
+                before.channel.name, str(before.content),
+                str(after.content))
         try:
             try:
                 if before.content == after.content:
                     self.resolve_embed_logs(before)
                 else:
                     try:
-                        self.log_writter(logfile, editlogservers)
+                        self.log_writter(logfile, editlog003)
                     except PermissionError:
                         return
             except Exception as e:
@@ -182,7 +171,7 @@ class BotLogger:
                     if before.content == after.content:
                         self.resolve_embed_logs(before)
                     else:
-                        self.log_writter(logfile, edit_log_pm)
+                        self.log_writter(logfile, editlog001)
         except PermissionError:
             return
 
@@ -720,10 +709,19 @@ class BotLogger:
         :param reactions: Reactions.
         :return: Nothing.
         """
-        type(self)
-        type(message)
-        type(reactions)
-        # TODO: Implement this.
+        reactionnames = [
+            reaction.emoji.name for reaction in reactions]
+        reactionids = [
+            reaction.emoji.id for reaction in reactions]
+        reactionservers = [
+            reaction.emoji.server.name for reaction in reactions]
+        reaction_clear_log_data = str(
+            self.LogData['reaction_clear'][0]).format(
+            message.author.name, message.author.id, message.author.server,
+            reactionnames, reactionids, reactionservers)
+        logfile = '{0}{1}resources{1}Logs{1}reaction_clear.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, reaction_clear_log_data)
 
     def onmemberjoin(self, member):
         """

@@ -110,5 +110,8 @@
     ],
     "reaction_remove": [
         "The user {0} with an ID of {1} in the {2} server got a reaction removed with the name {3} and an ID of {4} that is from the {5} server.\n"
+    ],
+    "reaction_clear": [
+        "The user {0} with an ID of {1} in the {2} server got their reactions cleared with the names of {3} and IDs of {4} that are from the {5} servers.\n"
     ]
 }

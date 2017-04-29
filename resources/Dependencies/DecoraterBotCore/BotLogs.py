@@ -483,11 +483,12 @@ class BotLogger:
         :param when: Time.
         :return: Nothing.
         """
-        type(self)
-        type(channel)
-        type(user)
-        type(when)
-        # TODO: Implement this.
+        typing_log_data = str(self.LogData['On_typing'][0]).format(
+            user.name, user.id, user.discriminator, channel.name,
+            str(when))
+        logfile = '{0}{1}resources{1}Logs{1}typing.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, typing_log_data)
 
     def onvoicestateupdate(self, before, after):
         """
@@ -639,9 +640,11 @@ class BotLogger:
         :param msg: Message from socket.
         :return: Nothing.
         """
-        type(self)
-        type(msg)
-        # TODO: Implement this.
+        raw_receive_log_data = str(self.LogData['raw_receive'][0]).format(
+            msg)
+        logfile = '{0}{1}resources{1}Logs{1}raw_receive.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, raw_receive_log_data)
 
     def onsocketrawsend(self, payload):
         """
@@ -649,17 +652,21 @@ class BotLogger:
         :param payload: Payload that was sent.
         :return: Nothing.
         """
-        type(self)
-        type(payload)
-        # TODO: Implement this.
+        raw_send_log_data = str(self.LogData['raw_send'][0]).format(
+            payload)
+        logfile = '{0}{1}resources{1}Logs{1}raw_send.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, raw_send_log_data)
 
     def onresumed(self):
         """
         Logs when bot resumes.
         :return: Nothing.
         """
-        type(self)
-        # TODO: Implement this.
+        resumed_log_data = str(self.LogData['resumed'][0])
+        logfile = '{0}{1}resources{1}Logs{1}resumed.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, resumed_log_data)
 
     def onserveremojisupdate(self, before, after):
         """
@@ -668,10 +675,13 @@ class BotLogger:
         :param after: Emoji after.
         :return: Nothing.
         """
-        type(self)
-        type(before)
-        type(after)
-        # TODO: Implement this.
+        server_emojis_update_log_data = str(
+            self.LogData['server_emojis_update'][0]).format(
+            before.name, before.id, before.server.name,
+            after.name)
+        logfile = '{0}{1}resources{1}Logs{1}server_emojis_update.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, resumed_log_data)
 
     def onreactionadd(self, reaction, user):
         """
@@ -680,10 +690,13 @@ class BotLogger:
         :param user: User.
         :return: Nothing.
         """
-        type(self)
-        type(reaction)
-        type(user)
-        # TODO: Implement this.
+        reaction_add_log_data = str(
+            self.LogData['reaction_add'][0]).format(
+            user.name, user.id, user.server, reaction.emoji.name,
+            reaction.emoji.id, reaction.emoji.server.name)
+        logfile = '{0}{1}resources{1}Logs{1}reaction_add.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, reaction_add_log_data)
 
     def onreactionremove(self, reaction, user):
         """
@@ -692,10 +705,13 @@ class BotLogger:
         :param user: User.
         :return: Nothing.
         """
-        type(self)
-        type(reaction)
-        type(user)
-        # TODO: Implement this.
+        reaction_remove_log_data = str(
+            self.LogData['reaction_remove'][0]).format(
+            user.name, user.id, user.server, reaction.emoji.name,
+            reaction.emoji.id, reaction.emoji.server.name)
+        logfile = '{0}{1}resources{1}Logs{1}reaction_remove.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, reaction_remove_log_data)
 
     def onreactionclear(self, message, reactions):
         """
@@ -715,9 +731,12 @@ class BotLogger:
         :param member: Member.
         :return: Nothing.
         """
-        type(self)
-        type(member)
-        # TODO: Implement this.
+        member_join_log_data = str(self.LogData['member_join'][0]).format(
+            member.name, member.id, member.discriminator,
+            member.server.name)
+        logfile = '{0}{1}resources{1}Logs{1}member_join.log'.format(
+            self.bot.path, self.bot.sepa)
+        self.log_writter(logfile, member_join_log_data)
 
     def onkick(self, member):
         """

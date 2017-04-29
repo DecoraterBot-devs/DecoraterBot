@@ -86,5 +86,29 @@
     ],
     "On_Server_Unavailable": [
         "The {0.name} server with the ID of {0.id} has become Unavailable.\n"
+    ],
+    "On_typing": [
+        "{0} with a ID of {1} and a discriminator of {2} has started typing in the {3} channel at {4}.\n"
+    ],
+    "member_join": [
+        "{0} with a ID of {1} and a discriminator of {2} has joined the {3} server.\n"
+    ],
+    "raw_send": [
+        "The bot is now sending {0} as an request payload.\n"
+    ],
+    "raw_receive": [
+        "The bot recieved {0} as an request response.\n"
+    ],
+    "resumed": [
+        "The bot has resumed.\n"
+    ],
+    "server_emojis_update": [
+        "The emoji {0} with an ID of {1} in the {2} server was updated to {3}.\n"
+    ],
+    "reaction_add": [
+        "The user {0} with an ID of {1} in the {2} server got a reaction added with the name {3} and an ID of {4} that is from the {5} server.\n"
+    ],
+    "reaction_remove": [
+        "The user {0} with an ID of {1} in the {2} server got a reaction removed with the name {3} and an ID of {4} that is from the {5} server.\n"
     ]
 }

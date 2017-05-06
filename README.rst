@@ -8,7 +8,7 @@ DecoraterBot Async Version
 What is DecoraterBot?
 ---------------------
 
-DecoraterBot is a Discord bot that is written in
+DecoraterBot is an extendable Discord bot that is written in
 `Python <https://www.python.org/>`__. It is currently maintained and
 developed by @\ `AraHaan <https://github.com/AraHaan>`__,
 @\ `DavidNeon <https://github.com/DavidNeon>`__, and rarely

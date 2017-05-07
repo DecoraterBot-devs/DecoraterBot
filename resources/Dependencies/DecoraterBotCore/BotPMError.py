@@ -48,7 +48,7 @@ class BotPMError:
         unabletosendmessageerror = self.construct_reply(
             message)
         try:
-            await bot.send_message(
+            await self.bot.send_message(
                 message.author,
                 content=unabletosendmessageerror)
         except discord.errors.Forbidden:

@@ -72,7 +72,9 @@ class BaseCredentialsReader(BaseConfigReader):
 
 
 class CreditsReader(BaseConfigReader):
-    """Obtains Data from credits.json"""
+    """
+    Obtains Data from credits.json
+    """
     def __init__(self, file=None):
         super(CreditsReader, self).__init__(file=file)
 
@@ -201,8 +203,12 @@ class BotCredentialsVars(BaseCredentialsReader):
         self.sentry_dsn = ''  # string
         self.default_plugins = []  # dict
         self.api_token = ''  # string
+        self.set_values()
 
-        # Properties.
+    def set_values(self):
+        """
+        sets values of the variables.
+        """
         try:
             self.logging = self.getconfig(
                 'logging')  # bool
@@ -475,13 +481,3 @@ class BotCredentialsVars(BaseCredentialsReader):
                 'api_token')  # string
         except KeyError:
             pass
-
-        # checks
-        if self.discord_user_email == 'None':
-            self.discord_user_email = None
-        if self.discord_user_password == 'None':
-            self.discord_user_password = None
-        if self.bot_token == 'None':
-            self.bot_token = None
-        if self.discord_user_id == 'None':
-            self.discord_user_id = None

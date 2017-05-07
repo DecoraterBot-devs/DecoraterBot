@@ -175,7 +175,7 @@ class BotClient(commands.Bot):
     logged_in = False
 
     def __init__(self, **kwargs):
-        self.BotPMError = BotPMError
+        self.BotPMError = BotPMError.BotPMError(self)
         self.BotConfig = config
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)

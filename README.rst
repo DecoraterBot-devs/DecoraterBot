@@ -149,10 +149,6 @@ And the Bot's Original Server (Kinda dead right now):
 
 |image3|
 
-The Bots Partnered Server (Bot created by DavidNeon):
-
-|image4|
-
 *Documentation isn't finished yet.*
 
 .. |image0| image:: https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa
@@ -163,5 +159,3 @@ The Bots Partnered Server (Bot created by DavidNeon):
    :target: https://discord.gg/lab
 .. |image3| image:: https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2
    :target: https://discord.gg/hNMKZ5Z
-.. |image4| image:: https.//discordapp.com/api/guilds/288018843304198144/widget.png?style=banner2
-   :target: https://discord.gg/dxqFtjR

@@ -10,7 +10,6 @@ Core to DecoraterBot
 
 """
 from . import Core
-import logging
 
 
 __title__ = 'DecoraterBotCore'
@@ -21,21 +20,3 @@ __version__ = '1.0.0.12'
 __build__ = 0x100000c
 
 __all__ = Core.__all__
-
-try:
-    from logging import NullHandler
-except ImportError:
-    class NullHandler(logging.Handler):
-        """
-        Logger for DecoraterBot (Not really used but idrc).
-        """
-
-        def emit(self, record):
-            """
-            some random function that I dont care to use.
-            :param record:
-            :return:
-            """
-            pass
-
-logging.getLogger(__name__).addHandler(NullHandler())

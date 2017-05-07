@@ -670,7 +670,7 @@ class BotLogger:
             after.name)
         logfile = '{0}{1}resources{1}Logs{1}server_emojis_update.log'.format(
             self.bot.path, self.bot.sepa)
-        self.log_writter(logfile, resumed_log_data)
+        self.log_writter(logfile, server_emojis_update_log_data)
 
     def onreactionadd(self, reaction, user):
         """

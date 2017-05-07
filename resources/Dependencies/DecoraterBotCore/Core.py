@@ -14,7 +14,6 @@ import ctypes
 import sys
 import time
 import json
-import traceback
 import asyncio
 
 import aiohttp
@@ -442,39 +441,31 @@ class BotClient(commands.Bot):
             except KeyboardInterrupt:
                 pass
             except asyncio.futures.InvalidStateError:
-                self.reconnects += 1
-                if self.reconnects != 0:
-                    print(
-                        'Bot is currently reconnecting for {0} times.'.format(
-                            str(self.reconnects)))
-                    return -1
+                return self.reconnect_helper()
             except aiohttp.ClientResponseError:
-                self.reconnects += 1
-                if self.reconnects != 0:
-                    print(
-                        'Bot is currently reconnecting for {0} times.'.format(
-                            str(self.reconnects)))
-                    return -1
+                return self.reconnect_helper()
             except aiohttp.ClientOSError:
-                self.reconnects += 1
-                if self.reconnects != 0:
-                    print(
-                        'Bot is currently reconnecting for {0} times.'.format(
-                            str(self.reconnects)))
-                    return -1
+                return self.reconnect_helper()
             if self.is_bot_logged_in:
                 if not self.is_logged_in:
                     pass
                 else:
-                    self.reconnects += 1
-                    if self.reconnects != 0:
-                        print(
-                            'Bot is currently reconnecting for {0} '
-                            'times.'.format(str(self.reconnects)))
-                        return -1
+                    return self.reconnect_helper()
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)
+
+    # used for the reconnection.
+
+    def reconnect_helper(self):
+        """
+        helps make the bot reconnect.
+        """
+        self.reconnects += 1
+        if self.reconnects != 0:
+            print('Bot is currently reconnecting for {0} '
+                  'times.'.format(str(self.reconnects)))
+        return -1
 
     def variable(self):
         """

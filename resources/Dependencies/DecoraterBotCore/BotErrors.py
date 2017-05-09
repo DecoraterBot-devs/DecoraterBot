@@ -11,21 +11,13 @@ Core to DecoraterBot
 """
 import concurrent.futures
 
-__all__ = ['BotException', 'UnsupportedPlatform', 'CommandTimeoutError']
+__all__ = ['BotException', 'MaxPlayersError',
+           'CommandTimeoutError']
 
 
 class BotException(Exception):
     """
-        Base Class for Bot Errors.
-    """
-    pass
-
-
-class UnsupportedPlatform(BotException):
-    """
-        Error Thrown When the Bot is run on a Platform Not Windows Currently.
-
-        This is Because I am Missing Python Binaries for Mac and Linux.
+    Base Class for Bot Errors.
     """
     pass
 

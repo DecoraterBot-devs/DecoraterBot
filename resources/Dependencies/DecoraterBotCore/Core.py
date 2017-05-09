@@ -232,12 +232,6 @@ class BotClient(commands.Bot):
         self.desmod = None
         self.desmod_new = None
         self.rejoin_after_reload = False
-        # The platform list I have so far.
-        if not (sys.platform.startswith('win') or sys.platform.startswith(
-                'linux')):
-            self.platerrormsg = str(
-                self.consoletext['Unsupported_Platform'][0])
-            raise UnsupportedPlatform(self.platerrormsg.format(sys.platform))
         # DecoraterBot Necessities.
         self.asyncio_logger()
         self.discord_logger()
@@ -469,7 +463,8 @@ class BotClient(commands.Bot):
 
     def variable(self):
         """
-        Function that makes Certain things on the on_ready event only happen 1
+        Function that makes Certain things on the
+        on_ready event only happen 1
         time only. (e.g. the logged in printing stuff)
         :return: Nothing.
         """

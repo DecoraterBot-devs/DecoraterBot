@@ -33,8 +33,5 @@
         "IgnoreList.json is not Found. Cannot Continue.",
         "BotMessages.en.json is not Found. Cannot Continue.",
         "LogData.en.json is not Found. Cannot Continue."
-    ],
-    "Unsupported_Platform": [
-        "You Are Running this bot on a Currently Unsupported Platform.\nPlease send your platform information as a comment to the\nhttps://github.com/Cheeselab/DecoraterBot/issues/7 issue. Your current Platform is: {0}\nAlso Please note the Developer only has and can get the Windows Binaries of Python and the Dependencies so it is recommended for someone to commit those in a folder to be included in future versions."
     ]
 }

@@ -11,18 +11,10 @@ Core to DecoraterBot
 """
 import concurrent.futures
 
-__all__ = ['BotException', 'MaxPlayersError',
-           'CommandTimeoutError']
+__all__ = ['MaxPlayersError', 'CommandTimeoutError']
 
 
-class BotException(Exception):
-    """
-    Base Class for Bot Errors.
-    """
-    pass
-
-
-class MaxPlayersError(BotException):
+class MaxPlayersError(Exception):
     """
     Exception thrown when the user tries
     to add more players than the maximum

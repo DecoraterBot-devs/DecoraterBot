@@ -68,7 +68,7 @@ class PluginContainer:
         if pluginfullname is None:
             raise CogUnloadError(
                 "Plugin Name cannot be empty.")
-        self.unload_bot_extension(bot, pluginfullname)
+        self.unload_bot_extension(pluginfullname)
 
 
     def reload_plugin(self, plugin_name):

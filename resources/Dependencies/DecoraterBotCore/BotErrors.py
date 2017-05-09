@@ -11,7 +11,8 @@ Core to DecoraterBot
 """
 import concurrent.futures
 
-__all__ = ['MaxPlayersError', 'CommandTimeoutError']
+__all__ = ['MaxPlayersError', 'CogUnloadError',
+           'CommandTimeoutError']
 
 
 class MaxPlayersError(Exception):
@@ -19,6 +20,14 @@ class MaxPlayersError(Exception):
     Exception thrown when the user tries
     to add more players than the maximum
     number set.
+    """
+    pass
+
+
+class CogUnloadError(Exception):
+    """
+    raised when an error occurs when
+    unloading a cog.
     """
     pass
 

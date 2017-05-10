@@ -178,7 +178,7 @@ class BotClient(commands.Bot):
         self.BotConfig = config
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
-        self.containers = containers
+        self.containers = containers.PluginContainer(self)
         self.commands_list = []
         self.YTDLLogger = YTDLLogger
         self.platform = None

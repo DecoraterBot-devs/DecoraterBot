@@ -19,8 +19,12 @@ Contributors
 
 @\ `AraHaan <https://github.com/AraHaan>`__ - Bot Developer
 
-@\ `CheeseCast <https://github.com/CheeseCast>`__ - Documentation &
-Spell-checker.. (hue)
+.. raw:: html
+
+   <!--
+   CheeseCast is sadly no longer part of Documentation. :cry: He just does not want issues with projects like this.
+   @[CheeseCast](https://github.com/CheeseCast) - Documentation & Spell-checker.. (hue)
+   -->
 
 @\ `DavidNeon <https://github.com/DavidNeon>`__ - Bot Developer, Code
 Changer, & More.
@@ -62,11 +66,6 @@ As of April 8th 2017 it is now not recommended to submit plugins to this
 repository. Submit them to
 `here <https://github.com/DecoraterBot-devs/DecoraterBot-cogs>`__ as a
 pull request instead.
-
-Used Events
------------
-
-View the list of used events `here </UsedEvents.md>`__.
 
 Configuration
 -------------
@@ -125,7 +124,8 @@ installed.
 Other Platforms
 ===============
 
-Not available yet.
+This bot should work on other platforms as well provided that all the
+dependencies work for it as well.
 
 Some of the other platforms however could easily be unofficially
 supported. Some of those platforms could be mingw on Windows or if you

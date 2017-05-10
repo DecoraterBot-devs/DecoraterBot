@@ -41,7 +41,6 @@ except ImportError:
           'ode file unable to be found.')
     BotPMError = None
 from . import BotConfigReader
-from .BotLogs import *
 from . import containers
 # from .web.database import Db
 # from .web.datadog import DDAgent
@@ -220,7 +219,6 @@ class BotClient(commands.Bot):
         self.enable_error_handler = True
         self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(
             self.path, self.sepa)
-        self.DBLogs = BotLogger(self)
         # for the bot's plugins to be able to read their text json files.
         self.PluginConfigReader = BotConfigReader.PluginConfigReader
         self.PluginTextReader = BotConfigReader.PluginTextReader
@@ -375,7 +373,7 @@ class BotClient(commands.Bot):
         :return: Nothing.
         """
         if self.BotConfig.discord_logger:
-            self.DBLogs.set_up_discord_logger()
+            self.set_up_discord_logger()
 
     def asyncio_logger(self):
         """
@@ -383,7 +381,48 @@ class BotClient(commands.Bot):
         :return: Nothing.
         """
         if self.BotConfig.asyncio_logger:
-            self.DBLogs.set_up_asyncio_logger()
+            self.set_up_asyncio_logger()
+
+    def set_up_loggers(self, loggers=None):
+        """
+        Logs Events from discord and/or asyncio stuff.
+        :param loggers: Name of the logger(s) to use.
+        :return: Nothing.
+        """
+        if loggers is not None:
+            if loggers == 'discord':
+                logger = logging.getLogger('discord')
+                logger.setLevel(logging.DEBUG)
+                handler = logging.FileHandler(
+                    filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(
+                        self.bot.path, self.bot.sepa), encoding='utf-8', mode='w')
+                handler.setFormatter(logging.Formatter(
+                    '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+                logger.addHandler(handler)
+            elif loggers == 'asyncio' and self.bot is not None:
+                self.bot.loop.set_debug(True)
+                asynciologger = logging.getLogger('asyncio')
+                asynciologger.setLevel(logging.DEBUG)
+                asynciologgerhandler = logging.FileHandler(
+                    filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(
+                        self.bot.path, self.bot.sepa), encoding='utf-8', mode='w')
+                asynciologgerhandler.setFormatter(logging.Formatter(
+                    '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+                asynciologger.addHandler(asynciologgerhandler)
+
+    def set_up_discord_logger(self):
+        """
+        Sets up the Discord Logger.
+        :return: Nothing.
+        """
+        self.set_up_loggers(loggers='discord')
+
+    def set_up_asyncio_logger(self):
+        """
+        Sets up the asyncio Logger.
+        :return: Nothing.
+        """
+        self.set_up_loggers(loggers='asyncio')
 
     # Helpers.
 

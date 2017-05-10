@@ -242,7 +242,7 @@ class BotClient(commands.Bot):
         self.initial_plugins_cogs = self.BotConfig.default_plugins
         self.dbapi = dbapi.DBAPI(self, self.BotConfig.api_token)
         for plugins_cog in self.initial_plugins_cogs:
-            ret = self.containers.load_plugin(self, plugins_cog)
+            ret = self.containers.load_plugin(plugins_cog)
             if isinstance(ret, str):
                 print(ret)
         self.disabletinyurl = disabletinyurl

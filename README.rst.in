@@ -86,13 +86,7 @@ However you will also need to ensure you have the latest ``libopus`` installed.
 
 # Other Platforms
 
-This bot should work on other platforms as well provided that all the dependencies work for it as well.
-
-Some of the other platforms however could easily be unofficially supported. Some of those platforms could be mingw on Windows or if you can get the bot to work on python 3.6.1 on cygwin that could work to. Note: you would then need to compile ffmpeg from source.
-
-I need command line things to execute python 3.5.0+ (3.6.1 recommended).
-You have any other platforms you want the bot to support?
-Well send me it's sys.platform value. The only thing stopping me is a few lines of platform specific code.
+This bot should work on other platforms as well, provided that all the dependencies work for it as well.
 
 ## Want to help with the bot? 
 

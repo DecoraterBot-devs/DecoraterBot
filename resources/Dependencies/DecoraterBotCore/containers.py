@@ -10,6 +10,7 @@ Core to DecoraterBot
 
 """
 import traceback
+
 from .BotErrors import CogUnloadError
 
 
@@ -48,33 +49,35 @@ class PluginContainer:
         """
         self.bot.unload_extension(extension_full_name)
 
-    def load_plugin(self, plugin_name):
+    def load_plugin(self, plugin_name, raiseexec=True):
         """
         Loads up a plugin in the plugins folder in DecoraterBotCore.
         """
         pluginfullname = get_plugin_full_name(plugin_name)
         if pluginfullname is None:
-            raise ImportError(
-                "Plugin Name cannot be empty.")
+            if raiseexec:
+                raise ImportError(
+                    "Plugin Name cannot be empty.")
         err = self.load_bot_extension(pluginfullname)
         if err is not None:
             return err
 
-    def unload_plugin(self, plugin_name):
+    def unload_plugin(self, plugin_name, raiseexec=True):
         """
         Unloads a plugin in the plugins folder in DecoraterBotCore.
         """
         pluginfullname = get_plugin_full_name(plugin_name)
         if pluginfullname is None:
-            raise CogUnloadError(
-                "Plugin Name cannot be empty.")
+            if raiseexec:
+                raise CogUnloadError(
+                    "Plugin Name cannot be empty.")
         self.unload_bot_extension(pluginfullname)
 
     def reload_plugin(self, plugin_name):
         """
         Reloads a plugin in the plugins folder in DecoraterBotCore.
         """
-        self.unload_plugin(plugin_name)
+        self.unload_plugin(plugin_name, raiseexec=False)
         err = self.load_plugin(plugin_name)
         if err is not None:
             return err

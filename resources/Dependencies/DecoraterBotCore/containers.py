@@ -20,7 +20,7 @@ def get_plugin_full_name(plugin_name):
     """
     returns the plugin's full name.
     """
-    if plugin_name is not None:
+    if plugin_name is not '':
         return 'DecoraterBotCore.plugins.{0}'.format(
             plugin_name)
     return None
@@ -69,7 +69,6 @@ class PluginContainer:
             raise CogUnloadError(
                 "Plugin Name cannot be empty.")
         self.unload_bot_extension(pluginfullname)
-
 
     def reload_plugin(self, plugin_name):
         """

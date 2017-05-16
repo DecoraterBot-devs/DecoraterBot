@@ -42,8 +42,6 @@ except ImportError:
     BotPMError = None
 from . import BotConfigReader
 from . import containers
-# from .web.database import Db
-# from .web.datadog import DDAgent
 
 
 __all__ = ['main', 'BotClient']
@@ -191,11 +189,11 @@ class BotClient(commands.Bot):
                                                                  self.sepa))
         self.banlist = json.load(self.botbanslist)
         self.botbanslist.close()
-        self.consoledatafile = open('{0}{1}resources{1}'
-                                    'ConfigData{1}ConsoleWindow.{2}.'
-                                    'json'.format(self.path, self.sepa,
-                                                  self.BotConfig.language))
+        self.consoledatafile = open(
+            '{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(
+            self.path, self.sepa))
         self.consoletext = json.load(self.consoledatafile)
+        self.consoletext = self.consoletext[self.BotConfig.language]
         self.consoledatafile.close()
         try:
             self.ignoreslistfile = open('{0}{1}resources{1}ConfigDa'
@@ -230,19 +228,9 @@ class BotClient(commands.Bot):
         self.desmod = None
         self.desmod_new = None
         self.rejoin_after_reload = False
-        # DecoraterBot Necessities.
-        self.asyncio_logger()
-        self.discord_logger()
-        self.changewindowtitle()
-        # self.changewindowsize()
         super(BotClient, self).__init__(**kwargs)
-        self.remove_command("help")
         self.initial_plugins_cogs = self.BotConfig.default_plugins
         self.dbapi = dbapi.DBAPI(self, self.BotConfig.api_token)
-        for plugins_cog in self.initial_plugins_cogs:
-            ret = self.containers.load_plugin(plugins_cog)
-            if isinstance(ret, str):
-                print(ret)
         self.disabletinyurl = disabletinyurl
         self.TinyURL = TinyURL
         self.sent_prune_error_message = False
@@ -254,16 +242,35 @@ class BotClient(commands.Bot):
         self.header = {}
         self.resolve_send_message_error = (
             self.BotPMError.resolve_send_message_error)
+        self.credits = BotConfigReader.CreditsReader(file="credits.json")
+        self.is_bot_logged_in = False
+        self.call_all()
+
+    def call_all(self):
+        """
+        calls all functions that __init__ used to
+        call except for super.
+        """
+        # DecoraterBot Necessities.
+        self.asyncio_logger()
+        self.discord_logger()
+        self.changewindowtitle()
+        # self.changewindowsize()
+        self.remove_command("help")
+        self.load_all_default_plugins()
         init()
         self.variable()
-        self.credits = BotConfigReader.CreditsReader(file="credits.json")
-        # self.db = Db(self.redis_url, self.mongo_url, self.loop)
-        # self.plugin_manager = PluginManager(self)
-        # self.plugin_manager.load_all()
-        self.last_messages = []
-        # self.stats = DDAgent(self.dd_agent_url)
-        self.is_bot_logged_in = False
         self.login_helper()  # handles login.
+
+    def load_all_default_plugins(self):
+        """
+        Handles loading all plugins that __init__
+        used to load up.
+        """
+        for plugins_cog in self.initial_plugins_cogs:
+            ret = self.containers.load_plugin(plugins_cog)
+            if isinstance(ret, str):
+                print(ret)
 
     def add_commands(self, data):
         """Adds commands to commands_list."""
@@ -311,8 +318,8 @@ class BotClient(commands.Bot):
         version = resp1[pluginname]['version']
         url2 = resp1[pluginname]['downloadurl']
         url3 = resp1[pluginname]['textjson']
-        data2 = await session.get(url2)
-        data3 = await session.get(url3)
+        data2 = await self.http.session.get(url2)
+        data3 = await self.http.session.get(url3)
         plugincode = await data2.text()
         textjson = await data3.text()
         return PluginData(plugincode=plugincode,

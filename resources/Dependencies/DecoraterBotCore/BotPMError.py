@@ -18,11 +18,10 @@ def construct_reply(message):
     """
     Constructs an bot reply.
     """
-    svr_name = message.server.name
-    cnl_name = message.channel.name
-    msginfo = 'Missing the Send Message Permissions in the ' \
-              '{0} server on the {1} channel.'
-    return msginfo.format(svr_name, cnl_name)
+    msginfo = 'Missing the Send Message Permissions in the '
+    msginfo += message.server.name + ' server on the '
+    msginfo += message.channel.name + ' channel.'
+    return msginfo
 
 
 class BotPMError:

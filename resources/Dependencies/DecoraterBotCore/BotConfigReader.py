@@ -34,10 +34,9 @@ class BaseConfigReader(object):
         Loads the JSON config Data.
         :return: List.
         """
-        sepa = os.sep
-        path = sys.path[0]
-        self.json_file = '{0}{1}resources{1}ConfigData{1}{2}'.format(
-            path, sepa, self.filename)
+        self.json_file = os.path.join(
+            sys.path[0], 'resources', 'ConfigData',
+            self.filename)
         try:
             with open(self.json_file) as self.file:
                 self.config = json.load(self.file)
@@ -111,8 +110,9 @@ def plugintextreader(file=None):
     Obtains data from plugin json files
     that contains text for commands.
     """
-    json_file = '{0}{1}resources{1}ConfigData{1}plugins{1}{2}'.format(
-        sys.path[0], os.sep, file)
+    json_file = os.path.join(
+        sys.path[0], 'resources', 'ConfigData', 'plugins',
+        file)
     try:
         with open(json_file) as fileobj:
             return json.load(fileobj)
@@ -126,8 +126,9 @@ def pluginconfigreader(file=None):
     Obtains data from plugin json files
     that contains text for commands.
     """
-    jsonfile = '{0}{1}resources{1}ConfigData{1}{2}'.format(
-        sys.path[0], os.sep, file)
+    jsonfile = os.path.join(
+        sys.path[0], 'resources', 'ConfigData',
+        file)
     try:
         with open(jsonfile) as fileobje:
             return json.load(fileobje)
@@ -183,8 +184,6 @@ class BotCredentialsVars(BaseCredentialsReader):
         self.enable_error_handler = False  # bool
         self.bot_prefix = ''  # string
         self.discord_user_id = ''  # string
-        self.discord_user_email = ''  # string
-        self.discord_user_password = ''  # string
         self.bot_token = ''  # string
         self.disable_voice_commands = False  # bool
         self.language = 'en'  # string
@@ -197,12 +196,10 @@ class BotCredentialsVars(BaseCredentialsReader):
         self.run_on_shard = 0  # int
         self.twitch_url = ''  # string
         self.youtube_url = ''  # string
-        self.redis_url = ''  # string
-        self.mongo_url = ''  # string
-        self.dd_agent_url = ''  # string
-        self.sentry_dsn = ''  # string
-        self.default_plugins = []  # dict
+        self.default_plugins = []  # list
         self.api_token = ''  # string
+
+        # populate the values from Credentials.json.
         self.set_values()
 
     def set_values(self):
@@ -382,16 +379,6 @@ class BotCredentialsVars(BaseCredentialsReader):
         except KeyError:
             pass
         try:
-            self.discord_user_email = self.getconfig(
-                'email')  # string
-        except KeyError:
-            pass
-        try:
-            self.discord_user_password = self.getconfig(
-                'password')  # string
-        except KeyError:
-            pass
-        try:
             self.bot_token = self.getconfig(
                 'token')  # string
         except KeyError:
@@ -449,26 +436,6 @@ class BotCredentialsVars(BaseCredentialsReader):
         try:
             self.youtube_url = self.getconfig(
                 'youtube_url')  # string
-        except KeyError:
-            pass
-        try:
-            self.redis_url = self.getconfig(
-                'redis_url')  # string
-        except KeyError:
-            pass
-        try:
-            self.mongo_url = self.getconfig(
-                'mongo_url')  # string
-        except KeyError:
-            pass
-        try:
-            self.dd_agent_url = self.getconfig(
-                'dd_agent_url')  # string
-        except KeyError:
-            pass
-        try:
-            self.sentry_dsn = self.getconfig(
-                'sentry_dsn')  # string
         except KeyError:
             pass
         try:

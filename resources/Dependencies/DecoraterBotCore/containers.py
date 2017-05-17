@@ -22,8 +22,7 @@ def get_plugin_full_name(plugin_name):
     returns the plugin's full name.
     """
     if plugin_name is not '':
-        return 'DecoraterBotCore.plugins.{0}'.format(
-            plugin_name)
+        return 'DecoraterBotCore.plugins.' + plugin_name
     return None
 
 

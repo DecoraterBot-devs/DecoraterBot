@@ -19,7 +19,6 @@ import asyncio
 import aiohttp
 import discord
 from discord.ext import commands
-from colorama import init
 import consolechange
 import dbapi
 try:
@@ -88,30 +87,33 @@ class YTDLLogger(object):
         """
         if meth is not '':
             if meth == 'ytdl_debug':
-                logfile = '{0}{1}resources{1}Logs{1}ytdl_deb' \
-                          'ug_logs.txt'.format(self.bot.path, self.bot.sepa)
+                logfile = os.path.join(
+                    sys.path[0], 'resources', 'Logs',
+                    'ytdl_debug_logs.log')
                 try:
                     self.bot.DBLogs.log_writter(logfile, msg + '\n')
                 except PermissionError:
                     return
             elif meth == 'ytdl_warning':
-                logfile2 = '{0}{1}resources{1}Logs{1}ytdl_warnin' \
-                           'g_logs.txt'.format(self.bot.path, self.bot.sepa)
+                logfile2 = os.path.join(
+                    sys.path[0], 'resources', 'Logs',
+                    'ytdl_warning_logs.log')
                 try:
                     self.bot.DBLogs.log_writter(logfile2, msg + '\n')
                 except PermissionError:
                     return
             elif meth == 'ytdl_error':
-                logfile3 = '{0}{1}resources{1}Logs{1}ytdl_er' \
-                           'ror_logs.txt'.format(self.bot.path, self.bot.sepa)
+                logfile3 = os.path.join(
+                    sys.path[0], 'resources', 'Logs',
+                    'ytdl_error_logs.log')
                 try:
                     self.bot.DBLogs.log_writter(logfile3, msg + '\n')
                 except PermissionError:
                     return
             elif meth == 'ytdl_info':
-                logfile4 = '{0}{1}resources{1}Logs{1}ytd' \
-                           'l_info_logs.txt'.format(self.bot.path,
-                                                    self.bot.sepa)
+                logfile4 = os.path.join(
+                    sys.path[0], 'resources', 'Logs',
+                    'ytdl_info_logs.log')
                 try:
                     self.bot.DBLogs.log_writter(logfile4, msg + '\n')
                 except PermissionError:
@@ -184,21 +186,18 @@ class BotClient(commands.Bot):
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
-        self.botbanslist = open('{0}{1}resources{1}Conf'
-                                'igData{1}BotBanned.json'.format(self.path,
-                                                                 self.sepa))
+        self.botbanslist = open(os.path.join(
+            sys.path[0], 'resources', 'ConfigData', 'BotBanned.json'))
         self.banlist = json.load(self.botbanslist)
         self.botbanslist.close()
-        self.consoledatafile = open(
-            '{0}{1}resources{1}ConfigData{1}ConsoleWindow.json'.format(
-            self.path, self.sepa))
+        self.consoledatafile = open(os.path.join(
+            sys.path[0], 'resources', 'ConfigData', 'ConsoleWindow.json'))
         self.consoletext = json.load(self.consoledatafile)
         self.consoletext = self.consoletext[self.BotConfig.language]
         self.consoledatafile.close()
         try:
-            self.ignoreslistfile = open('{0}{1}resources{1}ConfigDa'
-                                        'ta{1}IgnoreList.'
-                                        'json'.format(self.path, self.sepa))
+            self.ignoreslistfile = open(os.path.join(
+                sys.path[0], 'resources', 'ConfigData', 'IgnoreList.json'))
             self.ignoreslist = json.load(self.ignoreslistfile)
             self.ignoreslistfile.close()
         except FileNotFoundError:
@@ -215,8 +214,8 @@ class BotClient(commands.Bot):
         # later.
         # Well only if the PM Error handler is False.
         self.enable_error_handler = True
-        self.PATH = '{0}{1}resources{1}ConfigData{1}Credentials.json'.format(
-            self.path, self.sepa)
+        self.PATH = os.path.join(
+            sys.path[0], 'resources', 'ConfigData', 'Credentials.json')
         # for the bot's plugins to be able to read their text json files.
         self.PluginConfigReader = BotConfigReader.PluginConfigReader
         self.PluginTextReader = BotConfigReader.PluginTextReader
@@ -258,7 +257,6 @@ class BotClient(commands.Bot):
         # self.changewindowsize()
         self.remove_command("help")
         self.load_all_default_plugins()
-        init()
         self.variable()
         self.login_helper()  # handles login.
 
@@ -401,8 +399,9 @@ class BotClient(commands.Bot):
                 logger = logging.getLogger('discord')
                 logger.setLevel(logging.DEBUG)
                 handler = logging.FileHandler(
-                    filename='{0}{1}resources{1}Logs{1}discordpy.log'.format(
-                        self.bot.path, self.bot.sepa), encoding='utf-8', mode='w')
+                    filename=os.path.join(
+                        sys.path[0], 'resources', 'Logs', 'discordpy.log'),
+                    encoding='utf-8', mode='w')
                 handler.setFormatter(logging.Formatter(
                     '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 logger.addHandler(handler)
@@ -411,8 +410,9 @@ class BotClient(commands.Bot):
                 asynciologger = logging.getLogger('asyncio')
                 asynciologger.setLevel(logging.DEBUG)
                 asynciologgerhandler = logging.FileHandler(
-                    filename='{0}{1}resources{1}Logs{1}asyncio.log'.format(
-                        self.bot.path, self.bot.sepa), encoding='utf-8', mode='w')
+                    filename=os.path.join(
+                        sys.path[0], 'resources', 'Logs', 'asyncio.log'),
+                        encoding='utf-8', mode='w')
                 asynciologgerhandler.setFormatter(logging.Formatter(
                     '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 asynciologger.addHandler(asynciologgerhandler)
@@ -446,6 +446,10 @@ class BotClient(commands.Bot):
     # Login stuff.
 
     async def __ffs__(self, *args, **kwargs):
+        """
+        same as Client.run except this does not
+        close the asyncio event loop.
+        """
         await self.login(*args, **kwargs)
         await self.connect()
 
@@ -456,13 +460,7 @@ class BotClient(commands.Bot):
         """
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             try:
-                if (self.BotConfig.discord_user_email and
-                        self.BotConfig.discord_user_password is not None):
-                    self.is_bot_logged_in = True
-                    self.loop.run_until_complete(
-                        self.__ffs__(self.BotConfig.discord_user_email,
-                                     self.BotConfig.discord_user_password))
-                elif self.BotConfig.bot_token is not None:
+                if self.BotConfig.bot_token is not None:
                     self.is_bot_logged_in = True
                     self.loop.run_until_complete(self.__ffs__(
                         self.BotConfig.bot_token))
@@ -503,8 +501,9 @@ class BotClient(commands.Bot):
         """
         self.reconnects += 1
         if self.reconnects != 0:
-            print('Bot is currently reconnecting for {0} '
-                  'times.'.format(str(self.reconnects)))
+            print(
+                'Bot is currently reconnecting for ' +
+                str(self.reconnects) + 'times.')
         return -1
 
     def variable(self):

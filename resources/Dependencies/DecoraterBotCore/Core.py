@@ -21,6 +21,7 @@ import discord
 from discord.ext import commands
 import consolechange
 import dbapi
+from BotErrors import *
 try:
     import TinyURL
     disabletinyurl = False
@@ -32,7 +33,6 @@ except ImportError:
     disabletinyurl = True
     TinyURL = None
 
-from .BotErrors import *
 try:
     from . import BotPMError
 except ImportError:

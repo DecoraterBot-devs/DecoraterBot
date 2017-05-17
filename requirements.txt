@@ -14,3 +14,4 @@ TinyURL3
 consolechange
 git+https://github.com/AraHaan/dbapi.git
 youtube_dl
+git+https://github.com/DecoraterBot-devs/BotErrors.git

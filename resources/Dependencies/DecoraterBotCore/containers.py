@@ -11,7 +11,7 @@ Core to DecoraterBot
 """
 import traceback
 
-from .BotErrors import CogUnloadError
+from BotErrors import CogUnloadError
 
 
 __all__ = ['PluginContainer']

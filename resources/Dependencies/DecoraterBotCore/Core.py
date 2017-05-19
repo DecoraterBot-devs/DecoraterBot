@@ -182,11 +182,10 @@ class BotClient(commands.Bot):
     logged_in = False
 
     def __init__(self, **kwargs):
+        self.BotConfig = config
         # for the bot's plugins to be able to read their text json files.
         self.PluginConfigReader = BotConfigReader.PluginConfigReader
         self.PluginTextReader = BotConfigReader.PluginTextReader
-        self.BotConfig = config
-        self.BotPMError = BotPMError.BotPMError(self)
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         self.commands_list = []
@@ -197,29 +196,18 @@ class BotClient(commands.Bot):
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
-        self.botbanslist = open(os.path.join(
-            sys.path[0], 'resources', 'ConfigData', 'BotBanned.json'))
-        self.banlist = json.load(self.botbanslist)
-        self.botbanslist.close()
-        self.consoledatafile = open(os.path.join(
-            sys.path[0], 'resources', 'ConfigData', 'ConsoleWindow.json'))
-        self.consoletext = json.load(self.consoledatafile)
+        self.banlist = self.PluginConfigReader(file='BotBanned.json')
+        self.consoletext = self.PluginConfigReader(file='ConsoleWindow.json')
         self.consoletext = self.consoletext[self.BotConfig.language]
-        self.consoledatafile.close()
         try:
-            self.ignoreslistfile = open(os.path.join(
-                sys.path[0], 'resources', 'ConfigData', 'IgnoreList.json'))
-            self.ignoreslist = json.load(self.ignoreslistfile)
-            self.ignoreslistfile.close()
+            self.ignoreslist = self.PluginConfigReader(file='IgnoreList.json')
         except FileNotFoundError:
             print(str(self.consoletext['Missing_JSON_Errors'][0]))
             sys.exit(2)
+        self.BotPMError = BotPMError.BotPMError(self)
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
-        # Bool to help let the bot know weather or not to actually print
-        # the logged in stuff.
         self.logged_in_ = BotClient.logged_in
-        # default to True in case options are not present in Credentials.json
         self.reconnects = 0
         # Will Always be True to prevent the Error Handler from Causing Issues
         # later.
@@ -236,7 +224,6 @@ class BotClient(commands.Bot):
         self.desmod_new = None
         self.rejoin_after_reload = False
         super(BotClient, self).__init__(**kwargs)
-        self.initial_plugins_cogs = self.BotConfig.default_plugins
         self.dbapi = dbapi.DBAPI(self, self.BotConfig.api_token)
         self.disabletinyurl = disabletinyurl
         self.TinyURL = TinyURL
@@ -273,7 +260,7 @@ class BotClient(commands.Bot):
         Handles loading all plugins that __init__
         used to load up.
         """
-        for plugins_cog in self.initial_plugins_cogs:
+        for plugins_cog in self.BotConfig.default_plugins:
             ret = self.load_plugin(plugins_cog)
             if isinstance(ret, str):
                 print(ret)

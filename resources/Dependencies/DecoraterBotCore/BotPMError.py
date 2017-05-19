@@ -27,10 +27,6 @@ class BotPMError:
     """
     def __init__(self, bot):
         self.bot = bot
-        self.error_text = self.bot.PluginConfigReader(
-            file='ConsoleWindow.json')
-        self.error_text = self.error_text[
-            self.bot.BotConfig.language]
 
     async def resolve_send_message_error(self, ctx):
         """
@@ -47,6 +43,7 @@ class BotPMError:
             await self.bot.send_message(
                 message.author,
                 content=construct_reply(
-                    message, self.error_text['error_message'][0]))
+                    message,
+                    self.bot.consoletext['error_message'][0]))
         except discord.errors.Forbidden:
             return

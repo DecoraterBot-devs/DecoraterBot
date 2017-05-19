@@ -13,7 +13,6 @@ import os
 import ctypes
 import sys
 import time
-import json
 import asyncio
 
 import aiohttp
@@ -35,12 +34,6 @@ except ImportError:
     disabletinyurl = True
     TinyURL = None
 
-try:
-    from . import BotPMError
-except ImportError:
-    print('Some Unknown thing happened which made a critical bot c'
-          'ode file unable to be found.')
-    BotPMError = None
 from . import BotConfigReader
 
 
@@ -79,7 +72,7 @@ class BotClient(commands.Bot):
         except FileNotFoundError:
             print(str(self.consoletext['Missing_JSON_Errors'][0]))
             sys.exit(2)
-        self.BotPMError = BotPMError.BotPMError(self)
+        self.BotPMError = BotPMError(self)
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
         self.logged_in_ = BotClient.logged_in

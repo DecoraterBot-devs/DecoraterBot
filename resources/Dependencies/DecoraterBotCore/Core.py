@@ -27,8 +27,9 @@ try:
     disabletinyurl = False
 except ImportError:
     print_data_001 = 'TinyURL for Python 3.x was not installed.\n' \
-                     'It can be found at: https://github.com/AraHaan/Tin' \
-                     'yURL\nDisabled the tinyurl command for now.'
+                     'It can be installed by running: pip install' \
+                     ' --upgrade TinyURL3\nDisabled the tinyurl ' \
+                     'command for now.'
     print(print_data_001)
     disabletinyurl = True
     TinyURL = None
@@ -40,12 +41,20 @@ except ImportError:
           'ode file unable to be found.')
     BotPMError = None
 from . import BotConfigReader
-from . import containers
 
 
 __all__ = ['main', 'BotClient']
 
 config = BotConfigReader.BotCredentialsVars()
+
+
+def get_plugin_full_name(plugin_name):
+    """
+    returns the plugin's full name.
+    """
+    if plugin_name is not '':
+        return 'DecoraterBotCore.plugins.' + plugin_name
+    return None
 
 
 class GitHubRoute:
@@ -177,7 +186,6 @@ class BotClient(commands.Bot):
         self.BotConfig = config
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
-        self.containers = containers.PluginContainer(self)
         self.commands_list = []
         self.YTDLLogger = YTDLLogger
         self.platform = None
@@ -266,9 +274,57 @@ class BotClient(commands.Bot):
         used to load up.
         """
         for plugins_cog in self.initial_plugins_cogs:
-            ret = self.containers.load_plugin(plugins_cog)
+            ret = self.load_plugin(plugins_cog)
             if isinstance(ret, str):
                 print(ret)
+
+    def load_bot_extension(self, extension_full_name):
+        """
+        loads an bot extension module.
+        """
+        try:
+            self.load_extension(extension_full_name)
+        except Exception:
+            return str(traceback.format_exc())
+
+    def unload_bot_extension(self, extension_full_name):
+        """
+        unloads an bot extension module.
+        """
+        self.unload_extension(extension_full_name)
+
+    def load_plugin(self, plugin_name, raiseexec=True):
+        """
+        Loads up a plugin in the plugins folder in DecoraterBotCore.
+        """
+        pluginfullname = get_plugin_full_name(plugin_name)
+        if pluginfullname is None:
+            if raiseexec:
+                raise ImportError(
+                    "Plugin Name cannot be empty.")
+        err = self.load_bot_extension(pluginfullname)
+        if err is not None:
+            return err
+
+    def unload_plugin(self, plugin_name, raiseexec=True):
+        """
+        Unloads a plugin in the plugins folder in DecoraterBotCore.
+        """
+        pluginfullname = get_plugin_full_name(plugin_name)
+        if pluginfullname is None:
+            if raiseexec:
+                raise CogUnloadError(
+                    "Plugin Name cannot be empty.")
+        self.unload_bot_extension(pluginfullname)
+
+    def reload_plugin(self, plugin_name):
+        """
+        Reloads a plugin in the plugins folder in DecoraterBotCore.
+        """
+        self.unload_plugin(plugin_name, raiseexec=False)
+        err = self.load_plugin(plugin_name)
+        if err is not None:
+            return err
 
     def add_commands(self, data):
         """Adds commands to commands_list."""

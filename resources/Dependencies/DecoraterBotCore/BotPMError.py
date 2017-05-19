@@ -14,14 +14,11 @@ import discord
 __all__ = ['BotPMError', 'construct_reply']
 
 
-def construct_reply(message):
+def construct_reply(message, msgdata):
     """
     Constructs an bot reply.
     """
-    msginfo = 'Missing the Send Message Permissions in the '
-    msginfo += message.server.name + ' server on the '
-    msginfo += message.channel.name + ' channel.'
-    return msginfo
+    return msgdata % (message.server.name, message.channel.name)
 
 
 class BotPMError:
@@ -30,6 +27,10 @@ class BotPMError:
     """
     def __init__(self, bot):
         self.bot = bot
+        self.error_text = self.bot.PluginConfigReader(
+            file='ConsoleWindow.json')
+        self.error_text = self.error_text[
+            self.bot.BotConfig.language]
 
     async def resolve_send_message_error(self, ctx):
         """
@@ -45,6 +46,7 @@ class BotPMError:
         try:
             await self.bot.send_message(
                 message.author,
-                content=construct_reply(message))
+                content=construct_reply(
+                    message, self.error_text['error_message'][0]))
         except discord.errors.Forbidden:
             return

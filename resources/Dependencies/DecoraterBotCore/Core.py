@@ -182,8 +182,11 @@ class BotClient(commands.Bot):
     logged_in = False
 
     def __init__(self, **kwargs):
-        self.BotPMError = BotPMError.BotPMError(self)
+        # for the bot's plugins to be able to read their text json files.
+        self.PluginConfigReader = BotConfigReader.PluginConfigReader
+        self.PluginTextReader = BotConfigReader.PluginTextReader
         self.BotConfig = config
+        self.BotPMError = BotPMError.BotPMError(self)
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         self.commands_list = []
@@ -224,9 +227,6 @@ class BotClient(commands.Bot):
         self.enable_error_handler = True
         self.PATH = os.path.join(
             sys.path[0], 'resources', 'ConfigData', 'Credentials.json')
-        # for the bot's plugins to be able to read their text json files.
-        self.PluginConfigReader = BotConfigReader.PluginConfigReader
-        self.PluginTextReader = BotConfigReader.PluginTextReader
         self.somebool = False
         self.reload_normal_commands = False
         self.reload_voice_commands = False

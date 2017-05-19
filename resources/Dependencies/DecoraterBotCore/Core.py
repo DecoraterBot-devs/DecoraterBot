@@ -34,12 +34,10 @@ except ImportError:
     disabletinyurl = True
     TinyURL = None
 
-from . import BotConfigReader
-
 
 __all__ = ['main', 'BotClient']
 
-config = BotConfigReader.BotCredentialsVars()
+config = BotCredentialsVars()
 
 
 class BotClient(commands.Bot):
@@ -52,8 +50,8 @@ class BotClient(commands.Bot):
     def __init__(self, **kwargs):
         self.BotConfig = config
         # for the bot's plugins to be able to read their text json files.
-        self.PluginConfigReader = BotConfigReader.PluginConfigReader
-        self.PluginTextReader = BotConfigReader.PluginTextReader
+        self.PluginConfigReader = PluginConfigReader
+        self.PluginTextReader = PluginTextReader
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
         self.commands_list = []
@@ -104,7 +102,7 @@ class BotClient(commands.Bot):
         self.header = {}
         self.resolve_send_message_error = (
             self.BotPMError.resolve_send_message_error)
-        self.credits = BotConfigReader.CreditsReader(file="credits.json")
+        self.credits = CreditsReader(file="credits.json")
         self.is_bot_logged_in = False
         self.call_all()
 

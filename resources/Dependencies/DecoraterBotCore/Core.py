@@ -74,7 +74,7 @@ class BotClient(commands.Bot):
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
         self.logged_in_ = BotClient.logged_in
-        self.reconnects = 0
+        self.rec = ReconnectionHelper()
         # Will Always be True to prevent the Error Handler from Causing Issues
         # later.
         # Well only if the PM Error handler is False.
@@ -197,83 +197,6 @@ class BotClient(commands.Bot):
         consolechange.consoletitle(str(self.consoletext['WindowName'][0]) + self.version)
 
     @staticmethod
-    def make_version(pluginname, pluginversion,
-                     version=None):
-        """
-        Makes or remakes the contents to the plugin list
-        json that stores the installed versions.
-
-        Used for installing / updating plugins.
-        """
-        if version is None:
-            version = {}
-        version[pluginname] = {}
-        version[pluginname]['version'] = pluginversion
-        return version
-
-    async def request_repo(self, pluginname):
-        """
-        requests the bot's plugin
-        repository for an particualar plugin.
-        """
-        url = (
-            GitHubRoute(
-                "DecoraterBot-devs", "DecoraterBot-cogs",
-                "master", "cogslist.json")).url
-        data = await self.http.session.get(url)
-        resp1 = await data.json(content_type='text/plain')
-        version = resp1[pluginname]['version']
-        url2 = resp1[pluginname]['downloadurl']
-        url3 = resp1[pluginname]['textjson']
-        data2 = await self.http.session.get(url2)
-        data3 = await self.http.session.get(url3)
-        plugincode = await data2.text()
-        textjson = await data3.text()
-        return PluginData(plugincode=plugincode,
-                          version=version,
-                          textjson=textjson)
-
-    async def checkupdate(self, pluginname):
-        """
-        checks a plugin provided for updates.
-        :returns: string considing of plugin's name
-        and plugin's current version.
-        """
-        pluginversion = None  # for now until this is complete.
-        requestrepo = await self.request_repo(pluginname)
-        if requestrepo.version != pluginversion:
-            # return every instance of 'PluginData'.
-            return requestrepo
-
-    async def checkupdates(self, pluginlist):
-       """
-       Checks for updates for plugins
-       in the plugin list.
-       """
-       update_list = []
-       for plugin in pluginlist:
-           update_list.append(await self.checkupdate(plugin))
-       # so bot can know which plugins have updates.
-       return update_list
-
-    async def install_plugin(self, pluginname):
-        """
-        installs a plugin provided.
-        Also gets and sets an cached
-        version of them too.
-        """
-        # TODO: Finish this.
-        pass
-
-    async def install_plugins(self, pluginnames):
-        """
-        installs all the plugins listed.
-        """
-        for pluginname in pluginnames:
-            # install each plugin individually.
-            self.install_plugin(pluginname)
-
-    @staticmethod
     def changewindowsize():
         """
         Changes the Console's size.
@@ -388,32 +311,19 @@ class BotClient(commands.Bot):
             except KeyboardInterrupt:
                 pass
             except asyncio.futures.InvalidStateError:
-                return self.reconnect_helper()
+                return self.rec.reconnect_helper()
             except aiohttp.ClientResponseError:
-                return self.reconnect_helper()
+                return self.rec.reconnect_helper()
             except aiohttp.ClientOSError:
-                return self.reconnect_helper()
+                return self.rec.reconnect_helper()
             if self.is_bot_logged_in:
                 if not self.is_logged_in:
                     pass
                 else:
-                    return self.reconnect_helper()
+                    return self.rec.reconnect_helper()
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
             sys.exit(2)
-
-    # used for the reconnection.
-
-    def reconnect_helper(self):
-        """
-        helps make the bot reconnect.
-        """
-        self.reconnects += 1
-        if self.reconnects != 0:
-            print(
-                'Bot is currently reconnecting for ' +
-                str(self.reconnects) + 'times.')
-        return -1
 
     def variable(self):
         """

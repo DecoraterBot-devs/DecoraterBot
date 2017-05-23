@@ -16,18 +16,16 @@ sys.dont_write_bytecode = True
 try:
     import DecoraterBotCore
 except ImportError:
-    sepa = os.sep
-    path = sys.path[0]
-    appendpath = "{0}{1}resources{1}Dependencies".format(path, sepa)
+    appendpath = os.path.join(
+        sys.path[0], 'resources', 'Dependencies')
     sys.path.append(appendpath)
     import DecoraterBotCore
+
+# in case there is leaks lets
+# tell the interpreter to clean
+# them up.
 gc.enable()
 
-
-# Note: All new commands should be added via plugins.
-# Also some normal commands can move to plugins as well at any moment in time.
-
-# However this excludes fixing bugs or anything else in normal commands within the commands folder.
 
 if __name__ == '__main__':
     DecoraterBotCore.Core.main()

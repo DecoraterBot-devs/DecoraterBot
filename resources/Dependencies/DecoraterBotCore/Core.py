@@ -12,6 +12,7 @@ Core to DecoraterBot
 import os
 import ctypes
 import sys
+import traceback
 import time
 import asyncio
 
@@ -54,8 +55,7 @@ class BotClient(commands.Bot):
         self.PluginTextReader = PluginTextReader
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
-        self.commands_list = []
-        self.YTDLLogger = YTDLLogger
+        # self.commands_list = []
         self.platform = None
         if self.bits == 4:
             self.platform = 'x86'
@@ -65,20 +65,11 @@ class BotClient(commands.Bot):
         self.banlist = self.PluginConfigReader(file='BotBanned.json')
         self.consoletext = self.PluginConfigReader(file='ConsoleWindow.json')
         self.consoletext = self.consoletext[self.BotConfig.language]
-        try:
-            self.ignoreslist = self.PluginConfigReader(file='IgnoreList.json')
-        except FileNotFoundError:
-            print(str(self.consoletext['Missing_JSON_Errors'][0]))
-            sys.exit(2)
         self.BotPMError = BotPMError(self)
         self.version = str(self.consoletext['WindowVersion'][0])
         self.start = time.time()
         self.logged_in_ = BotClient.logged_in
         self.rec = ReconnectionHelper()
-        # Will Always be True to prevent the Error Handler from Causing Issues
-        # later.
-        # Well only if the PM Error handler is False.
-        self.enable_error_handler = True
         self.PATH = os.path.join(
             sys.path[0], 'resources', 'ConfigData', 'Credentials.json')
         self.somebool = False
@@ -102,9 +93,40 @@ class BotClient(commands.Bot):
         self.header = {}
         self.resolve_send_message_error = (
             self.BotPMError.resolve_send_message_error)
-        self.credits = CreditsReader(file="credits.json")
         self.is_bot_logged_in = False
         self.call_all()
+
+    # dynamic managing of commands seems to fail.
+
+    @property
+    def commands_list(self):
+        """
+        retrieves a list of all of the bot's registered commands.
+        """
+        plugin_list = []
+        for command in self.commands:
+            plugin_list.append(command)
+        return plugin_list
+
+    @property
+    def credits(self):
+        """
+        returns the stuff that the Credits reader returns.
+        """
+        return CreditsReader(file="credits.json")
+
+    @property
+    def ignoreslist(self):
+        """
+        returns the current ignores list.
+        """
+        try:
+            ret = self.PluginConfigReader(file='IgnoreList.json')
+        except FileNotFoundError:
+            ret = None
+            print(str(self.consoletext['Missing_JSON_Errors'][0]))
+            sys.exit(2)
+        return ret
 
     def call_all(self):
         """
@@ -179,29 +201,31 @@ class BotClient(commands.Bot):
         if err is not None:
             return err
 
-    def add_commands(self, data):
-        """Adds commands to commands_list."""
-        for command in data:
-            self.commands_list.append(command)
+    # def add_commands(self, data):
+    #     """Adds commands to commands_list."""
+    #     for command in data:
+    #         self.commands_list.append(command)
 
-    def remove_commands(self, data):
-        """Removes commands from commands_list."""
-        for command in data:
-            self.commands_list.remove(command)
+    # def remove_commands(self, data):
+    #     """Removes commands from commands_list."""
+    #     for command in data:
+    #         self.commands_list.remove(command)
 
     def changewindowtitle(self):
         """
         Changes the console's window Title.
         :return: Nothing.
         """
-        consolechange.consoletitle(str(self.consoletext['WindowName'][0]) + self.version)
+        consolechange.consoletitle(
+            str(self.consoletext['WindowName'][0]) + self.version)
 
-    @staticmethod
-    def changewindowsize():
+    def changewindowsize(self):
         """
         Changes the Console's size.
         :return: Nothing.
         """
+        # not used but avoids issues with this being an classmethod.
+        type(self)
         consolechange.consolesize(80, 23)
 
     def discord_logger(self):
@@ -288,7 +312,7 @@ class BotClient(commands.Bot):
     def login_info(self):
         """
         Allows the bot to Connect / Reconnect.
-        :return: Nothing.
+        :return: Nothing or -1/-2 on failure.
         """
         if os.path.isfile(self.PATH) and os.access(self.PATH, os.R_OK):
             try:
@@ -305,7 +329,7 @@ class BotClient(commands.Bot):
                     return -2
                 elif str(e) == "Improper token has been passed.":
                     print(str(self.consoletext['Invalid_Token'][0]))
-                    sys.exit(2)
+                    return -2
             except TypeError:
                 pass
             except KeyboardInterrupt:
@@ -323,7 +347,7 @@ class BotClient(commands.Bot):
                     return self.rec.reconnect_helper()
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
-            sys.exit(2)
+            return -2
 
     def variable(self):
         """

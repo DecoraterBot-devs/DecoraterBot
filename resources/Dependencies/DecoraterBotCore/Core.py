@@ -96,8 +96,6 @@ class BotClient(commands.Bot):
         self.is_bot_logged_in = False
         self.call_all()
 
-    # dynamic managing of commands seems to fail.
-
     @property
     def commands_list(self):
         """
@@ -200,16 +198,6 @@ class BotClient(commands.Bot):
         err = self.load_plugin(plugin_name)
         if err is not None:
             return err
-
-    # def add_commands(self, data):
-    #     """Adds commands to commands_list."""
-    #     for command in data:
-    #         self.commands_list.append(command)
-
-    # def remove_commands(self, data):
-    #     """Removes commands from commands_list."""
-    #     for command in data:
-    #         self.commands_list.remove(command)
 
     def changewindowtitle(self):
         """

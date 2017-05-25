@@ -44,6 +44,13 @@ Future Updates
 The bot gets updated and tested regularly. Pushes are released when
 features are stable.
 
+Description
+-----------
+
+The ``description.rst.in``, ``description.rst``, and the
+``description.html`` files are used to generate the bot's description
+`here <https://bots.discord.pw/bots/104976661711179776>`__.
+
 Rewrites
 --------
 

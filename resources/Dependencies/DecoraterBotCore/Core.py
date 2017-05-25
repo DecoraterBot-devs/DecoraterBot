@@ -67,7 +67,7 @@ class BotClient(commands.Bot):
         self.consoletext = self.consoletext[self.BotConfig.language]
         self.BotPMError = BotPMError(self)
         self.version = str(self.consoletext['WindowVersion'][0])
-        self.start = time.time()
+        self._start = time.time()
         self.logged_in_ = BotClient.logged_in
         self.rec = ReconnectionHelper()
         self.PATH = os.path.join(
@@ -95,6 +95,13 @@ class BotClient(commands.Bot):
             self.BotPMError.resolve_send_message_error)
         self.is_bot_logged_in = False
         self.call_all()
+
+    @property
+    def uptime_count_begin(self):
+        """
+        returns the begin time.
+        """
+        return self._start
 
     @property
     def commands_list(self):

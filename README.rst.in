@@ -30,6 +30,10 @@ View the list of bot commands [here](https://github.com/DecoraterBot-devs/Decora
 
 The bot gets updated and tested regularly. Pushes are released when features are stable.
 
+## Description
+
+The ``description.rst.in``, ``description.rst``, and the ``description.html`` files are used to generate the bot's description [here](https://bots.discord.pw/bots/104976661711179776).
+
 ## Rewrites
 
 This bot from time to time might go through some rewrites to fix major and minor bugs in code.

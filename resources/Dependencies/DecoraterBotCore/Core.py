@@ -50,20 +50,16 @@ class BotClient(commands.Bot):
 
     def __init__(self, **kwargs):
         self.BotConfig = config
-        # for the bot's plugins to be able to read their text json files.
-        self.PluginConfigReader = PluginConfigReader
-        self.PluginTextReader = PluginTextReader
         self.sepa = os.sep
         self.bits = ctypes.sizeof(ctypes.c_voidp)
-        # self.commands_list = []
         self.platform = None
         if self.bits == 4:
             self.platform = 'x86'
         elif self.bits == 8:
             self.platform = 'x64'
         self.path = sys.path[0]
-        self.banlist = self.PluginConfigReader(file='BotBanned.json')
-        self.consoletext = self.PluginConfigReader(file='ConsoleWindow.json')
+        self.banlist = PluginConfigReader(file='BotBanned.json')
+        self.consoletext = PluginConfigReader(file='ConsoleWindow.json')
         self.consoletext = self.consoletext[self.BotConfig.language]
         self.BotPMError = BotPMError(self)
         self.version = str(self.consoletext['WindowVersion'][0])
@@ -126,7 +122,7 @@ class BotClient(commands.Bot):
         returns the current ignores list.
         """
         try:
-            ret = self.PluginConfigReader(file='IgnoreList.json')
+            ret = PluginConfigReader(file='IgnoreList.json')
         except FileNotFoundError:
             ret = None
             print(str(self.consoletext['Missing_JSON_Errors'][0]))

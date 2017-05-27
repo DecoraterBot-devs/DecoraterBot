@@ -129,6 +129,25 @@ class BotClient(commands.Bot):
             sys.exit(2)
         return ret
 
+    # wraps all usage of send_message.
+
+    async def send(self, message=None, ctx=None,
+                   *args, **kwargs):
+        """
+        wraps send_message.
+        """
+        try:
+            await self.send_message(
+                *args, **kwargs)
+        except discord.errors.Forbidden:
+            if ctx is not None:
+                # TODO: Actually raise an exception here.
+                await self.BotPMError.resolve_send_message_error(
+                    ctx)
+            else:
+                # TODO: Finish this.
+                pass
+
     def call_all(self):
         """
         calls all functions that __init__ used to

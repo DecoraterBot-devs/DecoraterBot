@@ -224,7 +224,6 @@ class BotClient(commands.Bot):
     def changewindowtitle(self):
         """
         Changes the console's window Title.
-        :return: Nothing.
         """
         consolechange.consoletitle(
             str(self.consoletext['WindowName'][0]) + self.version)
@@ -232,7 +231,6 @@ class BotClient(commands.Bot):
     def changewindowsize(self):
         """
         Changes the Console's size.
-        :return: Nothing.
         """
         # not used but avoids issues with this being an classmethod.
         type(self)
@@ -241,7 +239,6 @@ class BotClient(commands.Bot):
     def discord_logger(self):
         """
         Logger Data.
-        :return: Nothing.
         """
         if self.BotConfig.discord_logger:
             self.set_up_discord_logger()
@@ -249,7 +246,6 @@ class BotClient(commands.Bot):
     def asyncio_logger(self):
         """
         Asyncio Logger.
-        :return: Nothing.
         """
         if self.BotConfig.asyncio_logger:
             self.set_up_asyncio_logger()
@@ -257,8 +253,6 @@ class BotClient(commands.Bot):
     def set_up_loggers(self, loggers=None):
         """
         Logs Events from discord and/or asyncio stuff.
-        :param loggers: Name of the logger(s) to use.
-        :return: Nothing.
         """
         if loggers is not None:
             if loggers == 'discord':
@@ -271,8 +265,8 @@ class BotClient(commands.Bot):
                 handler.setFormatter(logging.Formatter(
                     '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
                 logger.addHandler(handler)
-            elif loggers == 'asyncio' and self.bot is not None:
-                self.bot.loop.set_debug(True)
+            elif loggers == 'asyncio':
+                self.loop.set_debug(True)
                 asynciologger = logging.getLogger('asyncio')
                 asynciologger.setLevel(logging.DEBUG)
                 asynciologgerhandler = logging.FileHandler(
@@ -286,14 +280,12 @@ class BotClient(commands.Bot):
     def set_up_discord_logger(self):
         """
         Sets up the Discord Logger.
-        :return: Nothing.
         """
         self.set_up_loggers(loggers='discord')
 
     def set_up_asyncio_logger(self):
         """
         Sets up the asyncio Logger.
-        :return: Nothing.
         """
         self.set_up_loggers(loggers='asyncio')
 
@@ -302,7 +294,6 @@ class BotClient(commands.Bot):
     def login_helper(self):
         """
         Bot Login Helper.
-        :return: Nothing.
         """
         while True:
             ret = self.login_info()
@@ -356,7 +347,6 @@ class BotClient(commands.Bot):
         Function that makes Certain things on the
         on_ready event only happen 1
         time only. (e.g. the logged in printing stuff)
-        :return: Nothing.
         """
         if not BotClient.logged_in:
             BotClient.logged_in = True
@@ -366,7 +356,6 @@ class BotClient(commands.Bot):
 def main():
     """
     EntryPoint to DecoraterBot.
-    :return: Nothing.
     """
     if config.shards > 0:
         BotClient(command_prefix=config.bot_prefix,

@@ -311,14 +311,6 @@ class BotClient(commands.Bot):
 
     # Login stuff.
 
-    async def __ffs__(self, *args, **kwargs):
-        """
-        same as Client.run except this does not
-        close the asyncio event loop.
-        """
-        await self.login(*args, **kwargs)
-        await self.connect()
-
     def login_info(self):
         """
         Allows the bot to Connect / Reconnect.
@@ -328,7 +320,7 @@ class BotClient(commands.Bot):
             try:
                 if self.BotConfig.bot_token is not None:
                     self.is_bot_logged_in = True
-                    self.loop.run_until_complete(self.__ffs__(
+                    self.loop.run_until_complete(self.start(
                         self.BotConfig.bot_token))
             except discord.errors.GatewayNotFound:
                 print(str(self.consoletext['Login_Gateway_No_Find'][0]))

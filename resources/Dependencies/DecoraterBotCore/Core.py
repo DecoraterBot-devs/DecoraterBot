@@ -37,89 +37,28 @@ except ImportError:
 
 __all__ = ['main', 'BotClient']
 
-config = BotCredentialsVars()
 
-
-class BotClient(commands.Bot):
+class BotClient(commands.Bot,
+                PropertyContainer,
+                ContainerOfOtherStuff):
     """
     Bot Main client Class.
     This is where the Events are Registered.
     """
-    logged_in = False
-
     def __init__(self, **kwargs):
         self.BotPMError = BotPMError(self)
-        self._start = time.time()
-        self.logged_in_ = BotClient.logged_in
         self._rec = ReconnectionHelper()
         self.PATH = os.path.join(
             sys.path[0], 'resources', 'ConfigData', 'Credentials.json')
-        self.somebool = False
-        self.reload_normal_commands = False
-        self.reload_voice_commands = False
-        self.reload_reason = None
-        self.initial_rejoin_voice_channel = True
-        self.desmod = None
-        self.desmod_new = None
-        self.rejoin_after_reload = False
         super(BotClient, self).__init__(**kwargs)
         self.dbapi = dbapi.DBAPI(self, self.BotConfig.api_token)
         self.disabletinyurl = disabletinyurl
         self.TinyURL = TinyURL
-        self.sent_prune_error_message = False
-        self.tinyurlerror = False
-        self.link = None
-        self.member_list = []
-        self.hook_url = None
-        self.payload = {}
-        self.header = {}
         self.resolve_send_message_error = (
             self.BotPMError.resolve_send_message_error)
-        self.is_bot_logged_in = False
         self.call_all()
 
     # Properties.
-
-    @property
-    def version(self):
-        """
-        returns the bot's version number.
-        """
-        return self.consoletext['WindowVersion'][0]
-
-    @property
-    def BotConfig(self):
-        """
-        Reads the bot's config data.
-        """
-        return config
-
-    @property
-    def consoletext(self):
-        """
-        returns the bot's
-        console text.
-        """
-        consoledata = PluginConfigReader(file='ConsoleWindow.json')
-        consoledata = consoledata[self.BotConfig.language]
-        return consoledata
-
-    @property
-    def banlist(self):
-        """
-        returns the list of users banned
-        from using the bot.
-        """
-        type(self)
-        return PluginConfigReader(
-            file='BotBanned.json')
-
-    @property
-    def uptime_count_begin(self):
-        """
-        returns the begin time.
-        """
-        return self._start
 
     @property
     def commands_list(self):
@@ -130,26 +69,6 @@ class BotClient(commands.Bot):
         for command in self.commands:
             plugin_list.append(command)
         return plugin_list
-
-    @property
-    def credits(self):
-        """
-        returns the stuff that the Credits reader returns.
-        """
-        return CreditsReader(file="credits.json")
-
-    @property
-    def ignoreslist(self):
-        """
-        returns the current ignores list.
-        """
-        try:
-            ret = PluginConfigReader(file='IgnoreList.json')
-        except FileNotFoundError:
-            ret = None
-            print(str(self.consoletext['Missing_JSON_Errors'][0]))
-            sys.exit(2)
-        return ret
 
     # wraps all usage of send_message.
 
@@ -371,16 +290,6 @@ class BotClient(commands.Bot):
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
             return -2
-
-    def variable(self):
-        """
-        Function that makes Certain things on the
-        on_ready event only happen 1
-        time only. (e.g. the logged in printing stuff)
-        """
-        if not BotClient.logged_in:
-            BotClient.logged_in = True
-            self.logged_in_ = True
 
 
 def main():

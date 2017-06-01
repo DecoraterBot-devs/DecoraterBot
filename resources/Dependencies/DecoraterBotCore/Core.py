@@ -10,7 +10,6 @@ Core to DecoraterBot
 
 """
 import os
-import ctypes
 import sys
 import traceback
 import time
@@ -49,23 +48,10 @@ class BotClient(commands.Bot):
     logged_in = False
 
     def __init__(self, **kwargs):
-        self.BotConfig = config
-        self.sepa = os.sep
-        self.bits = ctypes.sizeof(ctypes.c_voidp)
-        self.platform = None
-        if self.bits == 4:
-            self.platform = 'x86'
-        elif self.bits == 8:
-            self.platform = 'x64'
-        self.path = sys.path[0]
-        self.banlist = PluginConfigReader(file='BotBanned.json')
-        self.consoletext = PluginConfigReader(file='ConsoleWindow.json')
-        self.consoletext = self.consoletext[self.BotConfig.language]
         self.BotPMError = BotPMError(self)
-        self.version = str(self.consoletext['WindowVersion'][0])
         self._start = time.time()
         self.logged_in_ = BotClient.logged_in
-        self.rec = ReconnectionHelper()
+        self._rec = ReconnectionHelper()
         self.PATH = os.path.join(
             sys.path[0], 'resources', 'ConfigData', 'Credentials.json')
         self.somebool = False
@@ -91,6 +77,42 @@ class BotClient(commands.Bot):
             self.BotPMError.resolve_send_message_error)
         self.is_bot_logged_in = False
         self.call_all()
+
+    # Properties.
+
+    @property
+    def version(self):
+        """
+        returns the bot's version number.
+        """
+        return self.consoletext['WindowVersion'][0]
+
+    @property
+    def BotConfig(self):
+        """
+        Reads the bot's config data.
+        """
+        return config
+
+    @property
+    def consoletext(self):
+        """
+        returns the bot's
+        console text.
+        """
+        consoledata = PluginConfigReader(file='ConsoleWindow.json')
+        consoledata = consoledata[self.BotConfig.language]
+        return consoledata
+
+    @property
+    def banlist(self):
+        """
+        returns the list of users banned
+        from using the bot.
+        """
+        type(self)
+        return PluginConfigReader(
+            file='BotBanned.json')
 
     @property
     def uptime_count_begin(self):
@@ -163,6 +185,8 @@ class BotClient(commands.Bot):
         self.variable()
         self.login_helper()  # handles login.
 
+    # Plugin loading/unloading/reloading.
+
     def load_all_default_plugins(self):
         """
         Handles loading all plugins that __init__
@@ -221,12 +245,14 @@ class BotClient(commands.Bot):
         if err is not None:
             return err
 
+    # Console Window.
+
     def changewindowtitle(self):
         """
         Changes the console's window Title.
         """
         consolechange.consoletitle(
-            str(self.consoletext['WindowName'][0]) + self.version)
+            self.consoletext['WindowName'][0] + self.version)
 
     def changewindowsize(self):
         """
@@ -235,6 +261,8 @@ class BotClient(commands.Bot):
         # not used but avoids issues with this being an classmethod.
         type(self)
         consolechange.consolesize(80, 23)
+
+    # Loggers.
 
     def discord_logger(self):
         """
@@ -328,16 +356,18 @@ class BotClient(commands.Bot):
             except KeyboardInterrupt:
                 pass
             except asyncio.futures.InvalidStateError:
-                return self.rec.reconnect_helper()
+                return self._rec.reconnect_helper()
             except aiohttp.ClientResponseError:
-                return self.rec.reconnect_helper()
+                return self._rec.reconnect_helper()
             except aiohttp.ClientOSError:
-                return self.rec.reconnect_helper()
+                return self._rec.reconnect_helper()
+            except RuntimeError:
+                self.http.recreate()
             if self.is_bot_logged_in:
                 if not self.is_logged_in:
                     pass
                 else:
-                    return self.rec.reconnect_helper()
+                    return self._rec.reconnect_helper()
         else:
             print(str(self.consoletext['Credentials_Not_Found'][0]))
             return -2

@@ -4,7 +4,7 @@
             "DecoraterBot "
         ],
         "WindowVersion": [
-            "v1.0.0.12 Beta"
+            "v1.0.0.12"
         ],
         "Revision": [
             " 20160204 Rev. 2022"
@@ -32,8 +32,8 @@
         ],
         "Missing_JSON_Errors": [
             "IgnoreList.json is not Found. Cannot Continue.",
-            "BotMessages.en.json is not Found. Cannot Continue.",
-            "LogData.en.json is not Found. Cannot Continue."
+            "BotMessages.json is not Found. Cannot Continue.",
+            "LogData.json is not Found. Cannot Continue."
         ],
         "error_message": [
             "Missing the Send Message Permissions in the %s server on the %s channel."

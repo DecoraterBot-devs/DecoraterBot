@@ -1,12 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# Custom for Visual Studio
-*.cs     diff=csharp
-*.c      diff=c
-*.cpp    diff=cplusplus
-*.h      diff=cplusplus
-
 # Standard to msysgit
 *.doc	 diff=astextplain
 *.DOC	 diff=astextplain
@@ -21,3 +15,13 @@
 *.c      diff=astextplain
 *.cpp    diff=astextplain
 *.h      diff=astextplain
+
+# to make all the batch / shell scripts not show percentage.
+DecoraterBot.bat linguist-vendored
+DecoraterBot-3.5.sh linguist-vendored
+DecoraterBot-3.6.sh linguist-vendored
+install_deps.bat linguist-vendored
+install_deps-3.5.sh linguist-vendored
+install_deps-3.6.sh linguist-vendored
+make_rst.bat linguist-vendored
+make_rst.sh linguist-vendored

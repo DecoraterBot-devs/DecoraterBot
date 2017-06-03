@@ -1,17 +1,1 @@
-regex
-aioredis
-colorama
-pycares
-discord.py
-aiohttp
-PyNacl
-cchardet
-cffi
-multidict
-yarl
-discord.webhooks
-TinyURL3
-consolechange
-git+https://github.com/AraHaan/dbapi.git
-youtube_dl
 git+https://github.com/DecoraterBot-devs/DecoraterBotUtils.git

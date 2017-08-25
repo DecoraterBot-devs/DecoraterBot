@@ -28,13 +28,6 @@ def main():
     """
     EntryPoint to DecoraterBot.
     """
-    if config.shards > 0:
-        BotClient(command_prefix=config.bot_prefix,
-                  shard_id=config.run_on_shard,
-                  shard_count=config.shards,
-                  description=config.description,
-                  pm_help=False)
-    else:
-        BotClient(command_prefix=config.bot_prefix,
-                  description=config.description,
-                  pm_help=False)
+    BotClient(command_prefix=config.bot_prefix,
+              description=config.description,
+              pm_help=False)

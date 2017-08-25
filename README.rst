@@ -77,6 +77,9 @@ pull request instead.
 Configuration
 -------------
 
+I recommend using ``git clone --recursive <repo>`` on this bot's
+repository to get the submodules to this bot.
+
 To run this bot you will need 2 things:
 
     A working Discord Bot Token.

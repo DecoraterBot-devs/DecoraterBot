@@ -20,6 +20,7 @@
 DecoraterBot.bat linguist-vendored
 DecoraterBot-3.5.sh linguist-vendored
 DecoraterBot-3.6.sh linguist-vendored
+description.html linguist-vendored
 install_deps.bat linguist-vendored
 install_deps-3.5.sh linguist-vendored
 install_deps-3.6.sh linguist-vendored

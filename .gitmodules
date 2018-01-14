@@ -1,6 +1,0 @@
-[submodule "resources\\Dependencies\\DecoraterBotCore\\plugins"]
-	path = resources\\Dependencies\\DecoraterBotCore\\plugins
-	url = https://github.com/DecoraterBot-devs/DecoraterBot-cogs
-[submodule "resources\\ConfigData\\plugins"]
-	path = resources\\ConfigData\\plugins
-	url = https://github.com/DecoraterBot-devs/DecoraterBot-cogs-text

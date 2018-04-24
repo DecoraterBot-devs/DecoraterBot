@@ -9,19 +9,10 @@ Core to DecoraterBot
 :license: MIT, see LICENSE for more details.
 
 """
-from DecoraterBotUtils.utils import BaseClient, config
+from DecoraterBotUtils.utils import BotClient, config
 
 
-__all__ = ['main', 'BotClient']
-
-
-class BotClient(BaseClient):
-    """
-    Bot Main client Class.
-    This is where the Events are Registered.
-    """
-    def __init__(self, **kwargs):
-        super(BotClient, self).__init__(**kwargs)
+__all__ = ['main']
 
 
 def main():

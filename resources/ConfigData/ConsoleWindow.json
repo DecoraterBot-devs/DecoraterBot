@@ -7,7 +7,7 @@
             "v1.0.0.12"
         ],
         "Revision": [
-            " 20160204 Rev. 2022"
+            " 20180424 Rev. 2023"
         ],
         "Window_Login_Text": [
             "Logged in as {0}\nBot id={1}\nDiscord.py v{2} Async\n-------------------------"
@@ -36,7 +36,7 @@
             "LogData.json is not Found. Cannot Continue."
         ],
         "error_message": [
-            "Missing the Send Message Permissions in the %s server on the %s channel."
+            "Missing the Send Message Permissions in the {0} server on the {1} channel."
         ]
     }
 }

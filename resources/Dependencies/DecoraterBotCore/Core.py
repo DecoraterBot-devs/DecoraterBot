@@ -15,10 +15,12 @@ from DecoraterBotUtils.utils import BotClient, config
 __all__ = ['main']
 
 
-def main():
+async def main():
     """
     EntryPoint to DecoraterBot.
     """
-    BotClient(command_prefix=config.bot_prefix,
-              description=config.description,
-              pm_help=False)
+    client = BotClient(
+        description=config.description,
+        pm_help=False)
+    async with client:
+        await client.login_helper()

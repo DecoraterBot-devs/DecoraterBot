@@ -12,13 +12,17 @@ Core to DecoraterBot
 import os
 import sys
 import gc
+import asyncio
+
 sys.dont_write_bytecode = True
 try:
     import DecoraterBotCore
 except ImportError:
-    appendpath = os.path.join(
-        sys.path[0], 'resources', 'Dependencies')
-    sys.path.append(appendpath)
+    sys.path.append(
+        os.path.join(
+            sys.path[0],
+            'resources',
+            'Dependencies'))
     import DecoraterBotCore
 
 # in case there is leaks lets
@@ -26,6 +30,8 @@ except ImportError:
 # them up.
 gc.enable()
 
-
 if __name__ == '__main__':
-    DecoraterBotCore.Core.main()
+    try:
+        asyncio.run(DecoraterBotCore.Core.main())
+    except KeyboardInterrupt:
+        pass

@@ -1,5 +1,9 @@
 *.cmd
-resources/Dependencies/DecoraterBotCore/plugins/*
-resources/Logs/*
+__pycache__
+resources/Dependencies/DecoraterBotCore/plugins
+resources/Logs
 !resources/Logs/ffmpeg.shit
 resources/ConfigData/Credentials.json
+resources/ConfigData/credits.json
+resources/ConfigData/plugins
+.idea

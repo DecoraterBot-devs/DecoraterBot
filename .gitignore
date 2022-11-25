@@ -7,3 +7,6 @@ resources/ConfigData/Credentials.json
 resources/ConfigData/credits.json
 resources/ConfigData/plugins
 .idea
+
+# pip stuff.
+.cache

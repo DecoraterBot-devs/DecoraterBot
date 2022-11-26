@@ -9,7 +9,7 @@ Core to DecoraterBot
 :license: MIT, see LICENSE for more details.
 
 """
-from DecoraterBotUtils.utils import BotClient, config
+from DecoraterBotUtils.client import BotClient, config
 
 
 __all__ = ['main']

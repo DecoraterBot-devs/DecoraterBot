@@ -10,3 +10,7 @@ resources/ConfigData/plugins
 
 # pip stuff.
 .cache
+.*
+!.gitignore
+!.gitattributes
+!.github

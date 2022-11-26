@@ -32,17 +32,13 @@ The bot gets updated and tested regularly. Pushes are released when features are
 
 ## Description
 
-The ``description.rst.in``, ``description.rst``, and the ``description.html`` files are used to generate the bot's description [here](https://bots.discord.pw/bots/104976661711179776).
+The ``description.rst.in``, ``description.rst``, and the ``description.html`` files are used to generate the bot's description [here](https://discord.bots.gg/bots/104976661711179776).
 
 ## Rewrites
 
 This bot from time to time might go through some rewrites to fix major and minor bugs in code.
 
 Because of such it might sometimes means that it drops support for other things.
-
-A such major rewrite was the commands extension one and then soon after a rewrite yet again to drop support for Python 3.4.
-
-The reason for dropping support for 3.4 is because Discord.py will do the same soon as well when 3.5 is released on Debian systems.
 
 ## Submitting Plugins
 
@@ -68,27 +64,23 @@ After you have configurated the bot with a token you can run the bot like so:
 
 # Windows
 
-> with ``DecoraterBot.bat`` that uses the version of python you have on the windows path environment variable.
+First install dependencies with (will also upgrade pip, setuptools, and wheel for you as well):
 
-Note: *Before running any of those above patch files you need to run this file below to install dependencies on your version of python you installed.*
+> py -m pip install -U -r requirements.txt
 
-> ``install_deps.bat`` installs dependencies on the version of python you have on the windows path environment variable.
+Now you should be able to run the bot with:
 
-# Linux
+> py -m DecoratorBot
 
-> with ``DecoraterBot-35.sh`` that uses the current installed Python 3.5 Interpreter.
+# Linux and MacOS
 
-> with ``DecoraterBot-36.sh`` that uses the current installed Python 3.6 Interpreter.
+First install dependencies with (will also upgrade pip, setuptools, and wheel for you as well):
 
-First things first you need to install to ensure you have ``libffi-dev`` installed. You will have to also install ``ffmpeg``.
+> python3.11 -m pip install -U -r requirements.txt
 
-Now you have to install all dependencies to the bot using these files (only after you install ``libffi-dev`` and ``ffmpeg``):
+Now you should be able to run the bot with:
 
-> install_deps-3.5.sh
-
-> install_deps-3.6.sh
-
-However you will also need to ensure you have the latest ``libopus`` installed.
+> python3.11 -m DecoratorBot
 
 # Other Platforms
 
@@ -96,13 +88,15 @@ This bot should work on other platforms as well, provided that all the dependenc
 
 ## Want to help with the bot? 
 
+<!--
 Join the official Cheese.lab servers to help test and contribute to the development of the bot.
 
 [![](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
+-->
 
-And the Bot's Original Server (Kinda dead right now):
+Join the Bot's Original Server (Kinda dead right now):
 
-[![](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/hNMKZ5Z)
+[![](https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2)](https://discord.gg/cRr2TpR)
 
 *Documentation isn't finished yet.*
 

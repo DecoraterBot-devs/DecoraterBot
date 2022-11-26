@@ -1,9 +1,9 @@
 DecoraterBot Async Version
 ==========================
 
-|image0| |image1|
+|image1| |image2|
 
-.. figure:: /resources/images/AppIcon/AS.png
+.. image:: /resources/images/AppIcon/AS.png
 
 What is DecoraterBot?
 ---------------------
@@ -48,8 +48,8 @@ Description
 -----------
 
 The ``description.rst.in``, ``description.rst``, and the
-``description.html`` files are used to generate the bot's description
-`here <https://bots.discord.pw/bots/104976661711179776>`__.
+``description.html`` files are used to generate the bot’s description
+`here <https://discord.bots.gg/bots/104976661711179776>`__.
 
 Rewrites
 --------
@@ -59,12 +59,6 @@ and minor bugs in code.
 
 Because of such it might sometimes means that it drops support for other
 things.
-
-A such major rewrite was the commands extension one and then soon after
-a rewrite yet again to drop support for Python 3.4.
-
-The reason for dropping support for 3.4 is because Discord.py will do
-the same soon as well when 3.5 is released on Debian systems.
 
 Submitting Plugins
 ------------------
@@ -77,14 +71,16 @@ pull request instead.
 Configuration
 -------------
 
-I recommend using ``git clone --recursive <repo>`` on this bot's
+I recommend using ``git clone --recursive <repo>`` on this bot’s
 repository to get the submodules to this bot.
 
 To run this bot you will need 2 things:
 
-    A working Discord Bot Token.
+   A working Discord Bot Token.
 
-    Your Account ID
+..
+
+   Your Account ID
 
 Configuration is in ``\\resources\\ConfigData\\``.
 
@@ -99,37 +95,26 @@ like so:
 Windows
 =======
 
-    with ``DecoraterBot.bat`` that uses the version of python you have
-    on the windows path environment variable.
+First install dependencies with (will also upgrade pip, setuptools, and
+wheel for you as well):
 
-Note: *Before running any of those above patch files you need to run
-this file below to install dependencies on your version of python you
-installed.*
+   py -m pip install -U -r requirements.txt
 
-    ``install_deps.bat`` installs dependencies on the version of python
-    you have on the windows path environment variable.
+Now you should be able to run the bot with:
 
-Linux
-=====
+   py -m DecoratorBot
 
-    with ``DecoraterBot-35.sh`` that uses the current installed Python
-    3.5 Interpreter.
+Linux and MacOS
+===============
 
-    with ``DecoraterBot-36.sh`` that uses the current installed Python
-    3.6 Interpreter.
+First install dependencies with (will also upgrade pip, setuptools, and
+wheel for you as well):
 
-First things first you need to install to ensure you have ``libffi-dev``
-installed. You will have to also install ``ffmpeg``.
+   python3.11 -m pip install -U -r requirements.txt
 
-Now you have to install all dependencies to the bot using these files
-(only after you install ``libffi-dev`` and ``ffmpeg``):
+Now you should be able to run the bot with:
 
-    install\_deps-3.5.sh
-
-    install\_deps-3.6.sh
-
-However you will also need to ensure you have the latest ``libopus``
-installed.
+   python3.11 -m DecoratorBot
 
 Other Platforms
 ===============
@@ -140,22 +125,23 @@ dependencies work for it as well.
 Want to help with the bot?
 --------------------------
 
-Join the official Cheese.lab servers to help test and contribute to the
-development of the bot.
+.. raw:: html
 
-|image2|
+   <!--
+   Join the official Cheese.lab servers to help test and contribute to the development of the bot.
 
-And the Bot's Original Server (Kinda dead right now):
+   [![](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
+   -->
+
+Join the Bot’s Original Server (Kinda dead right now):
 
 |image3|
 
-*Documentation isn't finished yet.*
+*Documentation isn’t finished yet.*
 
-.. |image0| image:: https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa
+.. |image1| image:: https://api.codacy.com/project/badge/Grade/689e8253ad204350a57ef03cde0818fa
    :target: https://www.codacy.com/app/AraHaan/DecoraterBot?utm_source=github.com&utm_medium=referral&utm_content=AraHaan/DecoraterBot&utm_campaign=badger
-.. |image1| image:: https://img.shields.io/github/issues/DecoraterBot-devs/DecoraterBot.svg
+.. |image2| image:: https://img.shields.io/github/issues/DecoraterBot-devs/DecoraterBot.svg
    :target: https://github.com/DecoraterBot-devs/DecoraterBot/issues
-.. |image2| image:: https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2
-   :target: https://discord.gg/lab
 .. |image3| image:: https://discordapp.com/api/guilds/121816417937915904/widget.png?style=banner2
-   :target: https://discord.gg/hNMKZ5Z
+   :target: https://discord.gg/cRr2TpR

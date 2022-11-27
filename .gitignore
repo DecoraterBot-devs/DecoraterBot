@@ -9,7 +9,6 @@ resources/ConfigData/plugins
 .idea
 
 # pip stuff.
-.cache
 .*
 !.gitignore
 !.gitattributes

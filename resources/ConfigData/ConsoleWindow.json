@@ -30,11 +30,6 @@
         "On_Ready_Game": [
             "Type /commands for info"
         ],
-        "Missing_JSON_Errors": [
-            "IgnoreList.json is not Found. Cannot Continue.",
-            "BotMessages.json is not Found. Cannot Continue.",
-            "LogData.json is not Found. Cannot Continue."
-        ],
         "error_message": [
             "Missing the Send Message Permissions in the {0} server on the {1} channel."
         ]

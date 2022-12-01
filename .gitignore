@@ -13,3 +13,4 @@ resources/ConfigData/plugins
 !.gitignore
 !.gitattributes
 !.github
+*.bak

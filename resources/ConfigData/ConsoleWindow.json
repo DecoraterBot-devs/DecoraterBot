@@ -1,28 +1,13 @@
 {
     "en": {
-        "WindowName": [
-            "DecoraterBot "
-        ],
-        "WindowVersion": [
-            "v1.0.0.12"
-        ],
-        "Revision": [
-            " 20180424 Rev. 2023"
-        ],
-        "Window_Login_Text": [
-            "Logged in as {0}\nBot id={1}\nDiscord.py v{2} Async\n-------------------------"
-        ],
-        "Login_Failure": [
-            "Incorrect email and/or password."
+        "Credentials_Not_Found": [
+            "Credentials.json does not exist. It must be present in order for this bot to work."
         ],
         "Invalid_Token": [
             "Invalid token specified."
         ],
-        "Unknown_Connection_Error": [
-            "This bot can not connect to the Discord API.\nPlease check your Internet Connection."
-        ],
-        "Credentials_Not_Found": [
-            "Credentials.json does not exist. It must be present in order for this bot to work."
+        "Login_Failure": [
+            "Incorrect email and/or password."
         ],
         "Login_Gateway_No_Find": [
             "The Gateway was not found. API Downtime?"
@@ -30,8 +15,19 @@
         "On_Ready_Game": [
             "Type /commands for info"
         ],
+        "WindowName": [
+            "DecoraterBot "
+        ],
+        "WindowVersion": [
+            "v1.0.0.12"
+        ],
+        "Window_Login_Text": [
+            "Logged in as {0}\nBot id={1}\nDiscord.py v{2} Async\n-------------------------"
+        ],
+        "description": "DecoraterBot, An Extendable Discord Bot Made in Python.",
         "error_message": [
             "Missing the Send Message Permissions in the {0} server on the {1} channel."
-        ]
+        ],
+        "twitch_url": "https://twitch.tv/decoraterbot"
     }
 }

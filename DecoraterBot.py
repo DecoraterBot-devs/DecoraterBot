@@ -23,7 +23,7 @@ async def main():
     """
     client = BotClient()
     async with client:
-        await client.login_helper()
+        await client.start_bot()
 
 
 if __name__ == '__main__':

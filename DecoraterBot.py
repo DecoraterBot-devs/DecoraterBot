@@ -9,7 +9,6 @@ DecoraterBot
 :license: MIT, see LICENSE for more details.
 
 """
-import os
 import sys
 import gc
 import asyncio
@@ -28,7 +27,6 @@ async def main():
 
 if __name__ == '__main__':
     sys.dont_write_bytecode = True
-    sys.path.append(os.path.join(sys.path[0], 'resources', 'Dependencies'))
 
     # in case there is leaks lets
     # tell the interpreter to clean

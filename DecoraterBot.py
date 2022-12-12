@@ -14,16 +14,14 @@ import sys
 import gc
 import asyncio
 
-from DecoraterBotUtils.client import BotClient, config
+from DecoraterBotUtils.client import BotClient
 
 
 async def main():
     """
     EntryPoint to DecoraterBot.
     """
-    client = BotClient(
-        description=config.description,
-        pm_help=False)
+    client = BotClient()
     async with client:
         await client.login_helper()
 

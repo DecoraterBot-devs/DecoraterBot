@@ -24,7 +24,7 @@ CheeseCast is sadly no longer part of Documentation. :cry: He just does not want
 
 ## Commands
 
-View the list of bot commands [here](https://github.com/DecoraterBot-devs/DecoraterBot-cogs/blob/master/Commands.md).
+View the list of bot commands [here](https://github.com/DecoraterBot-devs/DecoraterBot-docs/blob/master/Commands.md).
 
 ## Future Updates
 
@@ -46,7 +46,8 @@ As of April 8th 2017 it is now not recommended to submit plugins to this reposit
 
 ## Configuration
 
-I recommend using ``git clone --recursive <repo>`` on this bot's repository to get the submodules to this bot.
+To get the cogs, run ``git clone https://github.com/DecoraterBot-devs/DecoraterBot-cogs.git cogs`` in the root of your current clone to the bot.
+This is so that they can be imported properly by the utils package.
 
 To run this bot you will need 2 things:
 
@@ -60,7 +61,7 @@ Before setting configuration be sure to copy ``Credentials_example.json`` to ``C
 
 More Documentation on setting that file is [here](/Credentials.md).
 
-After you have configurated the bot with a token you can run the bot like so:
+After you have configured the bot with a token you can run the bot like so:
 
 # Windows
 
@@ -82,11 +83,14 @@ Now you should be able to run the bot with:
 
 > python3.11 -m DecoratorBot
 
+Cant install python 3.11? Try using ``.pyenv`` and tell it to install 3.11 for you (perfect also when you do not have root access and need to get the bot ready).
+Note: This bot also may require the python's C include files to install packages containing extension modules if they do not offer a prebuilt wheel for them.
+
 # Other Platforms
 
 This bot should work on other platforms as well, provided that all the dependencies work for it as well.
 
-## Want to help with the bot? 
+## Want to help with the bot?
 
 <!--
 Join the official Cheese.lab servers to help test and contribute to the development of the bot.

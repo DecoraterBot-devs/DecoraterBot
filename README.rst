@@ -36,7 +36,7 @@ Commands
 --------
 
 View the list of bot commands
-`here <https://github.com/DecoraterBot-devs/DecoraterBot-cogs/blob/master/Commands.md>`__.
+`here <https://github.com/DecoraterBot-devs/DecoraterBot-docs/blob/master/Commands.md>`__.
 
 Future Updates
 --------------
@@ -71,8 +71,10 @@ pull request instead.
 Configuration
 -------------
 
-I recommend using ``git clone --recursive <repo>`` on this bot’s
-repository to get the submodules to this bot.
+To get the cogs, run
+``git clone https://github.com/DecoraterBot-devs/DecoraterBot-cogs.git cogs``
+in the root of your current clone to the bot. This is so that they can
+be imported properly by the utils package.
 
 To run this bot you will need 2 things:
 
@@ -89,8 +91,8 @@ Before setting configuration be sure to copy
 
 More Documentation on setting that file is `here </Credentials.md>`__.
 
-After you have configurated the bot with a token you can run the bot
-like so:
+After you have configured the bot with a token you can run the bot like
+so:
 
 Windows
 =======
@@ -115,6 +117,12 @@ wheel for you as well):
 Now you should be able to run the bot with:
 
    python3.11 -m DecoratorBot
+
+Cant install python 3.11? Try using ``.pyenv`` and tell it to install
+3.11 for you (perfect also when you do not have root access and need to
+get the bot ready). Note: This bot also may require the python’s C
+include files to install packages containing extension modules if they
+do not offer a prebuilt wheel for them.
 
 Other Platforms
 ===============

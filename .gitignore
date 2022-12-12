@@ -1,14 +1,12 @@
 *.cmd
 __pycache__
-resources/Dependencies/DecoraterBotCore/plugins
+cogs
 resources/Logs
 !resources/Logs/ffmpeg.shit
 resources/ConfigData/Credentials.json
 resources/ConfigData/credits.json
-resources/ConfigData/plugins
-.idea
 
-# pip stuff.
+# Everything starting with a '.'.
 .*
 !.gitignore
 !.gitattributes

@@ -20,8 +20,7 @@ async def main():
     """
     EntryPoint to DecoraterBot.
     """
-    client = BotClient()
-    async with client:
+    async with BotClient() as client:
         await client.start_bot()
 
 

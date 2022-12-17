@@ -4,7 +4,6 @@ cogs
 resources/Logs
 !resources/Logs/ffmpeg.shit
 resources/ConfigData/Credentials.json
-resources/ConfigData/credits.json
 
 # Everything starting with a '.'.
 .*

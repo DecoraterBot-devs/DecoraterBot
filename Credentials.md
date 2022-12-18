@@ -1,10 +1,6 @@
-### Setting Credentials.json
+### Setting credentials.db
 
-After copying ``Credentials_example.json`` to ``Credentials.json`` you can set these values:
+- run ``git clone https://github.com/DecoraterBot-devs/credentials.git``
+- follow the instructions in the ``README.md`` file in that cloned repository.
 
-|   	| Credentials.json values	|
-|:------:	|:-:	|
-| ``language``	| (Required) Sets the language to use for the bot. Type: ``string``	|
-| ``token``	| (Required) Sets the token to use for the bot. Type: ``string``	|
-| ``default_plugins``	| (Required) Default plugins the bot loads. Type: ``dict``	|
-
+After that, you should obtain ``credentials.db`` file that you can then place at the root of the bot with ``DecoraterBot.py``.

@@ -3,7 +3,6 @@ __pycache__
 cogs
 resources/Logs
 !resources/Logs/ffmpeg.shit
-resources/ConfigData/Credentials.json
 
 # Everything starting with a '.'.
 .*
@@ -11,3 +10,7 @@ resources/ConfigData/Credentials.json
 !.gitattributes
 !.github
 *.bak
+
+# all sqlite3 dbs except the localizations db.
+*.db
+!localizations.db

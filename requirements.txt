@@ -1,5 +1,5 @@
-pip==22.3.1
-setuptools==65.6.3
-wheel==0.38.4
+pip==23.1.2
+setuptools==67.7.2
+wheel==0.40.0
 git+https://github.com/DecoraterBot-devs/DecoraterBotUtils.git
 git+https://github.com/IzunaDevs/nsfw_dl.git

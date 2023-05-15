@@ -14,3 +14,5 @@ resources/Logs
 # all sqlite3 dbs except the localizations db.
 *.db
 !localizations.db
+*.db-shm
+*.db-wal

@@ -1,4 +1,4 @@
-pip==23.3
+pip==26.0
 setuptools==67.7.2
 wheel==0.40.0
 git+https://github.com/DecoraterBot-devs/DecoraterBotUtils.git

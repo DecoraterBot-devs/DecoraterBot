@@ -1,5 +1,10 @@
-pip==26.0
-setuptools==78.1.1
-wheel==0.46.2
+pip
+setuptools
+wheel
+regex
+colorama
+discord.py
+aiohttp
+asqlite @ git+https://github.com/Rapptz/asqlite.git
 git+https://github.com/DecoraterBot-devs/DecoraterBotUtils.git
 git+https://github.com/IzunaDevs/nsfw_dl.git

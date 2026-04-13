@@ -76,20 +76,7 @@ To get the cogs, run
 in the root of your current clone to the bot. This is so that they can
 be imported properly by the utils package.
 
-To run this bot you will need 2 things:
-
-   A working Discord Bot Token.
-
-..
-
-   Your Account ID
-
-Configuration is in ``\\resources\\ConfigData\\``.
-
-Before setting configuration be sure to copy
-``Credentials_example.json`` to ``Credentials.json``.
-
-More Documentation on setting that file is `here </Credentials.md>`__.
+To run this bot you will need the documentation from `here </Credentials.md>`__.
 
 After you have configured the bot with a token you can run the bot like
 so:
@@ -132,14 +119,6 @@ dependencies work for it as well.
 
 Want to help with the bot?
 --------------------------
-
-.. raw:: html
-
-   <!--
-   Join the official Cheese.lab servers to help test and contribute to the development of the bot.
-
-   [![](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
-   -->
 
 Join the Bot’s Original Server (Kinda dead right now):
 

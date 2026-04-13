@@ -49,17 +49,7 @@ As of April 8th 2017 it is now not recommended to submit plugins to this reposit
 To get the cogs, run ``git clone https://github.com/DecoraterBot-devs/DecoraterBot-cogs.git cogs`` in the root of your current clone to the bot.
 This is so that they can be imported properly by the utils package.
 
-To run this bot you will need 2 things:
-
-> A working Discord Bot Token. 
-
-> Your Account ID
-
-Configuration is in ``\\resources\\ConfigData\\``.
-
-Before setting configuration be sure to copy ``Credentials_example.json`` to ``Credentials.json``.
-
-More Documentation on setting that file is [here](/Credentials.md).
+To run this bot you will need follow the documentation from [here](/Credentials.md).
 
 After you have configured the bot with a token you can run the bot like so:
 
@@ -91,12 +81,6 @@ Note: This bot also may require the python's C include files to install packages
 This bot should work on other platforms as well, provided that all the dependencies work for it as well.
 
 ## Want to help with the bot?
-
-<!--
-Join the official Cheese.lab servers to help test and contribute to the development of the bot.
-
-[![](https://discordapp.com/api/guilds/81812480254291968/widget.png?style=banner2)](https://discord.gg/lab)
--->
 
 Join the Bot's Original Server (Kinda dead right now):
 
